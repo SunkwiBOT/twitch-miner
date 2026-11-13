@@ -188,7 +188,7 @@ funcionando.
   al orden que quieras, o desactiva alguno. Esta función está en beta.
 
   <details open><summary>Verlo en acción</summary>
-  <img src="../media/en/badges.avif" alt="La página Insignias, las insignias de una cuenta y luego “Qué minar, en orden” con Insignias arrastradas al primer lugar">
+  <img src="../media/es-419/badges.avif" alt="La página Insignias, las insignias de una cuenta y luego “Qué minar, en orden” con Insignias arrastradas al primer lugar">
   </details>
 
 ### Seguimiento

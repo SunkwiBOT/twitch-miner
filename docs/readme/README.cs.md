@@ -182,7 +182,7 @@
   betaverzi.
 
   <details open><summary>Ukázka v akci</summary>
-  <img src="../media/en/badges.avif" alt="Stránka Odznaky, odznaky jednoho účtu a pak „Co těžit a v jakém pořadí“ s odznaky přetaženými na začátek">
+  <img src="../media/cs/badges.avif" alt="Stránka Odznaky, odznaky jednoho účtu a pak „Co těžit a v jakém pořadí“ s odznaky přetaženými na začátek">
   </details>
 
 ### Záznamy

@@ -185,7 +185,7 @@ funcionar.
   desative um deles. Esta funcionalidade está em beta.
 
   <details open><summary>Ver em ação</summary>
-  <img src="../media/en/badges.avif" alt="A página Emblemas, os emblemas de uma conta e depois «O que minerar, por ordem» com Emblemas arrastados para o topo">
+  <img src="../media/pt-PT/badges.avif" alt="A página Emblemas, os emblemas de uma conta e depois «O que minerar, por ordem» com Emblemas arrastados para o topo">
   </details>
 
 ### Acompanhamento

@@ -149,7 +149,7 @@ Những gì làm nên khác biệt so với các trình đào khác. “Xem minh
 - **Huy hiệu (beta).** Trang Huy hiệu liệt kê mọi huy hiệu chat toàn cầu của Twitch và cách nhận chúng. Mỗi tài khoản có trang Huy hiệu riêng: các huy hiệu đang tiến hành kèm tiến độ, những huy hiệu còn có thể nhận và những huy hiệu đã có. Trình đào nhắm đến các huy hiệu chỉ cần thời gian xem, từ các chiến dịch Drops và nhiệm vụ Twitch, và bỏ qua những huy hiệu tài khoản đã có. Trong “Đào gì, theo thứ tự”, kéo game ưu tiên, huy hiệu và các chiến dịch Drops khác vào thứ tự bạn muốn, hoặc tắt một mục. Tính năng này đang ở giai đoạn beta.
 
   <details open><summary>Xem minh họa</summary>
-  <img src="../media/en/badges.avif" alt="Trang Huy hiệu, huy hiệu của một tài khoản, rồi “Đào gì, theo thứ tự” với Huy hiệu được kéo lên đầu">
+  <img src="../media/vi/badges.avif" alt="Trang Huy hiệu, huy hiệu của một tài khoản, rồi “Đào gì, theo thứ tự” với Huy hiệu được kéo lên đầu">
   </details>
 
 ### Giám sát

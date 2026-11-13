@@ -186,7 +186,7 @@ bruk.
   i beta.
 
   <details open><summary>Se det i aksjon</summary>
-  <img src="../media/en/badges.avif" alt="Siden Merker, merkene til en konto og deretter «Hva som skal mines, i rekkefølge» med Merker dratt øverst">
+  <img src="../media/nb/badges.avif" alt="Siden Merker, merkene til en konto og deretter «Hva som skal mines, i rekkefølge» med Merker dratt øverst">
   </details>
 
 ### Oppfølging

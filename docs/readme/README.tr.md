@@ -149,7 +149,7 @@ Onu diğer madencilerden ayıran şeyler. Bir maddenin altındaki “Çalışır
 - **Rozetler (beta).** Rozetler sayfası, Twitch'in tüm genel sohbet rozetlerini ve nasıl alınacaklarını listeler. Her hesabın kendi Rozetler sayfası vardır: ilerlemeleriyle birlikte devam eden rozetler, hâlâ alınabilecekler ve hesabın sahip olduğu rozetler. Madenci, Drops kampanyalarından ve Twitch görevlerinden yalnızca izleme süresi gerektiren rozetlerin peşine düşer ve hesabın zaten sahip olduğu rozetleri atlar. “Ne kazılacak, sırayla” bölümünde öncelikli oyunları, rozetleri ve diğer Drops kampanyalarını istediğiniz sıraya sürükleyin ya da birini kapatın. Bu özellik beta aşamasındadır.
 
   <details open><summary>Çalışırken görün</summary>
-  <img src="../media/en/badges.avif" alt="Rozetler sayfası, bir hesabın rozetleri, ardından Rozetler'in en başa sürüklendiği “Ne kazılacak, sırayla”">
+  <img src="../media/tr/badges.avif" alt="Rozetler sayfası, bir hesabın rozetleri, ardından Rozetler'in en başa sürüklendiği “Ne kazılacak, sırayla”">
   </details>
 
 ### Takip

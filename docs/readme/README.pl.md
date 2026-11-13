@@ -185,7 +185,7 @@ działa.
   wersji beta.
 
   <details open><summary>Zobacz w akcji</summary>
-  <img src="../media/en/badges.avif" alt="Strona Odznaki, odznaki jednego konta, a potem „Co kopać, w jakiej kolejności” z Odznakami przeciągniętymi na początek">
+  <img src="../media/pl/badges.avif" alt="Strona Odznaki, odznaki jednego konta, a potem „Co kopać, w jakiej kolejności” z Odznakami przeciągniętymi na początek">
   </details>
 
 ### Monitorowanie

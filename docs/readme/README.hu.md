@@ -190,7 +190,7 @@ láthatod, hogyan működnek.
   a funkció béta állapotú.
 
   <details open><summary>Működés közben</summary>
-  <img src="../media/en/badges.avif" alt="A Jelvények oldal, egy fiók jelvényei, majd a „Mit bányásszon, sorrendben” a Jelvények elejére húzva">
+  <img src="../media/hu/badges.avif" alt="A Jelvények oldal, egy fiók jelvényei, majd a „Mit bányásszon, sorrendben” a Jelvények elejére húzva">
   </details>
 
 ### Nyomon követés

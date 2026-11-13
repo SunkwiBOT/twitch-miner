@@ -149,7 +149,7 @@ Hal-hal yang membedakannya dari penambang lain. “Lihat langsung” di bawah se
 - **Lencana (beta).** Halaman Lencana mencantumkan semua lencana obrolan global Twitch dan cara mendapatkannya. Setiap akun punya halaman Lencana sendiri: lencana yang sedang berjalan beserta progresnya, yang masih bisa didapat, dan yang sudah dimiliki. Penambang mengejar lencana yang hanya butuh waktu menonton, dari kampanye Drops dan quest Twitch, dan melewati lencana yang sudah dimiliki akun. Di “Apa yang ditambang, berurutan”, seret game prioritas, lencana, dan kampanye Drops lainnya ke urutan yang Anda inginkan, atau matikan salah satunya. Fitur ini masih beta.
 
   <details open><summary>Lihat langsung</summary>
-  <img src="../media/en/badges.avif" alt="Halaman Lencana, lencana sebuah akun, lalu “Apa yang ditambang, berurutan” dengan Lencana diseret ke posisi pertama">
+  <img src="../media/id/badges.avif" alt="Halaman Lencana, lencana sebuah akun, lalu “Apa yang ditambang, berurutan” dengan Lencana diseret ke posisi pertama">
   </details>
 
 ### Pemantauan

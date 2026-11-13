@@ -184,7 +184,7 @@ recurso funcionando.
   quiser, ou desative um deles. Este recurso está em beta.
 
   <details open><summary>Ver em ação</summary>
-  <img src="../media/en/badges.avif" alt="A página Emblemas, os emblemas de uma conta e depois “O que minerar, em ordem” com Emblemas arrastados para o topo">
+  <img src="../media/pt-BR/badges.avif" alt="A página Emblemas, os emblemas de uma conta e depois “O que minerar, em ordem” com Emblemas arrastados para o topo">
   </details>
 
 ### Acompanhamento

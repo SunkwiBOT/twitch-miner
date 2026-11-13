@@ -186,7 +186,7 @@ brug.
   dem fra. Funktionen er i beta.
 
   <details open><summary>Se det i aktion</summary>
-  <img src="../media/en/badges.avif" alt="Siden Badges, en kontos badges og derefter »Hvad der skal mines, i rækkefølge« med Badges trukket øverst">
+  <img src="../media/da/badges.avif" alt="Siden Badges, en kontos badges og derefter »Hvad der skal mines, i rækkefølge« med Badges trukket øverst">
   </details>
 
 ### Overblik

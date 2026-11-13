@@ -186,7 +186,7 @@ all'opera.
   uno. Questa funzione è in beta.
 
   <details open><summary>Vedilo in azione</summary>
-  <img src="../media/en/badges.avif" alt="La pagina Badge, i badge di un account, poi «Cosa minare, in ordine» con Badge trascinato in cima">
+  <img src="../media/it/badges.avif" alt="La pagina Badge, i badge di un account, poi «Cosa minare, in ordine» con Badge trascinato in cima">
   </details>
 
 ### Monitoraggio

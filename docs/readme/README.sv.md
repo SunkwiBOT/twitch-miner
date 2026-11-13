@@ -185,7 +185,7 @@ arbete.
   beta.
 
   <details open><summary>Se det i aktion</summary>
-  <img src="../media/en/badges.avif" alt="Sidan Märken, ett kontos märken och sedan ”Vad som ska minas, i ordning” med Märken dragna överst">
+  <img src="../media/sv/badges.avif" alt="Sidan Märken, ett kontos märken och sedan ”Vad som ska minas, i ordning” med Märken dragna överst">
   </details>
 
 ### Uppföljning

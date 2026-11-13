@@ -185,7 +185,7 @@ la lucru.
   dezactivează una dintre ele. Această funcție este în beta.
 
   <details open><summary>Vezi în acțiune</summary>
-  <img src="../media/en/badges.avif" alt="Pagina Insigne, insignele unui cont, apoi „Ce să se mineze, în ordine” cu Insigne trase primele">
+  <img src="../media/ro/badges.avif" alt="Pagina Insigne, insignele unui cont, apoi „Ce să se mineze, în ordine” cu Insigne trase primele">
   </details>
 
 ### Monitorizare

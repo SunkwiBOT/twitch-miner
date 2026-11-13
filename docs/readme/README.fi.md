@@ -187,7 +187,7 @@ ominaisuuden käytössä.
   jokin niistä pois. Tämä ominaisuus on beta-vaiheessa.
 
   <details open><summary>Katso toiminnassa</summary>
-  <img src="../media/en/badges.avif" alt="Merkit-sivu, tilin merkit ja sitten ”Mitä louhitaan, järjestyksessä”, jossa Merkit on vedetty ensimmäiseksi">
+  <img src="../media/fi/badges.avif" alt="Merkit-sivu, tilin merkit ja sitten ”Mitä louhitaan, järjestyksessä”, jossa Merkit on vedetty ensimmäiseksi">
   </details>
 
 ### Seuranta

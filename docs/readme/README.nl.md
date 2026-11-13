@@ -188,7 +188,7 @@ het werkt.
   er een uit. Deze functie is in bèta.
 
   <details open><summary>Bekijk het in actie</summary>
-  <img src="../media/en/badges.avif" alt="De pagina Badges, de badges van een account en dan “Wat te minen, op volgorde” met Badges bovenaan gesleept">
+  <img src="../media/nl/badges.avif" alt="De pagina Badges, de badges van een account en dan “Wat te minen, op volgorde” met Badges bovenaan gesleept">
   </details>
 
 ### Bijhouden

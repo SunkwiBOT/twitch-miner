@@ -189,7 +189,7 @@ im Einsatz.
   Funktion ist in der Beta.
 
   <details open><summary>In Aktion ansehen</summary>
-  <img src="../media/en/badges.avif" alt="Die Seite Abzeichen, die Abzeichen eines Kontos, dann „Was gemint wird, der Reihe nach“ mit Abzeichen an die Spitze gezogen">
+  <img src="../media/de/badges.avif" alt="Die Seite Abzeichen, die Abzeichen eines Kontos, dann „Was gemint wird, der Reihe nach“ mit Abzeichen an die Spitze gezogen">
   </details>
 
 ### Nachverfolgung
