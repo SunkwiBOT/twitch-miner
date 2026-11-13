@@ -1,14 +1,15 @@
 use std::path::{Path, PathBuf};
 
 use miner_core::api::{
-    ApiRoute, AppInfoResponse, AuthResponse, AutostartResponse, CatalogRefreshResponse,
-    ChannelBannersRequest, ChannelBannersResponse, ChannelQuery, ChannelResponse,
-    ChannelsLookupRequest, ChannelsLookupResponse, Command, CommandName, DashboardLoginRequest,
-    DesktopEvent, FollowsQuery, FollowsResponse, HistoryQuery, HistoryResponse, LoginFlowResponse,
-    LogsQuery, LogsReportResponse, LogsResponse, NotificationTestResponse, ProxyTestRequest,
-    ProxyTestResponse, RedeemRequest, RedeemResponse, RequestsQuery, RequestsResponse, SearchQuery,
-    SearchResponse, ServerMessage, ServerMessageKind, SnapshotResponse, SpamBalanceResponse,
-    SpamChannelQuery, SpamChannelResponse, StartupProblemResponse, UpdateCheckResponse,
+    ApiRoute, AppInfoResponse, AuthResponse, AutostartResponse, BadgesResponse,
+    CatalogRefreshResponse, ChannelBannersRequest, ChannelBannersResponse, ChannelQuery,
+    ChannelResponse, ChannelsLookupRequest, ChannelsLookupResponse, Command, CommandName,
+    DashboardLoginRequest, DesktopEvent, FollowsQuery, FollowsResponse, HistoryQuery,
+    HistoryResponse, LoginFlowResponse, LogsQuery, LogsReportResponse, LogsResponse,
+    NotificationTestResponse, ProxyTestRequest, ProxyTestResponse, RedeemRequest, RedeemResponse,
+    RequestsQuery, RequestsResponse, SearchQuery, SearchResponse, ServerMessage, ServerMessageKind,
+    SnapshotResponse, SpamBalanceResponse, SpamChannelQuery, SpamChannelResponse,
+    StartupProblemResponse, UpdateCheckResponse,
 };
 use miner_core::error::{ApiError, ErrorCode};
 use miner_core::scheduler::SlotPurposeKind;
@@ -79,6 +80,7 @@ fn main() {
     export::<Command>(&cfg);
     export::<HistoryResponse>(&cfg);
     export::<LogsResponse>(&cfg);
+    export::<BadgesResponse>(&cfg);
     export::<LogsReportResponse>(&cfg);
     export::<LoginFlowResponse>(&cfg);
     export::<ChannelResponse>(&cfg);

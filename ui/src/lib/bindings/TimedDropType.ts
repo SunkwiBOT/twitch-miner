@@ -14,4 +14,5 @@ export type TimedDropType = {
   preconditions_met?: boolean;
   precondition_drop_ids: Array<string>;
   benefits: Array<BenefitType>;
+  badge_owned: boolean;
 };

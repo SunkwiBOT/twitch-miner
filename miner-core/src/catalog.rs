@@ -37,17 +37,38 @@ pub struct Catalog {
     pub problem: Option<ErrorCode>,
 }
 
-pub struct CatalogClient {
+pub trait FeedAnswer: Clone {
+    fn parse(payload: &Value) -> Result<Self>;
+
+    fn fetched_now(self) -> Self;
+}
+
+impl FeedAnswer for Catalog {
+    fn parse(payload: &Value) -> Result<Self> {
+        parse_catalog(payload)
+    }
+
+    fn fetched_now(self) -> Self {
+        Self {
+            fetched_at: Some(Utc::now()),
+            ..self
+        }
+    }
+}
+
+pub struct FeedClient<T> {
     client: reqwest::Client,
     url: String,
     requests: RequestLog,
     // ! An answer "not modified" (304) costs no request of the quota: the last
-    // catalogue read is kept with the tag that names it.
-    last: Mutex<Option<(String, Catalog)>>,
+    // answer read is kept with the tag that names it.
+    last: Mutex<Option<(String, T)>>,
 }
 
-pub struct Fetch {
-    pub result: Result<Catalog>,
+pub type CatalogClient = FeedClient<Catalog>;
+
+pub struct Fetch<T> {
+    pub result: Result<T>,
     pub retry_after: Duration,
 }
 
@@ -56,6 +77,12 @@ impl CatalogClient {
         Self::with_url(CATALOG_URL, requests, &crate::user_agent(shell))
     }
 
+    pub fn interval() -> Duration {
+        REFRESH_INTERVAL
+    }
+}
+
+impl<T: FeedAnswer> FeedClient<T> {
     pub(crate) fn with_url(url: &str, requests: RequestLog, agent: &str) -> Result<Self> {
         let client = reqwest::Client::builder()
             .user_agent(agent)
@@ -72,11 +99,7 @@ impl CatalogClient {
         })
     }
 
-    pub fn interval() -> Duration {
-        REFRESH_INTERVAL
-    }
-
-    pub async fn fetch(&self) -> Fetch {
+    pub async fn fetch(&self) -> Fetch<T> {
         let mut retry_after = Duration::ZERO;
         let result = async {
             let tag = locked(&self.last).as_ref().map(|(tag, _)| tag.clone());
@@ -109,11 +132,8 @@ impl CatalogClient {
             let status = response.status();
 
             if status == reqwest::StatusCode::NOT_MODIFIED {
-                if let Some((_, catalog)) = locked(&self.last).as_ref() {
-                    return Ok(Catalog {
-                        fetched_at: Some(Utc::now()),
-                        ..catalog.clone()
-                    });
+                if let Some((_, answer)) = locked(&self.last).as_ref() {
+                    return Ok(answer.clone().fetched_now());
                 }
             }
 
@@ -132,11 +152,11 @@ impl CatalogClient {
                 .map(str::to_owned);
             let body = read_bounded(response).await?;
             let payload: Value = serde_json::from_slice(&body)?;
-            let catalog = parse_catalog(&payload)?;
+            let answer = T::parse(&payload)?;
 
-            *locked(&self.last) = tag.map(|tag| (tag, catalog.clone()));
+            *locked(&self.last) = tag.map(|tag| (tag, answer.clone()));
 
-            Ok(catalog)
+            Ok(answer)
         }
         .await;
 
@@ -170,8 +190,8 @@ async fn read_bounded(mut response: reqwest::Response) -> Result<Vec<u8>> {
     Ok(body)
 }
 
-fn too_large() -> Error {
-    Error::InvalidResponse("catalogue too large".into())
+pub(crate) fn too_large() -> Error {
+    Error::InvalidResponse("answer too large".into())
 }
 
 pub fn parse_catalog(payload: &Value) -> Result<Catalog> {

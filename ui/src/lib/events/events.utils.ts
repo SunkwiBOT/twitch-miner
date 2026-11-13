@@ -171,6 +171,10 @@ export const eventText = (event: MinerEventType, linked: boolean): EventTextType
               current: bold(context.current) ?? "",
               required: bold(context.required) ?? "",
             });
+      case EventKind.ERROR:
+        return drop && context.drop_id && context.status
+          ? t.ev_claim_refused({ drop, status: strong(context.status) })
+          : fallback;
       case EventKind.BONUS_CLAIMED:
         return channel ? t.ev_bonus({ channel }) : fallback;
       case EventKind.POINTS_EARNED:
@@ -255,7 +259,6 @@ export const eventText = (event: MinerEventType, linked: boolean): EventTextType
           ? t.ev_chat_mention({ chatter: strong(context.chatter), channel })
           : fallback;
       case EventKind.INFO:
-      case EventKind.ERROR:
         return fallback;
     }
   })();

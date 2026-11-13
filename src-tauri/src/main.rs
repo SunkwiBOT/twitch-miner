@@ -10,13 +10,13 @@ use std::sync::atomic::AtomicBool;
 use std::sync::Arc;
 
 use miner_core::api::{
-    AccountStatus, AppInfo, AppInfoResponse, AutostartResponse, CatalogRefreshResponse,
-    CatalogView, ChannelBannersResponse, ChannelResponse, ChannelsLookupResponse, Command,
-    CommandName, DesktopEvent, FollowsResponse, HistoryQuery, HistoryResponse, LoginFlowResponse,
-    LogsQuery, LogsReportResponse, LogsResponse, NotificationTestResponse, ProxyTestResponse,
-    RedeemRequest, RedeemResponse, RequestsQuery, RequestsResponse, SearchResponse, Shell,
-    Snapshot, SnapshotResponse, SpamBalanceResponse, SpamChannelResponse, StartupProblem,
-    StartupProblemResponse,
+    AccountStatus, AppInfo, AppInfoResponse, AutostartResponse, BadgeCatalogView, BadgesResponse,
+    CatalogRefreshResponse, CatalogView, ChannelBannersResponse, ChannelResponse,
+    ChannelsLookupResponse, Command, CommandName, DesktopEvent, FollowsResponse, HistoryQuery,
+    HistoryResponse, LoginFlowResponse, LogsQuery, LogsReportResponse, LogsResponse,
+    NotificationTestResponse, ProxyTestResponse, RedeemRequest, RedeemResponse, RequestsQuery,
+    RequestsResponse, SearchResponse, Shell, Snapshot, SnapshotResponse, SpamBalanceResponse,
+    SpamChannelResponse, StartupProblem, StartupProblemResponse,
 };
 use miner_core::config::{CloseAction, GlobalSettings};
 use miner_core::error::{ApiError, ErrorCode};
@@ -88,6 +88,7 @@ async fn locked_snapshot(manager: &Manager) -> Snapshot {
         update_checked_at: None,
         accounts: Vec::new(),
         catalog: CatalogView::default(),
+        badges: BadgeCatalogView::default(),
         settings: GlobalSettings {
             language: settings.language,
             theme: settings.theme,
@@ -249,6 +250,13 @@ async fn refresh_catalog(state: tauri::State<'_, AppState>) -> Answer<CatalogRef
     Ok(CatalogRefreshResponse {
         refresh: state.manager.refresh_catalog().await?,
     })
+}
+
+#[tauri::command]
+async fn badges(state: tauri::State<'_, AppState>) -> Answer<BadgesResponse> {
+    unlocked(&state).await?;
+
+    Ok(state.manager.badge_list().await)
 }
 
 #[tauri::command]
@@ -546,6 +554,7 @@ fn main() {
             test_notifications,
             test_proxy,
             history,
+            badges,
             logs,
             logs_report,
             requests,

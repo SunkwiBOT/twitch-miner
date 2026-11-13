@@ -29,7 +29,6 @@ pub enum Mode {
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 #[ts(repr(enum = name))]
 pub enum DropsScope {
-    PriorityOnly,
     LinkedOnly,
     #[default]
     All,
@@ -44,11 +43,42 @@ pub enum DropsOrder {
     LowestRemaining,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+#[ts(repr(enum = name))]
+pub enum MiningLaneKind {
+    PriorityGames,
+    Badges,
+    OtherCampaigns,
+}
+
+impl MiningLaneKind {
+    pub const ALL: [Self; 3] = [Self::PriorityGames, Self::Badges, Self::OtherCampaigns];
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[ts(rename = "MiningLaneType")]
+pub struct MiningLane {
+    pub kind: MiningLaneKind,
+    pub enabled: bool,
+}
+
+pub fn default_mining_order() -> Vec<MiningLane> {
+    MiningLaneKind::ALL
+        .into_iter()
+        .map(|kind| MiningLane {
+            kind,
+            enabled: true,
+        })
+        .collect()
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
 #[serde(default)]
 #[ts(rename = "DropsSettingsType")]
 pub struct DropsSettings {
     pub scope: DropsScope,
+    pub mining_order: Vec<MiningLane>,
     pub campaign_order: Vec<String>,
     pub priority_games: Vec<String>,
     pub linked_first: bool,
@@ -68,6 +98,7 @@ impl Default for DropsSettings {
     fn default() -> Self {
         Self {
             scope: DropsScope::default(),
+            mining_order: default_mining_order(),
             campaign_order: Vec::new(),
             priority_games: Vec::new(),
             linked_first: true,
@@ -288,6 +319,16 @@ impl AccountSettings {
         short("proxy", &self.proxy)?;
 
         let drops = &self.drops;
+
+        if drops.mining_order.len() != MiningLaneKind::ALL.len()
+            || MiningLaneKind::ALL
+                .iter()
+                .any(|kind| !drops.mining_order.iter().any(|lane| lane.kind == *kind))
+        {
+            return Err(Error::InvalidRequest(
+                "mining_order must hold each lane once".into(),
+            ));
+        }
 
         for (name, list) in [
             ("campaign_order", &drops.campaign_order),
@@ -674,6 +715,7 @@ macro_rules! strict_input {
 
 strict_input!(DropsSettingsInput => DropsSettings {
     scope: DropsScope,
+    mining_order: Vec<MiningLane>,
     campaign_order: Vec<String>,
     priority_games: Vec<String>,
     linked_first: bool,

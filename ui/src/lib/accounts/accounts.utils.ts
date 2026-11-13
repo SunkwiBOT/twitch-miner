@@ -91,6 +91,7 @@ export const splitEntries = (value: string): string[] =>
 export const QUEUE_REASON_LABELS: Record<QueueReason, () => string> = {
   [QueueReason.ORDERED]: () => t.queue_reason_pinned(),
   [QueueReason.PRIORITY]: () => t.dashboard_queue_reason_priority(),
+  [QueueReason.BADGE]: () => t.queue_reason_badge(),
   [QueueReason.ENDING_SOON]: () => t.dashboard_queue_reason_ending_soon(),
   [QueueReason.LOWEST_REMAINING]: () => t.dashboard_queue_reason_lowest_remaining(),
 };
@@ -98,6 +99,7 @@ export const QUEUE_REASON_LABELS: Record<QueueReason, () => string> = {
 export const QUEUE_REASON_HINTS: Record<QueueReason, () => string> = {
   [QueueReason.ORDERED]: () => t.badge_hint_reason_ordered(),
   [QueueReason.PRIORITY]: () => t.badge_hint_reason_priority(),
+  [QueueReason.BADGE]: () => t.badge_hint_reason_badge(),
   [QueueReason.ENDING_SOON]: () => t.badge_hint_reason_ending_soon(),
   [QueueReason.LOWEST_REMAINING]: () => t.badge_hint_reason_lowest_remaining(),
 };

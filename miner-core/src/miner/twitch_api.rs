@@ -14,6 +14,7 @@ use crate::twitch::drops::{ClaimOutcome, Inventory};
 use crate::twitch::playback::Playback;
 use crate::twitch::points::{Goal, PointsContext};
 use crate::twitch::pubsub::{PubSub, PubSubEvent};
+use crate::twitch::quests::QuestsRead;
 use crate::twitch::spade;
 use crate::twitch::TwitchClient;
 
@@ -25,6 +26,8 @@ pub(crate) trait TwitchApi {
     async fn inventory(&self) -> Result<Inventory>;
 
     async fn claim_drop(&self, instance_id: &str) -> Result<ClaimOutcome>;
+
+    async fn quests(&self) -> Result<QuestsRead>;
 
     async fn game_directory(&self, game: &Game) -> Result<Vec<Channel>>;
 
@@ -89,6 +92,10 @@ impl TwitchApi for TwitchClient {
 
     async fn claim_drop(&self, instance_id: &str) -> Result<ClaimOutcome> {
         TwitchClient::claim_drop(self, instance_id).await
+    }
+
+    async fn quests(&self) -> Result<QuestsRead> {
+        TwitchClient::quests(self).await
     }
 
     async fn game_directory(&self, game: &Game) -> Result<Vec<Channel>> {

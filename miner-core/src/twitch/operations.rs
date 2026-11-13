@@ -25,7 +25,18 @@ pub enum Operation {
     AvailableDrops,
     CustomRewards,
     RedeemCustomReward,
+    Quests,
+    QuestProgress,
+    OwnedBadges,
 }
+
+// ! Twitch has no persisted query of ours for these: the TV client may send
+// the query's text.
+const QUESTS_QUERY: &str = "query Quests { rewardCampaignsAvailableToUser { id name brand startsAt endsAt summary externalURL aboutURL isSitewide game { id displayName slug boxArtURL } image { image1xURL } rewardGroups { id unlockRequirements { minuteWatchedGoal subsGoal turboSubsGoal eventTriggerGoal } categories { id displayName slug boxArtURL } rewards { id name thumbnailImage { image1xURL } } } } }";
+
+const QUEST_PROGRESS_QUERY: &str = "query QuestProgress { currentUser { inventory { viewerRewardDropCampaignsInProgress { id rewardGroups { id name self { status currentMinutesWatched grantCount nextEligibleAt currentWindow { expiresAt } } rewards { id dropDetail { badge { setID version title imageURL } } } } } completedRewardCampaigns { id } } } }";
+
+const OWNED_BADGES_QUERY: &str = "query OwnedBadges($login: String!) { channelViewer(userLogin: $login, channelLogin: $login) { earnedBadges { setID version title imageURL } } }";
 
 impl Operation {
     pub fn name(self) -> &'static str {
@@ -50,6 +61,18 @@ impl Operation {
             // for the custom rewards; the mining keeps its own.
             Self::CustomRewards => "ChannelPointsContext",
             Self::RedeemCustomReward => "RedeemCustomReward",
+            Self::Quests => "Quests",
+            Self::QuestProgress => "QuestProgress",
+            Self::OwnedBadges => "OwnedBadges",
+        }
+    }
+
+    fn text(self) -> Option<&'static str> {
+        match self {
+            Self::Quests => Some(QUESTS_QUERY),
+            Self::QuestProgress => Some(QUEST_PROGRESS_QUERY),
+            Self::OwnedBadges => Some(OWNED_BADGES_QUERY),
+            _ => None,
         }
     }
 
@@ -97,6 +120,7 @@ impl Operation {
             Self::RedeemCustomReward => {
                 "d56249a7adb4978898ea3412e196688d4ac3cea1c0c2dfd65561d229ea5dcc42"
             }
+            Self::Quests | Self::QuestProgress | Self::OwnedBadges => "",
         }
     }
 
@@ -125,6 +149,14 @@ impl Operation {
                 variables["includeGoalTypes"] = json!(["CREATOR", "BOOST"]);
             }
             _ => {}
+        }
+
+        if let Some(query) = self.text() {
+            return json!({
+                "operationName": self.name(),
+                "query": query,
+                "variables": variables,
+            });
         }
 
         json!({

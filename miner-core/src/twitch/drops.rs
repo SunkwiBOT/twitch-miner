@@ -5,7 +5,9 @@ use serde_json::{json, Value};
 
 use super::operations::Operation;
 use super::{note_left_out, text, values, TwitchClient};
-use crate::domain::{Benefit, BenefitKind, Campaign, CampaignStatus, ChannelRef, Game, TimedDrop};
+use crate::domain::{
+    Benefit, BenefitKind, Campaign, CampaignKind, CampaignStatus, ChannelRef, Game, TimedDrop,
+};
 use crate::error::{Error, Result};
 
 pub struct Inventory {
@@ -133,6 +135,7 @@ pub fn parse_campaign(record: &Value, from_inventory: bool) -> Option<Campaign> 
                         })
                     })
                     .collect(),
+                badge_owned: false,
             })
         })
         .collect();
@@ -140,7 +143,9 @@ pub fn parse_campaign(record: &Value, from_inventory: bool) -> Option<Campaign> 
     Some(Campaign {
         id,
         name: text(&record["name"]).unwrap_or_default(),
+        kind: CampaignKind::Drops,
         game,
+        categories: Vec::new(),
         status: parse_status(&record["status"]),
         linked: record["self"]["isAccountConnected"].as_bool(),
         link_url: text(&record["accountLinkURL"]),

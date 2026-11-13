@@ -2,6 +2,7 @@ export enum IconName {
   DASHBOARD = "DASHBOARD",
   USERS = "USERS",
   GIFT = "GIFT",
+  AWARD = "AWARD",
   TV = "TV",
   HISTORY = "HISTORY",
   SETTINGS = "SETTINGS",

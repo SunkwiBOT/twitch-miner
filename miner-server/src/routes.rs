@@ -12,13 +12,14 @@ use axum::response::{IntoResponse, Response};
 use axum::routing::{get, post};
 use axum::{Extension, Json, Router};
 use miner_core::api::{
-    ApiRoute, AuthResponse, AuthStatus, CatalogRefreshResponse, ChannelBannersRequest,
-    ChannelBannersResponse, ChannelQuery, ChannelResponse, ChannelsLookupRequest,
-    ChannelsLookupResponse, Command, DashboardLoginRequest, FollowsQuery, FollowsResponse,
-    HistoryQuery, HistoryResponse, LoginFlowResponse, LogsQuery, LogsReportResponse, LogsResponse,
-    NotificationTestResponse, ProxyTestRequest, ProxyTestResponse, RedeemRequest, RedeemResponse,
-    RequestsQuery, RequestsResponse, SearchQuery, SearchResponse, ServerMessage, SnapshotResponse,
-    SpamBalanceResponse, SpamChannelQuery, SpamChannelResponse, UpdateCheck, UpdateCheckResponse,
+    ApiRoute, AuthResponse, AuthStatus, BadgesResponse, CatalogRefreshResponse,
+    ChannelBannersRequest, ChannelBannersResponse, ChannelQuery, ChannelResponse,
+    ChannelsLookupRequest, ChannelsLookupResponse, Command, DashboardLoginRequest, FollowsQuery,
+    FollowsResponse, HistoryQuery, HistoryResponse, LoginFlowResponse, LogsQuery,
+    LogsReportResponse, LogsResponse, NotificationTestResponse, ProxyTestRequest,
+    ProxyTestResponse, RedeemRequest, RedeemResponse, RequestsQuery, RequestsResponse, SearchQuery,
+    SearchResponse, ServerMessage, SnapshotResponse, SpamBalanceResponse, SpamChannelQuery,
+    SpamChannelResponse, UpdateCheck, UpdateCheckResponse,
 };
 use miner_core::error::{ApiError, ErrorCode};
 use miner_core::Manager;
@@ -112,6 +113,7 @@ pub fn router(state: Shared) -> Router {
         .route(ApiRoute::NotificationsTest.path(), post(test_notifications))
         .route(ApiRoute::ProxyTest.path(), post(test_proxy))
         .route(ApiRoute::History.path(), get(history))
+        .route(ApiRoute::Badges.path(), get(badges))
         .route(ApiRoute::Logs.path(), get(logs))
         .route(ApiRoute::LogsReport.path(), get(logs_report))
         .route(ApiRoute::Requests.path(), get(requests))
@@ -628,6 +630,10 @@ async fn check_for_update(
     Ok(Json(UpdateCheckResponse {
         check: UpdateCheck { available },
     }))
+}
+
+async fn badges(State(state): State<Shared>) -> Json<BadgesResponse> {
+    Json(state.manager.badge_list().await)
 }
 
 async fn logs(State(state): State<Shared>, Params(query): Params<LogsQuery>) -> Json<LogsResponse> {

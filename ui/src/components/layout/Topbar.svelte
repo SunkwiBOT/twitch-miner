@@ -2,15 +2,18 @@
   import { CommandName } from "../../lib/bindings/CommandName";
   import { AccountStatus } from "../../lib/bindings/AccountStatus";
   import { t } from "../../lib/i18n/i18n.svelte";
+  import { Page } from "../../lib/state/state.constants";
   import { account, app, isAccountPage, run } from "../../lib/state/state.svelte";
   import { wideLayout } from "../../lib/state/viewport.svelte";
   import TextButton from "../ui/TextButton.svelte";
   import Avatar from "../ui/Avatar.svelte";
   import IconButton from "../ui/IconButton.svelte";
   import AccountStatusBadges from "../ui/AccountStatusBadges.svelte";
+  import Badge from "../ui/Badge.svelte";
   import PauseButton from "../ui/PauseButton.svelte";
   import {
     AvatarSize,
+    BadgeTone,
     ButtonSize,
     ButtonType,
     ButtonVariant,
@@ -59,6 +62,11 @@
         >· {section}</span
       >{/if}
   </h1>
+  {#if app.page === Page.BADGES || app.page === Page.ACCOUNT_BADGES}<Badge
+      text={t.common_beta()}
+      tone={BadgeTone.ACCENT}
+      dot={false}
+    />{/if}
   <span class="flex-1"></span>
   <UpdateBadge />
   {#if current}

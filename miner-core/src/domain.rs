@@ -88,6 +88,8 @@ pub struct TimedDrop {
     pub precondition_drop_ids: Vec<String>,
     #[serde(default)]
     pub benefits: Vec<Benefit>,
+    #[serde(default)]
+    pub badge_owned: bool,
 }
 
 impl TimedDrop {
@@ -108,7 +110,11 @@ impl TimedDrop {
     }
 
     pub fn minable(&self, excluded: &[String]) -> bool {
-        self.required_subs == 0 && !excluded.iter().any(|id| id == &self.id)
+        self.required_subs == 0 && !self.badge_owned && !excluded.iter().any(|id| id == &self.id)
+    }
+
+    pub fn gives_badge(&self) -> bool {
+        self.benefits.iter().any(|b| b.kind == BenefitKind::Badge)
     }
 }
 
@@ -123,12 +129,26 @@ pub enum CampaignStatus {
     Disabled,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default, TS)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+#[ts(repr(enum = name))]
+pub enum CampaignKind {
+    #[default]
+    Drops,
+    Quest,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
 #[ts(rename = "CampaignType")]
 pub struct Campaign {
     pub id: String,
     pub name: String,
+    #[serde(default)]
+    pub kind: CampaignKind,
     pub game: Game,
+    // ! A quest counts the watch on any of its categories; `game` is the first.
+    #[serde(default)]
+    pub categories: Vec<Game>,
     pub status: CampaignStatus,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
@@ -202,6 +222,22 @@ impl Campaign {
                         .all(|id| completed.contains(&id.as_str()))
             })
             .min_by_key(|d| (d.required_minutes, d.id.clone()))
+    }
+
+    pub fn gives_badge(&self, now: DateTime<Utc>, excluded: &[String]) -> bool {
+        self.kind == CampaignKind::Quest
+            || self
+                .drops
+                .iter()
+                .any(|d| d.gives_badge() && !d.complete() && d.minable(excluded) && d.ends_at > now)
+    }
+
+    pub fn plays(&self, game: &Game) -> bool {
+        std::iter::once(&self.game)
+            .chain(&self.categories)
+            .any(|g| {
+                g.id == game.id || (!g.name.is_empty() && g.name.eq_ignore_ascii_case(&game.name))
+            })
     }
 
     pub fn accepts_channel(&self, channel_id: &str) -> bool {

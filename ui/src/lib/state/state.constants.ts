@@ -3,6 +3,7 @@ import { AutoLock } from "../bindings/AutoLock";
 export enum Page {
   HOME = "HOME",
   CATALOGUE = "CATALOGUE",
+  BADGES = "BADGES",
   HISTORY = "HISTORY",
   LOGS = "LOGS",
   SETTINGS = "SETTINGS",
@@ -11,6 +12,7 @@ export enum Page {
   ACCOUNT_POINTS = "ACCOUNT_POINTS",
   ACCOUNT_SPAM = "ACCOUNT_SPAM",
   ACCOUNT_INVENTORY = "ACCOUNT_INVENTORY",
+  ACCOUNT_BADGES = "ACCOUNT_BADGES",
   ACCOUNT_HISTORY = "ACCOUNT_HISTORY",
   ACCOUNT_SETTINGS = "ACCOUNT_SETTINGS",
 }
@@ -21,6 +23,7 @@ export const ACCOUNT_PAGES: ReadonlySet<Page> = new Set([
   Page.ACCOUNT_POINTS,
   Page.ACCOUNT_SPAM,
   Page.ACCOUNT_INVENTORY,
+  Page.ACCOUNT_BADGES,
   Page.ACCOUNT_HISTORY,
   Page.ACCOUNT_SETTINGS,
 ]);
@@ -28,6 +31,7 @@ export const ACCOUNT_PAGES: ReadonlySet<Page> = new Set([
 export const PAGE_PATHS: Record<Page, string> = {
   [Page.HOME]: "/",
   [Page.CATALOGUE]: "/catalogue",
+  [Page.BADGES]: "/badges",
   [Page.HISTORY]: "/history",
   [Page.LOGS]: "/logs",
   [Page.SETTINGS]: "/settings",
@@ -36,6 +40,7 @@ export const PAGE_PATHS: Record<Page, string> = {
   [Page.ACCOUNT_POINTS]: "/points",
   [Page.ACCOUNT_SPAM]: "/spam-points",
   [Page.ACCOUNT_INVENTORY]: "/inventory",
+  [Page.ACCOUNT_BADGES]: "/badges",
   [Page.ACCOUNT_HISTORY]: "/history",
   [Page.ACCOUNT_SETTINGS]: "/settings",
 };
@@ -62,6 +67,7 @@ export enum AccountField {
   POINTS_FOLLOWED_ONLY = "POINTS_FOLLOWED_ONLY",
   STREAMERS_FIRST = "STREAMERS_FIRST",
   SCOPE = "SCOPE",
+  MINING_ORDER = "MINING_ORDER",
   LINKED_FIRST = "LINKED_FIRST",
   ORDER = "ORDER",
   STREAK_PRIORITY = "STREAK_PRIORITY",

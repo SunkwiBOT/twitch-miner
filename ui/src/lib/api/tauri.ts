@@ -21,6 +21,7 @@ import type { HistoryResponseType } from "../bindings/HistoryResponseType";
 import type { LoginFlowResponseType } from "../bindings/LoginFlowResponseType";
 import type { LogsQueryType } from "../bindings/LogsQueryType";
 import type { LogsReportResponseType } from "../bindings/LogsReportResponseType";
+import type { BadgesResponseType } from "../bindings/BadgesResponseType";
 import type { LogsResponseType } from "../bindings/LogsResponseType";
 import type { MinerEventType } from "../bindings/MinerEventType";
 import type { NotificationTestResponseType } from "../bindings/NotificationTestResponseType";
@@ -83,6 +84,7 @@ type TauriCommandsType = {
   [TauriCommand.TEST_NOTIFICATIONS]: { args: undefined; result: NotificationTestResponseType };
   [TauriCommand.TEST_PROXY]: { args: { url: string }; result: ProxyTestResponseType };
   [TauriCommand.HISTORY]: { args: { query: HistoryQueryType }; result: HistoryResponseType };
+  [TauriCommand.BADGES]: { args: undefined; result: BadgesResponseType };
   [TauriCommand.LOGS]: { args: { query: LogsQueryType }; result: LogsResponseType };
   [TauriCommand.LOGS_REPORT]: { args: { query: LogsQueryType }; result: LogsReportResponseType };
   [TauriCommand.REQUESTS]: { args: { query: RequestsQueryType }; result: RequestsResponseType };

@@ -24,6 +24,7 @@ import type { LoginFlowResponseType } from "../bindings/LoginFlowResponseType";
 import type { LoginFlowViewType } from "../bindings/LoginFlowViewType";
 import type { LogsQueryType } from "../bindings/LogsQueryType";
 import type { LogsReportResponseType } from "../bindings/LogsReportResponseType";
+import type { BadgesResponseType } from "../bindings/BadgesResponseType";
 import type { LogsResponseType } from "../bindings/LogsResponseType";
 import type { MinerEventType } from "../bindings/MinerEventType";
 import type { NotificationTestResponseType } from "../bindings/NotificationTestResponseType";
@@ -262,6 +263,16 @@ export const fetchHistory = async (query: HistoryQueryType): Promise<HistoryResp
     method: HttpMethod.GET,
     params: query,
   });
+
+  return response.data;
+};
+
+export const fetchBadges = async (): Promise<BadgesResponseType> => {
+  if (isTauri()) {
+    return invoke(TauriCommand.BADGES);
+  }
+
+  const response = await http<BadgesResponseType>(RoutesApi.BADGES, { method: HttpMethod.GET });
 
   return response.data;
 };

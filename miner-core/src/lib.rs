@@ -1,4 +1,5 @@
 pub mod api;
+pub mod badges;
 pub mod catalog;
 pub mod config;
 pub mod domain;

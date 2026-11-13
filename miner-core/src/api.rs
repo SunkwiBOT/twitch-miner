@@ -6,6 +6,7 @@ use serde::de::{self, IntoDeserializer, SeqAccess, Visitor};
 use serde::{Deserialize, Deserializer, Serialize};
 use ts_rs::TS;
 
+use crate::badges::GlobalBadge;
 use crate::config::{AccountSettings, GlobalSettings};
 use crate::domain::{Campaign, Channel, PointsState};
 use crate::error::{Error, ErrorCode};
@@ -18,6 +19,7 @@ use crate::spam::{
     REDEEM_TEXT_MAX_CHARS, REWARD_ID_MAX_CHARS,
 };
 use crate::store::VaultStatus;
+use crate::twitch::quests::{BadgeRef, Quest};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default, TS)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
@@ -108,6 +110,13 @@ pub struct AccountSnapshot {
     pub queue: Vec<QueueItem>,
     pub streamers: Vec<StreamerView>,
     pub campaigns: Vec<Campaign>,
+    #[serde(default)]
+    pub quests: Vec<Quest>,
+    #[serde(default)]
+    pub owned_badges: Vec<BadgeRef>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub badges_read_at: Option<DateTime<Utc>>,
     pub stats: AccountStats,
     pub updated_at: DateTime<Utc>,
     #[serde(default)]
@@ -131,6 +140,24 @@ pub struct CatalogView {
     pub next_refresh_at: DateTime<Utc>,
 }
 
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default, TS)]
+#[ts(rename = "BadgeCatalogViewType")]
+pub struct BadgeCatalogView {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub updated_at: Option<DateTime<Utc>>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub fetched_at: Option<DateTime<Utc>>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub problem: Option<ErrorCode>,
+    pub interval_seconds: u64,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub next_refresh_at: Option<DateTime<Utc>>,
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, TS)]
 #[ts(rename = "SnapshotType")]
 pub struct Snapshot {
@@ -148,6 +175,7 @@ pub struct Snapshot {
     pub update_checked_at: Option<DateTime<Utc>>,
     pub accounts: Vec<AccountSnapshot>,
     pub catalog: CatalogView,
+    pub badges: BadgeCatalogView,
     pub settings: GlobalSettings,
     pub vault: VaultStatus,
     pub recent_events: Vec<MinerEvent>,
@@ -367,6 +395,14 @@ pub struct HistoryResponse {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
     pub next_before_id: Option<u64>,
+}
+
+// ! The badge list (several hundred) is not in the snapshot pushed at every
+// change: the interface asks for it when `fetched_at` moves.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[ts(rename = "BadgesResponseType")]
+pub struct BadgesResponse {
+    pub badges: Vec<GlobalBadge>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
@@ -905,6 +941,8 @@ pub enum ApiRoute {
     ProxyTest,
     #[serde(rename = "/api/history")]
     History,
+    #[serde(rename = "/api/badges")]
+    Badges,
     #[serde(rename = "/api/logs")]
     Logs,
     #[serde(rename = "/api/logs/report")]
@@ -942,6 +980,7 @@ impl ApiRoute {
             Self::NotificationsTest => "/api/notifications/test",
             Self::ProxyTest => "/api/proxy/test",
             Self::History => "/api/history",
+            Self::Badges => "/api/badges",
             Self::Logs => "/api/logs",
             Self::LogsReport => "/api/logs/report",
             Self::Requests => "/api/requests",

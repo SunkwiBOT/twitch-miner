@@ -1,8 +1,10 @@
 <script lang="ts">
   import { MODE_LABELS } from "../../lib/accounts/accounts.utils";
+  import { miningOrderSummary } from "../../lib/accounts/mining-order.utils";
   import { DROPS_SCOPE_LABELS } from "../../lib/accounts/scope.utils";
   import type { AccountSnapshotType } from "../../lib/bindings/AccountSnapshotType";
   import type { DropsScope } from "../../lib/bindings/DropsScope";
+  import type { MiningLaneType } from "../../lib/bindings/MiningLaneType";
   import { Mode } from "../../lib/bindings/Mode";
   import type { StreamerSettingsType } from "../../lib/bindings/StreamerSettingsType";
   import { t } from "../../lib/i18n/i18n.svelte";
@@ -14,11 +16,12 @@
     source: AccountSnapshotType | null;
     mode: Mode;
     scope: DropsScope;
+    miningOrder: MiningLaneType[];
     autoClaim: boolean;
     streamers: StreamerSettingsType[];
   };
 
-  let { source, mode, scope, autoClaim, streamers }: SetupSummaryPropsType = $props();
+  let { source, mode, scope, miningOrder, autoClaim, streamers }: SetupSummaryPropsType = $props();
 </script>
 
 <div class="rounded-lg border px-4 py-2">
@@ -38,6 +41,12 @@
       mono={false}
     />
     {#if mode !== Mode.POINTS}
+      <Meta
+        label={t.mining_order_title()}
+        value={miningOrderSummary(miningOrder)}
+        layout={MetaLayout.ROW}
+        mono={false}
+      />
       <Meta
         label={t.drops_scope()}
         value={DROPS_SCOPE_LABELS[scope]()}

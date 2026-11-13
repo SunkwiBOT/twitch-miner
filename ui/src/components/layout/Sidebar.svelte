@@ -5,6 +5,8 @@
   import TextButton from "../ui/TextButton.svelte";
   import { cn } from "$lib/utils";
   import { STATUS_TONES } from "../../lib/accounts/accounts.utils";
+  import { badgeList } from "../../lib/badges/badges.svelte";
+  import { minableBadgeCount } from "../../lib/badges/badges.utils";
   import { runningCampaigns } from "../../lib/catalogue/timeline.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { REPO_URL } from "../../lib/partners.constants";
@@ -29,7 +31,7 @@
   import { APP_TITLE, REORDER_HINT_ID } from "./layout.constants";
   import PoweredBy from "./PoweredBy.svelte";
 
-  type NavItemType = { page: Page; icon: IconName; label: string; count?: number };
+  type NavItemType = { page: Page; icon: IconName; label: string; count?: number; beta?: boolean };
 
   type SidebarPropsType = { controls?: Snippet };
 
@@ -60,6 +62,13 @@
       label: t.nav_catalogue(),
       count: runningCampaigns(app.snapshot?.catalog.campaigns ?? [], ticker.now).length,
     },
+    {
+      page: Page.BADGES,
+      icon: IconName.AWARD,
+      label: t.nav_badges(),
+      beta: true,
+      count: minableBadgeCount(badgeList.badges, ticker.now),
+    },
     { page: Page.HISTORY, icon: IconName.HISTORY, label: t.nav_history() },
     { page: Page.LOGS, icon: IconName.FILE, label: t.nav_logs() },
     { page: Page.SETTINGS, icon: IconName.SETTINGS, label: t.nav_settings() },
@@ -72,6 +81,12 @@
       page: Page.ACCOUNT_INVENTORY,
       icon: IconName.PACKAGE,
       label: t.nav_account_inventory(),
+    },
+    {
+      page: Page.ACCOUNT_BADGES,
+      icon: IconName.AWARD,
+      label: t.nav_account_badges(),
+      beta: true,
     },
     { page: Page.ACCOUNT_POINTS, icon: IconName.CHANNEL_POINTS, label: t.nav_account_points() },
     { page: Page.ACCOUNT_SPAM, icon: IconName.ZAP, label: t.nav_account_spam() },
@@ -110,6 +125,7 @@
         onclick={() => navigate(item.page)}
       >
         <Icon name={item.icon} size={18} /><span class="truncate">{item.label}</span>
+        {#if item.beta}<Badge text={t.common_beta()} tone={BadgeTone.NEUTRAL} dot={false} />{/if}
         {#if item.count}<span class="ml-auto"
             ><Badge text={number(item.count)} tone={BadgeTone.NEUTRAL} dot={false} /></span
           >{/if}
@@ -190,6 +206,11 @@
               <Icon name={item.icon} size={16} class="shrink-0" /><span
                 class="min-w-0 py-1 leading-tight break-words">{item.label}</span
               >
+              {#if item.beta}<Badge
+                  text={t.common_beta()}
+                  tone={BadgeTone.NEUTRAL}
+                  dot={false}
+                />{/if}
             </button>
           {/each}
         </div>

@@ -6,6 +6,7 @@ pub mod operations;
 pub mod playback;
 pub mod points;
 pub mod pubsub;
+pub mod quests;
 pub mod rewards;
 pub mod search;
 pub mod spade;

@@ -3,6 +3,7 @@
   import { isTauri } from "../../lib/api/tauri";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { noteActivity, noteReturn, watchSession } from "../../lib/state/autolock";
+  import { loadBadges } from "../../lib/badges/badges.svelte";
   import { closeBulk } from "../../lib/state/bulk.svelte";
   import { Page } from "../../lib/state/state.constants";
   import {
@@ -23,6 +24,8 @@
   import AccountSpamPoints from "../account/AccountSpamPoints.svelte";
   import ApplyToAccountsDialog from "../accounts/ApplyToAccountsDialog.svelte";
   import LoginDialog from "../accounts/LoginDialog.svelte";
+  import AccountBadges from "../account/AccountBadges.svelte";
+  import Badges from "../pages/Badges.svelte";
   import Catalogue from "../pages/Catalogue.svelte";
   import History from "../pages/History.svelte";
   import Home from "../pages/Home.svelte";
@@ -50,6 +53,8 @@
         return t.home_title();
       case Page.CATALOGUE:
         return t.catalogue_title();
+      case Page.BADGES:
+        return t.badges_title();
       case Page.HISTORY:
         return t.history_title();
       case Page.LOGS:
@@ -71,6 +76,8 @@
         return t.nav_account_spam();
       case Page.ACCOUNT_INVENTORY:
         return t.nav_account_inventory();
+      case Page.ACCOUNT_BADGES:
+        return t.nav_account_badges();
       case Page.ACCOUNT_HISTORY:
         return t.nav_account_history();
       case Page.ACCOUNT_SETTINGS:
@@ -112,6 +119,12 @@
   });
 
   $effect(() => {
+    if (app.snapshot?.vault.unlocked) {
+      void loadBadges(app.snapshot.badges.fetched_at);
+    }
+  });
+
+  $effect(() => {
     watchSession(!isTauri() && app.auth.authorized, app.snapshot?.settings.auto_lock ?? null);
   });
 </script>
@@ -149,6 +162,8 @@ timers and its push channel never do. -->
           <Home snapshot={app.snapshot} />
         {:else if app.page === Page.CATALOGUE}
           <Catalogue snapshot={app.snapshot} />
+        {:else if app.page === Page.BADGES}
+          <Badges snapshot={app.snapshot} />
         {:else if app.page === Page.HISTORY}
           <History snapshot={app.snapshot} />
         {:else if app.page === Page.LOGS}
@@ -167,6 +182,8 @@ timers and its push channel never do. -->
               <AccountSpamPoints account={current} snapshot={app.snapshot} />
             {:else if app.page === Page.ACCOUNT_INVENTORY}
               <AccountInventory account={current} />
+            {:else if app.page === Page.ACCOUNT_BADGES}
+              <AccountBadges account={current} />
             {:else if app.page === Page.ACCOUNT_HISTORY}
               <AccountHistory account={current} />
             {:else if app.page === Page.ACCOUNT_SETTINGS}

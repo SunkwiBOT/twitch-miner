@@ -338,7 +338,13 @@ pub fn event_text(language: &str, event: &MinerEvent) -> String {
             ),
             _ => None,
         },
-        EventKind::Info | EventKind::Error | EventKind::RewardRedeemed => None,
+        EventKind::Error => match (drop, context.status.as_deref(), &context.drop_id) {
+            (Some(drop), Some(status), Some(_)) => {
+                say("ev_claim_refused", &[("drop", drop), ("status", status)])
+            }
+            _ => None,
+        },
+        EventKind::Info | EventKind::RewardRedeemed => None,
     };
 
     sentence.unwrap_or_else(|| event.title.clone())

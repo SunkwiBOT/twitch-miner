@@ -1,10 +1,12 @@
 <script lang="ts">
   import { SetupEnd, SetupSource, SetupStep } from "../../lib/accounts/accounts.constants";
   import { newStreamer } from "../../lib/accounts/import.svelte";
+  import { sameMiningOrder } from "../../lib/accounts/mining-order.utils";
   import { dropsScopeChoices } from "../../lib/accounts/scope.utils";
   import type { AccountSnapshotType } from "../../lib/bindings/AccountSnapshotType";
   import type { ChannelType } from "../../lib/bindings/ChannelType";
   import type { DropsScope } from "../../lib/bindings/DropsScope";
+  import type { MiningLaneType } from "../../lib/bindings/MiningLaneType";
   import { Mode } from "../../lib/bindings/Mode";
   import type { StreamerSettingsType } from "../../lib/bindings/StreamerSettingsType";
   import {
@@ -23,6 +25,7 @@
   import Setting from "../ui/Setting.svelte";
   import { MenuAlign } from "../ui/ui.constants";
   import SetupActions from "./SetupActions.svelte";
+  import MiningOrderList from "../account/drops/MiningOrderList.svelte";
   import SetupStepper from "./SetupStepper.svelte";
   import SetupStreamersStep from "./SetupStreamersStep.svelte";
   import SetupSummary from "./SetupSummary.svelte";
@@ -49,12 +52,14 @@
 
   let pickedMode = $state<Mode | null>(null);
   let pickedScope = $state<DropsScope | null>(null);
+  let pickedOrder = $state<MiningLaneType[] | null>(null);
   let pickedAutoClaim = $state<boolean | null>(null);
   let pickedStreamers = $state<StreamerSettingsType[] | null>(null);
   let streamersStep = $state<ReturnType<typeof SetupStreamersStep>>();
 
   const mode = $derived(pickedMode ?? base.mode);
   const scope = $derived(pickedScope ?? base.drops.scope);
+  const miningOrder = $derived(pickedOrder ?? base.drops.mining_order);
   const autoClaim = $derived(pickedAutoClaim ?? base.drops.auto_claim);
   const streamers = $derived(pickedStreamers ?? base.points.streamers);
   const importAction = $derived(streamersStep?.importAction() ?? null);
@@ -65,6 +70,7 @@
   const customized = $derived(
     mode !== base.mode ||
       scope !== base.drops.scope ||
+      !sameMiningOrder(miningOrder, base.drops.mining_order) ||
       autoClaim !== base.drops.auto_claim ||
       !sameLogins(streamers, base.points.streamers),
   );
@@ -87,11 +93,12 @@
     source = value;
     pickedMode = null;
     pickedScope = null;
+    pickedOrder = null;
     pickedAutoClaim = null;
     pickedStreamers = null;
   };
 
-  const scopeChoices = $derived(dropsScopeChoices(base.drops.priority_games.length > 0));
+  const scopeChoices = $derived(dropsScopeChoices());
 
   const channelFor = (login: string): ChannelType | undefined =>
     sourceAccount?.streamers.find((view) => view.login === login)?.channel ?? knownChannels[login];
@@ -138,7 +145,12 @@
       proxy: account.settings.proxy,
       enabled: end === SetupEnd.START,
       mode,
-      drops: { ...start.drops, scope, auto_claim: autoClaim },
+      drops: {
+        ...start.drops,
+        scope,
+        mining_order: $state.snapshot(miningOrder),
+        auto_claim: autoClaim,
+      },
       points: { ...start.points, streamers: $state.snapshot(streamers) },
     };
 
@@ -197,6 +209,11 @@
     />
   {:else if step === SetupStep.DROPS}
     {@render stepTitle(t.drops_scope(), t.login_setup_drops_hint())}
+    <div class="flex flex-col gap-2">
+      <h4 class="text-sm font-semibold">{t.mining_order_title()}</h4>
+      <p class="text-hint text-muted-foreground">{t.mining_order_hint()}</p>
+      <MiningOrderList order={miningOrder} onchange={(order) => (pickedOrder = order)} />
+    </div>
     <ChoiceCards
       vertical={true}
       value={scope}
@@ -223,7 +240,7 @@
     />
   {:else}
     {@render stepTitle(t.login_setup_step_summary(), t.login_setup_summary_hint())}
-    <SetupSummary source={sourceAccount} {mode} {scope} {autoClaim} {streamers} />
+    <SetupSummary source={sourceAccount} {mode} {scope} {miningOrder} {autoClaim} {streamers} />
     {#if mode !== Mode.DROPS && streamers.length > 0}
       <div class="flex flex-wrap gap-1.5">
         {#each streamers as streamer (streamer.login)}<StreamerChip

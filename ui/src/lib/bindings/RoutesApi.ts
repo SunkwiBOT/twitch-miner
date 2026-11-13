@@ -17,6 +17,7 @@ export enum RoutesApi {
   NOTIFICATIONS_TEST = "/api/notifications/test",
   PROXY_TEST = "/api/proxy/test",
   HISTORY = "/api/history",
+  BADGES = "/api/badges",
   LOGS = "/api/logs",
   LOGS_REPORT = "/api/logs/report",
   REQUESTS = "/api/requests",

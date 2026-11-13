@@ -2,8 +2,10 @@
 import type { AccountSettingsType } from "./AccountSettingsType";
 import type { AccountStatsType } from "./AccountStatsType";
 import type { AccountStatus } from "./AccountStatus";
+import type { BadgeRefType } from "./BadgeRefType";
 import type { CampaignType } from "./CampaignType";
 import type { ErrorApiMessage } from "./ErrorApiMessage";
+import type { QuestType } from "./QuestType";
 import type { QueueItemType } from "./QueueItemType";
 import type { SlotViewType } from "./SlotViewType";
 import type { SpamChannelEntryType } from "./SpamChannelEntryType";
@@ -21,6 +23,9 @@ export type AccountSnapshotType = {
   queue: Array<QueueItemType>;
   streamers: Array<StreamerViewType>;
   campaigns: Array<CampaignType>;
+  quests: Array<QuestType>;
+  owned_badges: Array<BadgeRefType>;
+  badges_read_at?: string;
   stats: AccountStatsType;
   updated_at: string;
   spam_channels: Array<SpamChannelEntryType>;

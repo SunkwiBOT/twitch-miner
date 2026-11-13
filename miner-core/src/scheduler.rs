@@ -4,8 +4,10 @@ use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-use crate::config::{AccountSettings, DropsOrder, DropsScope, Mode, StreamerSettings};
-use crate::domain::{Campaign, Channel, PointsState};
+use crate::config::{
+    AccountSettings, DropsOrder, DropsScope, MiningLaneKind, Mode, StreamerSettings,
+};
+use crate::domain::{Campaign, CampaignKind, Channel, PointsState};
 
 // ! Declared in rank order: the derived `Ord` ranks the reasons.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, TS)]
@@ -102,6 +104,7 @@ pub struct Slot {
 pub enum QueueReason {
     Ordered,
     Priority,
+    Badge,
     EndingSoon,
     LowestRemaining,
 }
@@ -229,11 +232,36 @@ fn priority_index(settings: &AccountSettings, campaign: &Campaign) -> Option<usi
 
 type RankKey = (u8, i64, u8, i64);
 
-pub fn rank_campaigns<'a>(
+pub fn lane_of(
+    settings: &AccountSettings,
+    campaign: &Campaign,
+    now: DateTime<Utc>,
+) -> Option<(MiningLaneKind, usize)> {
+    let drops = &settings.drops;
+    let priority = priority_index(settings, campaign);
+
+    drops
+        .mining_order
+        .iter()
+        .enumerate()
+        .filter(|(_, lane)| lane.enabled)
+        .find(|(_, lane)| match lane.kind {
+            MiningLaneKind::PriorityGames => {
+                campaign.kind == CampaignKind::Drops && priority.is_some()
+            }
+            MiningLaneKind::Badges => campaign.gives_badge(now, &drops.exclude_drop_ids),
+            MiningLaneKind::OtherCampaigns => campaign.kind == CampaignKind::Drops,
+        })
+        .map(|(position, lane)| (lane.kind, position))
+}
+
+// ! A tier per campaign: 0 for the campaigns placed by hand, then one per
+// lane of the mining order, in its order.
+fn rank_tiers<'a>(
     settings: &AccountSettings,
     campaigns: &'a [Campaign],
     now: DateTime<Utc>,
-) -> Vec<(&'a Campaign, QueueReason)> {
+) -> Vec<(&'a Campaign, QueueReason, u8)> {
     let drops = &settings.drops;
     let mut ranked: Vec<(&Campaign, QueueReason, RankKey)> = campaigns
         .iter()
@@ -244,15 +272,13 @@ pub fn rank_campaigns<'a>(
         .filter(|c| !drops.skip_unfinishable || c.can_finish(now, &drops.exclude_drop_ids))
         .filter_map(|c| {
             let pinned = drops.campaign_order.iter().position(|id| id == &c.id);
-            let priority = priority_index(settings, c);
-
             let in_scope = match drops.scope {
-                DropsScope::PriorityOnly => priority.is_some(),
-                DropsScope::LinkedOnly => c.linked == Some(true),
+                DropsScope::LinkedOnly => c.kind == CampaignKind::Quest || c.linked == Some(true),
                 DropsScope::All => true,
             };
+            let lane = lane_of(settings, c, now).filter(|_| in_scope);
 
-            if !in_scope && pinned.is_none() {
+            if lane.is_none() && pinned.is_none() {
                 return None;
             }
 
@@ -261,34 +287,53 @@ pub fn rank_campaigns<'a>(
             } else {
                 0
             };
+            let automatic = match drops.order {
+                DropsOrder::EndingSoonest => (QueueReason::EndingSoon, c.ends_at.timestamp()),
+                DropsOrder::LowestRemaining => (
+                    QueueReason::LowestRemaining,
+                    i64::from(c.remaining_minutes(&drops.exclude_drop_ids)),
+                ),
+            };
 
-            let (reason, tier, secondary) = match (pinned, priority) {
-                (Some(index), _) => (QueueReason::Ordered, 0u8, index as i64),
-                (None, Some(index)) => (QueueReason::Priority, 1, index as i64),
-                (None, None) => match drops.order {
-                    DropsOrder::EndingSoonest => {
-                        (QueueReason::EndingSoon, 2, c.ends_at.timestamp())
+            let key = match (pinned, lane) {
+                (Some(index), _) => (QueueReason::Ordered, (0u8, index as i64, 0, 0)),
+                (None, Some((kind, position))) => {
+                    let tier = 1 + position as u8;
+
+                    match kind {
+                        MiningLaneKind::PriorityGames => (
+                            QueueReason::Priority,
+                            (tier, priority_index(settings, c).unwrap_or(0) as i64, 0, 0),
+                        ),
+                        MiningLaneKind::Badges => {
+                            (QueueReason::Badge, (tier, 0, linked_rank, automatic.1))
+                        }
+                        MiningLaneKind::OtherCampaigns => {
+                            (automatic.0, (tier, 0, linked_rank, automatic.1))
+                        }
                     }
-                    DropsOrder::LowestRemaining => (
-                        QueueReason::LowestRemaining,
-                        2,
-                        i64::from(c.remaining_minutes(&drops.exclude_drop_ids)),
-                    ),
-                },
+                }
+                (None, None) => return None,
             };
 
-            let key = match tier {
-                0 | 1 => (tier, secondary, 0, 0),
-                _ => (tier, 0, linked_rank, secondary),
-            };
-
-            Some((c, reason, key))
+            Some((c, key.0, key.1))
         })
         .collect();
 
     ranked.sort_by(|a, b| a.2.cmp(&b.2).then_with(|| a.0.id.cmp(&b.0.id)));
 
     ranked
+        .into_iter()
+        .map(|(c, reason, key)| (c, reason, key.0))
+        .collect()
+}
+
+pub fn rank_campaigns<'a>(
+    settings: &AccountSettings,
+    campaigns: &'a [Campaign],
+    now: DateTime<Utc>,
+) -> Vec<(&'a Campaign, QueueReason)> {
+    rank_tiers(settings, campaigns, now)
         .into_iter()
         .map(|(c, reason, _)| (c, reason))
         .collect()
@@ -334,9 +379,7 @@ fn pick_channel<'a>(
         .filter(|c| {
             // ! Twitch credits drop minutes only on a stream of the campaign's
             // game, also for a channel of its allow list.
-            c.game.as_ref().is_some_and(|g| {
-                g.id == campaign.game.id || g.name.eq_ignore_ascii_case(&campaign.game.name)
-            })
+            c.game.as_ref().is_some_and(|g| campaign.plays(g))
         })
         .collect();
 
@@ -409,7 +452,7 @@ pub fn plan(
     let mut used: Vec<String> = Vec::new();
 
     if settings.mode != Mode::Points {
-        let mut ranked = rank_campaigns(settings, campaigns, now);
+        let mut ranked = rank_tiers(settings, campaigns, now);
 
         let watching = |campaign: &Campaign| {
             current
@@ -431,24 +474,21 @@ pub fn plan(
         if let Some(current) = current {
             let viable = ranked
                 .iter()
-                .position(|(c, _)| c.id == current.campaign_id)
+                .position(|(c, _, _)| c.id == current.campaign_id)
                 .filter(|&index| {
-                    let (campaign, reason) = &ranked[index];
+                    let (campaign, _, tier) = &ranked[index];
                     let live = live_by_campaign
                         .get(&campaign.id)
                         .map(Vec::as_slice)
                         .unwrap_or(&[]);
-                    let above: Vec<QueueReason> = ranked[..index]
+                    let above: Vec<u8> = ranked[..index]
                         .iter()
-                        .filter(|(c, _)| minable(c))
-                        .map(|(_, r)| *r)
+                        .filter(|(c, _, _)| minable(c))
+                        .map(|(_, _, t)| *t)
                         .collect();
 
                     pick_channel(settings, campaign, live, watching(campaign)).is_some()
-                        && !above.contains(&QueueReason::Ordered)
-                        && (*reason == QueueReason::Priority
-                            || *reason == QueueReason::Ordered
-                            || !above.contains(&QueueReason::Priority))
+                        && !above.iter().any(|t| *t == 0 || t < tier)
                 });
 
             if let Some(index) = viable {
@@ -459,7 +499,7 @@ pub fn plan(
 
         let mut mining = false;
 
-        for (campaign, reason) in ranked {
+        for (campaign, reason, _) in ranked {
             let live = live_by_campaign
                 .get(&campaign.id)
                 .map(Vec::as_slice)

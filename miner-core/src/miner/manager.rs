@@ -13,13 +13,14 @@ use super::banners::Banners;
 use super::record_event;
 use super::spam_points::{spam_channels, SpamAccess, SpamPoints};
 use crate::api::{
-    AccountSnapshot, AccountStats, AccountStatus, CatalogRefresh, CatalogView,
-    ChannelsLookupResponse, Command, HistoryQuery, HistoryResponse, LoginFlowStatus, LoginFlowView,
-    LogsQuery, LogsReportResponse, LogsResponse, NotificationTest, ProxyTestResponse,
-    RedeemRequest, RequestsQuery, RequestsResponse, Shell, Snapshot, CHANNELS_LOOKUP_MAX,
-    FOLLOWS_MAX, HISTORY_LIMIT_DEFAULT, HISTORY_LIMIT_MAX, LOGS_LIMIT_DEFAULT, LOGS_LIMIT_MAX,
-    REQUESTS_LIMIT_DEFAULT, REQUESTS_LIMIT_MAX,
+    AccountSnapshot, AccountStats, AccountStatus, BadgeCatalogView, BadgesResponse, CatalogRefresh,
+    CatalogView, ChannelsLookupResponse, Command, HistoryQuery, HistoryResponse, LoginFlowStatus,
+    LoginFlowView, LogsQuery, LogsReportResponse, LogsResponse, NotificationTest,
+    ProxyTestResponse, RedeemRequest, RequestsQuery, RequestsResponse, Shell, Snapshot,
+    CHANNELS_LOOKUP_MAX, FOLLOWS_MAX, HISTORY_LIMIT_DEFAULT, HISTORY_LIMIT_MAX, LOGS_LIMIT_DEFAULT,
+    LOGS_LIMIT_MAX, REQUESTS_LIMIT_DEFAULT, REQUESTS_LIMIT_MAX,
 };
+use crate::badges::{BadgeCatalog, BadgeCatalogClient};
 use crate::catalog::{Catalog, CatalogClient};
 use crate::config::{AccountSettings, GlobalSettings};
 use crate::domain::Channel;
@@ -63,6 +64,7 @@ const LOGIN_MIN_CHARS: usize = 4;
 
 const MANUAL_REFRESH_GAP: Duration = Duration::from_secs(300);
 const CATALOG_CACHE_KEY: &str = "catalog_cache";
+const BADGES_CACHE_KEY: &str = "badges_cache";
 const CATALOG_CACHE_MAX_AGE: chrono::Duration = chrono::Duration::days(7);
 const HISTORY_PRUNE_EVERY: Duration = Duration::from_secs(3600);
 const REQUESTS_TICK: Duration = Duration::from_secs(60);
@@ -116,6 +118,8 @@ pub struct Manager {
     catalog_refresh: Notify,
     catalog_fetching: Mutex<()>,
     catalog_next_manual: std::sync::Mutex<chrono::DateTime<Utc>>,
+    badges: Arc<RwLock<BadgeCatalog>>,
+    badges_client: BadgeCatalogClient,
     shell: Shell,
     settings: RwLock<GlobalSettings>,
     accounts: Mutex<HashMap<String, AccountHandle>>,
@@ -158,6 +162,7 @@ impl Manager {
 
         let vault = store.open_default_vault()?;
         let catalog = cached_catalog(&store);
+        let badges = cached_badges(&store);
         let next_manual = catalog.fetched_at.map_or_else(Utc::now, |at| {
             at + chrono::Duration::from_std(MANUAL_REFRESH_GAP).unwrap_or_default()
         });
@@ -190,6 +195,8 @@ impl Manager {
             catalog_refresh: Notify::new(),
             catalog_fetching: Mutex::new(()),
             catalog_next_manual: std::sync::Mutex::new(next_manual),
+            badges: Arc::new(RwLock::new(badges)),
+            badges_client: BadgeCatalogClient::new(requests.clone(), shell)?,
             shell,
             settings: RwLock::new(settings),
             accounts: Mutex::new(HashMap::new()),
@@ -216,6 +223,9 @@ impl Manager {
     pub async fn start(self: &Arc<Self>) {
         let this = self.clone();
         tokio::spawn(async move { this.catalog_loop().await });
+
+        let this = self.clone();
+        tokio::spawn(async move { this.badges_loop().await });
 
         let this = self.clone();
         tokio::spawn(async move { this.event_loop().await });
@@ -334,6 +344,52 @@ impl Manager {
         }
     }
 
+    async fn badges_loop(self: Arc<Self>) {
+        let mut wait = self
+            .badges
+            .read()
+            .await
+            .fetched_at
+            .map_or(Duration::ZERO, |at| {
+                let due =
+                    at + chrono::Duration::from_std(CatalogClient::interval()).unwrap_or_default();
+
+                (due - Utc::now()).to_std().unwrap_or(Duration::ZERO)
+            });
+
+        loop {
+            tokio::select! {
+                _ = self.cancel.cancelled() => return,
+                _ = tokio::time::sleep(wait) => {}
+            }
+
+            let fetch = self.badges_client.fetch().await;
+
+            wait = CatalogClient::interval().max(fetch.retry_after);
+
+            match fetch.result {
+                Ok(next) => {
+                    tracing::info!(badges = next.badges.len(), "badge list refreshed");
+
+                    let json = serde_json::to_string(&next);
+
+                    *self.badges.write().await = next;
+                    self.keep_setting(BADGES_CACHE_KEY, json, "badge list")
+                        .await;
+                }
+                Err(error) => {
+                    tracing::warn!(%error, "badge list refresh failed, the last one is kept");
+                    self.badges.write().await.problem = Some(error.code());
+                }
+            }
+
+            self.badges.write().await.next_refresh_at = chrono::Duration::from_std(wait)
+                .ok()
+                .map(|left| Utc::now() + left);
+            self.changed.notify_waiters();
+        }
+    }
+
     async fn fetch_catalog(&self) -> Duration {
         let _one_at_a_time = self.catalog_fetching.lock().await;
 
@@ -361,7 +417,8 @@ impl Manager {
 
                 tracing::info!(campaigns = count, "catalogue refreshed");
                 *self.catalog.write().await = next;
-                self.keep_catalog(json).await;
+                self.keep_setting(CATALOG_CACHE_KEY, json, "catalogue")
+                    .await;
 
                 Ok(count)
             }
@@ -400,19 +457,24 @@ impl Manager {
         (result, fetch.retry_after)
     }
 
-    async fn keep_catalog(&self, json: serde_json::Result<String>) {
+    async fn keep_setting(
+        &self,
+        key: &'static str,
+        json: serde_json::Result<String>,
+        what: &'static str,
+    ) {
         let kept = async {
             let json = json?;
             let store = self.store.clone();
 
-            tokio::task::spawn_blocking(move || store.set_setting(CATALOG_CACHE_KEY, &json))
+            tokio::task::spawn_blocking(move || store.set_setting(key, &json))
                 .await
                 .map_err(|error| Error::Storage(error.to_string()))?
         }
         .await;
 
         if let Err(error) = kept {
-            tracing::warn!(%error, "catalogue not kept for the next start");
+            tracing::warn!(%error, what, "list not kept for the next start");
         }
     }
 
@@ -435,6 +497,12 @@ impl Manager {
             campaign_count: u32::try_from(result?).unwrap_or(u32::MAX),
             next_refresh_at: self.next_manual_refresh(),
         })
+    }
+
+    pub async fn badge_list(&self) -> BadgesResponse {
+        BadgesResponse {
+            badges: self.badges.read().await.badges.clone(),
+        }
     }
 
     pub fn logs_page(&self, query: &LogsQuery) -> LogsResponse {
@@ -812,6 +880,7 @@ impl Manager {
             vault: vault.clone(),
             http: Arc::new(http),
             catalog: self.catalog.clone(),
+            badges: self.badges.clone(),
             events: self.events.clone(),
             stats,
             spends: self.spam.spends(&record.id),
@@ -1380,6 +1449,9 @@ impl Manager {
                         queue: vec![],
                         streamers: vec![],
                         campaigns: vec![],
+                        quests: vec![],
+                        owned_badges: vec![],
+                        badges_read_at: None,
                         stats: Default::default(),
                         updated_at: Utc::now(),
                         spam_channels: vec![],
@@ -1400,6 +1472,7 @@ impl Manager {
         }
 
         let catalog = self.catalog.read().await;
+        let badges = self.badges.read().await;
         let settings = self.settings.read().await.clone();
         let interval = CatalogClient::interval().as_secs();
         let mut recent_events: Vec<MinerEvent> = self.recent().iter().cloned().collect();
@@ -1426,6 +1499,13 @@ impl Manager {
                 problem: catalog.problem,
                 interval_seconds: interval,
                 next_refresh_at: self.next_manual_refresh(),
+            },
+            badges: BadgeCatalogView {
+                updated_at: badges.updated_at,
+                fetched_at: badges.fetched_at,
+                problem: badges.problem,
+                interval_seconds: interval,
+                next_refresh_at: badges.next_refresh_at,
             },
             settings,
             vault,
@@ -1780,5 +1860,35 @@ fn cached_catalog(store: &Store) -> Catalog {
             }
         }
         _ => Catalog::default(),
+    }
+}
+
+fn cached_badges(store: &Store) -> BadgeCatalog {
+    let kept = store
+        .get_setting(BADGES_CACHE_KEY)
+        .map_err(|error| tracing::warn!(%error, "kept badge list unreadable"))
+        .ok()
+        .flatten()
+        .and_then(|json| {
+            serde_json::from_str::<BadgeCatalog>(&json)
+                .inspect_err(
+                    |error| tracing::warn!(%error, "kept badge list unreadable, fetched again"),
+                )
+                .ok()
+        });
+
+    match kept {
+        Some(badges)
+            if badges
+                .fetched_at
+                .is_some_and(|at| Utc::now() - at < CATALOG_CACHE_MAX_AGE) =>
+        {
+            BadgeCatalog {
+                problem: None,
+                next_refresh_at: None,
+                ..badges
+            }
+        }
+        _ => BadgeCatalog::default(),
     }
 }

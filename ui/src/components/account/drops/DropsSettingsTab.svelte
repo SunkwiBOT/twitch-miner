@@ -13,6 +13,7 @@
   import Select from "../../ui/Select.svelte";
   import Setting from "../../ui/Setting.svelte";
   import { MenuAlign } from "../../ui/ui.constants";
+  import MiningOrderList from "./MiningOrderList.svelte";
 
   type DropsSettingsTabPropsType = { account: AccountSnapshotType };
 
@@ -23,6 +24,13 @@
 </script>
 
 <div class="grid grid-cols-[repeat(auto-fit,minmax(min(460px,100%),1fr))] items-start gap-5">
+  <Panel title={t.mining_order_title()} description={t.mining_order_hint()}>
+    <MiningOrderList
+      order={drops.mining_order}
+      onchange={(order) =>
+        edits.set(AccountField.MINING_ORDER, (s) => (s.drops.mining_order = order))}
+    />
+  </Panel>
   <Panel title={t.drops_claim_title()}>
     <div>
       <Setting
@@ -76,7 +84,7 @@
       value={drops.scope}
       label={t.drops_scope()}
       onchange={(scope) => edits.set(AccountField.SCOPE, (s) => (s.drops.scope = scope))}
-      choices={dropsScopeChoices(true)}
+      choices={dropsScopeChoices()}
     />
     <Setting
       title={t.drops_linked_first()}

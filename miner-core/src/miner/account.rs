@@ -15,9 +15,10 @@ use crate::api::{
     AccountSnapshot, AccountStats, AccountStatus, DropProgressView, SlotView, StreamerView,
     FOLLOWS_MAX,
 };
+use crate::badges::{mark_owned_badges, BadgeCatalog, GlobalBadge, OwnedBadges};
 use crate::catalog::Catalog;
 use crate::config::{AccountSettings, ChatPresence, Mode};
-use crate::domain::{Campaign, Channel, Game, PointsState, PredictionEvent};
+use crate::domain::{Campaign, CampaignKind, Channel, Game, PointsState, PredictionEvent};
 use crate::error::{Error, ErrorCode, NetworkErrorKind, Result};
 use crate::events::{BetResult, EventContext, EventKind, MinerEvent, MinerKind};
 use crate::predictions;
@@ -30,6 +31,7 @@ use crate::twitch::drops::ClaimOutcome;
 use crate::twitch::playback::{self, Playback};
 use crate::twitch::points::Goal;
 use crate::twitch::pubsub::{self, PubSub, PubSubEvent, RaidJoins};
+use crate::twitch::quests::{BadgeRef, Quest, QuestGroup, QuestStatus};
 use crate::twitch::{
     self, TwitchClient, TwitchHttp, DIRECTORY_READS_AT_ONCE, POINTS_READS_AT_ONCE,
 };
@@ -48,6 +50,7 @@ const LOOKUP_TOP: usize = 8;
 const LOOKUP_ROTATING: usize = 4;
 const DIRECTORIES_MAX: usize = 10;
 const ALLOWED_CHANNELS_MAX: usize = 60;
+const QUEST_CATEGORIES_READ: usize = 3;
 const MENTION_COOLDOWN: Duration = Duration::from_secs(60);
 const OWN_SPEND_WAIT: Duration = Duration::from_secs(2 * 60);
 // ! Twitch's answer for a bonus chest another session took first, or that
@@ -178,6 +181,7 @@ pub struct AccountContext {
     pub vault: Vault,
     pub http: Arc<TwitchHttp>,
     pub catalog: Arc<RwLock<Catalog>>,
+    pub badges: Arc<RwLock<BadgeCatalog>>,
     pub events: broadcast::Sender<MinerEvent>,
     pub stats: AccountStats,
     pub spends: BurstSpends,
@@ -199,6 +203,9 @@ struct AccountMiner<T> {
     passes: u64,
     stats: AccountStats,
     campaigns: HashMap<String, Campaign>,
+    quests: Vec<Quest>,
+    owned_badges: Vec<BadgeRef>,
+    badges_read_at: Option<DateTime<Utc>>,
     inventory_at: Option<tokio::time::Instant>,
     live_by_campaign: HashMap<String, Vec<Channel>>,
     channels_at: Option<tokio::time::Instant>,
@@ -214,6 +221,10 @@ struct AccountMiner<T> {
     predictions_placed: HashMap<String, (String, i64)>,
     claimed_drops: HashSet<String>,
     refused_claims: HashMap<String, Option<bool>>,
+    // ! A quest group repeats on rolling windows: a claim or a refusal holds for
+    // the window it was made in, named by the group's grant count.
+    claimed_windows: HashMap<String, u32>,
+    refused_windows: HashMap<String, u32>,
     // ! PubSub and the balance read can both bring the same chest.
     bonus_claims: HashMap<String, String>,
     finished_campaigns: HashSet<String>,
@@ -284,6 +295,9 @@ impl<T: TwitchApi> AccountMiner<T> {
             queue: vec![],
             streamers: vec![],
             campaigns: vec![],
+            quests: vec![],
+            owned_badges: vec![],
+            badges_read_at: None,
             stats: context.stats.clone(),
             updated_at: Utc::now(),
             spam_channels: vec![],
@@ -307,6 +321,9 @@ impl<T: TwitchApi> AccountMiner<T> {
             passes: 0,
             stats,
             campaigns: HashMap::new(),
+            quests: Vec::new(),
+            owned_badges: Vec::new(),
+            badges_read_at: None,
             inventory_at: None,
             live_by_campaign: HashMap::new(),
             channels_at: None,
@@ -322,6 +339,8 @@ impl<T: TwitchApi> AccountMiner<T> {
             predictions_placed: HashMap::new(),
             claimed_drops: HashSet::new(),
             refused_claims: HashMap::new(),
+            claimed_windows: HashMap::new(),
+            refused_windows: HashMap::new(),
             bonus_claims: HashMap::new(),
             finished_campaigns: HashSet::new(),
             beacon_blocked: false,
@@ -886,7 +905,21 @@ impl<T: TwitchApi> AccountMiner<T> {
 
     async fn refresh_inventory(&mut self) -> Result<()> {
         let inventory = self.client.inventory().await?;
+
+        match self.client.quests().await {
+            Ok(read) => {
+                self.quests = read.quests;
+                self.owned_badges = read.owned;
+                self.badges_read_at = Some(Utc::now());
+            }
+            Err(Error::Unauthorized) => return Err(Error::Unauthorized),
+            Err(error) => {
+                tracing::debug!(account = %self.login, %error, "quests and badges not read")
+            }
+        }
+
         let catalog = self.context.catalog.read().await.campaigns.clone();
+        let now = Utc::now();
         let mut merged: HashMap<String, Campaign> = HashMap::new();
 
         for campaign in catalog {
@@ -927,6 +960,29 @@ impl<T: TwitchApi> AccountMiner<T> {
             }
         }
 
+        let user_id = self.id.clone();
+
+        for quest in self.quests.iter().filter(|q| q.mined_at(now)) {
+            if let Some(campaign) = quest.to_campaign(&user_id, now) {
+                merged.insert(campaign.id.clone(), campaign);
+            }
+        }
+
+        {
+            let badges = self.context.badges.read().await;
+            let owned = OwnedBadges::new(&self.owned_badges);
+
+            for campaign in merged.values_mut() {
+                if campaign.kind == CampaignKind::Quest {
+                    if let Some(quest) = self.quests.iter().find(|q| q.id == campaign.id) {
+                        mark_owned_quest(campaign, quest, &badges.badges, &owned);
+                    }
+                } else {
+                    mark_owned_badges(campaign, &badges.badges, &owned);
+                }
+            }
+        }
+
         for campaign in merged.values_mut() {
             for drop in &mut campaign.drops {
                 if !drop.claimed
@@ -942,7 +998,7 @@ impl<T: TwitchApi> AccountMiner<T> {
         }
 
         for (id, previous) in &self.campaigns {
-            if let Some(next) = merged.get_mut(id) {
+            if let Some(next) = merged.get_mut(id).filter(|c| c.kind != CampaignKind::Quest) {
                 // ! An answer without the link state keeps the last one known: it
                 // decides whether a claim is worth sending.
                 next.linked = next.linked.or(previous.linked);
@@ -957,6 +1013,10 @@ impl<T: TwitchApi> AccountMiner<T> {
         }
 
         for campaign in merged.values_mut() {
+            if campaign.kind == CampaignKind::Quest {
+                continue;
+            }
+
             for drop in &mut campaign.drops {
                 if self.claimed_drops.contains(&drop.id) {
                     drop.claimed = true;
@@ -964,9 +1024,57 @@ impl<T: TwitchApi> AccountMiner<T> {
             }
         }
 
+        self.settle_quest_windows(&mut merged);
         self.campaigns = merged;
 
         Ok(())
+    }
+
+    fn quest_group(&self, group_id: &str) -> Option<&QuestGroup> {
+        self.quests
+            .iter()
+            .flat_map(|quest| &quest.groups)
+            .find(|group| group.id == group_id)
+    }
+
+    // ! Twitch's status and minutes are the truth for a quest group: the next
+    // window starts again from zero. Only while Twitch still says CLAIMABLE for
+    // the window already claimed (or refused) is its claim held back.
+    fn settle_quest_windows(&mut self, campaigns: &mut HashMap<String, Campaign>) {
+        let claimable: HashMap<String, u32> = self
+            .quests
+            .iter()
+            .flat_map(|quest| &quest.groups)
+            .filter(|group| group.status == QuestStatus::Claimable)
+            .map(|group| (group.id.clone(), group.grant_count))
+            .collect();
+        let same_window =
+            |group_id: &String, grant: &mut u32| claimable.get(group_id) == Some(grant);
+
+        self.claimed_windows.retain(same_window);
+        self.refused_windows.retain(same_window);
+
+        for campaign in campaigns
+            .values_mut()
+            .filter(|c| c.kind == CampaignKind::Quest)
+        {
+            for drop in &mut campaign.drops {
+                if self.claimed_windows.contains_key(&drop.id) {
+                    drop.claimed = true;
+                    drop.instance_id = None;
+                } else if self.refused_windows.contains_key(&drop.id) {
+                    drop.instance_id = None;
+                }
+            }
+        }
+    }
+
+    fn note_claimed(&mut self, drop_id: &str) {
+        self.claimed_drops.insert(drop_id.to_owned());
+
+        if let Some(grant) = self.quest_group(drop_id).map(|group| group.grant_count) {
+            self.claimed_windows.insert(drop_id.to_owned(), grant);
+        }
     }
 
     async fn refresh_channels(&mut self) -> Result<()> {
@@ -1296,7 +1404,19 @@ impl<T: TwitchApi> AccountMiner<T> {
             let fresh = if !looked_up.contains(campaign.id.as_str()) {
                 None
             } else if campaign.allowed_channels.is_empty() {
-                directory.get(&campaign.game.id).cloned()
+                let mut found: Option<Vec<Channel>> = None;
+
+                for game in
+                    std::iter::once(&campaign.game).chain(campaign.categories.iter().skip(1))
+                {
+                    if let Some(channels) = directory.get(&game.id) {
+                        found
+                            .get_or_insert_with(Vec::new)
+                            .extend(channels.iter().cloned());
+                    }
+                }
+
+                found
             } else {
                 allowed.map(|allowed| {
                     allowed
@@ -1323,7 +1443,10 @@ impl<T: TwitchApi> AccountMiner<T> {
             for channel in self.streamer_channels.values() {
                 if !channel.live
                     || !campaign.accepts_channel(&channel.id)
-                    || !plays(channel, &campaign.game)
+                    || !channel
+                        .game
+                        .as_ref()
+                        .is_some_and(|game| campaign.plays(game))
                 {
                     continue;
                 }
@@ -1899,7 +2022,7 @@ impl<T: TwitchApi> AccountMiner<T> {
 
             match self.client.claim_drop(&instance).await {
                 Ok(ClaimOutcome::AlreadyClaimed) => {
-                    self.claimed_drops.insert(drop_id.clone());
+                    self.note_claimed(&drop_id);
 
                     if let Some(drop) = self
                         .campaigns
@@ -1911,7 +2034,7 @@ impl<T: TwitchApi> AccountMiner<T> {
                 }
                 Ok(ClaimOutcome::Claimed) => {
                     self.stats.drops_claimed += 1;
-                    self.claimed_drops.insert(drop_id.clone());
+                    self.note_claimed(&drop_id);
 
                     let image = self
                         .campaigns
@@ -1956,6 +2079,36 @@ impl<T: TwitchApi> AccountMiner<T> {
 
                         self.publish(event);
                         self.channels_at = None;
+                    }
+                }
+                Ok(ClaimOutcome::Refused(status)) if self.quest_group(&drop_id).is_some() => {
+                    let grant = self.quest_group(&drop_id).map_or(0, |g| g.grant_count);
+
+                    if self
+                        .refused_windows
+                        .insert(drop_id.clone(), grant)
+                        .is_none()
+                    {
+                        let event = self
+                            .emit(
+                                EventKind::Error,
+                                format!("Twitch refused the claim of {drop_name} ({status})"),
+                            )
+                            .context(EventContext {
+                                status: Some(status.to_string()),
+                                drop_name: Some(drop_name.clone()),
+                                ..EventContext::drop(&campaign_id, &drop_id)
+                            });
+
+                        self.publish(event);
+                    }
+
+                    if let Some(drop) = self
+                        .campaigns
+                        .get_mut(&campaign_id)
+                        .and_then(|c| c.drops.iter_mut().find(|d| d.id == drop_id))
+                    {
+                        drop.instance_id = None;
                     }
                 }
                 Ok(ClaimOutcome::Refused(status)) => {
@@ -2034,7 +2187,7 @@ impl<T: TwitchApi> AccountMiner<T> {
                 self.inventory_at = None;
 
                 if let Some((campaign_id, _, drop_id, _, _)) = &target {
-                    self.claimed_drops.insert(drop_id.clone());
+                    self.note_claimed(drop_id);
 
                     if let Some(drop) = self
                         .campaigns
@@ -3026,6 +3179,9 @@ impl<T: TwitchApi> AccountMiner<T> {
             queue: self.last_queue.clone(),
             streamers,
             campaigns,
+            quests: self.quests.clone(),
+            owned_badges: self.owned_badges.clone(),
+            badges_read_at: self.badges_read_at,
             stats: self.stats.clone(),
             updated_at: now,
             spam_channels: vec![],
@@ -3041,8 +3197,14 @@ fn lookup_targets(chosen: &[&Campaign]) -> (Vec<Game>, Vec<String>) {
 
     for campaign in chosen {
         if campaign.allowed_channels.is_empty() {
-            if !games.iter().any(|game| game.id == campaign.game.id) {
-                games.push(campaign.game.clone());
+            let played = std::iter::once(&campaign.game)
+                .chain(campaign.categories.iter().skip(1))
+                .take(QUEST_CATEGORIES_READ);
+
+            for game in played {
+                if !games.iter().any(|known| known.id == game.id) {
+                    games.push(game.clone());
+                }
             }
         } else {
             for channel in &campaign.allowed_channels {
@@ -3101,5 +3263,24 @@ async fn sleep_until_some(at: Option<tokio::time::Instant>) {
     match at {
         Some(at) => tokio::time::sleep_until(at).await,
         None => std::future::pending().await,
+    }
+}
+
+fn mark_owned_quest(
+    campaign: &mut Campaign,
+    quest: &Quest,
+    badges: &[GlobalBadge],
+    owned: &OwnedBadges,
+) {
+    for drop in &mut campaign.drops {
+        let Some(group) = quest.groups.iter().find(|g| g.id == drop.id) else {
+            continue;
+        };
+
+        drop.badge_owned = !group.rewards.is_empty()
+            && group.rewards.iter().all(|reward| match &reward.badge {
+                Some(badge) => owned.has_key(&badge.key()),
+                None => owned.owns(badges, None, &reward.name),
+            });
     }
 }
