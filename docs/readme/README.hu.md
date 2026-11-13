@@ -180,6 +180,19 @@ láthatod, hogyan működnek.
   <img src="../media/hu/drops-streamers-first.avif" alt="A listán szereplő streamer, akit a Dropsért és a pontjaiért is néz">
   </details>
 
+- **Jelvények (béta).** A Jelvények oldal felsorolja a Twitch összes globális
+  chatjelvényét, és azt, hogyan szerezhetők meg. Minden fióknak saját Jelvények oldala
+  van: a folyamatban lévő jelvények a haladásukkal, a még megszerezhetők és a
+  birtokoltak. A bányász azokra a jelvényekre megy rá, amelyekhez csak nézési idő kell,
+  Drops-kampányokból és Twitch-küldetésekből, és kihagyja azokat, amelyek már megvannak a
+  fióknak. A „Mit bányásszon, sorrendben” részben húzd a kívánt sorrendbe a prioritás
+  játékokat, a jelvényeket és a többi Drops-kampányt, vagy kapcsolj ki közülük egyet. Ez
+  a funkció béta állapotú.
+
+  <details open><summary>Működés közben</summary>
+  <img src="../media/en/badges.avif" alt="A Jelvények oldal, egy fiók jelvényei, majd a „Mit bányásszon, sorrendben” a Jelvények elejére húzva">
+  </details>
+
 ### Nyomon követés
 
 - **Napló mindenről, és minden kérés.** A Napló minden eseményt megőriz: dropok, szerzett
@@ -236,7 +249,6 @@ láthatod, hogyan működnek.
   csatornák előnyben részesítése, jelenlét a chatben (kikapcsolható), alapértelmezett
   beállítások az új streamerekhez, Discord-, Telegram- és webhook-értesítések képekkel,
   globális vagy fiókonkénti proxy.
-- **Hamarosan: jelvénybányászat.** A nézéssel szerezhető Twitch-jelvények bányászata, a Dropsokhoz hasonlóan.
 - 29 nyelv, sötét és világos téma, asztali értesítések, tálcaikon, indítás a rendszerrel.
 
   <details open><summary>Működés közben</summary>
@@ -286,6 +298,7 @@ mellett. A kódjuk és a README-jük alapján ellenőrizve, 2026 novemberében.
 | Az összes Drops-kampány naptára, kereséssel | ✅ | ❌ | részben ⁸ |
 | Bányászási sorrend kampányonként, kizárt szavak, mellőzött kampány vagy jutalom | ✅ | ❌ | ❌ ⁹ |
 | A listádon szereplő streamerek elsőként nézve egy kampány Dropsaiért | ✅ | részben ¹⁰ | ❌ |
+| Twitch-jelvények: az összes jelvény listája, minden fiók jelvényei, jelvényes Drops és Twitch-küldetések bányászata a te sorrendedben (béta) | ✅ | ❌ | részben ¹² |
 | Szűrhető eseménynapló és az összes kérés listája a felületen | ✅ | ❌ ⁴ | ❌ |
 | Nagyjából 30 MB memória (Docker-szerver, 4 fiók) | ✅ | — ¹¹ | — ¹¹ |
 
@@ -304,7 +317,9 @@ a projektben nincsenek.\
 ⁹ Vannak prioritás és kizárt játékai, játéknév alapján kiválasztva.\
 ¹⁰ Alapértelmezés szerint először a listáján szereplő azon streamereket nézi, akiknek az
 adásában van Drops (a `DROPS` prioritása), de más csatornát soha.\
-¹¹ Nem mértük.
+¹¹ Nem mértük.\
+¹² Egy beállítás azoknak a Drops-kampányoknak a bányászására vagy kihagyására, amelyek
+jutalmai jelvények vagy hangulatjelek; Twitch-küldetések és jelvénylista nélkül.
 
 ## <a name="download"></a>Letöltés
 

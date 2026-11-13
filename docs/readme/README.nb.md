@@ -177,6 +177,18 @@ bruk.
   <img src="../media/nb/drops-streamers-first.avif" alt="En streamer fra listen, sett på for Drops og for poengene sine">
   </details>
 
+- **Merker (beta).** Siden Merker viser alle Twitchs globale chattemerker og hvordan du
+  får dem. Hver konto har sin egen Merker-side: merkene som pågår, med fremgangen sin, de
+  den fortsatt kan få, og de den eier. Mineren går etter merkene som bare krever
+  visningstid, fra Drops-kampanjer og Twitch-quests, og hopper over dem kontoen allerede
+  har. I «Hva som skal mines, i rekkefølge» drar du prioriterte spill, merker og andre
+  Drops-kampanjer i den rekkefølgen du vil, eller slår av en av dem. Denne funksjonen er
+  i beta.
+
+  <details open><summary>Se det i aksjon</summary>
+  <img src="../media/en/badges.avif" alt="Siden Merker, merkene til en konto og deretter «Hva som skal mines, i rekkefølge» med Merker dratt øverst">
+  </details>
+
 ### Oppfølging
 
 - **En journal over alt, og hver forespørsel.** Journalen tar vare på hver hendelse:
@@ -235,7 +247,6 @@ bruk.
   når det skal satses, betingelser), seerrekker og abonnerte kanaler først,
   tilstedeværelse i chatten (kan slås av), standardalternativer for nye streamere, varsler
   via Discord, Telegram og webhook med bilder, en global proxy eller én per konto.
-- **Kommer snart: utvinning av merker.** Twitch-merkene man får ved å se på, utvunnet som Drops.
 - 29 språk, mørkt og lyst tema, skrivebordsvarsler, et ikon i systemstatusfeltet, start
   med systemet.
 
@@ -288,6 +299,7 @@ Kontrollert mot koden og README-filene deres i november 2026.
 | Kalender over alle Drops-kampanjer, med søk | ✅ | ❌ | delvis ⁸ |
 | Mining-rekkefølge per kampanje, utelukkede ord, ignorert kampanje eller belønning | ✅ | ❌ | ❌ ⁹ |
 | Streamerne på listen din ses først for en kampanjes Drops | ✅ | delvis ¹⁰ | ❌ |
+| Twitch-merker: listen over alle merker, merkene til hver konto, merke-Drops og Twitch-quests mines i din rekkefølge (beta) | ✅ | ❌ | delvis ¹² |
 | Filtrerbar hendelsesjournal og en liste over hver forespørsel, i grensesnittet | ✅ | ❌ ⁴ | ❌ |
 | Rundt 30 MB minne (Docker-server, 4 kontoer) | ✅ | — ¹¹ | — ¹¹ |
 
@@ -306,7 +318,9 @@ ikke har.\
 ⁹ Den har prioriterte spill og ekskluderte spill, valgt etter spillnavn.\
 ¹⁰ Som standard ser den først på streamerne på listen sin der sendingen har Drops
 (prioriteten `DROPS`), men aldri på en annen kanal.\
-¹¹ Ikke målt.
+¹¹ Ikke målt.\
+¹² En innstilling for å mine eller utelate Drops-kampanjene der belønningene er merker
+eller emotes; ingen Twitch-quests og ingen liste over merker.
 
 ## <a name="download"></a>Last ned
 

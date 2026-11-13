@@ -173,6 +173,18 @@
   <img src="../media/cs/drops-streamers-first.avif" alt="Streamer ze seznamu sledovaný kvůli Drops i kvůli svým bodům">
   </details>
 
+- **Odznaky (beta).** Stránka Odznaky uvádí všechny globální chatové odznaky Twitche a
+  jak je získat. Každý účet má svou stránku Odznaky: rozpracované odznaky s jejich
+  postupem, ty, které ještě může získat, a ty, které vlastní. Miner jde po odznacích,
+  které vyžadují jen čas sledování, z kampaní Drops a questů Twitche, a vynechá ty, které
+  účet už má. V „Co těžit a v jakém pořadí“ přetáhněte prioritní hry, odznaky a ostatní
+  kampaně Drops do požadovaného pořadí, nebo některou z nich vypněte. Tato funkce je v
+  betaverzi.
+
+  <details open><summary>Ukázka v akci</summary>
+  <img src="../media/en/badges.avif" alt="Stránka Odznaky, odznaky jednoho účtu a pak „Co těžit a v jakém pořadí“ s odznaky přetaženými na začátek">
+  </details>
+
 ### Záznamy
 
 - **Deník všeho a každý požadavek.** Deník uchovává každou událost: dropy, získané
@@ -226,7 +238,6 @@
   (strategie, kdy vsadit, podmínky), přednost sériím sledování a předplaceným kanálům,
   přítomnost v chatu (lze vypnout), výchozí možnosti pro nové streamery, oznámení přes
   Discord, Telegram a webhook s obrázky, globální proxy nebo proxy pro každý účet.
-- **Brzy: těžba odznaků.** Odznaky na Twitchi získané sledováním, těžené stejně jako Drops.
 - 29 jazyků, tmavý a světlý motiv, oznámení na ploše, ikona v liště, spouštění se systémem.
 
   <details open><summary>Ukázka v akci</summary>
@@ -276,6 +287,7 @@ Ověřeno v jejich kódu a souborech README v listopadu 2026.
 | Kalendář všech kampaní Drops s vyhledáváním | ✅ | ❌ | částečně ⁸ |
 | Pořadí těžby podle kampaní, vyloučená slova, ignorovaná kampaň nebo odměna | ✅ | ❌ | ❌ ⁹ |
 | Streameři z vašeho seznamu sledovaní přednostně pro Drops kampaně | ✅ | částečně ¹⁰ | ❌ |
+| Odznaky Twitche: seznam všech odznaků, odznaky každého účtu, Drops s odznaky a questy Twitche těžené ve vašem pořadí (beta) | ✅ | ❌ | částečně ¹² |
 | Filtrovatelný deník událostí a seznam všech požadavků v rozhraní | ✅ | ❌ ⁴ | ❌ |
 | Asi 30 MB paměti (server Docker, 4 účty) | ✅ | — ¹¹ | — ¹¹ |
 
@@ -294,7 +306,9 @@ s protokolem.\
 ⁹ Má prioritní a vyloučené hry, vybírané podle názvu hry.\
 ¹⁰ Ve výchozím stavu nejdřív sleduje streamery ze svého seznamu, jejichž stream nese Drops
 (jeho priorita `DROPS`), ale nikdy jiný kanál.\
-¹¹ Neměřeno.
+¹¹ Neměřeno.\
+¹² Nastavení, zda těžit, nebo vynechat kampaně Drops, jejichž odměnami jsou odznaky nebo
+emoty; žádné questy Twitche ani seznam odznaků.
 
 ## <a name="download"></a>Stažení
 

@@ -177,6 +177,18 @@ brug.
   <img src="../media/da/drops-streamers-first.avif" alt="En streamer fra listen, der ses for Drops og for sine point">
   </details>
 
+- **Badges (beta).** Siden Badges viser alle Twitchs globale chatbadges, og hvordan man
+  får dem. Hver konto har sin egen Badges-side: de badges, der er i gang, med deres
+  fremskridt, dem, den stadig kan få, og dem, den ejer. Mineren går efter de badges, der
+  kun kræver visningstid, fra Drops-kampagner og Twitch-quests, og springer dem over, som
+  kontoen allerede har. I »Hvad der skal mines, i rækkefølge« trækker du prioriterede
+  spil, badges og andre Drops-kampagner i den rækkefølge, du vil have, eller slår en af
+  dem fra. Funktionen er i beta.
+
+  <details open><summary>Se det i aktion</summary>
+  <img src="../media/en/badges.avif" alt="Siden Badges, en kontos badges og derefter »Hvad der skal mines, i rækkefølge« med Badges trukket øverst">
+  </details>
+
 ### Overblik
 
 - **En journal over alt, og hver forespørgsel.** Journalen gemmer hver hændelse: drops,
@@ -235,7 +247,6 @@ brug.
   tilstedeværelse i chatten (kan slås fra), standardindstillinger for nye streamere,
   notifikationer via Discord, Telegram og webhook med billeder, en global proxy eller én pr.
   konto.
-- **Kommer snart: mining af badges.** De Twitch-badges, man optjener ved at se med, mines ligesom Drops.
 - 29 sprog, mørkt og lyst tema, skrivebordsnotifikationer, et ikon i proceslinjen, start
   sammen med systemet.
 
@@ -288,6 +299,7 @@ Kontrolleret ud fra deres kode og README-filer i november 2026.
 | Kalender over alle Drops-kampagner, med søgning | ✅ | ❌ | delvist ⁸ |
 | Mining-rækkefølge pr. kampagne, udelukkede ord, ignoreret kampagne eller belønning | ✅ | ❌ | ❌ ⁹ |
 | Streamerne på din liste ses først for en kampagnes Drops | ✅ | delvist ¹⁰ | ❌ |
+| Twitch-badges: listen over alle badges, hver kontos badges, badge-Drops og Twitch-quests mines i din rækkefølge (beta) | ✅ | ❌ | delvist ¹² |
 | Filtrérbar hændelsesjournal og en liste over hver forespørgsel, i brugerfladen | ✅ | ❌ ⁴ | ❌ |
 | Omkring 30 MB hukommelse (Docker-server, 4 konti) | ✅ | — ¹¹ | — ¹¹ |
 
@@ -305,7 +317,9 @@ har.\
 ⁹ Den har prioriterede spil og udelukkede spil, valgt efter spillets navn.\
 ¹⁰ Som standard ser den først de streamere på sin liste, hvis stream har Drops (dens
 prioritet `DROPS`), men aldrig en anden kanal.\
-¹¹ Ikke målt.
+¹¹ Ikke målt.\
+¹² En indstilling til at mine eller udelade de Drops-kampagner, hvis belønninger er
+badges eller emotes; ingen Twitch-quests og ingen liste over badges.
 
 ## <a name="download"></a>Download
 

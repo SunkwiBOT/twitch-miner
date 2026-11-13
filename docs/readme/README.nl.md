@@ -179,6 +179,18 @@ het werkt.
   <img src="../media/nl/drops-streamers-first.avif" alt="Een streamer uit de lijst, bekeken voor de Drops en voor zijn punten">
   </details>
 
+- **Badges (bèta).** De pagina Badges toont alle globale chatbadges van Twitch en hoe je
+  ze krijgt. Elk account heeft een eigen Badges-pagina: de lopende badges met hun
+  voortgang, de badges die het nog kan krijgen en de badges die het al heeft. De miner
+  gaat voor de badges die alleen kijktijd vragen, uit Drops-campagnes en Twitch-quests,
+  en slaat de badges over die het account al heeft. Sleep in “Wat te minen, op volgorde”
+  prioriteitsgames, badges en andere Drops-campagnes in de volgorde die je wilt, of zet
+  er een uit. Deze functie is in bèta.
+
+  <details open><summary>Bekijk het in actie</summary>
+  <img src="../media/en/badges.avif" alt="De pagina Badges, de badges van een account en dan “Wat te minen, op volgorde” met Badges bovenaan gesleept">
+  </details>
+
 ### Bijhouden
 
 - **Een journaal van alles, en elk verzoek.** Het Journaal houdt elke gebeurtenis bij:
@@ -236,7 +248,6 @@ het werkt.
   eerst, aanwezigheid in de chat (uit te zetten), standaardopties voor nieuwe streamers,
   meldingen via Discord, Telegram en webhook met afbeeldingen, een globale proxy of een
   proxy per account.
-- **Binnenkort: badges minen.** De Twitch-badges die je met kijken verdient, gemined zoals de Drops.
 - 29 talen, donker en licht thema, bureaubladmeldingen, een pictogram in het systeemvak,
   starten met het systeem.
 
@@ -287,6 +298,7 @@ Gecontroleerd aan de hand van hun code en README's in november 2026.
 | Kalender van alle Drops-campagnes, met zoekfunctie | ✅ | ❌ | deels ⁸ |
 | Minevolgorde per campagne, uitgesloten woorden, genegeerde campagne of beloning | ✅ | ❌ | ❌ ⁹ |
 | Streamers uit je lijst eerst bekeken voor de Drops van een campagne | ✅ | deels ¹⁰ | ❌ |
+| Twitch-badges: de lijst van alle badges, de badges van elk account, badge-Drops en Twitch-quests gemined in jouw volgorde (bèta) | ✅ | ❌ | deels ¹² |
 | Filterbaar gebeurtenissenjournaal en een lijst van elk verzoek, in de interface | ✅ | ❌ ⁴ | ❌ |
 | Ongeveer 30 MB geheugen (Docker-server, 4 accounts) | ✅ | — ¹¹ | — ¹¹ |
 
@@ -305,7 +317,9 @@ project niet heeft.\
 ⁹ Het heeft prioriteitsgames en uitgesloten games, gekozen op naam van de game.\
 ¹⁰ Standaard kijkt het eerst naar de streamers op zijn lijst wier stream Drops heeft (zijn
 prioriteit `DROPS`), maar nooit naar een ander kanaal.\
-¹¹ Niet gemeten.
+¹¹ Niet gemeten.\
+¹² Een instelling om de Drops-campagnes waarvan de beloningen badges of emotes zijn te
+minen of over te slaan; geen Twitch-quests en geen lijst van badges.
 
 ## <a name="download"></a>Downloaden
 

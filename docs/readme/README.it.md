@@ -177,6 +177,18 @@ all'opera.
   <img src="../media/it/drops-streamers-first.avif" alt="Uno streamer della lista, guardato per i Drops e per i suoi punti">
   </details>
 
+- **Badge (beta).** La pagina Badge elenca tutti i badge globali della chat di Twitch e
+  come ottenerli. Ogni account ha la sua pagina Badge: i badge in corso con i loro
+  progressi, quelli ancora da ottenere e quelli che possiede. Il miner punta ai badge che
+  richiedono solo tempo di visione, dalle campagne Drops e dalle missioni Twitch, e salta
+  quelli che l'account possiede già. In «Cosa minare, in ordine», trascina i giochi
+  prioritari, i badge e le altre campagne Drops nell'ordine che vuoi, oppure disattivane
+  uno. Questa funzione è in beta.
+
+  <details open><summary>Vedilo in azione</summary>
+  <img src="../media/en/badges.avif" alt="La pagina Badge, i badge di un account, poi «Cosa minare, in ordine» con Badge trascinato in cima">
+  </details>
+
 ### Monitoraggio
 
 - **Un registro di tutto, e ogni richiesta.** Il Registro conserva ogni evento: drop, punti
@@ -233,7 +245,6 @@ all'opera.
   canali abbonati, presenza in chat (disattivabile), opzioni predefinite per i nuovi
   streamer, notifiche Discord, Telegram e webhook con immagini, proxy globale o per
   account.
-- **Presto: il mining dei badge.** I badge di Twitch che si ottengono guardando, minati come i Drops.
 - 29 lingue, temi scuro e chiaro, notifiche desktop, icona nell'area di notifica, avvio con
   il sistema.
 
@@ -284,6 +295,7 @@ Verificato sul loro codice e sui loro README a novembre 2026.
 | Calendario di tutte le campagne Drops, con ricerca | ✅ | ❌ | in parte ⁸ |
 | Ordine di mining per campagna, parole escluse, campagna o ricompensa ignorata | ✅ | ❌ | ❌ ⁹ |
 | Gli streamer della tua lista guardati per primi per i Drops di una campagna | ✅ | in parte ¹⁰ | ❌ |
+| Badge di Twitch: l'elenco di tutti i badge, i badge di ogni account, Drops di badge e missioni Twitch minati nel tuo ordine (beta) | ✅ | ❌ | in parte ¹² |
 | Registro degli eventi filtrabile ed elenco di ogni richiesta, nell'interfaccia | ✅ | ❌ ⁴ | ❌ |
 | Circa 30 MB di memoria (server Docker, 4 account) | ✅ | — ¹¹ | — ¹¹ |
 
@@ -302,7 +314,9 @@ ha.\
 ⁹ Ha giochi prioritari e giochi esclusi, scelti per nome del gioco.\
 ¹⁰ Per impostazione predefinita, guarda prima gli streamer della sua lista la cui live ha
 i Drops (la sua priorità `DROPS`), ma mai un altro canale.\
-¹¹ Non misurato.
+¹¹ Non misurato.\
+¹² Un'impostazione per minare o escludere le campagne Drops le cui ricompense sono badge
+o emote; niente missioni Twitch né elenco dei badge.
 
 ## <a name="download"></a>Download
 

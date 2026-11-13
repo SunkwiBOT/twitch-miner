@@ -179,6 +179,18 @@ funcionando.
   <img src="../media/es-419/drops-streamers-first.avif" alt="Un streamer de la lista, mirado para los Drops y por sus puntos">
   </details>
 
+- **Insignias (beta).** La página Insignias muestra todas las insignias globales del chat
+  de Twitch y cómo conseguirlas. Cada cuenta tiene su propia página Insignias: las
+  insignias en curso con su progreso, las que aún puede conseguir y las que tiene. El
+  minero va por las insignias que solo requieren tiempo de visualización, de campañas de
+  Drops y misiones de Twitch, y omite las que la cuenta ya tiene. En “Qué minar, en
+  orden”, arrastra los juegos prioritarios, las insignias y las otras campañas de Drops
+  al orden que quieras, o desactiva alguno. Esta función está en beta.
+
+  <details open><summary>Verlo en acción</summary>
+  <img src="../media/en/badges.avif" alt="La página Insignias, las insignias de una cuenta y luego “Qué minar, en orden” con Insignias arrastradas al primer lugar">
+  </details>
+
 ### Seguimiento
 
 - **Una bitácora de todo, y cada solicitud.** La Bitácora guarda cada evento: drops,
@@ -238,7 +250,6 @@ funcionando.
   y canales suscritos primero, presencia en el chat (se puede desactivar), opciones
   predeterminadas para streamers nuevos, notificaciones de Discord, Telegram y webhook con
   imágenes, proxy global o por cuenta.
-- **Próximamente: minado de insignias.** Las insignias de Twitch que se ganan viendo, minadas como los Drops.
 - 29 idiomas, temas oscuro y claro, notificaciones de escritorio, ícono en la bandeja,
   inicio con el sistema.
 
@@ -289,6 +300,7 @@ Verificado en su código y sus README en noviembre de 2026.
 | Calendario de todas las campañas de Drops, con búsqueda | ✅ | ❌ | en parte ⁸ |
 | Orden de minado por campaña, palabras excluidas, campaña o recompensa ignorada | ✅ | ❌ | ❌ ⁹ |
 | Los streamers de tu lista, mirados primero para los Drops de una campaña | ✅ | en parte ¹⁰ | ❌ |
+| Insignias de Twitch: la lista de todas las insignias, las de cada cuenta, Drops de insignias y misiones de Twitch minados en tu orden (beta) | ✅ | ❌ | en parte ¹² |
 | Bitácora de eventos filtrable y lista de cada solicitud, en la interfaz | ✅ | ❌ ⁴ | ❌ |
 | Unos 30 MB de memoria (servidor Docker, 4 cuentas) | ✅ | — ¹¹ | — ¹¹ |
 
@@ -308,7 +320,9 @@ tiene.\
 ⁹ Tiene juegos prioritarios y juegos excluidos, elegidos por el nombre del juego.\
 ¹⁰ De forma predeterminada, primero mira a los streamers de su lista cuya transmisión
 tiene Drops (su prioridad `DROPS`), pero nunca otro canal.\
-¹¹ Sin medir.
+¹¹ Sin medir.\
+¹² Una opción para minar u omitir las campañas de Drops cuyas recompensas son insignias o
+emotes; sin misiones de Twitch ni lista de insignias.
 
 ## <a name="download"></a>Descarga
 

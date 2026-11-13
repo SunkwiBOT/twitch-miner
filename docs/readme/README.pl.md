@@ -176,6 +176,18 @@ działa.
   <img src="../media/pl/drops-streamers-first.avif" alt="Streamer z listy oglądany dla Drops i dla swoich punktów">
   </details>
 
+- **Odznaki (beta).** Strona Odznaki pokazuje wszystkie globalne odznaki czatu Twitcha i
+  sposób ich zdobycia. Każde konto ma własną stronę Odznaki: odznaki w toku z postępem,
+  te, które może jeszcze zdobyć, i te, które posiada. Miner celuje w odznaki wymagające
+  tylko czasu oglądania, z kampanii Drops i zadań Twitcha, i pomija te, które konto już
+  ma. W „Co kopać, w jakiej kolejności” ustaw przeciąganiem gry priorytetowe, odznaki i
+  inne kampanie Drops w wybranej kolejności albo wyłącz którąś z nich. Ta funkcja jest w
+  wersji beta.
+
+  <details open><summary>Zobacz w akcji</summary>
+  <img src="../media/en/badges.avif" alt="Strona Odznaki, odznaki jednego konta, a potem „Co kopać, w jakiej kolejności” z Odznakami przeciągniętymi na początek">
+  </details>
+
 ### Monitorowanie
 
 - **Dziennik wszystkiego i każde żądanie.** Dziennik zapisuje każde zdarzenie: dropy,
@@ -231,7 +243,6 @@ działa.
   kanałów, obecność na czacie (można ją wyłączyć), domyślne opcje dla nowych streamerów,
   powiadomienia Discord, Telegram i webhook z obrazkami, proxy globalne lub osobne dla
   każdego konta.
-- **Wkrótce: kopanie odznak.** Odznaki Twitcha zdobywane za oglądanie, kopane tak jak Dropsy.
 - 29 języków, ciemny i jasny motyw, powiadomienia na pulpicie, ikona w zasobniku,
   uruchamianie razem z systemem.
 
@@ -282,6 +293,7 @@ Sprawdzone w ich kodzie i plikach README w listopadzie 2026 r.
 | Kalendarz wszystkich kampanii Drops, z wyszukiwarką | ✅ | ❌ | częściowo ⁸ |
 | Kolejność kopania według kampanii, wykluczone słowa, ignorowana kampania lub nagroda | ✅ | ❌ | ❌ ⁹ |
 | Streamerzy z Twojej listy oglądani w pierwszej kolejności dla Drops z kampanii | ✅ | częściowo ¹⁰ | ❌ |
+| Odznaki Twitcha: lista wszystkich odznak, odznaki każdego konta, Drops z odznakami i zadania Twitcha kopane w Twojej kolejności (beta) | ✅ | ❌ | częściowo ¹² |
 | Filtrowany dziennik zdarzeń i lista wszystkich żądań, w interfejsie | ✅ | ❌ ⁴ | ❌ |
 | Około 30 MB pamięci (serwer Docker, 4 konta) | ✅ | — ¹¹ | — ¹¹ |
 
@@ -299,7 +311,9 @@ się w dowolnej przeglądarce.\
 ⁹ Ma gry priorytetowe i wykluczone, wybierane po nazwie gry.\
 ¹⁰ Domyślnie najpierw ogląda streamerów ze swojej listy, których transmisja ma Drops (jego
 priorytet `DROPS`), ale nigdy innego kanału.\
-¹¹ Nie mierzono.
+¹¹ Nie mierzono.\
+¹² Ustawienie, by kopać lub pomijać kampanie Drops, których nagrodami są odznaki lub
+emotki; bez zadań Twitcha i bez listy odznak.
 
 ## <a name="download"></a>Pobieranie
 

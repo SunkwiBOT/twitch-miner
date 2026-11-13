@@ -146,6 +146,12 @@ Onu diğer madencilerden ayıran şeyler. Bir maddenin altındaki “Çalışır
   <img src="../media/tr/drops-streamers-first.avif" alt="Listeden bir yayıncı, hem Drops hem de puanları için izleniyor">
   </details>
 
+- **Rozetler (beta).** Rozetler sayfası, Twitch'in tüm genel sohbet rozetlerini ve nasıl alınacaklarını listeler. Her hesabın kendi Rozetler sayfası vardır: ilerlemeleriyle birlikte devam eden rozetler, hâlâ alınabilecekler ve hesabın sahip olduğu rozetler. Madenci, Drops kampanyalarından ve Twitch görevlerinden yalnızca izleme süresi gerektiren rozetlerin peşine düşer ve hesabın zaten sahip olduğu rozetleri atlar. “Ne kazılacak, sırayla” bölümünde öncelikli oyunları, rozetleri ve diğer Drops kampanyalarını istediğiniz sıraya sürükleyin ya da birini kapatın. Bu özellik beta aşamasındadır.
+
+  <details open><summary>Çalışırken görün</summary>
+  <img src="../media/en/badges.avif" alt="Rozetler sayfası, bir hesabın rozetleri, ardından Rozetler'in en başa sürüklendiği “Ne kazılacak, sırayla”">
+  </details>
+
 ### Takip
 
 - **Her şeyin günlüğü ve her istek.** Günlük her olayı tutar: drop'lar, kazanılan ve harcanan puanlar, sandıklar, bahisler, baskınlar, başlayan yayınlar… Onu hesaba, sekmeye (Drops, Puan, Diğer) ve türe göre filtreleyin. **Teknik kayıtlar › İstekler**, Twitch'e ve diğer hizmetlere gönderilen her isteği sonucu ve süresiyle birlikte listeler. Kayıtlar ve istekler hiçbir token veya gizli bilgi içermez: “Hata raporu için kopyala” onları kopyalar; [GitHub](https://github.com/SunkwiBOT/twitch-miner/issues) veya [Discord](https://discord.gg/support-bots-891685895781113886) üzerinde bir hata raporuna yapıştırmaya hazırdır.
@@ -177,7 +183,6 @@ Onu diğer madencilerden ayıran şeyler. Bir maddenin altındaki “Çalışır
 ### Ve ayrıca
 
 - Diğer madencilerde olduğu gibi: bonus sandıkları, baskınlar, anlar, topluluk hedefleri, tahminler (stratejiler, bahis zamanı, koşullar), önce izleme serileri ve abone olunan kanallar, sohbette bulunma (kapatılabilir), yeni yayıncılar için varsayılan seçenekler, resimli Discord, Telegram ve webhook bildirimleri, genel veya hesap başına proxy.
-- **Yakında: rozet madenciliği.** İzleyerek kazanılan Twitch rozetleri, Drops gibi kazılır.
 - 29 dil, koyu ve açık tema, masaüstü bildirimleri, sistem tepsisi simgesi, sistemle birlikte başlatma.
 
   <details open><summary>Çalışırken görün</summary>
@@ -223,6 +228,7 @@ Onu diğer madencilerden ayıran şeyler. Bir maddenin altındaki “Çalışır
 | Tüm Drops kampanyalarının aranabilir takvimi | ✅ | ❌ | kısmen ⁸ |
 | Kampanya bazında kazma sırası, hariç tutulan kelimeler, yok sayılan kampanya veya ödül | ✅ | ❌ | ❌ ⁹ |
 | Bir kampanyanın Drops'ları için önce listenizdeki yayıncılar izlenir | ✅ | kısmen ¹⁰ | ❌ |
+| Twitch rozetleri: tüm rozetlerin listesi, her hesabın rozetleri, rozet Drops'ları ve Twitch görevleri sizin sıranızla kazılır (beta) | ✅ | ❌ | kısmen ¹² |
 | Arayüzde filtrelenebilir olay günlüğü ve her isteğin listesi | ✅ | ❌ ⁴ | ❌ |
 | Yaklaşık 30 MB bellek (Docker sunucusu, 4 hesap) | ✅ | — ¹¹ | — ¹¹ |
 
@@ -236,7 +242,8 @@ Onu diğer madencilerden ayıran şeyler. Bir maddenin altındaki “Çalışır
 ⁸ Filtreli bir kampanya listesi; takvim veya arama yok.\
 ⁹ Oyun adına göre seçilen öncelikli oyunları ve hariç tutulan oyunları vardır.\
 ¹⁰ Varsayılan olarak önce listesindeki yayıncılardan yayınında Drops olanları izler (`DROPS` önceliği), ama hiçbir zaman başka bir kanalı izlemez.\
-¹¹ Ölçülmedi.
+¹¹ Ölçülmedi.\
+¹² Ödülleri rozet veya ifade olan Drops kampanyalarını kazmak ya da dışarıda bırakmak için bir ayar; Twitch görevleri ve rozet listesi yok.
 
 ## <a name="download"></a>İndirme
 

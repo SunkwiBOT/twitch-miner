@@ -176,6 +176,18 @@ la lucru.
   <img src="../media/ro/drops-streamers-first.avif" alt="Un streamer din listă, urmărit pentru Drops și pentru punctele lui">
   </details>
 
+- **Insigne (beta).** Pagina Insigne listează toate insignele globale din chatul Twitch
+  și cum le obții. Fiecare cont are propria pagină Insigne: insignele în desfășurare cu
+  progresul lor, cele pe care le mai poate obține și cele pe care le are. Minerul
+  țintește insignele care cer doar timp de vizionare, din campaniile Drops și misiunile
+  Twitch, și le sare pe cele pe care contul le are deja. În „Ce să se mineze, în ordine”,
+  trage jocurile prioritare, insignele și celelalte campanii Drops în ordinea dorită sau
+  dezactivează una dintre ele. Această funcție este în beta.
+
+  <details open><summary>Vezi în acțiune</summary>
+  <img src="../media/en/badges.avif" alt="Pagina Insigne, insignele unui cont, apoi „Ce să se mineze, în ordine” cu Insigne trase primele">
+  </details>
+
 ### Monitorizare
 
 - **Un jurnal pentru tot și fiecare cerere.** Jurnalul păstrează fiecare eveniment: drops,
@@ -231,7 +243,6 @@ la lucru.
   vizionare și pentru canalele cu abonament, prezență în chat (se poate dezactiva), opțiuni
   implicite pentru streamerii noi, notificări Discord, Telegram și webhook cu imagini, proxy
   global sau per cont.
-- **În curând: minarea insignelor.** Insignele Twitch câștigate prin vizionare, minate ca Drops.
 - 29 de limbi, teme întunecată și luminoasă, notificări desktop, pictogramă în bara de
   sistem, pornire odată cu sistemul.
 
@@ -282,6 +293,7 @@ Verificat în codul și în README-urile lor în noiembrie 2026.
 | Calendarul tuturor campaniilor Drops, cu căutare | ✅ | ❌ | parțial ⁸ |
 | Ordine de minare pe campanie, cuvinte excluse, campanie sau recompensă ignorată | ✅ | ❌ | ❌ ⁹ |
 | Streamerii din lista ta, urmăriți primii pentru Drops-urile unei campanii | ✅ | parțial ¹⁰ | ❌ |
+| Insigne Twitch: lista tuturor insignelor, insignele fiecărui cont, Drops cu insigne și misiuni Twitch minate în ordinea ta (beta) | ✅ | ❌ | parțial ¹² |
 | Jurnal de evenimente filtrabil și lista fiecărei cereri, în interfață | ✅ | ❌ ⁴ | ❌ |
 | În jur de 30 MB de memorie (server Docker, 4 conturi) | ✅ | — ¹¹ | — ¹¹ |
 
@@ -301,7 +313,9 @@ are.\
 ⁹ Are jocuri prioritare și jocuri excluse, alese după numele jocului.\
 ¹⁰ Implicit, urmărește întâi streamerii din lista lui al căror stream are Drops
 (prioritatea lui `DROPS`), dar niciodată alt canal.\
-¹¹ Nemăsurat.
+¹¹ Nemăsurat.\
+¹² O setare pentru a mina sau a omite campaniile Drops ale căror recompense sunt insigne
+sau emote-uri; fără misiuni Twitch și fără lista insignelor.
 
 ## <a name="download"></a>Descărcare
 

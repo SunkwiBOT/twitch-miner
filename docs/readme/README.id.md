@@ -146,6 +146,12 @@ Hal-hal yang membedakannya dari penambang lain. “Lihat langsung” di bawah se
   <img src="../media/id/drops-streamers-first.avif" alt="Streamer dari daftar, ditonton untuk Drops dan untuk poinnya">
   </details>
 
+- **Lencana (beta).** Halaman Lencana mencantumkan semua lencana obrolan global Twitch dan cara mendapatkannya. Setiap akun punya halaman Lencana sendiri: lencana yang sedang berjalan beserta progresnya, yang masih bisa didapat, dan yang sudah dimiliki. Penambang mengejar lencana yang hanya butuh waktu menonton, dari kampanye Drops dan quest Twitch, dan melewati lencana yang sudah dimiliki akun. Di “Apa yang ditambang, berurutan”, seret game prioritas, lencana, dan kampanye Drops lainnya ke urutan yang Anda inginkan, atau matikan salah satunya. Fitur ini masih beta.
+
+  <details open><summary>Lihat langsung</summary>
+  <img src="../media/en/badges.avif" alt="Halaman Lencana, lencana sebuah akun, lalu “Apa yang ditambang, berurutan” dengan Lencana diseret ke posisi pertama">
+  </details>
+
 ### Pemantauan
 
 - **Jurnal untuk semuanya, dan setiap permintaan.** Jurnal menyimpan setiap peristiwa: drop, poin yang didapat dan dibelanjakan, peti, taruhan, raid, stream yang mulai live… Saring berdasarkan akun, tab (Drops, Poin, Lainnya), dan jenis. **Log teknis › Permintaan** mencantumkan setiap permintaan yang dikirim ke Twitch dan ke layanan lain, beserta hasil dan durasinya. Log dan permintaan tidak memuat token atau rahasia apa pun: “Salin untuk laporan bug” menyalinnya, siap ditempel ke laporan bug di [GitHub](https://github.com/SunkwiBOT/twitch-miner/issues) atau [Discord](https://discord.gg/support-bots-891685895781113886).
@@ -177,7 +183,6 @@ Hal-hal yang membedakannya dari penambang lain. “Lihat langsung” di bawah se
 ### Selain itu
 
 - Seperti penambang lain: peti bonus, raid, momen, target komunitas, prediksi (strategi, kapan bertaruh, syarat), streak tonton dan channel langganan lebih dulu, kehadiran di chat (bisa dimatikan), opsi default untuk streamer baru, notifikasi Discord, Telegram, dan webhook dengan gambar, proxy global atau per akun.
-- **Segera hadir: menambang lencana.** Lencana Twitch yang didapat dengan menonton, ditambang seperti Drops.
 - 29 bahasa, tema gelap dan terang, notifikasi desktop, ikon tray, jalan saat sistem dimulai.
 
   <details open><summary>Lihat langsung</summary>
@@ -223,6 +228,7 @@ Posisi [Twitch Miner](https://github.com/SunkwiBOT/twitch-miner) dibandingkan de
 | Kalender semua kampanye Drops, dengan pencarian | ✅ | ❌ | sebagian ⁸ |
 | Urutan penambangan per kampanye, kata yang dikecualikan, kampanye atau hadiah yang diabaikan | ✅ | ❌ | ❌ ⁹ |
 | Streamer di daftar Anda ditonton lebih dulu untuk Drops sebuah kampanye | ✅ | sebagian ¹⁰ | ❌ |
+| Lencana Twitch: daftar semua lencana, lencana tiap akun, Drops lencana dan quest Twitch ditambang sesuai urutan Anda (beta) | ✅ | ❌ | sebagian ¹² |
 | Jurnal peristiwa yang bisa disaring dan daftar setiap permintaan, di antarmuka | ✅ | ❌ ⁴ | ❌ |
 | Sekitar 30 MB memori (server Docker, 4 akun) | ✅ | — ¹¹ | — ¹¹ |
 
@@ -236,7 +242,8 @@ Posisi [Twitch Miner](https://github.com/SunkwiBOT/twitch-miner) dibandingkan de
 ⁸ Daftar kampanye dengan filter, tanpa kalender atau pencarian.\
 ⁹ Ia punya game prioritas dan game yang dikecualikan, dipilih berdasarkan nama game.\
 ¹⁰ Secara default, ia lebih dulu menonton streamer di daftarnya yang stream-nya membawa Drops (prioritas `DROPS`-nya), tetapi tidak pernah channel lain.\
-¹¹ Tidak diukur.
+¹¹ Tidak diukur.\
+¹² Pengaturan untuk menambang atau melewati kampanye Drops yang hadiahnya berupa lencana atau emote; tanpa quest Twitch dan tanpa daftar lencana.
 
 ## <a name="download"></a>Unduh
 

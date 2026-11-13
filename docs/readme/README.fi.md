@@ -178,6 +178,18 @@ ominaisuuden käytössä.
   <img src="../media/fi/drops-streamers-first.avif" alt="Listan streamaaja, jota katsotaan sekä Dropsien että pisteiden vuoksi">
   </details>
 
+- **Merkit (beta).** Merkit-sivu luettelee kaikki Twitchin yleiset chat-merkit ja sen,
+  miten ne saa. Jokaisella tilillä on oma Merkit-sivunsa: kesken olevat merkit
+  edistymisineen, vielä saatavat merkit ja tilin omat merkit. Louhija tavoittelee
+  merkkejä, jotka vaativat vain katseluaikaa, Drops-kampanjoista ja Twitchin questeista,
+  ja ohittaa ne, jotka tilillä jo on. Vedä kohdassa ”Mitä louhitaan, järjestyksessä”
+  prioriteettipelit, merkit ja muut Drops-kampanjat haluamaasi järjestykseen tai kytke
+  jokin niistä pois. Tämä ominaisuus on beta-vaiheessa.
+
+  <details open><summary>Katso toiminnassa</summary>
+  <img src="../media/en/badges.avif" alt="Merkit-sivu, tilin merkit ja sitten ”Mitä louhitaan, järjestyksessä”, jossa Merkit on vedetty ensimmäiseksi">
+  </details>
+
 ### Seuranta
 
 - **Päiväkirja kaikesta ja jokainen pyyntö.** Päiväkirja tallentaa jokaisen tapahtuman:
@@ -235,7 +247,6 @@ ominaisuuden käytössä.
   (strategiat, panostuksen ajoitus, ehdot), katseluputket ja tilatut kanavat ensin,
   läsnäolo chatissa (voi poistaa käytöstä), uusien streamaajien oletusvalinnat, Discord-,
   Telegram- ja webhook-ilmoitukset kuvineen, yleinen tai tilikohtainen proxy.
-- **Tulossa pian: merkkien louhinta.** Katsomalla ansaittavat Twitch-merkit louhitaan kuten Dropsit.
 - 29 kieltä, tumma ja vaalea teema, työpöytäilmoitukset, ilmoitusalueen kuvake,
   käynnistys järjestelmän mukana.
 
@@ -289,6 +300,7 @@ Tarkistettu niiden koodista ja README-tiedostoista marraskuussa 2026.
 | Kalenteri kaikista Drops-kampanjoista, haulla | ✅ | ❌ | osittain ⁸ |
 | Louhintajärjestys kampanjoittain, poissuljetut sanat, ohitettu kampanja tai palkinto | ✅ | ❌ | ❌ ⁹ |
 | Listasi streamaajia katsotaan ensin kampanjan Dropseja varten | ✅ | osittain ¹⁰ | ❌ |
+| Twitch-merkit: kaikkien merkkien lista, kunkin tilin merkit, merkki-Dropsit ja Twitchin questit louhitaan haluamassasi järjestyksessä (beta) | ✅ | ❌ | osittain ¹² |
 | Suodatettava tapahtumapäiväkirja ja lista jokaisesta pyynnöstä käyttöliittymässä | ✅ | ❌ ⁴ | ❌ |
 | Noin 30 Mt muistia (Docker-palvelin, 4 tiliä) | ✅ | — ¹¹ | — ¹¹ |
 
@@ -308,7 +320,9 @@ projektissa ei ole.\
 ⁹ Siinä on prioriteettipelit ja ohitetut pelit, jotka valitaan pelin nimen mukaan.\
 ¹⁰ Oletuksena se katsoo ensin niitä listansa streamaajia, joiden lähetyksessä on Dropseja
 (sen prioriteetti `DROPS`), mutta ei koskaan muuta kanavaa.\
-¹¹ Ei mitattu.
+¹¹ Ei mitattu.\
+¹² Asetus, jolla louhitaan tai jätetään pois Drops-kampanjat, joiden palkintoina on
+merkkejä tai hymiöitä; ei Twitchin questeja eikä merkkilistaa.
 
 ## <a name="download"></a>Lataus
 

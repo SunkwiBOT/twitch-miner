@@ -175,6 +175,18 @@ recurso funcionando.
   <img src="../media/pt-BR/drops-streamers-first.avif" alt="Um streamer da lista, assistido para os Drops e pelos pontos dele">
   </details>
 
+- **Emblemas (beta).** A página Emblemas lista todos os emblemas globais do chat da
+  Twitch e como obtê-los. Cada conta tem a própria página Emblemas: os emblemas em
+  andamento com o progresso deles, os que ela ainda pode obter e os que já possui. O
+  minerador vai atrás dos emblemas que só exigem tempo assistido, de campanhas Drops e
+  missões da Twitch, e pula os que a conta já possui. Em “O que minerar, em ordem”,
+  arraste os jogos prioritários, os emblemas e as outras campanhas Drops para a ordem que
+  quiser, ou desative um deles. Este recurso está em beta.
+
+  <details open><summary>Ver em ação</summary>
+  <img src="../media/en/badges.avif" alt="A página Emblemas, os emblemas de uma conta e depois “O que minerar, em ordem” com Emblemas arrastados para o topo">
+  </details>
+
 ### Acompanhamento
 
 - **Um diário de tudo, e cada requisição.** O Diário guarda cada evento: drops, pontos
@@ -230,7 +242,6 @@ recurso funcionando.
   (estratégias, momento da aposta, condições), sequências e canais com inscrição primeiro,
   presença no chat (pode ser desativada), opções padrão para novos streamers, notificações
   por Discord, Telegram e webhook com imagens, proxy global ou por conta.
-- **Em breve: mineração de emblemas.** Os emblemas da Twitch ganhos assistindo, minerados como os Drops.
 - 29 idiomas, temas escuro e claro, notificações da área de trabalho, ícone na bandeja,
   inicialização com o sistema.
 
@@ -281,6 +292,7 @@ Verificado no código e nos READMEs deles em novembro de 2026.
 | Calendário de todas as campanhas de Drops, com busca | ✅ | ❌ | em parte ⁸ |
 | Ordem de mineração por campanha, palavras excluídas, campanha ou recompensa ignorada | ✅ | ❌ | ❌ ⁹ |
 | Os streamers da sua lista assistidos primeiro para os Drops de uma campanha | ✅ | em parte ¹⁰ | ❌ |
+| Emblemas da Twitch: a lista de todos os emblemas, os emblemas de cada conta, Drops de emblemas e missões da Twitch minerados na sua ordem (beta) | ✅ | ❌ | em parte ¹² |
 | Diário de eventos filtrável e lista de cada requisição, na interface | ✅ | ❌ ⁴ | ❌ |
 | Cerca de 30 MB de memória (servidor Docker, 4 contas) | ✅ | — ¹¹ | — ¹¹ |
 
@@ -299,7 +311,9 @@ arquivo de log.\
 ⁹ Tem jogos prioritários e jogos excluídos, escolhidos pelo nome do jogo.\
 ¹⁰ Por padrão, assiste primeiro aos streamers da lista dele cuja live tem Drops (a
 prioridade `DROPS` dele), mas nunca a outro canal.\
-¹¹ Não medido.
+¹¹ Não medido.\
+¹² Uma configuração para minerar ou deixar de fora as campanhas Drops cujas recompensas
+são emblemas ou emotes; sem missões da Twitch e sem lista de emblemas.
 
 ## <a name="download"></a>Download
 

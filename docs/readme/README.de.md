@@ -179,6 +179,19 @@ im Einsatz.
   <img src="../media/de/drops-streamers-first.avif" alt="Ein Streamer aus der Liste, geschaut für die Drops und für seine Punkte">
   </details>
 
+- **Abzeichen (Beta).** Die Seite Abzeichen listet alle globalen Chat-Abzeichen von
+  Twitch auf und wie man sie bekommt. Jedes Konto hat seine eigene Abzeichen-Seite: die
+  laufenden Abzeichen mit ihrem Fortschritt, die noch erhältlichen und die, die es
+  besitzt. Der Miner holt sich die Abzeichen, die nur Zuschauzeit brauchen, aus
+  Drops-Kampagnen und Twitch-Quests und überspringt die, die das Konto schon besitzt.
+  Ziehen Sie in „Was gemint wird, der Reihe nach“ Prioritätsspiele, Abzeichen und andere
+  Drops-Kampagnen in die gewünschte Reihenfolge, oder schalten Sie eine davon aus. Diese
+  Funktion ist in der Beta.
+
+  <details open><summary>In Aktion ansehen</summary>
+  <img src="../media/en/badges.avif" alt="Die Seite Abzeichen, die Abzeichen eines Kontos, dann „Was gemint wird, der Reihe nach“ mit Abzeichen an die Spitze gezogen">
+  </details>
+
 ### Nachverfolgung
 
 - **Ein Journal über alles, dazu jede Anfrage.** Das Journal hält jedes Ereignis fest:
@@ -237,7 +250,6 @@ im Einsatz.
   (Strategien, Zeitpunkt der Wette, Bedingungen), Zuschauerserien und abonnierte Kanäle
   zuerst, Chat-Präsenz (abschaltbar), Standardoptionen für neue Streamer, Benachrichtigungen
   über Discord, Telegram und Webhook mit Bildern, ein globaler Proxy oder einer pro Konto.
-- **Bald: Abzeichen-Mining.** Die Twitch-Abzeichen, die man durchs Zuschauen verdient, gemint wie die Drops.
 - 29 Sprachen, dunkles und helles Design, Desktop-Benachrichtigungen, Symbol im
   Infobereich, Start mit dem System.
 
@@ -290,6 +302,7 @@ im Vergleich zu
 | Kalender aller Drops-Kampagnen, mit Suche | ✅ | ❌ | teilweise ⁸ |
 | Mining-Reihenfolge nach Kampagne, ausgeschlossene Wörter, ignorierte Kampagne oder Belohnung | ✅ | ❌ | ❌ ⁹ |
 | Ihre gelisteten Streamer werden für die Drops einer Kampagne zuerst geschaut | ✅ | teilweise ¹⁰ | ❌ |
+| Twitch-Abzeichen: die Liste aller Abzeichen, die Abzeichen jedes Kontos, Abzeichen-Drops und Twitch-Quests, gemint in Ihrer Reihenfolge (Beta) | ✅ | ❌ | teilweise ¹² |
 | Filterbares Ereignisjournal und eine Liste aller Anfragen, in der Oberfläche | ✅ | ❌ ⁴ | ❌ |
 | Etwa 30 MB Arbeitsspeicher (Docker-Server, 4 Konten) | ✅ | — ¹¹ | — ¹¹ |
 
@@ -309,7 +322,9 @@ nicht hat.\
 ⁹ Es hat Prioritätsspiele und ausgeschlossene Spiele, ausgewählt nach Spielname.\
 ¹⁰ Standardmäßig schaut es zuerst die Streamer auf seiner Liste, deren Stream Drops trägt
 (seine Priorität `DROPS`), aber nie einen anderen Kanal.\
-¹¹ Nicht gemessen.
+¹¹ Nicht gemessen.\
+¹² Eine Einstellung, um die Drops-Kampagnen, deren Belohnungen Abzeichen oder Emotes
+sind, zu minen oder auszulassen; keine Twitch-Quests und keine Abzeichenliste.
 
 ## <a name="download"></a>Download
 

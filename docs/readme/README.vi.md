@@ -146,6 +146,12 @@ Những gì làm nên khác biệt so với các trình đào khác. “Xem minh
   <img src="../media/vi/drops-streamers-first.avif" alt="Một streamer trong danh sách, được xem để lấy Drops và điểm kênh">
   </details>
 
+- **Huy hiệu (beta).** Trang Huy hiệu liệt kê mọi huy hiệu chat toàn cầu của Twitch và cách nhận chúng. Mỗi tài khoản có trang Huy hiệu riêng: các huy hiệu đang tiến hành kèm tiến độ, những huy hiệu còn có thể nhận và những huy hiệu đã có. Trình đào nhắm đến các huy hiệu chỉ cần thời gian xem, từ các chiến dịch Drops và nhiệm vụ Twitch, và bỏ qua những huy hiệu tài khoản đã có. Trong “Đào gì, theo thứ tự”, kéo game ưu tiên, huy hiệu và các chiến dịch Drops khác vào thứ tự bạn muốn, hoặc tắt một mục. Tính năng này đang ở giai đoạn beta.
+
+  <details open><summary>Xem minh họa</summary>
+  <img src="../media/en/badges.avif" alt="Trang Huy hiệu, huy hiệu của một tài khoản, rồi “Đào gì, theo thứ tự” với Huy hiệu được kéo lên đầu">
+  </details>
+
 ### Giám sát
 
 - **Nhật ký của mọi thứ, và mọi yêu cầu.** Nhật ký lưu mọi sự kiện: drop, điểm nhận được và đã tiêu, rương, cược, raid, kênh bắt đầu phát… Lọc theo tài khoản, theo tab (Drops, Điểm, Khác) và theo loại. **Log kỹ thuật › Yêu cầu** liệt kê mọi yêu cầu gửi tới Twitch và các dịch vụ khác, kèm kết quả và thời gian xử lý. Log và yêu cầu không chứa token hay thông tin bí mật nào: “Sao chép để báo lỗi” sao chép chúng, sẵn sàng để dán vào báo cáo lỗi trên [GitHub](https://github.com/SunkwiBOT/twitch-miner/issues) hoặc [Discord](https://discord.gg/support-bots-891685895781113886).
@@ -177,7 +183,6 @@ Những gì làm nên khác biệt so với các trình đào khác. “Xem minh
 ### Và còn nữa
 
 - Như các trình đào khác: rương thưởng, raid, khoảnh khắc, mục tiêu cộng đồng, dự đoán (chiến lược, thời điểm cược, điều kiện), ưu tiên chuỗi xem và kênh đã đăng ký, hiện diện trong chat (có thể tắt), tùy chọn mặc định cho streamer mới, thông báo Discord, Telegram và webhook kèm hình ảnh, proxy chung hoặc theo từng tài khoản.
-- **Sắp có: đào huy hiệu.** Các huy hiệu Twitch nhận được khi xem, được đào giống như Drops.
 - 29 ngôn ngữ, giao diện tối và sáng, thông báo trên máy tính, biểu tượng trong khay hệ thống, khởi động cùng hệ thống.
 
   <details open><summary>Xem minh họa</summary>
@@ -223,6 +228,7 @@ So sánh [Twitch Miner](https://github.com/SunkwiBOT/twitch-miner) với [Twitch
 | Lịch của mọi chiến dịch Drops, có tìm kiếm | ✅ | ❌ | một phần ⁸ |
 | Thứ tự đào theo chiến dịch, từ khóa loại trừ, bỏ qua chiến dịch hoặc phần thưởng | ✅ | ❌ | ❌ ⁹ |
 | Ưu tiên xem các streamer trong danh sách của bạn để lấy Drops của một chiến dịch | ✅ | một phần ¹⁰ | ❌ |
+| Huy hiệu Twitch: danh sách mọi huy hiệu, huy hiệu của từng tài khoản, Drops huy hiệu và nhiệm vụ Twitch được đào theo thứ tự của bạn (beta) | ✅ | ❌ | một phần ¹² |
 | Nhật ký sự kiện có bộ lọc và danh sách mọi yêu cầu, ngay trong giao diện | ✅ | ❌ ⁴ | ❌ |
 | Khoảng 30 MB bộ nhớ (máy chủ Docker, 4 tài khoản) | ✅ | — ¹¹ | — ¹¹ |
 
@@ -236,7 +242,8 @@ So sánh [Twitch Miner](https://github.com/SunkwiBOT/twitch-miner) với [Twitch
 ⁸ Một danh sách chiến dịch có bộ lọc, không có lịch hay tìm kiếm.\
 ⁹ Nó có game ưu tiên và game bị loại trừ, chọn theo tên game.\
 ¹⁰ Theo mặc định, nó xem trước các streamer trong danh sách có buổi phát mang Drops (mức ưu tiên `DROPS` của nó), nhưng không bao giờ xem kênh khác.\
-¹¹ Chưa đo.
+¹¹ Chưa đo.\
+¹² Một tùy chọn để đào hoặc bỏ qua các chiến dịch Drops có phần thưởng là huy hiệu hoặc biểu tượng cảm xúc; không có nhiệm vụ Twitch và không có danh sách huy hiệu.
 
 ## <a name="download"></a>Tải xuống
 
