@@ -174,6 +174,17 @@ What sets it apart from other miners. “See it in action” under a point shows
   <img src="docs/media/en/drops-streamers-first.avif" alt="A streamer from the list, watched for the Drops and for its points">
   </details>
 
+- **Badges (beta).** The Badges page lists every global Twitch chat badge and how to get
+  it. Each account has its own Badges page: the badges in progress with their progress, the
+  ones still to get and the ones it owns. The miner goes after the badges that only need
+  watch time, from Drops campaigns and Twitch quests, and skips those the account already
+  owns. In “What to mine, in order”, drag priority games, badges and other Drops campaigns
+  into the order you want, or switch one off. This feature is in beta.
+
+  <details open><summary>See it in action</summary>
+  <img src="docs/media/en/badges.avif" alt="The Badges page, an account's badges, then “What to mine, in order” with Badges dragged first">
+  </details>
+
 ### Tracking
 
 - **A journal of everything, and every request.** The Journal keeps every event: drops,
@@ -228,7 +239,6 @@ What sets it apart from other miners. “See it in action” under a point shows
   (strategies, when to bet, conditions), watch streaks and subscribed channels first,
   chat presence (can be turned off), default options for new streamers, Discord, Telegram
   and webhook notifications with images, a global or per-account proxy.
-- **Coming soon: badge mining.** The Twitch badges earned by watching, mined like the Drops.
 - 29 languages, dark and light themes, desktop notifications, a tray icon, start with the
   system.
 
@@ -279,6 +289,7 @@ Checked against their code and READMEs in November 2026.
 | Calendar of every Drops campaign, with search | ✅ | ❌ | partly ⁸ |
 | Mining order by campaign, excluded words, ignored campaign or reward | ✅ | ❌ | ❌ ⁹ |
 | Your listed streamers watched first for a campaign's Drops | ✅ | partly ¹⁰ | ❌ |
+| Twitch badges: the list of every badge, each account's badges, badge Drops and Twitch quests mined in your order (beta) | ✅ | ❌ | partly ¹² |
 | Filterable event journal and a list of every request, in the interface | ✅ | ❌ ⁴ | ❌ |
 | About 30 MB of memory (Docker server, 4 accounts) | ✅ | — ¹¹ | — ¹¹ |
 
@@ -297,7 +308,9 @@ does not.\
 ⁹ It has priority games and excluded games, chosen by game name.\
 ¹⁰ By default, it first watches the streamers on its list whose stream carries Drops (its
 `DROPS` priority), but never another channel.\
-¹¹ Not measured.
+¹¹ Not measured.\
+¹² A setting to mine or leave out the Drops campaigns whose rewards are badges or emotes;
+no Twitch quests and no list of badges.
 
 ## <a name="download"></a>Download
 

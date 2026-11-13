@@ -178,6 +178,18 @@ Ce qui le distingue des autres mineurs. « Voir en image » montre chaque poin
   <img src="../media/fr/drops-streamers-first.avif" alt="Un streamer de la liste regardé pour les Drops et pour ses points">
   </details>
 
+- **Badges (bêta).** La page Badges liste tous les badges de chat globaux de Twitch et
+  comment les obtenir. Chaque compte a sa page Badges : les badges en cours avec leur
+  progression, ceux encore à obtenir et ceux qu'il possède. Le mineur va chercher les
+  badges qui ne demandent que du temps de visionnage, dans les campagnes Drops et les
+  quêtes Twitch, et passe ceux que le compte a déjà. Dans « Quoi miner, dans l'ordre »,
+  glissez les jeux prioritaires, les badges et les autres campagnes Drops dans l'ordre
+  voulu, ou désactivez-en un. Cette fonction est en bêta.
+
+  <details open><summary>Voir en image</summary>
+  <img src="../media/fr/badges.avif" alt="La page Badges, les badges d'un compte, puis « Quoi miner, dans l'ordre » avec les badges glissés en tête">
+  </details>
+
 ### Suivi
 
 - **Un journal de tout, et chaque requête.** Le Journal garde chaque événement : drops,
@@ -235,7 +247,6 @@ Ce qui le distingue des autres mineurs. « Voir en image » montre chaque poin
   aux chaînes abonnées, présence dans le chat (désactivable), options par défaut des
   nouveaux streamers, notifications Discord, Telegram et webhook avec images, proxy global
   ou par compte.
-- **Bientôt : le minage de badges.** Les badges Twitch obtenus en regardant, minés comme les Drops.
 - 29 langues, thèmes sombre et clair, notifications de bureau, icône dans la zone de
   notification, lancement au démarrage du système.
 
@@ -286,6 +297,7 @@ Vérifié dans leur code et leur README en novembre 2026.
 | Calendrier de toutes les campagnes de Drops, avec recherche | ✅ | ❌ | en partie ⁸ |
 | Ordre de minage par campagne, mots exclus, campagne ou récompense ignorée | ✅ | ❌ | ❌ ⁹ |
 | Vos streamers listés regardés en premier pour les Drops d'une campagne | ✅ | en partie ¹⁰ | ❌ |
+| Badges Twitch : la liste de tous les badges, ceux de chaque compte, Drops de badges et quêtes Twitch minés dans votre ordre (bêta) | ✅ | ❌ | en partie ¹² |
 | Journal des événements filtrable et liste de chaque requête, dans l'interface | ✅ | ❌ ⁴ | ❌ |
 | Environ 30 Mo de mémoire (serveur Docker, 4 comptes) | ✅ | — ¹¹ | — ¹¹ |
 
@@ -304,7 +316,9 @@ fichier de logs.\
 ⁹ Il a des jeux prioritaires et des jeux exclus, choisis par nom de jeu.\
 ¹⁰ Par défaut, il regarde d'abord les streamers de sa liste dont le stream porte des Drops
 (sa priorité `DROPS`), mais jamais une autre chaîne.\
-¹¹ Non mesuré.
+¹¹ Non mesuré.\
+¹² Un réglage pour miner ou laisser de côté les campagnes de Drops dont les récompenses sont
+des badges ou des emotes ; ni quêtes Twitch ni liste des badges.
 
 ## <a name="download"></a>Télécharger
 
