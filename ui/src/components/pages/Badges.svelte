@@ -48,10 +48,13 @@
     visibleBadges(badgeList.badges, filter, normalizeSearch(query), ticker.now),
   );
 
+  const countOf = (kind: BadgeFilter): number =>
+    visibleBadges(badgeList.badges, kind, normalizeSearch(query), ticker.now).length;
+
   const filters = $derived([
-    { value: BadgeFilter.WATCH, label: t.badges_filter_watch() },
-    { value: BadgeFilter.SUB, label: t.badges_filter_sub() },
-    { value: BadgeFilter.ALL, label: t.badges_filter_all() },
+    { value: BadgeFilter.WATCH, label: t.badges_filter_watch(), count: countOf(BadgeFilter.WATCH) },
+    { value: BadgeFilter.SUB, label: t.badges_filter_sub(), count: countOf(BadgeFilter.SUB) },
+    { value: BadgeFilter.ALL, label: t.badges_filter_all(), count: countOf(BadgeFilter.ALL) },
   ]);
 </script>
 
