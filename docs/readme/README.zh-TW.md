@@ -140,7 +140,7 @@
   <img src="../media/zh-TW/drops-inventory.avif" alt="收藏庫和「全部領取」按鈕">
   </details>
 
-- **「Drops 優先我的實況主」。** 對於目前的活動，如果你清單上某位實況主的直播可計入該活動，就會比其他頻道優先觀看。同一個頻道既能推進掉寶進度，又能幫你賺取它的頻道點數。預設為開啟。
+- **「Drops 與徽章優先我的實況主」。** 對於目前的活動，如果你清單上某位實況主的直播可計入該活動，就會比其他頻道優先觀看。同一個頻道既能推進掉寶進度，又能幫你賺取它的頻道點數。預設為開啟。
 
   <details open><summary>觀看示範</summary>
   <img src="../media/zh-TW/drops-streamers-first.avif" alt="清單上的一位實況主，同時為了 Drops 和它的點數而觀看">

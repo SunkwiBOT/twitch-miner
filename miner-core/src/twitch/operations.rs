@@ -167,13 +167,17 @@ impl Operation {
     }
 }
 
-pub fn directory_variables(slug: &str, limit: usize) -> Value {
+// ! `drops_only` keeps the streams with Drops on; a Twitch event counts any
+// channel of its categories, so its reads go without the filter.
+pub fn directory_variables(slug: &str, limit: usize, drops_only: bool) -> Value {
+    let filters: &[&str] = if drops_only { &["DROPS_ENABLED"] } else { &[] };
+
     json!({
         "limit": limit, "slug": slug, "imageWidth": 50, "includeCostreaming": false,
         "options": {
             "broadcasterLanguages": [], "freeformTags": null, "includeRestricted": ["SUB_ONLY_LIVE"],
             "recommendationsContext": {"platform": "web"}, "sort": "RELEVANCE",
-            "systemFilters": ["DROPS_ENABLED"], "tags": [], "requestID": "JIRA-VXP-2397"
+            "systemFilters": filters, "tags": [], "requestID": "JIRA-VXP-2397"
         },
         "sortTypeIsRecency": false
     })

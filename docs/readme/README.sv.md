@@ -168,7 +168,7 @@ arbete.
   <img src="../media/sv/drops-inventory.avif" alt="Inventariet och knappen ”Hämta alla”">
   </details>
 
-- **”Mina streamers först för Drops”.** För den aktuella kampanjen går en streamer från
+- **”Mina streamers först för Drops och märken”.** För den aktuella kampanjen går en streamer från
   din lista, vars sändning räknas för kampanjen, före andra kanaler. Samma kanal ger
   framsteg på din drop och ger dig sina kanalpoäng. På som standard.
 

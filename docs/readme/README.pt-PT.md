@@ -167,7 +167,7 @@ funcionar.
   <img src="../media/pt-PT/drops-inventory.avif" alt="O inventário e o botão «Reclamar tudo»">
   </details>
 
-- **«Os meus streamers primeiro para os Drops».** Para a campanha atual, um streamer da
+- **«Os meus streamers primeiro para os Drops e os emblemas».** Para a campanha atual, um streamer da
   sua lista cujo direto conta para essa campanha passa à frente dos outros canais. O
   mesmo canal faz avançar o drop e dá-lhe os respetivos pontos do canal. Ativado por
   predefinição.

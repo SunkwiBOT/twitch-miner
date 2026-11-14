@@ -169,7 +169,7 @@ Ce qui le distingue des autres mineurs. « Voir en image » montre chaque poin
   <img src="../media/fr/drops-inventory.avif" alt="L'inventaire et le bouton « Tout réclamer »">
   </details>
 
-- **« Mes streamers d'abord pour les Drops ».** Pour la campagne en cours, un streamer de
+- **« Mes streamers d'abord pour les Drops et les badges ».** Pour la campagne en cours, un streamer de
   votre liste dont le live compte pour cette campagne passe avant les autres chaînes. La
   même chaîne fait progresser le drop et vous rapporte ses points de chaîne. Activé par
   défaut.

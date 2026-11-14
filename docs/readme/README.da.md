@@ -169,7 +169,7 @@ brug.
   <img src="../media/da/drops-inventory.avif" alt="Inventaret og knappen »Hent alle«">
   </details>
 
-- **»Mine streamere først til Drops«.** For den aktuelle kampagne går en streamer fra din
+- **»Mine streamere først til Drops og badges«.** For den aktuelle kampagne går en streamer fra din
   liste, hvis stream tæller for kampagnen, forud for andre kanaler. Den samme kanal bringer
   dit drop videre og giver dig sine kanalpoint. Slået til som standard.
 

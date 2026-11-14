@@ -166,7 +166,7 @@ What sets it apart from other miners. “See it in action” under a point shows
   <img src="docs/media/en/drops-inventory.avif" alt="The inventory and the “Claim all” button">
   </details>
 
-- **“My streamers first for Drops”.** For the current campaign, a streamer from your list
+- **“My streamers first for Drops and badges”.** For the current campaign, a streamer from your list
   whose stream counts for that campaign comes before other channels. The same channel
   moves the drop forward and earns you its channel points. On by default.
 

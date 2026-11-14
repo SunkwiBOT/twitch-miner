@@ -1355,11 +1355,20 @@ impl<T: TwitchApi> AccountMiner<T> {
             let campaign = self.campaigns.get(campaign_id)?;
 
             now.clone()
-                .filter(|channel| channel.live && plays(channel, &campaign.game))
+                .filter(|channel| channel.live && counts_for(channel, campaign))
         });
+        // ! A Twitch event offers no Drops: its watched channel is not asked about them.
+        let rechecked_event = missing_now
+            .as_ref()
+            .and_then(|(campaign_id, _)| self.campaigns.get(campaign_id))
+            .is_some_and(|campaign| campaign.kind == CampaignKind::Quest);
 
-        self.ask_offered_drops(&chosen, &directory, recheck.clone())
-            .await;
+        self.ask_offered_drops(
+            &chosen,
+            &directory,
+            recheck.clone().filter(|_| !rechecked_event),
+        )
+        .await;
 
         let kept = missing_now.as_ref().and_then(|(campaign_id, now)| {
             let campaign = self.campaigns.get(campaign_id)?;
@@ -1416,11 +1425,14 @@ impl<T: TwitchApi> AccountMiner<T> {
         chosen
     }
 
-    async fn read_directories(&self, games: Vec<Game>) -> Result<HashMap<String, Vec<Channel>>> {
+    async fn read_directories(
+        &self,
+        games: Vec<(Game, bool)>,
+    ) -> Result<HashMap<String, Vec<Channel>>> {
         let client = &self.client;
         let reads: Vec<(Game, Result<Vec<Channel>>)> = futures_util::stream::iter(games)
-            .map(|game| async move {
-                let read = client.game_directory(&game).await;
+            .map(|(game, drops_only)| async move {
+                let read = client.game_directory(&game, drops_only).await;
 
                 (game, read)
             })
@@ -1456,9 +1468,7 @@ impl<T: TwitchApi> AccountMiner<T> {
             chosen.iter().any(|campaign| campaign.id == *campaign_id)
                 && self.campaigns.get(campaign_id).is_some_and(|campaign| {
                     campaign.allowed_channels.is_empty()
-                        && directory
-                            .get(&campaign.game.id)
-                            .is_some_and(|listed| !listed.iter().any(|c| c.id == channel.id))
+                        && listed(directory, campaign, &channel.id) == Some(false)
                 })
         })
     }
@@ -1592,11 +1602,12 @@ impl<T: TwitchApi> AccountMiner<T> {
             return Some(before.clone());
         };
 
-        if !now.live || !plays(now, &campaign.game) {
+        if !now.live || !counts_for(now, campaign) {
             return None;
         }
 
         let drops_enabled = match self.offered(now) {
+            _ if campaign.kind == CampaignKind::Quest => before.drops_enabled,
             Some(offered) if !offered.campaign_ids.contains(&campaign.id) => return None,
             Some(_) => true,
             None => before.drops_enabled,
@@ -1639,13 +1650,10 @@ impl<T: TwitchApi> AccountMiner<T> {
                 .filter_map(|streamer| self.streamer_channels.get(&streamer.login))
                 .filter(|channel| {
                     campaigns.iter().any(|campaign| {
-                        let listed = directory
-                            .get(&campaign.game.id)
-                            .is_some_and(|channels| channels.iter().any(|c| c.id == channel.id));
-
-                        campaign.allowed_channels.is_empty()
-                            && plays(channel, &campaign.game)
-                            && !listed
+                        campaign.kind != CampaignKind::Quest
+                            && campaign.allowed_channels.is_empty()
+                            && counts_for(channel, campaign)
+                            && listed(directory, campaign, &channel.id) != Some(true)
                     })
                 })
                 .cloned()
@@ -3291,19 +3299,23 @@ impl<T: TwitchApi> AccountMiner<T> {
     }
 }
 
-fn lookup_targets(chosen: &[&Campaign]) -> (Vec<Game>, Vec<String>) {
-    let mut games: Vec<Game> = Vec::new();
+// ! A game is read with only its Drops streams unless only Twitch events
+// need it: any channel of their categories counts.
+fn lookup_targets(chosen: &[&Campaign]) -> (Vec<(Game, bool)>, Vec<String>) {
+    let mut games: Vec<(Game, bool)> = Vec::new();
     let mut allowed_logins: Vec<String> = Vec::new();
 
     for campaign in chosen {
         if campaign.allowed_channels.is_empty() {
+            let drops_only = campaign.kind != CampaignKind::Quest;
             let played = std::iter::once(&campaign.game)
                 .chain(campaign.categories.iter().skip(1))
                 .take(QUEST_CATEGORIES_READ);
 
             for game in played {
-                if !games.iter().any(|known| known.id == game.id) {
-                    games.push(game.clone());
+                match games.iter_mut().find(|(known, _)| known.id == game.id) {
+                    Some((_, filtered)) => *filtered |= drops_only,
+                    None => games.push((game.clone(), drops_only)),
                 }
             }
         } else {
@@ -3398,11 +3410,30 @@ fn stop_reason(
     }
 }
 
-fn plays(channel: &Channel, game: &Game) -> bool {
+// ! A channel counts for a campaign on its game or, for a Twitch event, on
+// any of its categories.
+fn counts_for(channel: &Channel, campaign: &Campaign) -> bool {
     channel
         .game
         .as_ref()
-        .is_some_and(|played| played.id == game.id)
+        .is_some_and(|game| campaign.plays(game))
+}
+
+// ! Whether the directories read for the campaign list the channel: `None`
+// when none of its games was read.
+fn listed(
+    directory: &HashMap<String, Vec<Channel>>,
+    campaign: &Campaign,
+    channel_id: &str,
+) -> Option<bool> {
+    let mut read = std::iter::once(&campaign.game)
+        .chain(&campaign.categories)
+        .filter_map(|game| directory.get(&game.id))
+        .peekable();
+
+    read.peek()?;
+
+    Some(read.any(|channels| channels.iter().any(|c| c.id == channel_id)))
 }
 
 // ! A badge is mined in a Drops slot: its watch and its events say so, for

@@ -140,7 +140,7 @@ Onu diğer madencilerden ayıran şeyler. Bir maddenin altındaki “Çalışır
   <img src="../media/tr/drops-inventory.avif" alt="Envanter ve “Tümünü al” düğmesi">
   </details>
 
-- **“Drops için önce benim yayıncılarım”.** Geçerli kampanyada, listenizdeki yayıncılardan yayını o kampanyaya sayılan biri diğer kanallardan önce gelir. Aynı kanal hem drop'u ilerletir hem de size kanal puanlarını kazandırır. Varsayılan olarak açıktır.
+- **“Drops ve rozetler için önce benim yayıncılarım”.** Geçerli kampanyada, listenizdeki yayıncılardan yayını o kampanyaya sayılan biri diğer kanallardan önce gelir. Aynı kanal hem drop'u ilerletir hem de size kanal puanlarını kazandırır. Varsayılan olarak açıktır.
 
   <details open><summary>Çalışırken görün</summary>
   <img src="../media/tr/drops-streamers-first.avif" alt="Listeden bir yayıncı, hem Drops hem de puanları için izleniyor">

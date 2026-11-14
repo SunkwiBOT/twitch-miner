@@ -140,7 +140,7 @@ Hal-hal yang membedakannya dari penambang lain. “Lihat langsung” di bawah se
   <img src="../media/id/drops-inventory.avif" alt="Inventaris dan tombol “Klaim semua”">
   </details>
 
-- **“Streamer saya lebih dulu untuk Drops”.** Untuk kampanye saat ini, streamer dari daftar Anda yang stream-nya dihitung untuk kampanye itu didahulukan dari channel lain. Channel yang sama memajukan drop sekaligus memberi Anda poin channel-nya. Aktif secara default.
+- **“Streamer saya lebih dulu untuk Drops dan lencana”.** Untuk kampanye saat ini, streamer dari daftar Anda yang stream-nya dihitung untuk kampanye itu didahulukan dari channel lain. Channel yang sama memajukan drop sekaligus memberi Anda poin channel-nya. Aktif secara default.
 
   <details open><summary>Lihat langsung</summary>
   <img src="../media/id/drops-streamers-first.avif" alt="Streamer dari daftar, ditonton untuk Drops dan untuk poinnya">

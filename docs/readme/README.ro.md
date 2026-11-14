@@ -168,7 +168,7 @@ la lucru.
   <img src="../media/ro/drops-inventory.avif" alt="Inventarul și butonul „Revendică tot”">
   </details>
 
-- **„Streamerii mei mai întâi pentru Drops”.** Pentru campania curentă, un streamer din
+- **„Streamerii mei mai întâi pentru Drops și insigne”.** Pentru campania curentă, un streamer din
   lista ta al cărui live contează pentru acea campanie trece înaintea celorlalte canale.
   Același canal avansează drop-ul și îți aduce punctele lui de canal. Activat implicit.
 

@@ -165,7 +165,7 @@
   <img src="../media/cs/drops-inventory.avif" alt="Inventář a tlačítko „Vyzvednout vše“">
   </details>
 
-- **„Moji streameři první pro Drops“.** Pro aktuální kampaň má streamer z vašeho seznamu,
+- **„Moji streameři první pro Drops a odznaky“.** Pro aktuální kampaň má streamer z vašeho seznamu,
   jehož vysílání se do této kampaně počítá, přednost před ostatními kanály. Tentýž kanál
   posouvá drop dopředu a přináší vám své body kanálu. Ve výchozím stavu zapnuto.
 

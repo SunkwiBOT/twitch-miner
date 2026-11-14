@@ -140,7 +140,7 @@
   <img src="../media/zh-CN/drops-inventory.avif" alt="库存和“全部领取”按钮">
   </details>
 
-- **“Drops 优先我的主播”。** 对于当前活动，如果你列表中某位主播的直播计入该活动，就会优先于其他频道观看它。同一个频道既能推进掉落进度，又能为你赚取它的频道点数。默认开启。
+- **“Drops 和徽章优先我的主播”。** 对于当前活动，如果你列表中某位主播的直播计入该活动，就会优先于其他频道观看它。同一个频道既能推进掉落进度，又能为你赚取它的频道点数。默认开启。
 
   <details open><summary>查看演示</summary>
   <img src="../media/zh-CN/drops-streamers-first.avif" alt="列表中的一位主播，同时为 Drops 和它的点数而观看">

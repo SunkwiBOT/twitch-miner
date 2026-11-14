@@ -435,9 +435,13 @@ fn pick_channel<'a>(
     live: &'a [Channel],
     watching: Option<&str>,
 ) -> Option<&'a Channel> {
+    // ! A Twitch event counts any channel of its categories: it has no Drops
+    // for a channel to offer.
     let preferred = |channel: &Channel| {
         settings.drops.streamers_first
-            && (channel.drops_enabled || !campaign.allowed_channels.is_empty())
+            && (channel.drops_enabled
+                || !campaign.allowed_channels.is_empty()
+                || campaign.kind == CampaignKind::Quest)
             && settings
                 .points
                 .streamers

@@ -140,7 +140,7 @@ Những gì làm nên khác biệt so với các trình đào khác. “Xem minh
   <img src="../media/vi/drops-inventory.avif" alt="Kho đồ và nút “Nhận tất cả”">
   </details>
 
-- **“Ưu tiên streamer của tôi cho Drops”.** Với chiến dịch hiện tại, một streamer trong danh sách của bạn có buổi phát được tính cho chiến dịch đó sẽ được ưu tiên hơn các kênh khác. Cùng một kênh vừa đẩy tiến độ drop vừa mang về cho bạn điểm kênh của nó. Bật theo mặc định.
+- **“Ưu tiên streamer của tôi cho Drops và huy hiệu”.** Với chiến dịch hiện tại, một streamer trong danh sách của bạn có buổi phát được tính cho chiến dịch đó sẽ được ưu tiên hơn các kênh khác. Cùng một kênh vừa đẩy tiến độ drop vừa mang về cho bạn điểm kênh của nó. Bật theo mặc định.
 
   <details open><summary>Xem minh họa</summary>
   <img src="../media/vi/drops-streamers-first.avif" alt="Một streamer trong danh sách, được xem để lấy Drops và điểm kênh">

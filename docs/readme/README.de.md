@@ -171,7 +171,7 @@ im Einsatz.
   <img src="../media/de/drops-inventory.avif" alt="Das Inventar und die Schaltfläche „Alle abholen“">
   </details>
 
-- **„Meine Streamer zuerst für Drops“.** Für die aktuelle Kampagne hat ein Streamer aus
+- **„Meine Streamer zuerst für Drops und Abzeichen“.** Für die aktuelle Kampagne hat ein Streamer aus
   Ihrer Liste, dessen Stream für diese Kampagne zählt, Vorrang vor anderen Kanälen. Derselbe
   Kanal bringt den Drop voran und bringt Ihnen seine Kanalpunkte ein. Standardmäßig aktiv.
 

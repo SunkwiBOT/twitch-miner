@@ -29,7 +29,7 @@ pub(crate) trait TwitchApi {
 
     async fn quests(&self) -> Result<QuestsRead>;
 
-    async fn game_directory(&self, game: &Game) -> Result<Vec<Channel>>;
+    async fn game_directory(&self, game: &Game, drops_only: bool) -> Result<Vec<Channel>>;
 
     async fn channels(&self, logins: &[String]) -> Result<Vec<Channel>>;
 
@@ -98,8 +98,8 @@ impl TwitchApi for TwitchClient {
         TwitchClient::quests(self).await
     }
 
-    async fn game_directory(&self, game: &Game) -> Result<Vec<Channel>> {
-        TwitchClient::game_directory(self, game).await
+    async fn game_directory(&self, game: &Game, drops_only: bool) -> Result<Vec<Channel>> {
+        TwitchClient::game_directory(self, game, drops_only).await
     }
 
     async fn channels(&self, logins: &[String]) -> Result<Vec<Channel>> {

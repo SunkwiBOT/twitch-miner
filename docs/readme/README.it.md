@@ -168,7 +168,7 @@ all'opera.
   <img src="../media/it/drops-inventory.avif" alt="L'inventario e il pulsante «Riscatta tutto»">
   </details>
 
-- **«Prima i miei streamer per i Drops».** Per la campagna in corso, uno streamer della
+- **«Prima i miei streamer per i Drops e i badge».** Per la campagna in corso, uno streamer della
   tua lista la cui live vale per quella campagna passa davanti agli altri canali. Lo
   stesso canale fa avanzare il drop e ti fa guadagnare i suoi punti canale. Attivo per
   impostazione predefinita.

@@ -170,7 +170,7 @@ ominaisuuden käytössä.
   <img src="../media/fi/drops-inventory.avif" alt="Varasto ja ”Lunasta kaikki” -painike">
   </details>
 
-- **”Omat streamaajat ensin Dropseissa”.** Nykyisessä kampanjassa listasi streamaaja,
+- **”Omat streamaajat ensin Dropseissa ja merkeissä”.** Nykyisessä kampanjassa listasi streamaaja,
   jonka lähetys lasketaan kampanjaan, menee muiden kanavien edelle. Sama kanava edistää
   dropia ja kerryttää sinulle kanavansa pisteitä. Oletuksena käytössä.
 

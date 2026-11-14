@@ -167,7 +167,7 @@ działa.
   <img src="../media/pl/drops-inventory.avif" alt="Ekwipunek i przycisk „Odbierz wszystkie”">
   </details>
 
-- **„Najpierw moi streamerzy dla Drops”.** W bieżącej kampanii streamer z Twojej listy,
+- **„Najpierw moi streamerzy dla Drops i odznak”.** W bieżącej kampanii streamer z Twojej listy,
   którego transmisja liczy się do tej kampanii, ma pierwszeństwo przed innymi kanałami.
   Jeden i ten sam kanał posuwa drop naprzód i przynosi Ci swoje punkty kanału. Domyślnie
   włączone.

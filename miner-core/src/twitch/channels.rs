@@ -150,11 +150,11 @@ impl TwitchClient {
         Ok(found)
     }
 
-    pub async fn game_directory(&self, game: &Game) -> Result<Vec<Channel>> {
+    pub async fn game_directory(&self, game: &Game, drops_only: bool) -> Result<Vec<Channel>> {
         let response = self
             .gql(
                 Operation::GameDirectory,
-                directory_variables(&game.slug(), DIRECTORY_LIMIT),
+                directory_variables(&game.slug(), DIRECTORY_LIMIT, drops_only),
             )
             .await?;
         let game_node = &response["data"]["game"];
@@ -177,7 +177,7 @@ impl TwitchClient {
         let edges: Vec<&Value> = values(&game_node["streams"]["edges"]).collect();
         let channels: Vec<Channel> = edges
             .iter()
-            .filter_map(|edge| parse_directory_node(&edge["node"], &resolved))
+            .filter_map(|edge| parse_directory_node(&edge["node"], &resolved, drops_only))
             .collect();
 
         note_left_out("directory channels", edges.len(), channels.len());
@@ -325,7 +325,7 @@ fn parse_user(user: &Value, login: &str) -> Channel {
     }
 }
 
-fn parse_directory_node(node: &Value, game: &Game) -> Option<Channel> {
+fn parse_directory_node(node: &Value, game: &Game, drops_only: bool) -> Option<Channel> {
     let broadcaster = &node["broadcaster"];
     let login = text(&broadcaster["login"])?;
 
@@ -338,7 +338,7 @@ fn parse_directory_node(node: &Value, game: &Game) -> Option<Channel> {
         broadcast_id: text(&node["id"]),
         viewers: node["viewersCount"].as_u64(),
         game: Some(parse_game(&node["game"]).unwrap_or_else(|| game.clone())),
-        drops_enabled: true,
+        drops_enabled: drops_only,
     })
 }
 

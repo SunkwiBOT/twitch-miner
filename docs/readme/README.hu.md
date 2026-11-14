@@ -171,7 +171,7 @@ láthatod, hogyan működnek.
   <img src="../media/hu/drops-inventory.avif" alt="A leltár és az „Összes begyűjtése” gomb">
   </details>
 
-- **„Saját streamereim előre a Dropsnál”.** Az aktuális kampánynál a listádon szereplő
+- **„Saját streamereim előre a Dropsnál és a jelvényeknél”.** Az aktuális kampánynál a listádon szereplő
   streamer, akinek az adása beleszámít ebbe a kampányba, megelőzi a többi csatornát.
   Ugyanaz a csatorna viszi előre a dropot, és hozza neked a csatornapontjait. Alapértelmezés
   szerint be van kapcsolva.

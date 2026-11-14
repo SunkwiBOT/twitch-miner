@@ -171,7 +171,7 @@ het werkt.
   <img src="../media/nl/drops-inventory.avif" alt="De inventaris en de knop “Alles claimen”">
   </details>
 
-- **“Mijn streamers eerst voor Drops”.** Voor de huidige campagne gaat een streamer uit je
+- **“Mijn streamers eerst voor Drops en badges”.** Voor de huidige campagne gaat een streamer uit je
   lijst wiens stream voor die campagne telt, voor op andere kanalen. Hetzelfde kanaal
   brengt de drop verder en levert je zijn kanaalpunten op. Standaard aan.
 

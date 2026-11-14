@@ -167,7 +167,7 @@ recurso funcionando.
   <img src="../media/pt-BR/drops-inventory.avif" alt="O inventário e o botão “Resgatar tudo”">
   </details>
 
-- **“Meus streamers primeiro para os Drops”.** Para a campanha atual, um streamer da sua
+- **“Meus streamers primeiro para os Drops e os emblemas”.** Para a campanha atual, um streamer da sua
   lista cuja live conta para essa campanha passa na frente dos outros canais. O mesmo
   canal faz o drop avançar e rende os pontos do canal dele. Ativado por padrão.
 
