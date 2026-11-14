@@ -309,7 +309,6 @@
   "campaign_channels_some": "Canais permitidos: {count}",
   "common_account": "Conta",
   "campaign_progress": "{current}/{required} min",
-  "campaign_progress_of": "Progresso e resgates de {account}",
   "campaign_link_game": "Vincular a conta do jogo",
   "campaign_open_twitch": "Abrir na Twitch",
   "logs_title": "Registros técnicos",
@@ -831,7 +830,6 @@
   "notify_chat_mention": "Menção em um chat",
   "campaign_prioritize": "Minerar primeiro",
   "campaign_ignore": "Ignorar",
-  "campaign_unignore": "Parar de ignorar",
   "common_label": "{label}:",
   "nav_account_inventory": "Inventário",
   "inventory_hint": "As recompensas das suas campanhas de Drops, lidas do seu inventário da Twitch. Resgate-as aqui quando o resgate automático estiver desativado.",
@@ -1272,6 +1270,38 @@
   "badges_none": "A lista de emblemas ainda não foi lida.",
   "badges_error": "Lista de emblemas indisponível: {error}",
   "badges_retry": "Nova tentativa em {time}.",
+  "badges_count": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} emblema",
+        "countPlural=*": "{count} emblemas"
+      }
+    }
+  ],
+  "badges_off_calendar": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} emblema sem datas ou já terminado:",
+        "countPlural=*": "{count} emblemas sem datas ou já terminados:"
+      }
+    }
+  ],
+  "badges_show_cards": "ver a visualização Cartões",
+  "badges_show_all_rows": "Mostrar todos os {count} jogos e coleções",
   "badges_minable": "Minerável",
   "badge_hint_badge_minable": "Só tempo assistido: o minerador consegue obtê-lo",
   "badges_until": "Até {date}",

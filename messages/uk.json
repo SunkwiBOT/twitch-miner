@@ -312,7 +312,6 @@
   "campaign_channels_some": "Дозволені канали: {count}",
   "common_account": "Обліковий запис",
   "campaign_progress": "{current}/{required} хв",
-  "campaign_progress_of": "Прогрес і отримання для акаунта {account}",
   "campaign_link_game": "Прив'язати ігровий обліковий запис",
   "campaign_open_twitch": "Відкрити на Twitch",
   "logs_title": "Технічні логи",
@@ -757,7 +756,6 @@
   "notify_chat_mention": "Згадка в чаті",
   "campaign_prioritize": "Майнити в першу чергу",
   "campaign_ignore": "Ігнорувати",
-  "campaign_unignore": "Не ігнорувати",
   "common_label": "{label}:",
   "nav_account_inventory": "Інвентар",
   "inventory_hint": "Нагороди ваших кампаній Drops, прочитані з вашого інвентаря Twitch. Отримуйте їх тут, коли автоматичне отримання вимкнено.",
@@ -1188,6 +1186,40 @@
   "badges_none": "Список значків ще не прочитано.",
   "badges_error": "Список значків недоступний: {error}",
   "badges_retry": "Наступна спроба через {time}.",
+  "badges_count": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} значок",
+        "countPlural=few": "{count} значки",
+        "countPlural=*": "{count} значків"
+      }
+    }
+  ],
+  "badges_off_calendar": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} значок без дат або вже завершений:",
+        "countPlural=few": "{count} значки без дат або вже завершені:",
+        "countPlural=*": "{count} значків без дат або вже завершених:"
+      }
+    }
+  ],
+  "badges_show_cards": "відкрийте вигляд «Картки»",
+  "badges_show_all_rows": "Показати всі ігри та колекції ({count})",
   "badges_minable": "Можна майнити",
   "badge_hint_badge_minable": "Лише час перегляду: майнер може його отримати",
   "badges_until": "До {date}",

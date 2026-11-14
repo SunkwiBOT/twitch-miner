@@ -1,5 +1,4 @@
-<script lang="ts">
-  import type { CampaignType } from "../../lib/bindings/CampaignType";
+<script lang="ts" generics="T">
   import {
     estimateLabelWidth,
     getBarGeometry,
@@ -16,20 +15,20 @@
   import TimeLeftTag from "./TimeLeftTag.svelte";
 
   type TimelineBarPropsType = {
-    item: TimelineItemType;
-    gameName: string;
+    item: TimelineItemType<T>;
+    rowName: string;
     range: TimelineRangeType;
     top: number;
     height: number;
     laneWidth: number;
     now: number;
     todayEnd: number;
-    onopen: (campaign: CampaignType) => void;
+    onopen: (value: T) => void;
   };
 
   let {
     item,
-    gameName,
+    rowName,
     range,
     top,
     height,
@@ -38,6 +37,10 @@
     todayEnd,
     onopen,
   }: TimelineBarPropsType = $props();
+
+  let brokenImage = $state<string | null>(null);
+
+  const image = $derived(item.image && item.image !== brokenImage ? item.image : null);
 
   const geometry = $derived(getBarGeometry(range, item.start, item.end, now));
 
@@ -65,7 +68,7 @@
       ? getLabelPlacement(
           geometry,
           laneWidth,
-          estimateLabelWidth(item.campaign.name, endLabel.replaceAll("**", ""), pill),
+          estimateLabelWidth(item.name, endLabel.replaceAll("**", ""), pill, image !== null),
         )
       : BarLabelPlacement.INSIDE,
   );
@@ -94,8 +97,16 @@
 </script>
 
 {#snippet label()}
-  <span class="sr-only">{`${gameName}: `}</span>
-  <span class="min-w-0 truncate">{item.campaign.name}</span>
+  <span class="sr-only">{`${rowName}: `}</span>
+  {#if image}<img
+      class="size-4.5 shrink-0 object-contain"
+      src={image}
+      alt=""
+      loading="lazy"
+      decoding="async"
+      onerror={() => (brokenImage = image)}
+    />{/if}
+  <span class="min-w-0 truncate">{item.name}</span>
   <span class="shrink-0 font-medium text-muted-foreground"><RichText text={endLabel} /></span>
   {#if pill}<TimeLeftTag text={pill} urgent={true} />{/if}
 {/snippet}
@@ -108,13 +119,13 @@
     class:outside={placement !== BarLabelPlacement.INSIDE}
     data-bar
     type="button"
-    title={`${gameName} · ${item.campaign.name}`}
+    title={`${rowName} · ${item.name}`}
     style:left="{geometry.left}%"
     style:width="{geometry.width}%"
     style:top="{top}px"
     style:height="{height}px"
     style:--p="{geometry.progress}%"
-    onclick={() => onopen(item.campaign)}
+    onclick={() => onopen(item.value)}
     {onkeydown}
   >
     {#if placement === BarLabelPlacement.INSIDE}

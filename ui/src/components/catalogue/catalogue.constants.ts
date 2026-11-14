@@ -1,16 +1,6 @@
 import { DAY_MS, HOUR_MS } from "../../lib/time/time.constants";
 import { BadgeTone } from "../../lib/tones.constants";
 
-export enum CatalogueView {
-  TIMELINE = "TIMELINE",
-  CARDS = "CARDS",
-}
-
-export const CATALOGUE_VIEW_SLUGS: Record<CatalogueView, string> = {
-  [CatalogueView.TIMELINE]: "timeline",
-  [CatalogueView.CARDS]: "cards",
-};
-
 export enum CatalogueSort {
   ENDING = "ENDING",
   NEW = "NEW",

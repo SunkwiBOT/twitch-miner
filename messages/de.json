@@ -309,7 +309,6 @@
   "campaign_channels_some": "Erlaubte Kanäle: {count}",
   "common_account": "Konto",
   "campaign_progress": "{current}/{required} Min.",
-  "campaign_progress_of": "Fortschritt und Einlösen für {account}",
   "campaign_link_game": "Spielkonto verknüpfen",
   "campaign_open_twitch": "Auf Twitch öffnen",
   "logs_title": "Technische Protokolle",
@@ -831,7 +830,6 @@
   "notify_chat_mention": "Erwähnung in einem Chat",
   "campaign_prioritize": "Vorrangig minen",
   "campaign_ignore": "Ignorieren",
-  "campaign_unignore": "Nicht mehr ignorieren",
   "common_label": "{label}:",
   "nav_account_inventory": "Inventar",
   "inventory_hint": "Die Belohnungen Ihrer Drops-Kampagnen, aus Ihrem Twitch-Inventar gelesen. Holen Sie sie hier ab, wenn das automatische Abholen aus ist.",
@@ -1258,6 +1256,38 @@
   "badges_none": "Die Abzeichenliste wurde noch nicht gelesen.",
   "badges_error": "Abzeichenliste nicht verfügbar: {error}",
   "badges_retry": "Nächster Versuch in {time}.",
+  "badges_count": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} Abzeichen",
+        "countPlural=*": "{count} Abzeichen"
+      }
+    }
+  ],
+  "badges_off_calendar": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} Abzeichen ohne Daten oder bereits beendet:",
+        "countPlural=*": "{count} Abzeichen ohne Daten oder bereits beendet:"
+      }
+    }
+  ],
+  "badges_show_cards": "in der Ansicht Karten ansehen",
+  "badges_show_all_rows": "Alle {count} Spiele und Sammlungen anzeigen",
   "badges_minable": "Mintbar",
   "badge_hint_badge_minable": "Nur Zuschauzeit: der Miner kann es holen",
   "badges_until": "Bis {date}",

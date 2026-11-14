@@ -309,7 +309,6 @@
   "campaign_channels_some": "Tillatte kanaler: {count}",
   "common_account": "Konto",
   "campaign_progress": "{current}/{required} min",
-  "campaign_progress_of": "Fremdrift og henting for {account}",
   "campaign_link_game": "Koble spillkontoen",
   "campaign_open_twitch": "Åpne på Twitch",
   "logs_title": "Tekniske logger",
@@ -751,7 +750,6 @@
   "notify_chat_mention": "Omtale i en chat",
   "campaign_prioritize": "Sett først i mining-rekkefølgen",
   "campaign_ignore": "Ignorer",
-  "campaign_unignore": "Slutt å ignorere",
   "common_label": "{label}:",
   "nav_account_inventory": "Inventar",
   "inventory_hint": "Belønningene fra Drops-kampanjene dine, lest fra Twitch-inventaret ditt. Hent dem her når automatisk henting er slått av.",
@@ -1176,6 +1174,38 @@
   "badges_none": "Merkelisten er ikke lest ennå.",
   "badges_error": "Merkelisten er utilgjengelig: {error}",
   "badges_retry": "Nytt forsøk om {time}.",
+  "badges_count": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} merke",
+        "countPlural=*": "{count} merker"
+      }
+    }
+  ],
+  "badges_off_calendar": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} merke uten datoer eller allerede avsluttet:",
+        "countPlural=*": "{count} merker uten datoer eller allerede avsluttet:"
+      }
+    }
+  ],
+  "badges_show_cards": "se visningen Kort",
+  "badges_show_all_rows": "Vis alle {count} spill og samlinger",
   "badges_minable": "Kan mines",
   "badge_hint_badge_minable": "Bare visningstid: mineren kan få det",
   "badges_until": "Til {date}",

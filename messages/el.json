@@ -309,7 +309,6 @@
   "campaign_channels_some": "Επιτρεπόμενα κανάλια: {count}",
   "common_account": "Λογαριασμός",
   "campaign_progress": "{current}/{required} λεπτά",
-  "campaign_progress_of": "Πρόοδος και εξαργυρώσεις για {account}",
   "campaign_link_game": "Σύνδεση λογαριασμού παιχνιδιού",
   "campaign_open_twitch": "Άνοιγμα στο Twitch",
   "logs_title": "Αρχεία καταγραφής",
@@ -831,7 +830,6 @@
   "notify_chat_mention": "Αναφορά σε συνομιλία",
   "campaign_prioritize": "Εξόρυξη με προτεραιότητα",
   "campaign_ignore": "Παράβλεψη",
-  "campaign_unignore": "Άρση παράβλεψης",
   "common_label": "{label}:",
   "nav_account_inventory": "Απόθεμα",
   "inventory_hint": "Οι ανταμοιβές των καμπανιών Drops σας, όπως διαβάζονται από το απόθεμά σας στο Twitch. Παραλάβετέ τες εδώ όταν η αυτόματη παραλαβή είναι απενεργοποιημένη.",
@@ -1272,6 +1270,38 @@
   "badges_none": "Η λίστα σημάτων δεν έχει διαβαστεί ακόμη.",
   "badges_error": "Η λίστα σημάτων δεν είναι διαθέσιμη: {error}",
   "badges_retry": "Νέα προσπάθεια σε {time}.",
+  "badges_count": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} σήμα",
+        "countPlural=*": "{count} σήματα"
+      }
+    }
+  ],
+  "badges_off_calendar": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} σήμα χωρίς ημερομηνίες ή που έχει ήδη λήξει:",
+        "countPlural=*": "{count} σήματα χωρίς ημερομηνίες ή που έχουν ήδη λήξει:"
+      }
+    }
+  ],
+  "badges_show_cards": "δείτε την προβολή Κάρτες",
+  "badges_show_all_rows": "Εμφάνιση και των {count} παιχνιδιών και συλλογών",
   "badges_minable": "Εξορύξιμο",
   "badge_hint_badge_minable": "Μόνο χρόνος παρακολούθησης: ο miner μπορεί να το αποκτήσει",
   "badges_until": "Έως {date}",

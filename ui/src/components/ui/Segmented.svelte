@@ -31,17 +31,16 @@
     }
   }}
 >
-  <!-- ! On a phone the tabs scroll inside their bar: wider, they would scroll the whole page sideways. -->
   <TabsList
     aria-label={label}
-    class="max-w-full justify-start overflow-x-auto [scrollbar-width:none]"
+    class="min-h-8 max-w-full flex-wrap justify-start gap-y-0.5 group-data-horizontal/tabs:h-auto"
   >
     {#each options as option (option.value)}
       <TabsTrigger
         value={option.value}
         id={panel ? segmentId(panel, option.value) : undefined}
         aria-controls={panel}
-        class="px-2.5"
+        class="h-[25px] px-2.5"
       >
         {#if option.icon}<Icon name={option.icon} size={14} />{/if}
         {option.label}

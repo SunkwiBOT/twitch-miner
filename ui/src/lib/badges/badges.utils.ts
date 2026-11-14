@@ -12,6 +12,14 @@ import type { RepeatType } from "../bindings/RepeatType";
 import type { TimedDropType } from "../bindings/TimedDropType";
 import { dropDone, periodTotals, subsMissing } from "../catalogue/campaign.utils";
 import { campaignOf, campaignsOf } from "../catalogue/catalogue.svelte";
+import { gameArt } from "../catalogue/games.utils";
+import {
+  toTimelineRows,
+  type TimelineHeadType,
+  type TimelineRowType,
+} from "../catalogue/timeline.utils";
+import { BoxArtSize } from "../format.constants";
+import { boxArt } from "../format.utils";
 import { matchesSearch } from "../search/search.utils";
 import { t } from "../i18n/i18n.svelte";
 import type { BadgeRequirementType } from "../bindings/BadgeRequirementType";
@@ -66,6 +74,61 @@ export const visibleBadges = (
         (time(b.first_seen_at) || 0) - (time(a.first_seen_at) || 0) ||
         a.title.localeCompare(b.title),
     );
+
+// ! A collection or a sitewide quest spans many games: its badges share the collection's row, a Drops campaign's the game's.
+const badgeRow = (badge: GlobalBadgeType, rule: BadgeRequirementType): TimelineHeadType => {
+  const collection = rule.collection !== undefined || rule.categories.length > 1;
+
+  if (collection && rule.campaign_name) {
+    return {
+      key: `campaign/${rule.campaign_name.toLowerCase()}`,
+      name: rule.campaign_name,
+      art: badge.image_url ?? null,
+      contain: true,
+    };
+  }
+
+  const name = rule.game_name || rule.campaign_name || badge.title;
+  const game = rule.categories.find((category) => category.name === name);
+
+  return {
+    key: `game/${name.toLowerCase()}`,
+    name,
+    art: boxArt(gameArt(name, game?.box_art_url), BoxArtSize.ROW),
+    contain: false,
+  };
+};
+
+export const badgeTimelineRows = (
+  badges: GlobalBadgeType[],
+  now: number,
+): TimelineRowType<GlobalBadgeType>[] =>
+  toTimelineRows(
+    badges.flatMap((badge) => {
+      const rule = badge.requirement;
+      const start = time(rule?.starts_at);
+      const end = time(rule?.ends_at);
+
+      if (!rule || Number.isNaN(start) || !(end > now)) {
+        return [];
+      }
+
+      return [
+        {
+          head: badgeRow(badge, rule),
+          item: {
+            key: badgeKey(badge.set_id, badge.version_id),
+            name: badge.title,
+            image: badge.image_url,
+            start,
+            end,
+            value: badge,
+          },
+        },
+      ];
+    }),
+    (items) => t.badges_count({ count: items.length }),
+  );
 
 export enum AccountBadgeState {
   IN_PROGRESS = "IN_PROGRESS",

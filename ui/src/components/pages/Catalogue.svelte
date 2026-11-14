@@ -6,15 +6,19 @@
   import { DROPS_API_NAME, DROPS_WEB_URL } from "../../lib/partners.constants";
   import { openTab, showTab } from "../../lib/state/router";
   import { ticker } from "../../lib/state/ticker.svelte";
-  import { runningCampaigns } from "../../lib/catalogue/timeline.utils";
+  import { campaignTimelineRows, runningCampaigns } from "../../lib/catalogue/timeline.utils";
   import { matchesSearch, normalizeSearch } from "../../lib/search/search.utils";
   import { linkMarker, strong } from "../../lib/text.utils";
   import { relativeTime } from "../../lib/time/time.utils";
   import CampaignCard from "../catalogue/CampaignCard.svelte";
   import CampaignDialog from "../catalogue/CampaignDialog.svelte";
   import CatalogRefreshButton from "../catalogue/CatalogRefreshButton.svelte";
-  import CatalogueTimeline from "../catalogue/CatalogueTimeline.svelte";
-  import { TIMELINE_ZOOMS, TimelineZoom } from "../../lib/catalogue/timeline.constants";
+  import Timeline from "../catalogue/Timeline.svelte";
+  import {
+    TIMELINE_VIEW_SLUGS,
+    TimelineView,
+    TimelineZoom,
+  } from "../../lib/catalogue/timeline.constants";
   import EmptyState from "../ui/EmptyState.svelte";
   import PageBody from "../ui/PageBody.svelte";
   import PageHeader from "../ui/PageHeader.svelte";
@@ -22,12 +26,8 @@
   import SearchField from "../ui/SearchField.svelte";
   import Segmented from "../ui/Segmented.svelte";
   import { IconName } from "../../lib/icons.constants";
-  import {
-    CATALOGUE_VIEW_SLUGS,
-    CatalogueSort,
-    CatalogueView,
-  } from "../catalogue/catalogue.constants";
-  import { ZOOM_LABELS } from "../catalogue/catalogue.utils";
+  import { CatalogueSort } from "../catalogue/catalogue.constants";
+  import { viewOptions, zoomOptions } from "../catalogue/catalogue.utils";
   import { catalogue } from "../../lib/catalogue/catalogue.svelte";
 
   type CataloguePropsType = { snapshot: SnapshotType };
@@ -36,7 +36,7 @@
 
   let query = $state("");
   const view = $derived(
-    openTab(Object.values(CatalogueView), CATALOGUE_VIEW_SLUGS, CatalogueView.TIMELINE),
+    openTab(Object.values(TimelineView), TIMELINE_VIEW_SLUGS, TimelineView.TIMELINE),
   );
   let sort = $state(CatalogueSort.ENDING);
   let open = $state<CampaignType | null>(null);
@@ -67,11 +67,6 @@
         );
     }
   });
-
-  const views = $derived([
-    { value: CatalogueView.TIMELINE, label: t.catalogue_view_timeline(), icon: IconName.CALENDAR },
-    { value: CatalogueView.CARDS, label: t.catalogue_view_cards(), icon: IconName.GRID },
-  ]);
 
   let zoom = $state(TimelineZoom.TWO_WEEKS);
 
@@ -113,13 +108,13 @@
     <span class="flex-1"></span>
     <Segmented
       value={view}
-      options={views}
+      options={viewOptions()}
       label={t.catalogue_view()}
-      onchange={(next) => showTab(CATALOGUE_VIEW_SLUGS, next)}
+      onchange={(next) => showTab(TIMELINE_VIEW_SLUGS, next)}
     />
   </PageHeader>
 
-  {#if view === CatalogueView.CARDS}
+  {#if view === TimelineView.CARDS}
     <Segmented
       value={sort}
       options={sorts}
@@ -129,7 +124,7 @@
   {:else}
     <Segmented
       value={zoom}
-      options={TIMELINE_ZOOMS.map((option) => ({ value: option, label: ZOOM_LABELS[option]() }))}
+      options={zoomOptions()}
       label={t.timeline_zoom()}
       onchange={(next) => (zoom = next)}
     />
@@ -144,11 +139,13 @@
           : t.catalogue_none()}
       icon={IconName.GIFT}
     />
-  {:else if view === CatalogueView.TIMELINE}
-    <CatalogueTimeline
-      campaigns={active}
+  {:else if view === TimelineView.TIMELINE}
+    {@const rows = campaignTimelineRows(active)}
+    <Timeline
+      {rows}
       now={ticker.now}
       {zoom}
+      moreLabel={t.timeline_show_all({ count: rows.length })}
       onopen={(campaign) => (open = campaign)}
     />
   {:else}

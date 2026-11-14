@@ -312,7 +312,6 @@
   "campaign_channels_some": "Povolené kanály: {count}",
   "common_account": "Účet",
   "campaign_progress": "{current}/{required} min",
-  "campaign_progress_of": "Postup a vyzvedávání pro účet {account}",
   "campaign_link_game": "Propojit herní účet",
   "campaign_open_twitch": "Otevřít na Twitchi",
   "logs_title": "Technické protokoly",
@@ -842,7 +841,6 @@
   "notify_chat_mention": "Zmínka v chatu",
   "campaign_prioritize": "Těžit přednostně",
   "campaign_ignore": "Ignorovat",
-  "campaign_unignore": "Přestat ignorovat",
   "common_label": "{label}:",
   "nav_account_inventory": "Inventář",
   "inventory_hint": "Odměny z vašich kampaní Drops, načtené z vašeho inventáře Twitch. Vyzvedněte si je zde, když je automatické vyzvedávání vypnuté.",
@@ -1293,6 +1291,40 @@
   "badges_none": "Seznam odznaků ještě nebyl načten.",
   "badges_error": "Seznam odznaků není dostupný: {error}",
   "badges_retry": "Další pokus za {time}.",
+  "badges_count": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} odznak",
+        "countPlural=few": "{count} odznaky",
+        "countPlural=*": "{count} odznaků"
+      }
+    }
+  ],
+  "badges_off_calendar": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} odznak bez dat nebo už skončený:",
+        "countPlural=few": "{count} odznaky bez dat nebo už skončené:",
+        "countPlural=*": "{count} odznaků bez dat nebo už skončených:"
+      }
+    }
+  ],
+  "badges_show_cards": "zobrazit pohled Karty",
+  "badges_show_all_rows": "Zobrazit všechny hry a kolekce ({count})",
   "badges_minable": "Lze těžit",
   "badge_hint_badge_minable": "Pouze čas sledování: miner ho dokáže získat",
   "badges_until": "Do {date}",

@@ -309,7 +309,6 @@
   "campaign_channels_some": "Toegestane kanalen: {count}",
   "common_account": "Account",
   "campaign_progress": "{current}/{required} min",
-  "campaign_progress_of": "Voortgang en claims van {account}",
   "campaign_link_game": "Game-account koppelen",
   "campaign_open_twitch": "Openen op Twitch",
   "logs_title": "Technisch logboek",
@@ -831,7 +830,6 @@
   "notify_chat_mention": "Vermelding in een chat",
   "campaign_prioritize": "Eerst minen",
   "campaign_ignore": "Negeren",
-  "campaign_unignore": "Niet meer negeren",
   "common_label": "{label}:",
   "nav_account_inventory": "Inventaris",
   "inventory_hint": "De beloningen van je Drops-campagnes, gelezen uit je Twitch-inventaris. Claim ze hier als automatisch claimen uit staat.",
@@ -1272,6 +1270,38 @@
   "badges_none": "De badgelijst is nog niet gelezen.",
   "badges_error": "Badgelijst niet beschikbaar: {error}",
   "badges_retry": "Volgende poging over {time}.",
+  "badges_count": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} badge",
+        "countPlural=*": "{count} badges"
+      }
+    }
+  ],
+  "badges_off_calendar": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} badge zonder datums of al afgelopen:",
+        "countPlural=*": "{count} badges zonder datums of al afgelopen:"
+      }
+    }
+  ],
+  "badges_show_cards": "bekijk de weergave Kaarten",
+  "badges_show_all_rows": "Alle {count} games en collecties tonen",
   "badges_minable": "Minbaar",
   "badge_hint_badge_minable": "Alleen kijktijd: de miner kan hem krijgen",
   "badges_until": "Tot {date}",

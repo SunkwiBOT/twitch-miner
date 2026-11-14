@@ -309,7 +309,6 @@
   "campaign_channels_some": "Tillåtna kanaler: {count}",
   "common_account": "Konto",
   "campaign_progress": "{current}/{required} min",
-  "campaign_progress_of": "Framsteg och hämtning för {account}",
   "campaign_link_game": "Länka spelkontot",
   "campaign_open_twitch": "Öppna på Twitch",
   "logs_title": "Tekniska loggar",
@@ -768,7 +767,6 @@
   "notify_chat_mention": "Omnämnande i en chatt",
   "campaign_prioritize": "Mina först",
   "campaign_ignore": "Ignorera",
-  "campaign_unignore": "Sluta ignorera",
   "common_label": "{label}:",
   "nav_account_inventory": "Inventarie",
   "inventory_hint": "Belöningarna från dina Drops-kampanjer, lästa från ditt Twitch-inventarie. Hämta dem här när automatisk hämtning är avstängd.",
@@ -1193,6 +1191,38 @@
   "badges_none": "Märkeslistan har inte lästs ännu.",
   "badges_error": "Märkeslistan är inte tillgänglig: {error}",
   "badges_retry": "Nytt försök om {time}.",
+  "badges_count": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} märke",
+        "countPlural=*": "{count} märken"
+      }
+    }
+  ],
+  "badges_off_calendar": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} märke utan datum eller redan avslutat:",
+        "countPlural=*": "{count} märken utan datum eller redan avslutade:"
+      }
+    }
+  ],
+  "badges_show_cards": "se vyn Kort",
+  "badges_show_all_rows": "Visa alla {count} spel och samlingar",
   "badges_minable": "Kan minas",
   "badge_hint_badge_minable": "Bara tittartid: minern kan få det",
   "badges_until": "Till {date}",

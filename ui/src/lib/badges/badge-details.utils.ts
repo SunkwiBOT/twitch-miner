@@ -6,29 +6,34 @@ import type { EvolutionType } from "../bindings/EvolutionType";
 import type { GlobalBadgeType } from "../bindings/GlobalBadgeType";
 import type { QuestGroupType } from "../bindings/QuestGroupType";
 import { QuestStatus } from "../bindings/QuestStatus";
+import type { QuestType } from "../bindings/QuestType";
 import type { RepeatType } from "../bindings/RepeatType";
 import type { TimedDropType } from "../bindings/TimedDropType";
-import { dropDone, subsMissing } from "../catalogue/campaign.utils";
+import {
+  dropDone,
+  evolutionBlocked,
+  periodTotals,
+  subsMissing,
+  type PeriodsType,
+} from "../catalogue/campaign.utils";
 import { campaignOf, catalogueCampaign } from "../catalogue/catalogue.svelte";
+import { ProgressState, type AccountProgressType } from "../catalogue/progress.constants";
 import { badgeKey } from "./badges.utils";
 
-export enum BadgeProgressState {
-  OWNED = "OWNED",
-  CLAIMABLE = "CLAIMABLE",
-  SUB_ONLY = "SUB_ONLY",
-  IN_PROGRESS = "IN_PROGRESS",
-  NOT_STARTED = "NOT_STARTED",
-  NOT_OFFERED = "NOT_OFFERED",
-}
-
-export type BadgeProgressType = {
-  account: AccountSnapshotType;
-  state: BadgeProgressState;
-  current: number;
-  required: number;
+export type BadgeProgressType = AccountProgressType & {
   done: number;
-  closed: boolean;
   repeat: RepeatType | undefined;
+};
+
+type WatchedType = {
+  id: string;
+  periods: PeriodsType;
+  claimable: boolean;
+  done: boolean;
+  subs: boolean;
+  reachable: boolean;
+  started: boolean;
+  evolution: EvolutionType | undefined;
 };
 
 const isBadge = (badge: GlobalBadgeType, refs: BadgeRefType[]): boolean =>
@@ -47,92 +52,67 @@ const badgeDrop = (campaign: CampaignType, badge: GlobalBadgeType): TimedDropTyp
 };
 
 const badgeGroup = (
-  account: AccountSnapshotType,
+  quest: QuestType | undefined,
   badge: GlobalBadgeType,
-): QuestGroupType | undefined => {
-  const groups = account.quests.find(
-    (quest) => quest.id === badge.requirement?.campaign_id,
-  )?.groups;
+): QuestGroupType | undefined =>
+  quest?.groups.find((group) => group.rewards.some((reward) => isBadge(badge, reward.badges))) ??
+  quest?.groups.find((group) => group.name === badge.title);
 
-  return (
-    groups?.find((group) => group.rewards.some((reward) => isBadge(badge, reward.badges))) ??
-    groups?.find((group) => group.name === badge.title)
-  );
-};
-
-const progress = (
+const watchedProgress = (
   account: AccountSnapshotType,
-  state: BadgeProgressState,
-  rest: Partial<BadgeProgressType> = {},
-): BadgeProgressType => ({
-  account,
-  state,
-  current: 0,
-  required: 0,
-  done: 0,
-  closed: false,
-  repeat: undefined,
-  ...rest,
-});
-
-const groupProgress = (account: AccountSnapshotType, group: QuestGroupType): BadgeProgressType => {
-  const totals = {
-    current: group.current_minutes,
-    required: group.required_minutes,
-    done: group.grant_count,
-    closed: group.status === QuestStatus.CLAIMED,
-    repeat: group.repeat,
+  campaignId: string,
+  item: WatchedType,
+): BadgeProgressType => {
+  const totals = periodTotals(item.periods);
+  const drops = account.settings.drops;
+  const entry = {
+    account,
+    current: totals.current,
+    required: totals.required,
+    minable: false,
+    done: item.periods.done,
+    repeat: item.periods.repeat,
   };
 
-  if (group.status === QuestStatus.CLAIMABLE) {
-    return progress(account, BadgeProgressState.CLAIMABLE, totals);
+  if (item.claimable) {
+    return { ...entry, state: ProgressState.CLAIMABLE };
   }
 
-  if (group.repeat ? group.grant_count >= group.repeat.times : totals.closed) {
-    return progress(account, BadgeProgressState.OWNED);
+  if (item.done) {
+    return { ...entry, state: ProgressState.OWNED };
   }
 
-  if (subsMissing(group)) {
-    return progress(account, BadgeProgressState.SUB_ONLY, totals);
+  if (item.subs) {
+    return { ...entry, state: ProgressState.SUB_ONLY };
   }
 
-  return progress(
-    account,
-    group.current_minutes > 0 || group.grant_count > 0
-      ? BadgeProgressState.IN_PROGRESS
-      : BadgeProgressState.NOT_STARTED,
-    totals,
-  );
-};
+  const minable =
+    item.reachable && !evolutionBlocked(item.evolution, account.settings.badges.evolutions);
 
-const dropProgress = (account: AccountSnapshotType, drop: TimedDropType): BadgeProgressType => {
-  const totals = {
-    current: drop.current_minutes,
-    required: drop.required_minutes,
-    done: drop.periods_done,
-    closed: drop.claimed,
-    repeat: drop.repeat,
+  const state = (): ProgressState => {
+    if (
+      drops.exclude_campaign_ids.includes(campaignId) ||
+      drops.exclude_drop_ids.includes(item.id)
+    ) {
+      return ProgressState.IGNORED;
+    }
+
+    if (!item.reachable) {
+      return ProgressState.NOT_MINABLE;
+    }
+
+    if (
+      account.slots.some(
+        (slot) => slot.drop?.campaign_id === campaignId && slot.drop.drop_id === item.id,
+      )
+    ) {
+      return ProgressState.MINING;
+    }
+
+    return item.started ? ProgressState.IN_PROGRESS : ProgressState.NOT_STARTED;
   };
 
-  if (drop.badge_owned || dropDone(drop)) {
-    return progress(account, BadgeProgressState.OWNED);
-  }
-
-  if (drop.instance_id && !drop.claimed) {
-    return progress(account, BadgeProgressState.CLAIMABLE, totals);
-  }
-
-  if (subsMissing(drop)) {
-    return progress(account, BadgeProgressState.SUB_ONLY, totals);
-  }
-
-  return progress(
-    account,
-    drop.current_minutes > 0 || drop.periods_done > 0
-      ? BadgeProgressState.IN_PROGRESS
-      : BadgeProgressState.NOT_STARTED,
-    totals,
-  );
+  return { ...entry, state: state(), minable };
 };
 
 export const badgeProgress = (
@@ -140,22 +120,60 @@ export const badgeProgress = (
   badge: GlobalBadgeType,
 ): BadgeProgressType => {
   const key = badgeKey(badge.set_id, badge.version_id);
+  const none = { account, current: 0, required: 0, minable: false, done: 0, repeat: undefined };
 
   if (account.owned_badges.some((owned) => badgeKey(owned.set_id, owned.version) === key)) {
-    return progress(account, BadgeProgressState.OWNED);
-  }
-
-  const group = badgeGroup(account, badge);
-
-  if (group) {
-    return groupProgress(account, group);
+    return { ...none, state: ProgressState.OWNED };
   }
 
   const id = badge.requirement?.campaign_id;
+  const quest = account.quests.find((item) => item.id === id);
+  const group = badgeGroup(quest, badge);
+
+  if (quest && group) {
+    return watchedProgress(account, quest.id, {
+      id: group.id,
+      periods: {
+        current: group.current_minutes,
+        required: group.required_minutes,
+        done: group.grant_count,
+        closed: group.status === QuestStatus.CLAIMED,
+        repeat: group.repeat,
+      },
+      claimable: group.status === QuestStatus.CLAIMABLE,
+      done: group.repeat
+        ? group.grant_count >= group.repeat.times
+        : group.status === QuestStatus.CLAIMED,
+      subs: subsMissing(group) || group.required_minutes === 0,
+      reachable: quest.sitewide && group.status !== QuestStatus.UNKNOWN,
+      started: group.current_minutes > 0 || group.grant_count > 0,
+      evolution: group.evolution,
+    });
+  }
+
   const campaign = id ? campaignOf(account, id) : undefined;
   const drop = campaign && badgeDrop(campaign, badge);
 
-  return drop ? dropProgress(account, drop) : progress(account, BadgeProgressState.NOT_OFFERED);
+  if (!campaign || !drop) {
+    return { ...none, state: ProgressState.NOT_OFFERED };
+  }
+
+  return watchedProgress(account, campaign.id, {
+    id: drop.id,
+    periods: {
+      current: drop.current_minutes,
+      required: drop.required_minutes,
+      done: drop.periods_done,
+      closed: drop.claimed,
+      repeat: drop.repeat,
+    },
+    claimable: drop.instance_id !== undefined && !drop.claimed,
+    done: drop.badge_owned || dropDone(drop),
+    subs: subsMissing(drop),
+    reachable: true,
+    started: drop.current_minutes > 0 || drop.periods_done > 0,
+    evolution: drop.evolution,
+  });
 };
 
 export const badgeCampaign = (
@@ -208,7 +226,13 @@ export const badgeEvolution = (
     };
   }
 
-  const flagged = accounts.flatMap((account) => badgeGroup(account, badge)?.evolution ?? []);
+  const flagged = accounts.flatMap(
+    (account) =>
+      badgeGroup(
+        account.quests.find((quest) => quest.id === badge.requirement?.campaign_id),
+        badge,
+      )?.evolution ?? [],
+  );
 
   return flagged.find((evolution) => evolution.from) ?? flagged.at(0) ?? null;
 };

@@ -1,5 +1,15 @@
 import { DAY_MS, HOUR_MS } from "../time/time.constants";
 
+export enum TimelineView {
+  TIMELINE = "TIMELINE",
+  CARDS = "CARDS",
+}
+
+export const TIMELINE_VIEW_SLUGS: Record<TimelineView, string> = {
+  [TimelineView.TIMELINE]: "timeline",
+  [TimelineView.CARDS]: "cards",
+};
+
 export enum TimelineZoom {
   DAY = "DAY",
   THREE_DAYS = "THREE_DAYS",
@@ -58,6 +68,7 @@ export const END_CHARACTER_PX = 6.2;
 export const PILL_CHARACTER_PX = 6.2;
 export const PILL_EXTRA_PX = 16;
 export const LABEL_PADDING_PX = 30;
+export const LABEL_IMAGE_PX = 24;
 
 export const TICK_CHARACTER_PX = 7;
 export const TICK_LABEL_PADDING_PX = 12;

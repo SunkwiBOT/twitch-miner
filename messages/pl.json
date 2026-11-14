@@ -312,7 +312,6 @@
   "campaign_channels_some": "Dozwolone kanały: {count}",
   "common_account": "Konto",
   "campaign_progress": "{current}/{required} min",
-  "campaign_progress_of": "Postęp i odbieranie dla konta {account}",
   "campaign_link_game": "Połącz konto gry",
   "campaign_open_twitch": "Otwórz na Twitch",
   "logs_title": "Logi techniczne",
@@ -757,7 +756,6 @@
   "notify_chat_mention": "Wzmianka na czacie",
   "campaign_prioritize": "Kop najpierw",
   "campaign_ignore": "Ignoruj",
-  "campaign_unignore": "Przestań ignorować",
   "common_label": "{label}:",
   "nav_account_inventory": "Ekwipunek",
   "inventory_hint": "Nagrody z Twoich kampanii Drops, odczytane z Twojego ekwipunku Twitch. Odbierz je tutaj, gdy automatyczne odbieranie jest wyłączone.",
@@ -1189,6 +1187,40 @@
   "badges_none": "Lista odznak nie została jeszcze odczytana.",
   "badges_error": "Lista odznak niedostępna: {error}",
   "badges_retry": "Kolejna próba za {time}.",
+  "badges_count": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} odznaka",
+        "countPlural=few": "{count} odznaki",
+        "countPlural=*": "{count} odznak"
+      }
+    }
+  ],
+  "badges_off_calendar": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} odznaka bez dat lub już zakończona:",
+        "countPlural=few": "{count} odznaki bez dat lub już zakończone:",
+        "countPlural=*": "{count} odznak bez dat lub już zakończonych:"
+      }
+    }
+  ],
+  "badges_show_cards": "zobacz widok Karty",
+  "badges_show_all_rows": "Pokaż wszystkie gry i kolekcje ({count})",
   "badges_minable": "Do kopania",
   "badge_hint_badge_minable": "Tylko czas oglądania: miner może ją zdobyć",
   "badges_until": "Do {date}",

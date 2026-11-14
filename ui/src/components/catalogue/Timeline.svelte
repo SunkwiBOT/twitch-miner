@@ -1,33 +1,32 @@
-<script lang="ts">
-  import type { CampaignType } from "../../lib/bindings/CampaignType";
+<script lang="ts" generics="T">
   import {
     getTimelineRange,
     getTimelineTicks,
     getTodayBand,
     nextZoneMidnight,
     toRangePercent,
-    toTimelineRows,
+    type TimelineRowType,
   } from "../../lib/catalogue/timeline.utils";
-  import { t } from "../../lib/i18n/i18n.svelte";
   import { timePreferences } from "../../lib/time/time.svelte";
   import TextButton from "../ui/TextButton.svelte";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import TimelineAxis from "./TimelineAxis.svelte";
-  import TimelineGameRow from "./TimelineGameRow.svelte";
+  import TimelineRow from "./TimelineRow.svelte";
   import {
     DEFAULT_LANE_WIDTH,
     TIMELINE_PAGE_SIZE,
     TimelineZoom,
   } from "../../lib/catalogue/timeline.constants";
 
-  type CatalogueTimelinePropsType = {
-    campaigns: CampaignType[];
+  type TimelinePropsType = {
+    rows: TimelineRowType<T>[];
     now: number;
     zoom: TimelineZoom;
-    onopen: (campaign: CampaignType) => void;
+    moreLabel: string;
+    onopen: (value: T) => void;
   };
 
-  let { campaigns, now, zoom, onopen }: CatalogueTimelinePropsType = $props();
+  let { rows, now, zoom, moreLabel, onopen }: TimelinePropsType = $props();
 
   let showAll = $state(false);
   let laneWidth = $state(DEFAULT_LANE_WIDTH);
@@ -38,7 +37,6 @@
   const today = $derived(getTodayBand(range, now, zone));
   const todayEnd = $derived(nextZoneMidnight(now, zone));
   const nowPercent = $derived(toRangePercent(range, now));
-  const rows = $derived(toTimelineRows(campaigns));
   const shown = $derived(showAll ? rows : rows.slice(0, TIMELINE_PAGE_SIZE));
 </script>
 
@@ -55,8 +53,8 @@
         <div class="now-line" style:left="{nowPercent}%"></div>
       </div>
       <ul class="rows">
-        {#each shown as row (row.game.id)}
-          <TimelineGameRow {row} {range} {laneWidth} {now} {todayEnd} {onopen} />
+        {#each shown as row (row.key)}
+          <TimelineRow {row} {range} {laneWidth} {now} {todayEnd} {onopen} />
         {/each}
       </ul>
     </div>
@@ -65,7 +63,7 @@
   {#if shown.length < rows.length}
     <div class="flex">
       <TextButton
-        label={t.timeline_show_all({ count: rows.length })}
+        label={moreLabel}
         variant={ButtonVariant.OUTLINE}
         size={ButtonSize.MD}
         type={ButtonType.BUTTON}

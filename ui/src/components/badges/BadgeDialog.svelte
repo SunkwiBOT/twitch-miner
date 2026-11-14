@@ -1,6 +1,5 @@
 <script lang="ts">
   import {
-    BadgeProgressState,
     badgeCampaign,
     badgeEvolution,
     badgeProgress,
@@ -17,12 +16,8 @@
   } from "../../lib/badges/badges.utils";
   import type { CampaignType } from "../../lib/bindings/CampaignType";
   import type { GlobalBadgeType } from "../../lib/bindings/GlobalBadgeType";
-  import {
-    categoryUrl,
-    periodTotals,
-    periodsText,
-    watchText,
-  } from "../../lib/catalogue/campaign.utils";
+  import { categoryUrl, periodsText, watchText } from "../../lib/catalogue/campaign.utils";
+  import { ProgressState } from "../../lib/catalogue/progress.constants";
   import { gameArt } from "../../lib/catalogue/games.utils";
   import { ensureChannels, knownChannels } from "../../lib/channels/channels.svelte";
   import { minutes } from "../../lib/format.utils";
@@ -31,18 +26,19 @@
   import { ticker } from "../../lib/state/ticker.svelte";
   import { strong } from "../../lib/text.utils";
   import { formatDate } from "../../lib/time/time.utils";
-  import Avatar from "../ui/Avatar.svelte";
+  import AccountProgressList from "../catalogue/AccountProgressList.svelte";
+  import CampaignActions from "../catalogue/CampaignActions.svelte";
+  import { CampaignAction } from "../catalogue/catalogue.constants";
   import Badge from "../ui/Badge.svelte";
   import ChannelLink from "../ui/ChannelLink.svelte";
   import Dialog from "../ui/Dialog.svelte";
   import ExternalButton from "../ui/ExternalButton.svelte";
   import GameName from "../ui/GameName.svelte";
   import Icon from "../ui/Icon.svelte";
-  import ProgressLine from "../ui/ProgressLine.svelte";
   import RichText from "../ui/RichText.svelte";
   import TextButton from "../ui/TextButton.svelte";
   import Thumb from "../ui/Thumb.svelte";
-  import { AvatarSize, ThumbShape, ThumbSize } from "../ui/picture.constants";
+  import { ThumbShape, ThumbSize } from "../ui/picture.constants";
   import { BadgeTone } from "../../lib/tones.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import { IconName } from "../../lib/icons.constants";
@@ -68,7 +64,27 @@
   const from = $derived(
     badges.find((other) => badgeKey(other.set_id, other.version_id) === fromKey),
   );
-  const progress = $derived(badge ? accounts.map((account) => badgeProgress(account, badge)) : []);
+
+  let chosen = $state<string[] | null>(null);
+  let busy = $state<CampaignAction | null>(null);
+
+  const selected = $derived(chosen ?? accounts.map((a) => a.id));
+  const progress = $derived(
+    badge
+      ? accounts
+          .filter((a) => selected.includes(a.id))
+          .map((account) => badgeProgress(account, badge))
+      : [],
+  );
+
+  const running = $derived.by((): string | null => {
+    const id = requirement?.campaign_id;
+    const ends =
+      campaign?.ends_at ??
+      accounts.flatMap((a) => a.quests).find((quest) => quest.id === id)?.ends_at;
+
+    return id && ends && Date.parse(ends) > ticker.now ? id : null;
+  });
   const categories = $derived(
     requirement?.categories.length
       ? requirement.categories
@@ -103,8 +119,21 @@
 
   const lacksFrom = (entry: BadgeProgressType): boolean =>
     fromKey !== null &&
-    entry.state !== BadgeProgressState.OWNED &&
+    entry.state !== ProgressState.OWNED &&
     !entry.account.owned_badges.some((owned) => badgeKey(owned.set_id, owned.version) === fromKey);
+
+  const minable = $derived(
+    progress.some(
+      (entry) =>
+        entry.minable &&
+        (evolution === null || (!lacksFrom(entry) && entry.account.settings.badges.evolutions)),
+    ),
+  );
+
+  const close = (): void => {
+    chosen = null;
+    onclose();
+  };
 
   let failedImage = $state<string | null>(null);
 </script>
@@ -119,66 +148,13 @@
   </h3>
 {/snippet}
 
-{#snippet state(entry: BadgeProgressType)}
-  {#if entry.state === BadgeProgressState.OWNED}
-    <Badge
-      text={t.reward_state_owned()}
-      tone={BadgeTone.SUCCESS}
-      dot={false}
-      icon={IconName.CHECK}
-    />
-  {:else if entry.state === BadgeProgressState.CLAIMABLE}
-    <Badge
-      text={t.reward_state_ready()}
-      tone={BadgeTone.PRIMARY}
-      dot={false}
-      icon={IconName.GIFT}
-      hint={t.badge_hint_ready()}
-    />
-  {:else if entry.state === BadgeProgressState.SUB_ONLY}
-    <Badge
-      text={t.reward_sub_only()}
-      tone={BadgeTone.WARNING}
-      dot={false}
-      hint={t.badge_hint_sub_only()}
-    />
-  {:else if entry.state === BadgeProgressState.IN_PROGRESS}
-    <Badge
-      text={t.campaigns_filter_in_progress()}
-      tone={BadgeTone.ACCENT}
-      dot={false}
-      hint={t.badge_hint_in_progress()}
-    />
-  {:else if entry.state === BadgeProgressState.NOT_STARTED}
-    <Badge text={t.badge_progress_not_started()} tone={BadgeTone.MUTED} dot={false} />
-  {:else}
-    <Badge text={t.badge_progress_not_offered()} tone={BadgeTone.MUTED} dot={false} />
-  {/if}
-  {#if entry.repeat && entry.state !== BadgeProgressState.OWNED}
-    <Badge
-      text={periodsText(entry.done, entry.repeat)}
-      tone={BadgeTone.NEUTRAL}
-      dot={false}
-      icon={IconName.CALENDAR}
-    />
-  {/if}
-  {#if evolution?.from && lacksFrom(entry)}
-    <Badge
-      text={t.badge_evolution_locked({ badge: evolution.from.title })}
-      tone={BadgeTone.WARNING}
-      dot={false}
-      hint={t.badge_hint_evolution_locked({ badge: evolution.from.title })}
-    />
-  {/if}
-{/snippet}
-
 <Dialog
   open={badge !== null}
   title={badge?.title ?? ""}
   wide={true}
-  closable={true}
+  closable={busy === null}
   closeLabel={t.common_close()}
-  {onclose}
+  onclose={close}
 >
   {#if badge}
     <div class="flex items-start gap-4">
@@ -372,34 +348,38 @@
     {/if}
 
     {#if progress.length > 0}
-      <section class="flex flex-col gap-2">
-        {@render section(t.badge_dialog_accounts(), null)}
-        <ul class="flex flex-col gap-2">
-          {#each progress as entry (entry.account.id)}
-            {@const totals = periodTotals(entry)}
-            <li class="flex items-center gap-3 rounded-lg border p-2.5">
-              <Avatar
-                url={entry.account.avatar_url}
-                name={entry.account.display_name}
-                size={AvatarSize.SM}
-              />
-              <span class="flex min-w-0 flex-1 flex-col gap-1.5">
-                <span class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
-                  <span class="truncate text-sm font-semibold">{entry.account.display_name}</span>
-                  {@render state(entry)}
-                </span>
-                {#if totals.required > 0 && entry.state !== BadgeProgressState.OWNED && entry.state !== BadgeProgressState.SUB_ONLY}
-                  <ProgressLine
-                    current={totals.current}
-                    required={totals.required}
-                    stacked={false}
-                  />
-                {/if}
-              </span>
-            </li>
-          {/each}
-        </ul>
-      </section>
+      <AccountProgressList entries={progress}>
+        {#snippet tags(entry)}
+          {#if entry.repeat && entry.state !== ProgressState.OWNED}
+            <Badge
+              text={periodsText(entry.done, entry.repeat)}
+              tone={BadgeTone.NEUTRAL}
+              dot={false}
+              icon={IconName.CALENDAR}
+            />
+          {/if}
+          {#if evolution?.from && lacksFrom(entry)}
+            <Badge
+              text={t.badge_evolution_locked({ badge: evolution.from.title })}
+              tone={BadgeTone.WARNING}
+              dot={false}
+              hint={t.badge_hint_evolution_locked({ badge: evolution.from.title })}
+            />
+          {/if}
+        {/snippet}
+      </AccountProgressList>
     {/if}
   {/if}
+
+  {#snippet footer()}
+    {#if running && accounts.length}
+      <CampaignActions
+        campaignId={running}
+        {selected}
+        {minable}
+        bind:busy
+        onselect={(values) => (chosen = values)}
+      />
+    {/if}
+  {/snippet}
 </Dialog>

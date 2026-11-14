@@ -309,7 +309,6 @@
   "campaign_channels_some": "Sallitut kanavat: {count}",
   "common_account": "Tili",
   "campaign_progress": "{current}/{required} min",
-  "campaign_progress_of": "Edistyminen ja lunastukset: {account}",
   "campaign_link_game": "Linkitä pelitili",
   "campaign_open_twitch": "Avaa Twitchissä",
   "logs_title": "Tekniset lokit",
@@ -831,7 +830,6 @@
   "notify_chat_mention": "Maininta chatissa",
   "campaign_prioritize": "Louhi ensin",
   "campaign_ignore": "Ohita",
-  "campaign_unignore": "Lopeta ohitus",
   "common_label": "{label}:",
   "nav_account_inventory": "Varasto",
   "inventory_hint": "Drops-kampanjoidesi palkinnot, luettuna Twitch-varastostasi. Lunasta ne täällä, kun automaattinen lunastus on pois päältä.",
@@ -1244,6 +1242,38 @@
   "badges_none": "Merkkiluetteloa ei ole vielä luettu.",
   "badges_error": "Merkkiluettelo ei ole saatavilla: {error}",
   "badges_retry": "Uusi yritys {time} kuluttua.",
+  "badges_count": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} merkki",
+        "countPlural=*": "{count} merkkiä"
+      }
+    }
+  ],
+  "badges_off_calendar": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} merkki ilman päivämääriä tai jo päättynyt:",
+        "countPlural=*": "{count} merkkiä ilman päivämääriä tai jo päättyneitä:"
+      }
+    }
+  ],
+  "badges_show_cards": "katso Kortit-näkymä",
+  "badges_show_all_rows": "Näytä kaikki {count} peliä ja kokoelmaa",
   "badges_minable": "Louhittavissa",
   "badge_hint_badge_minable": "Vain katseluaika: louhija voi saada sen",
   "badges_until": "{date} asti",

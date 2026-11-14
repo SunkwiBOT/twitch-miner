@@ -312,7 +312,6 @@
   "campaign_channels_some": "Canale permise: {count}",
   "common_account": "Cont",
   "campaign_progress": "{current}/{required} min",
-  "campaign_progress_of": "Progres și revendicări pentru {account}",
   "campaign_link_game": "Conectează contul de joc",
   "campaign_open_twitch": "Deschide pe Twitch",
   "logs_title": "Loguri tehnice",
@@ -842,7 +841,6 @@
   "notify_chat_mention": "Mențiune într-un chat",
   "campaign_prioritize": "Minează cu prioritate",
   "campaign_ignore": "Ignoră",
-  "campaign_unignore": "Nu mai ignora",
   "common_label": "{label}:",
   "nav_account_inventory": "Inventar",
   "inventory_hint": "Recompensele campaniilor tale Drops, citite din inventarul tău Twitch. Revendică-le aici când revendicarea automată e dezactivată.",
@@ -1293,6 +1291,40 @@
   "badges_none": "Lista de insigne nu a fost încă citită.",
   "badges_error": "Lista de insigne este indisponibilă: {error}",
   "badges_retry": "Nouă încercare peste {time}.",
+  "badges_count": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} insignă",
+        "countPlural=few": "{count} insigne",
+        "countPlural=*": "{count} de insigne"
+      }
+    }
+  ],
+  "badges_off_calendar": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} insignă fără date sau deja încheiată:",
+        "countPlural=few": "{count} insigne fără date sau deja încheiate:",
+        "countPlural=*": "{count} de insigne fără date sau deja încheiate:"
+      }
+    }
+  ],
+  "badges_show_cards": "vezi vizualizarea Carduri",
+  "badges_show_all_rows": "Arată toate cele {count} jocuri și colecții",
   "badges_minable": "Minabilă",
   "badge_hint_badge_minable": "Doar timp de vizionare: minerul o poate obține",
   "badges_until": "Până la {date}",

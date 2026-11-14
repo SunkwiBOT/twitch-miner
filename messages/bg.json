@@ -309,7 +309,6 @@
   "campaign_channels_some": "Разрешени канали: {count}",
   "common_account": "Акаунт",
   "campaign_progress": "{current}/{required} мин",
-  "campaign_progress_of": "Напредък и получаване за {account}",
   "campaign_link_game": "Свържи игровия акаунт",
   "campaign_open_twitch": "Отвори в Twitch",
   "logs_title": "Технически логове",
@@ -831,7 +830,6 @@
   "notify_chat_mention": "Споменаване в чат",
   "campaign_prioritize": "Копай с приоритет",
   "campaign_ignore": "Игнорирай",
-  "campaign_unignore": "Спри игнорирането",
   "common_label": "{label}:",
   "nav_account_inventory": "Инвентар",
   "inventory_hint": "Наградите от вашите кампании за Drops, прочетени от инвентара ви в Twitch. Вземете ги оттук, когато автоматичното вземане е изключено.",
@@ -1272,6 +1270,38 @@
   "badges_none": "Списъкът със значки още не е прочетен.",
   "badges_error": "Списъкът със значки не е наличен: {error}",
   "badges_retry": "Нов опит след {time}.",
+  "badges_count": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} значка",
+        "countPlural=*": "{count} значки"
+      }
+    }
+  ],
+  "badges_off_calendar": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} значка без дати или вече приключила:",
+        "countPlural=*": "{count} значки без дати или вече приключили:"
+      }
+    }
+  ],
+  "badges_show_cards": "вижте изгледа „Карти“",
+  "badges_show_all_rows": "Покажи всички {count} игри и колекции",
   "badges_minable": "Копаема",
   "badge_hint_badge_minable": "Само време на гледане: майнерът може да я получи",
   "badges_until": "До {date}",

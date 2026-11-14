@@ -312,7 +312,6 @@
   "campaign_channels_some": "Разрешённые каналы: {count}",
   "common_account": "Аккаунт",
   "campaign_progress": "{current}/{required} мин",
-  "campaign_progress_of": "Прогресс и получение для аккаунта {account}",
   "campaign_link_game": "Привязать игровой аккаунт",
   "campaign_open_twitch": "Открыть на Twitch",
   "logs_title": "Технические логи",
@@ -757,7 +756,6 @@
   "notify_chat_mention": "Упоминание в чате",
   "campaign_prioritize": "Майнить в первую очередь",
   "campaign_ignore": "Игнорировать",
-  "campaign_unignore": "Не игнорировать",
   "common_label": "{label}:",
   "nav_account_inventory": "Инвентарь",
   "inventory_hint": "Награды ваших кампаний Drops, прочитанные из вашего инвентаря Twitch. Получайте их здесь, когда автоматическое получение выключено.",
@@ -1188,6 +1186,40 @@
   "badges_none": "Список значков ещё не прочитан.",
   "badges_error": "Список значков недоступен: {error}",
   "badges_retry": "Следующая попытка через {time}.",
+  "badges_count": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} значок",
+        "countPlural=few": "{count} значка",
+        "countPlural=*": "{count} значков"
+      }
+    }
+  ],
+  "badges_off_calendar": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} значок без дат или уже завершён:",
+        "countPlural=few": "{count} значка без дат или уже завершены:",
+        "countPlural=*": "{count} значков без дат или уже завершённых:"
+      }
+    }
+  ],
+  "badges_show_cards": "откройте вид «Карточки»",
+  "badges_show_all_rows": "Показать все игры и коллекции ({count})",
   "badges_minable": "Можно майнить",
   "badge_hint_badge_minable": "Только время просмотра: майнер может его получить",
   "badges_until": "До {date}",

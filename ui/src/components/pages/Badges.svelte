@@ -1,15 +1,21 @@
 <script lang="ts">
   import { BadgeFilter } from "../../lib/badges/badges.constants";
   import { badgeList } from "../../lib/badges/badges.svelte";
-  import { badgeKey, visibleBadges } from "../../lib/badges/badges.utils";
+  import { badgeKey, badgeTimelineRows, visibleBadges } from "../../lib/badges/badges.utils";
   import type { CampaignType } from "../../lib/bindings/CampaignType";
   import type { GlobalBadgeType } from "../../lib/bindings/GlobalBadgeType";
   import type { SnapshotType } from "../../lib/bindings/SnapshotType";
+  import {
+    TIMELINE_VIEW_SLUGS,
+    TimelineView,
+    TimelineZoom,
+  } from "../../lib/catalogue/timeline.constants";
   import { describeCode } from "../../lib/errors/errors.utils";
   import { mmss, shortDuration } from "../../lib/format.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { DROPS_API_NAME, DROPS_WEB_URL } from "../../lib/partners.constants";
   import { normalizeSearch } from "../../lib/search/search.utils";
+  import { openTab, showTab } from "../../lib/state/router";
   import { ticker } from "../../lib/state/ticker.svelte";
   import { linkMarker, strong } from "../../lib/text.utils";
   import { HOUR_MS } from "../../lib/time/time.constants";
@@ -18,6 +24,8 @@
   import BadgeCard from "../badges/BadgeCard.svelte";
   import BadgeDialog from "../badges/BadgeDialog.svelte";
   import CampaignDialog from "../catalogue/CampaignDialog.svelte";
+  import Timeline from "../catalogue/Timeline.svelte";
+  import { viewOptions, zoomOptions } from "../catalogue/catalogue.utils";
   import EmptyState from "../ui/EmptyState.svelte";
   import PageBody from "../ui/PageBody.svelte";
   import PageHeader from "../ui/PageHeader.svelte";
@@ -32,8 +40,13 @@
 
   let query = $state("");
   let filter = $state(BadgeFilter.WATCH);
+  let zoom = $state(TimelineZoom.TWO_WEEKS);
   let open = $state<GlobalBadgeType | null>(null);
   let campaign = $state<CampaignType | null>(null);
+
+  const view = $derived(
+    openTab(Object.values(TimelineView), TIMELINE_VIEW_SLUGS, TimelineView.TIMELINE),
+  );
 
   const titles = $derived(
     new Map(
@@ -63,6 +76,8 @@
   const shown = $derived(
     visibleBadges(badgeList.badges, filter, normalizeSearch(query), ticker.now),
   );
+  const rows = $derived(badgeTimelineRows(shown, ticker.now));
+  const offCalendar = $derived(shown.length - rows.reduce((sum, row) => sum + row.items.length, 0));
 
   const countOf = (kind: BadgeFilter): number =>
     visibleBadges(badgeList.badges, kind, normalizeSearch(query), ticker.now).length;
@@ -103,18 +118,56 @@
     </div>
     <span class="flex-1"></span>
     <Segmented
+      value={view}
+      options={viewOptions()}
+      label={t.catalogue_view()}
+      onchange={(next) => showTab(TIMELINE_VIEW_SLUGS, next)}
+    />
+  </PageHeader>
+
+  <div class="flex flex-wrap items-center gap-3">
+    <Segmented
       value={filter}
       options={filters}
       label={t.badges_filter()}
       onchange={(next) => (filter = next)}
     />
-  </PageHeader>
+    {#if view === TimelineView.TIMELINE}
+      <Segmented
+        value={zoom}
+        options={zoomOptions()}
+        label={t.timeline_zoom()}
+        onchange={(next) => (zoom = next)}
+      />
+    {/if}
+  </div>
 
   {#if shown.length === 0}
     <EmptyState
       text={badgeList.badges.length === 0 ? problem || t.badges_none() : t.badges_empty()}
       icon={IconName.AWARD}
     />
+  {:else if view === TimelineView.TIMELINE}
+    {#if offCalendar > 0}
+      <p class="text-hint text-muted-foreground">
+        {t.badges_off_calendar({ count: offCalendar })}
+        <button
+          class="font-semibold text-foreground underline decoration-link underline-offset-3 transition-colors hover:text-link focus-visible:text-link"
+          type="button"
+          onclick={() => showTab(TIMELINE_VIEW_SLUGS, TimelineView.CARDS)}
+          >{t.badges_show_cards()}</button
+        >
+      </p>
+    {/if}
+    {#if rows.length > 0}
+      <Timeline
+        {rows}
+        now={ticker.now}
+        {zoom}
+        moreLabel={t.badges_show_all_rows({ count: rows.length })}
+        onopen={(badge) => (open = badge)}
+      />
+    {/if}
   {:else}
     <div class="grid grid-cols-[repeat(auto-fill,minmax(min(300px,100%),1fr))] gap-3">
       {#each shown as badge (badgeKey(badge.set_id, badge.version_id))}

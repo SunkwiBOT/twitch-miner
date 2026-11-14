@@ -309,7 +309,6 @@
   "campaign_channels_some": "Chaînes autorisées : {count}",
   "common_account": "Compte",
   "campaign_progress": "{current}/{required} min",
-  "campaign_progress_of": "Progression et réclamations de {account}",
   "campaign_link_game": "Lier le compte de jeu",
   "campaign_open_twitch": "Ouvrir sur Twitch",
   "logs_title": "Logs techniques",
@@ -831,7 +830,6 @@
   "notify_chat_mention": "Mention dans un chat",
   "campaign_prioritize": "Miner en priorité",
   "campaign_ignore": "Ignorer",
-  "campaign_unignore": "Ne plus ignorer",
   "common_label": "{label} :",
   "nav_account_inventory": "Inventaire",
   "inventory_hint": "Les récompenses de vos campagnes Drops, lues dans votre inventaire Twitch. Réclamez-les ici quand la réclamation automatique est désactivée.",
@@ -1272,6 +1270,38 @@
   "badges_none": "La liste des badges n'a pas encore été lue.",
   "badges_error": "Liste des badges indisponible : {error}",
   "badges_retry": "Nouvel essai dans {time}.",
+  "badges_count": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} badge",
+        "countPlural=*": "{count} badges"
+      }
+    }
+  ],
+  "badges_off_calendar": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} badge sans dates ou terminé :",
+        "countPlural=*": "{count} badges sans dates ou terminés :"
+      }
+    }
+  ],
+  "badges_show_cards": "voir la vue Cartes",
+  "badges_show_all_rows": "Afficher les {count} jeux et collections",
   "badges_minable": "Minable",
   "badge_hint_badge_minable": "Temps de visionnage uniquement : le mineur peut l'obtenir",
   "badges_until": "Jusqu'au {date}",

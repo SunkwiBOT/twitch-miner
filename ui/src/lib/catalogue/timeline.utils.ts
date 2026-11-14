@@ -1,12 +1,15 @@
 import { CampaignStatus } from "../bindings/CampaignStatus";
 import type { CampaignType } from "../bindings/CampaignType";
-import type { GameType } from "../bindings/GameType";
+import { BoxArtSize } from "../format.constants";
+import { boxArt } from "../format.utils";
+import { t } from "../i18n/i18n.svelte";
 import { DAY_MS } from "../time/time.constants";
 import { zoneOffsetMs } from "../time/time.utils";
 import {
   BarKey,
   BarLabelPlacement,
   END_CHARACTER_PX,
+  LABEL_IMAGE_PX,
   LABEL_PADDING_PX,
   LANE_GAP,
   MIN_BAR_PERCENT,
@@ -157,10 +160,16 @@ export const getBarGeometry = (
   };
 };
 
-export const estimateLabelWidth = (name: string, endLabel: string, pill: string): number =>
+export const estimateLabelWidth = (
+  name: string,
+  endLabel: string,
+  pill: string,
+  image: boolean,
+): number =>
   name.length * NAME_CHARACTER_PX +
   endLabel.length * END_CHARACTER_PX +
   (pill ? pill.length * PILL_CHARACTER_PX + PILL_EXTRA_PX : 0) +
+  (image ? LABEL_IMAGE_PX : 0) +
   LABEL_PADDING_PX;
 
 export const getLabelPlacement = (
@@ -189,51 +198,75 @@ export const getLabelPlacement = (
   return BarLabelPlacement.INSIDE;
 };
 
-export type TimelineItemType = { campaign: CampaignType; start: number; end: number };
+export type TimelineItemType<T> = {
+  key: string;
+  name: string;
+  image: string | undefined;
+  start: number;
+  end: number;
+  value: T;
+};
 
-export type TimelineRowType = {
-  game: GameType;
-  items: TimelineItemType[];
-  rewards: number;
+export type TimelineHeadType = { key: string; name: string; art: string | null; contain: boolean };
+
+export type TimelineRowType<T> = TimelineHeadType & {
+  detail: string;
+  items: TimelineItemType<T>[];
   firstEnd: number;
 };
 
-const byEnd = (a: TimelineItemType, b: TimelineItemType): number =>
-  a.end - b.end || a.campaign.name.localeCompare(b.campaign.name);
+export type TimelineEntryType<T> = { head: TimelineHeadType; item: TimelineItemType<T> };
 
-export const toTimelineRows = (campaigns: readonly CampaignType[]): TimelineRowType[] => {
-  const rows = new Map<string, TimelineRowType>();
+export const toTimelineRows = <T>(
+  entries: readonly TimelineEntryType<T>[],
+  detail: (items: TimelineItemType<T>[]) => string,
+): TimelineRowType<T>[] => {
+  const rows = new Map<string, { head: TimelineHeadType; items: TimelineItemType<T>[] }>();
 
-  for (const campaign of campaigns) {
-    const item: TimelineItemType = {
-      campaign,
-      start: Date.parse(campaign.starts_at),
-      end: Date.parse(campaign.ends_at),
-    };
-    const row = rows.get(campaign.game.id);
+  for (const { head, item } of entries) {
+    const row = rows.get(head.key);
 
     if (row) {
       row.items.push(item);
-      row.rewards += campaign.drops.length;
-      row.firstEnd = Math.min(row.firstEnd, item.end);
     } else {
-      rows.set(campaign.game.id, {
-        game: campaign.game,
-        items: [item],
-        rewards: campaign.drops.length,
-        firstEnd: item.end,
-      });
+      rows.set(head.key, { head, items: [item] });
     }
   }
 
-  const list = [...rows.values()];
+  return [...rows.values()]
+    .map(({ head, items }) => {
+      items.sort((a, b) => a.end - b.end || a.name.localeCompare(b.name));
 
-  for (const row of list) {
-    row.items.sort(byEnd);
-  }
-
-  return list.sort((a, b) => a.firstEnd - b.firstEnd || a.game.name.localeCompare(b.game.name));
+      return { ...head, detail: detail(items), items, firstEnd: items[0].end };
+    })
+    .sort((a, b) => a.firstEnd - b.firstEnd || a.name.localeCompare(b.name));
 };
+
+export const campaignTimelineRows = (
+  campaigns: readonly CampaignType[],
+): TimelineRowType<CampaignType>[] =>
+  toTimelineRows(
+    campaigns.map((campaign) => ({
+      head: {
+        key: campaign.game.id,
+        name: campaign.game.name,
+        art: boxArt(campaign.game.box_art_url, BoxArtSize.ROW),
+        contain: false,
+      },
+      item: {
+        key: campaign.id,
+        name: campaign.name,
+        image: undefined,
+        start: Date.parse(campaign.starts_at),
+        end: Date.parse(campaign.ends_at),
+        value: campaign,
+      },
+    })),
+    (items) =>
+      `${t.catalogue_campaigns({ count: items.length })} · ${t.catalogue_rewards({
+        count: items.reduce((sum, item) => sum + item.value.drops.length, 0),
+      })}`,
+  );
 
 export type LaneLayoutType = {
   height: number;

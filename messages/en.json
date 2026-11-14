@@ -309,7 +309,6 @@
   "campaign_channels_some": "Allowed channels: {count}",
   "common_account": "Account",
   "campaign_progress": "{current}/{required} min",
-  "campaign_progress_of": "Progress and claims of {account}",
   "campaign_link_game": "Link the game account",
   "campaign_open_twitch": "Open on Twitch",
   "logs_title": "Technical logs",
@@ -831,7 +830,6 @@
   "notify_chat_mention": "Mention in a chat",
   "campaign_prioritize": "Mine first",
   "campaign_ignore": "Ignore",
-  "campaign_unignore": "Stop ignoring",
   "common_label": "{label}:",
   "nav_account_inventory": "Inventory",
   "inventory_hint": "The rewards of your Drops campaigns, read from your Twitch inventory. A reward is claimed here when automatic claiming is off.",
@@ -1272,6 +1270,38 @@
   "badges_none": "The badge list has not been read yet.",
   "badges_error": "Badge list unavailable: {error}",
   "badges_retry": "Next try in {time}.",
+  "badges_count": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} badge",
+        "countPlural=*": "{count} badges"
+      }
+    }
+  ],
+  "badges_off_calendar": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{count} badge with no dates or already over:",
+        "countPlural=*": "{count} badges with no dates or already over:"
+      }
+    }
+  ],
+  "badges_show_cards": "see the Cards view",
+  "badges_show_all_rows": "Show all {count} games and collections",
   "badges_minable": "Minable",
   "badge_hint_badge_minable": "Watch time only: the miner can get it",
   "badges_until": "Until {date}",

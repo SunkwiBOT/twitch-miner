@@ -1,6 +1,7 @@
 import { BenefitKind } from "../bindings/BenefitKind";
 import { CampaignKind } from "../bindings/CampaignKind";
 import type { CampaignType } from "../bindings/CampaignType";
+import type { EvolutionType } from "../bindings/EvolutionType";
 import type { GameType } from "../bindings/GameType";
 import type { RepeatType } from "../bindings/RepeatType";
 import type { TimedDropType } from "../bindings/TimedDropType";
@@ -16,6 +17,9 @@ export const subsMissing = (item: { required_subs: number; current_subs: number 
 
 export const dropDone = (drop: TimedDropType): boolean =>
   drop.repeat ? drop.periods_done >= drop.repeat.times : drop.claimed;
+
+export const evolutionBlocked = (evolution: EvolutionType | undefined, enabled: boolean): boolean =>
+  evolution !== undefined && (!evolution.from || !evolution.owned || !enabled);
 
 export const watchText = (time: string, repeat: RepeatType | undefined): string => {
   if (!repeat) {

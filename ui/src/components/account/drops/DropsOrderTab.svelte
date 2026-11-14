@@ -19,6 +19,7 @@
   } from "../../../lib/accounts/drops-edits.utils";
   import { ignoredCampaign, queueProgress } from "../../../lib/accounts/drops.utils";
   import { campaignOf } from "../../../lib/catalogue/catalogue.svelte";
+  import { minesCampaign } from "../../../lib/catalogue/campaign-progress.utils";
   import type { AccountSnapshotType } from "../../../lib/bindings/AccountSnapshotType";
   import type { CampaignType } from "../../../lib/bindings/CampaignType";
   import {
@@ -63,9 +64,6 @@
   const queue = $derived(
     reorderBy(account.queue, (item) => item.campaign_id, miningOrder(account.settings, account)),
   );
-
-  const mining = (id: string): boolean =>
-    account.slots.some((slot) => slot.drop?.campaign_id === id);
 
   const running = $derived(runningGames(ticker.now));
 
@@ -171,7 +169,7 @@
               >{c ? campaignHeading(c) : item.campaign_id}</span
             >
             <span class="inline-flex max-w-full flex-wrap items-center gap-1.5">
-              {#if mining(item.campaign_id)}<Badge
+              {#if minesCampaign(account, item.campaign_id)}<Badge
                   text={t.queue_mining()}
                   tone={BadgeTone.SUCCESS}
                   dot={true}

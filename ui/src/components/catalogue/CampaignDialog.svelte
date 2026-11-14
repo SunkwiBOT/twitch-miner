@@ -6,13 +6,15 @@
     campaignHeading,
     campaignSubtitle,
     categoryNames,
-    dropDone,
     onDropsPage,
     sitewideQuest,
-    subsMissing,
   } from "../../lib/catalogue/campaign.utils";
   import type { CampaignType } from "../../lib/bindings/CampaignType";
-  import { campaignOf } from "../../lib/catalogue/catalogue.svelte";
+  import { campaignOf, catalogueCampaign } from "../../lib/catalogue/catalogue.svelte";
+  import {
+    campaignProgress,
+    type CampaignProgressType,
+  } from "../../lib/catalogue/campaign-progress.utils";
   import { refreshWhenBack } from "../../lib/accounts/refresh.utils";
   import { campaignUrl } from "../../lib/links/twitch.utils";
   import { BoxArtSize } from "../../lib/format.constants";
@@ -20,12 +22,7 @@
   import { t } from "../../lib/i18n/i18n.svelte";
   import { strong } from "../../lib/text.utils";
   import { TWITCH_CATEGORY_URL } from "../../lib/partners.constants";
-  import {
-    prioritizeCampaign,
-    setCampaignIgnored,
-    setCampaignSelected,
-    setDropIgnored,
-  } from "../../lib/state/account-settings.svelte";
+  import { setDropIgnored } from "../../lib/state/account-settings.svelte";
   import { app } from "../../lib/state/app.svelte";
   import { run } from "../../lib/state/session";
   import { ticker } from "../../lib/state/ticker.svelte";
@@ -34,12 +31,12 @@
   import Badge from "../ui/Badge.svelte";
   import Dialog from "../ui/Dialog.svelte";
   import ExternalButton from "../ui/ExternalButton.svelte";
-  import MultiSelect from "../ui/MultiSelect.svelte";
   import RichText from "../ui/RichText.svelte";
   import { BadgeTone } from "../../lib/tones.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import { IconName } from "../../lib/icons.constants";
-  import { MenuAlign } from "../ui/menu.constants";
+  import AccountProgressList from "./AccountProgressList.svelte";
+  import CampaignActions from "./CampaignActions.svelte";
   import LinkBadge from "./LinkBadge.svelte";
   import RewardTiles from "./RewardTiles.svelte";
 
@@ -55,73 +52,60 @@
   const context = $derived(accounts.find((a) => a.id === contextAccountId) ?? null);
 
   let chosen = $state<string[] | null>(null);
-
-  const selected = $derived(chosen ?? (context ? [context.id] : accounts.map((a) => a.id)));
-  const viewer = $derived(accounts.find((a) => selected.includes(a.id)) ?? context);
-
-  const allIgnore = $derived(
-    campaign !== null &&
-      selected.length > 0 &&
-      accounts
-        .filter((a) => selected.includes(a.id))
-        .every((a) => a.settings.drops.exclude_campaign_ids.includes(campaign.id)),
-  );
-
-  const allSelected = $derived(
-    campaign !== null &&
-      selected.length > 0 &&
-      accounts
-        .filter((a) => selected.includes(a.id))
-        .every((a) => a.settings.drops.selected_campaign_ids.includes(campaign.id)),
-  );
-
-  const view = $derived(
-    campaign ? ((viewer && campaignOf(viewer, campaign.id)) ?? campaign) : null,
-  );
-
-  const ignoredDrops = $derived(
-    accounts
-      .filter((a) => selected.includes(a.id))
-      .flatMap((a) => a.settings.drops.exclude_drop_ids),
-  );
-
-  // ! Pinning a campaign no selected account can mine (subscription only, done, owned) would hold a place in the order that is never mined.
-  const minable = $derived(
-    campaign !== null &&
-      accounts
-        .filter((a) => selected.includes(a.id))
-        .some((a) =>
-          (campaignOf(a, campaign.id) ?? campaign).drops.some(
-            (drop) =>
-              !subsMissing(drop) &&
-              !dropDone(drop) &&
-              !drop.badge_owned &&
-              !(drop.instance_id && !drop.claimed),
-          ),
-        ),
-  );
-
+  let claimed = $state<string[]>([]);
+  let claiming = $state<string | null>(null);
   let busy = $state<CampaignAction | null>(null);
 
-  const act = async (key: CampaignAction, action: () => Promise<unknown>): Promise<void> => {
-    busy = key;
-    await action();
-    busy = null;
-  };
+  const selected = $derived(chosen ?? (context ? [context.id] : accounts.map((a) => a.id)));
+  const picked = $derived(accounts.filter((a) => selected.includes(a.id)));
+  const linker = $derived(picked.at(0) ?? context);
+
+  // ! One account: the rewards show its own progress; several: the campaign itself, each account's own below.
+  const view = $derived.by((): CampaignType | null => {
+    if (!campaign) {
+      return null;
+    }
+
+    const own = picked.length === 1 ? campaignOf(picked[0], campaign.id) : undefined;
+    const shown = own ?? catalogueCampaign(campaign.id) ?? campaign;
+
+    return {
+      ...shown,
+      drops: shown.drops.map((drop) =>
+        drop.instance_id && claimed.includes(drop.instance_id) ? { ...drop, claimed: true } : drop,
+      ),
+    };
+  });
+
+  const progress = $derived(
+    campaign ? picked.map((account) => campaignProgress(account, campaign.id, claimed)) : [],
+  );
+
+  const ignoredDrops = $derived(picked.flatMap((a) => a.settings.drops.exclude_drop_ids));
 
   const left = (c: CampaignType): number => new Date(c.ends_at).getTime() - ticker.now;
 
-  const claim = (instanceId: string): Promise<boolean> =>
-    viewer
-      ? run({
+  const claim = async (entry: CampaignProgressType): Promise<void> => {
+    claiming = entry.account.id;
+
+    for (const instanceId of entry.ready) {
+      if (
+        await run({
           command: CommandName.CLAIM_DROP,
-          account_id: viewer.id,
+          account_id: entry.account.id,
           drop_instance_id: instanceId,
         })
-      : Promise.resolve(false);
+      ) {
+        claimed = [...claimed, instanceId];
+      }
+    }
+
+    claiming = null;
+  };
 
   const close = (): void => {
     chosen = null;
+    claimed = [];
     onclose();
   };
 </script>
@@ -132,7 +116,7 @@
     ? [campaignHeading(campaign), campaignSubtitle(campaign)].filter(Boolean).join(" · ")
     : ""}
   wide={true}
-  closable={busy === null}
+  closable={busy === null && claiming === null}
   closeLabel={t.common_close()}
   onclose={close}
 >
@@ -211,7 +195,7 @@
               variant={ButtonVariant.OUTLINE}
               size={ButtonSize.SM}
               icon={IconName.LINK}
-              onfollow={viewer ? () => viewer && refreshWhenBack(viewer.id) : undefined}
+              onfollow={linker ? () => linker && refreshWhenBack(linker.id) : undefined}
             />
           {/if}
           {#if view.game.slug && !sitewideQuest(view)}
@@ -227,77 +211,47 @@
         </div>
       </div>
     </div>
-    {#if viewer && selected.length > 1}
-      <span class="text-hint text-muted-foreground"
-        ><RichText text={t.campaign_progress_of({ account: strong(viewer.display_name) })} /></span
-      >
-    {/if}
     <RewardTiles
       campaign={view}
       ignored={ignoredDrops}
-      onclaim={viewer ? claim : undefined}
       onignore={selected.length
         ? (drop, ignored) => setDropIgnored(selected, drop, ignored)
         : undefined}
     />
+    {#if progress.length > 0}
+      <AccountProgressList entries={progress}>
+        {#snippet tags(entry)}
+          {#if entry.linked === false}<LinkBadge linked={false} />{/if}
+        {/snippet}
+        {#snippet action(entry)}
+          {#if entry.ready.length > 0 && entry.linked !== false}
+            <ActionButton
+              icon={IconName.GIFT}
+              label={entry.ready.length > 1 ? t.inventory_claim_all() : t.reward_claim()}
+              busyLabel={t.campaign_claiming()}
+              busy={claiming === entry.account.id}
+              disabled={claiming !== null}
+              variant={ButtonVariant.PRIMARY}
+              size={ButtonSize.SM}
+              type={ButtonType.BUTTON}
+              onclick={() => claim(entry)}
+              class="ml-auto"
+            />
+          {/if}
+        {/snippet}
+      </AccountProgressList>
+    {/if}
   {/if}
 
   {#snippet footer()}
     {#if view && accounts.length}
-      {@const id = view.id}
-      <div class="w-56 sm:mr-auto">
-        <MultiSelect
-          values={selected}
-          options={accounts.map((a) => ({
-            value: a.id,
-            label: a.display_name,
-            image: a.avatar_url,
-          }))}
-          label={t.common_account()}
-          allLabel={t.accounts_all()}
-          noneLabel={t.accounts_none()}
-          countLabel={(count) => t.accounts_count({ count })}
-          align={MenuAlign.LEFT}
-          onchange={(values) => (chosen = values)}
-        />
-      </div>
-      <ActionButton
-        icon={allIgnore ? IconName.EYE : IconName.EYE_OFF}
-        label={allIgnore ? t.campaign_unignore() : t.campaign_ignore()}
-        busyLabel={t.common_saving()}
-        busy={busy === CampaignAction.IGNORE}
-        disabled={busy !== null || selected.length === 0}
-        variant={ButtonVariant.DEFAULT}
-        size={ButtonSize.MD}
-        type={ButtonType.BUTTON}
-        onclick={() =>
-          act(CampaignAction.IGNORE, () => setCampaignIgnored(selected, id, !allIgnore))}
+      <CampaignActions
+        campaignId={view.id}
+        {selected}
+        minable={progress.some((entry) => entry.minable)}
+        bind:busy
+        onselect={(values) => (chosen = values)}
       />
-      {#if minable}
-        <ActionButton
-          icon={allSelected ? IconName.STAR_FILLED : IconName.STAR}
-          label={allSelected ? t.campaign_unselect() : t.campaign_select()}
-          busyLabel={t.common_saving()}
-          busy={busy === CampaignAction.SELECT}
-          disabled={busy !== null || selected.length === 0}
-          variant={ButtonVariant.DEFAULT}
-          size={ButtonSize.MD}
-          type={ButtonType.BUTTON}
-          onclick={() =>
-            act(CampaignAction.SELECT, () => setCampaignSelected(selected, id, !allSelected))}
-        />
-        <ActionButton
-          icon={IconName.ARROW_UP}
-          label={t.campaign_prioritize()}
-          busyLabel={t.common_saving()}
-          busy={busy === CampaignAction.FIRST}
-          disabled={busy !== null || selected.length === 0}
-          variant={ButtonVariant.PRIMARY}
-          size={ButtonSize.MD}
-          type={ButtonType.BUTTON}
-          onclick={() => act(CampaignAction.FIRST, () => prioritizeCampaign(selected, id))}
-        />
-      {/if}
     {/if}
   {/snippet}
 </Dialog>

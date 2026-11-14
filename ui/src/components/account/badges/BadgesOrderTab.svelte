@@ -16,6 +16,7 @@
   import type { CampaignType } from "../../../lib/bindings/CampaignType";
   import type { QueueItemType } from "../../../lib/bindings/QueueItemType";
   import { campaignEnd } from "../../../lib/catalogue/campaign.utils";
+  import { minesCampaign } from "../../../lib/catalogue/campaign-progress.utils";
   import { t } from "../../../lib/i18n/i18n.svelte";
   import { ticker } from "../../../lib/state/ticker.svelte";
   import { escapeEmphasis } from "../../../lib/text.utils";
@@ -43,9 +44,6 @@
   let { account, sections, onopen }: BadgesOrderTabPropsType = $props();
 
   const rows = $derived(badgeRows(sections.minable, miningOrder(account.settings, account)));
-
-  const mining = (id: string): boolean =>
-    account.slots.some((slot) => slot.drop?.campaign_id === id);
 
   const queued = (id: string): QueueItemType | undefined =>
     account.queue.find((item) => item.campaign_id === id);
@@ -92,7 +90,7 @@
         <span class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
           <span class={["truncate font-semibold", campaign && "text-link"]}>{titleOf(row)}</span>
           <span class="inline-flex max-w-full flex-wrap items-center gap-1.5">
-            {#if mining(row.campaignId)}<Badge
+            {#if minesCampaign(account, row.campaignId)}<Badge
                 text={t.queue_mining()}
                 tone={BadgeTone.SUCCESS}
                 dot={true}
