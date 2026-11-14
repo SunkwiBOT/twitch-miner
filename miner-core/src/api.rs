@@ -173,6 +173,8 @@ pub struct Snapshot {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
     pub update_checked_at: Option<DateTime<Utc>>,
+    // ! Due 48 h after the first start, until the window is closed once.
+    pub star_prompt: bool,
     pub accounts: Vec<AccountSnapshot>,
     pub catalog: CatalogView,
     pub badges: BadgeCatalogView,
@@ -274,6 +276,7 @@ pub enum Command {
     CancelBurst {
         burst_id: String,
     },
+    DismissStarPrompt {},
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, TS)]
@@ -294,6 +297,7 @@ pub enum CommandName {
     AddSpamChannel,
     ForgetSpamChannel,
     CancelBurst,
+    DismissStarPrompt,
 }
 
 // ! Written by hand so a passphrase, a webhook or a proxy password never
@@ -357,6 +361,7 @@ impl std::fmt::Debug for Command {
                 .debug_struct("CancelBurst")
                 .field("burst_id", burst_id)
                 .finish(),
+            Self::DismissStarPrompt {} => f.write_str("DismissStarPrompt"),
         }
     }
 }
@@ -378,6 +383,7 @@ impl Command {
             Self::AddSpamChannel { .. } => CommandName::AddSpamChannel,
             Self::ForgetSpamChannel { .. } => CommandName::ForgetSpamChannel,
             Self::CancelBurst { .. } => CommandName::CancelBurst,
+            Self::DismissStarPrompt {} => CommandName::DismissStarPrompt,
         }
     }
 }

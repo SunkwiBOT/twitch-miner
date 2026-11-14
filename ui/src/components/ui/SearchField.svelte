@@ -10,21 +10,19 @@
   import {
     CLEAR_SEARCH_KEY,
     FIELD_BUTTON_CLASSES,
-    FIELD_CLEAR_BUTTON_CLASSES,
+    FIELD_ICON_CLASSES,
     IconName,
     SEARCH_FIELD_PADDING,
   } from "./ui.constants";
 
-  type SearchActionType = { label: string; busy: boolean; run: () => void };
-
   type SearchFieldPropsType = Omit<HTMLInputAttributes, "type" | "value" | "files"> & {
     value: string;
-    search: SearchActionType | null;
+    busy: boolean;
   };
 
   let {
     value = $bindable(),
-    search,
+    busy,
     class: className,
     onkeydown,
     ...rest
@@ -49,6 +47,7 @@
     type="search"
     class={cn(SEARCH_FIELD_PADDING, "[&::-webkit-search-cancel-button]:hidden", className)}
     spellcheck={false}
+    aria-busy={busy}
     bind:value
     {...rest}
     onkeydown={(event) => {
@@ -64,46 +63,26 @@
     }}
   />
 
-  {#if value !== ""}
+  <!-- ! One place on the right: the spinner while a search waits or runs, else
+  the clear cross once there is text, else the magnifier. -->
+  {#if busy}
+    <span class={FIELD_ICON_CLASSES} aria-hidden="true"><Spinner size={15} /></span>
+  {:else if value !== ""}
     <Tip text={t.common_clear_search()}>
       {#snippet children(props)}
         <button
           {...props}
           type="button"
-          class={FIELD_CLEAR_BUTTON_CLASSES}
+          class={FIELD_BUTTON_CLASSES}
           aria-label={t.common_clear_search()}
           onclick={clear}
         >
-          <Icon name={IconName.X} size={14} />
-        </button>
-      {/snippet}
-    </Tip>
-  {/if}
-
-  {#if search}
-    <Tip text={search.label}>
-      {#snippet children(props)}
-        <button
-          {...props}
-          type="button"
-          class={FIELD_BUTTON_CLASSES}
-          aria-label={search.label}
-          aria-busy={search.busy}
-          onclick={search.run}
-        >
-          {#if search.busy}
-            <Spinner size={15} />
-          {:else}
-            <Icon name={IconName.SEARCH} size={15} />
-          {/if}
+          <Icon name={IconName.X} size={15} />
         </button>
       {/snippet}
     </Tip>
   {:else}
-    <span
-      class="pointer-events-none absolute inset-y-0 right-0 grid w-8 place-items-center text-muted-foreground"
-      aria-hidden="true"
-    >
+    <span class={FIELD_ICON_CLASSES} aria-hidden="true">
       <Icon name={IconName.SEARCH} size={15} />
     </span>
   {/if}

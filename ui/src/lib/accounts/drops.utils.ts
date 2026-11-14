@@ -11,7 +11,7 @@ import { t } from "../i18n/i18n.svelte";
 import { changed } from "../state/bulk.svelte";
 import { updateAccountSettings } from "../state/state.svelte";
 import { strong } from "../text.utils";
-import type { DropsList } from "./accounts.constants";
+import type { BadgesList, DropsList } from "./accounts.constants";
 import {
   applyDelta,
   deltaOf,
@@ -20,6 +20,7 @@ import {
   pinnedPrefix,
   placeOf,
   setCampaignIgnoredIn,
+  setCampaignSelectedIn,
   setDropIgnoredIn,
 } from "./changes.utils";
 
@@ -49,6 +50,38 @@ export const editDropsList = (
   changed(account.id, t.change_settings(), (settings) => {
     settings.drops[field] = applyDelta(settings.drops[field], delta);
   });
+};
+
+export const editBadgesList = (
+  account: AccountSnapshotType,
+  field: BadgesList,
+  next: string[],
+): void => {
+  const delta = deltaOf(account.settings.badges[field], next);
+
+  void updateAccountSettings(account.id, (settings) => (settings.badges[field] = next));
+  changed(account.id, t.change_settings(), (settings) => {
+    settings.badges[field] = applyDelta(settings.badges[field], delta);
+  });
+};
+
+export const setSelected = (
+  account: AccountSnapshotType,
+  campaignId: string,
+  name: string,
+  selected: boolean,
+): void => {
+  const apply = (settings: AccountSettingsType): void =>
+    setCampaignSelectedIn(settings, campaignId, selected);
+
+  void updateAccountSettings(account.id, apply);
+  changed(
+    account.id,
+    selected
+      ? t.change_selected({ item: strong(name) })
+      : t.change_unselected({ item: strong(name) }),
+    apply,
+  );
 };
 
 export const movePriorityGame = (
@@ -93,14 +126,12 @@ export const queueProgress = (
   return percent(done, required);
 };
 
-export const reorderQueue = (
+const reorderCampaigns = (
   account: AccountSnapshotType,
   snapshot: SnapshotType,
-  items: QueueItemType[],
-  moved: QueueItemType,
+  order: string[],
+  id: string,
 ): void => {
-  const id = moved.campaign_id;
-  const order = items.map((item) => item.campaign_id);
   const place = placeOf(order, id);
 
   void saveDrops(account, (drops) => {
@@ -120,6 +151,54 @@ export const reorderQueue = (
       }
     },
   );
+};
+
+export const reorderQueue = (
+  account: AccountSnapshotType,
+  snapshot: SnapshotType,
+  items: QueueItemType[],
+  moved: QueueItemType,
+): void =>
+  reorderCampaigns(
+    account,
+    snapshot,
+    items.map((item) => item.campaign_id),
+    moved.campaign_id,
+  );
+
+// ! A move inside a part of the mining order (the badges) lands in the whole
+// order next to the same neighbour: before the one now after it, or else just
+// after the one now before it.
+export const reorderWithin = (
+  account: AccountSnapshotType,
+  snapshot: SnapshotType,
+  part: string[],
+  id: string,
+): void => {
+  const whole = miningOrder(account.settings, account);
+  const rest = [...whole, ...part.filter((other) => !whole.includes(other))].filter(
+    (other) => other !== id,
+  );
+  const at = part.indexOf(id);
+  const index = at + 1 < part.length ? rest.indexOf(part[at + 1]) : rest.indexOf(part[at - 1]) + 1;
+
+  rest.splice(index, 0, id);
+  reorderCampaigns(account, snapshot, rest, id);
+};
+
+export const setBadgesIgnored = (
+  account: AccountSnapshotType,
+  dropIds: string[],
+  name: string,
+): void => {
+  const apply = (settings: AccountSettingsType): void => {
+    for (const id of dropIds) {
+      setDropIgnoredIn(settings, id, true);
+    }
+  };
+
+  void updateAccountSettings(account.id, apply);
+  changed(account.id, t.change_ignored({ item: strong(name) }), apply);
 };
 
 export const resetQueue = (account: AccountSnapshotType): void => {

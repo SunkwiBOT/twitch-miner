@@ -87,6 +87,8 @@ pub struct DropsSettings {
     pub exclude_names: Vec<String>,
     pub exclude_campaign_ids: Vec<String>,
     pub exclude_drop_ids: Vec<String>,
+    pub selection_only: bool,
+    pub selected_campaign_ids: Vec<String>,
     pub auto_claim: bool,
     pub skip_unfinishable: bool,
     pub mine_points: bool,
@@ -107,11 +109,38 @@ impl Default for DropsSettings {
             exclude_names: Vec::new(),
             exclude_campaign_ids: Vec::new(),
             exclude_drop_ids: Vec::new(),
+            selection_only: false,
+            selected_campaign_ids: Vec::new(),
             auto_claim: false,
             skip_unfinishable: true,
             mine_points: true,
             points_followed_only: false,
             streamers_first: true,
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[serde(default)]
+#[ts(rename = "BadgeSettingsType")]
+pub struct BadgeSettings {
+    pub scope: DropsScope,
+    pub linked_first: bool,
+    pub order: DropsOrder,
+    pub exclude_games: Vec<String>,
+    pub exclude_names: Vec<String>,
+    pub selection_only: bool,
+}
+
+impl Default for BadgeSettings {
+    fn default() -> Self {
+        Self {
+            scope: DropsScope::default(),
+            linked_first: true,
+            order: DropsOrder::default(),
+            exclude_games: Vec::new(),
+            exclude_names: Vec::new(),
+            selection_only: false,
         }
     }
 }
@@ -290,6 +319,7 @@ pub struct AccountSettings {
     pub enabled: bool,
     pub mode: Mode,
     pub drops: DropsSettings,
+    pub badges: BadgeSettings,
     pub points: PointsSettings,
     // ! Twitch credits at most two channels per account at a time.
     pub slots: u8,
@@ -302,6 +332,7 @@ impl Default for AccountSettings {
             enabled: true,
             mode: Mode::Auto,
             drops: DropsSettings::default(),
+            badges: BadgeSettings::default(),
             points: PointsSettings::default(),
             slots: 2,
             proxy: String::new(),
@@ -337,6 +368,9 @@ impl AccountSettings {
             ("exclude_names", &drops.exclude_names),
             ("exclude_campaign_ids", &drops.exclude_campaign_ids),
             ("exclude_drop_ids", &drops.exclude_drop_ids),
+            ("selected_campaign_ids", &drops.selected_campaign_ids),
+            ("badges.exclude_games", &self.badges.exclude_games),
+            ("badges.exclude_names", &self.badges.exclude_names),
         ] {
             list.iter().try_for_each(|entry| short(name, entry))?;
         }
@@ -724,11 +758,22 @@ strict_input!(DropsSettingsInput => DropsSettings {
     exclude_names: Vec<String>,
     exclude_campaign_ids: Vec<String>,
     exclude_drop_ids: Vec<String>,
+    selection_only: bool,
+    selected_campaign_ids: Vec<String>,
     auto_claim: bool,
     skip_unfinishable: bool,
     mine_points: bool,
     points_followed_only: bool,
     streamers_first: bool,
+});
+
+strict_input!(BadgeSettingsInput => BadgeSettings {
+    scope: DropsScope,
+    linked_first: bool,
+    order: DropsOrder,
+    exclude_games: Vec<String>,
+    exclude_names: Vec<String>,
+    selection_only: bool,
 });
 
 strict_input!(PredictionSettingsInput => PredictionSettings {
@@ -778,6 +823,7 @@ strict_input!(AccountSettingsInput => AccountSettings {
     enabled: bool,
     mode: Mode,
     drops: DropsSettingsInput,
+    badges: BadgeSettingsInput,
     points: PointsSettingsInput,
     slots: u8,
     proxy: String,

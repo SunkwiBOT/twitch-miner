@@ -8,6 +8,7 @@ export const FILLED_ICON_VIEWBOXES: ReadonlyMap<IconName, string> = new Map([
   [IconName.VERIFIED, "0 0 16 16"],
   [IconName.WATCH_STREAK, "0 0 24 24"],
   [IconName.GITHUB, "0 0 24 24"],
+  [IconName.STAR_FILLED, "0 0 24 24"],
 ]);
 
 export const ICON_PATHS: Record<IconName, string> = {
@@ -77,6 +78,8 @@ export const ICON_PATHS: Record<IconName, string> = {
   [IconName.ZAP]: "M13 2 3 14h9l-1 8 10-12h-9l1-8z",
   [IconName.INFINITY]: "M6 16c5 0 7-8 12-8a4 4 0 0 1 0 8c-5 0-7-8-12-8a4 4 0 1 0 0 8",
   [IconName.STAR]:
+    "m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z",
+  [IconName.STAR_FILLED]:
     "m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z",
   [IconName.FLAME]:
     "M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z",

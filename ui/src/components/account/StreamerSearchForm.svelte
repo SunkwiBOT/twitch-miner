@@ -64,7 +64,7 @@
     placeholder={t.account_points_add_placeholder()}
     aria-label={t.account_points_add_placeholder()}
     bind:value={query}
-    search={{ label: t.common_search(), busy: twitch.busy || searching, run: submit }}
+    busy={twitch.busy || searching}
     oninput={() => {
       onedit();
       twitch.update(query);

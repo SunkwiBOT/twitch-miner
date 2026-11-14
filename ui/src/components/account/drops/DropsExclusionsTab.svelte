@@ -1,4 +1,5 @@
 <script lang="ts">
+  import PanelColumns from "../../ui/PanelColumns.svelte";
   import { DropsList } from "../../../lib/accounts/accounts.constants";
   import { editDropsList, setIgnored, type IgnoredType } from "../../../lib/accounts/drops.utils";
   import type { AccountSnapshotType } from "../../../lib/bindings/AccountSnapshotType";
@@ -21,6 +22,7 @@
     ButtonType,
     ButtonVariant,
     IconName,
+    PanelWidth,
     ThumbShape,
     ThumbSize,
   } from "../../ui/ui.constants";
@@ -38,7 +40,7 @@
   const games = $derived([...new Set(snapshot.catalog.campaigns.map((c) => c.game.name))].sort());
 </script>
 
-<div class="grid grid-cols-[repeat(auto-fit,minmax(min(460px,100%),1fr))] items-start gap-5">
+<PanelColumns width={PanelWidth.LG}>
   <Panel title={t.ignored_title()} description={t.ignored_hint()}>
     {#if ignored.length === 0}
       <EmptyState text={t.ignored_empty()} />
@@ -114,4 +116,4 @@
       />
     </FormField>
   </Panel>
-</div>
+</PanelColumns>

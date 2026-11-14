@@ -196,7 +196,34 @@ fn game_matches(campaign: &Campaign, name: &str) -> bool {
         || (!slug.is_empty() && campaign.game.slug().eq_ignore_ascii_case(&slug))
 }
 
-pub fn excluded(settings: &AccountSettings, campaign: &Campaign) -> bool {
+fn filtered(games: &[String], names: &[String], campaign: &Campaign) -> bool {
+    games.iter().any(|g| game_matches(campaign, g))
+        || names.iter().any(|needle| {
+            !needle.trim().is_empty()
+                && (contains_ci(&campaign.name, needle)
+                    || campaign.drops.iter().any(|d| contains_ci(&d.name, needle)))
+        })
+}
+
+fn drops_filtered(settings: &AccountSettings, campaign: &Campaign) -> bool {
+    filtered(
+        &settings.drops.exclude_games,
+        &settings.drops.exclude_names,
+        campaign,
+    )
+}
+
+fn badges_filtered(settings: &AccountSettings, campaign: &Campaign) -> bool {
+    filtered(
+        &settings.badges.exclude_games,
+        &settings.badges.exclude_names,
+        campaign,
+    )
+}
+
+// ! The Drops filters and the badge filters each keep a campaign out of their
+// own kinds only: a badge campaign is out once both filter it.
+pub fn excluded(settings: &AccountSettings, campaign: &Campaign, now: DateTime<Utc>) -> bool {
     let drops = &settings.drops;
 
     if drops
@@ -207,19 +234,13 @@ pub fn excluded(settings: &AccountSettings, campaign: &Campaign) -> bool {
         return true;
     }
 
-    if drops
-        .exclude_games
-        .iter()
-        .any(|g| game_matches(campaign, g))
-    {
-        return true;
-    }
+    let by_drops = campaign.kind == CampaignKind::Quest || drops_filtered(settings, campaign);
 
-    drops.exclude_names.iter().any(|needle| {
-        !needle.trim().is_empty()
-            && (contains_ci(&campaign.name, needle)
-                || campaign.drops.iter().any(|d| contains_ci(&d.name, needle)))
-    })
+    if campaign.gives_badge(now, &drops.exclude_drop_ids) {
+        by_drops && badges_filtered(settings, campaign)
+    } else {
+        by_drops
+    }
 }
 
 fn priority_index(settings: &AccountSettings, campaign: &Campaign) -> Option<usize> {
@@ -232,6 +253,33 @@ fn priority_index(settings: &AccountSettings, campaign: &Campaign) -> Option<usi
 
 type RankKey = (u8, i64, u8, i64);
 
+// ! A quest has no game account to link: "linked only" never keeps it out.
+fn in_scope(scope: DropsScope, campaign: &Campaign) -> bool {
+    match scope {
+        DropsScope::LinkedOnly => {
+            campaign.kind == CampaignKind::Quest || campaign.linked == Some(true)
+        }
+        DropsScope::All => true,
+    }
+}
+
+fn selected(settings: &AccountSettings, campaign: &Campaign) -> bool {
+    settings
+        .drops
+        .selected_campaign_ids
+        .iter()
+        .any(|id| id == &campaign.id)
+}
+
+// ! "Only my selection": a kind with it on mines only the campaigns starred by
+// hand (the priority games are the Drops selection already).
+fn held_back(settings: &AccountSettings, campaign: &Campaign, now: DateTime<Utc>) -> bool {
+    !selected(settings, campaign)
+        && ((settings.drops.selection_only && campaign.kind == CampaignKind::Drops)
+            || (settings.badges.selection_only
+                && campaign.gives_badge(now, &settings.drops.exclude_drop_ids)))
+}
+
 pub fn lane_of(
     settings: &AccountSettings,
     campaign: &Campaign,
@@ -239,6 +287,7 @@ pub fn lane_of(
 ) -> Option<(MiningLaneKind, usize)> {
     let drops = &settings.drops;
     let priority = priority_index(settings, campaign);
+    let chosen = selected(settings, campaign);
 
     drops
         .mining_order
@@ -247,12 +296,47 @@ pub fn lane_of(
         .filter(|(_, lane)| lane.enabled)
         .find(|(_, lane)| match lane.kind {
             MiningLaneKind::PriorityGames => {
-                campaign.kind == CampaignKind::Drops && priority.is_some()
+                campaign.kind == CampaignKind::Drops
+                    && priority.is_some()
+                    && in_scope(drops.scope, campaign)
+                    && !drops_filtered(settings, campaign)
             }
-            MiningLaneKind::Badges => campaign.gives_badge(now, &drops.exclude_drop_ids),
-            MiningLaneKind::OtherCampaigns => campaign.kind == CampaignKind::Drops,
+            MiningLaneKind::Badges => {
+                campaign.gives_badge(now, &drops.exclude_drop_ids)
+                    && in_scope(settings.badges.scope, campaign)
+                    && !badges_filtered(settings, campaign)
+                    && (chosen || !settings.badges.selection_only)
+            }
+            MiningLaneKind::OtherCampaigns => {
+                campaign.kind == CampaignKind::Drops
+                    && in_scope(drops.scope, campaign)
+                    && !drops_filtered(settings, campaign)
+                    && (chosen || !drops.selection_only)
+            }
         })
         .map(|(position, lane)| (lane.kind, position))
+}
+
+fn automatic_key(
+    linked_first: bool,
+    order: DropsOrder,
+    campaign: &Campaign,
+    excluded: &[String],
+) -> (QueueReason, u8, i64) {
+    let linked_rank = u8::from(linked_first && campaign.linked != Some(true));
+
+    match order {
+        DropsOrder::EndingSoonest => (
+            QueueReason::EndingSoon,
+            linked_rank,
+            campaign.ends_at.timestamp(),
+        ),
+        DropsOrder::LowestRemaining => (
+            QueueReason::LowestRemaining,
+            linked_rank,
+            i64::from(campaign.remaining_minutes(excluded)),
+        ),
+    }
 }
 
 // ! A tier per campaign: 0 for the campaigns placed by hand, then one per
@@ -268,32 +352,17 @@ fn rank_tiers<'a>(
         .filter(|c| {
             c.active_at(now) && !c.finished() && c.next_drop(now, &drops.exclude_drop_ids).is_some()
         })
-        .filter(|c| !excluded(settings, c))
+        .filter(|c| !excluded(settings, c, now))
         .filter(|c| !drops.skip_unfinishable || c.can_finish(now, &drops.exclude_drop_ids))
         .filter_map(|c| {
             let pinned = drops.campaign_order.iter().position(|id| id == &c.id);
-            let in_scope = match drops.scope {
-                DropsScope::LinkedOnly => c.kind == CampaignKind::Quest || c.linked == Some(true),
-                DropsScope::All => true,
-            };
-            let lane = lane_of(settings, c, now).filter(|_| in_scope);
+            let lane = lane_of(settings, c, now);
 
-            if lane.is_none() && pinned.is_none() {
+            if lane.is_none() && (pinned.is_none() || held_back(settings, c, now)) {
                 return None;
             }
 
-            let linked_rank = if drops.linked_first && c.linked != Some(true) {
-                1
-            } else {
-                0
-            };
-            let automatic = match drops.order {
-                DropsOrder::EndingSoonest => (QueueReason::EndingSoon, c.ends_at.timestamp()),
-                DropsOrder::LowestRemaining => (
-                    QueueReason::LowestRemaining,
-                    i64::from(c.remaining_minutes(&drops.exclude_drop_ids)),
-                ),
-            };
+            let excluded = &drops.exclude_drop_ids;
 
             let key = match (pinned, lane) {
                 (Some(index), _) => (QueueReason::Ordered, (0u8, index as i64, 0, 0)),
@@ -306,10 +375,17 @@ fn rank_tiers<'a>(
                             (tier, priority_index(settings, c).unwrap_or(0) as i64, 0, 0),
                         ),
                         MiningLaneKind::Badges => {
-                            (QueueReason::Badge, (tier, 0, linked_rank, automatic.1))
+                            let badges = &settings.badges;
+                            let (_, linked, value) =
+                                automatic_key(badges.linked_first, badges.order, c, excluded);
+
+                            (QueueReason::Badge, (tier, 0, linked, value))
                         }
                         MiningLaneKind::OtherCampaigns => {
-                            (automatic.0, (tier, 0, linked_rank, automatic.1))
+                            let (reason, linked, value) =
+                                automatic_key(drops.linked_first, drops.order, c, excluded);
+
+                            (reason, (tier, 0, linked, value))
                         }
                     }
                 }

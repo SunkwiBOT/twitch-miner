@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { PanelWidth } from "../ui/ui.constants";
+  import PanelColumns from "../ui/PanelColumns.svelte";
   import { untrack } from "svelte";
 
   import { fetchAutostart, setAutostart } from "../../lib/api/client";
@@ -99,19 +101,19 @@
 </script>
 
 <PageBody>
-  <div class="grid grid-cols-[repeat(auto-fit,minmax(min(420px,100%),1fr))] items-start gap-5">
+  <PanelColumns width={PanelWidth.MD}>
     <SettingsGeneral bind:draft />
     <SettingsSecurity {snapshot} bind:draft />
-  </div>
+  </PanelColumns>
 
   <SettingsTime bind:draft />
 
-  <div class="grid grid-cols-[repeat(auto-fit,minmax(min(420px,100%),1fr))] items-start gap-5">
+  <PanelColumns width={PanelWidth.MD}>
     <SettingsProxy bind:draft />
     {#if isTauri()}
       <SettingsDesktop bind:draft bind:autostart={autostartDraft} />
     {/if}
-  </div>
+  </PanelColumns>
 
   <SettingsNotifications bind:draft dirty={edited} />
 

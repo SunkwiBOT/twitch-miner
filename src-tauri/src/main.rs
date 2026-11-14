@@ -86,6 +86,7 @@ async fn locked_snapshot(manager: &Manager) -> Snapshot {
         build: None,
         update_available: None,
         update_checked_at: None,
+        star_prompt: false,
         accounts: Vec::new(),
         catalog: CatalogView::default(),
         badges: BadgeCatalogView::default(),

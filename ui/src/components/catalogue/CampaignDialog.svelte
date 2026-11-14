@@ -1,6 +1,12 @@
 <script lang="ts">
   import { CommandName } from "../../lib/bindings/CommandName";
-  import { campaignEnd } from "../../lib/catalogue/campaign.utils";
+  import {
+    campaignArtUrl,
+    campaignEnd,
+    campaignHeading,
+    campaignSubtitle,
+    sitewideQuest,
+  } from "../../lib/catalogue/campaign.utils";
   import type { CampaignType } from "../../lib/bindings/CampaignType";
   import { campaignUrl } from "../../lib/events/events.utils";
   import { BoxArtSize } from "../../lib/format.constants";
@@ -13,6 +19,7 @@
     prioritizeCampaign,
     run,
     setCampaignIgnored,
+    setCampaignSelected,
     setDropIgnored,
   } from "../../lib/state/state.svelte";
   import { ticker } from "../../lib/state/ticker.svelte";
@@ -58,6 +65,14 @@
         .every((a) => a.settings.drops.exclude_campaign_ids.includes(campaign.id)),
   );
 
+  const allSelected = $derived(
+    campaign !== null &&
+      selected.length > 0 &&
+      accounts
+        .filter((a) => selected.includes(a.id))
+        .every((a) => a.settings.drops.selected_campaign_ids.includes(campaign.id)),
+  );
+
   const view = $derived(
     campaign ? (viewer?.campaigns.find((c) => c.id === campaign.id) ?? campaign) : null,
   );
@@ -66,6 +81,16 @@
     accounts
       .filter((a) => selected.includes(a.id))
       .flatMap((a) => a.settings.drops.exclude_drop_ids),
+  );
+
+  // ! Pinning a campaign whose rewards all need a subscription would hold a
+  // place in the order that is never mined.
+  const minable = $derived(
+    view !== null &&
+      view.drops.some(
+        (drop) =>
+          drop.required_subs === 0 && !drop.claimed && !drop.badge_owned && !drop.instance_id,
+      ),
   );
 
   let busy = $state<string | null>(null);
@@ -95,14 +120,16 @@
 
 <Dialog
   open={campaign !== null}
-  title={campaign ? `${campaign.game.name} · ${campaign.name}` : ""}
+  title={campaign
+    ? [campaignHeading(campaign), campaignSubtitle(campaign)].filter(Boolean).join(" · ")
+    : ""}
   wide={true}
   closable={busy === null}
   closeLabel={t.common_close()}
   onclose={close}
 >
   {#if view}
-    {@const art = boxArt(view.game.box_art_url, BoxArtSize.CARD)}
+    {@const art = boxArt(campaignArtUrl(view), BoxArtSize.CARD)}
     {@const id = view.id}
     <div class="flex items-start gap-4">
       {#if art}<img
@@ -169,7 +196,7 @@
               icon={IconName.LINK}
             />
           {/if}
-          {#if view.game.slug}
+          {#if view.game.slug && !sitewideQuest(view)}
             {@const slug = view.game.slug}
             <ExternalButton
               url={`${TWITCH_CATEGORY_URL}/${slug}`}
@@ -222,17 +249,30 @@
         type={ButtonType.BUTTON}
         onclick={() => act("ignore", () => setCampaignIgnored(selected, id, !allIgnore))}
       />
-      <ActionButton
-        icon={IconName.ARROW_UP}
-        label={t.campaign_prioritize()}
-        busyLabel={t.common_saving()}
-        busy={busy === "first"}
-        disabled={busy !== null || selected.length === 0}
-        variant={ButtonVariant.PRIMARY}
-        size={ButtonSize.MD}
-        type={ButtonType.BUTTON}
-        onclick={() => act("first", () => prioritizeCampaign(selected, id))}
-      />
+      {#if minable}
+        <ActionButton
+          icon={allSelected ? IconName.STAR_FILLED : IconName.STAR}
+          label={allSelected ? t.campaign_unselect() : t.campaign_select()}
+          busyLabel={t.common_saving()}
+          busy={busy === "select"}
+          disabled={busy !== null || selected.length === 0}
+          variant={ButtonVariant.DEFAULT}
+          size={ButtonSize.MD}
+          type={ButtonType.BUTTON}
+          onclick={() => act("select", () => setCampaignSelected(selected, id, !allSelected))}
+        />
+        <ActionButton
+          icon={IconName.ARROW_UP}
+          label={t.campaign_prioritize()}
+          busyLabel={t.common_saving()}
+          busy={busy === "first"}
+          disabled={busy !== null || selected.length === 0}
+          variant={ButtonVariant.PRIMARY}
+          size={ButtonSize.MD}
+          type={ButtonType.BUTTON}
+          onclick={() => act("first", () => prioritizeCampaign(selected, id))}
+        />
+      {/if}
     {/if}
   {/snippet}
 </Dialog>

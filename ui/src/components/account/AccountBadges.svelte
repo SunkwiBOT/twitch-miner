@@ -1,168 +1,94 @@
 <script lang="ts">
+  import PanelColumns from "../ui/PanelColumns.svelte";
+  import { untrack } from "svelte";
+
+  import { BADGES_TAB_SLUGS, BadgesTab } from "../../lib/accounts/accounts.constants";
   import { laneEnabled } from "../../lib/accounts/mining-order.utils";
-  import type { MiningLaneType } from "../../lib/bindings/MiningLaneType";
-  import { saveAccountSettings } from "../../lib/state/state.svelte";
-  import {
-    AccountBadgeState,
-    accountBadges,
-    ownedBadges,
-    type AccountBadgeType,
-  } from "../../lib/badges/badges.utils";
+  import { accountBadges, ownedBadges } from "../../lib/badges/badges.utils";
+  import { badgeList } from "../../lib/badges/badges.svelte";
   import type { AccountSnapshotType } from "../../lib/bindings/AccountSnapshotType";
   import type { CampaignType } from "../../lib/bindings/CampaignType";
   import { MiningLaneKind } from "../../lib/bindings/MiningLaneKind";
-  import { campaignEnd } from "../../lib/catalogue/campaign.utils";
-  import { minutes } from "../../lib/format.utils";
+  import type { SnapshotType } from "../../lib/bindings/SnapshotType";
   import { t } from "../../lib/i18n/i18n.svelte";
+  import { matchesSearch, normalizeSearch } from "../../lib/search/search.utils";
+  import { editsOf } from "../../lib/state/edits.svelte";
+  import { AccountField } from "../../lib/state/state.constants";
+  import { openTab, showTab } from "../../lib/state/state.svelte";
   import { ticker } from "../../lib/state/ticker.svelte";
-  import { escapeEmphasis } from "../../lib/text.utils";
-  import { badgeList } from "../../lib/badges/badges.svelte";
-  import { relativeTime } from "../../lib/time/time.utils";
   import CampaignDialog from "../catalogue/CampaignDialog.svelte";
-  import Badge from "../ui/Badge.svelte";
-  import Dialog from "../ui/Dialog.svelte";
-  import TextButton from "../ui/TextButton.svelte";
-  import MiningOrderList from "./drops/MiningOrderList.svelte";
   import EmptyState from "../ui/EmptyState.svelte";
-  import List from "../ui/List.svelte";
-  import ListRow from "../ui/ListRow.svelte";
   import Notice from "../ui/Notice.svelte";
   import PageBody from "../ui/PageBody.svelte";
-  import PageHeader from "../ui/PageHeader.svelte";
   import Panel from "../ui/Panel.svelte";
-  import ProgressLine from "../ui/ProgressLine.svelte";
+  import SearchField from "../ui/SearchField.svelte";
+  import Segmented from "../ui/Segmented.svelte";
   import Thumb from "../ui/Thumb.svelte";
-  import {
-    BadgeTone,
-    ButtonSize,
-    ButtonType,
-    ButtonVariant,
-    IconName,
-    NoticeTone,
-    ThumbShape,
-    ThumbSize,
-  } from "../ui/ui.constants";
+  import { IconName, NoticeTone, PanelWidth, ThumbShape, ThumbSize } from "../ui/ui.constants";
+  import AccountSaveBar from "./AccountSaveBar.svelte";
+  import BadgesExclusionsTab from "./badges/BadgesExclusionsTab.svelte";
+  import BadgesOrderTab from "./badges/BadgesOrderTab.svelte";
+  import CampaignScopeFields from "./drops/CampaignScopeFields.svelte";
+  import MiningOrderList from "./drops/MiningOrderList.svelte";
 
-  type AccountBadgesPropsType = { account: AccountSnapshotType };
+  type AccountBadgesPropsType = { account: AccountSnapshotType; snapshot: SnapshotType };
 
-  let { account }: AccountBadgesPropsType = $props();
+  let { account, snapshot }: AccountBadgesPropsType = $props();
+
+  const edits = editsOf(untrack(() => account.id));
+  const badges = $derived(edits.applied(account.settings).badges);
 
   const sections = $derived(accountBadges(account, ticker.now));
   const owned = $derived(ownedBadges(account, badgeList.badges));
+
+  let query = $state("");
+
+  const ownedShown = $derived.by(() => {
+    const needle = normalizeSearch(query);
+
+    return owned.filter((badge) => !needle || matchesSearch(badge.title, needle));
+  });
   const badgesOn = $derived(
     laneEnabled(account.settings.drops.mining_order, MiningLaneKind.BADGES),
   );
 
+  const tab = $derived(openTab(Object.values(BadgesTab), BADGES_TAB_SLUGS, BadgesTab.ORDER));
+
   let open = $state<CampaignType | null>(null);
-
-  let order = $state<MiningLaneType[] | null>(null);
-  let saving = $state(false);
-
-  const saveOrder = async (lanes: MiningLaneType[]): Promise<void> => {
-    saving = true;
-
-    const settings = account.settings;
-    const saved = await saveAccountSettings(account.id, {
-      ...settings,
-      drops: { ...settings.drops, mining_order: lanes },
-    });
-
-    saving = false;
-
-    if (saved) {
-      order = null;
-    }
-  };
 </script>
 
-{#snippet rows(items: AccountBadgeType[], progress: boolean)}
-  <List>
-    {#each items as item (item.key)}
-      <ListRow
-        title={item.title}
-        details={[escapeEmphasis(item.source), campaignEnd(item.endsAt, ticker.now)]}
-        onopen={item.campaign ? () => (open = item.campaign) : undefined}
-        muted={false}
-      >
-        {#snippet lead()}
-          <Thumb
-            src={item.image}
-            round={false}
-            contain={true}
-            size={ThumbSize.MD}
-            shape={ThumbShape.SQUARE}
-            fallback={IconName.AWARD}
-          />
-        {/snippet}
-        {#snippet badges()}
-          {#if item.quest}
-            <Badge
-              text={t.quest_label()}
-              tone={BadgeTone.INFO}
-              dot={false}
-              hint={t.badge_hint_quest()}
-            />
-          {/if}
-          {#if item.state === AccountBadgeState.CLAIMABLE}
-            <Badge
-              text={t.reward_state_ready()}
-              tone={BadgeTone.PRIMARY}
-              dot={false}
-              icon={IconName.GIFT}
-            />
-          {:else if item.state === AccountBadgeState.NOT_MINABLE}
-            <Badge
-              text={t.quest_not_minable()}
-              tone={BadgeTone.MUTED}
-              dot={false}
-              hint={t.badge_hint_quest_not_minable()}
-            />
-          {:else if item.state === AccountBadgeState.SUB_ONLY}
-            <Badge
-              text={t.reward_sub_only()}
-              tone={BadgeTone.WARNING}
-              dot={false}
-              hint={t.badge_hint_sub_only()}
-            />
-          {:else if item.state === AccountBadgeState.WAITING && item.nextAt}
-            <Badge
-              text={t.quest_next_window({ time: relativeTime(item.nextAt, ticker.now) })}
-              tone={BadgeTone.MUTED}
-              dot={false}
-              icon={IconName.CLOCK}
-            />
-          {:else if !progress && item.required > 0}
-            <Badge
-              text={t.reward_watch({ time: minutes(item.required) })}
-              tone={BadgeTone.NEUTRAL}
-              dot={false}
-            />
-          {/if}
-        {/snippet}
-        {#snippet below()}
-          {#if progress && item.required > 0}
-            <ProgressLine current={item.current} required={item.required} stacked={false} />
-          {/if}
-        {/snippet}
-      </ListRow>
-    {/each}
-  </List>
-{/snippet}
-
 <PageBody>
-  <PageHeader intro={t.account_badges_hint()}>
-    {#snippet actions()}
-      <TextButton
-        label={t.mining_order_title()}
-        icon={IconName.LIST_ORDERED}
-        variant={ButtonVariant.OUTLINE}
-        size={ButtonSize.MD}
-        type={ButtonType.BUTTON}
-        disabled={false}
-        onclick={() => (order = account.settings.drops.mining_order)}
-      />
-    {/snippet}
-  </PageHeader>
+  <div class="flex flex-wrap items-center justify-between gap-3">
+    <Segmented
+      value={tab}
+      label={t.account_badges_tabs_label()}
+      onchange={(next) => showTab(BADGES_TAB_SLUGS, next)}
+      options={[
+        {
+          value: BadgesTab.ORDER,
+          label: t.queue_title(),
+          icon: IconName.LIST_ORDERED,
+          count: sections.minable.length,
+        },
+        { value: BadgesTab.SETTINGS, label: t.drops_tab_settings(), icon: IconName.SETTINGS },
+        {
+          value: BadgesTab.EXCLUSIONS,
+          label: t.drops_tab_exclusions(),
+          icon: IconName.EYE_OFF,
+          count:
+            sections.ignored.length +
+            account.settings.badges.exclude_games.length +
+            account.settings.badges.exclude_names.length,
+        },
+        {
+          value: BadgesTab.OWNED,
+          label: t.account_badges_owned(),
+          icon: IconName.AWARD,
+          count: owned.length,
+        },
+      ]}
+    />
+  </div>
   {#if !account.badges_read_at}
     <Notice tone={NoticeTone.INFO} text={t.account_badges_not_read()} />
   {/if}
@@ -170,86 +96,73 @@
     <Notice tone={NoticeTone.WARNING} text={t.account_badges_mining_off()} />
   {/if}
 
-  <Panel title={t.inventory_in_progress()} count={sections.inProgress.length}>
-    {#if sections.inProgress.length === 0}
-      <EmptyState text={t.account_badges_empty_progress()} />
-    {:else}
-      {@render rows(sections.inProgress, true)}
-    {/if}
-  </Panel>
-
-  <Panel title={t.account_badges_available()} count={sections.available.length}>
-    {#if sections.available.length === 0}
-      <EmptyState text={t.account_badges_empty_available()} />
-    {:else}
-      {@render rows(sections.available, false)}
-    {/if}
-  </Panel>
-
-  {#if sections.notMined.length > 0}
-    <Panel
-      title={t.account_badges_not_mined()}
-      count={sections.notMined.length}
-      description={t.account_badges_not_mined_hint()}
-    >
-      {@render rows(sections.notMined, false)}
+  {#if tab === BadgesTab.ORDER}
+    <BadgesOrderTab {account} {snapshot} {sections} onopen={(campaign) => (open = campaign)} />
+  {:else if tab === BadgesTab.EXCLUSIONS}
+    <BadgesExclusionsTab {account} {snapshot} {sections} onopen={(campaign) => (open = campaign)} />
+  {:else if tab === BadgesTab.SETTINGS}
+    <PanelColumns width={PanelWidth.LG}>
+      <Panel title={t.mining_order_title()} description={t.mining_order_hint()}>
+        <MiningOrderList
+          order={edits.applied(account.settings).drops.mining_order}
+          onchange={(next) =>
+            edits.set(AccountField.MINING_ORDER, (s) => (s.drops.mining_order = next))}
+        />
+      </Panel>
+      <Panel title={t.drops_scope()}>
+        <CampaignScopeFields
+          id="badges-order"
+          scope={badges.scope}
+          linkedFirst={badges.linked_first}
+          order={badges.order}
+          selectionOnly={badges.selection_only}
+          selectionHint={t.badges_selection_only_hint()}
+          onselectiononly={(value) =>
+            edits.set(AccountField.BADGE_SELECTION_ONLY, (s) => (s.badges.selection_only = value))}
+          onscope={(scope) => edits.set(AccountField.BADGE_SCOPE, (s) => (s.badges.scope = scope))}
+          onlinkedfirst={(value) =>
+            edits.set(AccountField.BADGE_LINKED_FIRST, (s) => (s.badges.linked_first = value))}
+          onorder={(next) => edits.set(AccountField.BADGE_ORDER, (s) => (s.badges.order = next))}
+        />
+      </Panel>
+    </PanelColumns>
+  {:else}
+    <Panel title={t.account_badges_owned()} count={owned.length}>
+      {#if owned.length === 0}
+        <EmptyState text={t.account_badges_empty_owned()} />
+      {:else}
+        <div class="w-full max-w-96">
+          <SearchField
+            placeholder={t.account_badges_search_placeholder()}
+            aria-label={t.account_badges_search_placeholder()}
+            bind:value={query}
+            busy={false}
+          />
+        </div>
+        {#if ownedShown.length === 0}
+          <EmptyState text={t.badges_empty()} />
+        {:else}
+          <ul class="grid grid-cols-[repeat(auto-fill,minmax(min(170px,100%),1fr))] gap-2.5">
+            {#each ownedShown as badge (badge.key)}
+              <li class="flex min-w-0 items-center gap-2.5 rounded-lg border p-2">
+                <Thumb
+                  src={badge.image}
+                  round={false}
+                  contain={true}
+                  size={ThumbSize.MD}
+                  shape={ThumbShape.SQUARE}
+                  fallback={IconName.AWARD}
+                />
+                <span class="truncate text-xs font-semibold" title={badge.title}>{badge.title}</span
+                >
+              </li>
+            {/each}
+          </ul>
+        {/if}
+      {/if}
     </Panel>
   {/if}
-
-  <Panel title={t.account_badges_owned()} count={owned.length}>
-    {#if owned.length === 0}
-      <EmptyState text={t.account_badges_empty_owned()} />
-    {:else}
-      <ul class="grid grid-cols-[repeat(auto-fill,minmax(min(170px,100%),1fr))] gap-2.5">
-        {#each owned as badge (badge.key)}
-          <li class="flex min-w-0 items-center gap-2.5 rounded-lg border p-2">
-            <Thumb
-              src={badge.image}
-              round={false}
-              contain={true}
-              size={ThumbSize.MD}
-              shape={ThumbShape.SQUARE}
-              fallback={IconName.AWARD}
-            />
-            <span class="truncate text-xs font-semibold" title={badge.title}>{badge.title}</span>
-          </li>
-        {/each}
-      </ul>
-    {/if}
-  </Panel>
+  <AccountSaveBar {account} />
 </PageBody>
 
 <CampaignDialog campaign={open} contextAccountId={account.id} onclose={() => (open = null)} />
-
-<Dialog
-  open={order !== null}
-  title={t.mining_order_title()}
-  wide={false}
-  closable={!saving}
-  closeLabel={t.common_close()}
-  onclose={() => (order = null)}
->
-  <p class="text-hint text-muted-foreground">{t.mining_order_hint()}</p>
-  {#if order}
-    <MiningOrderList {order} onchange={(next) => (order = next)} />
-  {/if}
-
-  {#snippet footer()}
-    <TextButton
-      label={t.common_cancel()}
-      variant={ButtonVariant.OUTLINE}
-      size={ButtonSize.MD}
-      type={ButtonType.BUTTON}
-      disabled={saving}
-      onclick={() => (order = null)}
-    />
-    <TextButton
-      label={t.common_save()}
-      variant={ButtonVariant.PRIMARY}
-      size={ButtonSize.MD}
-      type={ButtonType.BUTTON}
-      disabled={saving}
-      onclick={() => order && saveOrder(order)}
-    />
-  {/snippet}
-</Dialog>

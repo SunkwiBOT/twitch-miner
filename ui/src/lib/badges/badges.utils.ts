@@ -8,7 +8,8 @@ import { QuestStatus } from "../bindings/QuestStatus";
 import type { QuestType } from "../bindings/QuestType";
 import type { TimedDropType } from "../bindings/TimedDropType";
 import { matchesSearch } from "../search/search.utils";
-import { BadgeFilter, NEW_BADGE_MS } from "./badges.constants";
+import type { IgnoredType } from "../accounts/drops.utils";
+import { BadgeFilter, HIDDEN_BADGE_SETS, NEW_BADGE_MS } from "./badges.constants";
 
 const time = (iso: string | undefined): number => (iso ? new Date(iso).getTime() : Number.NaN);
 
@@ -70,6 +71,8 @@ export enum AccountBadgeState {
 
 export type AccountBadgeType = {
   key: string;
+  dropId: string;
+  campaignId: string;
   title: string;
   image: string | undefined;
   source: string;
@@ -80,12 +83,22 @@ export type AccountBadgeType = {
   quest: QuestType | null;
   campaign: CampaignType | null;
   nextAt: string | undefined;
+  ignored: IgnoredType | null;
+};
+
+// ! One row per campaign: its badges are mined, moved and ignored together.
+export type BadgeRowType = {
+  campaignId: string;
+  campaign: CampaignType | null;
+  items: AccountBadgeType[];
+  current: number;
+  required: number;
 };
 
 export type AccountBadgesType = {
-  inProgress: AccountBadgeType[];
-  available: AccountBadgeType[];
+  minable: AccountBadgeType[];
   notMined: AccountBadgeType[];
+  ignored: AccountBadgeType[];
 };
 
 const dropGivesBadge = (drop: TimedDropType): boolean =>
@@ -152,6 +165,26 @@ const groupOwned = (
   );
 };
 
+const ignoredOf = (
+  account: AccountSnapshotType,
+  campaign: CampaignType | null,
+  campaignId: string,
+  dropId: string,
+  name: string,
+): IgnoredType | null => {
+  const drops = account.settings.drops;
+
+  if (drops.exclude_drop_ids.includes(dropId)) {
+    return { id: dropId, name, detail: "", drop: true, campaign };
+  }
+
+  if (drops.exclude_campaign_ids.includes(campaignId)) {
+    return { id: campaignId, name: campaign?.name ?? name, detail: "", drop: false, campaign };
+  }
+
+  return null;
+};
+
 export const accountBadges = (account: AccountSnapshotType, now: number): AccountBadgesType => {
   const items: AccountBadgeType[] = [];
 
@@ -167,6 +200,8 @@ export const accountBadges = (account: AccountSnapshotType, now: number): Accoun
 
       items.push({
         key: `${campaign.id}/${drop.id}`,
+        dropId: drop.id,
+        campaignId: campaign.id,
         title: drop.name,
         image: drop.benefits.find((b) => b.kind === BenefitKind.BADGE)?.image_url,
         source: `${campaign.game.name} · ${campaign.name}`,
@@ -177,6 +212,7 @@ export const accountBadges = (account: AccountSnapshotType, now: number): Accoun
         quest: null,
         campaign,
         nextAt: undefined,
+        ignored: ignoredOf(account, campaign, campaign.id, drop.id, drop.name),
       });
     }
   }
@@ -192,10 +228,14 @@ export const accountBadges = (account: AccountSnapshotType, now: number): Accoun
       }
 
       const reward = group.rewards.at(0);
+      const title = group.name || reward?.name || quest.name;
+      const campaign = account.campaigns.find((item) => item.id === quest.id) ?? null;
 
       items.push({
         key: `${quest.id}/${group.id}`,
-        title: group.name || reward?.name || quest.name,
+        dropId: group.id,
+        campaignId: quest.id,
+        title,
         image: reward?.badge?.image_url ?? reward?.image_url ?? quest.image_url,
         source: quest.name,
         current: group.current_minutes,
@@ -203,8 +243,9 @@ export const accountBadges = (account: AccountSnapshotType, now: number): Accoun
         endsAt: quest.ends_at,
         state: quest.sitewide ? groupState(group, now) : AccountBadgeState.NOT_MINABLE,
         quest,
-        campaign: null,
+        campaign,
         nextAt: group.next_eligible_at,
+        ignored: ignoredOf(account, campaign, quest.id, group.id, title),
       });
     }
   }
@@ -212,23 +253,43 @@ export const accountBadges = (account: AccountSnapshotType, now: number): Accoun
   const byEnd = (a: AccountBadgeType, b: AccountBadgeType): number =>
     time(a.endsAt) - time(b.endsAt) || a.title.localeCompare(b.title);
 
+  const notMinable = (item: AccountBadgeType): boolean =>
+    [AccountBadgeState.SUB_ONLY, AccountBadgeState.NOT_MINABLE].includes(item.state);
+
   return {
-    inProgress: items
-      .filter((item) =>
-        [
-          AccountBadgeState.IN_PROGRESS,
-          AccountBadgeState.CLAIMABLE,
-          AccountBadgeState.WAITING,
-        ].includes(item.state),
-      )
-      .sort(byEnd),
-    available: items.filter((item) => item.state === AccountBadgeState.AVAILABLE).sort(byEnd),
-    notMined: items
-      .filter((item) =>
-        [AccountBadgeState.SUB_ONLY, AccountBadgeState.NOT_MINABLE].includes(item.state),
-      )
-      .sort(byEnd),
+    minable: items.filter((item) => !item.ignored && !notMinable(item)).sort(byEnd),
+    notMined: items.filter((item) => !item.ignored && notMinable(item)).sort(byEnd),
+    ignored: items.filter((item) => item.ignored).sort(byEnd),
   };
+};
+
+// ! Rows follow the account's mining order; the ones it does not hold yet
+// (waiting for a window, badges lane off) come after, by end date.
+export const badgeRows = (items: AccountBadgeType[], order: string[]): BadgeRowType[] => {
+  const rows = new Map<string, BadgeRowType>();
+
+  for (const item of items) {
+    const row = rows.get(item.campaignId) ?? {
+      campaignId: item.campaignId,
+      campaign: item.campaign,
+      items: [],
+      current: 0,
+      required: 0,
+    };
+
+    row.items.push(item);
+    row.current += Math.min(item.current, item.required);
+    row.required += item.required;
+    rows.set(item.campaignId, row);
+  }
+
+  const rank = (row: BadgeRowType): number => {
+    const at = order.indexOf(row.campaignId);
+
+    return at === -1 ? Number.MAX_SAFE_INTEGER : at;
+  };
+
+  return [...rows.values()].sort((a, b) => rank(a) - rank(b));
 };
 
 export type OwnedBadgeType = { key: string; title: string; image: string | undefined };
@@ -242,6 +303,7 @@ export const ownedBadges = (
   );
 
   return account.owned_badges
+    .filter((owned) => !HIDDEN_BADGE_SETS.has(owned.set_id))
     .map((owned) => ({ owned, known: global.get(badgeKey(owned.set_id, owned.version)) }))
     .filter(({ known }) => catalogue.length === 0 || known)
     .map(({ owned, known }) => ({

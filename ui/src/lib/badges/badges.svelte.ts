@@ -1,5 +1,6 @@
 import { fetchBadges } from "../api/client";
 import type { GlobalBadgeType } from "../bindings/GlobalBadgeType";
+import { HIDDEN_BADGE_SETS } from "./badges.constants";
 
 type BadgeListType = { badges: GlobalBadgeType[]; loaded: boolean };
 
@@ -17,7 +18,9 @@ export const loadBadges = async (revision: string | undefined): Promise<void> =>
   asked = key;
 
   try {
-    badgeList.badges = (await fetchBadges()).badges;
+    badgeList.badges = (await fetchBadges()).badges.filter(
+      (badge) => !HIDDEN_BADGE_SETS.has(badge.set_id),
+    );
     badgeList.loaded = true;
   } catch (e: any) {
     asked = null;

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import PanelColumns from "../ui/PanelColumns.svelte";
   import { CommandName } from "../../lib/bindings/CommandName";
   import { untrack } from "svelte";
 
@@ -33,6 +34,7 @@
   import Panel from "../ui/Panel.svelte";
   import SecretInput from "../ui/SecretInput.svelte";
   import Setting from "../ui/Setting.svelte";
+  import MiningOrderList from "./drops/MiningOrderList.svelte";
   import AccountSaveBar from "./AccountSaveBar.svelte";
   import StreamerOptions from "./StreamerOptions.svelte";
   import {
@@ -42,6 +44,7 @@
     CopyLayout,
     IconName,
     MetaLayout,
+    PanelWidth,
   } from "../ui/ui.constants";
 
   type AccountSettingsPropsType = { account: AccountSnapshotType; snapshot: SnapshotType };
@@ -178,7 +181,7 @@
     <p class="text-hint text-muted-foreground">{t.account_twitch_hint()}</p>
   </Panel>
 
-  <div class="grid grid-cols-[repeat(auto-fit,minmax(min(420px,100%),1fr))] items-start gap-5">
+  <PanelColumns width={PanelWidth.MD}>
     <Panel title={t.account_mode_title()} description={t.account_mode_desc()}>
       <ChoiceCards
         vertical={true}
@@ -190,6 +193,13 @@
           { value: Mode.DROPS, title: t.mode_drops_title(), description: t.mode_drops_hint() },
           { value: Mode.POINTS, title: t.mode_points_title(), description: t.mode_points_hint() },
         ]}
+      />
+    </Panel>
+    <Panel title={t.mining_order_title()} description={t.mining_order_hint()}>
+      <MiningOrderList
+        order={shown.drops.mining_order}
+        onchange={(order) =>
+          edits.set(AccountField.MINING_ORDER, (settings) => (settings.drops.mining_order = order))}
       />
     </Panel>
     <Panel title={t.account_slots_title()} description={t.account_slots_hint()}>
@@ -267,7 +277,7 @@
         />
       </div>
     </Panel>
-  </div>
+  </PanelColumns>
   <Panel title={t.points_streamer_defaults()} description={t.points_streamer_defaults_hint()}>
     <StreamerOptions bind:options={defaults} mixed={[]} onchange={setDefaults} />
   </Panel>

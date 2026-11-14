@@ -50,6 +50,7 @@ export enum IconName {
   ZAP = "ZAP",
   INFINITY = "INFINITY",
   STAR = "STAR",
+  STAR_FILLED = "STAR_FILLED",
   FLAME = "FLAME",
   RADIO = "RADIO",
   EYE_OFF = "EYE_OFF",
@@ -306,9 +307,10 @@ const FIELD_BUTTON_LOOK =
 
 export const FIELD_BUTTON_CLASSES = `absolute inset-y-0 right-0 w-8 rounded-r-lg ${FIELD_BUTTON_LOOK}`;
 
-export const FIELD_CLEAR_BUTTON_CLASSES = `absolute top-1 right-8 size-6 rounded-md ${FIELD_BUTTON_LOOK}`;
+export const FIELD_ICON_CLASSES =
+  "pointer-events-none absolute inset-y-0 right-0 grid w-8 place-items-center text-muted-foreground";
 
-export const SEARCH_FIELD_PADDING = "pr-15";
+export const SEARCH_FIELD_PADDING = "pr-9";
 
 export enum KeyboardKey {
   ENTER = "Enter",
@@ -318,3 +320,8 @@ export enum KeyboardKey {
 }
 
 export const CLEAR_SEARCH_KEY = KeyboardKey.ESCAPE;
+
+export enum PanelWidth {
+  MD = "420px",
+  LG = "460px",
+}

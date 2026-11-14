@@ -15,7 +15,11 @@ import { toast as sonner } from "svelte-sonner";
 import ToastCard from "../../components/layout/ToastCard.svelte";
 import { isTauri } from "../api/tauri";
 import type { UnsubscribeType } from "../api/tauri";
-import { setCampaignIgnoredIn, setDropIgnoredIn } from "../accounts/changes.utils";
+import {
+  setCampaignIgnoredIn,
+  setCampaignSelectedIn,
+  setDropIgnoredIn,
+} from "../accounts/changes.utils";
 import type { AccountSettingsType } from "../bindings/AccountSettingsType";
 import type { AccountSnapshotType } from "../bindings/AccountSnapshotType";
 import type { AppInfoType } from "../bindings/AppInfoType";
@@ -903,6 +907,26 @@ export const setCampaignIgnored = async (
   if (results.some(Boolean)) {
     toast(ToastKind.SUCCESS, ignored ? t.campaign_ignored() : t.campaign_unignored(), {
       key: `campaign-ignored-${campaignId}`,
+    });
+  }
+};
+
+export const setCampaignSelected = async (
+  accountIds: string[],
+  campaignId: string,
+  selected: boolean,
+): Promise<void> => {
+  const results = await Promise.all(
+    accountIds.map((accountId) =>
+      updateAccountSettings(accountId, (settings) =>
+        setCampaignSelectedIn(settings, campaignId, selected),
+      ),
+    ),
+  );
+
+  if (results.some(Boolean)) {
+    toast(ToastKind.SUCCESS, selected ? t.campaign_selected() : t.campaign_unselected(), {
+      key: `campaign-selected-${campaignId}`,
     });
   }
 };

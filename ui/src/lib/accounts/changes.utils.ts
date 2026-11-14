@@ -100,3 +100,13 @@ export const pinnedPrefix = (order: string[], placed: Iterable<string>): string[
 
   return order.slice(0, last + 1);
 };
+
+export const setCampaignSelectedIn = (
+  settings: AccountSettingsType,
+  campaignId: string,
+  selected: boolean,
+): void => {
+  const others = settings.drops.selected_campaign_ids.filter((id) => id !== campaignId);
+
+  settings.drops.selected_campaign_ids = selected ? [...others, campaignId] : others;
+};

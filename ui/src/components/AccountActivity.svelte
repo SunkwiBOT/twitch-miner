@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { campaignArtUrl } from "../lib/catalogue/campaign.utils";
   import Badge from "./ui/Badge.svelte";
   import {
     POINTS_REASON_HINTS,
@@ -140,7 +141,7 @@
         onclick={() => (open = c ?? null)}
       >
         <Thumb
-          src={boxArt(c?.game.box_art_url, BoxArtSize.ACTIVITY)}
+          src={boxArt(c && campaignArtUrl(c), BoxArtSize.ACTIVITY)}
           round={false}
           contain={false}
           size={ThumbSize.XL}

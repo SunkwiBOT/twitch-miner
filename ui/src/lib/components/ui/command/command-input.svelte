@@ -23,7 +23,7 @@
     {...restProps}
   >
     {#snippet child({ props })}
-      <SearchField {...props} bind:value search={null} />
+      <SearchField {...props} bind:value busy={false} />
     {/snippet}
   </CommandPrimitive.Input>
 </div>

@@ -16,4 +16,5 @@ export type CommandType =
   | { command: "ORDER_CAMPAIGN"; account_id: string; campaign_id: string; position: number | null }
   | { command: "ADD_SPAM_CHANNEL"; account_id: string; login: string }
   | { command: "FORGET_SPAM_CHANNEL"; account_id: string; login: string }
-  | { command: "CANCEL_BURST"; burst_id: string };
+  | { command: "CANCEL_BURST"; burst_id: string }
+  | { command: "DISMISS_STAR_PROMPT" };

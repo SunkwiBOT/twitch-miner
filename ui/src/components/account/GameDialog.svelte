@@ -115,7 +115,7 @@
       placeholder={t.drops_add_game_placeholder()}
       aria-label={t.drops_add_game_placeholder()}
       bind:value={query}
-      search={{ label: t.common_search(), busy: twitch.busy, run: () => twitch.now(query) }}
+      busy={twitch.busy}
       oninput={() => twitch.update(query)}
     />
     {#if offers.length}

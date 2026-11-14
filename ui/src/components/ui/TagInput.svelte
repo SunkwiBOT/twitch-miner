@@ -155,7 +155,7 @@
           {id}
           {placeholder}
           bind:value={draft}
-          search={null}
+          busy={twitch.busy}
           oninput={() => twitch.update(draft)}
           {onkeydown}
         />

@@ -1997,10 +1997,11 @@ impl<T: TwitchApi> AccountMiner<T> {
         });
 
         let ignored_drops = &self.settings.drops.exclude_drop_ids;
+        let now = Utc::now();
         let claimable: Vec<(String, String, String, String, Option<String>)> = self
             .campaigns
             .values()
-            .filter(|c| !scheduler::excluded(&self.settings, c) && c.claims_delivered())
+            .filter(|c| !scheduler::excluded(&self.settings, c, now) && c.claims_delivered())
             .flat_map(|c| {
                 c.drops
                     .iter()

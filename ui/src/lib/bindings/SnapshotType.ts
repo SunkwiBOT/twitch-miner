@@ -12,6 +12,7 @@ export type SnapshotType = {
   build?: string;
   update_available?: string;
   update_checked_at?: string;
+  star_prompt: boolean;
   accounts: Array<AccountSnapshotType>;
   catalog: CatalogViewType;
   badges: BadgeCatalogViewType;

@@ -14,6 +14,8 @@ export type DropsSettingsType = {
   exclude_names: Array<string>;
   exclude_campaign_ids: Array<string>;
   exclude_drop_ids: Array<string>;
+  selection_only: boolean;
+  selected_campaign_ids: Array<string>;
   auto_claim: boolean;
   skip_unfinishable: boolean;
   mine_points: boolean;

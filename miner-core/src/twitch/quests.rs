@@ -292,7 +292,8 @@ fn parse_game(node: &Value) -> Option<Game> {
         id: text(&node["id"])?,
         name: text(&node["displayName"]).or_else(|| text(&node["name"]))?,
         slug: text(&node["slug"]),
-        box_art_url: text(&node["boxArtURL"]),
+        // ! Quests send the box art as a template, "-{width}x{height}.jpg".
+        box_art_url: text(&node["boxArtURL"]).map(|url| url.replace("{width}x{height}", "285x380")),
     })
 }
 

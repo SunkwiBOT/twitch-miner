@@ -83,6 +83,11 @@ export enum DropsList {
   EXCLUDE_NAMES = "exclude_names",
 }
 
+export enum BadgesList {
+  EXCLUDE_GAMES = "exclude_games",
+  EXCLUDE_NAMES = "exclude_names",
+}
+
 export enum DropsTab {
   ORDER = "ORDER",
   SETTINGS = "SETTINGS",
@@ -95,4 +100,18 @@ export const DROPS_TAB_SLUGS: Record<DropsTab, string> = {
   [DropsTab.SETTINGS]: "settings",
   [DropsTab.EXCLUSIONS]: "exclusions",
   [DropsTab.CAMPAIGNS]: "campaigns",
+};
+
+export enum BadgesTab {
+  ORDER = "ORDER",
+  SETTINGS = "SETTINGS",
+  EXCLUSIONS = "EXCLUSIONS",
+  OWNED = "OWNED",
+}
+
+export const BADGES_TAB_SLUGS: Record<BadgesTab, string> = {
+  [BadgesTab.ORDER]: "order",
+  [BadgesTab.SETTINGS]: "settings",
+  [BadgesTab.EXCLUSIONS]: "exclusions",
+  [BadgesTab.OWNED]: "owned",
 };

@@ -106,7 +106,7 @@
         placeholder={t.campaigns_search_placeholder()}
         aria-label={t.campaigns_search_placeholder()}
         bind:value={query}
-        search={null}
+        busy={false}
       />
     </div>
     <span class="flex-1"></span>

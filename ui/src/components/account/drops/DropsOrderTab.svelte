@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { cn } from "$lib/utils";
   import { DropsList } from "../../../lib/accounts/accounts.constants";
   import {
     QUEUE_BLOCK_HINTS,
@@ -18,11 +19,18 @@
     resetQueue,
     runningGames,
     setIgnored,
+    setSelected,
   } from "../../../lib/accounts/drops.utils";
   import type { AccountSnapshotType } from "../../../lib/bindings/AccountSnapshotType";
   import type { CampaignType } from "../../../lib/bindings/CampaignType";
   import type { SnapshotType } from "../../../lib/bindings/SnapshotType";
-  import { campaignEnd, categoryUrl } from "../../../lib/catalogue/campaign.utils";
+  import {
+    campaignArtUrl,
+    campaignEnd,
+    campaignHeading,
+    campaignSubtitle,
+    categoryUrl,
+  } from "../../../lib/catalogue/campaign.utils";
   import { BoxArtSize } from "../../../lib/format.constants";
   import { boxArt, formatPercent } from "../../../lib/format.utils";
   import { t } from "../../../lib/i18n/i18n.svelte";
@@ -152,7 +160,7 @@
         {@const c = campaignOf(account, snapshot, item.campaign_id)}
         {@const done = queueProgress(account, snapshot, item.campaign_id)}
         <Thumb
-          src={boxArt(c?.game.box_art_url, BoxArtSize.ROW)}
+          src={boxArt(c && campaignArtUrl(c), BoxArtSize.ROW)}
           round={false}
           contain={false}
           size={ThumbSize.XL}
@@ -165,7 +173,9 @@
           onclick={() => c && onopen(c)}
         >
           <span class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
-            <span class="truncate font-semibold">{c?.game.name ?? item.campaign_id}</span>
+            <span class={cn("truncate font-semibold", c && "text-link")}
+              >{c ? campaignHeading(c) : item.campaign_id}</span
+            >
             <span class="inline-flex max-w-full flex-wrap items-center gap-1.5">
               {#if mining(item.campaign_id)}<Badge
                   text={t.queue_mining()}
@@ -188,7 +198,7 @@
           </span>
           <DetailLine
             parts={[
-              escapeEmphasis(c?.name ?? ""),
+              escapeEmphasis(c ? campaignSubtitle(c) : ""),
               t.dashboard_remaining({ minutes: strong(item.remaining_minutes) }),
               campaignEnd(item.ends_at, ticker.now),
             ]}
@@ -204,6 +214,22 @@
         </button>
       {/snippet}
       {#snippet actions(item)}
+        {@const on = drops.selected_campaign_ids.includes(item.campaign_id)}
+        <IconButton
+          icon={on ? IconName.STAR_FILLED : IconName.STAR}
+          label={on ? t.campaign_unselect() : t.campaign_select()}
+          busy={false}
+          disabled={false}
+          variant={ButtonVariant.GHOST}
+          size={ButtonSize.SM}
+          onclick={() =>
+            setSelected(
+              account,
+              item.campaign_id,
+              campaignOf(account, snapshot, item.campaign_id)?.name ?? item.campaign_id,
+              !on,
+            )}
+        />
         <IconButton
           icon={IconName.EYE_OFF}
           label={t.queue_ignore()}

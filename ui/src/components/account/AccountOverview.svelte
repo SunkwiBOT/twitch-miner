@@ -1,6 +1,12 @@
 <script lang="ts">
+  import PanelColumns from "../ui/PanelColumns.svelte";
   import { CommandName } from "../../lib/bindings/CommandName";
-  import { campaignEnd } from "../../lib/catalogue/campaign.utils";
+  import {
+    campaignArtUrl,
+    campaignEnd,
+    campaignHeading,
+    campaignSubtitle,
+  } from "../../lib/catalogue/campaign.utils";
   import { AccountStatus } from "../../lib/bindings/AccountStatus";
   import type { AccountSnapshotType } from "../../lib/bindings/AccountSnapshotType";
   import type { CampaignType } from "../../lib/bindings/CampaignType";
@@ -35,6 +41,7 @@
     ButtonVariant,
     IconName,
     NoticeTone,
+    PanelWidth,
     ThumbShape,
     ThumbSize,
   } from "../ui/ui.constants";
@@ -77,7 +84,7 @@
 
   <Card class="gap-0 py-0"><AccountActivity {account} /></Card>
 
-  <div class="grid grid-cols-[repeat(auto-fit,minmax(min(420px,100%),1fr))] items-start gap-5">
+  <PanelColumns width={PanelWidth.MD}>
     <Panel title={t.overview_queue()}>
       {#snippet actions()}
         <TextButton
@@ -96,9 +103,9 @@
           {#each account.queue.slice(0, QUEUE_PREVIEW) as q, i (q.campaign_id)}
             {@const c = campaignOf(q.campaign_id)}
             <ListRow
-              title={c?.game.name ?? q.campaign_id}
+              title={c ? campaignHeading(c) : q.campaign_id}
               details={[
-                escapeEmphasis(c?.name ?? ""),
+                escapeEmphasis(c ? campaignSubtitle(c) : ""),
                 t.dashboard_remaining({ minutes: strong(q.remaining_minutes) }),
                 campaignEnd(q.ends_at, ticker.now),
               ]}
@@ -110,7 +117,7 @@
                   >{i + 1}</span
                 >
                 <Thumb
-                  src={boxArt(c?.game.box_art_url, BoxArtSize.ROW)}
+                  src={boxArt(c && campaignArtUrl(c), BoxArtSize.ROW)}
                   round={false}
                   contain={false}
                   size={ThumbSize.LG}
@@ -148,7 +155,7 @@
         <EmptyState text={t.overview_no_campaign()} />
       {/if}
     </Panel>
-  </div>
+  </PanelColumns>
 
   <Panel title={t.overview_recent()}>
     {#snippet actions()}

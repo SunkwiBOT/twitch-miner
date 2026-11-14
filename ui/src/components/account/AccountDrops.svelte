@@ -44,7 +44,12 @@
       label={t.drops_tabs_label()}
       onchange={(next) => showTab(DROPS_TAB_SLUGS, next)}
       options={[
-        { value: DropsTab.ORDER, label: t.queue_title(), icon: IconName.LIST_ORDERED },
+        {
+          value: DropsTab.ORDER,
+          label: t.queue_title(),
+          icon: IconName.LIST_ORDERED,
+          count: account.queue.length,
+        },
         { value: DropsTab.SETTINGS, label: t.drops_tab_settings(), icon: IconName.SETTINGS },
         {
           value: DropsTab.EXCLUSIONS,

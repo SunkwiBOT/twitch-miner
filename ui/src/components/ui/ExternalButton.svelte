@@ -19,9 +19,18 @@
     size: ButtonSize;
     icon?: IconName;
     class?: string;
+    onfollow?: () => void;
   };
 
-  let { url, label, variant, size, icon, class: className }: ExternalButtonPropsType = $props();
+  let {
+    url,
+    label,
+    variant,
+    size,
+    icon,
+    class: className,
+    onfollow,
+  }: ExternalButtonPropsType = $props();
 
   const iconSize = $derived(size === ButtonSize.SM ? 13 : 14);
 </script>
@@ -32,7 +41,10 @@
   variant={BUTTON_VARIANTS[variant]}
   size={BUTTON_SIZES[size]}
   class={cn("no-underline hover:no-underline", BUTTON_VARIANT_CLASSES[variant], className)}
-  onclick={(event: MouseEvent) => followLink(event, url)}
+  onclick={(event: MouseEvent) => {
+    followLink(event, url);
+    onfollow?.();
+  }}
 >
   {#if icon}<Icon name={icon} size={iconSize} />{/if}
   <span class="truncate">{label}</span>

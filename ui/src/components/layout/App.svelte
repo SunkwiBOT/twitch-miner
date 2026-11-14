@@ -35,6 +35,7 @@
   import FeedbackDialog from "../feedback/FeedbackDialog.svelte";
   import { APP_TITLE, LockKind } from "./layout.constants";
   import LockScreen from "./LockScreen.svelte";
+  import StarPromptDialog from "./StarPromptDialog.svelte";
   import NavDrawer from "./NavDrawer.svelte";
   import Sidebar from "./Sidebar.svelte";
   import StartupProblem from "./StartupProblem.svelte";
@@ -183,7 +184,7 @@ timers and its push channel never do. -->
             {:else if app.page === Page.ACCOUNT_INVENTORY}
               <AccountInventory account={current} />
             {:else if app.page === Page.ACCOUNT_BADGES}
-              <AccountBadges account={current} />
+              <AccountBadges account={current} snapshot={app.snapshot} />
             {:else if app.page === Page.ACCOUNT_HISTORY}
               <AccountHistory account={current} />
             {:else if app.page === Page.ACCOUNT_SETTINGS}
@@ -195,6 +196,7 @@ timers and its push channel never do. -->
     </div>
     <LoginDialog />
     <ApplyToAccountsDialog />
+    <StarPromptDialog />
   {/if}
 
   <CloseDialog />

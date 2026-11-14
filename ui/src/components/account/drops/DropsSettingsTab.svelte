@@ -1,18 +1,15 @@
 <script lang="ts">
+  import { PanelWidth } from "../../ui/ui.constants";
+  import PanelColumns from "../../ui/PanelColumns.svelte";
   import { untrack } from "svelte";
 
-  import { dropsScopeChoices } from "../../../lib/accounts/scope.utils";
   import { editsOf } from "../../../lib/state/edits.svelte";
   import { AccountField } from "../../../lib/state/state.constants";
   import type { AccountSnapshotType } from "../../../lib/bindings/AccountSnapshotType";
-  import { DropsOrder } from "../../../lib/bindings/DropsOrder";
   import { t } from "../../../lib/i18n/i18n.svelte";
-  import ChoiceCards from "../../ui/ChoiceCards.svelte";
-  import FormField from "../../ui/FormField.svelte";
   import Panel from "../../ui/Panel.svelte";
-  import Select from "../../ui/Select.svelte";
   import Setting from "../../ui/Setting.svelte";
-  import { MenuAlign } from "../../ui/ui.constants";
+  import CampaignScopeFields from "./CampaignScopeFields.svelte";
   import MiningOrderList from "./MiningOrderList.svelte";
 
   type DropsSettingsTabPropsType = { account: AccountSnapshotType };
@@ -23,7 +20,7 @@
   const drops = $derived(edits.applied(account.settings).drops);
 </script>
 
-<div class="grid grid-cols-[repeat(auto-fit,minmax(min(460px,100%),1fr))] items-start gap-5">
+<PanelColumns width={PanelWidth.LG}>
   <Panel title={t.mining_order_title()} description={t.mining_order_hint()}>
     <MiningOrderList
       order={drops.mining_order}
@@ -79,41 +76,19 @@
     </div>
   </Panel>
   <Panel title={t.drops_scope()}>
-    <ChoiceCards
-      vertical={true}
-      value={drops.scope}
-      label={t.drops_scope()}
-      onchange={(scope) => edits.set(AccountField.SCOPE, (s) => (s.drops.scope = scope))}
-      choices={dropsScopeChoices()}
-    />
-    <Setting
-      title={t.drops_linked_first()}
-      description={t.drops_linked_first_hint()}
-      checked={drops.linked_first}
-      disabled={false}
-      onchange={(value) =>
+    <CampaignScopeFields
+      id="drops-order"
+      scope={drops.scope}
+      linkedFirst={drops.linked_first}
+      order={drops.order}
+      selectionOnly={drops.selection_only}
+      selectionHint={t.drops_selection_only_hint()}
+      onselectiononly={(value) =>
+        edits.set(AccountField.SELECTION_ONLY, (s) => (s.drops.selection_only = value))}
+      onscope={(scope) => edits.set(AccountField.SCOPE, (s) => (s.drops.scope = scope))}
+      onlinkedfirst={(value) =>
         edits.set(AccountField.LINKED_FIRST, (s) => (s.drops.linked_first = value))}
+      onorder={(order) => edits.set(AccountField.ORDER, (s) => (s.drops.order = order))}
     />
-    <FormField id="drops-order" label={t.drops_order()}>
-      <Select
-        id="drops-order"
-        value={drops.order}
-        label={t.drops_order()}
-        align={MenuAlign.LEFT}
-        onchange={(order) => edits.set(AccountField.ORDER, (s) => (s.drops.order = order))}
-        options={[
-          {
-            value: DropsOrder.ENDING_SOONEST,
-            label: t.drops_order_ending_soonest(),
-            description: t.drops_order_ending_hint(),
-          },
-          {
-            value: DropsOrder.LOWEST_REMAINING,
-            label: t.drops_order_lowest_remaining(),
-            description: t.drops_order_lowest_hint(),
-          },
-        ]}
-      />
-    </FormField>
   </Panel>
-</div>
+</PanelColumns>

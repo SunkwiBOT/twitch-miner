@@ -95,7 +95,7 @@
     placeholder={t.spam_search_placeholder()}
     aria-label={t.spam_search_placeholder()}
     bind:value={query}
-    search={{ label: t.common_search(), busy: twitch.busy, run: () => twitch.now(query) }}
+    busy={twitch.busy}
     oninput={() => twitch.update(query)}
     onkeydown={(event) => {
       if (event.key === "Enter" && !event.isComposing) {

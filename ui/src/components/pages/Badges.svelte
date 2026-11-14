@@ -82,7 +82,7 @@
         placeholder={t.badges_search_placeholder()}
         aria-label={t.badges_search_placeholder()}
         bind:value={query}
-        search={null}
+        busy={false}
       />
     </div>
     <span class="flex-1"></span>

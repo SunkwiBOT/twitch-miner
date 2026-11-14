@@ -74,6 +74,9 @@ const PASSPHRASE_TRIES: u32 = 5;
 const PASSPHRASE_PAUSE: Duration = Duration::from_secs(30);
 const UPDATE_ANNOUNCED_KEY: &str = "update_announced";
 const UPDATE_FAILED_KEY: &str = "update_failed";
+const FIRST_STARTED_KEY: &str = "first_started_at";
+const STAR_PROMPT_DONE_KEY: &str = "star_prompt_done";
+const STAR_PROMPT_AFTER_HOURS: i64 = 48;
 
 struct LoginFlow {
     view: LoginFlowView,
@@ -137,6 +140,8 @@ pub struct Manager {
     announcing: std::sync::Mutex<()>,
     update_available: std::sync::Mutex<Option<String>>,
     update_checked_at: std::sync::Mutex<Option<chrono::DateTime<Utc>>>,
+    // ! When the "star the repository" window may show; None once it was closed.
+    star_prompt_at: std::sync::Mutex<Option<chrono::DateTime<Utc>>>,
     // ! A key derivation takes 64 MiB and a good part of a second: one at a time.
     deriving: Mutex<()>,
     wrong_passphrases: std::sync::Mutex<WrongPassphrases>,
@@ -213,6 +218,7 @@ impl Manager {
             announcing: std::sync::Mutex::new(()),
             update_available: std::sync::Mutex::new(None),
             update_checked_at: std::sync::Mutex::new(None),
+            star_prompt_at: std::sync::Mutex::new(None),
             deriving: Mutex::new(()),
             wrong_passphrases: std::sync::Mutex::new(WrongPassphrases::default()),
             restarts: std::sync::Mutex::new(HashMap::new()),
@@ -221,6 +227,10 @@ impl Manager {
     }
 
     pub async fn start(self: &Arc<Self>) {
+        if let Err(e) = self.plan_star_prompt() {
+            tracing::debug!(error = %e, "star prompt date not read");
+        }
+
         let this = self.clone();
         tokio::spawn(async move { this.catalog_loop().await });
 
@@ -966,6 +976,20 @@ impl Manager {
                 .drops
                 .campaign_order
                 .insert(position, campaign_id.to_owned());
+
+            // ! "Mine first" is a choice: with "only my selection" on, it must
+            // not leave the campaign out.
+            if !settings
+                .drops
+                .selected_campaign_ids
+                .iter()
+                .any(|id| id == campaign_id)
+            {
+                settings
+                    .drops
+                    .selected_campaign_ids
+                    .push(campaign_id.to_owned());
+            }
         }
 
         self.set_account_settings(account_id, settings).await
@@ -1270,6 +1294,39 @@ impl Manager {
         }
     }
 
+    fn plan_star_prompt(&self) -> Result<()> {
+        if self.store.get_setting(STAR_PROMPT_DONE_KEY)?.is_some() {
+            return Ok(());
+        }
+
+        let first = match self
+            .store
+            .get_setting(FIRST_STARTED_KEY)?
+            .and_then(|text| chrono::DateTime::parse_from_rfc3339(&text).ok())
+        {
+            Some(at) => at.with_timezone(&Utc),
+            None => {
+                let now = Utc::now();
+                self.store
+                    .set_setting(FIRST_STARTED_KEY, &now.to_rfc3339())?;
+                now
+            }
+        };
+
+        *locked(&self.star_prompt_at) =
+            Some(first + chrono::Duration::hours(STAR_PROMPT_AFTER_HOURS));
+
+        Ok(())
+    }
+
+    fn dismiss_star_prompt(&self) -> Result<()> {
+        self.store.set_setting(STAR_PROMPT_DONE_KEY, "1")?;
+        *locked(&self.star_prompt_at) = None;
+        self.changed.notify_waiters();
+
+        Ok(())
+    }
+
     pub fn clear_update(&self) {
         let shown = locked(&self.update_available).take();
 
@@ -1485,12 +1542,14 @@ impl Manager {
 
         let update_available = locked(&self.update_available).clone();
         let update_checked_at = *locked(&self.update_checked_at);
+        let star_prompt = locked(&self.star_prompt_at).is_some_and(|at| Utc::now() >= at);
 
         Ok(Snapshot {
             version: crate::VERSION.to_owned(),
             build: None,
             update_available,
             update_checked_at,
+            star_prompt,
             accounts,
             catalog: CatalogView {
                 campaigns: catalog.campaigns.clone(),
@@ -1517,6 +1576,7 @@ impl Manager {
     pub async fn execute(self: &Arc<Self>, command: Command) -> Result<()> {
         match command {
             Command::CancelLogin {} => self.cancel_login().await,
+            Command::DismissStarPrompt {} => self.dismiss_star_prompt()?,
             Command::RemoveAccount { account_id } => self.remove_account(&account_id).await?,
             Command::SetAccountSettings {
                 account_id,
