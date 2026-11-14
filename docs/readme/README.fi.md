@@ -126,6 +126,8 @@ ominaisuuden käytössä.
 - **Tuo streamaajia.** Liitä lista (enintään 500 nimeä) tai käytä toisen tilin listaa tai
   tilin seuraamia kanavia. Lista tarkistetaan, jotta vain olemassa olevat kanavat
   lisätään.
+  Reaaliaikaiset päivitykset kattavat 46 streamaajaa tiliä kohden: listan seuraavat eivät
+  saa raideja, hetkiä eivätkä ennustuksia.
 
   <details open><summary>Katso toiminnassa</summary>
   <img src="../media/fi/streamers-import.avif" alt="Streamaajien tuonti: liitetty lista, toinen tili, seuratut kanavat">
@@ -165,6 +167,8 @@ ominaisuuden käytössä.
 - **Varasto ja ”Lunasta kaikki”.** Varasto-sivu jakaa palkinnot ryhmiin
   ”Lunastettavissa”, ”Kesken” ja ”Lunastetut”. Lunasta ne yksi kerrallaan tai kaikki
   kerralla, tai ota käyttöön ”Lunasta dropsit automaattisesti”.
+  Kun olet valinnut ”Linkitä pelitili”, tili luetaan uudelleen heti, kun palaat
+  sovellukseen, joten linkitys näkyy saman tien.
 
   <details open><summary>Katso toiminnassa</summary>
   <img src="../media/fi/drops-inventory.avif" alt="Varasto ja ”Lunasta kaikki” -painike">
@@ -181,10 +185,19 @@ ominaisuuden käytössä.
 - **Merkit (beta).** Merkit-sivu luettelee kaikki Twitchin yleiset chat-merkit ja sen,
   miten ne saa. Jokaisella tilillä on oma Merkit-sivunsa: kesken olevat merkit
   edistymisineen, vielä saatavat merkit ja tilin omat merkit. Louhija tavoittelee
-  merkkejä, jotka vaativat vain katseluaikaa, Drops-kampanjoista ja Twitchin questeista,
-  ja ohittaa ne, jotka tilillä jo on. Vedä kohdassa ”Mitä louhitaan, järjestyksessä”
-  prioriteettipelit, merkit ja muut Drops-kampanjat haluamaasi järjestykseen tai kytke
-  jokin niistä pois. Tämä ominaisuus on beta-vaiheessa.
+  Drops-kampanjoiden ja Twitchin questien merkkejä ja ohittaa ne, jotka tilillä jo on.
+  Joka päivä katsottava merkki louhitaan uudelleen joka päivä viimeiseen asti (”20 min
+  päivässä, 3 päivää”), ja mikä tahansa kanava kampanjan kategorioista kelpaa. Arkku
+  antaa ”1 satunnainen merkki, vaihtoehtoja N”. Tilausta vaativa merkki louhitaan, kun
+  olet itse tehnyt tilauksen ja Twitch laskee sen. Mitään ei louhita ennen kampanjan
+  alkua. Vedä kohdassa ”Mitä louhitaan, järjestyksessä” prioriteettipelit, merkit ja muut
+  Drops-kampanjat haluamaasi järjestykseen tai kytke jokin niistä pois. Twitchin quest
+  louhitaan vain kanavalla, jolla Twitch tarjoaa sitä Drops-paneelissaan. Kehitys (Pichu →
+  Pikachu) louhitaan heti, kun tilillä on merkki, josta se kehittyy: louhija ottaa sen
+  merkin itse käyttöön juuri ennen eikä palauta vanhaa; ”Louhi merkkien kehitykset” tilin
+  merkkiasetuksissa kytkee tämän pois. Merkin napsauttaminen avaa sen tiedot: koko
+  vaatimuksen, kaikki kategoriat ja kanavat, kokoelman, kehityksen ja jokaisen tilin
+  edistymisen. Tämä ominaisuus on beta-vaiheessa.
 
   <details open><summary>Katso toiminnassa</summary>
   <img src="../media/fi/badges.avif" alt="Merkit-sivu, tilin merkit ja sitten ”Mitä louhitaan, järjestyksessä”, jossa Merkit on vedetty ensimmäiseksi">
@@ -194,7 +207,7 @@ ominaisuuden käytössä.
 
 - **Päiväkirja kaikesta ja jokainen pyyntö.** Päiväkirja tallentaa jokaisen tapahtuman:
   dropit, ansaitut ja käytetyt pisteet, arkut, vedot, raidit, alkavat lähetykset…
-  Suodata sitä tilin, välilehden (Drops, Pisteet, Muut) ja tyypin mukaan.
+  Suodata sitä tilin, välilehden (Drops, Merkit, Pisteet, Muut) ja tyypin mukaan.
   **Tekniset lokit › Pyynnöt** listaa jokaisen Twitchille ja muille palveluille lähetetyn
   pyynnön tuloksineen ja kestoineen. Lokit ja pyynnöt eivät sisällä tokeneita tai
   salaisuuksia: ”Kopioi bugiraporttia varten” kopioi ne valmiiksi liitettäviksi
@@ -234,7 +247,8 @@ ominaisuuden käytössä.
   ”Päivitys”-merkki ja versionumero. ”Asenna ja käynnistä uudelleen” pyytää ensin
   vahvistuksen, minkä jälkeen sovellus asentaa version ja käynnistyy uudelleen. Jos
   sovelluksen salasana on asetettu, se käynnistyy lukittuna: kirjoita salasana uudelleen
-  jatkaaksesi louhintaa. Vain projektin allekirjoittama versio asennetaan. Docker-versio
+  jatkaaksesi louhintaa. Vain projektin allekirjoittama versio asennetaan. Siirrettävä
+  Windows-tiedosto ei päivitä itseään: sen painike avaa lataussivun. Docker-versio
   ilmoittaa myös ja kertoo suoritettavat komennot.
 
   <details open><summary>Katso toiminnassa</summary>
@@ -246,7 +260,8 @@ ominaisuuden käytössä.
 - Kuten muissa louhijoissa: bonusarkut, raidit, hetket, yhteisötavoitteet, ennustukset
   (strategiat, panostuksen ajoitus, ehdot), katseluputket ja tilatut kanavat ensin,
   läsnäolo chatissa (voi poistaa käytöstä), uusien streamaajien oletusvalinnat, Discord-,
-  Telegram- ja webhook-ilmoitukset kuvineen, yleinen tai tilikohtainen proxy.
+  Telegram- ja webhook-ilmoitukset kuvineen (palvelimella niiden kieli valitaan kohdassa
+  **Asetukset › Ilmoitukset**), yleinen tai tilikohtainen proxy.
 - 29 kieltä, tumma ja vaalea teema, työpöytäilmoitukset, ilmoitusalueen kuvake,
   käynnistys järjestelmän mukana.
 
@@ -332,16 +347,18 @@ Lataa järjestelmällesi sopiva tiedosto
 | Järjestelmä | Paketti |
 |---|---|
 | **Windows** · x64 | Asennusohjelma (`setup.exe`) tai [siirrettävä suoritettava tiedosto](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/TwitchMiner-portable.exe) |
-| **macOS** 10.15 tai uudempi · Intel ja Apple Silicon | Levykuva (`.dmg`) |
+| **macOS** 13 tai uudempi · Intel ja Apple Silicon | Levykuva (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) tai `.rpm` (Fedora, openSUSE) |
 
-macOS-versiota ei ole notarisoitu. Napsauta ensimmäisellä kerralla sovellusta hiiren
-oikealla painikkeella ja valitse **Avaa**.
+macOS-versiota ei ole notarisoitu. Avaa sovellus ensimmäisellä kerralla: macOS estää sen.
+Siirry sitten kohtaan **Järjestelmäasetukset › Tietosuoja ja suojaus** ja napsauta
+**Avaa kuitenkin**.
 
 Päivitykset on allekirjoitettu. Sovellus tarkistaa käynnistyessään ja sen jälkeen tunnin
 välein, onko uutta versiota (tiheyttä voi muuttaa kohdassa **Asetukset › Tietoja**). Se ei
 koskaan asenna versiota itse: asennat sen yhdellä napsautuksella näkyviin tulevasta
-ilmoituksesta tai kohdasta **Asetukset › Tietoja**.
+ilmoituksesta tai kohdasta **Asetukset › Tietoja**. Siirrettävä tiedosto ei koskaan
+päivitä itseään: ”Avaa lataussivu” vie uusimpaan julkaistuun versioon.
 
 Tiedot sijaitsevat käyttäjän datakansiossa:
 
@@ -387,7 +404,7 @@ Avaa <http://localhost:8080> (tai koneen osoite verkossasi) ja syötä salasana.
 | `MINER_PASSWORD_FILE` | ei mitään | Lukee `MINER_PASSWORD`-arvon tiedostosta, esimerkiksi Docker-secretistä. Vain toinen, ei molempia. |
 | `MINER_PUBLIC_URL` | ei mitään | Vain HTTPS-käänteisproxyn takana (Caddy, nginx, Traefik, Cloudflare Tunnel…): hallintapaneelin `https://`-osoite ilman polkua, esimerkiksi `https://miner.example.com`. Proxyn on välitettävä `X-Forwarded-Proto`, `X-Forwarded-For` ja websocket-yhteydet, minkä yleiset proxyt tekevät oletuksena, eikä kontin porttiin saa päästä suoraan. Hallintapaneeli hylkää silloin kaiken, mikä ei tule proxyn kautta HTTPS:llä, ja estää osoitteen 30 sekunniksi 5 väärän salasanan jälkeen. Välityspalvelimen on toimittava samalla koneella tai sen lähiverkossa: yhteys julkisesta osoitteesta hylätään. |
 | `MINER_TRUSTED_HOPS` | `1` | Vain `MINER_PUBLIC_URL`-muuttujan kanssa: kuinka moni proxy lisää merkinnän `X-Forwarded-For`-otsakkeeseen, 1–10. `2`, kun proxyja on kaksi peräkkäin, esimerkiksi Cloudflare Traefikin edessä. |
-| `MINER_PROXY_NETWORKS` | ei mitään | Vain `MINER_PUBLIC_URL`-asetuksen kanssa: muut verkot, joista välityspalvelin saa yhdistää tämän koneen ja sen yksityisen lähiverkon lisäksi, pilkuilla erotettuina: yksittäinen osoite tai verkko kuten `2001:db8:1::/64` lähiverkolle, jonka IPv6-osoitteet ovat julkisia. |
+| `MINER_PROXY_NETWORKS` | ei mitään | Vain `MINER_PUBLIC_URL`-asetuksen kanssa: verkot, joista välityspalvelin yhdistää, pilkuilla erotettuina: yksittäinen osoite tai verkko kuten `192.168.1.0/24` tai `2001:db8:1::/64`. Kun se on asetettu, välityspalvelin hyväksytään vain loopback-osoitteesta ja näistä verkoista, ei enää koko yksityisestä lähiverkosta. |
 | `MINER_VAULT_PASSPHRASE` | ei mitään | Vain työpöytäsovelluksesta kopioidulle datakansiolle, jossa on asetettu sovelluksen salasana: avaa sen lukituksen käynnistyksessä. Tyhjästä pystytetty palvelin ei koskaan tarvitse sitä. |
 | `MINER_VAULT_PASSPHRASE_FILE` | ei mitään | Lukee `MINER_VAULT_PASSPHRASE`-arvon tiedostosta. Vain toinen, ei molempia. |
 | `DATA_DIR` | imagessa `/data`, muuten `data` työhakemistossa | Tietokanta, avaintiedosto ja lokit. |
@@ -397,6 +414,13 @@ Avaa <http://localhost:8080> (tai koneen osoite verkossasi) ja syötä salasana.
 
 Palvelin lukee ja tarkistaa muuttujat kerran, käynnistyksessä. Virheellinen arvo pysäyttää
 palvelimen ja näyttää viestin sen sijaan, että palvelin siirtyisi hiljaa varavaihtoehtoon.
+
+Määritä käänteisen proxyn takana `MINER_PUBLIC_URL`: ilman sitä ensimmäinen proxyn kautta
+tuleva pyyntö kirjoittaa lokeihin varoituksen, koska kirjautumisyritykset lasketaan
+silloin proxyn osoitteelle, ja yhden vierailijan väärät salasanat lukitsisivat kaikki
+ulos. Reaaliaikainen yhteys lähettää pingin 30 sekunnin välein, jotta proxy ei sulje sitä,
+kun mitään ei tapahdu. Kun Twitch tai verkko pettää, palvelin vastaa `424`, ei koskaan
+`502` tai `504`: Cloudflaren takana näet oikean virheen Cloudflaren sivun sijaan.
 
 ## <a name="how-it-works"></a>Näin se toimii
 
@@ -437,13 +461,15 @@ kanava palvelee kampanjaa ja toinen streamaajiasi. ”Yksi kanava” -asetus koh
 
 **Kampanjaa ei louhita, tai drop ei edisty.**\
 Avaa tilin **Drops**-sivu. Kohdassa ”Louhintajärjestys” jokainen odottava kampanja kertoo
-syyn: ”Ei kanavaa livenä”, ”Odottaa (yksi kampanja kerrallaan)” tai ”Ei vielä dropia
-saatavilla”. Kampanja, joka ei näy tässä listassa, on jätetty pois: ”Mitkä kampanjat”
--asetuksella, **Ohitukset**-välilehden säännöllä tai siksi, ettei se ehdi valmistua
-ajoissa. Tilausta vaativaa palkintoa ei koskaan louhita, ja toista seuraava drop odottaa,
-kunnes ensimmäinen on valmis. **Vain pisteet** -tilassa louhija ei valitse kampanjaa.
-”Louhi ensin” kampanjan tiedoissa nostaa sen kärkeen; ohitetun kampanjan saa takaisin
-valinnalla ”Louhi taas” **Ohitukset**-välilehdellä.
+syyn: ”Ei kanavaa livenä” tai ”Odottaa (yksi kampanja kerrallaan)”. Kampanja, joka ei
+näy tässä listassa, on jätetty pois: kohdan ”Mitä louhitaan, järjestyksessä” vuoksi,
+”Mitkä kampanjat” -asetuksella, **Ohitukset**-välilehden säännöllä tai siksi, ettei se
+ehdi valmistua ajoissa. Tilausta vaativa palkinto odottaa, kunnes olet itse tehnyt
+tilauksen, joka päivä katsottava merkki odottaa seuraavaa päivää, mitään ei louhita
+ennen kampanjan alkua, ja toista seuraava drop odottaa, kunnes ensimmäinen on valmis.
+**Vain pisteet** -tilassa louhija ei valitse kampanjaa. ”Louhi ensin” kampanjan
+tiedoissa nostaa sen kärkeen; ohitetun kampanjan saa takaisin valinnalla ”Louhi taas”
+**Ohitukset**-välilehdellä.
 
 **Pitääkö pelitili linkittää?**\
 Lunastamista varten kyllä: lokakuusta 2026 lähtien Twitch antaa lunastaa dropin vain, kun
@@ -472,7 +498,8 @@ salasanaa ei ole asetettu) ja lokit.
 Työpöytäsovellus tarkistaa uuden version käynnistyessään ja sen jälkeen tunnin välein
 (muutettavissa kohdassa **Asetukset › Tietoja**). Napsauta ”Päivitys”-merkkiä ja sitten
 ”Asenna ja käynnistä uudelleen”. Dockerilla hallintapaneeli ilmoittaa asiasta: suorita
-`docker compose pull` ja sitten `docker compose up -d`.
+`docker compose pull` ja sitten `docker compose up -d`. Siirrettävä Windows-tiedosto ei
+päivitä itseään: ”Avaa lataussivu” avaa uusimman julkaistun version, josta lataat uuden.
 
 **Unohdin sovelluksen salasanan.**\
 Sitä ei voi palauttaa: juuri se salaa Twitch-istuntosi. Sulje sovellus, poista datakansio
@@ -485,7 +512,8 @@ hallintapaneelin salasana vaihdetaan `MINER_PASSWORD`-muuttujassa, minkä jälke
 **Montako pistettä tunnissa?**\
 Se riippuu Twitchistä ja kustakin kanavasta. Louhija ansaitsee sen, minkä Twitch antaa
 katsojalle: katselusta kertyvät pisteet, bonusarkut (noin yksi 15 minuutin välein) ja
-katseluputken bonuksen. Tilaus kasvattaa pisteet tasosta riippuen 1,2–2-kertaisiksi.
+katseluputken bonuksen. Tilaus kasvattaa pisteet tasosta riippuen 1,2–2-kertaisiksi, ja
+oletuksena päällä oleva ”Tilatut kanavat ensin” nostaa nämä kanavat muun listasi edelle.
 Etusivu näyttää ansaitut pisteet ja Päiväkirja jokaisen ansion.
 
 **Ovatko vedot riskialttiita?**\
@@ -493,13 +521,14 @@ Kyllä, pisteitä voi menettää. Ennustukset ovat oletuksena pois päältä, st
 Asetat strategian, panostuksen ajoituksen, panoksen (oletuksena 5 % saldosta, enintään
 50 000 pistettä), vähimmäissaldon ja halutessasi ehdon, kuten vähintään 1,5:n kertoimen.
 Pidä panos pienenä.
+Alle 10 pisteen panosta ei koskaan aseteta.
 
 **Streamaajaa ei katsota.**\
 Vain käytössä olevia ja livenä olevia streamaajia katsotaan, ja vain vapaalla kanavalla:
 **Drops ja pisteet** -tilassa toinen kahdesta palvelee nykyistä kampanjaa;
 **Vain Drops** -tilassa streamaajia ei katsota lainkaan; tauolla oleva tili ei katso
 mitään. Paikat jaetaan tässä järjestyksessä, joka näkyy merkkinä jokaisella katsotulla
-kanavalla: ”Putkibonus”, ”Putki vaarassa”, ”Tilattu” ja sitten ”Listan järjestys”.
+kanavalla: ”Putki vaarassa”, ”Putkibonus”, ”Tilattu” ja sitten ”Listan järjestys”.
 Siirrä streamaajaa ylemmäs listalla tai poista käytöstä ”Katseluputket ensin” ja
 ”Tilatut kanavat ensin”.
 
@@ -519,6 +548,8 @@ Saman tekijän muita projekteja:
 
 - Tokenit sinetöidään AES-256-GCM:llä. Avain on joko satunnainen `master.key` tietokannan
   vieressä (oletus, ei vaadi toimia) tai johdetaan sovelluksen salasanasta Argon2id:llä.
+- Datakansio ja lokikansio ovat yksityisiä (`0700`): vain louhijaa ajava käyttäjä voi
+  avata ne.
 - HTTP-hallintapaneeli tarkistaa salasanan vakioajassa ja käyttää HttpOnly- ja
   SameSite=Strict-evästeitä (HTTPS:n takana `Secure` ja `__Host-`-etuliite). Palvelin
   säilyttää jokaisesta istunnosta vain SHA-256-tiivisteen. Se päättää istunnon 30 päivän
@@ -528,6 +559,9 @@ Saman tekijän muita projekteja:
   bearer), osoite joutuu odottamaan 30 sekuntia. Palvelin vastaa `429` ja `Retry-After`
   katsomatta salasanaa. Lisäksi vastaus jokaiseen väärään salasanaan kestää puoli
   sekuntia.
+  Kun yhdestä yhteysosoitteesta, myös jaetusta välityspalvelimesta, tulee yli 30 väärää
+  salasanaa minuutissa, osoite saa yhden yrityksen 2 sekunnin välein: arvaaminen hidastuu,
+  eikä ketään lukita ulos.
 - Oman verkkosi ulkopuolella sijoita hallintapaneeli HTTPS-käänteisproxyn taakse ja aseta
   `MINER_PUBLIC_URL` (katso [Docker](#docker)).
 - Louhija on yhteydessä vain kohteisiin `twitch.tv`, `ttvnw.net`, `jtvnw.net`,

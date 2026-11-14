@@ -5,6 +5,8 @@ pub mod config;
 pub mod domain;
 pub mod error;
 pub mod events;
+pub mod feed;
+pub mod http;
 pub mod i18n;
 pub mod logs;
 pub mod miner;

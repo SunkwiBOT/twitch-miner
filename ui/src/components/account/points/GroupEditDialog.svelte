@@ -12,13 +12,8 @@
   import { Badge as BadgeRoot } from "$lib/components/ui/badge";
   import Dialog from "../../ui/Dialog.svelte";
   import TextButton from "../../ui/TextButton.svelte";
-  import {
-    BADGE_VARIANTS,
-    BadgeVariant,
-    ButtonSize,
-    ButtonType,
-    ButtonVariant,
-  } from "../../ui/ui.constants";
+  import { BADGE_VARIANTS, BadgeVariant } from "../../ui/badge.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../../ui/button.constants";
   import StreamerOptions from "../StreamerOptions.svelte";
 
   type GroupEditDialogPropsType = {

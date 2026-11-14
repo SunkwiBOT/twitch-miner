@@ -108,16 +108,25 @@ export const formatWeekdayDayMonth = (ms: number): string =>
     month: "short",
   }).format(ms);
 
+const zoneFormats = new Map<string, Intl.DateTimeFormat>();
+
 export const zoneOffsetMs = (ms: number, zone: string): number => {
-  const parts = new Intl.DateTimeFormat("en-US", {
-    timeZone: zone,
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    hourCycle: "h23",
-  }).formatToParts(ms);
+  let format = zoneFormats.get(zone);
+
+  if (!format) {
+    format = new Intl.DateTimeFormat("en-US", {
+      timeZone: zone,
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      hourCycle: "h23",
+    });
+    zoneFormats.set(zone, format);
+  }
+
+  const parts = format.formatToParts(ms);
   const value = (type: Intl.DateTimeFormatPartTypes): number =>
     Number(parts.find((item) => item.type === type)?.value ?? 0);
   const wallClock = Date.UTC(

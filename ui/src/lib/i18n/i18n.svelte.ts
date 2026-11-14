@@ -1,7 +1,13 @@
 import type { m } from "../paraglide/messages.js";
 import { KEY_STORAGE_LANGUAGE } from "../state/storage.constants";
 import { recall, remember } from "../state/storage.utils";
-import { isResolvedLanguage, Language, resolveSystemLocale } from "./i18n.constants";
+import {
+  isResolvedLanguage,
+  Language,
+  LANGUAGE_NAMES,
+  RESOLVED_LANGUAGES,
+  resolveSystemLocale,
+} from "./i18n.constants";
 import type { ResolvedLanguageType } from "./i18n.constants";
 
 type LanguageMessagesType = Record<keyof typeof m, (inputs: never) => string>;
@@ -65,15 +71,11 @@ const loadLanguage = async (language: ResolvedLanguageType): Promise<void> => {
 
 const show = (language: ResolvedLanguageType): void => {
   document.documentElement.lang = language;
-
-  if (locale.current !== language) {
-    locale.current = language;
-    remember(KEY_STORAGE_LANGUAGE, language);
-  }
+  locale.current = language;
+  remember(KEY_STORAGE_LANGUAGE, language);
 };
 
-// ! English stands in for a language whose chunk did not load: the page mounts
-// either way.
+// ! English stands in for a language whose chunk did not load: the page mounts either way.
 export const prepareLanguage = async (): Promise<void> => {
   for (const language of new Set<ResolvedLanguageType>([locale.current, Language.EN])) {
     try {
@@ -88,8 +90,7 @@ export const prepareLanguage = async (): Promise<void> => {
   }
 };
 
-// ! The language shown changes once its chunk is in: never a message missing.
-// A language that did not load is tried again only once another one is chosen.
+// ! The language changes once its chunk is in; one that failed is tried again only after another is chosen.
 export const applyLanguage = async (preference: string): Promise<boolean> => {
   const chosen = isResolvedLanguage(preference) ? preference : null;
   const language = chosen ?? systemLocale();
@@ -136,3 +137,8 @@ export const t = new Proxy({} as typeof m, {
     return message(key);
   },
 });
+
+export const languageOptions = (): { value: Language; label: string }[] => [
+  { value: Language.AUTO, label: t.language_auto() },
+  ...RESOLVED_LANGUAGES.map((tag) => ({ value: tag, label: LANGUAGE_NAMES[tag] })),
+];

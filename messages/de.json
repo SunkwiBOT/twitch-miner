@@ -57,7 +57,6 @@
   "dashboard_catalog_error": "Katalog nicht verfügbar: {error}",
   "dashboard_queue_blocked_no_live_channel": "Kein Kanal live",
   "dashboard_queue_blocked_one_campaign_at_a_time": "Wartet (eine Kampagne nach der anderen)",
-  "dashboard_queue_blocked_no_drop_available": "Noch kein Drop verfügbar",
   "dashboard_queue_reason_priority": "Priorität",
   "dashboard_queue_reason_ending_soon": "Endet bald",
   "dashboard_queue_reason_lowest_remaining": "Fast fertig",
@@ -157,6 +156,7 @@
   "settings_catalog_refresh": "Jetzt aktualisieren",
   "settings_notifications": "Benachrichtigungen",
   "settings_notifications_events": "Benachrichtigen bei",
+  "settings_notifications_targets": "Senden an",
   "settings_discord": "Discord-Webhook",
   "settings_discord_url": "Webhook-URL",
   "settings_telegram": "Telegram-Bot",
@@ -212,7 +212,7 @@
   "error_session_expired": "Twitch hat die Sitzung abgelehnt",
   "error_invalid_response": "Unerwartete Antwort von Twitch",
   "error_twitch_rejected": "Twitch hat die Anfrage abgelehnt.",
-  "error_device_code_expired": "Der Code ist abgelaufen",
+  "error_device_code_expired": "Der Code ist abgelaufen oder nicht mehr gültig: Fordern Sie einen neuen an",
   "error_storage": "Die lokale Datenbank konnte nicht gelesen oder geschrieben werden. Siehe technische Protokolle.",
   "error_vault_locked": "Die App ist gesperrt",
   "error_wrong_passphrase": "Falsches Passwort",
@@ -309,6 +309,7 @@
   "campaign_channels_some": "Erlaubte Kanäle: {count}",
   "common_account": "Konto",
   "campaign_progress": "{current}/{required} Min.",
+  "campaign_progress_of": "Fortschritt und Einlösen für {account}",
   "campaign_link_game": "Spielkonto verknüpfen",
   "campaign_open_twitch": "Auf Twitch öffnen",
   "logs_title": "Technische Protokolle",
@@ -369,7 +370,6 @@
   "drops_scope_linked_hint": "Nur Spiele, deren Konto mit Twitch verknüpft ist, damit jeder Drop abgeholt werden kann.",
   "drops_skip_hint": "Überspringt eine Kampagne, wenn nicht mehr genug Zeit bleibt, um sie abzuschließen.",
   "error_unknown_channel": "Es gibt keinen Twitch-Kanal mit diesem Namen.",
-  "error_device_code_pending": "Der Code ist auf Twitch noch nicht bestätigt.",
   "error_invalid_vault": "Die gespeicherten Sitzungen sind beschädigt. Bitte erneut anmelden.",
   "error_invalid_streamer_login": "Das ist kein gültiger Twitch-Login.",
   "error_passphrase_required": "Legen Sie ein App-Passwort fest, bevor Sie die App sperren.",
@@ -439,14 +439,77 @@
   "ev_campaign_finished": "Kampagne abgeschlossen: {campaign}",
   "ev_drop_progress": "{drop}: {current}/{required} Min.",
   "ev_bonus": "Bonus-Truhe auf {channel} abgeholt",
-  "ev_points": "+{points} Punkte auf {channel}",
+  "ev_points": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input channel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "+{points} Punkt auf {channel}",
+        "countPlural=*": "+{points} Punkte auf {channel}"
+      }
+    }
+  ],
   "ev_online": "{channel} ist live",
   "ev_offline": "{channel} ist offline",
   "ev_raid": "Raid von {channel} gefolgt",
   "ev_moment": "Moment auf {channel} abgeholt",
-  "ev_bet_placed": "{points} Punkte auf „{outcome}“ gesetzt ({channel})",
-  "ev_bet_won": "Vorhersage gewonnen: +{points} Punkte",
-  "ev_bet_lost": "Vorhersage verloren: −{points} Punkte",
+  "ev_bet_placed": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input outcome",
+        "input channel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{points} Punkt auf „{outcome}“ gesetzt ({channel})",
+        "countPlural=*": "{points} Punkte auf „{outcome}“ gesetzt ({channel})"
+      }
+    }
+  ],
+  "ev_bet_won": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Vorhersage gewonnen: +{points} Punkt",
+        "countPlural=*": "Vorhersage gewonnen: +{points} Punkte"
+      }
+    }
+  ],
+  "ev_bet_lost": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Vorhersage verloren: −{points} Punkt",
+        "countPlural=*": "Vorhersage verloren: −{points} Punkte"
+      }
+    }
+  ],
   "ev_bet_refund": "Vorhersage erstattet",
   "ev_login": "{login} angemeldet",
   "ev_session_expired": "Twitch-Sitzung abgelaufen: bitte erneut anmelden",
@@ -502,8 +565,19 @@
   "accounts_count": "{count} Konten",
   "accounts_none": "Kein Konto",
   "reward_watch": "{time} zuschauen",
+  "reward_watch_daily": "{time} pro Tag, {days} Tage",
+  "reward_watch_every": "{time} alle {hours} Std., {count}-mal",
+  "reward_watch_times": "{time}, {count}-mal",
+  "reward_days_done": "{done}/{total} Tage",
+  "reward_times_done": "{done}/{total}-mal",
+  "reward_chest": "1 zufälliges Abzeichen aus {count}",
+  "reward_chest_hint": "Twitch gibt eines dieser Abzeichen: {badges}",
+  "campaign_channels_categories": "Jeder Kanal in einer von {count} Kategorien",
+  "badges_collection": "Teil der Sammlung {name}",
+  "badges_collection_chest": "Teil der Sammlung {name}, 1 Abzeichen von {count}",
+  "badges_collection_all": "Abzeichen für die ganze Sammlung {name}, Abos inklusive",
   "reward_watch_stream": "Stream ansehen",
-  "reward_subscribe": "Abonnieren: wird nicht gemint",
+  "reward_subscribe": "Selbst abonnieren",
   "reward_kind_badge": "Abzeichen",
   "reward_kind_item": "Ingame-Item",
   "reward_sub_only": "Abo",
@@ -625,32 +699,6 @@
   "chat_always": "Immer",
   "chat_offline": "Wenn der Streamer offline ist",
   "chat_never": "Nie (unsichtbar)",
-  "accounts_stats_bets": "Wetten gewonnen / verloren: {won} / {lost}",
-  "accounts_stats_bonuses": "Bonus-Truhen: {count}",
-  "catalogue_fetched": "abgerufen {time}, erneut alle {minutes} Min.",
-  "change_order_reset": "Automatische Reihenfolge erfolgreich wiederhergestellt",
-  "event_kind_goal_contributed": "Community-Ziel",
-  "ev_goal_contributed": "{points} Punkte zu „{goal}“ auf {channel} beigetragen",
-  "ev_streak_recovered": "Serie auf {channel} wiederhergestellt",
-  "filter_by_odds": "Quote der Auswahl",
-  "filter_by_odds_percentage": "Quote der Auswahl (%)",
-  "filter_by_percentage_users": "Zuschauer auf der Auswahl (%)",
-  "filter_by_total_users": "Zuschauer, die gewettet haben",
-  "filter_by_total_points": "Insgesamt gesetzte Punkte",
-  "filter_by_decision_users": "Zuschauer auf der Auswahl",
-  "filter_by_decision_points": "Punkte auf der Auswahl",
-  "queue_reset": "Automatische Reihenfolge",
-  "slot_last_minute": "letzte Zuschauerminute gezählt {time}",
-  "slot_segments": "Angeforderte Videosegmente: {count}",
-  "streamer_community_goals_hint": "Gibt während des Livestreams Kanalpunkte an die Community-Ziele des Streamers: so viele, wie dem Ziel noch fehlen, im Rahmen des Limits pro Zuschauer und des Guthabens.",
-  "streamer_last_bonus": "letzte Truhe {time}",
-  "streamer_predictions_filter": "Nur unter einer Bedingung wetten",
-  "streamer_predictions_filter_hint": "Überspringt die Wette, wenn die Bedingung für die gewählte Seite nicht erfüllt ist.",
-  "streamer_predictions_filter_by": "Wert",
-  "streamer_predictions_filter_op": "Bedingung",
-  "streamer_predictions_filter_value": "Schwellenwert",
-  "streamer_predictions_gap_hint": "Smart folgt der Mehrheit, außer die beiden Seiten liegen so knapp beieinander; dann nimmt es die beste Quote.",
-  "account_refresh": "Konto jetzt aktualisieren",
   "settings_start_minimized_hint": "Das Fenster bleibt beim Start verborgen; öffnen Sie es über das Symbol im Infobereich.",
   "settings_data_folder": "Datenordner",
   "settings_data_folder_hint": "Konten, Einstellungen, Verlauf und Protokolle werden hier gespeichert.",
@@ -666,6 +714,8 @@
   "updates_last_checked": "Zuletzt geprüft: {time}",
   "updates_never_checked": "Zuletzt geprüft: seit dem Start noch keine Antwort",
   "updates_install": "Installieren und neu starten",
+  "updates_download_page": "Downloadseite öffnen",
+  "settings_notifications_language": "Sprache der Benachrichtigungen",
   "updates_confirm_title": "Version {version} installieren?",
   "updates_confirm_text": "Sie haben Version {current}. Die App lädt Version {version} herunter, stoppt das Mining auf allen Konten, installiert sie und startet von selbst neu. Danach läuft das Mining von allein wieder an.",
   "updates_later": "Später",
@@ -710,6 +760,49 @@
       }
     }
   ],
+  "accounts_stats_bets": "Wetten gewonnen / verloren: {won} / {lost}",
+  "accounts_stats_bonuses": "Bonus-Truhen: {count}",
+  "catalogue_fetched": "abgerufen {time}, erneut alle {minutes} Min.",
+  "change_order_reset": "Automatische Reihenfolge erfolgreich wiederhergestellt",
+  "event_kind_goal_contributed": "Community-Ziel",
+  "ev_goal_contributed": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input goal",
+        "input channel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{points} Punkt zu „{goal}“ auf {channel} beigetragen",
+        "countPlural=*": "{points} Punkte zu „{goal}“ auf {channel} beigetragen"
+      }
+    }
+  ],
+  "ev_streak_recovered": "Serie auf {channel} wiederhergestellt",
+  "filter_by_odds": "Quote der Auswahl",
+  "filter_by_odds_percentage": "Quote der Auswahl (%)",
+  "filter_by_percentage_users": "Zuschauer auf der Auswahl (%)",
+  "filter_by_total_users": "Zuschauer, die gewettet haben",
+  "filter_by_total_points": "Insgesamt gesetzte Punkte",
+  "filter_by_decision_users": "Zuschauer auf der Auswahl",
+  "filter_by_decision_points": "Punkte auf der Auswahl",
+  "queue_reset": "Automatische Reihenfolge",
+  "slot_last_minute": "letzte Zuschauerminute gezählt {time}",
+  "slot_segments": "Angeforderte Videosegmente: {count}",
+  "streamer_community_goals_hint": "Gibt während des Livestreams Kanalpunkte an die Community-Ziele des Streamers: so viele, wie dem Ziel noch fehlen, im Rahmen des Limits pro Zuschauer und des Guthabens.",
+  "streamer_last_bonus": "letzte Truhe {time}",
+  "streamer_predictions_filter": "Nur unter einer Bedingung wetten",
+  "streamer_predictions_filter_hint": "Überspringt die Wette, wenn die Bedingung für die gewählte Seite nicht erfüllt ist.",
+  "streamer_predictions_filter_by": "Wert",
+  "streamer_predictions_filter_op": "Bedingung",
+  "streamer_predictions_filter_value": "Schwellenwert",
+  "streamer_predictions_gap_hint": "Smart folgt der Mehrheit, außer die beiden Seiten liegen so knapp beieinander; dann nimmt es die beste Quote.",
+  "account_refresh": "Konto jetzt aktualisieren",
   "account_state_running_hint": "Das Konto mint mit seinen Einstellungen. Pausieren stoppt alles: Drops, Kanalpunkte und Chat.",
   "account_state_paused_hint": "Das Konto ist pausiert: Es schaut nichts und verdient nichts. Seine Einstellungen bleiben erhalten.",
   "login_code": "Anmeldecode",
@@ -754,6 +847,7 @@
   "inventory_claimed_all": "Abgeholte Belohnungen: {count}",
   "reward_state_claimed": "Eingelöst",
   "reward_state_ready": "Einlösbar",
+  "reward_state_owned": "Erhalten",
   "reward_claim": "Einlösen",
   "notify_test_title": "Test: {text}",
   "notify_test_detail": "Twitch Miner erreicht dieses Ziel. So sieht ein eingelöster Drop aus. Alle Namen und Bilder dieser Nachricht sind Testdaten.",
@@ -787,14 +881,14 @@
   "badge_hint_reason_lowest_remaining": "Wenige Minuten übrig, deshalb zuerst beendet",
   "badge_hint_blocked_no_live": "Keiner ihrer Kanäle ist live",
   "badge_hint_blocked_one_at_a_time": "Es wird immer nur eine Kampagne gemint",
-  "badge_hint_blocked_no_drop": "Twitch bietet noch keinen Drop an",
   "badge_hint_linked": "Spielkonto verknüpft: Drops können eingelöst werden",
   "badge_hint_not_linked": "Spielkonto verknüpfen, um die Drops einzulösen",
   "badge_hint_link_required": "Benötigt ein verknüpftes Spielkonto",
   "badge_hint_claimed": "Schon in Ihrem Twitch-Inventar",
+  "badge_hint_owned": "Dieses Konto hat das Abzeichen schon: der Miner mint es nicht",
   "badge_hint_ready": "Verdient: muss nur noch eingelöst werden",
   "badge_hint_item": "Kommt nach dem Einlösen im Spiel an",
-  "badge_hint_sub_only": "Benötigt ein Abo: wird nicht gemint",
+  "badge_hint_sub_only": "Benötigt ein Abo, das Sie selbst abschließen (ein laufendes Abo, Prime oder eine Verlängerung zählt nicht). Sobald Twitch es zählt, mint der Miner die Zuschauzeit.",
   "badge_hint_watching": "Dieses Konto schaut den Kanal gerade",
   "badge_hint_streak_risk": "Die Zuschauerserie auf diesem Kanal reißt bald",
   "badge_hint_in_progress": "Twitch zählt Ihre Minuten für diese Kampagne",
@@ -925,7 +1019,23 @@
     }
   ],
   "event_kind_points_spent": "Punkte ausgegeben",
-  "ev_points_spent": "−{points} Punkte auf {channel}",
+  "ev_points_spent": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input channel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "−{points} Punkt auf {channel}",
+        "countPlural=*": "−{points} Punkte auf {channel}"
+      }
+    }
+  ],
   "ev_points_spent_balance": "Punkte auf {channel} ausgegeben (Guthaben {balance})",
   "ev_drop_progress_unknown": "Drop-Fortschritt: {current}/{required} Min.",
   "journal_types": "Ereignistypen",
@@ -1005,15 +1115,15 @@
   "event_kind_reward_redeemed": "Spam Points",
   "spam_channels": "Kanäle",
   "spam_search_placeholder": "Twitch-Kanal suchen",
-  "spam_search_hint": "Suche einen beliebigen Twitch-Kanal, auch außerhalb deiner Punkte-Liste.",
-  "spam_in_points": "In deiner Punkte-Liste",
-  "spam_in_history": "Schon in deinem Verlauf",
+  "spam_search_hint": "Suchen Sie einen beliebigen Twitch-Kanal, auch außerhalb Ihrer Punkte-Liste.",
+  "spam_in_points": "In Ihrer Punkte-Liste",
+  "spam_in_history": "Schon in Ihrem Verlauf",
   "spam_remove_history": "Aus dem Verlauf entfernen",
   "spam_removed": "{channel} aus dem Verlauf entfernt",
-  "spam_pick_title": "Wähle einen Kanal",
+  "spam_pick_title": "Wählen Sie einen Kanal",
   "spam_pick_text": "Hier erscheinen seine eigenen Belohnungen, mit dem Guthaben dieses Kontos auf dem Kanal.",
   "spam_balance": "Kanalpunkte-Guthaben: {points}",
-  "spam_balance_unlimited": "Unbegrenzte Kanalpunkte: Auf deinem eigenen Kanal zieht Twitch keine Punkte ab",
+  "spam_balance_unlimited": "Unbegrenzte Kanalpunkte: Auf Ihrem eigenen Kanal zieht Twitch keine Punkte ab",
   "spam_balance_changed": "aktualisiert {time}",
   "spam_balance_live_hint": "Wird alle 2 bis 3 s neu gelesen, solange diese Seite offen ist. Die Zeit ist die der letzten Änderung des Guthabens.",
   "spam_balance_paused": "Verfolgung pausiert",
@@ -1037,14 +1147,14 @@
   "spam_reward_cooldown": "Verfügbar in {time}",
   "spam_hint_disabled": "Vom Kanal deaktiviert: Sie erscheint nicht auf Twitch.",
   "spam_hint_paused": "Vom Kanal während dieses Streams pausiert.",
-  "spam_hint_out_of_stock": "Limit für diesen Stream oder für dich erreicht.",
-  "spam_message_placeholder": "Deine Nachricht…",
+  "spam_hint_out_of_stock": "Limit für diesen Stream oder für Sie erreicht.",
+  "spam_message_placeholder": "Ihre Nachricht…",
   "spam_message_label": "Nachricht für {reward}",
-  "spam_message_needed": "Gib zuerst die Nachricht ein",
+  "spam_message_needed": "Geben Sie zuerst die Nachricht ein",
   "spam_quantity": "Anzahl",
   "spam_decrease": "Verringern",
   "spam_increase": "Erhöhen",
-  "spam_max_balance": "Dein Guthaben reicht nicht für mehr",
+  "spam_max_balance": "Ihr Guthaben reicht nicht für mehr",
   "spam_max_count": "Höchstens 25 pro Serie",
   "spam_redeem": "Einlösen",
   "spam_redeeming": "Sende {done}/{total}…",
@@ -1148,7 +1258,7 @@
   "badges_none": "Die Abzeichenliste wurde noch nicht gelesen.",
   "badges_error": "Abzeichenliste nicht verfügbar: {error}",
   "badges_retry": "Nächster Versuch in {time}.",
-  "badges_minable": "Minbar",
+  "badges_minable": "Mintbar",
   "badge_hint_badge_minable": "Nur Zuschauzeit: der Miner kann es holen",
   "badges_until": "Bis {date}",
   "mining_order_title": "Was gemint wird, der Reihe nach",
@@ -1164,18 +1274,42 @@
   "queue_reason_badge": "Abzeichen",
   "badge_hint_reason_badge": "Gibt ein Abzeichen, das das Konto noch nicht hat",
   "quest_label": "Twitch-Quest",
-  "badge_hint_quest": "Ein Twitch-Event: jeder Kanal seiner Kategorien zählt",
+  "badge_hint_quest": "Ein Twitch-Event: es zählt nur auf einem Kanal seiner Kategorien, der es anbietet",
   "quest_next_window": "Nächstes Fenster {time}",
   "account_badges_not_read": "Die Abzeichen und Quests des Kontos werden gelesen, solange es läuft.",
-  "account_badges_tabs_label": "Bereiche der Badges-Seite",
-  "account_badges_order_title": "Badge-Reihenfolge",
-  "account_badges_order_hint": "Ziehen Sie, um festzulegen, welches Badge zuerst gemint wird. Es ist dieselbe Reihenfolge wie im Tab Drops.",
-  "account_badges_order_empty": "Gerade kein Badge zum Minen.",
-  "account_badges_ignore": "Dieses Badge ignorieren",
-  "account_badges_ignored_hint": "Badges, die dieses Konto nie mint.",
+  "account_badges_tabs_label": "Bereiche der Abzeichen-Seite",
+  "account_badges_order_title": "Abzeichen-Reihenfolge",
+  "account_badges_order_hint": "Ziehen Sie, um festzulegen, welches Abzeichen zuerst gemint wird. Es ist dieselbe Reihenfolge wie im Tab Drops.",
+  "account_badges_order_empty": "Gerade kein Abzeichen zum Minen.",
+  "account_badges_ignore": "Dieses Abzeichen ignorieren",
+  "account_badges_ignored_hint": "Abzeichen, die dieses Konto nie mint.",
   "selection_only_title": "Nur meine Auswahl",
   "drops_selection_only_hint": "Mint nur Ihre Prioritätsspiele und die mit einem Stern markierten Kampagnen. Sind alle gemint, wird keine andere Kampagne gestartet.",
-  "badges_selection_only_hint": "Mint nur die mit einem Stern markierten Badges. Sind alle gemint, wird kein anderes Badge gestartet.",
+  "badges_selection_only_hint": "Mint nur die mit einem Stern markierten Abzeichen. Sind alle gemint, wird kein anderes Abzeichen gestartet.",
+  "badges_evolutions_title": "Abzeichen-Entwicklungen minen",
+  "badges_evolutions_hint": "Für eine Entwicklung (Pichu → Pikachu…) legt der Miner das benötigte Abzeichen kurz vor dem Minen selbst an und setzt das alte nicht wieder ein. Aus: Diese Abzeichen werden übergangen und das angelegte Abzeichen wird nie angerührt.",
+  "badge_evolution": "Entwicklung von {badge}",
+  "badge_hint_evolution": "Der Miner legt {badge} kurz vor dem Minen dieses Abzeichens an und setzt das alte nicht wieder ein",
+  "badge_evolution_unknown": "Benötigtes Abzeichen unbekannt",
+  "badge_hint_evolution_unknown": "Twitch hat noch nicht gesagt, aus welchem Abzeichen sich dieses entwickelt: Bis dahin wird es nicht gemint",
+  "badge_evolution_locked": "{badge} nötig",
+  "badge_hint_evolution_locked": "Dieses Konto braucht zuerst {badge}: Der Miner legt es dann an, um diese Entwicklung zu minen",
+  "badge_evolution_off": "Entwicklungen aus",
+  "badge_hint_evolution_off": "„Abzeichen-Entwicklungen minen“ ist in den Abzeichen-Einstellungen dieses Kontos ausgeschaltet",
+  "ev_badge_equipped": "Abzeichen {badge} angelegt, um {drop} zu entwickeln",
+  "ev_badge_equip_failed": "Abzeichen {badge} konnte nicht angelegt werden, um {drop} zu entwickeln",
+  "badge_progress_not_started": "Nicht begonnen",
+  "badge_progress_not_offered": "Nicht in den Kampagnen dieses Kontos",
+  "badge_dialog_subs": "Abos, die Sie selbst abschließen: {count}",
+  "badge_dialog_dates": "Vom {start} bis {end}",
+  "badge_dialog_from": "Ab {date}",
+  "badge_dialog_open_campaign": "Kampagne öffnen",
+  "badge_dialog_categories": "Kategorien",
+  "badge_dialog_channels": "Kanäle",
+  "badge_dialog_collection": "Sammlung",
+  "badge_dialog_evolution": "Entwicklung",
+  "badge_dialog_evolves_from": "Twitch zählt dieses Abzeichen nur, solange {badge} angelegt ist: Der Miner legt es kurz vor dem Minen an und setzt das alte Abzeichen nicht wieder ein.",
+  "badge_dialog_accounts": "Fortschritt der Konten",
   "campaign_select": "Zu meiner Auswahl hinzufügen",
   "campaign_unselect": "Aus meiner Auswahl entfernen",
   "campaign_selected": "Zu Ihrer Auswahl hinzugefügt",
@@ -1183,14 +1317,14 @@
   "change_selected": "Zur Auswahl hinzugefügt: {item}",
   "change_unselected": "Aus der Auswahl entfernt: {item}",
   "selection_not_selected": "Nicht ausgewählt",
-  "badges_not_selected_hint": "„Nur meine Auswahl“ ist an: Markieren Sie dieses Badge mit einem Stern, um es zu minen.",
+  "badges_not_selected_hint": "„Nur meine Auswahl“ ist an: Markieren Sie dieses Abzeichen mit einem Stern, um es zu minen.",
   "account_badges_mining_off": "Abzeichen sind in „Was gemint wird, der Reihe nach“ dieses Kontos ausgeschaltet: sie werden angezeigt, aber nicht gemint.",
   "account_badges_owned": "Erhalten",
   "account_badges_empty_owned": "Dieses Konto hat noch kein globales Abzeichen.",
-  "account_badges_search_placeholder": "Badge suchen…",
+  "account_badges_search_placeholder": "Abzeichen suchen…",
   "ev_claim_refused": "Twitch hat das Abholen von {drop} abgelehnt ({status})",
   "quest_not_minable": "Nicht mintbar",
   "badge_hint_quest_not_minable": "Twitch nennt keine Kategorie und keinen Kanal, die der Miner dafür ansehen kann",
   "account_badges_not_mined": "Nicht gemint",
-  "account_badges_not_mined_hint": "Wird angezeigt, aber nie gemint: Es ist ein Abo nötig, oder Twitch nennt keinen Kanal, den der Miner ansehen kann."
+  "account_badges_not_mined_hint": "Wird angezeigt, aber nicht gemint: Zuerst ist ein Abo nötig, das Sie selbst abschließen, oder ein anderes Abzeichen, oder Twitch nennt keinen Kanal, den der Miner ansehen kann."
 }

@@ -4,35 +4,48 @@
     badgeIsNew,
     badgeMinable,
     badgeNeedsSub,
+    collectionText,
   } from "../../lib/badges/badges.utils";
   import { BadgeSource } from "../../lib/bindings/BadgeSource";
   import type { GlobalBadgeType } from "../../lib/bindings/GlobalBadgeType";
-  import { categoryUrl } from "../../lib/catalogue/campaign.utils";
+  import { categoryUrl, watchText } from "../../lib/catalogue/campaign.utils";
+  import { gameArt } from "../../lib/catalogue/games.utils";
+  import { ensureChannels, knownChannels } from "../../lib/channels/channels.svelte";
   import { minutes } from "../../lib/format.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { formatDate } from "../../lib/time/time.utils";
   import Badge from "../ui/Badge.svelte";
-  import ExternalLink from "../ui/ExternalLink.svelte";
+  import ChannelLink from "../ui/ChannelLink.svelte";
+  import GameName from "../ui/GameName.svelte";
   import Thumb from "../ui/Thumb.svelte";
-  import {
-    BadgeTone,
-    IconName,
-    LinkLook,
-    LinkMark,
-    LinkSize,
-    ThumbShape,
-    ThumbSize,
-  } from "../ui/ui.constants";
+  import { BadgeTone } from "../../lib/tones.constants";
+  import { FOCUS_INSIDE_CLASSES } from "../ui/field.constants";
+  import { IconName } from "../../lib/icons.constants";
+  import { ThumbShape, ThumbSize } from "../ui/picture.constants";
 
-  type BadgeCardPropsType = { badge: GlobalBadgeType; now: number };
+  type BadgeCardPropsType = {
+    badge: GlobalBadgeType;
+    now: number;
+    evolvesFrom: string | null;
+    onopen: () => void;
+  };
 
-  let { badge, now }: BadgeCardPropsType = $props();
+  let { badge, now, evolvesFrom, onopen }: BadgeCardPropsType = $props();
 
   const requirement = $derived(badge.requirement);
   const ended = $derived(badgeEnded(badge, now));
+
+  $effect(() => {
+    if (requirement?.channels.length) {
+      ensureChannels(requirement.channels);
+    }
+  });
 </script>
 
-<article class="flex min-w-0 gap-3 rounded-lg border bg-card p-3">
+<!-- ! The title button covers the whole card; links and hinted badges sit above it. -->
+<article
+  class="relative flex min-w-0 gap-3 rounded-lg border bg-card p-3 transition-colors hover:bg-muted/40"
+>
   <Thumb
     src={badge.image_url}
     round={false}
@@ -42,8 +55,14 @@
     fallback={IconName.AWARD}
   />
   <div class="flex min-w-0 flex-1 flex-col gap-1.5">
-    <h3 class="truncate text-sm font-semibold" title={badge.title}>{badge.title}</h3>
-    <div class="flex flex-wrap gap-1.5">
+    <h3 class="truncate text-sm font-semibold" title={badge.title}>
+      <button
+        class="text-left after:absolute after:inset-0 after:rounded-lg {FOCUS_INSIDE_CLASSES} focus-visible:after:outline-2 focus-visible:after:outline-ring focus-visible:after:outline-solid"
+        type="button"
+        onclick={onopen}>{badge.title}</button
+      >
+    </h3>
+    <div class="relative z-10 flex flex-wrap gap-1.5 empty:hidden">
       {#if badgeMinable(badge, now)}
         <Badge
           text={t.badges_minable()}
@@ -61,6 +80,14 @@
           hint={t.badge_hint_sub_only()}
         />
       {/if}
+      {#if evolvesFrom}
+        <Badge
+          text={t.badge_evolution({ badge: evolvesFrom })}
+          tone={BadgeTone.INFO}
+          dot={false}
+          hint={t.badge_hint_evolution({ badge: evolvesFrom })}
+        />
+      {/if}
       {#if requirement?.ends_at && ended}
         <Badge text={t.campaign_ended()} tone={BadgeTone.MUTED} dot={false} />
       {/if}
@@ -74,29 +101,49 @@
     {#if requirement}
       <div class="flex flex-col gap-0.5 text-xs">
         <span class="flex min-w-0 flex-wrap items-center gap-x-1.5">
-          {#if requirement.required_minutes > 0 && requirement.required_subs === 0}
+          {#if requirement.required_minutes > 0}
             <span class="font-semibold"
-              >{t.reward_watch({ time: minutes(requirement.required_minutes) })}</span
+              >{watchText(minutes(requirement.required_minutes), requirement.repeat)}</span
             >
           {/if}
           {#if requirement.game_name}
-            <ExternalLink
-              url={categoryUrl(requirement.game_name, undefined)}
-              text={requirement.game_name}
-              mark={LinkMark.END}
-              look={LinkLook.HOVER}
-              size={LinkSize.MD}
-            />
+            {@const game = requirement.categories.find((c) => c.name === requirement.game_name)}
+            <span class="relative z-10 inline-flex max-w-full min-w-0">
+              <GameName
+                name={requirement.game_name}
+                url={categoryUrl(requirement.game_name, game?.slug)}
+                art={gameArt(requirement.game_name, game?.box_art_url)}
+                size={ThumbSize.XS}
+                inSentence={true}
+              />
+            </span>
+          {/if}
+          {#if requirement.categories.length > 1}
+            <span class="text-muted-foreground">+{requirement.categories.length - 1}</span>
           {/if}
         </span>
         {#if requirement.source === BadgeSource.DROPS}
-          <span class="truncate text-muted-foreground">
-            {requirement.channel_count > 0
-              ? `${t.campaign_channels_some({ count: requirement.channel_count })} · ${requirement.channels.join(", ")}`
-              : t.campaign_channels_any()}
+          <span class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-muted-foreground">
+            {#if requirement.channel_count > 0}
+              <span>{t.campaign_channels_some({ count: requirement.channel_count })}</span>
+              {#each requirement.channels as login (login)}{@const channel =
+                  knownChannels[login]}<span class="relative z-10"
+                  ><ChannelLink
+                    {login}
+                    name={channel?.display_name ?? login}
+                    avatar={channel?.avatar_url}
+                  /></span
+                >{/each}
+            {:else if requirement.categories.length > 1}
+              {t.campaign_channels_categories({ count: requirement.categories.length })}
+            {:else}
+              {t.campaign_channels_any()}
+            {/if}
           </span>
         {/if}
-        {#if requirement.campaign_name}
+        {#if requirement.collection}
+          <span class="text-muted-foreground">{collectionText(requirement)}</span>
+        {:else if requirement.campaign_name}
           <span class="truncate text-muted-foreground">{requirement.campaign_name}</span>
         {/if}
         {#if requirement.ends_at && !ended}

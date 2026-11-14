@@ -2,9 +2,9 @@ import { fetchBadges } from "../api/client";
 import type { GlobalBadgeType } from "../bindings/GlobalBadgeType";
 import { HIDDEN_BADGE_SETS } from "./badges.constants";
 
-type BadgeListType = { badges: GlobalBadgeType[]; loaded: boolean };
+type BadgeListType = { badges: GlobalBadgeType[] };
 
-export const badgeList: BadgeListType = $state({ badges: [], loaded: false });
+export const badgeList: BadgeListType = $state({ badges: [] });
 
 let asked: string | null = null;
 
@@ -18,11 +18,14 @@ export const loadBadges = async (revision: string | undefined): Promise<void> =>
   asked = key;
 
   try {
-    badgeList.badges = (await fetchBadges()).badges.filter(
-      (badge) => !HIDDEN_BADGE_SETS.has(badge.set_id),
-    );
-    badgeList.loaded = true;
+    const { badges } = await fetchBadges();
+
+    if (asked === key) {
+      badgeList.badges = badges.filter((badge) => !HIDDEN_BADGE_SETS.has(badge.set_id));
+    }
   } catch (e: any) {
-    asked = null;
+    if (asked === key) {
+      asked = null;
+    }
   }
 };

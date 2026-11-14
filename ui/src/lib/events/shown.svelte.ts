@@ -3,16 +3,14 @@ import type { CampaignType } from "../bindings/CampaignType";
 import type { ChannelType } from "../bindings/ChannelType";
 import type { MinerEventType } from "../bindings/MinerEventType";
 import type { SnapshotType } from "../bindings/SnapshotType";
+import { campaignOf, catalogueCampaign } from "../catalogue/catalogue.svelte";
 import { knownChannels } from "../channels/channels.svelte";
-import { app } from "../state/state.svelte";
+import { app } from "../state/app.svelte";
 
 type SnapshotIndexType = {
   accounts: Map<string, AccountSnapshotType>;
   channels: Map<string, ChannelType>;
-  campaigns: Map<string, CampaignType>;
 };
-
-const campaignKey = (accountId: string, id: string): string => `${accountId}/${id}`;
 
 const indexes = new WeakMap<SnapshotType, SnapshotIndexType>();
 
@@ -23,22 +21,10 @@ const indexOf = (snapshot: SnapshotType): SnapshotIndexType => {
     return known;
   }
 
-  const index: SnapshotIndexType = {
-    accounts: new Map(),
-    channels: new Map(),
-    campaigns: new Map(),
-  };
-
-  for (const campaign of snapshot.catalog.campaigns) {
-    index.campaigns.set(campaign.id, campaign);
-  }
+  const index: SnapshotIndexType = { accounts: new Map(), channels: new Map() };
 
   for (const account of snapshot.accounts) {
     index.accounts.set(account.id, account);
-
-    for (const campaign of account.campaigns) {
-      index.campaigns.set(campaignKey(account.id, campaign.id), campaign);
-    }
 
     for (const channel of [
       ...account.slots.map((slot) => slot.channel),
@@ -55,10 +41,10 @@ const indexOf = (snapshot: SnapshotType): SnapshotIndexType => {
   return index;
 };
 
-const campaignOf = (accountId: string, id: string): CampaignType | undefined => {
-  const index = app.snapshot ? indexOf(app.snapshot) : undefined;
+const eventCampaign = (accountId: string, id: string): CampaignType | undefined => {
+  const owner = app.snapshot ? indexOf(app.snapshot).accounts.get(accountId) : undefined;
 
-  return index?.campaigns.get(campaignKey(accountId, id)) ?? index?.campaigns.get(id);
+  return owner ? campaignOf(owner, id) : catalogueCampaign(id);
 };
 
 const channelOf = (login: string): ChannelType | undefined =>
@@ -86,7 +72,7 @@ export const shownEvent = (event: MinerEventType): MinerEventType => {
 
   const campaign =
     context.campaign_id && !context.campaign_name
-      ? campaignOf(event.account_id, context.campaign_id)
+      ? eventCampaign(event.account_id, context.campaign_id)
       : undefined;
 
   if (campaign) {

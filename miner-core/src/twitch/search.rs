@@ -9,7 +9,7 @@ pub async fn suggestions(
     http: &TwitchHttp,
     fragment: &str,
 ) -> Result<(Vec<SearchGame>, Vec<SearchChannel>)> {
-    let body = http
+    let answer = http
         .post_gql(
             None,
             Operation::SearchSuggestions.name(),
@@ -22,7 +22,7 @@ pub async fn suggestions(
         )
         .await?;
 
-    Ok(parse(&body))
+    Ok(parse(&answer.checked(Operation::SearchSuggestions)?))
 }
 
 pub(crate) fn parse(body: &Value) -> (Vec<SearchGame>, Vec<SearchChannel>) {

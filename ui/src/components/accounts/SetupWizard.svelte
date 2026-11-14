@@ -15,7 +15,8 @@
     rememberChannels,
   } from "../../lib/channels/channels.svelte";
   import { t } from "../../lib/i18n/i18n.svelte";
-  import { account as accountOf, app, saveAccountSettings } from "../../lib/state/state.svelte";
+  import { saveAccountSettings } from "../../lib/state/account-settings.svelte";
+  import { account as accountOf, app } from "../../lib/state/app.svelte";
   import { personMarker } from "../../lib/text.utils";
   import ChoiceCards from "../ui/ChoiceCards.svelte";
   import DialogActions from "../ui/DialogActions.svelte";
@@ -23,7 +24,7 @@
   import RichText from "../ui/RichText.svelte";
   import Select from "../ui/Select.svelte";
   import Setting from "../ui/Setting.svelte";
-  import { MenuAlign } from "../ui/ui.constants";
+  import { MenuAlign } from "../ui/menu.constants";
   import SetupActions from "./SetupActions.svelte";
   import MiningOrderList from "../account/drops/MiningOrderList.svelte";
   import SetupStepper from "./SetupStepper.svelte";

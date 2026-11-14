@@ -10,6 +10,7 @@ use std::net::{IpAddr, Ipv4Addr, Ipv6Addr, SocketAddr};
 use std::sync::Arc;
 use std::time::Duration;
 
+use anyhow::Context;
 use miner_core::api::{ApiRoute, Shell};
 use miner_core::Manager;
 use tracing_subscriber::EnvFilter;
@@ -40,7 +41,10 @@ async fn main() -> anyhow::Result<()> {
             SocketAddr::new(host, env.address.port()),
             ApiRoute::Health.path()
         );
-        let healthy = reqwest::Client::new()
+        let healthy = reqwest::Client::builder()
+            .no_proxy()
+            .build()
+            .unwrap_or_default()
             .get(url)
             .timeout(HEALTHCHECK_TIMEOUT)
             .send()
@@ -50,10 +54,13 @@ async fn main() -> anyhow::Result<()> {
         std::process::exit(if healthy { 0 } else { 1 });
     }
 
-    std::fs::create_dir_all(&env.data_dir)?;
-    std::fs::create_dir_all(&env.log_dir)?;
+    for dir in [&env.data_dir, &env.log_dir] {
+        miner_core::util::private_dir(dir)
+            .with_context(|| format!("cannot create the folder {}", dir.display()))?;
+    }
 
-    let file = miner_core::logs::daily_files(&env.log_dir)?;
+    let file = miner_core::logs::daily_files(&env.log_dir)
+        .with_context(|| format!("cannot write the logs in {}", env.log_dir.display()))?;
     let (file, guard) = tracing_appender::non_blocking(file);
     let _file_writer = miner_core::logs::keep_file_writer(guard);
     let filter = EnvFilter::try_from_default_env()
@@ -86,7 +93,14 @@ async fn main() -> anyhow::Result<()> {
         miner_core::APP_NAME
     );
 
-    let manager = Manager::open(&env.data_dir, log_buffer, Shell::Server)?;
+    let manager = Manager::open(&env.data_dir, log_buffer, Shell::Server)
+        .with_context(|| format!("cannot open the data in {}", env.data_dir.display()))?;
+
+    // ! Before any account starts: a busy port would end the process with every account just signed in to Twitch, at each restart of the container.
+    let listener = tokio::net::TcpListener::bind(env.address)
+        .await
+        .with_context(|| format!("cannot listen on {}", env.address))?;
+    let releases = Releases::new()?;
 
     if let Some(passphrase) = &env.vault_passphrase {
         if let Err(error) = manager.unlock(passphrase).await {
@@ -113,7 +127,7 @@ async fn main() -> anyhow::Result<()> {
         access: env.access,
         sessions: Sessions::default(),
         attempts: SignInAttempts::default(),
-        releases: Releases::new()?,
+        releases,
     });
 
     let watched = state.clone();
@@ -137,8 +151,6 @@ async fn main() -> anyhow::Result<()> {
     }
 
     let app = routes::router(state);
-    let listener = tokio::net::TcpListener::bind(env.address).await?;
-
     axum::serve(
         listener,
         app.into_make_service_with_connect_info::<SocketAddr>(),

@@ -11,7 +11,7 @@
   import CheckList from "../ui/CheckList.svelte";
   import RichText from "../ui/RichText.svelte";
   import Segmented from "../ui/Segmented.svelte";
-  import { IconName } from "../ui/ui.constants";
+  import { IconName } from "../../lib/icons.constants";
   import AccountImport from "./import/AccountImport.svelte";
   import FollowsImport from "./import/FollowsImport.svelte";
   import PasteImport from "./import/PasteImport.svelte";
@@ -61,8 +61,7 @@
 
   const already = $derived((offered?.length ?? 0) - candidates.length);
 
-  // ! Keyed on the logins: a snapshot that only refreshes the same channels keeps
-  // what the user unticked.
+  // ! Keyed on the logins: a snapshot refreshing the same channels keeps what the user unticked.
   const offeredLogins = $derived(candidates.map((c) => c.login).join("\n"));
 
   let picked = $state<{ offered: string; logins: string[] }>({ offered: "", logins: [] });
@@ -130,7 +129,9 @@
   {/if}
   <PasteImport bind:this={paste} open={source === ImportSource.PASTE} {existing} />
   <AccountImport bind:this={fromAccount} open={source === ImportSource.ACCOUNT} {target} />
-  <FollowsImport bind:this={follows} open={source === ImportSource.FOLLOWS} {target} />
+  {#key target.id}
+    <FollowsImport bind:this={follows} open={source === ImportSource.FOLLOWS} {target} />
+  {/key}
 
   {#if offered}
     <CheckList

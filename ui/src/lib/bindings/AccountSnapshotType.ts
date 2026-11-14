@@ -3,6 +3,7 @@ import type { AccountSettingsType } from "./AccountSettingsType";
 import type { AccountStatsType } from "./AccountStatsType";
 import type { AccountStatus } from "./AccountStatus";
 import type { BadgeRefType } from "./BadgeRefType";
+import type { CampaignProgressType } from "./CampaignProgressType";
 import type { CampaignType } from "./CampaignType";
 import type { ErrorApiMessage } from "./ErrorApiMessage";
 import type { QuestType } from "./QuestType";
@@ -22,7 +23,8 @@ export type AccountSnapshotType = {
   slots: Array<SlotViewType>;
   queue: Array<QueueItemType>;
   streamers: Array<StreamerViewType>;
-  campaigns: Array<CampaignType>;
+  progress: Array<CampaignProgressType>;
+  other_campaigns: Array<CampaignType>;
   quests: Array<QuestType>;
   owned_badges: Array<BadgeRefType>;
   badges_read_at?: string;

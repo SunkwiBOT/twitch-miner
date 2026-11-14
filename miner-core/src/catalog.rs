@@ -2,8 +2,6 @@
 // come from this public catalogue.
 
 use std::collections::HashSet;
-use std::sync::Mutex;
-use std::time::Duration;
 
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
@@ -12,196 +10,66 @@ use serde_json::Value;
 use crate::api::Shell;
 use crate::domain::Campaign;
 use crate::error::{Error, ErrorCode, Result};
-use crate::requests::{address_target, RequestKind, RequestLog};
+use crate::feed::{FeedAnswer, FeedClient};
+use crate::http::too_large;
+use crate::requests::RequestLog;
 use crate::twitch::drops::parse_campaign;
 use crate::twitch::note_left_out;
-use crate::util::locked;
 
 const CATALOG_URL: &str = "https://drops.sunkwi.com/api/twitch/drops";
 
-// ! The public catalogue allows one anonymous request every 5 minutes.
-pub const REFRESH_INTERVAL: Duration = Duration::from_secs(600);
-
 const MAX_CAMPAIGNS: usize = 3000;
-
-const MAX_BYTES: usize = 16 * 1024 * 1024;
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct Catalog {
     pub campaigns: Vec<Campaign>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub read_at: Option<DateTime<Utc>>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub updated_at: Option<DateTime<Utc>>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub fetched_at: Option<DateTime<Utc>>,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(skip)]
     pub problem: Option<ErrorCode>,
 }
 
-pub trait FeedAnswer: Clone {
-    fn parse(payload: &Value) -> Result<Self>;
-
-    fn fetched_now(self) -> Self;
-}
-
 impl FeedAnswer for Catalog {
+    const NAME: &'static str = "catalogue";
+    const CACHE_KEY: &'static str = "catalog_cache";
+
     fn parse(payload: &Value) -> Result<Self> {
         parse_catalog(payload)
     }
 
-    fn fetched_now(self) -> Self {
-        Self {
-            fetched_at: Some(Utc::now()),
-            ..self
-        }
+    fn count(&self) -> usize {
+        self.campaigns.len()
+    }
+
+    fn fetched_at(&self) -> Option<DateTime<Utc>> {
+        self.fetched_at
+    }
+
+    fn mark_fetched(&mut self, at: DateTime<Utc>) {
+        self.fetched_at = Some(at);
+    }
+
+    fn set_problem(&mut self, problem: Option<ErrorCode>) {
+        self.problem = problem;
     }
 }
 
-pub struct FeedClient<T> {
-    client: reqwest::Client,
-    url: String,
-    requests: RequestLog,
-    // ! An answer "not modified" (304) costs no request of the quota: the last
-    // answer read is kept with the tag that names it.
-    last: Mutex<Option<(String, T)>>,
-}
-
 pub type CatalogClient = FeedClient<Catalog>;
-
-pub struct Fetch<T> {
-    pub result: Result<T>,
-    pub retry_after: Duration,
-}
 
 impl CatalogClient {
     pub fn new(requests: RequestLog, shell: Shell) -> Result<Self> {
         Self::with_url(CATALOG_URL, requests, &crate::user_agent(shell))
     }
-
-    pub fn interval() -> Duration {
-        REFRESH_INTERVAL
-    }
-}
-
-impl<T: FeedAnswer> FeedClient<T> {
-    pub(crate) fn with_url(url: &str, requests: RequestLog, agent: &str) -> Result<Self> {
-        let client = reqwest::Client::builder()
-            .user_agent(agent)
-            .timeout(Duration::from_secs(30))
-            .gzip(true)
-            .build()
-            .map_err(|e| Error::Network(e.to_string()))?;
-
-        Ok(Self {
-            client,
-            url: url.to_owned(),
-            requests,
-            last: Mutex::new(None),
-        })
-    }
-
-    pub async fn fetch(&self) -> Fetch<T> {
-        let mut retry_after = Duration::ZERO;
-        let result = async {
-            let tag = locked(&self.last).as_ref().map(|(tag, _)| tag.clone());
-            let mut request = self
-                .client
-                .get(&self.url)
-                .header("Accept", "application/json");
-
-            if let Some(tag) = &tag {
-                request = request.header("If-None-Match", tag);
-            }
-
-            let response = self
-                .requests
-                .start(RequestKind::Catalog, address_target(&self.url))
-                .send(request)
-                .await?;
-
-            for name in ["ratelimit-reset", "retry-after"] {
-                if let Some(seconds) = response
-                    .headers()
-                    .get(name)
-                    .and_then(|v| v.to_str().ok())
-                    .and_then(|v| v.trim().parse::<u64>().ok())
-                {
-                    retry_after = retry_after.max(Duration::from_secs(seconds.min(3600)));
-                }
-            }
-
-            let status = response.status();
-
-            if status == reqwest::StatusCode::NOT_MODIFIED {
-                if let Some((_, answer)) = locked(&self.last).as_ref() {
-                    return Ok(answer.clone().fetched_now());
-                }
-            }
-
-            if status == reqwest::StatusCode::TOO_MANY_REQUESTS {
-                return Err(Error::CatalogRateLimited);
-            }
-
-            if !status.is_success() {
-                return Err(Error::Status(status));
-            }
-
-            let tag = response
-                .headers()
-                .get(reqwest::header::ETAG)
-                .and_then(|v| v.to_str().ok())
-                .map(str::to_owned);
-            let body = read_bounded(response).await?;
-            let payload: Value = serde_json::from_slice(&body)?;
-            let answer = T::parse(&payload)?;
-
-            *locked(&self.last) = tag.map(|tag| (tag, answer.clone()));
-
-            Ok(answer)
-        }
-        .await;
-
-        Fetch {
-            result,
-            retry_after,
-        }
-    }
-}
-
-// ! The gzip body is unpacked while it streams, so the bound also holds for a
-// small download that unpacks into a huge one.
-async fn read_bounded(mut response: reqwest::Response) -> Result<Vec<u8>> {
-    if response
-        .content_length()
-        .is_some_and(|length| length > MAX_BYTES as u64)
-    {
-        return Err(too_large());
-    }
-
-    let mut body = Vec::new();
-
-    while let Some(chunk) = response.chunk().await? {
-        if body.len() + chunk.len() > MAX_BYTES {
-            return Err(too_large());
-        }
-
-        body.extend_from_slice(&chunk);
-    }
-
-    Ok(body)
-}
-
-pub(crate) fn too_large() -> Error {
-    Error::InvalidResponse("answer too large".into())
 }
 
 pub fn parse_catalog(payload: &Value) -> Result<Catalog> {
     let records = payload["games"]
         .as_array()
         .ok_or_else(|| Error::InvalidResponse("catalogue games must be a list".into()))?;
-
-    if records.len() > MAX_CAMPAIGNS {
-        return Err(too_large());
-    }
 
     let mut campaigns = Vec::new();
 
@@ -226,6 +94,10 @@ pub fn parse_catalog(payload: &Value) -> Result<Catalog> {
             }
         }
 
+        if campaigns.len() > MAX_CAMPAIGNS {
+            return Err(too_large());
+        }
+
         note_left_out("catalogue campaigns", total, campaigns.len() - before);
     }
 
@@ -236,12 +108,15 @@ pub fn parse_catalog(payload: &Value) -> Result<Catalog> {
     campaigns.retain(|campaign| seen.insert(campaign.id.clone()));
     campaigns.sort_by(|a, b| a.ends_at.cmp(&b.ends_at).then_with(|| a.id.cmp(&b.id)));
 
+    let now = Utc::now();
+
     Ok(Catalog {
         campaigns,
+        read_at: Some(now),
         updated_at: payload["refreshedAt"]
             .as_str()
             .and_then(|v| v.parse::<DateTime<Utc>>().ok()),
-        fetched_at: Some(Utc::now()),
+        fetched_at: Some(now),
         problem: None,
     })
 }

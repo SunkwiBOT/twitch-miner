@@ -74,7 +74,7 @@ impl DesktopNotifier {
         notification
             .appname(crate::APP_NAME)
             .summary(&crate::logs::redact(&event.title))
-            .body(&crate::logs::redact(&body(event)));
+            .body(&as_text(&crate::logs::redact(&body(event))));
 
         match &self.icon {
             Some(icon) => notification.icon(icon),
@@ -127,6 +127,17 @@ fn place(context: &EventContext) -> Option<String> {
         .collect();
 
     (!parts.is_empty()).then(|| parts.join(" · "))
+}
+
+// ! A Linux notification server reads the body as markup: a chat line's `<a href>` or `&` must stay plain text there.
+fn as_text(body: &str) -> String {
+    if cfg!(all(unix, not(target_os = "macos"))) {
+        body.replace('&', "&amp;")
+            .replace('<', "&lt;")
+            .replace('>', "&gt;")
+    } else {
+        body.to_owned()
+    }
 }
 
 // ! What `image_path` takes: a `file://` URI for the Linux hint, as the
@@ -198,11 +209,15 @@ mod bus {
     const PATH: &str = "/org/freedesktop/Notifications";
 
     fn connection() -> Option<&'static zbus::blocking::Connection> {
-        static CONNECTION: OnceLock<Option<zbus::blocking::Connection>> = OnceLock::new();
+        static CONNECTION: OnceLock<zbus::blocking::Connection> = OnceLock::new();
 
-        CONNECTION
-            .get_or_init(|| zbus::blocking::Connection::session().ok())
-            .as_ref()
+        if let Some(connection) = CONNECTION.get() {
+            return Some(connection);
+        }
+
+        let connection = zbus::blocking::Connection::session().ok()?;
+
+        Some(CONNECTION.get_or_init(|| connection))
     }
 
     pub fn send(notification: &notify_rust::Notification) -> bool {

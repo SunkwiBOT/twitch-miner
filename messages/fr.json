@@ -57,7 +57,6 @@
   "dashboard_catalog_error": "Catalogue indisponible : {error}",
   "dashboard_queue_blocked_no_live_channel": "Aucune chaîne en direct",
   "dashboard_queue_blocked_one_campaign_at_a_time": "En attente (une campagne à la fois)",
-  "dashboard_queue_blocked_no_drop_available": "Aucun drop disponible pour l'instant",
   "dashboard_queue_reason_priority": "Priorité",
   "dashboard_queue_reason_ending_soon": "Se termine bientôt",
   "dashboard_queue_reason_lowest_remaining": "Presque terminé",
@@ -157,6 +156,7 @@
   "settings_catalog_refresh": "Actualiser maintenant",
   "settings_notifications": "Notifications",
   "settings_notifications_events": "Notifier pour",
+  "settings_notifications_targets": "Envoyer vers",
   "settings_discord": "Webhook Discord",
   "settings_discord_url": "URL du webhook",
   "settings_telegram": "Bot Telegram",
@@ -212,7 +212,7 @@
   "error_session_expired": "Twitch a rejeté la session",
   "error_invalid_response": "Réponse inattendue de Twitch",
   "error_twitch_rejected": "Twitch a refusé la requête.",
-  "error_device_code_expired": "Le code a expiré",
+  "error_device_code_expired": "Le code a expiré ou n'est plus valable : demandez-en un nouveau",
   "error_storage": "La base de données locale n'a pas pu être lue ou écrite. Consultez les logs techniques.",
   "error_vault_locked": "L'application est verrouillée",
   "error_wrong_passphrase": "Mot de passe incorrect",
@@ -309,6 +309,7 @@
   "campaign_channels_some": "Chaînes autorisées : {count}",
   "common_account": "Compte",
   "campaign_progress": "{current}/{required} min",
+  "campaign_progress_of": "Progression et réclamations de {account}",
   "campaign_link_game": "Lier le compte de jeu",
   "campaign_open_twitch": "Ouvrir sur Twitch",
   "logs_title": "Logs techniques",
@@ -369,7 +370,6 @@
   "drops_scope_linked_hint": "Uniquement les jeux dont le compte est lié à Twitch, pour que chaque drop puisse être réclamé.",
   "drops_skip_hint": "Ignore une campagne quand il ne reste pas assez de temps pour la terminer.",
   "error_unknown_channel": "Aucune chaîne Twitch ne porte ce nom.",
-  "error_device_code_pending": "Le code n'est pas encore confirmé sur Twitch.",
   "error_invalid_vault": "Les sessions enregistrées sont endommagées. Reconnectez-vous.",
   "error_invalid_streamer_login": "Ce n'est pas un identifiant Twitch valide.",
   "error_passphrase_required": "Définissez un mot de passe de l'application avant de la verrouiller.",
@@ -439,14 +439,77 @@
   "ev_campaign_finished": "Campagne terminée : {campaign}",
   "ev_drop_progress": "{drop} : {current}/{required} min",
   "ev_bonus": "Coffre bonus réclamé sur {channel}",
-  "ev_points": "+{points} points sur {channel}",
+  "ev_points": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input channel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "+{points} point sur {channel}",
+        "countPlural=*": "+{points} points sur {channel}"
+      }
+    }
+  ],
   "ev_online": "{channel} est en direct",
   "ev_offline": "{channel} est hors ligne",
   "ev_raid": "Raid de {channel} suivi",
   "ev_moment": "Moment réclamé sur {channel}",
-  "ev_bet_placed": "Pari de {points} points sur « {outcome} » ({channel})",
-  "ev_bet_won": "Prédiction gagnée : +{points} points",
-  "ev_bet_lost": "Prédiction perdue : −{points} points",
+  "ev_bet_placed": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input outcome",
+        "input channel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Pari de {points} point sur « {outcome} » ({channel})",
+        "countPlural=*": "Pari de {points} points sur « {outcome} » ({channel})"
+      }
+    }
+  ],
+  "ev_bet_won": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Prédiction gagnée : +{points} point",
+        "countPlural=*": "Prédiction gagnée : +{points} points"
+      }
+    }
+  ],
+  "ev_bet_lost": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Prédiction perdue : −{points} point",
+        "countPlural=*": "Prédiction perdue : −{points} points"
+      }
+    }
+  ],
   "ev_bet_refund": "Prédiction remboursée",
   "ev_login": "{login} connecté",
   "ev_session_expired": "Session Twitch expirée : reconnectez-vous",
@@ -502,8 +565,19 @@
   "accounts_count": "{count} comptes",
   "accounts_none": "Aucun compte",
   "reward_watch": "Regarder {time}",
+  "reward_watch_daily": "{time} par jour, {days} jours",
+  "reward_watch_every": "{time} toutes les {hours} h, {count} fois",
+  "reward_watch_times": "{time}, {count} fois",
+  "reward_days_done": "{done}/{total} jours",
+  "reward_times_done": "{done}/{total} fois",
+  "reward_chest": "1 badge au hasard parmi {count}",
+  "reward_chest_hint": "Twitch donne l'un de ces badges : {badges}",
+  "campaign_channels_categories": "N'importe quelle chaîne de l'une des {count} catégories",
+  "badges_collection": "Fait partie de la collection {name}",
+  "badges_collection_chest": "Fait partie de la collection {name}, 1 badge sur {count}",
+  "badges_collection_all": "Badge de toute la collection {name}, abonnements compris",
   "reward_watch_stream": "Regarder le stream",
-  "reward_subscribe": "S'abonner : non miné",
+  "reward_subscribe": "Abonnement à faire vous-même",
   "reward_kind_badge": "Badge",
   "reward_kind_item": "Objet en jeu",
   "reward_sub_only": "Abo",
@@ -640,6 +714,8 @@
   "updates_last_checked": "Dernière vérification : {time}",
   "updates_never_checked": "Dernière vérification : pas encore de réponse depuis le démarrage",
   "updates_install": "Installer et redémarrer",
+  "updates_download_page": "Ouvrir la page de téléchargement",
+  "settings_notifications_language": "Langue des notifications",
   "updates_confirm_title": "Installer la version {version} ?",
   "updates_confirm_text": "Vous avez la version {current}. L'application télécharge la version {version}, arrête le minage sur tous les comptes, l'installe et redémarre d'elle-même. Le minage reprend ensuite tout seul.",
   "updates_later": "Plus tard",
@@ -689,7 +765,24 @@
   "catalogue_fetched": "récupéré {time}, puis toutes les {minutes} min",
   "change_order_reset": "Ordre automatique rétabli avec succès",
   "event_kind_goal_contributed": "Objectif communautaire",
-  "ev_goal_contributed": "{points} points donnés à « {goal} » sur {channel}",
+  "ev_goal_contributed": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input goal",
+        "input channel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{points} point donné à « {goal} » sur {channel}",
+        "countPlural=*": "{points} points donnés à « {goal} » sur {channel}"
+      }
+    }
+  ],
   "ev_streak_recovered": "Série de visionnage récupérée sur {channel}",
   "filter_by_odds": "Cote du choix",
   "filter_by_odds_percentage": "Cote du choix (%)",
@@ -754,6 +847,7 @@
   "inventory_claimed_all": "Récompenses réclamées : {count}",
   "reward_state_claimed": "Réclamé",
   "reward_state_ready": "À réclamer",
+  "reward_state_owned": "Obtenu",
   "reward_claim": "Réclamer",
   "notify_test_title": "Test : {text}",
   "notify_test_detail": "Twitch Miner peut joindre cette cible. Un drop réclamé ressemble à ceci. Tous les noms et images de ce message sont des tests.",
@@ -787,14 +881,14 @@
   "badge_hint_reason_lowest_remaining": "Peu de minutes restantes, donc terminée en premier",
   "badge_hint_blocked_no_live": "Aucune de ses chaînes n'est en direct",
   "badge_hint_blocked_one_at_a_time": "Une seule campagne est minée à la fois",
-  "badge_hint_blocked_no_drop": "Twitch ne propose aucun drop à gagner pour l'instant",
   "badge_hint_linked": "Compte de jeu lié : les drops peuvent être réclamés",
   "badge_hint_not_linked": "Liez le compte de jeu pour réclamer les drops",
   "badge_hint_link_required": "Demande un compte de jeu lié",
   "badge_hint_claimed": "Déjà dans votre inventaire Twitch",
+  "badge_hint_owned": "Ce compte a déjà ce badge : le mineur ne le mine pas",
   "badge_hint_ready": "Gagné : il reste à le réclamer",
   "badge_hint_item": "Arrive dans le jeu une fois réclamé",
-  "badge_hint_sub_only": "Demande un abonnement : pas miné",
+  "badge_hint_sub_only": "Demande un abonnement, à faire vous-même (un abonnement déjà en cours, Prime ou un renouvellement ne compte pas). Dès que Twitch le compte, le mineur mine le temps de visionnage.",
   "badge_hint_watching": "Ce compte regarde cette chaîne en ce moment",
   "badge_hint_streak_risk": "La série de visionnage sur cette chaîne va se rompre",
   "badge_hint_in_progress": "Twitch compte vos minutes pour cette campagne",
@@ -939,7 +1033,23 @@
     }
   ],
   "event_kind_points_spent": "Points dépensés",
-  "ev_points_spent": "−{points} points sur {channel}",
+  "ev_points_spent": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input channel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "−{points} point sur {channel}",
+        "countPlural=*": "−{points} points sur {channel}"
+      }
+    }
+  ],
   "ev_points_spent_balance": "Points dépensés sur {channel} (solde {balance})",
   "ev_drop_progress_unknown": "Progression d'un drop : {current}/{required} min",
   "journal_types": "Types d'événement",
@@ -1163,7 +1273,7 @@
   "badges_error": "Liste des badges indisponible : {error}",
   "badges_retry": "Nouvel essai dans {time}.",
   "badges_minable": "Minable",
-  "badge_hint_badge_minable": "Temps de visionnage uniquement : le miner peut l'obtenir",
+  "badge_hint_badge_minable": "Temps de visionnage uniquement : le mineur peut l'obtenir",
   "badges_until": "Jusqu'au {date}",
   "mining_order_title": "Quoi miner, dans l'ordre",
   "mining_order_hint": "Glissez les lignes pour choisir ce qui est miné en premier. Une ligne désactivée n'est pas minée, sauf les campagnes que vous avez placées vous-même dans l'ordre de minage.",
@@ -1178,7 +1288,7 @@
   "queue_reason_badge": "Badge",
   "badge_hint_reason_badge": "Donne un badge que le compte n'a pas encore",
   "quest_label": "Quête Twitch",
-  "badge_hint_quest": "Un événement Twitch : n'importe quelle chaîne de ses catégories compte",
+  "badge_hint_quest": "Un événement Twitch : il ne compte que sur une chaîne de ses catégories qui le propose",
   "quest_next_window": "Prochaine fenêtre {time}",
   "account_badges_not_read": "Les badges et les quêtes du compte sont lus quand il tourne.",
   "account_badges_tabs_label": "Sections de la page Badges",
@@ -1190,6 +1300,30 @@
   "selection_only_title": "Seulement ma sélection",
   "drops_selection_only_hint": "Ne mine que vos jeux prioritaires et les campagnes marquées d'une étoile. Une fois tout miné, aucune autre campagne n'est lancée.",
   "badges_selection_only_hint": "Ne mine que les badges marqués d'une étoile. Une fois tout miné, aucun autre badge n'est lancé.",
+  "badges_evolutions_title": "Miner les évolutions de badges",
+  "badges_evolutions_hint": "Pour une évolution (Pichu → Pikachu…), le mineur équipe lui-même le badge requis juste avant de la miner et ne remet pas l'ancien. Désactivé : ces badges sont laissés de côté et le badge équipé n'est jamais touché.",
+  "badge_evolution": "Évolution de {badge}",
+  "badge_hint_evolution": "Le mineur équipe {badge} juste avant de miner ce badge et ne remet pas l'ancien",
+  "badge_evolution_unknown": "Badge requis inconnu",
+  "badge_hint_evolution_unknown": "Twitch n'a pas encore dit de quel badge celui-ci évolue : il n'est pas miné en attendant",
+  "badge_evolution_locked": "Il faut {badge}",
+  "badge_hint_evolution_locked": "Ce compte doit d'abord obtenir {badge} : le mineur l'équipera ensuite pour miner cette évolution",
+  "badge_evolution_off": "Évolutions désactivées",
+  "badge_hint_evolution_off": "« Miner les évolutions de badges » est désactivé dans les réglages des badges de ce compte",
+  "ev_badge_equipped": "Badge {badge} équipé pour faire évoluer {drop}",
+  "ev_badge_equip_failed": "Le badge {badge} n'a pas pu être équipé pour faire évoluer {drop}",
+  "badge_progress_not_started": "Pas commencé",
+  "badge_progress_not_offered": "Absent des campagnes de ce compte",
+  "badge_dialog_subs": "Abonnements à faire vous-même : {count}",
+  "badge_dialog_dates": "Du {start} au {end}",
+  "badge_dialog_from": "À partir du {date}",
+  "badge_dialog_open_campaign": "Ouvrir la campagne",
+  "badge_dialog_categories": "Catégories",
+  "badge_dialog_channels": "Chaînes",
+  "badge_dialog_collection": "Collection",
+  "badge_dialog_evolution": "Évolution",
+  "badge_dialog_evolves_from": "Twitch ne compte ce badge que si {badge} est équipé : le mineur l'équipe juste avant de le miner et ne remet pas l'ancien badge.",
+  "badge_dialog_accounts": "Progression des comptes",
   "campaign_select": "Ajouter à ma sélection",
   "campaign_unselect": "Retirer de ma sélection",
   "campaign_selected": "Ajoutée à votre sélection",
@@ -1204,7 +1338,7 @@
   "account_badges_search_placeholder": "Chercher un badge…",
   "ev_claim_refused": "Twitch a refusé la réclamation de {drop} ({status})",
   "quest_not_minable": "Pas minable",
-  "badge_hint_quest_not_minable": "Twitch n'indique aucune catégorie ni chaîne que le miner peut regarder pour cela",
+  "badge_hint_quest_not_minable": "Twitch n'indique aucune catégorie ni chaîne que le mineur peut regarder pour cela",
   "account_badges_not_mined": "Pas minés",
-  "account_badges_not_mined_hint": "Affichés, jamais minés : un abonnement est nécessaire, ou Twitch n'indique aucune chaîne que le miner peut regarder."
+  "account_badges_not_mined_hint": "Affichés, pas minés : il faut d'abord un abonnement, à faire vous-même, ou un autre badge, ou Twitch n'indique aucune chaîne que le mineur peut regarder."
 }

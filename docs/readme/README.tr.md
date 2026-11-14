@@ -108,7 +108,7 @@ Onu diğer madencilerden ayıran şeyler. Bir maddenin altındaki “Çalışır
   <img src="../media/tr/streamers-group-edit.avif" alt="“Karışık” seçeneklerle birkaç yayıncıyı düzenleme">
   </details>
 
-- **Yayıncıları içe aktarma.** Bir liste yapıştırın (en fazla 500 ad) ya da başka bir hesabın listesini veya hesabın takip ettiği kanalları kullanın. Liste denetlenir, böylece yalnızca gerçekten var olan kanallar eklenir.
+- **Yayıncıları içe aktarma.** Bir liste yapıştırın (en fazla 500 ad) ya da başka bir hesabın listesini veya hesabın takip ettiği kanalları kullanın. Liste denetlenir, böylece yalnızca gerçekten var olan kanallar eklenir. Canlı güncellemeler hesap başına 46 yayıncıyı kapsar: listedeki sonraki yayıncılar baskın, an ve tahmin almaz.
 
   <details open><summary>Çalışırken görün</summary>
   <img src="../media/tr/streamers-import.avif" alt="Yayıncıları içe aktarma: yapıştırılan liste, başka bir hesap, takip edilen kanallar">
@@ -134,7 +134,7 @@ Onu diğer madencilerden ayıran şeyler. Bir maddenin altındaki “Çalışır
   <img src="../media/tr/drops-order.avif" alt="Kazma sırası, öncelikli oyunlar ve hariç tutmalar">
   </details>
 
-- **Envanter ve “Tümünü al”.** Envanter sayfası ödülleri “Alınacaklar”, “Devam edenler” ve “Alınanlar” olarak ayırır. Ödülleri tek tek ya da hepsini birden alın veya “Drops'u otomatik al” seçeneğini açın.
+- **Envanter ve “Tümünü al”.** Envanter sayfası ödülleri “Alınacaklar”, “Devam edenler” ve “Alınanlar” olarak ayırır. Ödülleri tek tek ya da hepsini birden alın veya “Drops'u otomatik al” seçeneğini açın. “Oyun hesabını bağla”dan sonra uygulamaya döner dönmez hesap yeniden okunur, böylece bağlantı hemen görünür.
 
   <details open><summary>Çalışırken görün</summary>
   <img src="../media/tr/drops-inventory.avif" alt="Envanter ve “Tümünü al” düğmesi">
@@ -146,7 +146,7 @@ Onu diğer madencilerden ayıran şeyler. Bir maddenin altındaki “Çalışır
   <img src="../media/tr/drops-streamers-first.avif" alt="Listeden bir yayıncı, hem Drops hem de puanları için izleniyor">
   </details>
 
-- **Rozetler (beta).** Rozetler sayfası, Twitch'in tüm genel sohbet rozetlerini ve nasıl alınacaklarını listeler. Her hesabın kendi Rozetler sayfası vardır: ilerlemeleriyle birlikte devam eden rozetler, hâlâ alınabilecekler ve hesabın sahip olduğu rozetler. Madenci, Drops kampanyalarından ve Twitch görevlerinden yalnızca izleme süresi gerektiren rozetlerin peşine düşer ve hesabın zaten sahip olduğu rozetleri atlar. “Ne kazılacak, sırayla” bölümünde öncelikli oyunları, rozetleri ve diğer Drops kampanyalarını istediğiniz sıraya sürükleyin ya da birini kapatın. Bu özellik beta aşamasındadır.
+- **Rozetler (beta).** Rozetler sayfası, Twitch'in tüm genel sohbet rozetlerini ve nasıl alınacaklarını listeler. Her hesabın kendi Rozetler sayfası vardır: ilerlemeleriyle birlikte devam eden rozetler, hâlâ alınabilecekler ve hesabın sahip olduğu rozetler. Madenci, Drops kampanyalarının ve Twitch görevlerinin rozetlerinin peşine düşer ve hesabın zaten sahip olduğu rozetleri atlar. Her gün izlenmesi gereken bir rozet, sonuncusuna kadar her gün yeniden kazılır (“Günde 20 dk., 3 gün”) ve kampanyanın kategorilerinden herhangi birindeki bir kanal sayılır. Bir sandık “N rozetten rastgele 1 tanesi” verir. Abonelik gerektiren bir rozet, aboneliği kendiniz yaptıktan ve Twitch onu saydıktan sonra kazılır. Kampanyası başlamadan hiçbir şey kazılmaz. “Ne kazılacak, sırayla” bölümünde öncelikli oyunları, rozetleri ve diğer Drops kampanyalarını istediğiniz sıraya sürükleyin ya da birini kapatın. Bir Twitch görevi yalnızca Twitch'in onu Drops panelinde sunduğu bir kanalda kazılır. Bir evrim (Pichu → Pikachu), hesap evrimleştiği rozete sahip olur olmaz kazılır: madenci o rozeti hemen önce kendisi takar ve eskisini geri takmaz; hesabın rozet ayarlarındaki “Rozet evrimlerini kaz” bunu kapatır. Bir rozete tıklamak ayrıntılarını açar: tüm gereksinim, bütün kategoriler ve kanallar, koleksiyon, evrim ve her hesabın ilerlemesi. Bu özellik beta aşamasındadır.
 
   <details open><summary>Çalışırken görün</summary>
   <img src="../media/tr/badges.avif" alt="Rozetler sayfası, bir hesabın rozetleri, ardından Rozetler'in en başa sürüklendiği “Ne kazılacak, sırayla”">
@@ -154,7 +154,7 @@ Onu diğer madencilerden ayıran şeyler. Bir maddenin altındaki “Çalışır
 
 ### Takip
 
-- **Her şeyin günlüğü ve her istek.** Günlük her olayı tutar: drop'lar, kazanılan ve harcanan puanlar, sandıklar, bahisler, baskınlar, başlayan yayınlar… Onu hesaba, sekmeye (Drops, Puan, Diğer) ve türe göre filtreleyin. **Teknik kayıtlar › İstekler**, Twitch'e ve diğer hizmetlere gönderilen her isteği sonucu ve süresiyle birlikte listeler. Kayıtlar ve istekler hiçbir token veya gizli bilgi içermez: “Hata raporu için kopyala” onları kopyalar; [GitHub](https://github.com/SunkwiBOT/twitch-miner/issues) veya [Discord](https://discord.gg/support-bots-891685895781113886) üzerinde bir hata raporuna yapıştırmaya hazırdır.
+- **Her şeyin günlüğü ve her istek.** Günlük her olayı tutar: drop'lar, kazanılan ve harcanan puanlar, sandıklar, bahisler, baskınlar, başlayan yayınlar… Onu hesaba, sekmeye (Drops, Rozetler, Puan, Diğer) ve türe göre filtreleyin. **Teknik kayıtlar › İstekler**, Twitch'e ve diğer hizmetlere gönderilen her isteği sonucu ve süresiyle birlikte listeler. Kayıtlar ve istekler hiçbir token veya gizli bilgi içermez: “Hata raporu için kopyala” onları kopyalar; [GitHub](https://github.com/SunkwiBOT/twitch-miner/issues) veya [Discord](https://discord.gg/support-bots-891685895781113886) üzerinde bir hata raporuna yapıştırmaya hazırdır.
 
   <details open><summary>Çalışırken görün</summary>
   <img src="../media/tr/journal-requests.avif" alt="Filtrelenmiş Günlük, ardından Teknik kayıtlar › İstekler">
@@ -174,7 +174,7 @@ Onu diğer madencilerden ayıran şeyler. Bir maddenin altındaki “Çalışır
   <img src="../media/tr/security-lock.avif" alt="Asma kilit: kilitli uygulama, ardından şifresiyle açılması">
   </details>
 
-- **İmzalı güncellemeler, asla otomatik değil.** Üst çubukta sürüm numarasıyla birlikte bir “Güncelleme” rozeti belirir. “Yükle ve yeniden başlat” önce onay ister, ardından uygulama sürümü yükler ve yeniden başlar. Uygulama şifresi varsa uygulama kilitli olarak yeniden başlar: kazmaya devam etmek için şifreyi yeniden yazın. Yalnızca proje tarafından imzalanmış bir sürüm yüklenir. Docker sürümü de çalıştırılacak komutlarla birlikte haber verir.
+- **İmzalı güncellemeler, asla otomatik değil.** Üst çubukta sürüm numarasıyla birlikte bir “Güncelleme” rozeti belirir. “Yükle ve yeniden başlat” önce onay ister, ardından uygulama sürümü yükler ve yeniden başlar. Uygulama şifresi varsa uygulama kilitli olarak yeniden başlar: kazmaya devam etmek için şifreyi yeniden yazın. Yalnızca proje tarafından imzalanmış bir sürüm yüklenir. Taşınabilir Windows dosyası kendini güncellemez: düğmesi indirme sayfasını açar. Docker sürümü de çalıştırılacak komutlarla birlikte haber verir.
 
   <details open><summary>Çalışırken görün</summary>
   <img src="../media/tr/updates.avif" alt="“Güncelleme” rozeti, onay, ardından yükleme">
@@ -182,7 +182,7 @@ Onu diğer madencilerden ayıran şeyler. Bir maddenin altındaki “Çalışır
 
 ### Ve ayrıca
 
-- Diğer madencilerde olduğu gibi: bonus sandıkları, baskınlar, anlar, topluluk hedefleri, tahminler (stratejiler, bahis zamanı, koşullar), önce izleme serileri ve abone olunan kanallar, sohbette bulunma (kapatılabilir), yeni yayıncılar için varsayılan seçenekler, resimli Discord, Telegram ve webhook bildirimleri, genel veya hesap başına proxy.
+- Diğer madencilerde olduğu gibi: bonus sandıkları, baskınlar, anlar, topluluk hedefleri, tahminler (stratejiler, bahis zamanı, koşullar), önce izleme serileri ve abone olunan kanallar, sohbette bulunma (kapatılabilir), yeni yayıncılar için varsayılan seçenekler, resimli Discord, Telegram ve webhook bildirimleri (sunucuda dilleri **Ayarlar › Bildirimler** bölümünden seçilir), genel veya hesap başına proxy.
 - 29 dil, koyu ve açık tema, masaüstü bildirimleri, sistem tepsisi simgesi, sistemle birlikte başlatma.
 
   <details open><summary>Çalışırken görün</summary>
@@ -252,12 +252,12 @@ Sisteminize uygun dosyayı [son sürümden](https://github.com/SunkwiBOT/twitch-
 | Sistem | Paket |
 |---|---|
 | **Windows** · x64 | Yükleyici (`setup.exe`) veya [taşınabilir çalıştırılabilir dosya](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/TwitchMiner-portable.exe) |
-| **macOS** 10.15 veya üstü · Intel ve Apple Silicon | Disk görüntüsü (`.dmg`) |
+| **macOS** 13 veya üstü · Intel ve Apple Silicon | Disk görüntüsü (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) veya `.rpm` (Fedora, openSUSE) |
 
-macOS derlemesi notarize edilmemiştir. İlk seferde uygulamaya sağ tıklayıp **Aç** komutunu seçin.
+macOS derlemesi notarize edilmemiştir. İlk seferde uygulamayı açın: macOS onu engeller. Ardından **Sistem Ayarları › Gizlilik ve Güvenlik** bölümüne gidip **Yine de Aç** düğmesine tıklayın.
 
-Güncellemeler imzalıdır. Uygulama açılırken, ardından saatte bir yeni bir sürüm olup olmadığını denetler (sıklığı **Ayarlar › Hakkında** bölümünden değiştirebilirsiniz). Hiçbir sürümü kendiliğinden yüklemez: güncellemeyi, beliren mesajdan ya da **Ayarlar › Hakkında** bölümünden tek tıkla siz yüklersiniz.
+Güncellemeler imzalıdır. Uygulama açılırken, ardından saatte bir yeni bir sürüm olup olmadığını denetler (sıklığı **Ayarlar › Hakkında** bölümünden değiştirebilirsiniz). Hiçbir sürümü kendiliğinden yüklemez: güncellemeyi, beliren mesajdan ya da **Ayarlar › Hakkında** bölümünden tek tıkla siz yüklersiniz. Taşınabilir dosya kendini asla güncellemez: “İndirme sayfasını aç” sizi en son sürüme götürür.
 
 Veriler kullanıcı veri klasöründe bulunur:
 
@@ -300,7 +300,7 @@ docker compose up -d
 | `MINER_PASSWORD_FILE` | yok | `MINER_PASSWORD` değerini bir dosyadan, örneğin bir Docker secret'tan okur. İkisinden yalnızca biri, ikisi birden değil. |
 | `MINER_PUBLIC_URL` | yok | Yalnızca bir HTTPS ters proxy (Caddy, nginx, Traefik, Cloudflare Tunnel…) arkasında: panelin `https://` adresi, yol olmadan; örneğin `https://miner.example.com`. Proxy `X-Forwarded-Proto`, `X-Forwarded-For` başlıklarını ve websocket'leri iletmelidir (yaygın proxy'ler bunu varsayılan olarak yapar) ve container'ın portuna doğrudan ulaşılamamalıdır. Panel bu durumda proxy üzerinden HTTPS ile gelmeyen her şeyi reddeder ve 5 yanlış şifreden sonra bir adresi 30 saniyeliğine kilitler. Proxy aynı makinede veya onun yerel ağında çalışmalıdır: genel bir adresten gelen bağlantı reddedilir. |
 | `MINER_TRUSTED_HOPS` | `1` | Yalnızca `MINER_PUBLIC_URL` ile: `X-Forwarded-For` başlığına girdi ekleyen proxy sayısı, 1 ile 10 arasında. Art arda iki proxy varsa, örneğin Traefik'in önünde Cloudflare, `2`. |
-| `MINER_PROXY_NETWORKS` | yok | Yalnızca `MINER_PUBLIC_URL` ile: bu makine ve onun özel yerel ağı dışında proxy'nin bağlanabileceği diğer ağlar, virgülle ayrılmış: tek bir adres ya da `2001:db8:1::/64` gibi bir ağ; IPv6 adresleri genel olan bir yerel ağ için. |
+| `MINER_PROXY_NETWORKS` | yok | Yalnızca `MINER_PUBLIC_URL` ile: proxy'nin bağlandığı ağlar, virgülle ayrılmış: tek bir adres ya da `192.168.1.0/24` veya `2001:db8:1::/64` gibi bir ağ. Ayarlandığında proxy yalnızca loopback adresinden ve bu ağlardan kabul edilir, artık tüm özel yerel ağdan değil. |
 | `MINER_VAULT_PASSPHRASE` | yok | Yalnızca uygulama şifresi olan masaüstü uygulamasından kopyalanmış bir veri klasörü için: başlangıçta klasörün kilidini açar. Sıfırdan kurulan bir sunucunun buna hiç ihtiyacı olmaz. |
 | `MINER_VAULT_PASSPHRASE_FILE` | yok | `MINER_VAULT_PASSPHRASE` değerini bir dosyadan okur. İkisinden yalnızca biri, ikisi birden değil. |
 | `DATA_DIR` | imajda `/data`, aksi hâlde çalışma dizinindeki `data` | Veritabanı, anahtar dosyası ve kayıtlar. |
@@ -309,6 +309,8 @@ docker compose up -d
 | `RUST_LOG` | `info,hyper=warn,reqwest=warn` | Kayıt düzeyi. |
 
 Sunucu değişkenleri başlangıçta bir kez okur ve denetler. Geçersiz bir değer, sessizce varsayılana dönmek yerine sunucuyu bir mesajla durdurur.
+
+Bir ters proxy arkasında `MINER_PUBLIC_URL` değişkenini ayarlayın: o olmadan, bir proxy üzerinden gelen ilk istek kayıtlara bir uyarı yazar, çünkü giriş denemeleri o zaman proxy'nin adresine sayılır ve tek bir ziyaretçinin yanlış şifreleri herkesi dışarıda bırakır. Canlı bağlantı her 30 saniyede bir ping gönderir; böylece hiçbir şey olmadığında proxy onu kapatmaz. Twitch veya ağ hata verdiğinde sunucu `424` ile yanıt verir, asla `502` veya `504` ile değil: Cloudflare arkasında Cloudflare'in sayfası yerine gerçek hatayı görürsünüz.
 
 ## <a name="how-it-works"></a>Nasıl çalışır
 
@@ -334,7 +336,7 @@ Twitch'in sınırı bu: hesap başına yalnızca aynı anda izlenen iki kanalı 
 ### Drops
 
 **Bir kampanya kazılmıyor veya bir drop ilerlemiyor.**\
-Hesabın **Drops** sayfasını açın. “Kazma sırası” bölümünde bekleyen her kampanya nedenini söyler: “Canlı kanal yok”, “Bekliyor (tek seferde bir kampanya)” veya “Henüz drop yok”. Bu listede görünmeyen bir kampanya dışarıda bırakılmıştır: “Hangi kampanyalar” ayarı ya da **Hariç tutmalar** sekmesindeki bir kural yüzünden veya zamanında bitemeyeceği için. Abonelik gerektiren bir ödül hiçbir zaman kazılmaz ve başka bir drop'un ardından gelen bir drop, ilki bitene kadar bekler. **Yalnızca puan** modunda madenci hiçbir kampanya seçmez. Bir kampanyanın ayrıntılarındaki “Önce kaz” onu en başa taşır; yok sayılan bir kampanya, **Hariç tutmalar** sekmesindeki “Yeniden kaz” ile geri gelebilir.
+Hesabın **Drops** sayfasını açın. “Kazma sırası” bölümünde bekleyen her kampanya nedenini söyler: “Canlı kanal yok” veya “Bekliyor (tek seferde bir kampanya)”. Bu listede görünmeyen bir kampanya dışarıda bırakılmıştır: “Ne kazılacak, sırayla”, “Hangi kampanyalar” ayarı ya da **Hariç tutmalar** sekmesindeki bir kural yüzünden veya zamanında bitemeyeceği için. Abonelik gerektiren bir ödül, aboneliği kendiniz yapana kadar bekler; her gün izlenmesi gereken bir rozet ertesi günü bekler; kampanyası başlamadan hiçbir şey kazılmaz ve başka bir drop'un ardından gelen bir drop, ilki bitene kadar bekler. **Yalnızca puan** modunda madenci hiçbir kampanya seçmez. Bir kampanyanın ayrıntılarındaki “Önce kaz” onu en başa taşır; yok sayılan bir kampanya, **Hariç tutmalar** sekmesindeki “Yeniden kaz” ile geri gelebilir.
 
 **Oyun hesabını bağlamam gerekiyor mu?**\
 Ödülü almak için evet: Ekim 2026'dan beri Twitch, bir drop yalnızca oyun hesabı bağlıysa alınmasına izin veriyor. Varsayılan olarak bağlı olmayan bir kampanya yine de ilerler ve alma işlemi bağlantıyı bekler. “Bağlı değil” rozeti bunu belirtir; kampanyanın ayrıntılarındaki “Oyun hesabını bağla” da bağlama sayfasını açar. Yalnızca bağlı oyunları kazmak için “Yalnızca hesabı bağlı oyunlar” seçeneğini seçin.
@@ -348,7 +350,7 @@ Masaüstü uygulaması bilgisayarınız açıkken kazar; sistem tepsisi simgesi,
 Veri klasöründe: Linux'ta `~/.local/share/twitch-miner`, Windows'ta `%APPDATA%\twitch-miner`, macOS'ta `~/Library/Application Support/twitch-miner`, Docker'da ise `/data` birimi. Masaüstünde **Ayarlar › Masaüstü** onu tek tıkla açar. İçinde `miner.db` (hesaplar, ayarlar, günlük), `master.key` (uygulama şifresi ayarlanmamışsa oturum anahtarı) ve kayıtlar bulunur.
 
 **Nasıl güncellerim?**\
-Masaüstü uygulaması açılışta, ardından saatte bir yeni sürüm olup olmadığını denetler (bunu **Ayarlar › Hakkında** bölümünden değiştirebilirsiniz). “Güncelleme” rozetine, ardından “Yükle ve yeniden başlat” düğmesine tıklayın. Docker'da panel size haber verir: `docker compose pull`, ardından `docker compose up -d` komutunu çalıştırın.
+Masaüstü uygulaması açılışta, ardından saatte bir yeni sürüm olup olmadığını denetler (bunu **Ayarlar › Hakkında** bölümünden değiştirebilirsiniz). “Güncelleme” rozetine, ardından “Yükle ve yeniden başlat” düğmesine tıklayın. Docker'da panel size haber verir: `docker compose pull`, ardından `docker compose up -d` komutunu çalıştırın. Taşınabilir Windows dosyası kendini güncellemez: “İndirme sayfasını aç” en son sürümü açar, yenisini oradan indirirsiniz.
 
 **Uygulama şifresini unuttum.**\
 Kurtarılamaz: Twitch oturumlarınızı şifreleyen odur. Uygulamadan çıkın, veri klasörünü silin, ardından hesaplarınızı yeniden ekleyin; ayarlarını da baştan yapmanız gerekir. Docker'da panel şifresi `MINER_PASSWORD` içinde değiştirilir, ardından `docker compose up -d` çalıştırılır.
@@ -356,13 +358,13 @@ Kurtarılamaz: Twitch oturumlarınızı şifreleyen odur. Uygulamadan çıkın, 
 ### Puanlar ve tahminler
 
 **Saatte kaç puan?**\
-Twitch'e ve her kanala bağlıdır. Madenci, Twitch'in bir izleyiciye verdiğini kazanır: izleme süresi puanları, bonus sandıkları (yaklaşık 15 dakikada bir) ve izleme serisi bonusu. Abonelik, seviyesine göre puanları ×1,2 ile ×2 arasında katlar. Ana sayfa kazanılan puanları, Günlük ise her kazancı gösterir.
+Twitch'e ve her kanala bağlıdır. Madenci, Twitch'in bir izleyiciye verdiğini kazanır: izleme süresi puanları, bonus sandıkları (yaklaşık 15 dakikada bir) ve izleme serisi bonusu. Abonelik, seviyesine göre puanları ×1,2 ile ×2 arasında katlar; varsayılan olarak açık olan “Önce abone olunan kanallar” ile bu kanallar listenizin geri kalanından önce gelir. Ana sayfa kazanılan puanları, Günlük ise her kazancı gösterir.
 
 **Bahisler riskli mi?**\
-Evet, puan kaybedebilirsiniz. Tahminler varsayılan olarak her yayıncı için ayrı ayrı kapalıdır. Stratejiyi, bahis zamanını, bahis miktarını (varsayılan olarak bakiyenin %5'i, en fazla 50.000 puan), bir asgari bakiyeyi ve isterseniz en az 1,5 oran gibi bir koşulu siz belirlersiniz. Bahis miktarını düşük tutun.
+Evet, puan kaybedebilirsiniz. Tahminler varsayılan olarak her yayıncı için ayrı ayrı kapalıdır. Stratejiyi, bahis zamanını, bahis miktarını (varsayılan olarak bakiyenin %5'i, en fazla 50.000 puan), bir asgari bakiyeyi ve isterseniz en az 1,5 oran gibi bir koşulu siz belirlersiniz. Bahis miktarını düşük tutun. 10 puanın altındaki bir bahis asla yapılmaz.
 
 **Bir yayıncı izlenmiyor.**\
-Yalnızca açık ve canlı yayında olan yayıncılar, o da yalnızca boş bir kanalda izlenir: **Drops ve puan** modunda iki kanaldan biri geçerli kampanyaya hizmet eder; **Yalnızca Drops** modunda hiçbir yayıncı izlenmez; duraklatılmış bir hesap hiçbir şey izlemez. Yerler şu sırayla dağıtılır ve izlenen her kanalda bir rozet olarak gösterilir: “Seri bonusu”, “Seri tehlikede”, “Abone”, ardından “Liste sırası”. Yayıncıyı listede yukarı taşıyın ya da “Önce izleme serileri” ve “Önce abone olunan kanallar” seçeneklerini kapatın.
+Yalnızca açık ve canlı yayında olan yayıncılar, o da yalnızca boş bir kanalda izlenir: **Drops ve puan** modunda iki kanaldan biri geçerli kampanyaya hizmet eder; **Yalnızca Drops** modunda hiçbir yayıncı izlenmez; duraklatılmış bir hesap hiçbir şey izlemez. Yerler şu sırayla dağıtılır ve izlenen her kanalda bir rozet olarak gösterilir: “Seri tehlikede”, “Seri bonusu”, “Abone”, ardından “Liste sırası”. Yayıncıyı listede yukarı taşıyın ya da “Önce izleme serileri” ve “Önce abone olunan kanallar” seçeneklerini kapatın.
 
 ## <a name="related-projects"></a>İlgili projeler
 
@@ -375,8 +377,9 @@ Aynı geliştiricinin diğer projeleri:
 ## <a name="security"></a>Güvenlik
 
 - Token'lar AES-256-GCM ile mühürlenir. Anahtar ya veritabanının yanındaki rastgele bir `master.key` dosyasıdır (varsayılan, yapmanız gereken bir şey yok) ya da uygulama şifresinden Argon2id ile türetilir.
+- Veri klasörü ve kayıt klasörü özeldir (`0700`): yalnızca madenciyi çalıştıran kullanıcı onları açabilir.
 - HTTP paneli şifreyi sabit sürede denetler ve HttpOnly, SameSite=Strict çerezleri kullanır (HTTPS arkasında `__Host-` önekiyle birlikte `Secure`). Sunucu her oturumun yalnızca SHA-256 özetini tutar. Bir oturumu 30 gün sonra veya çıkışta sonlandırır. Herhangi bir istek gövdesini okumadan önce oturumu denetler ve gövdeleri 256 KiB ile sınırlar.
-- Bir IP adresinden art arda 5 yanlış şifre girilirse (giriş formu veya bearer), o adres 30 saniye bekler. Sunucu şifreye bakmadan `Retry-After` ile `429` yanıtı verir. Her yanlış şifrenin yanıtı ayrıca yarım saniye sürer.
+- Bir IP adresinden art arda 5 yanlış şifre girilirse (giriş formu veya bearer), o adres 30 saniye bekler. Sunucu şifreye bakmadan `Retry-After` ile `429` yanıtı verir. Her yanlış şifrenin yanıtı ayrıca yarım saniye sürer. Aynı bağlantı adresinden, paylaşılan bir proxy dahil, bir dakikada 30'dan fazla yanlış şifre gelirse o adres her 2 saniyede yalnızca bir deneme hakkı alır: tahmin yavaşlar ve kimse dışarıda kalmaz.
 - Ağınızın dışında paneli `MINER_PUBLIC_URL` ile bir HTTPS ters proxy'nin arkasına koyun ([Docker](#docker) bölümüne bakın).
 - Madenci yalnızca `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`, `drops.sunkwi.com` ve yapılandırdığınız bildirim hedefleriyle konuşur. Uygulama (masaüstü ve Docker) yeni sürümleri `github.com` üzerinde denetler; masaüstü uygulaması bunları projenin GitHub sürümlerinden indirir. Sürümler imzalıdır: yalnızca gösterilen sürüm yüklenir.
 

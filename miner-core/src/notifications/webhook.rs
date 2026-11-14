@@ -1,5 +1,7 @@
+use reqwest::header::{HeaderValue, AUTHORIZATION};
 use reqwest::StatusCode;
 use serde_json::{json, Value};
+use url::Url;
 
 use super::{category_url, cdn, label_for, picture, retry_after_header, Answer, Notice, Shared};
 use crate::config::WebhookSettings;
@@ -15,17 +17,13 @@ pub(super) async fn send(
     settings: &WebhookSettings,
     notice: &Notice,
 ) -> Result<Answer> {
-    let url = settings.url.trim();
-
-    if !url.starts_with("https://") && !url.starts_with("http://") {
-        return Err(Error::Notification("webhook URL must be http(s)".into()));
-    }
-
+    let url = target(&settings.url)?;
+    let authorization = authorization(&settings.authorization)?;
     let event = &notice.event;
     let mut request = shared.client.post(url).json(&body(event, notice.language));
 
-    if !settings.authorization.trim().is_empty() {
-        request = request.header("Authorization", settings.authorization.trim());
+    if let Some(authorization) = authorization {
+        request = request.header(AUTHORIZATION, authorization);
     }
 
     let response = shared
@@ -46,6 +44,29 @@ pub(super) async fn send(
         retry_after,
         pause: None,
     })
+}
+
+fn authorization(value: &str) -> Result<Option<HeaderValue>> {
+    let value = value.trim();
+
+    if value.is_empty() {
+        return Ok(None);
+    }
+
+    let mut header = HeaderValue::from_str(value).map_err(|_| {
+        Error::Notification("webhook Authorization is not a valid header value".into())
+    })?;
+
+    header.set_sensitive(true);
+
+    Ok(Some(header))
+}
+
+fn target(address: &str) -> Result<Url> {
+    Url::parse(address.trim())
+        .ok()
+        .filter(|url| matches!(url.scheme(), "https" | "http") && url.has_host())
+        .ok_or_else(|| Error::Notification("webhook URL is not a valid http(s) address".into()))
 }
 
 fn body(event: &MinerEvent, language: &str) -> Value {

@@ -6,21 +6,14 @@
   import TextButton from "../ui/TextButton.svelte";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { ToastKind } from "../../lib/state/state.constants";
-  import type { ToastActionType, ToastImageType } from "../../lib/state/state.svelte";
+  import type { ToastCardPropsType } from "../../lib/state/toasts";
   import Avatar from "../ui/Avatar.svelte";
   import ChannelAvatar from "../ui/ChannelAvatar.svelte";
   import RichText from "../ui/RichText.svelte";
   import IconButton from "../ui/IconButton.svelte";
-  import { AvatarSize, ButtonSize, ButtonType, ButtonVariant, IconName } from "../ui/ui.constants";
-
-  type ToastCardPropsType = {
-    kind: ToastKind;
-    text: string;
-    image: ToastImageType | null;
-    title: string | null;
-    action: ToastActionType | null;
-    onclose: () => void;
-  };
+  import { AvatarSize } from "../ui/picture.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   let { kind, text, image, title, action, onclose }: ToastCardPropsType = $props();
 </script>
@@ -54,8 +47,7 @@
         disabled={false}
         class="w-full"
         onclick={() => {
-          // ! The action first: what it opens decides whether the end of the
-          // toast still has to clean up.
+          // ! The action first: what it opens decides whether the toast's end still has to clean up.
           action.run();
           onclose();
         }}

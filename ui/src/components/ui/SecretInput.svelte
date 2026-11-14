@@ -6,7 +6,8 @@
   import { t } from "../../lib/i18n/i18n.svelte";
   import Icon from "./Icon.svelte";
   import Tip from "./Tip.svelte";
-  import { FIELD_BUTTON_CLASSES, IconName } from "./ui.constants";
+  import { FIELD_BUTTON_CLASSES } from "./field.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   type SecretInputPropsType = Omit<HTMLInputAttributes, "type" | "value" | "files"> & {
     id: string;

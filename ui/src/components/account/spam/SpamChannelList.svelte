@@ -14,13 +14,12 @@
   import SearchField from "../../ui/SearchField.svelte";
   import SearchNoResult from "../../ui/SearchNoResult.svelte";
   import TextButton from "../../ui/TextButton.svelte";
-  import {
-    AvatarSize,
-    ButtonSize,
-    ButtonType,
-    ButtonVariant,
-    IconName,
-  } from "../../ui/ui.constants";
+  import VerifiedBadge from "../../ui/VerifiedBadge.svelte";
+  import { AvatarSize } from "../../ui/picture.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../../ui/button.constants";
+  import { IconName } from "../../../lib/icons.constants";
+  import { KeyboardKey } from "../../ui/field.constants";
+  import { SPAM_ROW_CLASS } from "../account.constants";
 
   type SpamChannelListPropsType = {
     entries: SpamHistoryRowType[];
@@ -61,8 +60,7 @@
     }
   };
 
-  // ! The × leaves with its row: the focus goes to the row now in its place,
-  // unless the user already moved it elsewhere.
+  // ! The × leaves with its row: the focus goes to the row now in its place, unless the user moved it.
   $effect(() => {
     if (!leaving || entries.some((entry) => entry.login === leaving?.login)) {
       return;
@@ -84,9 +82,6 @@
 
     leaving = null;
   });
-
-  const ROW =
-    "flex min-h-13 items-center gap-3 border-b px-3 py-2 transition-colors last:border-b-0";
 </script>
 
 <Panel title={t.spam_channels()} count={entries.length}>
@@ -98,7 +93,7 @@
     busy={twitch.busy}
     oninput={() => twitch.update(query)}
     onkeydown={(event) => {
-      if (event.key === "Enter" && !event.isComposing) {
+      if (event.key === KeyboardKey.ENTER && !event.isComposing) {
         twitch.now(query);
       }
     }}
@@ -109,7 +104,7 @@
       <div class="flex flex-col overflow-hidden rounded-lg border" role="list">
         {#each found as c (c.login)}
           {@const known = entries.find((entry) => entry.login === c.login)}
-          <div class={cn(ROW, "hover:bg-accent")} role="listitem">
+          <div class={cn(SPAM_ROW_CLASS, "hover:bg-accent")} role="listitem">
             <button
               type="button"
               class="flex min-w-0 flex-1 items-center gap-3 text-left"
@@ -124,12 +119,7 @@
               <span class="flex min-w-0 flex-1 flex-col gap-0.5">
                 <span class="flex min-w-0 items-center gap-1.5">
                   <span class="truncate font-semibold">{c.display_name}</span>
-                  {#if c.verified}<span
-                      class="inline-flex text-primary"
-                      role="img"
-                      aria-label={t.search_verified()}
-                      title={t.search_verified()}><Icon name={IconName.VERIFIED} size={16} /></span
-                    >{/if}
+                  {#if c.verified}<VerifiedBadge />{/if}
                 </span>
                 {#if known}<span class="truncate text-xs text-muted-foreground"
                     >{known.in_points ? t.spam_in_points() : t.spam_in_history()}</span
@@ -161,7 +151,7 @@
         {@const current = e.login === selected}
         <div
           class={cn(
-            ROW,
+            SPAM_ROW_CLASS,
             current ? "bg-primary/15 shadow-[inset_3px_0_0_var(--primary)]" : "hover:bg-accent",
           )}
           role="listitem"

@@ -2,9 +2,9 @@ use std::path::{Path, PathBuf};
 
 use miner_core::api::{
     ApiRoute, AppInfoResponse, AuthResponse, AutostartResponse, BadgesResponse,
-    CatalogRefreshResponse, ChannelBannersRequest, ChannelBannersResponse, ChannelQuery,
-    ChannelResponse, ChannelsLookupRequest, ChannelsLookupResponse, Command, CommandName,
-    DashboardLoginRequest, DesktopEvent, FollowsQuery, FollowsResponse, HistoryQuery,
+    CatalogRefreshResponse, CatalogResponse, ChannelBannersRequest, ChannelBannersResponse,
+    ChannelQuery, ChannelResponse, ChannelsLookupRequest, ChannelsLookupResponse, Command,
+    CommandName, DashboardLoginRequest, DesktopEvent, FollowsQuery, FollowsResponse, HistoryQuery,
     HistoryResponse, LoginFlowResponse, LogsQuery, LogsReportResponse, LogsResponse,
     NotificationTestResponse, ProxyTestRequest, ProxyTestResponse, RedeemRequest, RedeemResponse,
     RequestsQuery, RequestsResponse, SearchQuery, SearchResponse, ServerMessage, ServerMessageKind,
@@ -81,6 +81,7 @@ fn main() {
     export::<HistoryResponse>(&cfg);
     export::<LogsResponse>(&cfg);
     export::<BadgesResponse>(&cfg);
+    export::<CatalogResponse>(&cfg);
     export::<LogsReportResponse>(&cfg);
     export::<LoginFlowResponse>(&cfg);
     export::<ChannelResponse>(&cfg);

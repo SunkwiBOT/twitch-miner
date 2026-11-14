@@ -1,10 +1,10 @@
 <script lang="ts">
   import { BadgesList } from "../../../lib/accounts/accounts.constants";
-  import { editBadgesList, setIgnored } from "../../../lib/accounts/drops.utils";
+  import { editBadgesList, setIgnored } from "../../../lib/accounts/drops-edits.utils";
   import type { AccountBadgesType } from "../../../lib/badges/badges.utils";
   import type { AccountSnapshotType } from "../../../lib/bindings/AccountSnapshotType";
   import type { CampaignType } from "../../../lib/bindings/CampaignType";
-  import type { SnapshotType } from "../../../lib/bindings/SnapshotType";
+  import { catalogue } from "../../../lib/catalogue/catalogue.svelte";
   import { t } from "../../../lib/i18n/i18n.svelte";
   import { escapeEmphasis, strong } from "../../../lib/text.utils";
   import EmptyState from "../../ui/EmptyState.svelte";
@@ -16,26 +16,20 @@
   import TagInput from "../../ui/TagInput.svelte";
   import TextButton from "../../ui/TextButton.svelte";
   import Thumb from "../../ui/Thumb.svelte";
-  import {
-    ButtonSize,
-    ButtonType,
-    ButtonVariant,
-    IconName,
-    PanelWidth,
-    ThumbShape,
-    ThumbSize,
-  } from "../../ui/ui.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../../ui/button.constants";
+  import { IconName } from "../../../lib/icons.constants";
+  import { PanelWidth } from "../../ui/ui.constants";
+  import { ThumbShape, ThumbSize } from "../../ui/picture.constants";
 
   type BadgesExclusionsTabPropsType = {
     account: AccountSnapshotType;
-    snapshot: SnapshotType;
     sections: AccountBadgesType;
     onopen: (campaign: CampaignType) => void;
   };
 
-  let { account, snapshot, sections, onopen }: BadgesExclusionsTabPropsType = $props();
+  let { account, sections, onopen }: BadgesExclusionsTabPropsType = $props();
 
-  const games = $derived([...new Set(snapshot.catalog.campaigns.map((c) => c.game.name))].sort());
+  const games = $derived([...new Set(catalogue.campaigns.map((c) => c.game.name))].sort());
 </script>
 
 <PanelColumns width={PanelWidth.LG}>

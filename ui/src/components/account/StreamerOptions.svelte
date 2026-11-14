@@ -1,5 +1,9 @@
 <script lang="ts">
-  import { FILTER_OP_SYMBOLS, StreamerOption } from "../../lib/accounts/accounts.constants";
+  import {
+    FILTER_OP_SYMBOLS,
+    StreamerOption,
+    U32_MAX,
+  } from "../../lib/accounts/accounts.constants";
   import { FILTER_BY_LABELS, STRATEGY_LABELS } from "../../lib/accounts/options.utils";
   import { BetTiming } from "../../lib/bindings/BetTiming";
   import { ChatPresence } from "../../lib/bindings/ChatPresence";
@@ -14,7 +18,7 @@
   import FormField from "../ui/FormField.svelte";
   import Select from "../ui/Select.svelte";
   import Setting from "../ui/Setting.svelte";
-  import { MenuAlign } from "../ui/ui.constants";
+  import { MenuAlign } from "../ui/menu.constants";
 
   type StreamerOptionsPropsType = {
     options: StreamerSettingsType;
@@ -127,8 +131,7 @@
       {max}
       value={shown(option, options.predictions[field]) ?? ""}
       placeholder={markOf(option)}
-      onchange={(event) =>
-        setNumber(option, field, event.currentTarget, min, max ?? Number.MAX_SAFE_INTEGER)}
+      onchange={(event) => setNumber(option, field, event.currentTarget, min, max ?? U32_MAX)}
     />
   </FormField>
 {/snippet}
@@ -268,7 +271,7 @@
             t.streamer_predictions_delay(),
             StreamerOption.DELAY_SECONDS,
             "delay_seconds",
-            0,
+            2,
             300,
             undefined,
           )}

@@ -57,7 +57,6 @@
   "dashboard_catalog_error": "Catalogus niet beschikbaar: {error}",
   "dashboard_queue_blocked_no_live_channel": "Geen kanaal live",
   "dashboard_queue_blocked_one_campaign_at_a_time": "Wacht (één campagne tegelijk)",
-  "dashboard_queue_blocked_no_drop_available": "Nog geen drop beschikbaar",
   "dashboard_queue_reason_priority": "Prioriteit",
   "dashboard_queue_reason_ending_soon": "Eindigt binnenkort",
   "dashboard_queue_reason_lowest_remaining": "Bijna klaar",
@@ -157,6 +156,7 @@
   "settings_catalog_refresh": "Nu vernieuwen",
   "settings_notifications": "Meldingen",
   "settings_notifications_events": "Melden bij",
+  "settings_notifications_targets": "Versturen naar",
   "settings_discord": "Discord-webhook",
   "settings_discord_url": "Webhook-URL",
   "settings_telegram": "Telegram-bot",
@@ -212,7 +212,7 @@
   "error_session_expired": "Twitch heeft de sessie geweigerd",
   "error_invalid_response": "Onverwacht antwoord van Twitch",
   "error_twitch_rejected": "Twitch heeft het verzoek geweigerd.",
-  "error_device_code_expired": "De code is verlopen",
+  "error_device_code_expired": "De code is verlopen of niet meer geldig: vraag een nieuwe aan",
   "error_storage": "De lokale database kon niet worden gelezen of geschreven. Bekijk het technisch logboek.",
   "error_vault_locked": "De app is vergrendeld",
   "error_wrong_passphrase": "Verkeerd wachtwoord",
@@ -309,6 +309,7 @@
   "campaign_channels_some": "Toegestane kanalen: {count}",
   "common_account": "Account",
   "campaign_progress": "{current}/{required} min",
+  "campaign_progress_of": "Voortgang en claims van {account}",
   "campaign_link_game": "Game-account koppelen",
   "campaign_open_twitch": "Openen op Twitch",
   "logs_title": "Technisch logboek",
@@ -369,7 +370,6 @@
   "drops_scope_linked_hint": "Alleen games waarvan het account aan Twitch gekoppeld is, zodat elke drop geclaimd kan worden.",
   "drops_skip_hint": "Slaat een campagne over als er te weinig tijd over is om die af te maken.",
   "error_unknown_channel": "Er bestaat geen Twitch-kanaal met deze naam.",
-  "error_device_code_pending": "De code is nog niet bevestigd op Twitch.",
   "error_invalid_vault": "De opgeslagen sessies zijn beschadigd. Log opnieuw in.",
   "error_invalid_streamer_login": "Dit is geen geldige Twitch-login.",
   "error_passphrase_required": "Stel een app-wachtwoord in voordat je de app vergrendelt.",
@@ -439,14 +439,77 @@
   "ev_campaign_finished": "Campagne voltooid: {campaign}",
   "ev_drop_progress": "{drop}: {current}/{required} min",
   "ev_bonus": "Bonuskist geclaimd op {channel}",
-  "ev_points": "+{points} punten op {channel}",
+  "ev_points": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input channel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "+{points} punt op {channel}",
+        "countPlural=*": "+{points} punten op {channel}"
+      }
+    }
+  ],
   "ev_online": "{channel} is live",
   "ev_offline": "{channel} is offline gegaan",
   "ev_raid": "Raid van {channel} gevolgd",
   "ev_moment": "Moment geclaimd op {channel}",
-  "ev_bet_placed": "{points} punten ingezet op “{outcome}” ({channel})",
-  "ev_bet_won": "Voorspelling gewonnen: +{points} punten",
-  "ev_bet_lost": "Voorspelling verloren: −{points} punten",
+  "ev_bet_placed": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input outcome",
+        "input channel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{points} punt ingezet op “{outcome}” ({channel})",
+        "countPlural=*": "{points} punten ingezet op “{outcome}” ({channel})"
+      }
+    }
+  ],
+  "ev_bet_won": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Voorspelling gewonnen: +{points} punt",
+        "countPlural=*": "Voorspelling gewonnen: +{points} punten"
+      }
+    }
+  ],
+  "ev_bet_lost": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Voorspelling verloren: −{points} punt",
+        "countPlural=*": "Voorspelling verloren: −{points} punten"
+      }
+    }
+  ],
   "ev_bet_refund": "Voorspelling terugbetaald",
   "ev_login": "{login} ingelogd",
   "ev_session_expired": "Twitch-sessie verlopen: log opnieuw in",
@@ -502,8 +565,19 @@
   "accounts_count": "{count} accounts",
   "accounts_none": "Geen account",
   "reward_watch": "{time} kijken",
+  "reward_watch_daily": "{time} per dag, {days} dagen",
+  "reward_watch_every": "{time} elke {hours} u, {count} keer",
+  "reward_watch_times": "{time}, {count} keer",
+  "reward_days_done": "{done}/{total} dagen",
+  "reward_times_done": "{done}/{total} keer",
+  "reward_chest": "1 willekeurige badge uit {count}",
+  "reward_chest_hint": "Twitch geeft een van deze badges: {badges}",
+  "campaign_channels_categories": "Elk kanaal in een van de {count} categorieën",
+  "badges_collection": "Onderdeel van de collectie {name}",
+  "badges_collection_chest": "Onderdeel van de collectie {name}, 1 badge van {count}",
+  "badges_collection_all": "Badge voor de hele collectie {name}, abonnementen inbegrepen",
   "reward_watch_stream": "Stream bekijken",
-  "reward_subscribe": "Abonneren: niet gemind",
+  "reward_subscribe": "Zelf abonneren",
   "reward_kind_badge": "Badge",
   "reward_kind_item": "In-game item",
   "reward_sub_only": "Sub",
@@ -625,32 +699,6 @@
   "chat_always": "Altijd",
   "chat_offline": "Als de streamer offline is",
   "chat_never": "Nooit (onzichtbaar)",
-  "accounts_stats_bets": "Weddenschappen gewonnen / verloren: {won} / {lost}",
-  "accounts_stats_bonuses": "Bonuskisten: {count}",
-  "catalogue_fetched": "opgehaald {time}, opnieuw elke {minutes} min",
-  "change_order_reset": "Automatische volgorde met succes hersteld",
-  "event_kind_goal_contributed": "Communitydoel",
-  "ev_goal_contributed": "{points} punten bijgedragen aan “{goal}” op {channel}",
-  "ev_streak_recovered": "Kijkreeks hersteld op {channel}",
-  "filter_by_odds": "Odds van de keuze",
-  "filter_by_odds_percentage": "Odds van de keuze (%)",
-  "filter_by_percentage_users": "Kijkers op de keuze (%)",
-  "filter_by_total_users": "Kijkers die hebben ingezet",
-  "filter_by_total_points": "Totaal ingezette punten",
-  "filter_by_decision_users": "Kijkers op de keuze",
-  "filter_by_decision_points": "Punten op de keuze",
-  "queue_reset": "Automatische volgorde",
-  "slot_last_minute": "laatste kijkminuut geteld {time}",
-  "slot_segments": "Aangevraagde videosegmenten: {count}",
-  "streamer_community_goals_hint": "Geeft kanaalpunten aan de communitydoelen van de streamer tijdens de live: zoveel als het doel nog nodig heeft, binnen de limiet per kijker en het saldo.",
-  "streamer_last_bonus": "laatste kist {time}",
-  "streamer_predictions_filter": "Alleen inzetten onder een voorwaarde",
-  "streamer_predictions_filter_hint": "Slaat de inzet over als niet aan de voorwaarde voor de gekozen kant is voldaan.",
-  "streamer_predictions_filter_by": "Waarde",
-  "streamer_predictions_filter_op": "Voorwaarde",
-  "streamer_predictions_filter_value": "Drempel",
-  "streamer_predictions_gap_hint": "Slim volgt de meerderheid, tenzij beide kanten zo dicht bij elkaar liggen; dan kiest het de beste odds.",
-  "account_refresh": "Account nu vernieuwen",
   "settings_start_minimized_hint": "Het venster blijft verborgen bij het starten; open het via het pictogram in het systeemvak.",
   "settings_data_folder": "Gegevensmap",
   "settings_data_folder_hint": "Accounts, instellingen, geschiedenis en logs worden hier opgeslagen.",
@@ -666,6 +714,8 @@
   "updates_last_checked": "Laatst gecontroleerd: {time}",
   "updates_never_checked": "Laatst gecontroleerd: nog geen antwoord sinds de start",
   "updates_install": "Installeren en herstarten",
+  "updates_download_page": "Downloadpagina openen",
+  "settings_notifications_language": "Taal van de meldingen",
   "updates_confirm_title": "Versie {version} installeren?",
   "updates_confirm_text": "Je hebt versie {current}. De app downloadt versie {version}, stopt het minen op alle accounts, installeert hem en herstart vanzelf. Daarna gaat het minen vanzelf weer verder.",
   "updates_later": "Later",
@@ -710,6 +760,49 @@
       }
     }
   ],
+  "accounts_stats_bets": "Weddenschappen gewonnen / verloren: {won} / {lost}",
+  "accounts_stats_bonuses": "Bonuskisten: {count}",
+  "catalogue_fetched": "opgehaald {time}, opnieuw elke {minutes} min",
+  "change_order_reset": "Automatische volgorde met succes hersteld",
+  "event_kind_goal_contributed": "Communitydoel",
+  "ev_goal_contributed": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input goal",
+        "input channel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{points} punt bijgedragen aan “{goal}” op {channel}",
+        "countPlural=*": "{points} punten bijgedragen aan “{goal}” op {channel}"
+      }
+    }
+  ],
+  "ev_streak_recovered": "Kijkreeks hersteld op {channel}",
+  "filter_by_odds": "Odds van de keuze",
+  "filter_by_odds_percentage": "Odds van de keuze (%)",
+  "filter_by_percentage_users": "Kijkers op de keuze (%)",
+  "filter_by_total_users": "Kijkers die hebben ingezet",
+  "filter_by_total_points": "Totaal ingezette punten",
+  "filter_by_decision_users": "Kijkers op de keuze",
+  "filter_by_decision_points": "Punten op de keuze",
+  "queue_reset": "Automatische volgorde",
+  "slot_last_minute": "laatste kijkminuut geteld {time}",
+  "slot_segments": "Aangevraagde videosegmenten: {count}",
+  "streamer_community_goals_hint": "Geeft kanaalpunten aan de communitydoelen van de streamer tijdens de live: zoveel als het doel nog nodig heeft, binnen de limiet per kijker en het saldo.",
+  "streamer_last_bonus": "laatste kist {time}",
+  "streamer_predictions_filter": "Alleen inzetten onder een voorwaarde",
+  "streamer_predictions_filter_hint": "Slaat de inzet over als niet aan de voorwaarde voor de gekozen kant is voldaan.",
+  "streamer_predictions_filter_by": "Waarde",
+  "streamer_predictions_filter_op": "Voorwaarde",
+  "streamer_predictions_filter_value": "Drempel",
+  "streamer_predictions_gap_hint": "Slim volgt de meerderheid, tenzij beide kanten zo dicht bij elkaar liggen; dan kiest het de beste odds.",
+  "account_refresh": "Account nu vernieuwen",
   "account_state_running_hint": "Het account mint met zijn instellingen. Pauzeren stopt alles: Drops, kanaalpunten en chat.",
   "account_state_paused_hint": "Het account is gepauzeerd: het kijkt nergens naar en verdient niets. De instellingen blijven bewaard.",
   "login_code": "inlogcode",
@@ -754,6 +847,7 @@
   "inventory_claimed_all": "Beloningen geclaimd: {count}",
   "reward_state_claimed": "Geclaimd",
   "reward_state_ready": "Te claimen",
+  "reward_state_owned": "Behaald",
   "reward_claim": "Claimen",
   "notify_test_title": "Test: {text}",
   "notify_test_detail": "Twitch Miner kan dit doel bereiken. Zo ziet een geclaimde drop eruit. Alle namen en afbeeldingen in dit bericht zijn testgegevens.",
@@ -787,14 +881,14 @@
   "badge_hint_reason_lowest_remaining": "Nog weinig minuten, dus eerst afgemaakt",
   "badge_hint_blocked_no_live": "Geen van haar kanalen is live",
   "badge_hint_blocked_one_at_a_time": "Er wordt één campagne tegelijk gemind",
-  "badge_hint_blocked_no_drop": "Twitch biedt nog geen drop aan",
   "badge_hint_linked": "Game-account gekoppeld: de drops kunnen geclaimd worden",
   "badge_hint_not_linked": "Koppel het game-account om de drops te claimen",
   "badge_hint_link_required": "Vereist een gekoppeld game-account",
   "badge_hint_claimed": "Staat al in je Twitch-inventaris",
+  "badge_hint_owned": "Dit account heeft deze badge al: de miner mint hem niet",
   "badge_hint_ready": "Verdiend: hoeft alleen nog geclaimd te worden",
   "badge_hint_item": "Komt in de game zodra geclaimd",
-  "badge_hint_sub_only": "Vereist een abonnement: wordt niet gemind",
+  "badge_hint_sub_only": "Vereist een abonnement dat je zelf neemt (een lopend abonnement, Prime of een verlenging telt niet). Zodra Twitch het telt, mint de miner de kijktijd.",
   "badge_hint_watching": "Dit account kijkt nu naar dit kanaal",
   "badge_hint_streak_risk": "De kijkreeks op dit kanaal staat op het punt te breken",
   "badge_hint_in_progress": "Twitch telt je minuten voor deze campagne",
@@ -939,7 +1033,23 @@
     }
   ],
   "event_kind_points_spent": "Punten uitgegeven",
-  "ev_points_spent": "−{points} punten op {channel}",
+  "ev_points_spent": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input channel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "−{points} punt op {channel}",
+        "countPlural=*": "−{points} punten op {channel}"
+      }
+    }
+  ],
   "ev_points_spent_balance": "Punten uitgegeven op {channel} (saldo {balance})",
   "ev_drop_progress_unknown": "Voortgang van een drop: {current}/{required} min",
   "journal_types": "Gebeurtenistypen",
@@ -1178,7 +1288,7 @@
   "queue_reason_badge": "Badge",
   "badge_hint_reason_badge": "Geeft een badge die het account nog niet heeft",
   "quest_label": "Twitch-quest",
-  "badge_hint_quest": "Een Twitch-evenement: elk kanaal van de categorieën telt mee",
+  "badge_hint_quest": "Een Twitch-evenement: het telt alleen op een kanaal van de categorieën dat het aanbiedt",
   "quest_next_window": "Volgend venster {time}",
   "account_badges_not_read": "De badges en quests van het account worden gelezen terwijl het draait.",
   "account_badges_tabs_label": "Onderdelen van de pagina Badges",
@@ -1190,6 +1300,30 @@
   "selection_only_title": "Alleen mijn selectie",
   "drops_selection_only_hint": "Mint alleen je prioriteitsgames en de campagnes met een ster. Zijn ze allemaal gemined, dan start er geen andere campagne.",
   "badges_selection_only_hint": "Mint alleen de badges met een ster. Zijn ze allemaal gemined, dan start er geen andere badge.",
+  "badges_evolutions_title": "Badge-evoluties minen",
+  "badges_evolutions_hint": "Voor een evolutie (Pichu → Pikachu…) zet de miner zelf de vereiste badge op vlak voor het minen en zet de oude niet terug. Uit: deze badges worden overgeslagen en aan de opgezette badge wordt nooit gekomen.",
+  "badge_evolution": "Evolutie van {badge}",
+  "badge_hint_evolution": "De miner zet {badge} op vlak voor het minen van deze badge en zet de oude niet terug",
+  "badge_evolution_unknown": "Vereiste badge onbekend",
+  "badge_hint_evolution_unknown": "Twitch heeft nog niet gezegd uit welke badge deze evolueert: tot dan wordt hij niet gemined",
+  "badge_evolution_locked": "{badge} nodig",
+  "badge_hint_evolution_locked": "Dit account moet eerst {badge} krijgen: daarna zet de miner die op om deze evolutie te minen",
+  "badge_evolution_off": "Evoluties uit",
+  "badge_hint_evolution_off": "“Badge-evoluties minen” staat uit in de badge-instellingen van dit account",
+  "ev_badge_equipped": "Badge {badge} opgezet om {drop} te laten evolueren",
+  "ev_badge_equip_failed": "Badge {badge} kon niet worden opgezet om {drop} te laten evolueren",
+  "badge_progress_not_started": "Niet begonnen",
+  "badge_progress_not_offered": "Niet in de campagnes van dit account",
+  "badge_dialog_subs": "Abonnementen die je zelf neemt: {count}",
+  "badge_dialog_dates": "Van {start} tot {end}",
+  "badge_dialog_from": "Vanaf {date}",
+  "badge_dialog_open_campaign": "Campagne openen",
+  "badge_dialog_categories": "Categorieën",
+  "badge_dialog_channels": "Kanalen",
+  "badge_dialog_collection": "Collectie",
+  "badge_dialog_evolution": "Evolutie",
+  "badge_dialog_evolves_from": "Twitch telt deze badge alleen zolang {badge} is opgezet: de miner zet die op vlak voor het minen en zet de oude badge niet terug.",
+  "badge_dialog_accounts": "Voortgang van de accounts",
   "campaign_select": "Aan mijn selectie toevoegen",
   "campaign_unselect": "Uit mijn selectie halen",
   "campaign_selected": "Aan je selectie toegevoegd",
@@ -1206,5 +1340,5 @@
   "quest_not_minable": "Niet minbaar",
   "badge_hint_quest_not_minable": "Twitch noemt geen categorie of kanaal die de miner hiervoor kan bekijken",
   "account_badges_not_mined": "Niet gemind",
-  "account_badges_not_mined_hint": "Wel getoond, nooit gemind: een abonnement is nodig, of Twitch noemt geen kanaal dat de miner kan bekijken."
+  "account_badges_not_mined_hint": "Wel getoond, niet gemind: eerst is een abonnement nodig dat je zelf neemt, of een andere badge, of Twitch noemt geen kanaal dat de miner kan bekijken."
 }

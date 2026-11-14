@@ -4,7 +4,7 @@
   import { t } from "../../../lib/i18n/i18n.svelte";
   import Dialog from "../../ui/Dialog.svelte";
   import TextButton from "../../ui/TextButton.svelte";
-  import { ButtonSize, ButtonType, ButtonVariant } from "../../ui/ui.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../../ui/button.constants";
 
   type DefaultsOfferDialogPropsType = {
     open: boolean;

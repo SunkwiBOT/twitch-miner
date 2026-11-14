@@ -11,14 +11,14 @@
   import { describeError } from "../../lib/errors/errors.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { escapeEmphasis, personMarker, strong, type TextPersonType } from "../../lib/text.utils";
-  import { changed } from "../../lib/state/bulk.svelte";
-  import { updateAccountSettings } from "../../lib/state/state.svelte";
+  import { changedWhenSaved } from "../../lib/state/bulk.svelte";
+  import { updateAccountSettings } from "../../lib/state/account-settings.svelte";
   import TextButton from "../ui/TextButton.svelte";
   import Dialog from "../ui/Dialog.svelte";
   import StreamerChannelCard from "./StreamerChannelCard.svelte";
   import StreamerOptions from "./StreamerOptions.svelte";
   import StreamerSearchForm from "./StreamerSearchForm.svelte";
-  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/ui.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
 
   type StreamerDialogPropsType = {
     open: boolean;
@@ -131,7 +131,7 @@
     };
 
     if (login) {
-      void updateAccountSettings(account.id, (settings) => {
+      const saved = updateAccountSettings(account.id, (settings) => {
         const index = settings.points.streamers.findIndex((s) => s.login === next.login);
 
         if (index >= 0) {
@@ -139,7 +139,8 @@
         }
       });
 
-      changed(
+      void changedWhenSaved(
+        saved,
         account.id,
         t.change_streamer_edited({ streamer: strong(subject.name) }),
         (settings) => {
@@ -156,13 +157,14 @@
       const order = [...account.settings.points.streamers.map((s) => s.login), next.login];
       const place = placeOf(order, next.login);
 
-      void updateAccountSettings(account.id, (settings) => {
+      const saved = updateAccountSettings(account.id, (settings) => {
         if (!settings.points.streamers.some((s) => s.login === next.login)) {
           settings.points.streamers.push(next);
         }
       });
 
-      changed(
+      void changedWhenSaved(
+        saved,
         account.id,
         t.change_streamer_added({ streamer: strong(subject.name) }),
         (settings) => {

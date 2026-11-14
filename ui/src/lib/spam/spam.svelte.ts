@@ -38,14 +38,11 @@ export const noteBurstProgress = (progress: BurstProgressType): void => {
 };
 
 const cancelBurst = (id: string): void => {
-  // ! Also sent as the page goes away: a refusal (app or dashboard locked) has
-  // nowhere to show, and locking the app stops the bursts on its own.
+  // ! Also sent as the page goes away: a refusal has nowhere to show then, and locking stops the bursts anyway.
   sendCommand({ command: CommandName.CANCEL_BURST, burst_id: id }).catch(() => undefined);
 };
 
-// ! Watched before it is sent: its result can arrive before the answer that
-// accepts it. `null` is a result that never came: no word of the burst for a
-// while, and the requests it has not sent yet are cancelled.
+// ! Watched before it is sent, its result can beat the accepting answer; `null` never came, so the unsent rest is cancelled.
 export const redeemBurst = async (
   order: BurstOrderType,
   delayMs: number,

@@ -10,7 +10,8 @@ const SLOTS: RangeInclusive<u8> = 1..=2;
 const BET_PERCENTAGE: RangeInclusive<u8> = 1..=100;
 const BET_TIMING_PERCENT: RangeInclusive<u8> = 1..=99;
 const BET_GAP_PERCENT: RangeInclusive<u8> = 0..=100;
-const BET_DELAY_SECONDS_MAX: u32 = 300;
+// ! A bet placed at the very close reaches Twitch once betting has closed.
+const BET_DELAY_SECONDS: RangeInclusive<u32> = 2..=300;
 const TEXT_MAX_CHARS: usize = 2048;
 const TIME_ZONE_MAX_CHARS: usize = 64;
 pub const SPAM_DELAY_MAX_MS: u32 = 5_000;
@@ -57,6 +58,7 @@ impl MiningLaneKind {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[serde(deny_unknown_fields)]
 #[ts(rename = "MiningLaneType")]
 pub struct MiningLane {
     pub kind: MiningLaneKind,
@@ -130,6 +132,7 @@ pub struct BadgeSettings {
     pub exclude_games: Vec<String>,
     pub exclude_names: Vec<String>,
     pub selection_only: bool,
+    pub evolutions: bool,
 }
 
 impl Default for BadgeSettings {
@@ -141,6 +144,7 @@ impl Default for BadgeSettings {
             exclude_games: Vec::new(),
             exclude_names: Vec::new(),
             selection_only: false,
+            evolutions: true,
         }
     }
 }
@@ -391,11 +395,7 @@ impl PredictionSettings {
         within("percentage", self.percentage, &BET_PERCENTAGE)?;
         within("timing_percent", self.timing_percent, &BET_TIMING_PERCENT)?;
         within("percentage_gap", self.percentage_gap, &BET_GAP_PERCENT)?;
-        within(
-            "delay_seconds",
-            self.delay_seconds,
-            &(0..=BET_DELAY_SECONDS_MAX),
-        )?;
+        within("delay_seconds", self.delay_seconds, &BET_DELAY_SECONDS)?;
         within("min_points", self.min_points, &(1..=u32::MAX))?;
         within(
             "max_points",
@@ -411,9 +411,23 @@ impl PredictionSettings {
 }
 
 impl GlobalSettings {
+    pub fn notification_language(&self) -> &str {
+        if self.notifications.language == crate::i18n::AUTO {
+            &self.language
+        } else {
+            &self.notifications.language
+        }
+    }
+
     pub fn validate(&self) -> Result<()> {
-        if self.language != crate::i18n::AUTO && !crate::i18n::is_known(&self.language) {
+        let language = |value: &str| value == crate::i18n::AUTO || crate::i18n::is_known(value);
+
+        if !language(&self.language) {
             return invalid("language");
+        }
+
+        if !language(&self.notifications.language) {
+            return invalid("notifications.language");
         }
 
         let time_zone = self.time_zone.chars().count() <= TIME_ZONE_MAX_CHARS
@@ -535,7 +549,7 @@ impl Default for NotificationEvents {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default, TS)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
 #[serde(default)]
 #[ts(rename = "NotificationSettingsType")]
 pub struct NotificationSettings {
@@ -544,6 +558,21 @@ pub struct NotificationSettings {
     pub webhook: WebhookSettings,
     pub system: bool,
     pub events: NotificationEvents,
+    // ! The server's own language is per viewer: `AUTO` here is the container's, rarely set.
+    pub language: String,
+}
+
+impl Default for NotificationSettings {
+    fn default() -> Self {
+        Self {
+            discord: DiscordSettings::default(),
+            telegram: TelegramSettings::default(),
+            webhook: WebhookSettings::default(),
+            system: false,
+            events: NotificationEvents::default(),
+            language: crate::i18n::AUTO.into(),
+        }
+    }
 }
 
 pub const AUTO_TIME_ZONE: &str = "AUTO";
@@ -611,8 +640,8 @@ pub enum ClockFormat {
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 #[ts(repr(enum = name))]
 pub enum HistoryRetention {
-    Days30,
     #[default]
+    Days30,
     Days90,
     Year1,
     Unlimited,
@@ -774,6 +803,7 @@ strict_input!(BadgeSettingsInput => BadgeSettings {
     exclude_games: Vec<String>,
     exclude_names: Vec<String>,
     selection_only: bool,
+    evolutions: bool,
 });
 
 strict_input!(PredictionSettingsInput => PredictionSettings {
@@ -868,6 +898,7 @@ strict_input!(NotificationSettingsInput => NotificationSettings {
     webhook: WebhookSettingsInput,
     system: bool,
     events: NotificationEventsInput,
+    language: String,
 });
 
 strict_input!(SpamPointsSettingsInput => SpamPointsSettings {

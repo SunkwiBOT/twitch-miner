@@ -12,7 +12,7 @@
   import { number } from "../../lib/format.utils";
   import Badge from "./Badge.svelte";
   import RichText from "./RichText.svelte";
-  import { BadgeTone } from "./ui.constants";
+  import { BadgeTone } from "../../lib/tones.constants";
 
   type PanelPropsType = {
     title: string;

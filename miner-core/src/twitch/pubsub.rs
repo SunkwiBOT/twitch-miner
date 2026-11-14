@@ -1,32 +1,36 @@
-use std::collections::{BTreeSet, HashMap};
+use std::collections::{BTreeMap, BTreeSet, HashMap};
 use std::time::Duration;
 
 use chrono::{DateTime, Utc};
-use futures_util::{SinkExt, StreamExt};
-use reqwest_websocket::Message;
+use futures_util::StreamExt;
 use serde_json::{json, Value};
 use tokio::sync::{mpsc, watch};
 use tokio::task::JoinSet;
 use tokio::time::Instant;
 use tokio_util::sync::CancellationToken;
 
-use super::{
-    hold_socket, open_socket, text, Socket, SocketPlace, TwitchClient, PUBSUB_URL,
-    SOCKET_WARN_AFTER_TRIES,
+use super::socket::{
+    keep_open, send_text, text_frame, Heartbeat, Socket, SocketPlace, SocketSession,
 };
+use super::{saturated, text, TwitchClient, PUBSUB_URL};
 use crate::domain::{PredictionEvent, PredictionOutcome};
 use crate::error::{Error, Result};
-use crate::requests::{RequestKind, SocketEvent};
-use crate::util::random_hex;
+use crate::requests::RequestKind;
+use crate::util::{random_hex, sleep_until_some};
 
 // ! Twitch PubSub takes at most 50 topics per socket.
 const TOPICS_PER_SOCKET: usize = 50;
 const SHARDS: usize = 4;
-pub const MAX_CHANNELS: usize = (SHARDS * TOPICS_PER_SOCKET - 4) / 5;
+const USER_TOPICS: usize = 4;
+const TOPICS_PER_CHANNEL: usize = 4;
+// ! A channel's topics stay together: a socket with 3 free places refuses the next channel.
+pub const MAX_CHANNELS: usize =
+    (SHARDS * (TOPICS_PER_SOCKET - TOPICS_PER_CHANNEL + 1) - USER_TOPICS) / TOPICS_PER_CHANNEL;
 const PING_INTERVAL: Duration = Duration::from_secs(240);
 const REPLY_TIMEOUT: Duration = Duration::from_secs(10);
-// ! Twitch's prediction windows last 30 seconds to 30 minutes: a longer one in
-// a message is a broken payload.
+const LISTEN_RETRY: Duration = Duration::from_secs(60);
+const UNAUTHORIZED_PAUSE: Duration = Duration::from_secs(60);
+// ! Twitch's prediction windows last 30 s to 30 min: a longer one in a message is a broken payload.
 const PREDICTION_WINDOW_MAX_SECONDS: i64 = 3600;
 
 pub const WATCH_STREAK_REASON: &str = "WATCH_STREAK";
@@ -35,6 +39,9 @@ const PLACE: SocketPlace = SocketPlace {
     kind: RequestKind::Pubsub,
     address: PUBSUB_URL,
     name: "pubsub",
+    label: "PubSub",
+    ping_interval: PING_INTERVAL,
+    reply_timeout: REPLY_TIMEOUT,
 };
 
 #[derive(Debug, Clone, PartialEq)]
@@ -88,7 +95,6 @@ pub enum PubSubEvent {
         drop_id: String,
         current_minutes: u32,
         required_minutes: u32,
-        channel_id: Option<String>,
     },
     DropClaim {
         drop_id: String,
@@ -101,9 +107,7 @@ pub enum PubSubEvent {
     Reconnected,
 }
 
-// ! Twitch repeats `raid_update_v2` every second of the countdown. A failed
-// join is tried again no more often than this, or a refusal would repeat
-// every second.
+// ! Twitch repeats `raid_update_v2` every second of the countdown: a failed join waits this long before another.
 pub const RAID_JOIN_RETRY: Duration = Duration::from_secs(10);
 
 #[derive(Debug)]
@@ -170,6 +174,7 @@ pub fn topics_for(user_id: &str, channels: &[String], predictions: &[String]) ->
 
 pub struct PubSub {
     shards: Vec<watch::Sender<BTreeSet<String>>>,
+    placed: HashMap<String, usize>,
     cancel: CancellationToken,
     tasks: JoinSet<()>,
 }
@@ -184,11 +189,15 @@ impl PubSub {
         let shards = (0..SHARDS)
             .map(|_| {
                 let (send, receive) = watch::channel(BTreeSet::new());
-                tasks.spawn(worker(
+                let session = PubSubSession {
+                    events: events.clone(),
+                };
+                tasks.spawn(keep_open(
+                    &PLACE,
                     client.clone(),
                     receive,
-                    events.clone(),
                     cancel.clone(),
+                    session,
                 ));
 
                 send
@@ -197,20 +206,50 @@ impl PubSub {
 
         Self {
             shards,
+            placed: HashMap::new(),
             cancel,
             tasks,
         }
     }
 
-    pub fn set_topics(&self, topics: Vec<String>) {
-        for (index, sender) in self.shards.iter().enumerate() {
-            let desired: BTreeSet<String> = topics
-                .iter()
-                .skip(index * TOPICS_PER_SOCKET)
-                .take(TOPICS_PER_SOCKET)
-                .cloned()
-                .collect();
+    // ! A channel's topics stay on their socket: one coming or going never moves the others.
+    pub fn set_topics(&mut self, topics: Vec<String>) {
+        let mut groups: BTreeMap<String, Vec<String>> = BTreeMap::new();
 
+        for topic in topics {
+            let id = topic.rsplit('.').next().unwrap_or_default().to_owned();
+
+            groups.entry(id).or_default().push(topic);
+        }
+
+        let mut desired: Vec<BTreeSet<String>> = vec![BTreeSet::new(); self.shards.len()];
+        let previous = std::mem::take(&mut self.placed);
+
+        for (id, group) in &groups {
+            if let Some(&shard) = previous.get(id) {
+                if desired[shard].len() + group.len() <= TOPICS_PER_SOCKET {
+                    desired[shard].extend(group.iter().cloned());
+                    self.placed.insert(id.clone(), shard);
+                }
+            }
+        }
+
+        for (id, group) in &groups {
+            if self.placed.contains_key(id) {
+                continue;
+            }
+
+            let room = (0..desired.len())
+                .filter(|shard| desired[*shard].len() + group.len() <= TOPICS_PER_SOCKET)
+                .min_by_key(|shard| desired[*shard].len());
+
+            if let Some(shard) = room {
+                desired[shard].extend(group.iter().cloned());
+                self.placed.insert(id.clone(), shard);
+            }
+        }
+
+        for (sender, desired) in self.shards.iter().zip(desired) {
             sender.send_if_modified(|current| {
                 if *current == desired {
                     false
@@ -229,112 +268,41 @@ impl PubSub {
     }
 }
 
-async fn worker(
-    client: TwitchClient,
-    mut desired: watch::Receiver<BTreeSet<String>>,
+struct PubSubSession {
     events: mpsc::Sender<PubSubEvent>,
-    cancel: CancellationToken,
-) {
-    let mut failures = 0u32;
-    let mut dropped = false;
+}
 
-    loop {
-        if desired.borrow().is_empty() {
-            tokio::select! { biased;
-                _ = cancel.cancelled() => return,
-                changed = desired.changed() => { if changed.is_err() { return; } }
-            }
+impl SocketSession for PubSubSession {
+    async fn run(
+        &mut self,
+        client: &TwitchClient,
+        socket: &mut Socket,
+        desired: &mut watch::Receiver<BTreeSet<String>>,
+        reconnected: bool,
+    ) -> Result<()> {
+        connection(client, socket, desired, &self.events, reconnected).await
+    }
 
-            continue;
-        }
+    async fn refused(&mut self, _client: &TwitchClient) -> Duration {
+        let _ = self.events.send(PubSubEvent::Unauthorized).await;
 
-        let started = Instant::now();
-        let event = if dropped {
-            SocketEvent::Reconnect
-        } else {
-            SocketEvent::Connect
-        };
-        let opened = tokio::select! { biased;
-            _ = cancel.cancelled() => return,
-            opened = open_socket(&client, &PLACE, event) => opened,
-        };
-        let result = match opened {
-            Ok(mut socket) => {
-                let session = connection(&client, &mut socket, &mut desired, &events);
-                let Some(result) = hold_socket(&client, &PLACE, &cancel, session).await else {
-                    return;
-                };
-
-                result
-            }
-            Err(error) => Err(error),
-        };
-
-        dropped = result.is_err();
-
-        // ! The account may be waiting for this worker to stop, its queue
-        // full: the stop wins over the message.
-        if matches!(result, Err(Error::Unauthorized)) {
-            tokio::select! { biased;
-                _ = cancel.cancelled() => return,
-                _ = events.send(PubSubEvent::Unauthorized) => {}
-            }
-
-            tokio::select! { biased;
-                _ = cancel.cancelled() => return,
-                _ = tokio::time::sleep(Duration::from_secs(60)) => {}
-            }
-
-            continue;
-        }
-
-        if started.elapsed() > Duration::from_secs(60) {
-            failures = 0;
-        }
-
-        let Err(error) = result else {
-            failures = 0;
-
-            continue;
-        };
-
-        if failures == 0 {
-            tracing::info!(account = %client.login, %error, "PubSub connection dropped; reconnecting");
-        } else if failures == SOCKET_WARN_AFTER_TRIES {
-            tracing::warn!(
-                account = %client.login,
-                tries = failures,
-                %error,
-                "PubSub still cannot reconnect; trying again"
-            );
-        }
-
-        let delay = Duration::from_secs(1 << failures.min(6));
-
-        failures = failures.saturating_add(1);
-
-        tokio::select! { biased;
-            _ = cancel.cancelled() => return,
-            _ = tokio::time::sleep(delay) => {}
-        }
+        UNAUTHORIZED_PAUSE
     }
 }
 
 async fn send(socket: &mut Socket, value: Value) -> Result<()> {
-    tokio::time::timeout(REPLY_TIMEOUT, socket.send(Message::Text(value.to_string())))
-        .await
-        .map_err(|_| Error::Network("pubsub send timeout".into()))?
-        .map_err(|e| Error::Network(format!("pubsub send: {e}")))
+    send_text(socket, &PLACE, value.to_string()).await
 }
 
 async fn listen(
     socket: &mut Socket,
-    verb: &str,
+    verb: &'static str,
     topics: Vec<String>,
+    per_message: usize,
     token: &str,
-    pending: &mut HashMap<String, Vec<String>>,
+    pending: &mut HashMap<String, (&'static str, Vec<String>)>,
 ) -> Result<()> {
-    for chunk in topics.chunks(10) {
+    for chunk in topics.chunks(per_message) {
         let nonce = random_hex(16);
 
         send(
@@ -342,7 +310,7 @@ async fn listen(
             json!({"type": verb, "nonce": nonce, "data": {"topics": chunk, "auth_token": token}}),
         )
         .await?;
-        pending.insert(nonce, chunk.to_vec());
+        pending.insert(nonce, (verb, chunk.to_vec()));
     }
 
     Ok(())
@@ -353,41 +321,72 @@ async fn connection(
     socket: &mut Socket,
     desired: &mut watch::Receiver<BTreeSet<String>>,
     events: &mpsc::Sender<PubSubEvent>,
+    reconnected: bool,
 ) -> Result<()> {
     let token = client.token().await;
     let mut subscribed: BTreeSet<String> = BTreeSet::new();
-    let mut pending: HashMap<String, Vec<String>> = HashMap::new();
-    let mut ping = tokio::time::interval(PING_INTERVAL);
-
-    ping.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
-
-    let mut awaiting_pong: Option<Instant> = None;
-    let mut first = true;
+    let mut refused: BTreeSet<String> = BTreeSet::new();
+    let mut retrying: BTreeSet<String> = BTreeSet::new();
+    let mut retry_at: Option<Instant> = None;
+    let mut pending: HashMap<String, (&'static str, Vec<String>)> = HashMap::new();
+    let mut heartbeat = Heartbeat::new(&PLACE, Instant::now());
+    let mut announce = reconnected;
 
     loop {
-        let wanted = desired.borrow().clone();
-        let to_add: Vec<String> = wanted.difference(&subscribed).cloned().collect();
-        let to_remove: Vec<String> = subscribed.difference(&wanted).cloned().collect();
-
-        if !to_add.is_empty() {
-            listen(socket, "LISTEN", to_add.clone(), &token, &mut pending).await?;
-            subscribed.extend(to_add);
+        if retry_at.is_some_and(|at| at <= Instant::now()) {
+            retrying = std::mem::take(&mut refused);
+            retry_at = None;
         }
 
+        let wanted = desired.borrow().clone();
+        let to_add: Vec<String> = wanted
+            .difference(&subscribed)
+            .filter(|topic| !refused.contains(*topic))
+            .cloned()
+            .collect();
+        let to_remove: Vec<String> = subscribed.difference(&wanted).cloned().collect();
+
+        refused.retain(|topic| wanted.contains(topic));
+
+        // ! Out before in: the socket never holds more than its 50 topics.
         if !to_remove.is_empty() {
-            listen(socket, "UNLISTEN", to_remove.clone(), &token, &mut pending).await?;
+            listen(
+                socket,
+                "UNLISTEN",
+                to_remove.clone(),
+                10,
+                &token,
+                &mut pending,
+            )
+            .await?;
 
             for topic in to_remove {
                 subscribed.remove(&topic);
             }
         }
 
-        if first {
-            first = false;
-            let _ = events.try_send(PubSubEvent::Reconnected);
+        if !to_add.is_empty() {
+            // ! Twitch refuses a whole message for one bad topic: a refused topic is asked alone, or it would hold back the others for good.
+            let (alone, grouped): (Vec<String>, Vec<String>) = to_add
+                .iter()
+                .cloned()
+                .partition(|topic| retrying.contains(topic));
+
+            listen(socket, "LISTEN", grouped, 10, &token, &mut pending).await?;
+            listen(socket, "LISTEN", alone, 1, &token, &mut pending).await?;
+            subscribed.extend(to_add);
         }
 
-        if subscribed.is_empty() {
+        retrying.clear();
+
+        if announce {
+            announce = false;
+            if events.send(PubSubEvent::Reconnected).await.is_err() {
+                return Ok(());
+            }
+        }
+
+        if subscribed.is_empty() && refused.is_empty() {
             return Ok(());
         }
 
@@ -395,42 +394,42 @@ async fn connection(
             changed = desired.changed() => {
                 if changed.is_err() { return Ok(()); }
             }
-            _ = sleep_until_some(awaiting_pong.map(|sent| sent + REPLY_TIMEOUT)) => {
-                return Err(Error::Network("pubsub pong timeout".into()));
-            }
-            _ = ping.tick() => {
+            _ = sleep_until_some(retry_at) => {}
+            beat = heartbeat.due() => {
+                beat?;
                 send(socket, json!({"type": "PING"})).await?;
-                awaiting_pong = Some(Instant::now());
+                heartbeat.pinged();
             }
             message = socket.next() => {
-                let Some(message) = message else { return Err(Error::Network("pubsub closed".into())); };
-                let message = message.map_err(|e| Error::Network(format!("pubsub read: {e}")))?;
-                let payload = match message {
-                    Message::Text(text) => text,
-                    Message::Ping(data) => {
-                        let _ = socket.send(Message::Pong(data)).await;
-                        continue;
-                    }
-                    Message::Close { .. } => return Err(Error::Network("pubsub close frame".into())),
-                    _ => continue,
-                };
+                let Some(payload) = text_frame(socket, &PLACE, message).await? else { continue };
                 let value: Value = match serde_json::from_str(&payload) { Ok(v) => v, Err(_) => continue };
 
                 match value["type"].as_str().unwrap_or("") {
-                    "PONG" => awaiting_pong = None,
+                    "PONG" => heartbeat.ponged(),
                     "RECONNECT" => return Err(Error::Network("pubsub asked to reconnect".into())),
                     "RESPONSE" => {
-                        let asked = value["nonce"].as_str().and_then(|nonce| pending.remove(nonce)).unwrap_or_default();
+                        let (verb, asked) = value["nonce"].as_str().and_then(|nonce| pending.remove(nonce)).unwrap_or_default();
 
                         match value["error"].as_str().unwrap_or("") {
                             "" => {}
                             "ERR_BADAUTH" => return Err(Error::Unauthorized),
-                            other => tracing::warn!(
-                                account = %client.login,
-                                error = other,
-                                topics = %topic_kinds(&asked),
-                                "PubSub LISTEN refused"
-                            ),
+                            other => {
+                                tracing::warn!(
+                                    account = %client.login,
+                                    error = other,
+                                    topics = %topic_kinds(&asked),
+                                    "PubSub {verb} refused"
+                                );
+
+                                if verb == "LISTEN" {
+                                    for topic in asked {
+                                        subscribed.remove(&topic);
+                                        refused.insert(topic);
+                                    }
+
+                                    retry_at.get_or_insert(Instant::now() + LISTEN_RETRY);
+                                }
+                            }
                         }
                     }
                     "MESSAGE" => {
@@ -442,13 +441,6 @@ async fn connection(
                 }
             }
         }
-    }
-}
-
-async fn sleep_until_some(at: Option<Instant>) {
-    match at {
-        Some(at) => tokio::time::sleep_until(at).await,
-        None => std::future::pending().await,
     }
 }
 
@@ -486,7 +478,7 @@ pub fn parse_message(data: &Value) -> Option<PubSubEvent> {
                 "stream-down" => Some(PubSubEvent::StreamDown { channel_id }),
                 "viewcount" => Some(PubSubEvent::ViewCount {
                     channel_id,
-                    viewers: message["viewers"].as_u64().unwrap_or(0),
+                    viewers: message["viewers"].as_u64()?,
                 }),
                 _ => None,
             }
@@ -560,9 +552,8 @@ pub fn parse_message(data: &Value) -> Option<PubSubEvent> {
         "user-drop-events" => match kind {
             "drop-progress" => Some(PubSubEvent::DropProgress {
                 drop_id: text(&body["drop_id"])?,
-                current_minutes: body["current_progress_min"].as_u64().unwrap_or(0) as u32,
-                required_minutes: body["required_progress_min"].as_u64().unwrap_or(0) as u32,
-                channel_id: text(&body["channel_id"]),
+                current_minutes: saturated(body["current_progress_min"].as_u64().unwrap_or(0)),
+                required_minutes: saturated(body["required_progress_min"].as_u64().unwrap_or(0)),
             }),
             "drop-claim" => Some(PubSubEvent::DropClaim {
                 drop_id: text(&body["drop_id"])?,

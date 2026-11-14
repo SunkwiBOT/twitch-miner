@@ -23,8 +23,7 @@ export const http = axios.create({
   timeout: REQUEST_TIMEOUT_MS,
   headers: { Accept: "application/json" },
   paramsSerializer: { serialize: queryString },
-  // ! The server uses no XSRF cookie: skipping axios's read of it saves an async
-  // cookieStore round trip before every request.
+  // ! No XSRF cookie on the server: skipping axios's read of it saves a cookieStore round trip per request.
   withXSRFToken: false,
 });
 

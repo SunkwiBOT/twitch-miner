@@ -16,31 +16,30 @@
   import type { HistoryQueryType } from "../lib/bindings/HistoryQueryType";
   import type { MinerEventType } from "../lib/bindings/MinerEventType";
   import { ensureChannels } from "../lib/channels/channels.svelte";
+  import { EVENT_ICONS, JOURNAL_ALL, JOURNAL_FILTER_SLUGS } from "../lib/events/events.constants";
   import {
-    EVENT_ICONS,
     EVENT_KIND_LABELS,
-    JOURNAL_ALL,
-    JOURNAL_FILTER_SLUGS,
     JOURNAL_FILTERS,
     KIND_GROUP_LABELS,
-    kindGroupsOf,
-  } from "../lib/events/events.utils";
+  } from "../lib/events/labels.utils";
+  import { kindGroupsOf } from "../lib/events/events.utils";
   import { shownEvent, unnamedChannels } from "../lib/events/shown.svelte";
   import { PagedFeed } from "../lib/feed/feed.svelte";
   import { t } from "../lib/i18n/i18n.svelte";
   import { wideLayout } from "../lib/state/viewport.svelte";
-  import { app, openTab, showTab } from "../lib/state/state.svelte";
+  import { app } from "../lib/state/app.svelte";
+  import { openTab, showTab } from "../lib/state/router";
   import {
     HISTORY_MORE_SKELETON_ROWS,
     HISTORY_PAGE_SIZE,
     HISTORY_SKELETON_ROWS,
   } from "./history.constants";
-  import HistoryCard from "./HistoryCard.svelte";
-  import HistoryRow from "./HistoryRow.svelte";
+  import HistoryEvent from "./HistoryEvent.svelte";
   import LoadMoreSentinel from "./ui/LoadMoreSentinel.svelte";
   import MultiSelect from "./ui/MultiSelect.svelte";
   import Segmented from "./ui/Segmented.svelte";
-  import { IconName, MenuAlign } from "./ui/ui.constants";
+  import { IconName } from "../lib/icons.constants";
+  import { MenuAlign } from "./ui/menu.constants";
 
   type HistoryListPropsType = {
     accountId: string | null;
@@ -202,7 +201,7 @@
       {@render head()}
       <TableBody>
         {#each shown as event (event.id)}
-          <HistoryRow {event} {showAccount} />
+          <HistoryEvent {event} {showAccount} wide={true} />
         {/each}
         {#if feed.loadingMore}{@render skeleton(HISTORY_MORE_SKELETON_ROWS)}{/if}
       </TableBody>
@@ -211,7 +210,7 @@
     <!-- ! On a phone the table's six columns leave the event a few letters: one card per event. -->
     <ul class="flex flex-col divide-y text-hint">
       {#each shown as event (event.id)}
-        <HistoryCard {event} {showAccount} />
+        <HistoryEvent {event} {showAccount} wide={false} />
       {/each}
       {#if feed.loadingMore}{@render cardSkeleton(HISTORY_MORE_SKELETON_ROWS)}{/if}
     </ul>

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { t } from "../../lib/i18n/i18n.svelte";
-  import { app } from "../../lib/state/state.svelte";
+  import { app } from "../../lib/state/app.svelte";
   import { strong } from "../../lib/text.utils";
   import { UpdateStage } from "../../lib/updates/updates.constants";
   import {
@@ -15,7 +15,8 @@
   import ProgressLine from "../ui/ProgressLine.svelte";
   import RichText from "../ui/RichText.svelte";
   import TextButton from "../ui/TextButton.svelte";
-  import { ButtonSize, ButtonType, ButtonVariant, IconName } from "../ui/ui.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   const version = $derived(availableVersion() ?? "");
   const busy = $derived(updates.stage !== UpdateStage.IDLE);

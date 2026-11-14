@@ -2,18 +2,22 @@
 // download an arbitrary URL.
 
 use std::path::{Path, PathBuf};
+use std::sync::{Arc, Mutex};
 use std::time::{Duration, SystemTime};
 
 use reqwest::header::CONTENT_TYPE;
 use sha2::{Digest, Sha256};
+use tokio::time::Instant;
 use url::Url;
 
 use crate::error::{Error, Result};
 use crate::requests::{url_target, RequestKind, RequestLog};
+use crate::util::locked;
 
 const TIMEOUT: Duration = Duration::from_secs(5);
 const MAX_BYTES: usize = 2 * 1024 * 1024;
 const MAX_AGE: Duration = Duration::from_secs(30 * 24 * 60 * 60);
+const PRUNE_EVERY: Duration = Duration::from_secs(24 * 60 * 60);
 const MAX_REDIRECTS: usize = 3;
 const EXTENSIONS: [&str; 5] = ["png", "jpg", "jpeg", "gif", "webp"];
 
@@ -36,6 +40,7 @@ pub struct ImageCache {
     dir: PathBuf,
     client: reqwest::Client,
     requests: RequestLog,
+    pruned_at: Arc<Mutex<Instant>>,
 }
 
 impl ImageCache {
@@ -61,6 +66,7 @@ impl ImageCache {
             dir,
             client,
             requests,
+            pruned_at: Arc::new(Mutex::new(Instant::now())),
         };
 
         cache.prune(MAX_AGE).await;
@@ -69,6 +75,8 @@ impl ImageCache {
     }
 
     pub async fn fetch(&self, url: &str) -> Result<PathBuf> {
+        self.prune_daily().await;
+
         let url = Url::parse(url)
             .ok()
             .filter(trusted)
@@ -90,6 +98,23 @@ impl ImageCache {
         let hash = hex::encode(Sha256::digest(url.as_str().as_bytes()));
 
         self.dir.join(format!("{hash}.{}", extension(url)))
+    }
+
+    async fn prune_daily(&self) {
+        let due = {
+            let mut pruned_at = locked(&self.pruned_at);
+            let due = pruned_at.elapsed() >= PRUNE_EVERY;
+
+            if due {
+                *pruned_at = Instant::now();
+            }
+
+            due
+        };
+
+        if due {
+            self.prune(MAX_AGE).await;
+        }
     }
 
     async fn download(&self, url: Url) -> Result<Vec<u8>> {

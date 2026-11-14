@@ -8,9 +8,7 @@
   let { width, children }: PanelColumnsPropsType = $props();
 </script>
 
-<!-- ! Columns, not a grid: a short panel is not stretched to the height of its
-neighbour's row, the next panel fills the space under it. A lone panel keeps
-the whole width. -->
+<!-- ! Columns, not a grid: a short panel is not stretched to its neighbour's height, the next one fills under it. -->
 <div
   class="gap-5 [columns:var(--panel-width)_auto] *:mb-5 *:break-inside-avoid *:last:mb-0 has-[>:only-child]:[columns:auto]"
   style:--panel-width={width}

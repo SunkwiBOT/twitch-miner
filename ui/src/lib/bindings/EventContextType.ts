@@ -42,4 +42,5 @@ export type EventContextType = {
   cancelled?: number;
   refusals?: Array<string>;
   failures?: Array<ErrorApiMessage>;
+  badge?: string;
 };

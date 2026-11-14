@@ -1,10 +1,19 @@
 use crate::events::{BetResult, EventKind, MinerEvent};
 use crate::scheduler::PointsReason;
 
+pub(crate) enum Text {
+    Plain(&'static str),
+    Plural {
+        input: &'static str,
+        variants: &'static [(&'static str, &'static str)],
+    },
+}
+
 include!(concat!(env!("OUT_DIR"), "/texts.rs"));
 
 pub const AUTO: &str = "AUTO";
 pub const FALLBACK: &str = "en";
+const OTHER: &str = "*";
 
 pub fn resolve(setting: &str) -> &'static str {
     if setting != AUTO {
@@ -73,20 +82,73 @@ fn matched(candidate: &str) -> Option<&'static str> {
     known(lower.split('-').next()?)
 }
 
-fn lookup(language: &str, key: &str) -> Option<&'static str> {
+fn lookup(language: &str, key: &str) -> Option<&'static Text> {
     TEXTS
         .iter()
         .find(|(tag, _)| *tag == language)?
         .1
         .iter()
         .find(|(name, _)| *name == key)
-        .map(|(_, text)| *text)
+        .map(|(_, text)| text)
+}
+
+// ! The categories of `Intl.PluralRules` for a whole number, the ones the
+// dashboard picks its variant with.
+fn plural_category(language: &str, count: i64) -> &'static str {
+    let n = count.unsigned_abs();
+    let (ten, hundred) = (n % 10, n % 100);
+    let few = (2..=4).contains(&ten) && !(12..=14).contains(&hundred);
+
+    match language {
+        "zh-CN" | "zh-TW" | "ja" | "ko" | "th" | "vi" | "id" => "other",
+        "ru" | "uk" if ten == 1 && hundred != 11 => "one",
+        "ru" | "uk" | "pl" if few => "few",
+        "ru" | "uk" => "many",
+        "pl" if n == 1 => "one",
+        "pl" => "many",
+        "cs" if n == 1 => "one",
+        "cs" if (2..=4).contains(&n) => "few",
+        "ro" if n == 1 => "one",
+        "ro" if n == 0 || (1..=19).contains(&hundred) => "few",
+        "fr" | "pt-BR" if n <= 1 => "one",
+        "fr" | "pt-BR" | "pt-PT" | "es-ES" | "es-419" | "it"
+            if n != 0 && n.is_multiple_of(1_000_000) =>
+        {
+            "many"
+        }
+        _ if n == 1 => "one",
+        _ => "other",
+    }
+}
+
+fn pattern(language: &str, text: &'static Text, args: &[(&str, &str)]) -> &'static str {
+    match text {
+        Text::Plain(text) => text,
+        Text::Plural { input, variants } => {
+            let category = args
+                .iter()
+                .find(|(name, _)| name == input)
+                .and_then(|(_, value)| value.parse::<i64>().ok())
+                .map_or(OTHER, |count| plural_category(language, count));
+            let variant = |wanted: &str| {
+                variants
+                    .iter()
+                    .find(|(category, _)| *category == wanted)
+                    .map(|(_, text)| *text)
+            };
+
+            variant(category)
+                .or_else(|| variant(OTHER))
+                .unwrap_or_default()
+        }
+    }
 }
 
 // ! One pass: a value is never read as a placeholder.
 pub fn text(language: &str, key: &str, args: &[(&str, &str)]) -> String {
     let template = lookup(language, key)
-        .or_else(|| lookup(FALLBACK, key))
+        .map(|text| pattern(language, text, args))
+        .or_else(|| lookup(FALLBACK, key).map(|text| pattern(FALLBACK, text, args)))
         .unwrap_or(key);
     let mut out = String::with_capacity(template.len());
     let mut rest = template;
@@ -254,14 +316,22 @@ pub fn event_text(language: &str, event: &MinerEvent) -> String {
         EventKind::PointsEarned => match (channel, context.earned) {
             (Some(channel), Some(earned)) => say(
                 "ev_points",
-                &[("channel", channel), ("points", &count(earned))],
+                &[
+                    ("channel", channel),
+                    ("points", &count(earned)),
+                    ("count", &earned.to_string()),
+                ],
             ),
             _ => None,
         },
         EventKind::PointsSpent => match (channel, context.spent, context.balance) {
             (Some(channel), Some(spent), _) => say(
                 "ev_points_spent",
-                &[("channel", channel), ("points", &count(spent))],
+                &[
+                    ("channel", channel),
+                    ("points", &count(spent)),
+                    ("count", &spent.to_string()),
+                ],
             ),
             (Some(channel), None, Some(balance)) => say(
                 "ev_points_spent_balance",
@@ -287,20 +357,29 @@ pub fn event_text(language: &str, event: &MinerEvent) -> String {
                 &[
                     ("channel", channel),
                     ("points", &count(points)),
+                    ("count", &points.to_string()),
                     ("outcome", context.outcome.as_deref().unwrap_or_default()),
                 ],
             ),
             _ => None,
         },
         EventKind::PredictionResult => match context.bet_result {
-            Some(BetResult::Win) => say(
-                "ev_bet_won",
-                &[("points", &count(context.points_won.unwrap_or_default()))],
-            ),
-            Some(BetResult::Lose) => say(
-                "ev_bet_lost",
-                &[("points", &count(context.staked.unwrap_or_default()))],
-            ),
+            Some(BetResult::Win) => {
+                let won = context.points_won.unwrap_or_default();
+
+                say(
+                    "ev_bet_won",
+                    &[("points", &count(won)), ("count", &won.to_string())],
+                )
+            }
+            Some(BetResult::Lose) => {
+                let lost = context.staked.unwrap_or_default();
+
+                say(
+                    "ev_bet_lost",
+                    &[("points", &count(lost)), ("count", &lost.to_string())],
+                )
+            }
             Some(BetResult::Refund) => say("ev_bet_refund", &[]),
             None => None,
         },
@@ -326,6 +405,7 @@ pub fn event_text(language: &str, event: &MinerEvent) -> String {
                 &[
                     ("channel", channel),
                     ("points", &count(points)),
+                    ("count", &points.to_string()),
                     ("goal", context.goal.as_deref().unwrap_or_default()),
                 ],
             ),

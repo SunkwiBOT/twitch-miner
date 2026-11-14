@@ -6,12 +6,16 @@ use serde_json::Value;
 use ts_rs::TS;
 
 use crate::api::Shell;
-use crate::catalog::{too_large, FeedAnswer, FeedClient};
-use crate::domain::{BenefitKind, Campaign};
+use crate::domain::{
+    BadgeRef, Benefit, BenefitKind, Campaign, CampaignKind, Evolution, Game, Repeat,
+};
 use crate::error::{Error, ErrorCode, Result};
+use crate::feed::{FeedAnswer, FeedClient};
+use crate::http::too_large;
 use crate::requests::RequestLog;
-use crate::twitch::quests::BadgeRef;
-use crate::twitch::{note_left_out, text, values};
+use crate::twitch::drops::{parse_category, parse_repeat};
+use crate::twitch::quests::{Quest, QuestGroup};
+use crate::twitch::{count, note_left_out, parse_time, text, values};
 
 const BADGES_URL: &str = "https://drops.sunkwi.com/api/twitch/badges";
 
@@ -53,6 +57,30 @@ pub struct BadgeRequirement {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
     pub campaign_name: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub repeat: Option<Repeat>,
+    #[serde(default)]
+    pub categories: Vec<Game>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub collection: Option<BadgeCollection>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub evolves_from: Option<String>,
+}
+
+// ! A badge of an event collection: `chest_size` badges come out of one chest
+// at random, and `complete_all` is the badge of the whole collection,
+// subscriptions included.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[ts(rename = "BadgeCollectionType")]
+pub struct BadgeCollection {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub chest_size: Option<u32>,
+    #[serde(default)]
+    pub complete_all: bool,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
@@ -81,6 +109,41 @@ impl GlobalBadge {
     pub fn key(&self) -> String {
         badge_key(&self.set_id, &self.version_id)
     }
+
+    pub fn to_ref(&self) -> BadgeRef {
+        BadgeRef {
+            set_id: self.set_id.clone(),
+            version: self.version_id.clone(),
+            title: self.title.clone(),
+            image_url: self.image_url.clone(),
+        }
+    }
+
+    pub fn campaign_id(&self) -> Option<&str> {
+        self.requirement.as_ref()?.campaign_id.as_deref()
+    }
+
+    // ! Twitch describes an evolution as "earned by evolving…" before the list names the badge to equip.
+    pub fn evolution(&self, badges: &[GlobalBadge]) -> Option<Evolution> {
+        let from = self
+            .requirement
+            .as_ref()
+            .and_then(|r| r.evolves_from.as_deref());
+
+        if from.is_none() && !self.description.to_lowercase().contains("evolving") {
+            return None;
+        }
+
+        Some(Evolution {
+            from: from.and_then(|key| {
+                badges
+                    .iter()
+                    .find(|badge| badge.key() == key)
+                    .map(GlobalBadge::to_ref)
+            }),
+            owned: false,
+        })
+    }
 }
 
 pub fn badge_key(set_id: &str, version: &str) -> String {
@@ -91,26 +154,39 @@ pub fn badge_key(set_id: &str, version: &str) -> String {
 pub struct BadgeCatalog {
     pub badges: Vec<GlobalBadge>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub read_at: Option<DateTime<Utc>>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub updated_at: Option<DateTime<Utc>>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub fetched_at: Option<DateTime<Utc>>,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(skip)]
     pub problem: Option<ErrorCode>,
-    /// When the list is read again: later than usual after a refusal or a rate limit.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(skip)]
     pub next_refresh_at: Option<DateTime<Utc>>,
 }
 
 impl FeedAnswer for BadgeCatalog {
+    const NAME: &'static str = "badge list";
+    const CACHE_KEY: &'static str = "badges_cache";
+
     fn parse(payload: &Value) -> Result<Self> {
         parse_badges(payload)
     }
 
-    fn fetched_now(self) -> Self {
-        Self {
-            fetched_at: Some(Utc::now()),
-            ..self
-        }
+    fn count(&self) -> usize {
+        self.badges.len()
+    }
+
+    fn fetched_at(&self) -> Option<DateTime<Utc>> {
+        self.fetched_at
+    }
+
+    fn mark_fetched(&mut self, at: DateTime<Utc>) {
+        self.fetched_at = Some(at);
+    }
+
+    fn set_problem(&mut self, problem: Option<ErrorCode>) {
+        self.problem = problem;
     }
 }
 
@@ -122,22 +198,13 @@ impl BadgeCatalogClient {
     }
 }
 
-fn parse_time(value: &Value) -> Option<DateTime<Utc>> {
-    text(value)?.parse().ok()
-}
-
-fn count(value: &Value) -> u32 {
-    value
-        .as_u64()
-        .map_or(0, |v| u32::try_from(v).unwrap_or(u32::MAX))
-}
-
 fn parse_requirement(record: &Value) -> Option<BadgeRequirement> {
     let source = match record["source"].as_str()? {
         "DROPS" => BadgeSource::Drops,
         "TWITCH_DESCRIPTION" => BadgeSource::TwitchDescription,
         _ => return None,
     };
+    let collection = &record["collection"];
 
     Some(BadgeRequirement {
         source,
@@ -154,6 +221,22 @@ fn parse_requirement(record: &Value) -> Option<BadgeRequirement> {
         ends_at: parse_time(&record["endAt"]),
         campaign_id: text(&record["campaignId"]),
         campaign_name: text(&record["campaignName"]),
+        repeat: parse_repeat(&record["repeat"]),
+        categories: values(&record["categories"])
+            .filter_map(parse_category)
+            .collect(),
+        collection: collection.is_object().then(|| BadgeCollection {
+            chest_size: collection["chestSize"]
+                .as_u64()
+                .and_then(|size| u32::try_from(size).ok()),
+            complete_all: collection["completeAll"].as_bool().unwrap_or(false),
+        }),
+        evolves_from: text(&record["evolvesFrom"]["setId"]).map(|set_id| {
+            badge_key(
+                &set_id,
+                &text(&record["evolvesFrom"]["versionId"]).unwrap_or_else(|| "1".to_owned()),
+            )
+        }),
     })
 }
 
@@ -191,10 +274,13 @@ pub fn parse_badges(payload: &Value) -> Result<BadgeCatalog> {
 
     note_left_out("badges", records.len(), badges.len());
 
+    let now = Utc::now();
+
     Ok(BadgeCatalog {
         badges,
+        read_at: Some(now),
         updated_at: parse_time(&payload["refreshedAt"]),
-        fetched_at: Some(Utc::now()),
+        fetched_at: Some(now),
         problem: None,
         next_refresh_at: None,
     })
@@ -208,32 +294,167 @@ fn normalized(title: &str) -> String {
         .collect()
 }
 
-// ! A Drops reward names its badge only by its title: the badge is the one
-// whose requirement names the campaign, then any badge of the same title.
-pub fn badge_of<'a>(
-    badges: &'a [GlobalBadge],
-    campaign: &Campaign,
-    reward_name: &str,
+fn titled<'a>(
+    mut badges: impl Iterator<Item = &'a GlobalBadge>,
+    name: &str,
 ) -> Option<&'a GlobalBadge> {
-    let wanted = normalized(reward_name);
+    let wanted = normalized(name);
 
-    if wanted.is_empty() {
-        return None;
+    badges.find(|badge| !wanted.is_empty() && normalized(&badge.title) == wanted)
+}
+
+#[derive(Debug, Default)]
+pub struct RewardBadges<'a> {
+    pub badges: Vec<&'a GlobalBadge>,
+    pub chest_size: Option<u32>,
+}
+
+impl RewardBadges<'_> {
+    pub fn refs(&self) -> Vec<BadgeRef> {
+        self.badges.iter().map(|badge| badge.to_ref()).collect()
     }
 
-    let titled = |badge: &&GlobalBadge| normalized(&badge.title) == wanted;
+    pub fn requirement(&self) -> Option<&BadgeRequirement> {
+        self.badges.first()?.requirement.as_ref()
+    }
+}
 
-    badges
+pub struct RewardOf<'r> {
+    pub campaign_id: &'r str,
+    pub name: &'r str,
+    pub badge: bool,
+    pub required_minutes: u32,
+    pub required_subs: u32,
+}
+
+// ! The list names the campaign of each badge: a reward is the badge of its
+// campaign titled like it; a chest (a Poké Ball, a GTA VI chest) is titled like
+// none and holds the campaign's watch badges no reward is named after. Only a
+// campaign the list does not know falls back on the title of any badge.
+pub fn reward_badges<'a>(
+    badges: &'a [GlobalBadge],
+    reward: &RewardOf<'_>,
+    names: &HashSet<String>,
+) -> RewardBadges<'a> {
+    let mut own = badges
         .iter()
+        .filter(|badge| badge.campaign_id() == Some(reward.campaign_id))
+        .peekable();
+
+    if own.peek().is_none() {
+        return RewardBadges {
+            badges: reward
+                .badge
+                .then(|| titled(badges.iter(), reward.name))
+                .flatten()
+                .into_iter()
+                .collect(),
+            chest_size: None,
+        };
+    }
+
+    let own: Vec<&GlobalBadge> = own.collect();
+
+    if let Some(badge) = titled(own.iter().copied(), reward.name) {
+        return RewardBadges {
+            badges: vec![badge],
+            chest_size: None,
+        };
+    }
+
+    if reward.required_subs > 0 {
+        return RewardBadges::default();
+    }
+
+    let chest: Vec<&GlobalBadge> = own
+        .into_iter()
         .filter(|badge| {
-            badge
-                .requirement
-                .as_ref()
-                .and_then(|r| r.campaign_id.as_deref())
-                == Some(campaign.id.as_str())
+            badge.requirement.as_ref().is_some_and(|r| {
+                r.collection.is_some_and(|c| !c.complete_all)
+                    && r.required_subs == 0
+                    && (reward.required_minutes == 0
+                        || r.required_minutes == reward.required_minutes)
+            }) && !names.contains(&normalized(&badge.title))
         })
-        .find(titled)
-        .or_else(|| badges.iter().find(titled))
+        .collect();
+    let chest_size = chest
+        .iter()
+        .filter_map(|badge| badge.requirement.as_ref()?.collection?.chest_size)
+        .max();
+
+    RewardBadges {
+        badges: chest,
+        chest_size,
+    }
+}
+
+pub fn reward_names<'a>(names: impl Iterator<Item = &'a str>) -> HashSet<String> {
+    names
+        .map(normalized)
+        .filter(|name| !name.is_empty())
+        .collect()
+}
+
+pub fn known_badges<'a>(badges: &'a [GlobalBadge], refs: &[BadgeRef]) -> RewardBadges<'a> {
+    RewardBadges {
+        badges: refs
+            .iter()
+            .filter_map(|known| badges.iter().find(|badge| badge.key() == known.key()))
+            .collect(),
+        chest_size: None,
+    }
+}
+
+// ! A reward the list knows gets its badges, and its drop the period and the
+// categories of that badge.
+pub fn attach_badges(campaign: &mut Campaign, badges: &[GlobalBadge]) {
+    let names = reward_names(
+        campaign
+            .drops
+            .iter()
+            .flat_map(|drop| drop.benefits.iter().map(|benefit| benefit.name.as_str())),
+    );
+    let mut categories: Vec<Game> = Vec::new();
+
+    for drop in &mut campaign.drops {
+        for benefit in &mut drop.benefits {
+            if !benefit.badges.is_empty() {
+                continue;
+            }
+
+            let found = reward_badges(
+                badges,
+                &RewardOf {
+                    campaign_id: &campaign.id,
+                    name: &benefit.name,
+                    badge: benefit.kind == BenefitKind::Badge,
+                    required_minutes: drop.required_minutes,
+                    required_subs: drop.required_subs,
+                },
+                &names,
+            );
+
+            if found.badges.is_empty() {
+                continue;
+            }
+
+            benefit.kind = BenefitKind::Badge;
+            benefit.badges = found.refs();
+            benefit.chest_size = found.chest_size;
+
+            if let Some(requirement) = found.requirement() {
+                drop.repeat = drop.repeat.or(requirement.repeat);
+
+                if categories.is_empty() && requirement.categories.len() > 1 {
+                    categories.clone_from(&requirement.categories);
+                }
+            }
+        }
+    }
+
+    if campaign.categories.is_empty() {
+        campaign.categories = categories;
+    }
 }
 
 pub struct OwnedBadges {
@@ -257,49 +478,120 @@ impl OwnedBadges {
         self.keys.contains(key)
     }
 
-    // ! The badge list says which badge a reward names; without it (list not
-    // read yet, API down), the titles Twitch gives with the owned badges do.
-    pub fn owns(
-        &self,
-        badges: &[GlobalBadge],
-        campaign: Option<&Campaign>,
-        reward_name: &str,
-    ) -> bool {
-        let known = match campaign {
-            Some(campaign) => badge_of(badges, campaign, reward_name),
-            None => titled_badge(badges, reward_name),
-        };
-
-        match known {
-            Some(badge) => self.keys.contains(&badge.key()),
-            None => self.titles.contains(&normalized(reward_name)),
+    // ! Without the list (not read yet, API down), the titles Twitch gives
+    // with the owned badges say it; a chest is owned once each of its badges is.
+    pub fn owns(&self, benefit: &Benefit) -> bool {
+        if benefit.badges.is_empty() {
+            self.titles.contains(&normalized(&benefit.name))
+        } else {
+            benefit
+                .badges
+                .iter()
+                .all(|badge| self.keys.contains(&badge.key()))
         }
     }
 }
 
-fn titled_badge<'a>(badges: &'a [GlobalBadge], name: &str) -> Option<&'a GlobalBadge> {
-    let wanted = normalized(name);
-
-    badges
-        .iter()
-        .find(|badge| !wanted.is_empty() && normalized(&badge.title) == wanted)
-}
-
-pub fn mark_owned_badges(campaign: &mut Campaign, badges: &[GlobalBadge], owned: &OwnedBadges) {
-    let snapshot = campaign.clone();
+// ! A quest's reward is a badge even when Twitch does not say so: only a
+// Drops reward has its kind.
+pub fn mark_owned(campaign: &mut Campaign, owned: &OwnedBadges) {
+    let quest = campaign.kind == CampaignKind::Quest;
 
     for drop in &mut campaign.drops {
-        let badge_rewards: Vec<&str> = drop
-            .benefits
-            .iter()
-            .filter(|b| b.kind == BenefitKind::Badge)
-            .map(|b| b.name.as_str())
-            .collect();
+        drop.badge_owned = !drop.benefits.is_empty()
+            && drop.benefits.iter().all(|benefit| {
+                (quest || benefit.kind == BenefitKind::Badge) && owned.owns(benefit)
+            });
+    }
+}
 
-        drop.badge_owned = !badge_rewards.is_empty()
-            && badge_rewards.len() == drop.benefits.len()
-            && badge_rewards
+impl Quest {
+    fn listed_id(&self, badges: &[GlobalBadge]) -> String {
+        std::iter::once(&self.id)
+            .chain(
+                self.groups
+                    .iter()
+                    .filter_map(|g| g.progress_campaign_id.as_ref()),
+            )
+            .find(|id| badges.iter().any(|b| b.campaign_id() == Some(id.as_str())))
+            .unwrap_or(&self.id)
+            .clone()
+    }
+
+    // ! The badge list says what each reward gives, how often its group
+    // repeats and which one is the badge of the whole collection: that one
+    // waits until Twitch has every other group earned, subscriptions included.
+    pub fn attach_badges(&mut self, badges: &[GlobalBadge], owned: &OwnedBadges) {
+        let campaign_id = self.listed_id(badges);
+        let names = reward_names(
+            self.groups
                 .iter()
-                .all(|name| owned.owns(badges, Some(&snapshot), name));
+                .flat_map(|g| g.rewards.iter().map(|r| r.name.as_str())),
+        );
+
+        for group in &mut self.groups {
+            for reward in &mut group.rewards {
+                let found = if reward.badges.is_empty() {
+                    reward_badges(
+                        badges,
+                        &RewardOf {
+                            campaign_id: &campaign_id,
+                            name: &reward.name,
+                            badge: true,
+                            required_minutes: group.required_minutes,
+                            required_subs: group.required_subs,
+                        },
+                        &names,
+                    )
+                } else {
+                    known_badges(badges, &reward.badges)
+                };
+
+                if reward.badges.is_empty() {
+                    reward.badges = found.refs();
+                    reward.chest_size = found.chest_size;
+                }
+
+                if let Some(requirement) = found.requirement() {
+                    if requirement.collection.is_some_and(|c| c.complete_all) {
+                        group.after_all = true;
+                        group.required_subs = group.required_subs.max(requirement.required_subs);
+                    } else {
+                        group.repeat = group.repeat.or(requirement.repeat);
+                    }
+                }
+
+                if let [badge] = found.badges.as_slice() {
+                    group.evolution = badge.evolution(badges).map(|evolution| Evolution {
+                        owned: evolution
+                            .from
+                            .as_ref()
+                            .is_some_and(|from| owned.has_key(&from.key())),
+                        ..evolution
+                    });
+                }
+            }
+        }
+
+        let earned: Vec<bool> = self.groups.iter().map(QuestGroup::earned).collect();
+
+        for (index, group) in self.groups.iter_mut().enumerate() {
+            let made = if group.after_all {
+                earned
+                    .iter()
+                    .enumerate()
+                    .all(|(other, done)| other == index || *done)
+            } else {
+                earned[index]
+            };
+
+            group.current_subs = if made {
+                group.required_subs
+            } else if group.after_all {
+                0
+            } else {
+                group.current_subs
+            };
+        }
     }
 }

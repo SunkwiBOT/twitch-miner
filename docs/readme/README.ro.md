@@ -125,6 +125,8 @@ la lucru.
 - **Importă streameri.** Lipește o listă (până la 500 de nume) sau refolosește lista altui
   cont ori canalele pe care le urmărește contul. Lista este verificată, ca să fie adăugate
   doar canale care există.
+  Actualizările în direct acoperă 46 de streameri pe cont: următorii din listă nu primesc
+  raiduri, momente sau predicții.
 
   <details open><summary>Vezi în acțiune</summary>
   <img src="../media/ro/streamers-import.avif" alt="Importul de streameri: o listă lipită, alt cont, canalele urmărite">
@@ -163,6 +165,8 @@ la lucru.
 - **Inventar și „Revendică tot”.** Pagina Inventar împarte recompensele în „De revendicat”,
   „În desfășurare” și „Revendicate”. Revendică-le pe rând, pe toate odată sau activează
   „Revendică drops automat”.
+  După „Conectează contul de joc”, contul este citit din nou imediat ce revii în
+  aplicație, așa că legătura apare pe loc.
 
   <details open><summary>Vezi în acțiune</summary>
   <img src="../media/ro/drops-inventory.avif" alt="Inventarul și butonul „Revendică tot”">
@@ -179,10 +183,20 @@ la lucru.
 - **Insigne (beta).** Pagina Insigne listează toate insignele globale din chatul Twitch
   și cum le obții. Fiecare cont are propria pagină Insigne: insignele în desfășurare cu
   progresul lor, cele pe care le mai poate obține și cele pe care le are. Minerul
-  țintește insignele care cer doar timp de vizionare, din campaniile Drops și misiunile
-  Twitch, și le sare pe cele pe care contul le are deja. În „Ce să se mineze, în ordine”,
-  trage jocurile prioritare, insignele și celelalte campanii Drops în ordinea dorită sau
-  dezactivează una dintre ele. Această funcție este în beta.
+  țintește insignele din campaniile Drops și misiunile Twitch și le sare pe cele pe care
+  contul le are deja. O insignă de urmărit în fiecare zi este minată din nou în fiecare
+  zi, până la ultima („20 min. pe zi, 3 zile”), iar un canal din oricare dintre
+  categoriile campaniei contează. Un cufăr dă „1 insignă la întâmplare din N”. O insignă
+  care cere un abonament este minată după ce te-ai abonat tu însuți și Twitch îl
+  numără. Nimic nu este minat înainte de începutul campaniei. În „Ce să se mineze, în
+  ordine”, trage jocurile prioritare, insignele și celelalte campanii Drops în ordinea
+  dorită sau dezactivează una dintre ele. O misiune Twitch este minată doar pe un canal
+  unde Twitch o oferă în panoul său Drops. O evoluție (Pichu → Pikachu) este minată imediat
+  ce contul are insigna din care evoluează: minerul își pune singur acea insignă chiar
+  înainte și nu o mai pune la loc pe cea veche; „Minează evoluțiile insignelor”, în
+  setările de insigne ale contului, dezactivează asta. Un clic pe o insignă îi deschide
+  detaliile: cerința completă, toate categoriile și canalele, colecția, evoluția și
+  progresul fiecărui cont. Această funcție este în beta.
 
   <details open><summary>Vezi în acțiune</summary>
   <img src="../media/ro/badges.avif" alt="Pagina Insigne, insignele unui cont, apoi „Ce să se mineze, în ordine” cu Insigne trase primele">
@@ -192,7 +206,7 @@ la lucru.
 
 - **Un jurnal pentru tot și fiecare cerere.** Jurnalul păstrează fiecare eveniment: drops,
   puncte câștigate și cheltuite, cufere, pariuri, raiduri, live-uri care încep…
-  Filtrează-l după cont, după filă (Drops, Puncte, Altele) și după tip.
+  Filtrează-l după cont, după filă (Drops, Insigne, Puncte, Altele) și după tip.
   **Loguri tehnice › Cereri** listează fiecare cerere trimisă către Twitch și către alte
   servicii, cu rezultatul și durata ei. Logurile și cererile nu conțin niciun token sau
   secret: „Copiază pentru un raport de eroare” le copiază, gata de lipit într-un raport de
@@ -230,7 +244,9 @@ la lucru.
   „Actualizare” cu numărul versiunii. „Instalează și repornește” cere întâi o confirmare,
   apoi aplicația instalează versiunea și repornește. Dacă are o parolă a aplicației,
   repornește blocată: introdu-o din nou ca să reiei minarea. Se instalează doar o versiune
-  semnată de proiect. Și versiunea Docker te anunță, cu comenzile de rulat.
+  semnată de proiect. Executabilul portabil pentru Windows nu se actualizează singur:
+  butonul lui deschide pagina de descărcare. Și versiunea Docker te anunță, cu comenzile
+  de rulat.
 
   <details open><summary>Vezi în acțiune</summary>
   <img src="../media/ro/updates.avif" alt="Insigna „Actualizare”, confirmarea, apoi instalarea">
@@ -241,8 +257,8 @@ la lucru.
 - Ca alte instrumente de minare: cufere bonus, raiduri, momente, obiective ale comunității,
   predicții (strategii, momentul pariului, condiții), prioritate pentru seriile de
   vizionare și pentru canalele cu abonament, prezență în chat (se poate dezactiva), opțiuni
-  implicite pentru streamerii noi, notificări Discord, Telegram și webhook cu imagini, proxy
-  global sau per cont.
+  implicite pentru streamerii noi, notificări Discord, Telegram și webhook cu imagini (pe
+  server, limba lor se alege în **Setări › Notificări**), proxy global sau per cont.
 - 29 de limbi, teme întunecată și luminoasă, notificări desktop, pictogramă în bara de
   sistem, pornire odată cu sistemul.
 
@@ -325,16 +341,18 @@ Descarcă fișierul pentru sistemul tău din
 | Sistem | Pachet |
 |---|---|
 | **Windows** · x64 | Program de instalare (`setup.exe`) sau [executabil portabil](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/TwitchMiner-portable.exe) |
-| **macOS** 10.15 sau mai nou · Intel și Apple Silicon | Imagine de disc (`.dmg`) |
+| **macOS** 13 sau mai nou · Intel și Apple Silicon | Imagine de disc (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) sau `.rpm` (Fedora, openSUSE) |
 
-Versiunea pentru macOS nu este notarizată. Prima dată, fă clic dreapta pe aplicație și
-alege **Deschide**.
+Versiunea pentru macOS nu este notarizată. Prima dată, deschide aplicația: macOS o
+blochează. Apoi mergi la **Configurări sistem › Intimitate și securitate** și fă clic pe
+**Deschide oricum**.
 
 Actualizările sunt semnate. Aplicația verifică la pornire dacă există o versiune nouă, apoi
 la fiecare oră (frecvența o poți schimba în **Setări › Despre**). Nu instalează niciodată
 singură o versiune: o instalezi tu cu un singur clic, din mesajul care apare sau din
-**Setări › Despre**.
+**Setări › Despre**. Executabilul portabil nu se actualizează niciodată singur:
+„Deschide pagina de descărcare” te duce la ultima versiune publicată.
 
 Datele se află în dosarul de date al utilizatorului:
 
@@ -379,7 +397,7 @@ Deschide <http://localhost:8080> (sau adresa mașinii în rețeaua ta) și intro
 | `MINER_PASSWORD_FILE` | niciuna | Citește `MINER_PASSWORD` dintr-un fișier, de exemplu un secret Docker. Una sau alta, nu amândouă. |
 | `MINER_PUBLIC_URL` | niciuna | Doar în spatele unui reverse proxy HTTPS (Caddy, nginx, Traefik, Cloudflare Tunnel…): adresa `https://` a panoului, fără cale, de exemplu `https://miner.example.com`. Proxy-ul trebuie să transmită `X-Forwarded-Proto`, `X-Forwarded-For` și websocketurile, ceea ce proxy-urile obișnuite fac implicit, iar portul containerului nu trebuie să fie accesibil direct. Panoul refuză atunci tot ce nu vine prin proxy, prin HTTPS, și blochează o adresă timp de 30 de secunde după 5 parole greșite. Proxy-ul trebuie să ruleze pe aceeași mașină sau în rețeaua ei locală: o conexiune de la o adresă publică este refuzată. |
 | `MINER_TRUSTED_HOPS` | `1` | Doar cu `MINER_PUBLIC_URL`: câte proxy-uri adaugă o intrare în `X-Forwarded-For`, de la 1 la 10. `2` cu două proxy-uri unul în spatele celuilalt, de exemplu Cloudflare în fața Traefik. |
-| `MINER_PROXY_NETWORKS` | niciuna | Doar cu `MINER_PUBLIC_URL`: alte rețele din care se poate conecta proxy-ul, pe lângă această mașină și rețeaua ei locală privată, separate prin virgule: o singură adresă sau o rețea ca `2001:db8:1::/64`, pentru o rețea locală cu adrese IPv6 globale. |
+| `MINER_PROXY_NETWORKS` | niciuna | Doar cu `MINER_PUBLIC_URL`: rețelele din care se conectează proxy-ul, separate prin virgule: o singură adresă sau o rețea ca `192.168.1.0/24` ori `2001:db8:1::/64`. Odată setată, proxy-ul este acceptat doar de la adresa de loopback și din aceste rețele, nu și din toată rețeaua locală privată. |
 | `MINER_VAULT_PASSPHRASE` | niciuna | Doar pentru un dosar de date copiat din aplicația desktop care are o parolă a aplicației: îl deblochează la pornire. Un server creat de la zero nu are niciodată nevoie de ea. |
 | `MINER_VAULT_PASSPHRASE_FILE` | niciuna | Citește `MINER_VAULT_PASSPHRASE` dintr-un fișier. Una sau alta, nu amândouă. |
 | `DATA_DIR` | `/data` în imagine, altfel `data` în directorul de lucru | Baza de date, fișierul cu cheia și logurile. |
@@ -389,6 +407,14 @@ Deschide <http://localhost:8080> (sau adresa mașinii în rețeaua ta) și intro
 
 Serverul citește și verifică variabilele o singură dată, la pornire. O valoare invalidă
 oprește serverul cu un mesaj, în loc să treacă tacit la o valoare de rezervă.
+
+În spatele unui proxy invers, setează `MINER_PUBLIC_URL`: fără ea, prima cerere care vine
+printr-un proxy scrie un avertisment în loguri, pentru că încercările de conectare sunt
+atunci numărate pe adresa proxy-ului, iar parolele greșite ale unui vizitator i-ar bloca
+pe toți. Conexiunea live trimite un ping la fiecare 30 de secunde, ca un proxy să nu o
+închidă când nu se întâmplă nimic. Când Twitch sau rețeaua cad, serverul răspunde `424`,
+niciodată `502` sau `504`: în spatele Cloudflare, vezi eroarea reală în locul paginii
+Cloudflare.
 
 ## <a name="how-it-works"></a>Cum funcționează
 
@@ -427,13 +453,15 @@ iar celălalt streamerii tăi. Setarea „Un canal”, din **Setări cont**, e m
 
 **O campanie nu este minată sau un drop nu avansează.**\
 Deschide pagina **Drops** a contului. În „Ordinea de minare”, fiecare campanie în așteptare
-spune de ce: „Niciun canal live”, „În așteptare (o campanie pe rând)” sau „Niciun drop
-disponibil încă”. O campanie care nu apare în acea listă a fost lăsată deoparte: de
+spune de ce: „Niciun canal live” sau „În așteptare (o campanie pe rând)”. O campanie care
+nu apare în acea listă a fost lăsată deoparte: de „Ce să se mineze, în ordine”, de
 setarea „Ce campanii”, de o regulă din fila **Excluderi** sau pentru că nu se poate
-termina la timp. O recompensă care cere un abonament nu este minată niciodată, iar un drop
-care urmează după altul așteaptă ca primul să se termine. În modul **Doar puncte**, minerul
-nu alege nicio campanie. „Minează cu prioritate”, în fișa unei campanii, o pune pe primul
-loc; o campanie ignorată poate reveni cu „Minează din nou”, din fila **Excluderi**.
+termina la timp. O recompensă care cere un abonament așteaptă să te abonezi tu însuți, o
+insignă de urmărit în fiecare zi așteaptă ziua următoare, nimic nu este minat înainte de
+începutul campaniei, iar un drop care urmează după altul așteaptă ca primul să se
+termine. În modul **Doar puncte**, minerul nu alege nicio campanie. „Minează cu
+prioritate”, în fișa unei campanii, o pune pe primul loc; o campanie ignorată poate
+reveni cu „Minează din nou”, din fila **Excluderi**.
 
 **Trebuie să conectez contul de joc?**\
 Pentru revendicare, da: din octombrie 2026, Twitch permite revendicarea unui drop doar
@@ -462,7 +490,9 @@ aplicației) și logurile.
 Aplicația desktop verifică la pornire dacă există o versiune nouă, apoi la fiecare oră
 (poți schimba asta în **Setări › Despre**). Dă clic pe insigna „Actualizare”, apoi pe
 „Instalează și repornește”. Cu Docker, panoul te anunță: rulează `docker compose pull`,
-apoi `docker compose up -d`.
+apoi `docker compose up -d`. Executabilul portabil pentru Windows nu se actualizează
+singur: „Deschide pagina de descărcare” deschide ultima versiune publicată, de unde
+descarci noul fișier.
 
 **Am uitat parola aplicației.**\
 Nu poate fi recuperată: ea criptează sesiunile tale Twitch. Închide aplicația, șterge
@@ -475,20 +505,23 @@ parola panoului se schimbă în `MINER_PASSWORD`, urmată de `docker compose up 
 Depinde de Twitch și de fiecare canal. Minerul câștigă ce îi dă Twitch unui spectator:
 punctele pentru timpul de vizionare, cuferele bonus (cam unul la fiecare 15 minute) și
 bonusul pentru seria de vizionare. Un abonament înmulțește punctele, de la ×1,2 la ×2, în
-funcție de nivel. Pagina Acasă arată punctele câștigate, iar Jurnalul, fiecare câștig.
+funcție de nivel, iar cu „Canalele cu abonament mai întâi”, activată implicit, aceste
+canale trec înaintea restului listei tale. Pagina Acasă arată punctele câștigate, iar
+Jurnalul, fiecare câștig.
 
 **Sunt riscante pariurile?**\
 Da, se pot pierde puncte. Predicțiile sunt dezactivate implicit, streamer cu streamer. Tu
 alegi strategia, momentul pariului, miza (5 % din sold implicit, cel mult 50.000 de
 puncte), un sold minim și, dacă vrei, o condiție, de exemplu o cotă de cel puțin 1,5.
 Păstrează miza mică.
+Un pariu sub 10 puncte nu este plasat niciodată.
 
 **Un streamer nu este urmărit.**\
 Sunt urmăriți doar streamerii activați și live, și doar pe un canal liber: în modul
 **Drops și puncte**, unul dintre cele două servește campania curentă; în modul
 **Doar Drops**, nu este urmărit niciun streamer; un cont pus pe pauză nu urmărește nimic.
-Locurile se ocupă în această ordine, afișată ca insignă pe fiecare canal urmărit: „Bonus
-de serie”, „Serie în pericol”, „Abonat”, apoi „Ordinea listei”. Mută streamerul mai sus în
+Locurile se ocupă în această ordine, afișată ca insignă pe fiecare canal urmărit: „Serie
+în pericol”, „Bonus de serie”, „Abonat”, apoi „Ordinea listei”. Mută streamerul mai sus în
 listă sau dezactivează „Seriile de vizionare mai întâi” și „Canalele cu abonament mai
 întâi”.
 
@@ -508,6 +541,8 @@ Alte proiecte ale aceluiași autor:
 
 - Tokenurile sunt sigilate cu AES-256-GCM. Cheia este fie un `master.key` aleator lângă
   baza de date (implicit, nimic de făcut), fie derivată din parola aplicației cu Argon2id.
+- Dosarul de date și cel de loguri sunt private (`0700`): doar utilizatorul care rulează
+  minerul le poate deschide.
 - Panoul HTTP verifică parola în timp constant și folosește cookie-uri HttpOnly,
   SameSite=Strict (`Secure`, cu prefixul `__Host-`, în spatele HTTPS). Serverul păstrează
   doar un hash SHA-256 al fiecărei sesiuni. Încheie o sesiune după 30 de zile sau la
@@ -517,6 +552,9 @@ Alte proiecte ale aceluiași autor:
   bearer), acea adresă așteaptă 30 de secunde. Serverul răspunde `429` cu `Retry-After`,
   fără să se uite la parolă. În plus, fiecare parolă greșită primește răspuns abia după
   o jumătate de secundă.
+  Peste 30 de parole greșite într-un minut de la aceeași adresă de conexiune, inclusiv un
+  proxy comun, acea adresă primește o singură încercare la fiecare 2 secunde: ghicitul
+  încetinește și nimeni nu rămâne blocat.
 - În afara rețelei tale, pune panoul în spatele unui reverse proxy HTTPS cu
   `MINER_PUBLIC_URL` (vezi [Docker](#docker)).
 - Minerul comunică doar cu `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`,

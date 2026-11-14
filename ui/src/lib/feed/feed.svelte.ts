@@ -2,7 +2,7 @@ import { untrack } from "svelte";
 
 import { describeError } from "../errors/errors.utils";
 import { ToastKind } from "../state/state.constants";
-import { toast } from "../state/state.svelte";
+import { toast } from "../state/toasts";
 import type { FeedSourceType } from "./feed.types";
 
 export class PagedFeed<QueryType, ItemType, CursorType> {
@@ -17,14 +17,24 @@ export class PagedFeed<QueryType, ItemType, CursorType> {
   #source: FeedSourceType<QueryType, ItemType, CursorType>;
   #query: QueryType | null = null;
   #key: string | null = null;
-  // ! Bumped by every new query: an answer to an older one is dropped, so a slow
-  // page of the previous filters never lands in the new list.
+  // ! Bumped by every new query: an answer to an older one is dropped, so a slow page of the previous filters never lands in the new list.
   #generation = 0;
+  // ! Bumped when a refresh starts the list again from its page: a "load more" still in flight would glue an older page behind it.
+  #restarts = 0;
   #refreshing: number | null = null;
   #again = false;
 
   constructor(source: FeedSourceType<QueryType, ItemType, CursorType>) {
     this.#source = source;
+  }
+
+  poll(query: () => QueryType, everyMs: number): void {
+    $effect(() => {
+      void this.show(query());
+      const timer = setInterval(() => void this.refresh(), everyMs);
+
+      return () => clearInterval(timer);
+    });
   }
 
   show(query: QueryType): Promise<void> {
@@ -56,8 +66,7 @@ export class PagedFeed<QueryType, ItemType, CursorType> {
       return;
     }
 
-    // ! One request at a time: a refresh asked meanwhile runs once that one is back,
-    // so a slow answer never overwrites a newer one and no new event is missed.
+    // ! One request at a time: a refresh asked meanwhile runs once that one is back, so a slow answer never overwrites a newer one.
     if (this.#refreshing === asked) {
       this.#again = true;
 
@@ -74,7 +83,16 @@ export class PagedFeed<QueryType, ItemType, CursorType> {
       }
 
       const oldest = page.items.at(-1);
-      const older = oldest ? this.items.filter((item) => this.#source.isOlder(item, oldest)) : [];
+      const newest = this.items.at(0);
+      // ! More than a page came in meanwhile: the list starts again from this page.
+      const gap = page.next !== null && oldest && newest && this.#source.isOlder(newest, oldest);
+
+      if (gap) {
+        this.#restarts += 1;
+      }
+
+      const older =
+        oldest && !gap ? this.items.filter((item) => this.#source.isOlder(item, oldest)) : [];
 
       this.items = [...page.items, ...older];
       this.problem = null;
@@ -108,6 +126,7 @@ export class PagedFeed<QueryType, ItemType, CursorType> {
 
   loadMore = async (): Promise<void> => {
     const asked = this.#generation;
+    const restarts = this.#restarts;
     const query = this.#query;
     const cursor = this.#cursor;
 
@@ -120,7 +139,7 @@ export class PagedFeed<QueryType, ItemType, CursorType> {
     try {
       const page = await this.#source.fetch(query, cursor);
 
-      if (asked !== this.#generation) {
+      if (asked !== this.#generation || restarts !== this.#restarts) {
         return;
       }
 

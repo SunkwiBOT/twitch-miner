@@ -10,7 +10,8 @@
   import { cn } from "$lib/utils";
   import DialogActions from "./DialogActions.svelte";
   import IconButton from "./IconButton.svelte";
-  import { ButtonSize, ButtonVariant, IconName } from "./ui.constants";
+  import { ButtonSize, ButtonVariant } from "./button.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   type DialogPropsType = {
     open: boolean;
@@ -68,8 +69,7 @@
     interactOutsideBehavior={behavior}
     escapeKeydownBehavior={behavior}
     class={cn(
-      // ! One column no wider than the dialog: a long unbroken line (an address)
-      // would otherwise widen the grid track and push content past the edge.
+      // ! One column no wider than the dialog: a long unbroken line would widen the track past the edge.
       "max-h-[90vh] grid-cols-[minmax(0,1fr)] gap-4 overflow-y-auto p-5 outline-none",
       wide ? "sm:max-w-3xl" : "sm:max-w-lg",
     )}

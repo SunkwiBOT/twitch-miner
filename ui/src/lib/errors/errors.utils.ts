@@ -46,7 +46,6 @@ const MESSAGES: Record<ErrorApiMessage, (code: ErrorApiMessage) => string> = {
   [ErrorApiMessage.INVALID_RESPONSE]: () => t.error_invalid_response(),
   [ErrorApiMessage.TWITCH_REJECTED]: () => t.error_twitch_rejected(),
   [ErrorApiMessage.DEVICE_CODE_EXPIRED]: () => t.error_device_code_expired(),
-  [ErrorApiMessage.DEVICE_CODE_PENDING]: () => t.error_device_code_pending(),
   [ErrorApiMessage.STORAGE_ERROR]: () => t.error_storage(),
   [ErrorApiMessage.VAULT_LOCKED]: () => t.error_vault_locked(),
   [ErrorApiMessage.WRONG_PASSPHRASE]: () => t.error_wrong_passphrase(),

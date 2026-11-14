@@ -5,7 +5,8 @@
   import EmptyState from "./EmptyState.svelte";
   import Icon from "./Icon.svelte";
   import IconButton from "./IconButton.svelte";
-  import { ButtonSize, ButtonVariant, IconName } from "./ui.constants";
+  import { ButtonSize, ButtonVariant } from "./button.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   type SortableListPropsType = {
     items: T[];

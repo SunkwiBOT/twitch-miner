@@ -14,14 +14,9 @@
   import SearchField from "../ui/SearchField.svelte";
   import SearchNoResult from "../ui/SearchNoResult.svelte";
   import Thumb from "../ui/Thumb.svelte";
-  import {
-    ButtonSize,
-    ButtonType,
-    ButtonVariant,
-    IconName,
-    ThumbShape,
-    ThumbSize,
-  } from "../ui/ui.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
+  import { ThumbShape, ThumbSize } from "../ui/picture.constants";
 
   type GameDialogPropsType = {
     open: boolean;

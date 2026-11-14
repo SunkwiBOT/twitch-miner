@@ -1,5 +1,5 @@
 import { DAY_MS, HOUR_MS } from "../../lib/time/time.constants";
-import { BadgeTone } from "../ui/ui.constants";
+import { BadgeTone } from "../../lib/tones.constants";
 
 export enum CatalogueView {
   TIMELINE = "TIMELINE",
@@ -20,3 +20,9 @@ export enum CatalogueSort {
 export const URGENT_MS = 3 * HOUR_MS;
 export const URGENT_TONE = BadgeTone.DANGER;
 export const NEW_MS = DAY_MS;
+
+export enum CampaignAction {
+  IGNORE = "IGNORE",
+  SELECT = "SELECT",
+  FIRST = "FIRST",
+}

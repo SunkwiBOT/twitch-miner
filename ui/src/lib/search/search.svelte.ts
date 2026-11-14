@@ -1,5 +1,4 @@
-// ! Only the answer to the text now in the field shows: an answer kept from an
-// earlier text would let Enter add what the user no longer asks for.
+// ! Only the answer to the current text shows: an older one would let Enter add what is no longer asked.
 
 import { onDestroy } from "svelte";
 

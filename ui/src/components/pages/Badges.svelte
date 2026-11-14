@@ -1,7 +1,9 @@
 <script lang="ts">
   import { BadgeFilter } from "../../lib/badges/badges.constants";
   import { badgeList } from "../../lib/badges/badges.svelte";
-  import { visibleBadges } from "../../lib/badges/badges.utils";
+  import { badgeKey, visibleBadges } from "../../lib/badges/badges.utils";
+  import type { CampaignType } from "../../lib/bindings/CampaignType";
+  import type { GlobalBadgeType } from "../../lib/bindings/GlobalBadgeType";
   import type { SnapshotType } from "../../lib/bindings/SnapshotType";
   import { describeCode } from "../../lib/errors/errors.utils";
   import { mmss, shortDuration } from "../../lib/format.utils";
@@ -11,15 +13,18 @@
   import { ticker } from "../../lib/state/ticker.svelte";
   import { linkMarker, strong } from "../../lib/text.utils";
   import { HOUR_MS } from "../../lib/time/time.constants";
+  import { secondClock } from "../../lib/time/clock.svelte";
   import { relativeTime } from "../../lib/time/time.utils";
   import BadgeCard from "../badges/BadgeCard.svelte";
+  import BadgeDialog from "../badges/BadgeDialog.svelte";
+  import CampaignDialog from "../catalogue/CampaignDialog.svelte";
   import EmptyState from "../ui/EmptyState.svelte";
   import PageBody from "../ui/PageBody.svelte";
   import PageHeader from "../ui/PageHeader.svelte";
   import RichText from "../ui/RichText.svelte";
   import SearchField from "../ui/SearchField.svelte";
   import Segmented from "../ui/Segmented.svelte";
-  import { IconName } from "../ui/ui.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   type BadgesPropsType = { snapshot: SnapshotType };
 
@@ -27,12 +32,23 @@
 
   let query = $state("");
   let filter = $state(BadgeFilter.WATCH);
+  let open = $state<GlobalBadgeType | null>(null);
+  let campaign = $state<CampaignType | null>(null);
+
+  const titles = $derived(
+    new Map(
+      badgeList.badges.map((badge) => [badgeKey(badge.set_id, badge.version_id), badge.title]),
+    ),
+  );
 
   const list = $derived(snapshot.badges);
 
-  const retryIn = $derived(
-    list.next_refresh_at ? Date.parse(list.next_refresh_at) - ticker.now : 0,
+  const retryAt = $derived(
+    list.problem && list.next_refresh_at ? Date.parse(list.next_refresh_at) : 0,
   );
+  const clock = secondClock(() => retryAt);
+  const retryIn = $derived(Math.max(0, retryAt - clock.now));
+
   const problem = $derived.by((): string => {
     if (!list.problem) {
       return "";
@@ -101,9 +117,26 @@
     />
   {:else}
     <div class="grid grid-cols-[repeat(auto-fill,minmax(min(300px,100%),1fr))] gap-3">
-      {#each shown as badge (`${badge.set_id}/${badge.version_id}`)}
-        <BadgeCard {badge} now={ticker.now} />
+      {#each shown as badge (badgeKey(badge.set_id, badge.version_id))}
+        <BadgeCard
+          {badge}
+          now={ticker.now}
+          evolvesFrom={titles.get(badge.requirement?.evolves_from ?? "") ?? null}
+          onopen={() => (open = badge)}
+        />
       {/each}
     </div>
   {/if}
 </PageBody>
+
+<BadgeDialog
+  badge={open}
+  badges={badgeList.badges}
+  onopencampaign={(next) => {
+    open = null;
+    campaign = next;
+  }}
+  onopenbadge={(next) => (open = next)}
+  onclose={() => (open = null)}
+/>
+<CampaignDialog {campaign} contextAccountId={null} onclose={() => (campaign = null)} />

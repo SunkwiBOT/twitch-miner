@@ -146,6 +146,11 @@ pub fn activation_link(uri: &str, user_code: &str) -> String {
     format!("{uri}{separator}device-code={user_code}")
 }
 
+// ! The code waits up to an hour: a dropped connection or a busy Twitch is only a missed poll.
+pub fn missed_poll(error: &Error) -> bool {
+    matches!(error, Error::Network(_) | Error::Transport(_)) || super::transient(error)
+}
+
 pub async fn poll_device_flow(http: &TwitchHttp, code: &DeviceCode) -> Result<Poll> {
     if Utc::now() >= code.expires_at {
         return Err(Error::DeviceCodeExpired);
@@ -173,12 +178,14 @@ pub async fn poll_device_flow(http: &TwitchHttp, code: &DeviceCode) -> Result<Po
         return Err(Error::Status(status));
     }
 
-    let message = body["message"].as_str().unwrap_or("");
+    still_waiting(&body)
+}
 
-    if message.contains("expired") {
-        Err(Error::DeviceCodeExpired)
-    } else {
-        Ok(Poll::Pending)
+// ! Any other answer means the code is gone for good, consumed by a token whose answer was lost included: a new code is the only way on.
+fn still_waiting(body: &Value) -> Result<Poll> {
+    match body["message"].as_str() {
+        Some("authorization_pending" | "slow_down") => Ok(Poll::Pending),
+        _ => Err(Error::DeviceCodeExpired),
     }
 }
 

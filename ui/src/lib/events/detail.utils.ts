@@ -6,7 +6,7 @@ import { BoxArtSize } from "../format.constants";
 import { boxArt, number } from "../format.utils";
 import { t } from "../i18n/i18n.svelte";
 import { reasonsLabel } from "../spam/spam.utils";
-import { eventText, type EventTextType } from "./events.utils";
+import { type EventTextType, eventText } from "./event-text.utils";
 
 export type RedeemedRewardType = { url: string; color: string | undefined };
 

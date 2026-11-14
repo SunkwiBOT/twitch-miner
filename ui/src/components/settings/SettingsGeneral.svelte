@@ -1,12 +1,12 @@
 <script lang="ts">
   import type { GlobalSettingsType } from "../../lib/bindings/GlobalSettingsType";
+  import { HistoryRetention } from "../../lib/bindings/HistoryRetention";
   import { Theme } from "../../lib/bindings/Theme";
-  import { Language, LANGUAGE_NAMES, RESOLVED_LANGUAGES } from "../../lib/i18n/i18n.constants";
-  import { t } from "../../lib/i18n/i18n.svelte";
+  import { languageOptions, t } from "../../lib/i18n/i18n.svelte";
   import FormField from "../ui/FormField.svelte";
   import Panel from "../ui/Panel.svelte";
   import Select from "../ui/Select.svelte";
-  import { MenuAlign } from "../ui/ui.constants";
+  import { MenuAlign } from "../ui/menu.constants";
 
   type SettingsGeneralPropsType = {
     draft: GlobalSettingsType;
@@ -14,19 +14,23 @@
 
   let { draft = $bindable() }: SettingsGeneralPropsType = $props();
 
-  const languages = $derived([
-    { value: Language.AUTO, label: t.language_auto() },
-    ...RESOLVED_LANGUAGES.map((tag) => ({ value: tag, label: LANGUAGE_NAMES[tag] })),
-  ]);
+  const languages = $derived(languageOptions());
 
   const themes = $derived([
     { value: Theme.DARK, label: t.theme_dark() },
     { value: Theme.LIGHT, label: t.theme_light() },
   ]);
+
+  const retentions = $derived([
+    { value: HistoryRetention.DAYS30, label: t.retention_30() },
+    { value: HistoryRetention.DAYS90, label: t.retention_90() },
+    { value: HistoryRetention.YEAR1, label: t.retention_365() },
+    { value: HistoryRetention.UNLIMITED, label: t.retention_unlimited() },
+  ]);
 </script>
 
 <Panel title={t.settings_general()}>
-  <div class="grid grid-cols-[repeat(auto-fit,minmax(min(200px,100%),1fr))] gap-3">
+  <div class="grid gap-3">
     <FormField id="set-lang" label={t.settings_language()}>
       <Select
         id="set-lang"
@@ -45,6 +49,16 @@
         label={t.settings_theme()}
         align={MenuAlign.LEFT}
         onchange={(theme) => (draft.theme = theme)}
+      />
+    </FormField>
+    <FormField id="set-retention" label={t.settings_history_retention()}>
+      <Select
+        id="set-retention"
+        value={draft.history_retention}
+        options={retentions}
+        label={t.settings_history_retention()}
+        align={MenuAlign.LEFT}
+        onchange={(value) => (draft.history_retention = value)}
       />
     </FormField>
   </div>

@@ -3,14 +3,15 @@
 
   import { t } from "../../lib/i18n/i18n.svelte";
   import { applyToAccounts, bulk, closeBulk } from "../../lib/state/bulk.svelte";
-  import { account, app } from "../../lib/state/state.svelte";
+  import { account, app } from "../../lib/state/app.svelte";
   import TextButton from "../ui/TextButton.svelte";
   import { personMarker, strong } from "../../lib/text.utils";
   import ActionButton from "../ui/ActionButton.svelte";
   import CheckList from "../ui/CheckList.svelte";
   import Dialog from "../ui/Dialog.svelte";
   import RichText from "../ui/RichText.svelte";
-  import { ButtonSize, ButtonType, ButtonVariant, IconName } from "../ui/ui.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   let sourceId = $state<string | null>(null);
   let count = $state(0);
@@ -30,8 +31,7 @@
     })),
   );
 
-  // ! What the dialog shows is kept until it is gone: its closing animation must not
-  // show the emptied offer.
+  // ! Kept until the dialog is gone: its closing animation must not show the emptied offer.
   $effect(() => {
     if (bulk.open) {
       untrack(() => {

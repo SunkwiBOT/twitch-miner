@@ -1,5 +1,4 @@
-// ! Only the changed fields are replayed: the lists (streamers, games) keep
-// changing underneath at once.
+// ! Only the changed fields are replayed: the lists (streamers, games) keep changing underneath.
 
 import { SvelteMap } from "svelte/reactivity";
 
@@ -9,7 +8,8 @@ import { sameValue } from "../compare.utils";
 import { t } from "../i18n/i18n.svelte";
 import { changed } from "./bulk.svelte";
 import { AccountField, ToastKind } from "./state.constants";
-import { toast, updateAccountSettings } from "./state.svelte";
+import { updateAccountSettings } from "./account-settings.svelte";
+import { toast } from "./toasts";
 
 export type EditType<T> = (settings: T) => void;
 

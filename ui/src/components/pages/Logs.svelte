@@ -1,12 +1,12 @@
 <script lang="ts">
   import type { SnapshotType } from "../../lib/bindings/SnapshotType";
   import { t } from "../../lib/i18n/i18n.svelte";
-  import { openTab, showTab } from "../../lib/state/state.svelte";
+  import { openTab, showTab } from "../../lib/state/router";
   import LogLines from "../logs/LogLines.svelte";
   import RequestList from "../logs/RequestList.svelte";
   import PageBody from "../ui/PageBody.svelte";
   import Segmented from "../ui/Segmented.svelte";
-  import { IconName } from "../ui/ui.constants";
+  import { IconName } from "../../lib/icons.constants";
   import { segmentId } from "../ui/ui.utils";
   import { LOGS_PANEL_ID, LOGS_TAB_SLUGS, LogsTab } from "../logs/logs.constants";
 

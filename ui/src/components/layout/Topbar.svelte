@@ -3,7 +3,9 @@
   import { AccountStatus } from "../../lib/bindings/AccountStatus";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { Page } from "../../lib/state/state.constants";
-  import { account, app, isAccountPage, run } from "../../lib/state/state.svelte";
+  import { account, app } from "../../lib/state/app.svelte";
+  import { isAccountPage } from "../../lib/state/router";
+  import { run } from "../../lib/state/session";
   import { wideLayout } from "../../lib/state/viewport.svelte";
   import TextButton from "../ui/TextButton.svelte";
   import Avatar from "../ui/Avatar.svelte";
@@ -11,15 +13,11 @@
   import AccountStatusBadges from "../ui/AccountStatusBadges.svelte";
   import Badge from "../ui/Badge.svelte";
   import PauseButton from "../ui/PauseButton.svelte";
-  import {
-    AvatarSize,
-    BadgeTone,
-    ButtonSize,
-    ButtonType,
-    ButtonVariant,
-    IconName,
-    MenuAlign,
-  } from "../ui/ui.constants";
+  import { AvatarSize } from "../ui/picture.constants";
+  import { BadgeTone } from "../../lib/tones.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
+  import { MenuAlign } from "../ui/menu.constants";
   import UpdateBadge from "../updates/UpdateBadge.svelte";
   import UpdateConfirmDialog from "../updates/UpdateConfirmDialog.svelte";
   import ShellControls from "./ShellControls.svelte";

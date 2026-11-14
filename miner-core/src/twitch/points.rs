@@ -4,7 +4,7 @@ use chrono::{DateTime, Utc};
 use serde_json::{json, Value};
 
 use super::operations::Operation;
-use super::{text, values, TwitchClient};
+use super::{gql_error, text, values, TwitchClient};
 use crate::domain::WatchStreak;
 use crate::error::{Error, Result};
 use crate::util::random_hex;
@@ -13,7 +13,7 @@ use crate::util::random_hex;
 pub struct PointsContext {
     pub channel_id: String,
     pub enabled: bool,
-    pub balance: i64,
+    pub balance: Option<i64>,
     pub available_claim_id: Option<String>,
     pub subscribed: bool,
 }
@@ -56,7 +56,7 @@ impl TwitchClient {
             enabled: channel["communityPointsSettings"]["isEnabled"]
                 .as_bool()
                 .unwrap_or(true),
-            balance: points["balance"].as_i64().unwrap_or(0),
+            balance: points["balance"].as_i64(),
             available_claim_id: text(&points["availableClaim"]["id"]),
             subscribed: subscribed(&points["activeMultipliers"]),
         }))
@@ -112,7 +112,7 @@ impl TwitchClient {
         .collect())
     }
 
-    pub async fn claim_bonus(&self, channel_id: &str, claim_id: &str) -> Result<i64> {
+    pub async fn claim_bonus(&self, channel_id: &str, claim_id: &str) -> Result<Option<i64>> {
         let operation = Operation::ClaimCommunityPoints;
         let response = self
             .gql(
@@ -120,11 +120,9 @@ impl TwitchClient {
                 json!({"input": {"channelID": channel_id, "claimID": claim_id}}),
             )
             .await?;
-        let claim = &response["data"]["claimCommunityPoints"];
+        let claim = mutation(operation, &response, "claimCommunityPoints")?;
 
-        refused(operation, &claim["error"])?;
-
-        Ok(claim["currentPoints"].as_i64().unwrap_or(0))
+        Ok(claim["currentPoints"].as_i64())
     }
 
     pub async fn claim_moment(&self, moment_id: &str) -> Result<()> {
@@ -133,17 +131,16 @@ impl TwitchClient {
             .gql(operation, json!({"input": {"momentID": moment_id}}))
             .await?;
 
-        refused(
-            operation,
-            &response["data"]["claimCommunityMoment"]["error"],
-        )
+        mutation(operation, &response, "claimCommunityMoment").map(|_| ())
     }
 
     pub async fn join_raid(&self, raid_id: &str) -> Result<()> {
-        self.gql(Operation::JoinRaid, json!({"input": {"raidID": raid_id}}))
+        let operation = Operation::JoinRaid;
+        let response = self
+            .gql(operation, json!({"input": {"raidID": raid_id}}))
             .await?;
 
-        Ok(())
+        gql_error(operation, &response).map_or(Ok(()), Err)
     }
 
     pub async fn make_prediction(
@@ -154,16 +151,17 @@ impl TwitchClient {
     ) -> Result<()> {
         let operation = Operation::MakePrediction;
         let response = self
-            .gql(
+            .gql_once(
                 operation,
                 json!({"input": {
                     "eventID": event_id, "outcomeID": outcome_id, "points": points,
                     "transactionID": random_hex(16)
                 }}),
+                || true,
             )
             .await?;
 
-        refused(operation, &response["data"]["makePrediction"]["error"])
+        mutation(operation, &response, "makePrediction").map(|_| ())
     }
 
     pub async fn contribute_goal(
@@ -174,19 +172,22 @@ impl TwitchClient {
     ) -> Result<()> {
         let operation = Operation::ContributeCommunityGoal;
         let response = self
-            .gql(
+            .gql_once(
                 operation,
                 json!({"input": {
                     "amount": amount, "channelID": channel_id, "goalID": goal_id,
                     "transactionID": random_hex(16)
                 }}),
+                || true,
             )
             .await?;
 
-        refused(
+        mutation(
             operation,
-            &response["data"]["contributeCommunityPointsCommunityGoal"]["error"],
+            &response,
+            "contributeCommunityPointsCommunityGoal",
         )
+        .map(|_| ())
     }
 
     pub async fn watch_streak(&self, login: &str) -> Result<Option<WatchStreak>> {
@@ -203,23 +204,37 @@ impl TwitchClient {
     }
 }
 
-// ! A mutation answers its refusal in the data, with status 200.
-fn refused(operation: Operation, error: &Value) -> Result<()> {
-    match text(&error["code"]) {
+// ! A refusal comes in the data with status 200; a mutation Twitch could not run, as `errors` and no result.
+fn mutation<'a>(operation: Operation, response: &'a Value, field: &str) -> Result<&'a Value> {
+    if let Some(error) = gql_error(operation, response) {
+        return Err(error);
+    }
+
+    let result = &response["data"][field];
+
+    if !result.is_object() {
+        return Err(Error::InvalidResponse(format!(
+            "{} answered without a result",
+            operation.name()
+        )));
+    }
+
+    match text(&result["error"]["code"]) {
         Some(code) => Err(Error::Gql {
             operation: operation.name(),
             code,
         }),
-        None => Ok(()),
+        None => Ok(result),
     }
 }
 
-// ! Twitch lists a multiplier above 1 for each subscription tier (×1.2 to ×2).
+// ! Multipliers add up on a base of 1: a subscription lists only its bonus (0.2 for ×1.2).
 fn subscribed(multipliers: &Value) -> bool {
     values(multipliers).any(|multiplier| {
         multiplier["factor"]
             .as_f64()
-            .is_some_and(|factor| factor > 1.0)
+            .is_some_and(|factor| factor > 0.0)
+            && text(&multiplier["reasonCode"]).is_some_and(|reason| reason.starts_with("SUB"))
     })
 }
 

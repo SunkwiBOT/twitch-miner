@@ -3,10 +3,10 @@
   import type { AccountSnapshotType } from "../../../lib/bindings/AccountSnapshotType";
   import { accountChannel } from "../../../lib/channels/channels.svelte";
   import { t } from "../../../lib/i18n/i18n.svelte";
-  import { app } from "../../../lib/state/state.svelte";
+  import { app } from "../../../lib/state/app.svelte";
   import FormField from "../../ui/FormField.svelte";
   import Select from "../../ui/Select.svelte";
-  import { MenuAlign } from "../../ui/ui.constants";
+  import { MenuAlign } from "../../ui/menu.constants";
 
   type AccountImportPropsType = {
     open: boolean;

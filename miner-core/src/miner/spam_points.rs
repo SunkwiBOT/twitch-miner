@@ -56,6 +56,21 @@ pub(super) struct BurstPlan {
     pub(super) client: TwitchClient,
 }
 
+// ! A request dropped while the channel is read must not leave the reward "running" until a restart.
+struct BurstEntry<'a> {
+    spam: &'a SpamPoints,
+    burst_id: String,
+    kept: bool,
+}
+
+impl Drop for BurstEntry<'_> {
+    fn drop(&mut self) {
+        if !self.kept {
+            self.spam.bursts().remove(&self.burst_id);
+        }
+    }
+}
+
 pub(super) struct SpamPoints {
     store: Store,
     events: broadcast::Sender<MinerEvent>,
@@ -326,29 +341,22 @@ impl SpamPoints {
             );
         }
 
-        let prepared = async {
-            let (access, read) = read_rewards(&login, access).await?;
-            let reward = read
-                .rewards
-                .into_iter()
-                .find(|reward| reward.id == reward_id)
-                .ok_or_else(|| Error::UnknownReward(reward_id.clone()))?;
-
-            let balance = (login != record.login).then_some(read.balance);
-
-            spam::check_redeemable(&reward, count, text.is_some(), balance, Utc::now())?;
-
-            Ok::<_, Error>((access.client, read.channel_id, reward))
-        }
-        .await;
-        let (client, channel_id, reward) = match prepared {
-            Ok(prepared) => prepared,
-            Err(error) => {
-                self.bursts().remove(&burst_id);
-
-                return Err(error);
-            }
+        let mut entry = BurstEntry {
+            spam: self,
+            burst_id: burst_id.clone(),
+            kept: false,
         };
+        let (access, read) = read_rewards(&login, access).await?;
+        let reward = read
+            .rewards
+            .into_iter()
+            .find(|reward| reward.id == reward_id)
+            .ok_or_else(|| Error::UnknownReward(reward_id.clone()))?;
+        let balance = (login != record.login).then_some(read.balance);
+
+        spam::check_redeemable(&reward, count, text.is_some(), balance, Utc::now())?;
+
+        let (client, channel_id) = (access.client, read.channel_id);
         let line = BurstLine {
             record,
             login,
@@ -372,6 +380,7 @@ impl SpamPoints {
         };
         let this = self.clone();
 
+        entry.kept = true;
         tokio::spawn(async move { this.run_burst(plan).await });
 
         Ok(burst_id)
@@ -563,7 +572,7 @@ pub(super) fn burst_event(
             spent: Some(if login == record.login {
                 0
             } else {
-                i64::from(result.sent) * reward.cost
+                i64::from(result.sent).saturating_mul(reward.cost)
             }),
             refusals: Some(result.refusals.clone()).filter(|codes| !codes.is_empty()),
             failures: Some(result.failures.clone()).filter(|codes| !codes.is_empty()),

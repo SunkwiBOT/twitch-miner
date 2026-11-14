@@ -1,6 +1,4 @@
-// ! The lowering ignores the language, so a Turkish page still finds "INSIDE" from
-// "inside"; the accents go after the split (NFD) and the rest comes back together
-// (NFC), so Korean and Japanese letters stay whole.
+// ! Lowering ignores the language (Turkish "INSIDE"); accents go after NFD and NFC rejoins, so Korean and Japanese stay whole.
 export const normalizeSearch = (text: string): string =>
   text
     .trim()

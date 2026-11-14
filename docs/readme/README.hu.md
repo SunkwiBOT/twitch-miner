@@ -127,6 +127,8 @@ láthatod, hogyan működnek.
 - **Streamerek importálása.** Illessz be egy listát (legfeljebb 500 névvel), vagy vedd át
   egy másik fiók listáját, illetve a fiók által követett csatornákat. A listát ellenőrzi,
   így csak létező csatornák kerülnek fel.
+  Az élő frissítések fiókonként 46 streamerre terjednek ki: a lista további tagjai nem
+  kapnak raideket, pillanatokat és előrejelzéseket.
 
   <details open><summary>Működés közben</summary>
   <img src="../media/hu/streamers-import.avif" alt="Streamerek importálása: beillesztett lista, másik fiók, követett csatornák">
@@ -166,6 +168,8 @@ láthatod, hogyan működnek.
 - **Leltár és „Összes begyűjtése”.** A Leltár oldal a jutalmakat a „Begyűjthető”,
   a „Folyamatban” és a „Begyűjtve” csoportba sorolja. Gyűjtsd be őket egyenként, egyszerre
   mindet, vagy kapcsold be a „Drops automatikus begyűjtése” beállítást.
+  A „Játékfiók összekapcsolása” után a fiókot újra beolvassa, amint visszatérsz az
+  alkalmazásba, így az összekapcsolás azonnal látszik.
 
   <details open><summary>Működés közben</summary>
   <img src="../media/hu/drops-inventory.avif" alt="A leltár és az „Összes begyűjtése” gomb">
@@ -183,11 +187,20 @@ láthatod, hogyan működnek.
 - **Jelvények (béta).** A Jelvények oldal felsorolja a Twitch összes globális
   chatjelvényét, és azt, hogyan szerezhetők meg. Minden fióknak saját Jelvények oldala
   van: a folyamatban lévő jelvények a haladásukkal, a még megszerezhetők és a
-  birtokoltak. A bányász azokra a jelvényekre megy rá, amelyekhez csak nézési idő kell,
-  Drops-kampányokból és Twitch-küldetésekből, és kihagyja azokat, amelyek már megvannak a
-  fióknak. A „Mit bányásszon, sorrendben” részben húzd a kívánt sorrendbe a prioritás
-  játékokat, a jelvényeket és a többi Drops-kampányt, vagy kapcsolj ki közülük egyet. Ez
-  a funkció béta állapotú.
+  birtokoltak. A bányász a Drops-kampányok és a Twitch-küldetések jelvényeire megy rá, és
+  kihagyja azokat, amelyek már megvannak a fióknak. A minden nap nézendő jelvényt minden
+  nap újra bányássza az utolsóig („20 p naponta, 3 napon át”), és a kampány bármelyik
+  kategóriájának csatornája számít. Egy láda „1 véletlen jelvény N közül” jutalmat ad. Az
+  előfizetést igénylő jelvényt akkor bányássza, amikor már te magad előfizettél, és a Twitch
+  beszámította. A kampány kezdete előtt semmit sem bányászik. A „Mit bányásszon,
+  sorrendben” részben húzd a kívánt sorrendbe a prioritás játékokat, a jelvényeket és a
+  többi Drops-kampányt, vagy kapcsolj ki közülük egyet. Egy Twitch-küldetést csak olyan
+  csatornán bányászik, ahol a Twitch a Drops-paneljén felkínálja. Egy fejlődést (Pichu →
+  Pikachu) akkor bányászik, amikor a fióknak már megvan a jelvény, amelyből fejlődik: a
+  bányász közvetlenül előtte maga teszi fel ezt a jelvényt, és nem teszi vissza a régit; a
+  fiók jelvénybeállításaiban a „Jelvényfejlődések bányászása” ezt kikapcsolja. Egy
+  jelvényre kattintva megnyílnak a részletei: a teljes feltétel, az összes kategória és
+  csatorna, a gyűjtemény, a fejlődés és minden fiók haladása. Ez a funkció béta állapotú.
 
   <details open><summary>Működés közben</summary>
   <img src="../media/hu/badges.avif" alt="A Jelvények oldal, egy fiók jelvényei, majd a „Mit bányásszon, sorrendben” a Jelvények elejére húzva">
@@ -197,7 +210,7 @@ láthatod, hogyan működnek.
 
 - **Napló mindenről, és minden kérés.** A Napló minden eseményt megőriz: dropok, szerzett
   és elköltött pontok, ládák, fogadások, raidek, induló adások… Szűrheted fiók, lap (Drops,
-  Pontok, Egyéb) és típus szerint. A **Technikai logok › Kérések** felsorol minden kérést,
+  Jelvények, Pontok, Egyéb) és típus szerint. A **Technikai logok › Kérések** felsorol minden kérést,
   amelyet az alkalmazás a Twitchnek és más szolgáltatásoknak küldött, az eredményével és
   az időtartamával. A logok és a kérések nem tartalmaznak tokent vagy titkot: a
   „Másolás hibajelentéshez” kimásolja őket, készen arra, hogy beilleszd egy hibajelentésbe
@@ -236,6 +249,7 @@ láthatod, hogyan működnek.
   jelvény a verziószámmal. A „Telepítés és újraindítás” először megerősítést kér, majd az
   alkalmazás telepíti a verziót és újraindul. Alkalmazásjelszóval zárolva indul újra: írd
   be újra, hogy folytatódjon a bányászat. Csak a projekt által aláírt verzió települ.
+  A hordozható Windows-fájl nem frissíti magát: a gombja a letöltési oldalt nyitja meg.
   A Docker-verzió is szól, a futtatandó parancsokkal együtt.
 
   <details open><summary>Működés közben</summary>
@@ -247,8 +261,9 @@ láthatod, hogyan működnek.
 - Mint más bányászokban: bónuszládák, raidek, pillanatok, közösségi célok, előrejelzések
   (stratégiák, a fogadás időzítése, feltételek), a nézési sorozatok és az előfizetett
   csatornák előnyben részesítése, jelenlét a chatben (kikapcsolható), alapértelmezett
-  beállítások az új streamerekhez, Discord-, Telegram- és webhook-értesítések képekkel,
-  globális vagy fiókonkénti proxy.
+  beállítások az új streamerekhez, Discord-, Telegram- és webhook-értesítések képekkel (a
+  szerveren a nyelvüket a **Beállítások › Értesítések** alatt választod ki), globális vagy
+  fiókonkénti proxy.
 - 29 nyelv, sötét és világos téma, asztali értesítések, tálcaikon, indítás a rendszerrel.
 
   <details open><summary>Működés közben</summary>
@@ -329,16 +344,18 @@ Töltsd le a rendszerednek megfelelő fájlt a
 | Rendszer | Csomag |
 |---|---|
 | **Windows** · x64 | Telepítő (`setup.exe`) vagy [hordozható futtatható fájl](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/TwitchMiner-portable.exe) |
-| **macOS** 10.15 vagy újabb · Intel és Apple Silicon | Lemezkép (`.dmg`) |
+| **macOS** 13 vagy újabb · Intel és Apple Silicon | Lemezkép (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) vagy `.rpm` (Fedora, openSUSE) |
 
-A macOS-es build nincs hitelesítve (notarization). Első alkalommal kattints jobb gombbal az
-alkalmazásra, és válaszd a **Megnyitás** lehetőséget.
+A macOS-es build nincs hitelesítve (notarization). Első alkalommal nyisd meg az
+alkalmazást: a macOS letiltja. Ezután menj a **Rendszerbeállítások › Adatvédelem és
+biztonság** részhez, és kattints a **Megnyitás mindenképp** gombra.
 
 A frissítések alá vannak írva. Az alkalmazás induláskor, majd óránként ellenőrzi, van-e új
 verzió (a gyakoriságot a **Beállítások › Névjegy** helyen módosíthatod). Magától soha nem
 telepít: egy kattintással telepítheted a megjelenő üzenetből vagy a **Beállítások › Névjegy**
-helyen.
+helyen. A hordozható fájl soha nem frissíti magát: a „Letöltési oldal megnyitása” a
+legújabb kiadáshoz visz.
 
 Az adatok a felhasználói adatmappában vannak:
 
@@ -384,7 +401,7 @@ a jelszót.
 | `MINER_PASSWORD_FILE` | nincs | A `MINER_PASSWORD` értékét fájlból olvassa be, például egy Docker-secretből. Csak az egyiket állítsd be, ne mindkettőt. |
 | `MINER_PUBLIC_URL` | nincs | Csak HTTPS fordított proxy mögött (Caddy, nginx, Traefik, Cloudflare Tunnel…): az irányítópult `https://` címe, útvonal nélkül, például `https://miner.example.com`. A proxynak továbbítania kell az `X-Forwarded-Proto` és az `X-Forwarded-For` fejlécet, valamint a websocketeket, amit a szokásos proxyk alapból megtesznek, a konténer portja pedig nem lehet közvetlenül elérhető. Az irányítópult ezután elutasít mindent, ami nem a proxyn keresztül, HTTPS-en érkezik, és 5 hibás jelszó után 30 másodpercre kizárja az adott címet. A proxynak ugyanazon a gépen vagy annak helyi hálózatán kell futnia: nyilvános címről érkező kapcsolatot a szerver elutasít. |
 | `MINER_TRUSTED_HOPS` | `1` | Csak `MINER_PUBLIC_URL` mellett: hány proxy ad hozzá bejegyzést az `X-Forwarded-For` fejléchez, 1 és 10 között. `2`, ha két proxy áll egymás mögött, például a Cloudflare a Traefik előtt. |
-| `MINER_PROXY_NETWORKS` | nincs | Csak `MINER_PUBLIC_URL` mellett: további hálózatok, amelyekből a proxy csatlakozhat ezen a gépen és a privát helyi hálózatán kívül, vesszővel elválasztva: egyetlen cím vagy egy hálózat, például `2001:db8:1::/64`, olyan helyi hálózathoz, amelynek IPv6-címei globálisak. |
+| `MINER_PROXY_NETWORKS` | nincs | Csak `MINER_PUBLIC_URL` mellett: a hálózatok, ahonnan a proxy csatlakozik, vesszővel elválasztva: egyetlen cím vagy egy hálózat, például `192.168.1.0/24` vagy `2001:db8:1::/64`. Ha meg van adva, a proxyt csak a loopback címről és ezekből a hálózatokból fogadja el, a teljes privát helyi hálózatból már nem. |
 | `MINER_VAULT_PASSPHRASE` | nincs | Csak olyan adatmappához, amelyet beállított alkalmazásjelszavú asztali alkalmazásból másoltál át: induláskor feloldja. A nulláról felépített szervernek soha nincs rá szüksége. |
 | `MINER_VAULT_PASSPHRASE_FILE` | nincs | A `MINER_VAULT_PASSPHRASE` értékét fájlból olvassa be. Csak az egyiket állítsd be, ne mindkettőt. |
 | `DATA_DIR` | `/data` az image-ben, egyébként `data` a munkakönyvtárban | Adatbázis, kulcsfájl és logok. |
@@ -394,6 +411,14 @@ a jelszót.
 
 A szerver egyszer, induláskor olvassa be és ellenőrzi a változókat. Érvénytelen érték
 esetén a szerver üzenettel leáll, ahelyett hogy csendben egy tartalék értékre váltana.
+
+Fordított proxy mögött állítsd be a `MINER_PUBLIC_URL` értékét: nélküle az első kérés,
+amely proxyn át érkezik, figyelmeztetést ír a logba, mert a bejelentkezési kísérleteket
+ekkor a proxy címére számolja, és egy látogató hibás jelszavai mindenkit kizárnának. Az
+élő kapcsolat 30 másodpercenként pinget küld, hogy a proxy ne zárja le, amikor semmi sem
+történik. Ha a Twitch vagy a hálózat hibázik, a szerver `424` kóddal válaszol, sosem
+`502` vagy `504` kóddal: Cloudflare mögött a valódi hibát látod a Cloudflare oldala
+helyett.
 
 ## <a name="how-it-works"></a>Hogyan működik
 
@@ -434,13 +459,15 @@ feltűnésmentesebb.
 
 **Egy kampányt nem bányászik, vagy egy drop nem halad.**\
 Nyisd meg a fiók **Drops** oldalát. A „Bányászási sorrend” részben minden várakozó kampány
-megmondja, miért vár: „Nincs élő csatorna”, „Várakozik (egyszerre egy kampány)” vagy
-„Még nincs elérhető drop”. Az a kampány, amely nem szerepel ebben a listában, kimaradt: a
-„Mely kampányok” beállítás miatt, a **Kizárások** lap egy szabálya miatt, vagy mert nem
-fejezhető be időben. Az előfizetést igénylő jutalmat soha nem bányássza, a másikat követő
-drop pedig megvárja, amíg az első elkészül. **Csak pontok** módban a bányász nem választ
-kampányt. A kampány adatlapján a „Bányászás elsőként” a lista élére teszi; egy mellőzött
-kampány az „Újbóli bányászás” gombbal térhet vissza, a **Kizárások** lapon.
+megmondja, miért vár: „Nincs élő csatorna” vagy „Várakozik (egyszerre egy kampány)”. Az a
+kampány, amely nem szerepel ebben a listában, kimaradt: a „Mit bányásszon, sorrendben”
+miatt, a „Mely kampányok” beállítás miatt, a **Kizárások** lap egy szabálya miatt, vagy
+mert nem fejezhető be időben. Az előfizetést igénylő jutalom megvárja, amíg te magad
+előfizetsz, a minden nap nézendő jelvény a következő napot várja, a kampány kezdete előtt
+semmit sem bányászik, a másikat követő drop pedig megvárja, amíg az első elkészül.
+**Csak pontok** módban a bányász nem választ kampányt. A kampány adatlapján a „Bányászás
+elsőként” a lista élére teszi; egy mellőzött kampány az „Újbóli bányászás” gombbal térhet
+vissza, a **Kizárások** lapon.
 
 **Össze kell kapcsolnom a játékfiókot?**\
 A begyűjtéshez igen: 2026 októbere óta a Twitch csak akkor enged begyűjteni egy dropot, ha
@@ -470,7 +497,9 @@ alkalmazásjelszó beállítva) és a logok.
 Az asztali alkalmazás induláskor, majd óránként keres új verziót (ez a
 **Beállítások › Névjegy** alatt módosítható). Kattints a „Frissítés” jelvényre, majd a
 „Telepítés és újraindítás” gombra. Dockerrel az irányítópult szól: futtasd a
-`docker compose pull`, majd a `docker compose up -d` parancsot.
+`docker compose pull`, majd a `docker compose up -d` parancsot. A hordozható Windows-fájl
+nem frissíti magát: a „Letöltési oldal megnyitása” a legújabb kiadást nyitja meg, ahonnan
+letöltöd az újat.
 
 **Elfelejtettem az alkalmazásjelszót.**\
 Nem állítható vissza: épp ez titkosítja a Twitch-munkameneteidet. Lépj ki az
@@ -484,20 +513,23 @@ módosíthatod, utána pedig `docker compose up -d`.
 Ez a Twitchtől és az adott csatornától függ. A bányász azt kapja, amit a Twitch egy
 nézőnek ad: nézési pontokat, bónuszládákat (nagyjából 15 percenként egyet) és a nézési
 sorozat bónuszát. Az előfizetés megsokszorozza a pontokat, szinttől függően ×1,2 és ×2
-között. A Kezdőlap a szerzett pontokat mutatja, a Napló pedig minden egyes nyereséget.
+között, és az alapból bekapcsolt „Előfizetett csatornák előre” beállítással ezek a
+csatornák a lista többi része elé kerülnek. A Kezdőlap a szerzett pontokat mutatja, a
+Napló pedig minden egyes nyereséget.
 
 **Kockázatosak a fogadások?**\
 Igen, pontokat lehet veszíteni. Az előrejelzések alapértelmezés szerint ki vannak
 kapcsolva, streamerenként. Te állítod be a stratégiát, a fogadás időzítését, a tétet
 (alapértelmezés szerint az egyenleg 5%-a, legfeljebb 50 000 pont), a minimális egyenleget
 és, ha szeretnéd, egy feltételt, például legalább 1,5-ös szorzót. Tarts alacsony tétet.
+10 pontnál kisebb tétet soha nem tesz meg.
 
 **Egy streamert nem néz.**\
 Csak a bekapcsolt és éppen élőben adó streamereket nézi, és csak szabad csatornán:
 **Drops és pontok** módban a kettő közül az egyik az aktuális kampányt szolgálja;
 **Csak Drops** módban egyetlen streamert sem néz; a szüneteltetett fiók semmit sem néz.
 A helyeket ebben a sorrendben osztja ki, amelyet minden nézett csatornán egy jelvény
-mutat: „Sorozatbónusz”, „Sorozat veszélyben”, „Előfizetve”, majd „Lista sorrendje”.
+mutat: „Sorozat veszélyben”, „Sorozatbónusz”, „Előfizetve”, majd „Lista sorrendje”.
 Mozgasd feljebb a streamert a listán, vagy kapcsold ki a „Nézési sorozatok előre” és az
 „Előfizetett csatornák előre” beállítást.
 
@@ -518,6 +550,8 @@ Ugyanennek a szerzőnek más projektjei:
 - A tokeneket AES-256-GCM pecsételi le. A kulcs vagy egy véletlenszerű `master.key`
   az adatbázis mellett (alapértelmezés, felügyelet nélkül), vagy az alkalmazásjelszóból
   Argon2id-vel származtatott kulcs.
+- Az adatmappa és a logmappa privát (`0700`): csak az a felhasználó nyithatja meg őket,
+  aki a bányászt futtatja.
 - A HTTP-irányítópult állandó idejű jelszó-ellenőrzést és HttpOnly, SameSite=Strict
   sütiket használ (HTTPS mögött `Secure`, `__Host-` előtaggal). A szerver minden
   munkamenetből csak egy SHA-256 kivonatot tárol. 30 nap után vagy kijelentkezéskor
@@ -527,6 +561,9 @@ Ugyanennek a szerzőnek más projektjei:
   bearer) az a cím 30 másodpercig vár. A szerver ilyenkor `429` kóddal és `Retry-After`
   fejléccel válaszol, a jelszó megnézése nélkül. Minden hibás jelszóra ráadásul csak fél
   másodperc múlva jön válasz.
+  Ha egy kapcsolati címről, egy közös proxyt is beleértve, egy perc alatt több mint 30
+  rossz jelszó érkezik, az a cím 2 másodpercenként csak egy próbálkozást kap: a találgatás
+  lelassul, és senki sincs kizárva.
 - A hálózatodon kívül tedd az irányítópultot egy HTTPS fordított proxy mögé, a
   `MINER_PUBLIC_URL` beállításával (lásd: [Docker](#docker)).
 - A bányász csak a `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`,

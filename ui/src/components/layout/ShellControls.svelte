@@ -7,33 +7,27 @@
   import { Theme } from "../../lib/bindings/Theme";
   import { VaultMode } from "../../lib/bindings/VaultMode";
   import { describeError, toApiError } from "../../lib/errors/errors.utils";
-  import { Language, LANGUAGE_NAMES, RESOLVED_LANGUAGES } from "../../lib/i18n/i18n.constants";
-  import { locale, t } from "../../lib/i18n/i18n.svelte";
+  import { languageOptions, locale, t } from "../../lib/i18n/i18n.svelte";
   import { overlay } from "../../lib/state/overlay.svelte";
   import { Page, ToastKind } from "../../lib/state/state.constants";
-  import {
-    app,
-    navigate,
-    run,
-    sessionEnded,
-    setPreference,
-    toast,
-    toggleTheme,
-  } from "../../lib/state/state.svelte";
+  import { app } from "../../lib/state/app.svelte";
+  import { setPreference, toggleTheme } from "../../lib/state/preferences.svelte";
+  import { navigate } from "../../lib/state/router";
+  import { run, sessionEnded } from "../../lib/state/session";
+  import { toast } from "../../lib/state/toasts";
   import Dialog from "../ui/Dialog.svelte";
   import IconButton from "../ui/IconButton.svelte";
   import Select from "../ui/Select.svelte";
   import TextButton from "../ui/TextButton.svelte";
-  import { ButtonSize, ButtonType, ButtonVariant, IconName, MenuAlign } from "../ui/ui.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
+  import { MenuAlign } from "../ui/menu.constants";
 
   type ShellControlsPropsType = { snapshot: SnapshotType; align: MenuAlign };
 
   let { snapshot, align }: ShellControlsPropsType = $props();
 
-  const languages = $derived([
-    { value: Language.AUTO, label: t.language_auto() },
-    ...RESOLVED_LANGUAGES.map((tag) => ({ value: tag, label: LANGUAGE_NAMES[tag] })),
-  ]);
+  const languages = $derived(languageOptions());
 
   const passwordSet = $derived(!isTauri() || snapshot.vault.mode === VaultMode.PASSPHRASE);
 

@@ -4,7 +4,8 @@
   import { cn } from "$lib/utils";
   import { followLink } from "../../lib/links/links.utils";
   import Icon from "./Icon.svelte";
-  import { IconName, LINK_SIZES, LinkLook, LinkMark, LinkSize } from "./ui.constants";
+  import { IconName } from "../../lib/icons.constants";
+  import { LINK_SIZES, LinkLook, LinkMark, LinkSize } from "./link.constants";
 
   type ExternalLinkPropsType = {
     url: string;
@@ -13,15 +14,15 @@
     look: LinkLook;
     size: LinkSize;
     lead?: Snippet;
-    // ! Inside a `group/twin` that also holds a LinkTwin: hovering the twin
-    // lights this link up too.
-    twin?: boolean;
+    // ! Inside a `group/twin` that also holds a LinkTwin: hovering the twin lights this link up too.
+    twin: boolean;
   };
 
-  let { url, text, mark, look, size, lead, twin = false }: ExternalLinkPropsType = $props();
+  let { url, text, mark, look, size, lead, twin }: ExternalLinkPropsType = $props();
 
   const marked = $derived(mark !== LinkMark.NONE);
   const always = $derived(look === LinkLook.ALWAYS);
+  const sentence = $derived(look === LinkLook.SENTENCE);
 </script>
 
 {#snippet arrow()}
@@ -38,7 +39,7 @@
 
 <a
   class={cn(
-    "group/link min-w-0 font-semibold no-underline transition-colors hover:text-link",
+    "group/link min-w-0 font-semibold no-underline transition-colors hover:text-link focus-visible:text-link",
     always ? "text-link" : "text-foreground",
     twin && "group-has-[[data-link-twin]:hover]/twin:text-link",
     LINK_SIZES[size].text,
@@ -49,8 +50,9 @@
   onclick={(event) => followLink(event, url)}
   >{#if lead}{@render lead()}{/if}{#if mark === LinkMark.START}{@render arrow()}{/if}<span
     class={cn(
-      "underline-offset-3 group-hover/link:underline",
-      always && "underline",
+      "underline-offset-3 group-hover/link:underline group-focus-visible/link:underline",
+      (always || sentence) && "underline",
+      sentence && "decoration-link",
       twin && "group-has-[[data-link-twin]:hover]/twin:underline",
       (lead || marked) && LINK_SIZES[size].fit,
     )}>{text}</span

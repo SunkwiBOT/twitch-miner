@@ -3,7 +3,8 @@
   import { number } from "../../lib/format.utils";
   import Badge from "./Badge.svelte";
   import Icon from "./Icon.svelte";
-  import { BadgeTone, type IconName } from "./ui.constants";
+  import { BadgeTone } from "../../lib/tones.constants";
+  import type { IconName } from "../../lib/icons.constants";
   import { segmentId } from "./ui.utils";
 
   type OptionType = { value: T; label: string; icon?: IconName; count?: number };
@@ -30,8 +31,7 @@
     }
   }}
 >
-  <!-- ! On a phone the tabs scroll sideways inside their bar: wider, they would make the
-       whole page scroll sideways. -->
+  <!-- ! On a phone the tabs scroll inside their bar: wider, they would scroll the whole page sideways. -->
   <TabsList
     aria-label={label}
     class="max-w-full justify-start overflow-x-auto [scrollbar-width:none]"

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { cn } from "$lib/utils";
-  import { BadgeTone, DOT_TONE_CLASSES } from "./ui.constants";
+  import { BadgeTone } from "../../lib/tones.constants";
+  import { DOT_TONE_CLASSES } from "./badge.constants";
 
   type StatusDotPropsType = { tone: BadgeTone };
 

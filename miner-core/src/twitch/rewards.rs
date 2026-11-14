@@ -2,7 +2,7 @@ use chrono::{DateTime, Utc};
 use serde_json::{json, Value};
 
 use super::operations::Operation;
-use super::{text, values, TwitchClient};
+use super::{gql_error, text, values, TwitchClient};
 use crate::error::{Error, Result};
 use crate::spam::SpamReward;
 use crate::util::random_hex;
@@ -139,13 +139,6 @@ fn hex_color(color: &str) -> bool {
     color
         .strip_prefix('#')
         .is_some_and(|hex| matches!(hex.len(), 3 | 6) && hex.bytes().all(|b| b.is_ascii_hexdigit()))
-}
-
-fn gql_error(operation: Operation, response: &Value) -> Option<Error> {
-    values(&response["errors"]).next().map(|error| Error::Gql {
-        operation: operation.name(),
-        code: text(&error["message"]).unwrap_or_default(),
-    })
 }
 
 pub fn redemption_answer(response: &Value) -> Result<Option<String>> {

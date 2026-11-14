@@ -123,6 +123,8 @@
 
 - **Import streamerů.** Vložte seznam (až 500 jmen), nebo převezměte seznam jiného účtu či
   kanály, které účet sleduje. Seznam se zkontroluje, takže se přidají jen existující kanály.
+  Živé aktualizace pokrývají 46 streamerů na účet: další v seznamu nedostávají raidy,
+  momenty ani předpovědi.
 
   <details open><summary>Ukázka v akci</summary>
   <img src="../media/cs/streamers-import.avif" alt="Import streamerů: vložený seznam, jiný účet, sledované kanály">
@@ -160,6 +162,8 @@
 - **Inventář a „Vyzvednout vše“.** Stránka Inventář řadí odměny do skupin „K vyzvednutí“,
   „Probíhá“ a „Vyzvednuto“. Vyzvedávejte je jednu po druhé, všechny najednou, nebo zapněte
   „Vyzvedávat drops automaticky“.
+  Po „Propojit herní účet“ se účet znovu načte, jakmile se vrátíte do aplikace, takže se
+  propojení ukáže hned.
 
   <details open><summary>Ukázka v akci</summary>
   <img src="../media/cs/drops-inventory.avif" alt="Inventář a tlačítko „Vyzvednout vše“">
@@ -175,11 +179,19 @@
 
 - **Odznaky (beta).** Stránka Odznaky uvádí všechny globální chatové odznaky Twitche a
   jak je získat. Každý účet má svou stránku Odznaky: rozpracované odznaky s jejich
-  postupem, ty, které ještě může získat, a ty, které vlastní. Miner jde po odznacích,
-  které vyžadují jen čas sledování, z kampaní Drops a questů Twitche, a vynechá ty, které
-  účet už má. V „Co těžit a v jakém pořadí“ přetáhněte prioritní hry, odznaky a ostatní
-  kampaně Drops do požadovaného pořadí, nebo některou z nich vypněte. Tato funkce je v
-  betaverzi.
+  postupem, ty, které ještě může získat, a ty, které vlastní. Miner jde po odznacích
+  z kampaní Drops a questů Twitche a vynechá ty, které účet už má. Odznak, který je třeba
+  sledovat každý den, se těží znovu každý den až do posledního („20 min denně, počet dní:
+  3“), a počítá se kanál z kterékoli kategorie kampaně. Truhla dává „1 náhodný odznak
+  z N“. Odznak, který vyžaduje předplatné, se těží, jakmile si ho sami předplatíte a Twitch
+  ho započítá. Před začátkem kampaně se nic netěží. V „Co těžit a v jakém pořadí“
+  přetáhněte prioritní hry, odznaky a ostatní kampaně Drops do požadovaného pořadí, nebo
+  některou z nich vypněte. Quest Twitche se těží jen na kanálu, kde ho Twitch nabízí ve
+  svém panelu Drops. Vývoj (Pichu → Pikachu) se těží, jakmile účet vlastní odznak, ze
+  kterého se vyvíjí: miner si ten odznak těsně předtím sám nasadí a starý už nevrátí;
+  „Těžit vývoje odznaků“ v nastavení odznaků účtu tohle vypne. Kliknutím na odznak se
+  otevřou jeho podrobnosti: celý požadavek, všechny kategorie a kanály, sbírka, vývoj a
+  postup každého účtu. Tato funkce je v betaverzi.
 
   <details open><summary>Ukázka v akci</summary>
   <img src="../media/cs/badges.avif" alt="Stránka Odznaky, odznaky jednoho účtu a pak „Co těžit a v jakém pořadí“ s odznaky přetaženými na začátek">
@@ -189,7 +201,7 @@
 
 - **Deník všeho a každý požadavek.** Deník uchovává každou událost: dropy, získané
   a utracené body, truhly, sázky, raidy, začátky vysílání… Filtrujte ho podle účtu, karty
-  (Drops, Body, Ostatní) a typu. **Technické protokoly › Požadavky** vypíše každý požadavek
+  (Drops, Odznaky, Body, Ostatní) a typu. **Technické protokoly › Požadavky** vypíše každý požadavek
   odeslaný na Twitch a další služby, s jeho výsledkem a dobou trvání. Protokoly ani
   požadavky neobsahují žádný token ani tajný údaj: „Kopírovat pro hlášení chyby“ je
   zkopíruje, připravené k vložení do hlášení chyby na
@@ -226,7 +238,8 @@
   „Aktualizace“ s číslem verze. „Nainstalovat a restartovat“ si nejdřív vyžádá potvrzení,
   pak aplikace verzi nainstaluje a restartuje se. S heslem aplikace se restartuje zamčená:
   zadejte ho znovu a těžba bude pokračovat. Nainstaluje se jen verze podepsaná projektem.
-  Verze pro Docker vám to také oznámí, i s příkazy, které je třeba spustit.
+  Přenosný soubor pro Windows se sám neaktualizuje: jeho tlačítko otevře stránku ke
+  stažení. Verze pro Docker vám to také oznámí, i s příkazy, které je třeba spustit.
 
   <details open><summary>Ukázka v akci</summary>
   <img src="../media/cs/updates.avif" alt="Odznak „Aktualizace“, potvrzení a pak instalace">
@@ -237,7 +250,8 @@
 - Stejně jako jiné minery: bonusové truhly, raidy, momenty, komunitní cíle, předpovědi
   (strategie, kdy vsadit, podmínky), přednost sériím sledování a předplaceným kanálům,
   přítomnost v chatu (lze vypnout), výchozí možnosti pro nové streamery, oznámení přes
-  Discord, Telegram a webhook s obrázky, globální proxy nebo proxy pro každý účet.
+  Discord, Telegram a webhook s obrázky (na serveru se jejich jazyk volí v
+  **Nastavení › Oznámení**), globální proxy nebo proxy pro každý účet.
 - 29 jazyků, tmavý a světlý motiv, oznámení na ploše, ikona v liště, spouštění se systémem.
 
   <details open><summary>Ukázka v akci</summary>
@@ -318,15 +332,18 @@ Stáhněte si soubor pro svůj systém z
 | Systém | Balíček |
 |---|---|
 | **Windows** · x64 | Instalátor (`setup.exe`) nebo [přenosná verze](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/TwitchMiner-portable.exe) |
-| **macOS** 10.15 nebo novější · Intel a Apple Silicon | Obraz disku (`.dmg`) |
+| **macOS** 13 nebo novější · Intel a Apple Silicon | Obraz disku (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) nebo `.rpm` (Fedora, openSUSE) |
 
-Sestavení pro macOS není notarizované. Poprvé klikněte na aplikaci pravým tlačítkem myši
-a zvolte **Otevřít**.
+Sestavení pro macOS není notarizované. Poprvé aplikaci otevřete: macOS ji zablokuje. Pak
+přejděte do **Nastavení systému › Soukromí a zabezpečení** a klikněte na
+**Přesto otevřít**.
 
 Aktualizace jsou podepsané. Aplikace zkontroluje novou verzi při spuštění a pak každou
 hodinu (jak často, změníte v **Nastavení › O aplikaci**). Sama ji nikdy nenainstaluje:
 nainstalujete ji jedním kliknutím, ze zobrazené zprávy nebo z **Nastavení › O aplikaci**.
+Přenosný soubor se nikdy neaktualizuje sám: „Otevřít stránku ke stažení“ vede na
+nejnovější vydanou verzi.
 
 Data jsou uložena ve složce s uživatelskými daty:
 
@@ -371,7 +388,7 @@ Otevřete <http://localhost:8080> (nebo adresu stroje ve vaší síti) a zadejte
 | `MINER_PASSWORD_FILE` | žádná | Načte `MINER_PASSWORD` ze souboru, například z Docker secretu. Nastavte jen jednu z nich, ne obě. |
 | `MINER_PUBLIC_URL` | žádná | Jen za reverzní proxy HTTPS (Caddy, nginx, Traefik, Cloudflare Tunnel…): adresa `https://` panelu, bez cesty, například `https://miner.example.com`. Proxy musí předávat `X-Forwarded-Proto`, `X-Forwarded-For` a websockety, což běžné proxy ve výchozím stavu dělají, a port kontejneru nesmí být přímo dostupný. Panel pak odmítne vše, co nepřichází přes proxy po HTTPS, a po 5 špatných heslech zablokuje adresu na 30 sekund. Proxy musí běžet na stejném počítači nebo v jeho místní síti: spojení z veřejné adresy se odmítá. |
 | `MINER_TRUSTED_HOPS` | `1` | Jen s `MINER_PUBLIC_URL`: kolik proxy přidává záznam do `X-Forwarded-For`, od 1 do 10. `2` se dvěma proxy za sebou, například Cloudflare před Traefikem. |
-| `MINER_PROXY_NETWORKS` | žádná | Jen s `MINER_PUBLIC_URL`: další sítě, ze kterých se proxy smí připojit, kromě tohoto počítače a jeho soukromé místní sítě, oddělené čárkami: jedna adresa nebo síť jako `2001:db8:1::/64`, pro místní síť s globálními adresami IPv6. |
+| `MINER_PROXY_NETWORKS` | žádná | Jen s `MINER_PUBLIC_URL`: sítě, ze kterých se proxy připojuje, oddělené čárkami: jedna adresa nebo síť jako `192.168.1.0/24` či `2001:db8:1::/64`. Jakmile je nastavená, proxy se přijímá jen z adresy loopback a z těchto sítí, už ne z celé soukromé místní sítě. |
 | `MINER_VAULT_PASSPHRASE` | žádná | Jen pro složku s daty zkopírovanou z desktopové aplikace s nastaveným heslem aplikace: při startu ji odemkne. Server postavený od nuly ji nikdy nepotřebuje. |
 | `MINER_VAULT_PASSPHRASE_FILE` | žádná | Načte `MINER_VAULT_PASSPHRASE` ze souboru. Nastavte jen jednu z nich, ne obě. |
 | `DATA_DIR` | `/data` v obrazu, jinak `data` v pracovním adresáři | Databáze, soubor s klíčem a protokoly. |
@@ -381,6 +398,13 @@ Otevřete <http://localhost:8080> (nebo adresu stroje ve vaší síti) a zadejte
 
 Server načte a zkontroluje proměnné jednou, při startu. Neplatná hodnota server zastaví se
 zprávou, místo aby ji potichu nahradil náhradní hodnotou.
+
+Za reverzní proxy nastavte `MINER_PUBLIC_URL`: bez ní první požadavek, který přijde přes
+proxy, zapíše do protokolů varování, protože pokusy o přihlášení se pak počítají na
+adresu proxy a špatná hesla jednoho návštěvníka by zablokovala všechny. Živé spojení
+posílá každých 30 sekund ping, aby ho proxy nezavřela, když se nic neděje. Když Twitch
+nebo síť selže, server odpoví `424`, nikdy `502` ani `504`: za Cloudflare uvidíte
+skutečnou chybu místo stránky Cloudflare.
 
 ## <a name="how-it-works"></a>Jak to funguje
 
@@ -418,12 +442,13 @@ streamerům. Nastavení „Jeden kanál“ v **Nastavení účtu** je nenápadn�
 
 **Kampaň se netěží nebo drop nepostupuje.**\
 Otevřete stránku **Drops** daného účtu. V části „Pořadí těžby“ každá čekající kampaň uvádí
-důvod: „Žádný kanál nevysílá“, „Čeká (jedna kampaň najednou)“ nebo
-„Zatím žádný drop k dispozici“. Kampaň, která se v tomto seznamu neobjevuje, byla
-vynechána: nastavením „Které kampaně“, pravidlem na kartě **Vyloučení**, nebo proto, že ji
-nejde dokončit včas. Odměna, která vyžaduje předplatné, se nikdy netěží, a drop, který
-navazuje na jiný, čeká, dokud není ten první hotový. V režimu **Jen body** miner nevybírá
-žádnou kampaň. „Těžit přednostně“ v podrobnostech kampaně ji přesune na začátek;
+důvod: „Žádný kanál nevysílá“ nebo „Čeká (jedna kampaň najednou)“. Kampaň, která se
+v tomto seznamu neobjevuje, byla vynechána: přes „Co těžit a v jakém pořadí“, nastavením
+„Které kampaně“, pravidlem na kartě **Vyloučení**, nebo proto, že ji nejde dokončit včas.
+Odměna, která vyžaduje předplatné, čeká, dokud si ho sami nepředplatíte, odznak, který je
+třeba sledovat každý den, čeká na další den, před začátkem kampaně se nic netěží, a drop,
+který navazuje na jiný, čeká, dokud není ten první hotový. V režimu **Jen body** miner
+nevybírá žádnou kampaň. „Těžit přednostně“ v podrobnostech kampaně ji přesune na začátek;
 ignorovaná kampaň se může vrátit přes „Znovu těžit“ na kartě **Vyloučení**.
 
 **Musím propojit herní účet?**\
@@ -453,7 +478,8 @@ heslo aplikace) a protokoly.
 Desktopová aplikace kontroluje novou verzi při spuštění a pak každou hodinu (lze změnit
 v **Nastavení › O aplikaci**). Klikněte na odznak „Aktualizace“ a pak na
 „Nainstalovat a restartovat“. U Dockeru vám to oznámí panel: spusťte `docker compose pull`
-a pak `docker compose up -d`.
+a pak `docker compose up -d`. Přenosný soubor pro Windows se sám neaktualizuje: „Otevřít
+stránku ke stažení“ otevře nejnovější vydanou verzi, odkud stáhnete nový.
 
 **Nepamatuji si heslo aplikace.**\
 Nelze ho obnovit: právě ono šifruje vaše relace Twitch. Ukončete aplikaci, smažte složku
@@ -465,20 +491,22 @@ heslo panelu mění v `MINER_PASSWORD` a pak se spustí `docker compose up -d`.
 **Kolik bodů za hodinu?**\
 Záleží na Twitchi a na každém kanálu. Miner získá to, co Twitch dává divákovi: body za
 sledování, bonusové truhly (zhruba jednu každých 15 minut) a bonus za sérii sledování.
-Předplatné body násobí, od ×1,2 do ×2 podle úrovně. Stránka Domů ukazuje získané body
-a Deník každý zisk.
+Předplatné body násobí, od ×1,2 do ×2 podle úrovně, a s „Předplacené kanály první“,
+zapnutým ve výchozím stavu, mají tyto kanály přednost před zbytkem vašeho seznamu.
+Stránka Domů ukazuje získané body a Deník každý zisk.
 
 **Jsou sázky riskantní?**\
 Ano, body se dají prohrát. Předpovědi jsou ve výchozím stavu vypnuté, u každého streamera
 zvlášť. Nastavíte strategii, kdy vsadit, sázku (ve výchozím stavu 5 % zůstatku, nejvýš
 50 000 bodů), minimální zůstatek a případně podmínku, například kurz alespoň 1,5. Držte
 sázku nízkou.
+Sázka pod 10 bodů se nikdy nepodá.
 
 **Streamer se nesleduje.**\
 Sledují se jen zapnutí streameři, kteří právě vysílají, a jen na volném kanálu: v režimu
 **Drops a body** jeden ze dvou slouží aktuální kampani; v režimu **Jen Drops** se žádný
 streamer nesleduje; pozastavený účet nesleduje nic. Místa se přidělují v tomto pořadí,
-zobrazeném jako odznak u každého sledovaného kanálu: „Bonus za sérii“, „Série ohrožena“,
+zobrazeném jako odznak u každého sledovaného kanálu: „Série ohrožena“, „Bonus za sérii“,
 „Předplaceno“, pak „Pořadí seznamu“. Posuňte streamera v seznamu výš, nebo vypněte
 „Série sledování první“ a „Předplacené kanály první“.
 
@@ -499,6 +527,8 @@ Další projekty stejného autora:
 - Tokeny jsou zapečetěné pomocí AES-256-GCM. Klíčem je buď náhodný `master.key` vedle
   databáze (výchozí, bez zásahu uživatele), nebo klíč odvozený z hesla aplikace pomocí
   Argon2id.
+- Složka s daty a složka s protokoly jsou soukromé (`0700`): otevřít je může jen
+  uživatel, pod kterým miner běží.
 - Panel HTTP ověřuje heslo v konstantním čase a používá cookies HttpOnly, SameSite=Strict
   (`Secure`, s předponou `__Host-`, za HTTPS). Server uchovává z každé relace
   jen otisk SHA-256. Relaci ukončí po 30 dnech nebo při odhlášení. Relaci kontroluje dřív,
@@ -506,6 +536,8 @@ Další projekty stejného autora:
 - Po 5 špatných heslech po sobě z jedné IP adresy (přihlašovací formulář nebo bearer)
   musí tato adresa 30 sekund čekat. Server odpoví `429` s `Retry-After`, aniž by se na
   heslo podíval. Každé špatné heslo navíc dostane odpověď až po půl sekundě.
+  Po 30 špatných heslech za minutu z jedné adresy připojení, včetně sdílené proxy, dostane
+  tato adresa jeden pokus každé 2 sekundy: hádání se zpomalí a nikdo není zablokován.
 - Mimo svou síť umístěte panel za reverzní proxy HTTPS s `MINER_PUBLIC_URL`
   (viz [Docker](#docker)).
 - Miner komunikuje jen s `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`,

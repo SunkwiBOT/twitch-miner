@@ -4,28 +4,29 @@
   import { ignoredItems, ongoingCampaigns } from "../../lib/accounts/drops.utils";
   import type { AccountSnapshotType } from "../../lib/bindings/AccountSnapshotType";
   import type { CampaignType } from "../../lib/bindings/CampaignType";
-  import type { SnapshotType } from "../../lib/bindings/SnapshotType";
   import { t } from "../../lib/i18n/i18n.svelte";
-  import { app, openTab, showTab } from "../../lib/state/state.svelte";
+  import { app } from "../../lib/state/app.svelte";
+  import { openTab, showTab } from "../../lib/state/router";
   import { ticker } from "../../lib/state/ticker.svelte";
   import TextButton from "../ui/TextButton.svelte";
   import CampaignDialog from "../catalogue/CampaignDialog.svelte";
   import PageBody from "../ui/PageBody.svelte";
   import Segmented from "../ui/Segmented.svelte";
-  import { ButtonSize, ButtonType, ButtonVariant, IconName } from "../ui/ui.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
   import CopyFromDialog from "./CopyFromDialog.svelte";
   import DropsCampaignsTab from "./drops/DropsCampaignsTab.svelte";
   import DropsExclusionsTab from "./drops/DropsExclusionsTab.svelte";
   import DropsOrderTab from "./drops/DropsOrderTab.svelte";
   import DropsSettingsTab from "./drops/DropsSettingsTab.svelte";
 
-  type AccountDropsPropsType = { account: AccountSnapshotType; snapshot: SnapshotType };
+  type AccountDropsPropsType = { account: AccountSnapshotType };
 
-  let { account, snapshot }: AccountDropsPropsType = $props();
+  let { account }: AccountDropsPropsType = $props();
 
   const drops = $derived(account.settings.drops);
   const hasOthers = $derived((app.snapshot?.accounts.length ?? 0) > 1);
-  const ignored = $derived(ignoredItems(account, snapshot));
+  const ignored = $derived(ignoredItems(account));
   const ongoing = $derived(ongoingCampaigns(account, ticker.now));
 
   const tab = $derived(openTab(Object.values(DropsTab), DROPS_TAB_SLUGS, DropsTab.ORDER));
@@ -79,11 +80,11 @@
   </div>
 
   {#if tab === DropsTab.ORDER}
-    <DropsOrderTab {account} {snapshot} onopen={openCampaign} />
+    <DropsOrderTab {account} onopen={openCampaign} />
   {:else if tab === DropsTab.SETTINGS}
     <DropsSettingsTab {account} />
   {:else if tab === DropsTab.EXCLUSIONS}
-    <DropsExclusionsTab {account} {snapshot} {ignored} onopen={openCampaign} />
+    <DropsExclusionsTab {account} {ignored} onopen={openCampaign} />
   {:else}
     <DropsCampaignsTab {account} campaigns={ongoing} onopen={openCampaign} />
   {/if}

@@ -13,12 +13,12 @@
   import Tip from "../../ui/Tip.svelte";
   import {
     BUTTON_VARIANTS,
+    ButtonSize,
     ButtonVariant,
     ICON_BUTTON_SIZES,
-    ButtonSize,
-    IconName,
-    MENU_EDGE_GAP,
-  } from "../../ui/ui.constants";
+  } from "../../ui/button.constants";
+  import { IconName } from "../../../lib/icons.constants";
+  import { MENU_EDGE_GAP } from "../../ui/menu.constants";
 
   type SpamSettingsPopoverPropsType = {
     settings: SpamPointsSettingsType;

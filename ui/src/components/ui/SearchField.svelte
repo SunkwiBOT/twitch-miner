@@ -11,9 +11,9 @@
     CLEAR_SEARCH_KEY,
     FIELD_BUTTON_CLASSES,
     FIELD_ICON_CLASSES,
-    IconName,
     SEARCH_FIELD_PADDING,
-  } from "./ui.constants";
+  } from "./field.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   type SearchFieldPropsType = Omit<HTMLInputAttributes, "type" | "value" | "files"> & {
     value: string;
@@ -45,14 +45,13 @@
   <Input
     bind:ref={input}
     type="search"
-    class={cn(SEARCH_FIELD_PADDING, "[&::-webkit-search-cancel-button]:hidden", className)}
+    class={cn(SEARCH_FIELD_PADDING, className)}
     spellcheck={false}
     aria-busy={busy}
     bind:value
     {...rest}
     onkeydown={(event) => {
-      // ! A filled field empties first; in an empty one Escape keeps its meaning
-      // (closing the menu or the dialog).
+      // ! A filled field empties first; in an empty one Escape still closes the menu or the dialog.
       if (event.key === CLEAR_SEARCH_KEY && value !== "" && !event.isComposing) {
         event.preventDefault();
         event.stopPropagation();
@@ -63,8 +62,6 @@
     }}
   />
 
-  <!-- ! One place on the right: the spinner while a search waits or runs, else
-  the clear cross once there is text, else the magnifier. -->
   {#if busy}
     <span class={FIELD_ICON_CLASSES} aria-hidden="true"><Spinner size={15} /></span>
   {:else if value !== ""}

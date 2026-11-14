@@ -57,7 +57,6 @@
   "dashboard_catalog_error": "Κατάλογος μη διαθέσιμος: {error}",
   "dashboard_queue_blocked_no_live_channel": "Κανένα κανάλι live",
   "dashboard_queue_blocked_one_campaign_at_a_time": "Αναμονή (μία καμπάνια τη φορά)",
-  "dashboard_queue_blocked_no_drop_available": "Κανένα drop διαθέσιμο ακόμα",
   "dashboard_queue_reason_priority": "Προτεραιότητα",
   "dashboard_queue_reason_ending_soon": "Λήγει σύντομα",
   "dashboard_queue_reason_lowest_remaining": "Σχεδόν έτοιμο",
@@ -157,6 +156,7 @@
   "settings_catalog_refresh": "Ανανέωση τώρα",
   "settings_notifications": "Ειδοποιήσεις",
   "settings_notifications_events": "Ειδοποίηση για",
+  "settings_notifications_targets": "Αποστολή σε",
   "settings_discord": "Webhook Discord",
   "settings_discord_url": "URL webhook",
   "settings_telegram": "Bot Telegram",
@@ -212,7 +212,7 @@
   "error_session_expired": "Το Twitch απέρριψε τη συνεδρία",
   "error_invalid_response": "Απροσδόκητη απάντηση από το Twitch",
   "error_twitch_rejected": "Το Twitch απέρριψε το αίτημα.",
-  "error_device_code_expired": "Ο κωδικός έληξε",
+  "error_device_code_expired": "Ο κωδικός έληξε ή δεν ισχύει πια: ζητήστε νέο",
   "error_storage": "Η τοπική βάση δεδομένων δεν ήταν δυνατό να διαβαστεί ή να γραφτεί. Δείτε τα τεχνικά αρχεία καταγραφής.",
   "error_vault_locked": "Η εφαρμογή είναι κλειδωμένη",
   "error_wrong_passphrase": "Λάθος κωδικός πρόσβασης",
@@ -309,6 +309,7 @@
   "campaign_channels_some": "Επιτρεπόμενα κανάλια: {count}",
   "common_account": "Λογαριασμός",
   "campaign_progress": "{current}/{required} λεπτά",
+  "campaign_progress_of": "Πρόοδος και εξαργυρώσεις για {account}",
   "campaign_link_game": "Σύνδεση λογαριασμού παιχνιδιού",
   "campaign_open_twitch": "Άνοιγμα στο Twitch",
   "logs_title": "Αρχεία καταγραφής",
@@ -369,7 +370,6 @@
   "drops_scope_linked_hint": "Μόνο παιχνίδια με λογαριασμό συνδεδεμένο στο Twitch, ώστε κάθε drop να μπορεί να παραληφθεί.",
   "drops_skip_hint": "Παραλείπει μια καμπάνια όταν δεν απομένει αρκετός χρόνος για να ολοκληρωθεί.",
   "error_unknown_channel": "Δεν υπάρχει κανάλι Twitch με αυτό το όνομα.",
-  "error_device_code_pending": "Ο κωδικός δεν έχει επιβεβαιωθεί ακόμη στο Twitch.",
   "error_invalid_vault": "Οι αποθηκευμένες συνεδρίες έχουν καταστραφεί. Συνδεθείτε ξανά.",
   "error_invalid_streamer_login": "Αυτό δεν είναι έγκυρο όνομα σύνδεσης Twitch.",
   "error_passphrase_required": "Ορίστε κωδικό εφαρμογής πριν κλειδώσετε την εφαρμογή.",
@@ -439,14 +439,77 @@
   "ev_campaign_finished": "Καμπάνια ολοκληρώθηκε: {campaign}",
   "ev_drop_progress": "{drop}: {current}/{required} λεπ.",
   "ev_bonus": "Μπόνους σεντούκι παραλήφθηκε στο {channel}",
-  "ev_points": "+{points} πόντοι στο {channel}",
+  "ev_points": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input channel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "+{points} πόντος στο {channel}",
+        "countPlural=*": "+{points} πόντοι στο {channel}"
+      }
+    }
+  ],
   "ev_online": "Το {channel} είναι live",
   "ev_offline": "Το {channel} βγήκε offline",
   "ev_raid": "Ακολούθησε το raid του {channel}",
   "ev_moment": "Στιγμή παραλήφθηκε στο {channel}",
-  "ev_bet_placed": "Στοίχημα {points} πόντων στο «{outcome}» ({channel})",
-  "ev_bet_won": "Κερδισμένη πρόβλεψη: +{points} πόντοι",
-  "ev_bet_lost": "Χαμένη πρόβλεψη: −{points} πόντοι",
+  "ev_bet_placed": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input outcome",
+        "input channel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Στοίχημα {points} πόντου στο «{outcome}» ({channel})",
+        "countPlural=*": "Στοίχημα {points} πόντων στο «{outcome}» ({channel})"
+      }
+    }
+  ],
+  "ev_bet_won": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Κερδισμένη πρόβλεψη: +{points} πόντος",
+        "countPlural=*": "Κερδισμένη πρόβλεψη: +{points} πόντοι"
+      }
+    }
+  ],
+  "ev_bet_lost": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Χαμένη πρόβλεψη: −{points} πόντος",
+        "countPlural=*": "Χαμένη πρόβλεψη: −{points} πόντοι"
+      }
+    }
+  ],
   "ev_bet_refund": "Πρόβλεψη: επιστροφή πόντων",
   "ev_login": "{login}: συνδέθηκε",
   "ev_session_expired": "Η συνεδρία Twitch έληξε: συνδεθείτε ξανά",
@@ -502,8 +565,19 @@
   "accounts_count": "{count} λογαριασμοί",
   "accounts_none": "Κανένας λογαριασμός",
   "reward_watch": "Παρακολούθηση {time}",
+  "reward_watch_daily": "{time} την ημέρα, {days} ημέρες",
+  "reward_watch_every": "{time} κάθε {hours} ώρες, {count} φορές",
+  "reward_watch_times": "{time}, {count} φορές",
+  "reward_days_done": "{done}/{total} ημέρες",
+  "reward_times_done": "{done}/{total} φορές",
+  "reward_chest": "1 τυχαίο σήμα από {count}",
+  "reward_chest_hint": "Το Twitch δίνει ένα από αυτά τα σήματα: {badges}",
+  "campaign_channels_categories": "Οποιοδήποτε κανάλι σε μία από τις {count} κατηγορίες",
+  "badges_collection": "Μέρος της συλλογής {name}",
+  "badges_collection_chest": "Μέρος της συλλογής {name}, 1 σήμα από {count}",
+  "badges_collection_all": "Σήμα για όλη τη συλλογή {name}, μαζί με τις συνδρομές",
   "reward_watch_stream": "Παρακολούθηση του stream",
-  "reward_subscribe": "Συνδρομή: δεν εξορύσσεται",
+  "reward_subscribe": "Κάντε συνδρομή μόνοι σας",
   "reward_kind_badge": "Σήμα",
   "reward_kind_item": "Αντικείμενο",
   "reward_sub_only": "Sub",
@@ -625,32 +699,6 @@
   "chat_always": "Πάντα",
   "chat_offline": "Όσο ο streamer είναι offline",
   "chat_never": "Ποτέ (αόρατος)",
-  "accounts_stats_bets": "Στοιχήματα κερδισμένα / χαμένα: {won} / {lost}",
-  "accounts_stats_bonuses": "Μπόνους σεντούκια: {count}",
-  "catalogue_fetched": "λήψη {time}, ξανά κάθε {minutes} λεπ.",
-  "change_order_reset": "Η αυτόματη σειρά επανήλθε επιτυχώς",
-  "event_kind_goal_contributed": "Στόχος κοινότητας",
-  "ev_goal_contributed": "{points} πόντοι δόθηκαν στο «{goal}» στο {channel}",
-  "ev_streak_recovered": "Το σερί παρακολούθησης ανακτήθηκε στο {channel}",
-  "filter_by_odds": "Απόδοση της επιλογής",
-  "filter_by_odds_percentage": "Απόδοση της επιλογής (%)",
-  "filter_by_percentage_users": "Θεατές στην επιλογή (%)",
-  "filter_by_total_users": "Θεατές που ποντάρισαν",
-  "filter_by_total_points": "Συνολικοί πόντοι στοιχημάτων",
-  "filter_by_decision_users": "Θεατές στην επιλογή",
-  "filter_by_decision_points": "Πόντοι στην επιλογή",
-  "queue_reset": "Αυτόματη σειρά",
-  "slot_last_minute": "τελευταίο λεπτό παρακολούθησης μετρήθηκε {time}",
-  "slot_segments": "Τμήματα βίντεο που ζητήθηκαν: {count}",
-  "streamer_community_goals_hint": "Δίνει πόντους καναλιού στους στόχους κοινότητας του streamer όσο είναι live: όσους χρειάζεται ακόμη ο στόχος, εντός του ορίου ανά θεατή και του υπολοίπου.",
-  "streamer_last_bonus": "τελευταίο σεντούκι {time}",
-  "streamer_predictions_filter": "Στοίχημα μόνο υπό συνθήκη",
-  "streamer_predictions_filter_hint": "Παραλείπει το στοίχημα όταν η συνθήκη για την επιλεγμένη πλευρά δεν ισχύει.",
-  "streamer_predictions_filter_by": "Τιμή",
-  "streamer_predictions_filter_op": "Συνθήκη",
-  "streamer_predictions_filter_value": "Όριο",
-  "streamer_predictions_gap_hint": "Η Έξυπνη ακολουθεί την πλειοψηφία, εκτός αν οι δύο πλευρές είναι τόσο κοντά: τότε παίρνει την καλύτερη απόδοση.",
-  "account_refresh": "Ανανέωση του λογαριασμού τώρα",
   "settings_start_minimized_hint": "Το παράθυρο μένει κρυφό κατά την εκκίνηση. Ανοίξτε το από το εικονίδιο στη γραμμή συστήματος.",
   "settings_data_folder": "Φάκελος δεδομένων",
   "settings_data_folder_hint": "Οι λογαριασμοί, οι ρυθμίσεις, το ιστορικό και τα αρχεία καταγραφής αποθηκεύονται εδώ.",
@@ -666,6 +714,8 @@
   "updates_last_checked": "Τελευταίος έλεγχος: {time}",
   "updates_never_checked": "Τελευταίος έλεγχος: καμία απάντηση ακόμη από την εκκίνηση",
   "updates_install": "Εγκατάσταση και επανεκκίνηση",
+  "updates_download_page": "Άνοιγμα της σελίδας λήψης",
+  "settings_notifications_language": "Γλώσσα ειδοποιήσεων",
   "updates_confirm_title": "Εγκατάσταση της έκδοσης {version};",
   "updates_confirm_text": "Έχετε την έκδοση {current}. Η εφαρμογή κατεβάζει την έκδοση {version}, σταματά την εξόρυξη σε όλους τους λογαριασμούς, την εγκαθιστά και επανεκκινείται μόνη της. Μετά η εξόρυξη συνεχίζεται μόνη της.",
   "updates_later": "Αργότερα",
@@ -710,6 +760,49 @@
       }
     }
   ],
+  "accounts_stats_bets": "Στοιχήματα κερδισμένα / χαμένα: {won} / {lost}",
+  "accounts_stats_bonuses": "Μπόνους σεντούκια: {count}",
+  "catalogue_fetched": "λήψη {time}, ξανά κάθε {minutes} λεπ.",
+  "change_order_reset": "Η αυτόματη σειρά επανήλθε επιτυχώς",
+  "event_kind_goal_contributed": "Στόχος κοινότητας",
+  "ev_goal_contributed": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input goal",
+        "input channel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{points} πόντος δόθηκε στο «{goal}» στο {channel}",
+        "countPlural=*": "{points} πόντοι δόθηκαν στο «{goal}» στο {channel}"
+      }
+    }
+  ],
+  "ev_streak_recovered": "Το σερί παρακολούθησης ανακτήθηκε στο {channel}",
+  "filter_by_odds": "Απόδοση της επιλογής",
+  "filter_by_odds_percentage": "Απόδοση της επιλογής (%)",
+  "filter_by_percentage_users": "Θεατές στην επιλογή (%)",
+  "filter_by_total_users": "Θεατές που ποντάρισαν",
+  "filter_by_total_points": "Συνολικοί πόντοι στοιχημάτων",
+  "filter_by_decision_users": "Θεατές στην επιλογή",
+  "filter_by_decision_points": "Πόντοι στην επιλογή",
+  "queue_reset": "Αυτόματη σειρά",
+  "slot_last_minute": "τελευταίο λεπτό παρακολούθησης μετρήθηκε {time}",
+  "slot_segments": "Τμήματα βίντεο που ζητήθηκαν: {count}",
+  "streamer_community_goals_hint": "Δίνει πόντους καναλιού στους στόχους κοινότητας του streamer όσο είναι live: όσους χρειάζεται ακόμη ο στόχος, εντός του ορίου ανά θεατή και του υπολοίπου.",
+  "streamer_last_bonus": "τελευταίο σεντούκι {time}",
+  "streamer_predictions_filter": "Στοίχημα μόνο υπό συνθήκη",
+  "streamer_predictions_filter_hint": "Παραλείπει το στοίχημα όταν η συνθήκη για την επιλεγμένη πλευρά δεν ισχύει.",
+  "streamer_predictions_filter_by": "Τιμή",
+  "streamer_predictions_filter_op": "Συνθήκη",
+  "streamer_predictions_filter_value": "Όριο",
+  "streamer_predictions_gap_hint": "Η Έξυπνη ακολουθεί την πλειοψηφία, εκτός αν οι δύο πλευρές είναι τόσο κοντά: τότε παίρνει την καλύτερη απόδοση.",
+  "account_refresh": "Ανανέωση του λογαριασμού τώρα",
   "account_state_running_hint": "Ο λογαριασμός κάνει εξόρυξη με τις ρυθμίσεις του. Η παύση σταματά τα πάντα: Drops, πόντους καναλιού και συνομιλία.",
   "account_state_paused_hint": "Ο λογαριασμός είναι σε παύση: δεν παρακολουθεί τίποτα και δεν κερδίζει τίποτα. Οι ρυθμίσεις του διατηρούνται.",
   "login_code": "κωδικός σύνδεσης",
@@ -754,6 +847,7 @@
   "inventory_claimed_all": "Ανταμοιβές που παραλήφθηκαν: {count}",
   "reward_state_claimed": "Εξαργυρώθηκε",
   "reward_state_ready": "Για εξαργύρωση",
+  "reward_state_owned": "Αποκτήθηκε",
   "reward_claim": "Εξαργύρωση",
   "notify_test_title": "Δοκιμή: {text}",
   "notify_test_detail": "Το Twitch Miner φτάνει σε αυτόν τον προορισμό. Έτσι φαίνεται ένα εξαργυρωμένο drop. Όλα τα ονόματα και οι εικόνες αυτού του μηνύματος είναι δοκιμαστικά.",
@@ -787,14 +881,14 @@
   "badge_hint_reason_lowest_remaining": "Λίγα λεπτά απομένουν, γι' αυτό ολοκληρώνεται πρώτη",
   "badge_hint_blocked_no_live": "Κανένα από τα κανάλια της δεν είναι live",
   "badge_hint_blocked_one_at_a_time": "Εξορύσσεται μία καμπάνια τη φορά",
-  "badge_hint_blocked_no_drop": "Το Twitch δεν προσφέρει ακόμη κανένα drop",
   "badge_hint_linked": "Ο λογαριασμός παιχνιδιού συνδέθηκε: τα drops μπορούν να εξαργυρωθούν",
   "badge_hint_not_linked": "Συνδέστε τον λογαριασμό παιχνιδιού για να εξαργυρώσετε τα drops",
   "badge_hint_link_required": "Απαιτεί συνδεδεμένο λογαριασμό παιχνιδιού",
   "badge_hint_claimed": "Ήδη στο απόθεμά σας στο Twitch",
+  "badge_hint_owned": "Αυτός ο λογαριασμός έχει ήδη αυτό το σήμα: ο miner δεν το εξορύσσει",
   "badge_hint_ready": "Κερδήθηκε: μένει μόνο η εξαργύρωση",
   "badge_hint_item": "Φτάνει στο παιχνίδι μετά την εξαργύρωση",
-  "badge_hint_sub_only": "Απαιτεί συνδρομή: δεν εξορύσσεται",
+  "badge_hint_sub_only": "Απαιτεί συνδρομή που κάνετε μόνοι σας (μια ήδη ενεργή συνδρομή, το Prime ή μια ανανέωση δεν μετράνε). Μόλις το Twitch τη μετρήσει, ο miner εξορύσσει τον χρόνο παρακολούθησης.",
   "badge_hint_watching": "Αυτός ο λογαριασμός παρακολουθεί το κανάλι τώρα",
   "badge_hint_streak_risk": "Το σερί παρακολούθησης σε αυτό το κανάλι πρόκειται να σπάσει",
   "badge_hint_in_progress": "Το Twitch μετρά τα λεπτά σας για αυτήν την καμπάνια",
@@ -939,7 +1033,23 @@
     }
   ],
   "event_kind_points_spent": "Πόντοι που ξοδεύτηκαν",
-  "ev_points_spent": "−{points} πόντοι στο {channel}",
+  "ev_points_spent": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input channel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "−{points} πόντος στο {channel}",
+        "countPlural=*": "−{points} πόντοι στο {channel}"
+      }
+    }
+  ],
   "ev_points_spent_balance": "Πόντοι ξοδεύτηκαν στο {channel} (υπόλοιπο {balance})",
   "ev_drop_progress_unknown": "Πρόοδος drop: {current}/{required} λεπ.",
   "journal_types": "Τύποι συμβάντων",
@@ -1178,7 +1288,7 @@
   "queue_reason_badge": "Σήμα",
   "badge_hint_reason_badge": "Δίνει σήμα που ο λογαριασμός δεν έχει ακόμη",
   "quest_label": "Αποστολή Twitch",
-  "badge_hint_quest": "Ένα συμβάν του Twitch: μετράει οποιοδήποτε κανάλι των κατηγοριών του",
+  "badge_hint_quest": "Ένα συμβάν του Twitch: μετράει μόνο σε κανάλι των κατηγοριών του που το προσφέρει",
   "quest_next_window": "Επόμενο παράθυρο {time}",
   "account_badges_not_read": "Τα σήματα και οι αποστολές του λογαριασμού διαβάζονται όσο αυτός λειτουργεί.",
   "account_badges_tabs_label": "Ενότητες της σελίδας Σήματα",
@@ -1190,6 +1300,30 @@
   "selection_only_title": "Μόνο η επιλογή μου",
   "drops_selection_only_hint": "Εξορύσσει μόνο τα παιχνίδια προτεραιότητας και τις καμπάνιες με αστέρι. Όταν εξορυχθούν όλες, δεν ξεκινά άλλη καμπάνια.",
   "badges_selection_only_hint": "Εξορύσσει μόνο τα σήματα με αστέρι. Όταν εξορυχθούν όλα, δεν ξεκινά άλλο σήμα.",
+  "badges_evolutions_title": "Εξόρυξη εξελίξεων σημάτων",
+  "badges_evolutions_hint": "Για μια εξέλιξη (Pichu → Pikachu…), ο miner φοράει μόνος του το απαιτούμενο σήμα λίγο πριν την εξορύξει και δεν ξαναβάζει το παλιό. Ανενεργό: αυτά τα σήματα παραλείπονται και το φορεμένο σήμα δεν αλλάζει ποτέ.",
+  "badge_evolution": "Εξέλιξη του {badge}",
+  "badge_hint_evolution": "Ο miner φοράει το {badge} λίγο πριν εξορύξει αυτό το σήμα και δεν ξαναβάζει το παλιό",
+  "badge_evolution_unknown": "Άγνωστο απαιτούμενο σήμα",
+  "badge_hint_evolution_unknown": "Το Twitch δεν έχει πει ακόμη από ποιο σήμα εξελίσσεται αυτό: μέχρι τότε δεν εξορύσσεται",
+  "badge_evolution_locked": "Χρειάζεται το {badge}",
+  "badge_hint_evolution_locked": "Αυτός ο λογαριασμός πρέπει πρώτα να αποκτήσει το {badge}: ο miner το φοράει μετά για να εξορύξει αυτή την εξέλιξη",
+  "badge_evolution_off": "Οι εξελίξεις είναι ανενεργές",
+  "badge_hint_evolution_off": "Η «Εξόρυξη εξελίξεων σημάτων» είναι ανενεργή στις ρυθμίσεις σημάτων αυτού του λογαριασμού",
+  "ev_badge_equipped": "Φορέθηκε το σήμα {badge} για την εξέλιξη του {drop}",
+  "ev_badge_equip_failed": "Το σήμα {badge} δεν μπόρεσε να φορεθεί για την εξέλιξη του {drop}",
+  "badge_progress_not_started": "Δεν έχει ξεκινήσει",
+  "badge_progress_not_offered": "Δεν υπάρχει στις καμπάνιες αυτού του λογαριασμού",
+  "badge_dialog_subs": "Συνδρομές που κάνετε μόνοι σας: {count}",
+  "badge_dialog_dates": "Από {start} έως {end}",
+  "badge_dialog_from": "Από {date}",
+  "badge_dialog_open_campaign": "Άνοιγμα της καμπάνιας",
+  "badge_dialog_categories": "Κατηγορίες",
+  "badge_dialog_channels": "Κανάλια",
+  "badge_dialog_collection": "Συλλογή",
+  "badge_dialog_evolution": "Εξέλιξη",
+  "badge_dialog_evolves_from": "Το Twitch μετράει αυτό το σήμα μόνο όσο είναι φορεμένο το {badge}: ο miner το φοράει λίγο πριν την εξόρυξη και δεν ξαναβάζει το παλιό σήμα.",
+  "badge_dialog_accounts": "Πρόοδος των λογαριασμών",
   "campaign_select": "Προσθήκη στην επιλογή μου",
   "campaign_unselect": "Αφαίρεση από την επιλογή μου",
   "campaign_selected": "Προστέθηκε στην επιλογή σας",
@@ -1206,5 +1340,5 @@
   "quest_not_minable": "Δεν εξορύσσεται",
   "badge_hint_quest_not_minable": "Το Twitch δεν δηλώνει καμία κατηγορία ή κανάλι που ο miner θα μπορούσε να παρακολουθήσει γι' αυτό",
   "account_badges_not_mined": "Δεν εξορύσσονται",
-  "account_badges_not_mined_hint": "Εμφανίζονται, αλλά δεν εξορύσσονται ποτέ: απαιτείται συνδρομή ή το Twitch δεν δηλώνει κανάλι που ο miner μπορεί να παρακολουθήσει."
+  "account_badges_not_mined_hint": "Εμφανίζονται, αλλά δεν εξορύσσονται: πρώτα χρειάζεται μια συνδρομή που κάνετε μόνοι σας ή άλλο σήμα, ή το Twitch δεν δηλώνει κανάλι που ο miner μπορεί να παρακολουθήσει."
 }

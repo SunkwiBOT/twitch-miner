@@ -48,10 +48,8 @@ pub enum Error {
     },
     #[error("Twitch refused the claim ({0})")]
     ClaimRefused(String),
-    #[error("the device code expired before it was entered")]
+    #[error("the device code expired or is no longer valid")]
     DeviceCodeExpired,
-    #[error("the device code is not confirmed yet")]
-    DeviceCodePending,
     #[error("storage error: {0}")]
     Storage(String),
     #[error("the vault is locked")]
@@ -98,7 +96,6 @@ pub enum ErrorCode {
     InvalidResponse,
     TwitchRejected,
     DeviceCodeExpired,
-    DeviceCodePending,
     StorageError,
     VaultLocked,
     WrongPassphrase,
@@ -151,7 +148,6 @@ impl Error {
             Error::InvalidResponse(_) => ErrorCode::InvalidResponse,
             Error::Gql { .. } | Error::ClaimRefused(_) => ErrorCode::TwitchRejected,
             Error::DeviceCodeExpired => ErrorCode::DeviceCodeExpired,
-            Error::DeviceCodePending => ErrorCode::DeviceCodePending,
             Error::Storage(_) => ErrorCode::StorageError,
             Error::VaultLocked => ErrorCode::VaultLocked,
             Error::WrongPassphrase => ErrorCode::WrongPassphrase,
@@ -177,7 +173,6 @@ impl Error {
             self,
             Error::ClaimRefused(_)
                 | Error::DeviceCodeExpired
-                | Error::DeviceCodePending
                 | Error::VaultLocked
                 | Error::WrongPassphrase
                 | Error::UnknownAccount(_)

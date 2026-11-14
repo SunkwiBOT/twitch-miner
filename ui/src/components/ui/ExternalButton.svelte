@@ -5,12 +5,12 @@
   import Icon from "./Icon.svelte";
   import {
     BUTTON_SIZES,
-    BUTTON_VARIANT_CLASSES,
     BUTTON_VARIANTS,
+    BUTTON_VARIANT_CLASSES,
     ButtonSize,
     ButtonVariant,
-    IconName,
-  } from "./ui.constants";
+  } from "./button.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   type ExternalButtonPropsType = {
     url: string;

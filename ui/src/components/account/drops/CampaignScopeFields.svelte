@@ -7,7 +7,7 @@
   import FormField from "../../ui/FormField.svelte";
   import Select from "../../ui/Select.svelte";
   import Setting from "../../ui/Setting.svelte";
-  import { MenuAlign } from "../../ui/ui.constants";
+  import { MenuAlign } from "../../ui/menu.constants";
 
   type CampaignScopeFieldsPropsType = {
     id: string;

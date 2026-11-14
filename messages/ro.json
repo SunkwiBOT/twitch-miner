@@ -58,7 +58,6 @@
   "dashboard_catalog_error": "Catalog indisponibil: {error}",
   "dashboard_queue_blocked_no_live_channel": "Niciun canal live",
   "dashboard_queue_blocked_one_campaign_at_a_time": "În așteptare (o campanie pe rând)",
-  "dashboard_queue_blocked_no_drop_available": "Niciun drop disponibil încă",
   "dashboard_queue_reason_priority": "Prioritate",
   "dashboard_queue_reason_ending_soon": "Se încheie curând",
   "dashboard_queue_reason_lowest_remaining": "Aproape gata",
@@ -158,6 +157,7 @@
   "settings_catalog_refresh": "Reîmprospătează acum",
   "settings_notifications": "Notificări",
   "settings_notifications_events": "Notifică la",
+  "settings_notifications_targets": "Trimite către",
   "settings_discord": "Webhook Discord",
   "settings_discord_url": "URL webhook",
   "settings_telegram": "Bot Telegram",
@@ -213,7 +213,7 @@
   "error_session_expired": "Twitch a respins sesiunea",
   "error_invalid_response": "Răspuns neașteptat de la Twitch",
   "error_twitch_rejected": "Twitch a refuzat cererea.",
-  "error_device_code_expired": "Codul a expirat",
+  "error_device_code_expired": "Codul a expirat sau nu mai este valabil: cere unul nou",
   "error_storage": "Baza de date locală nu a putut fi citită sau scrisă. Vezi logurile tehnice.",
   "error_vault_locked": "Aplicația este blocată",
   "error_wrong_passphrase": "Parolă greșită",
@@ -312,6 +312,7 @@
   "campaign_channels_some": "Canale permise: {count}",
   "common_account": "Cont",
   "campaign_progress": "{current}/{required} min",
+  "campaign_progress_of": "Progres și revendicări pentru {account}",
   "campaign_link_game": "Conectează contul de joc",
   "campaign_open_twitch": "Deschide pe Twitch",
   "logs_title": "Loguri tehnice",
@@ -372,7 +373,6 @@
   "drops_scope_linked_hint": "Doar jocurile al căror cont e conectat la Twitch, astfel încât fiecare drop poate fi revendicat.",
   "drops_skip_hint": "Ignoră o campanie când nu mai rămâne destul timp ca să fie terminată.",
   "error_unknown_channel": "Niciun canal Twitch nu are acest nume.",
-  "error_device_code_pending": "Codul nu este încă confirmat pe Twitch.",
   "error_invalid_vault": "Sesiunile salvate sunt deteriorate. Autentifică-te din nou.",
   "error_invalid_streamer_login": "Acesta nu este un nume de utilizator Twitch valid.",
   "error_passphrase_required": "Setează o parolă a aplicației înainte de a o bloca.",
@@ -442,14 +442,81 @@
   "ev_campaign_finished": "Campanie terminată: {campaign}",
   "ev_drop_progress": "{drop}: {current}/{required} min",
   "ev_bonus": "Cufăr bonus revendicat pe {channel}",
-  "ev_points": "+{points} puncte pe {channel}",
+  "ev_points": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input channel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "+{points} punct pe {channel}",
+        "countPlural=few": "+{points} puncte pe {channel}",
+        "countPlural=*": "+{points} de puncte pe {channel}"
+      }
+    }
+  ],
   "ev_online": "{channel} e live",
   "ev_offline": "{channel} a ieșit offline",
   "ev_raid": "Raid urmat de la {channel}",
   "ev_moment": "Moment revendicat pe {channel}",
-  "ev_bet_placed": "Pariu de {points} puncte pe „{outcome}” ({channel})",
-  "ev_bet_won": "Predicție câștigată: +{points} puncte",
-  "ev_bet_lost": "Predicție pierdută: −{points} puncte",
+  "ev_bet_placed": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input outcome",
+        "input channel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Pariu de {points} punct pe „{outcome}” ({channel})",
+        "countPlural=few": "Pariu de {points} puncte pe „{outcome}” ({channel})",
+        "countPlural=*": "Pariu de {points} de puncte pe „{outcome}” ({channel})"
+      }
+    }
+  ],
+  "ev_bet_won": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Predicție câștigată: +{points} punct",
+        "countPlural=few": "Predicție câștigată: +{points} puncte",
+        "countPlural=*": "Predicție câștigată: +{points} de puncte"
+      }
+    }
+  ],
+  "ev_bet_lost": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Predicție pierdută: −{points} punct",
+        "countPlural=few": "Predicție pierdută: −{points} puncte",
+        "countPlural=*": "Predicție pierdută: −{points} de puncte"
+      }
+    }
+  ],
   "ev_bet_refund": "Predicție rambursată",
   "ev_login": "{login} s-a autentificat",
   "ev_session_expired": "Sesiunea Twitch a expirat: autentifică-te din nou",
@@ -506,8 +573,19 @@
   "accounts_count": "{count} conturi",
   "accounts_none": "Niciun cont",
   "reward_watch": "Urmărește {time}",
+  "reward_watch_daily": "{time} pe zi, {days} zile",
+  "reward_watch_every": "{time} la fiecare {hours} h, de {count} ori",
+  "reward_watch_times": "{time}, de {count} ori",
+  "reward_days_done": "{done}/{total} zile",
+  "reward_times_done": "{done}/{total} ori",
+  "reward_chest": "1 insignă la întâmplare din {count}",
+  "reward_chest_hint": "Twitch dă una dintre aceste insigne: {badges}",
+  "campaign_channels_categories": "Orice canal dintr-una dintre cele {count} categorii",
+  "badges_collection": "Face parte din colecția {name}",
+  "badges_collection_chest": "Face parte din colecția {name}, 1 insignă din {count}",
+  "badges_collection_all": "Insigna întregii colecții {name}, cu abonamente cu tot",
   "reward_watch_stream": "Urmărește streamul",
-  "reward_subscribe": "Abonament: nu se minează",
+  "reward_subscribe": "Abonează-te singur",
   "reward_kind_badge": "Insignă",
   "reward_kind_item": "Obiect în joc",
   "reward_sub_only": "Sub",
@@ -629,32 +707,6 @@
   "chat_always": "Mereu",
   "chat_offline": "Cât timp streamerul e offline",
   "chat_never": "Niciodată (invizibil)",
-  "accounts_stats_bets": "Pariuri câștigate / pierdute: {won} / {lost}",
-  "accounts_stats_bonuses": "Cufere bonus: {count}",
-  "catalogue_fetched": "preluat {time}, apoi la fiecare {minutes} min",
-  "change_order_reset": "Ordinea automată a fost restabilită cu succes",
-  "event_kind_goal_contributed": "Obiectiv al comunității",
-  "ev_goal_contributed": "{points} puncte date pentru „{goal}” pe {channel}",
-  "ev_streak_recovered": "Seria de vizionare recuperată pe {channel}",
-  "filter_by_odds": "Cota alegerii",
-  "filter_by_odds_percentage": "Cota alegerii (%)",
-  "filter_by_percentage_users": "Spectatori pe alegere (%)",
-  "filter_by_total_users": "Spectatori care au pariat",
-  "filter_by_total_points": "Puncte pariate în total",
-  "filter_by_decision_users": "Spectatori pe alegere",
-  "filter_by_decision_points": "Puncte pe alegere",
-  "queue_reset": "Ordine automată",
-  "slot_last_minute": "ultimul minut de vizionare numărat {time}",
-  "slot_segments": "Segmente video cerute: {count}",
-  "streamer_community_goals_hint": "Dă puncte de canal obiectivelor comunității streamerului în timpul live-ului: cât îi mai trebuie obiectivului, în limita per spectator și a soldului.",
-  "streamer_last_bonus": "ultimul cufăr {time}",
-  "streamer_predictions_filter": "Pariază doar cu o condiție",
-  "streamer_predictions_filter_hint": "Sare peste pariu când condiția pentru opțiunea aleasă nu este îndeplinită.",
-  "streamer_predictions_filter_by": "Valoare",
-  "streamer_predictions_filter_op": "Condiție",
-  "streamer_predictions_filter_value": "Prag",
-  "streamer_predictions_gap_hint": "Inteligentă urmează majoritatea, cu excepția cazului în care cele două opțiuni sunt atât de apropiate: atunci alege cea mai bună cotă.",
-  "account_refresh": "Reîmprospătează contul acum",
   "settings_start_minimized_hint": "Fereastra rămâne ascunsă la pornire; deschide-o din pictograma din bara de sistem.",
   "settings_data_folder": "Dosarul de date",
   "settings_data_folder_hint": "Conturile, setările, istoricul și logurile sunt stocate aici.",
@@ -670,6 +722,8 @@
   "updates_last_checked": "Ultima verificare: {time}",
   "updates_never_checked": "Ultima verificare: încă niciun răspuns de la pornire",
   "updates_install": "Instalează și repornește",
+  "updates_download_page": "Deschide pagina de descărcare",
+  "settings_notifications_language": "Limba notificărilor",
   "updates_confirm_title": "Instalezi versiunea {version}?",
   "updates_confirm_text": "Ai versiunea {current}. Aplicația descarcă versiunea {version}, oprește minarea pe toate conturile, o instalează și repornește singură. Apoi minarea se reia singură.",
   "updates_later": "Mai târziu",
@@ -716,6 +770,50 @@
       }
     }
   ],
+  "accounts_stats_bets": "Pariuri câștigate / pierdute: {won} / {lost}",
+  "accounts_stats_bonuses": "Cufere bonus: {count}",
+  "catalogue_fetched": "preluat {time}, apoi la fiecare {minutes} min",
+  "change_order_reset": "Ordinea automată a fost restabilită cu succes",
+  "event_kind_goal_contributed": "Obiectiv al comunității",
+  "ev_goal_contributed": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input goal",
+        "input channel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{points} punct dat pentru „{goal}” pe {channel}",
+        "countPlural=few": "{points} puncte date pentru „{goal}” pe {channel}",
+        "countPlural=*": "{points} de puncte date pentru „{goal}” pe {channel}"
+      }
+    }
+  ],
+  "ev_streak_recovered": "Seria de vizionare recuperată pe {channel}",
+  "filter_by_odds": "Cota alegerii",
+  "filter_by_odds_percentage": "Cota alegerii (%)",
+  "filter_by_percentage_users": "Spectatori pe alegere (%)",
+  "filter_by_total_users": "Spectatori care au pariat",
+  "filter_by_total_points": "Puncte pariate în total",
+  "filter_by_decision_users": "Spectatori pe alegere",
+  "filter_by_decision_points": "Puncte pe alegere",
+  "queue_reset": "Ordine automată",
+  "slot_last_minute": "ultimul minut de vizionare numărat {time}",
+  "slot_segments": "Segmente video cerute: {count}",
+  "streamer_community_goals_hint": "Dă puncte de canal obiectivelor comunității streamerului în timpul live-ului: cât îi mai trebuie obiectivului, în limita per spectator și a soldului.",
+  "streamer_last_bonus": "ultimul cufăr {time}",
+  "streamer_predictions_filter": "Pariază doar cu o condiție",
+  "streamer_predictions_filter_hint": "Sare peste pariu când condiția pentru opțiunea aleasă nu este îndeplinită.",
+  "streamer_predictions_filter_by": "Valoare",
+  "streamer_predictions_filter_op": "Condiție",
+  "streamer_predictions_filter_value": "Prag",
+  "streamer_predictions_gap_hint": "Inteligentă urmează majoritatea, cu excepția cazului în care cele două opțiuni sunt atât de apropiate: atunci alege cea mai bună cotă.",
+  "account_refresh": "Reîmprospătează contul acum",
   "account_state_running_hint": "Contul minează cu setările sale. Pauza oprește tot: Drops, punctele de canal și chatul.",
   "account_state_paused_hint": "Contul e în pauză: nu urmărește nimic și nu câștigă nimic. Setările sale sunt păstrate.",
   "login_code": "codul de autentificare",
@@ -760,6 +858,7 @@
   "inventory_claimed_all": "Recompense revendicate: {count}",
   "reward_state_claimed": "Revendicat",
   "reward_state_ready": "De revendicat",
+  "reward_state_owned": "Obținută",
   "reward_claim": "Revendică",
   "notify_test_title": "Test: {text}",
   "notify_test_detail": "Twitch Miner poate ajunge la această destinație. Așa arată un drop revendicat. Toate numele și imaginile din acest mesaj sunt de test.",
@@ -793,14 +892,14 @@
   "badge_hint_reason_lowest_remaining": "Au rămas puține minute, deci e terminată prima",
   "badge_hint_blocked_no_live": "Niciunul dintre canalele ei nu e live",
   "badge_hint_blocked_one_at_a_time": "Se minează o singură campanie odată",
-  "badge_hint_blocked_no_drop": "Twitch nu oferă încă niciun drop",
   "badge_hint_linked": "Cont de joc legat: drop-urile pot fi revendicate",
   "badge_hint_not_linked": "Leagă contul de joc ca să revendici drop-urile",
   "badge_hint_link_required": "Necesită un cont de joc legat",
   "badge_hint_claimed": "Deja în inventarul tău Twitch",
+  "badge_hint_owned": "Acest cont are deja această insignă: minerul nu o minează",
   "badge_hint_ready": "Câștigat: mai trebuie doar revendicat",
   "badge_hint_item": "Ajunge în joc după revendicare",
-  "badge_hint_sub_only": "Necesită abonament: nu se minează",
+  "badge_hint_sub_only": "Necesită un abonament făcut de tine (unul deja activ, Prime sau o reînnoire nu contează). Imediat ce Twitch îl numără, minerul minează timpul de vizionare.",
   "badge_hint_watching": "Acest cont urmărește canalul acum",
   "badge_hint_streak_risk": "Seria de vizionare pe acest canal e pe cale să se rupă",
   "badge_hint_in_progress": "Twitch îți numără minutele pentru această campanie",
@@ -949,7 +1048,24 @@
     }
   ],
   "event_kind_points_spent": "Puncte cheltuite",
-  "ev_points_spent": "−{points} puncte pe {channel}",
+  "ev_points_spent": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input channel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "−{points} punct pe {channel}",
+        "countPlural=few": "−{points} puncte pe {channel}",
+        "countPlural=*": "−{points} de puncte pe {channel}"
+      }
+    }
+  ],
   "ev_points_spent_balance": "Puncte cheltuite pe {channel} (sold {balance})",
   "ev_drop_progress_unknown": "Progresul unui drop: {current}/{required} min",
   "journal_types": "Tipuri de evenimente",
@@ -1193,7 +1309,7 @@
   "queue_reason_badge": "Insignă",
   "badge_hint_reason_badge": "Dă o insignă pe care contul nu o are încă",
   "quest_label": "Misiune Twitch",
-  "badge_hint_quest": "Un eveniment Twitch: orice canal din categoriile sale contează",
+  "badge_hint_quest": "Un eveniment Twitch: contează doar pe un canal din categoriile sale care îl oferă",
   "quest_next_window": "Următoarea fereastră {time}",
   "account_badges_not_read": "Insignele și misiunile contului sunt citite cât timp rulează.",
   "account_badges_tabs_label": "Secțiunile paginii Insigne",
@@ -1205,6 +1321,30 @@
   "selection_only_title": "Doar selecția mea",
   "drops_selection_only_hint": "Minează doar jocurile prioritare și campaniile marcate cu o stea. După ce sunt minate toate, nu se pornește nicio altă campanie.",
   "badges_selection_only_hint": "Minează doar insignele marcate cu o stea. După ce sunt minate toate, nu se pornește nicio altă insignă.",
+  "badges_evolutions_title": "Minează evoluțiile insignelor",
+  "badges_evolutions_hint": "Pentru o evoluție (Pichu → Pikachu…), minerul își pune singur insigna cerută chiar înainte de a o mina și nu o mai pune la loc pe cea veche. Dezactivat: aceste insigne sunt lăsate deoparte, iar insigna purtată nu e atinsă niciodată.",
+  "badge_evolution": "Evoluție din {badge}",
+  "badge_hint_evolution": "Minerul își pune {badge} chiar înainte de a mina această insignă și nu o mai pune la loc pe cea veche",
+  "badge_evolution_unknown": "Insignă cerută necunoscută",
+  "badge_hint_evolution_unknown": "Twitch nu a spus încă din ce insignă evoluează aceasta: până atunci nu e minată",
+  "badge_evolution_locked": "E nevoie de {badge}",
+  "badge_hint_evolution_locked": "Acest cont trebuie mai întâi să obțină {badge}: apoi minerul o pune ca să mineze această evoluție",
+  "badge_evolution_off": "Evoluții dezactivate",
+  "badge_hint_evolution_off": "„Minează evoluțiile insignelor” e dezactivat în setările de insigne ale acestui cont",
+  "ev_badge_equipped": "Insigna {badge} pusă pentru a evolua {drop}",
+  "ev_badge_equip_failed": "Insigna {badge} nu a putut fi pusă pentru a evolua {drop}",
+  "badge_progress_not_started": "Neînceput",
+  "badge_progress_not_offered": "Nu e în campaniile acestui cont",
+  "badge_dialog_subs": "Abonamente făcute de tine: {count}",
+  "badge_dialog_dates": "De la {start} până la {end}",
+  "badge_dialog_from": "De la {date}",
+  "badge_dialog_open_campaign": "Deschide campania",
+  "badge_dialog_categories": "Categorii",
+  "badge_dialog_channels": "Canale",
+  "badge_dialog_collection": "Colecție",
+  "badge_dialog_evolution": "Evoluție",
+  "badge_dialog_evolves_from": "Twitch numără această insignă doar cât timp {badge} e purtată: minerul o pune chiar înainte de minare și nu o mai pune la loc pe cea veche.",
+  "badge_dialog_accounts": "Progresul conturilor",
   "campaign_select": "Adaugă în selecția mea",
   "campaign_unselect": "Scoate din selecția mea",
   "campaign_selected": "Adăugată în selecția ta",
@@ -1221,5 +1361,5 @@
   "quest_not_minable": "Nu se poate mina",
   "badge_hint_quest_not_minable": "Twitch nu indică nicio categorie sau canal pe care minerul să le poată urmări pentru asta",
   "account_badges_not_mined": "Nu se minează",
-  "account_badges_not_mined_hint": "Afișate, dar niciodată minate: este nevoie de un abonament sau Twitch nu indică niciun canal pe care minerul să-l poată urmări."
+  "account_badges_not_mined_hint": "Afișate, dar neminate: mai întâi e nevoie de un abonament făcut de tine sau de altă insignă, ori Twitch nu indică niciun canal pe care minerul să-l poată urmări."
 }

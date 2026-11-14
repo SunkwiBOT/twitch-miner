@@ -1,10 +1,12 @@
 <script lang="ts">
+  import { cn } from "$lib/utils";
   import { t } from "../../../lib/i18n/i18n.svelte";
   import { boundedInteger, boundNumberInput } from "../../../lib/input.utils";
   import { SPAM_MAX_COUNT } from "../../../lib/spam/spam.constants";
   import Icon from "../../ui/Icon.svelte";
   import Tip from "../../ui/Tip.svelte";
-  import { IconName } from "../../ui/ui.constants";
+  import { FOCUS_INSIDE_CLASSES } from "../../ui/field.constants";
+  import { IconName } from "../../../lib/icons.constants";
 
   type QuantityStepperPropsType = {
     value: number;
@@ -20,8 +22,10 @@
 
   const step = (by: number): void => onchange(boundedInteger(value + by, 1, highest));
 
-  const BUTTON =
-    "grid h-full w-8 place-items-center text-muted-foreground transition-colors outline-none hover:bg-muted hover:text-foreground focus-visible:z-10 focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:opacity-40 aria-disabled:opacity-40 aria-disabled:hover:bg-transparent aria-disabled:hover:text-muted-foreground";
+  const BUTTON = cn(
+    "grid h-full w-8 place-items-center text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:opacity-40 aria-disabled:opacity-40 aria-disabled:hover:bg-transparent aria-disabled:hover:text-muted-foreground",
+    FOCUS_INSIDE_CLASSES,
+  );
 </script>
 
 <div
@@ -42,7 +46,10 @@
     {/snippet}
   </Tip>
   <input
-    class="w-9 border-x border-input bg-transparent text-center text-hint font-semibold tabular-nums outline-none [appearance:textfield] focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:opacity-50 [&::-webkit-inner-spin-button]:appearance-none"
+    class={cn(
+      "w-9 border-x border-input bg-transparent text-center text-hint font-semibold tabular-nums [appearance:textfield] disabled:opacity-50 [&::-webkit-inner-spin-button]:appearance-none",
+      FOCUS_INSIDE_CLASSES,
+    )}
     type="number"
     inputmode="numeric"
     min="1"

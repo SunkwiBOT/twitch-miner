@@ -1,6 +1,6 @@
 <script lang="ts">
   import { t } from "../../lib/i18n/i18n.svelte";
-  import { app } from "../../lib/state/state.svelte";
+  import { app } from "../../lib/state/app.svelte";
   import Dialog from "../ui/Dialog.svelte";
   import FeedbackChoices from "./FeedbackChoices.svelte";
 

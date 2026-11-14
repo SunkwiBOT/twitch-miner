@@ -7,11 +7,13 @@ use tokio::sync::{mpsc, watch};
 use tokio::task::JoinHandle;
 use tokio_util::sync::CancellationToken;
 
-use super::{
-    hold_socket, open_socket, Socket, SocketPlace, TwitchClient, CHAT_URL, SOCKET_WARN_AFTER_TRIES,
+use super::socket::{
+    keep_open, send_text, socket_error, text_frame, Heartbeat, Socket, SocketPlace, SocketSession,
 };
+use super::{TwitchClient, CHAT_URL};
 use crate::error::{Error, Result};
-use crate::requests::{RequestKind, SocketEvent};
+use crate::requests::RequestKind;
+use crate::util::sleep_until_some;
 
 pub const MAX_CHANNELS: usize = 100;
 // ! Twitch limits joins to 20 every 10 seconds for a normal account.
@@ -27,6 +29,9 @@ const PLACE: SocketPlace = SocketPlace {
     kind: RequestKind::Chat,
     address: CHAT_URL,
     name: "chat",
+    label: "chat",
+    ping_interval: PING_INTERVAL,
+    reply_timeout: REPLY_TIMEOUT,
 };
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -47,7 +52,8 @@ impl Chat {
     pub fn start(client: TwitchClient, cancel: CancellationToken) -> Self {
         let (desired, receiver) = watch::channel(BTreeSet::new());
         let (mentioned, mentions) = mpsc::channel(MENTIONS_QUEUE);
-        let task = tokio::spawn(worker(client, receiver, mentioned, cancel.clone()));
+        let session = ChatSession { mentioned };
+        let task = tokio::spawn(keep_open(&PLACE, client, receiver, cancel.clone(), session));
 
         Self {
             desired,
@@ -85,102 +91,34 @@ impl Chat {
     }
 }
 
-async fn worker(
-    client: TwitchClient,
-    mut desired: watch::Receiver<BTreeSet<String>>,
+struct ChatSession {
     mentioned: mpsc::Sender<ChatMention>,
-    cancel: CancellationToken,
-) {
-    let mut failures = 0u32;
-    let mut dropped = false;
+}
 
-    loop {
-        if desired.borrow().is_empty() {
-            tokio::select! { biased;
-                _ = cancel.cancelled() => return,
-                changed = desired.changed() => { if changed.is_err() { return; } }
-            }
+impl SocketSession for ChatSession {
+    async fn run(
+        &mut self,
+        client: &TwitchClient,
+        socket: &mut Socket,
+        desired: &mut watch::Receiver<BTreeSet<String>>,
+        _reconnected: bool,
+    ) -> Result<()> {
+        connection(client, socket, desired, &self.mentioned).await
+    }
 
-            continue;
-        }
+    async fn refused(&mut self, client: &TwitchClient) -> Duration {
+        tracing::warn!(account = %client.login, "Twitch refused the chat sign-in; chat presence paused");
 
-        let started = tokio::time::Instant::now();
-        let event = if dropped {
-            SocketEvent::Reconnect
-        } else {
-            SocketEvent::Connect
-        };
-        let opened = tokio::select! { biased;
-            _ = cancel.cancelled() => return,
-            opened = open_socket(&client, &PLACE, event) => opened,
-        };
-        let result = match opened {
-            Ok(mut socket) => {
-                let session = connection(&client, &mut socket, &mut desired, &mentioned);
-                let Some(result) = hold_socket(&client, &PLACE, &cancel, session).await else {
-                    return;
-                };
-
-                result
-            }
-            Err(error) => Err(error),
-        };
-
-        dropped = result.is_err();
-
-        let delay = match result {
-            Ok(()) => continue,
-            Err(Error::Unauthorized) => {
-                tracing::warn!(account = %client.login, "Twitch refused the chat sign-in; chat presence paused");
-                REFUSED_PAUSE
-            }
-            Err(error) => {
-                if started.elapsed() > Duration::from_secs(60) {
-                    failures = 0;
-                }
-
-                if failures == 0 {
-                    tracing::info!(account = %client.login, %error, "chat connection dropped; reconnecting");
-                } else if failures == SOCKET_WARN_AFTER_TRIES {
-                    tracing::warn!(
-                        account = %client.login,
-                        tries = failures,
-                        %error,
-                        "chat still cannot reconnect; trying again"
-                    );
-                }
-
-                let delay = Duration::from_secs(1 << failures.min(6));
-
-                failures = failures.saturating_add(1);
-
-                delay
-            }
-        };
-
-        tokio::select! { biased;
-            _ = cancel.cancelled() => return,
-            _ = tokio::time::sleep(delay) => {}
-        }
+        REFUSED_PAUSE
     }
 }
 
 async fn send(socket: &mut Socket, line: &str) -> Result<()> {
-    tokio::time::timeout(
-        REPLY_TIMEOUT,
-        socket.send(Message::Text(format!("{line}\r\n"))),
-    )
-    .await
-    .map_err(|_| Error::Network("chat send timeout".into()))?
-    .map_err(|e| Error::Network(format!("chat send: {e}")))
+    send_text(socket, &PLACE, format!("{line}\r\n")).await
 }
 
 async fn command(socket: &mut Socket, verb: &str, channels: &[String]) -> Result<()> {
-    for (index, chunk) in channels.chunks(JOINS_PER_BURST).enumerate() {
-        if index > 0 && verb == "JOIN" {
-            tokio::time::sleep(JOIN_BURST_PAUSE).await;
-        }
-
+    for chunk in channels.chunks(JOINS_PER_BURST) {
         let list: Vec<String> = chunk.iter().map(|login| format!("#{login}")).collect();
 
         send(socket, &format!("{verb} {}", list.join(","))).await?;
@@ -195,7 +133,7 @@ async fn signed_in(socket: &mut Socket) -> Result<()> {
             .await
             .map_err(|_| Error::Network("chat sign-in timeout".into()))?
             .ok_or_else(|| Error::Network("chat closed".into()))?
-            .map_err(|e| Error::Network(format!("chat read: {e}")))?;
+            .map_err(|e| socket_error("chat read", e))?;
         let Message::Text(text) = message else {
             continue;
         };
@@ -220,70 +158,76 @@ async fn connection(
 ) -> Result<()> {
     let token = client.token().await;
 
-    send(socket, &format!("PASS oauth:{token}")).await?;
+    send(
+        socket,
+        &zeroize::Zeroizing::new(format!("PASS oauth:{}", token.as_str())),
+    )
+    .await?;
     send(socket, &format!("NICK {}", client.login)).await?;
     signed_in(socket).await?;
 
     let mut joined: BTreeSet<String> = BTreeSet::new();
-    let mut ping = tokio::time::interval(PING_INTERVAL);
-
-    ping.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
-    ping.tick().await;
-
-    let mut awaiting_pong: Option<tokio::time::Instant> = None;
+    let mut wanted = desired.borrow_and_update().clone();
+    let mut changed = true;
+    let mut next_burst = tokio::time::Instant::now();
+    let mut heartbeat = Heartbeat::new(&PLACE, tokio::time::Instant::now() + PING_INTERVAL);
 
     loop {
-        let wanted = desired.borrow().clone();
-        let to_join: Vec<String> = wanted.difference(&joined).cloned().collect();
-        let to_part: Vec<String> = joined.difference(&wanted).cloned().collect();
+        if changed {
+            changed = false;
 
-        if !to_part.is_empty() {
-            command(socket, "PART", &to_part).await?;
+            if wanted.is_empty() {
+                let _ = socket.send(Message::Text("QUIT\r\n".into())).await;
 
-            for login in &to_part {
-                joined.remove(login);
+                return Ok(());
+            }
+
+            let to_part: Vec<String> = joined.difference(&wanted).cloned().collect();
+
+            if !to_part.is_empty() {
+                command(socket, "PART", &to_part).await?;
+
+                for login in &to_part {
+                    joined.remove(login);
+                }
             }
         }
 
-        if !to_join.is_empty() {
-            command(socket, "JOIN", &to_join).await?;
-            joined.extend(to_join);
+        // ! Bursts go out between reads: a wait inside a JOIN would leave Twitch's PINGs unanswered for up to 44 s.
+        if !joined.is_superset(&wanted) && tokio::time::Instant::now() >= next_burst {
+            let burst: Vec<String> = wanted
+                .difference(&joined)
+                .take(JOINS_PER_BURST)
+                .cloned()
+                .collect();
+
+            command(socket, "JOIN", &burst).await?;
+            joined.extend(burst);
+            next_burst = tokio::time::Instant::now() + JOIN_BURST_PAUSE;
         }
 
-        if joined.is_empty() {
-            let _ = socket.send(Message::Text("QUIT\r\n".into())).await;
-
-            return Ok(());
-        }
+        let burst_due = (!joined.is_superset(&wanted)).then_some(next_burst);
 
         tokio::select! { biased;
-            changed = desired.changed() => {
-                if changed.is_err() { return Ok(()); }
+            update = desired.changed() => {
+                if update.is_err() { return Ok(()); }
+
+                wanted = desired.borrow_and_update().clone();
+                changed = true;
             }
-            _ = sleep_until_some(awaiting_pong.map(|sent| sent + REPLY_TIMEOUT)) => {
-                return Err(Error::Network("chat pong timeout".into()));
-            }
-            _ = ping.tick() => {
+            _ = sleep_until_some(burst_due) => {}
+            beat = heartbeat.due() => {
+                beat?;
                 send(socket, "PING :tmi.twitch.tv").await?;
-                awaiting_pong = Some(tokio::time::Instant::now());
+                heartbeat.pinged();
             }
             message = socket.next() => {
-                let Some(message) = message else { return Err(Error::Network("chat closed".into())); };
-                let message = message.map_err(|e| Error::Network(format!("chat read: {e}")))?;
-                let text = match message {
-                    Message::Text(text) => text,
-                    Message::Ping(data) => {
-                        let _ = socket.send(Message::Pong(data)).await;
-                        continue;
-                    }
-                    Message::Close { .. } => return Err(Error::Network("chat close frame".into())),
-                    _ => continue,
-                };
+                let Some(text) = text_frame(socket, &PLACE, message).await? else { continue };
 
                 for line in text.lines() {
                     match reply(line) {
                         Reply::Ping(server) => send(socket, &format!("PONG {server}")).await?,
-                        Reply::Pong => awaiting_pong = None,
+                        Reply::Pong => heartbeat.ponged(),
                         Reply::Reconnect => return Err(Error::Network("chat asked to reconnect".into())),
                         Reply::Message { channel, chatter, text } => {
                             if let Some(mention) = mention(&client.login, channel, chatter, text) {
@@ -295,13 +239,6 @@ async fn connection(
                 }
             }
         }
-    }
-}
-
-async fn sleep_until_some(at: Option<tokio::time::Instant>) {
-    match at {
-        Some(at) => tokio::time::sleep_until(at).await,
-        None => std::future::pending().await,
     }
 }
 
@@ -323,13 +260,16 @@ fn mention(login: &str, channel: &str, chatter: &str, text: &str) -> Option<Chat
         return None;
     }
 
-    let lower = text.to_ascii_lowercase();
-    let wanted = format!("@{}", login.to_ascii_lowercase());
-    let named = lower.match_indices(&wanted).any(|(at, _)| {
-        lower[at + wanted.len()..]
-            .chars()
-            .next()
-            .is_none_or(|next| !(next.is_ascii_alphanumeric() || next == '_'))
+    let bytes = text.as_bytes();
+    let login = login.as_bytes();
+    let named = text.match_indices('@').any(|(at, _)| {
+        let rest = &bytes[at + 1..];
+
+        rest.len() >= login.len()
+            && rest[..login.len()].eq_ignore_ascii_case(login)
+            && rest
+                .get(login.len())
+                .is_none_or(|next| !(next.is_ascii_alphanumeric() || *next == b'_'))
     });
 
     if !named {

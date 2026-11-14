@@ -6,19 +6,15 @@
   import { SEARCH_SHOWN_MAX } from "../../../lib/search/search.constants";
   import { TwitchSearch } from "../../../lib/search/search.svelte";
   import ChannelAvatar from "../../ui/ChannelAvatar.svelte";
-  import Icon from "../../ui/Icon.svelte";
   import List from "../../ui/List.svelte";
   import ListRow from "../../ui/ListRow.svelte";
   import SearchField from "../../ui/SearchField.svelte";
   import SearchNoResult from "../../ui/SearchNoResult.svelte";
   import TextButton from "../../ui/TextButton.svelte";
-  import {
-    AvatarSize,
-    ButtonSize,
-    ButtonType,
-    ButtonVariant,
-    IconName,
-  } from "../../ui/ui.constants";
+  import VerifiedBadge from "../../ui/VerifiedBadge.svelte";
+  import { AvatarSize } from "../../ui/picture.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../../ui/button.constants";
+  import { IconName } from "../../../lib/icons.constants";
 
   type SearchImportPropsType = {
     open: boolean;
@@ -76,12 +72,7 @@
               />
             {/snippet}
             {#snippet badges()}
-              {#if s.verified}<span
-                  class="inline-flex text-primary"
-                  role="img"
-                  aria-label={t.search_verified()}
-                  title={t.search_verified()}><Icon name={IconName.VERIFIED} size={16} /></span
-                >{/if}
+              {#if s.verified}<VerifiedBadge />{/if}
             {/snippet}
             {#snippet trailing()}
               {#if !listed(s.login)}

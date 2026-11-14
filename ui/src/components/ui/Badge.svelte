@@ -6,13 +6,9 @@
   import Icon from "./Icon.svelte";
   import StatusDot from "./StatusDot.svelte";
   import Tip from "./Tip.svelte";
-  import {
-    BADGE_TONE_CLASSES,
-    BADGE_VARIANTS,
-    BadgeTone,
-    BadgeVariant,
-    IconName,
-  } from "./ui.constants";
+  import { BADGE_TONE_CLASSES, BADGE_VARIANTS, BadgeVariant } from "./badge.constants";
+  import { BadgeTone } from "../../lib/tones.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   type BadgePropsType = {
     text: string;

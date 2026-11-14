@@ -10,8 +10,7 @@
   let { url, color, size }: RewardImagePropsType = $props();
 </script>
 
-<!-- ! The reward's own color, chosen by the streamer, as Twitch paints it: its
-default image is white and only reads on that color. -->
+<!-- ! Twitch's default reward image is white and only reads on the streamer's colour. -->
 <span
   class={cn("grid shrink-0 place-items-center rounded-md", !color && "bg-muted")}
   style:width="{size}px"

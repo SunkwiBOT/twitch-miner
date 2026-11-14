@@ -11,10 +11,14 @@
   import { t } from "../../lib/i18n/i18n.svelte";
   import { timePreferences } from "../../lib/time/time.svelte";
   import TextButton from "../ui/TextButton.svelte";
-  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/ui.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import TimelineAxis from "./TimelineAxis.svelte";
   import TimelineGameRow from "./TimelineGameRow.svelte";
-  import { DEFAULT_LANE_WIDTH, TIMELINE_PAGE_SIZE, TimelineZoom } from "./timeline.constants";
+  import {
+    DEFAULT_LANE_WIDTH,
+    TIMELINE_PAGE_SIZE,
+    TimelineZoom,
+  } from "../../lib/catalogue/timeline.constants";
 
   type CatalogueTimelinePropsType = {
     campaigns: CampaignType[];
@@ -75,8 +79,7 @@
 <style>
   .timeline {
     --head-width: 248px;
-    /* ! The padding of the page's scroller (PageBody, p-6, p-3 on a phone): a sticky box
-       stops that far inside it, so the axis is pulled up by as much to stick to the very top. */
+    /* ! PageBody's scroller padding (p-6, p-3 on a phone): the axis is pulled up as much to stick to the very top. */
     --scroller-padding: 24px;
     position: relative;
     isolation: isolate;
@@ -133,7 +136,7 @@
     }
   }
 
-  /* PageBody's max-md:p-3. */
+  /* ! Follows PageBody's max-md:p-3: the two change together. */
   @media (width < 48rem) {
     .timeline {
       --head-width: 116px;

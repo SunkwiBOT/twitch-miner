@@ -24,8 +24,7 @@
 </script>
 
 <li class="game-row group border-b last:border-b-0">
-  <!-- ! Mouse targets only: the bars stay the keyboard and screen reader controls,
-       so these skip the tab order and the lane targets are hidden from screen readers. -->
+  <!-- ! Mouse targets only: the bars stay the keyboard and screen reader controls. -->
   <button
     class="game flex min-w-0 items-center gap-2.5 border-r bg-card px-3 py-1.5 text-left transition-colors group-hover:bg-accent"
     type="button"

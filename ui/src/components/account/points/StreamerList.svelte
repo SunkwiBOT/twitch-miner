@@ -11,14 +11,11 @@
   import TextButton from "../../ui/TextButton.svelte";
   import TiledArt from "../../ui/TiledArt.svelte";
   import Toggle from "../../ui/Toggle.svelte";
-  import {
-    ButtonSize,
-    ButtonType,
-    ButtonVariant,
-    IconName,
-    ThumbShape,
-  } from "../../ui/ui.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../../ui/button.constants";
+  import { IconName } from "../../../lib/icons.constants";
+  import { ThumbShape } from "../../ui/picture.constants";
   import StreamerRow from "./StreamerRow.svelte";
+  import { STREAMER_BOX_CLASS } from "../account.constants";
 
   type StreamerListPropsType = {
     account: AccountSnapshotType;
@@ -62,9 +59,6 @@
     ensureBanners(streamers.map((s) => s.login));
   });
 
-  const BOX_CLASS =
-    "border-muted-foreground bg-card data-[state=indeterminate]:border-primary data-[state=indeterminate]:bg-primary data-[state=indeterminate]:text-primary-foreground";
-
   const tick = (login: string, checked: boolean): void =>
     onselect(checked ? [...selected, login] : selected.filter((item) => item !== login));
 </script>
@@ -80,7 +74,7 @@
   {#snippet header()}
     <label class="flex cursor-pointer items-center gap-3 text-hint font-medium">
       <Checkbox
-        class={BOX_CLASS}
+        class={STREAMER_BOX_CLASS}
         checked={all}
         indeterminate={selected.length > 0 && !all}
         onCheckedChange={() => onselect(all ? [] : streamers.map((s) => s.login))}
@@ -105,7 +99,7 @@
   {/snippet}
   {#snippet lead(s)}
     <Checkbox
-      class={BOX_CLASS}
+      class={STREAMER_BOX_CLASS}
       checked={chosen.has(s.login)}
       aria-label={channelOf(s.login)?.display_name ?? s.login}
       onCheckedChange={(checked) => tick(s.login, checked === true)}

@@ -16,9 +16,9 @@
     ButtonSize,
     ButtonType,
     ButtonVariant,
-    IconName,
-    MENU_EDGE_GAP,
-  } from "../ui/ui.constants";
+  } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
+  import { MENU_EDGE_GAP } from "../ui/menu.constants";
   import ImageUpdateCommands from "./ImageUpdateCommands.svelte";
 
   const version = $derived(availableVersion());
@@ -26,8 +26,7 @@
   let open = $state(false);
   let content = $state<HTMLElement | null>(null);
 
-  // ! The popover itself takes the focus, not its copy button: that button's
-  // tip would open at once and take the first Escape.
+  // ! The popover takes the focus, not its copy button: that button's tip would open and eat the first Escape.
   const focusContent = (event: Event): void => {
     event.preventDefault();
     content?.focus();

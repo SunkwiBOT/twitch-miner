@@ -4,12 +4,14 @@
   import { describeError } from "../../lib/errors/errors.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { ToastKind } from "../../lib/state/state.constants";
-  import { app, toast } from "../../lib/state/state.svelte";
+  import { app } from "../../lib/state/app.svelte";
+  import { toast } from "../../lib/state/toasts";
   import TextButton from "../ui/TextButton.svelte";
   import ActionButton from "../ui/ActionButton.svelte";
   import ChoiceCards from "../ui/ChoiceCards.svelte";
   import Dialog from "../ui/Dialog.svelte";
-  import { ButtonSize, ButtonType, ButtonVariant, IconName } from "../ui/ui.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   let choice = $state(CloseAction.QUIT);
   let closing = $state(false);

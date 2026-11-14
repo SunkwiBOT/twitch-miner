@@ -1,11 +1,8 @@
 <script lang="ts">
-  // ! Edited after generation: the theme comes from the app's settings
-  // (Theme.LIGHT becomes sonner's "light"), not from mode-watcher, which the
-  // app does not use: it sets data-theme itself. The font is set inline:
-  // sonner's own unlayered rule names the system fonts and beats any utility.
+  // ! Edited after generation: theme from the app's settings (no mode-watcher), font set inline to beat sonner's own rule.
 
   import { Theme } from "../../../bindings/Theme";
-  import { app } from "../../../state/state.svelte";
+  import { app } from "../../../state/app.svelte";
   import { Toaster as Sonner, type ToasterProps as SonnerProps } from "svelte-sonner";
   import Loader2Icon from "@lucide/svelte/icons/loader-2";
   import CircleCheckIcon from "@lucide/svelte/icons/circle-check";

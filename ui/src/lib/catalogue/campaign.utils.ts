@@ -1,10 +1,77 @@
 import { BenefitKind } from "../bindings/BenefitKind";
 import { CampaignKind } from "../bindings/CampaignKind";
 import type { CampaignType } from "../bindings/CampaignType";
+import type { GameType } from "../bindings/GameType";
+import type { RepeatType } from "../bindings/RepeatType";
+import type { TimedDropType } from "../bindings/TimedDropType";
 import { t } from "../i18n/i18n.svelte";
 import { TWITCH_CATEGORY_URL, TWITCH_SEARCH_URL } from "../partners.constants";
 import { strong } from "../text.utils";
+import { DAY_HOURS } from "../time/time.constants";
 import { relativeTime } from "../time/time.utils";
+
+// ! Only Twitch's own count says a subscription was made: until then the reward waits.
+export const subsMissing = (item: { required_subs: number; current_subs: number }): boolean =>
+  item.current_subs < item.required_subs;
+
+export const dropDone = (drop: TimedDropType): boolean =>
+  drop.repeat ? drop.periods_done >= drop.repeat.times : drop.claimed;
+
+export const watchText = (time: string, repeat: RepeatType | undefined): string => {
+  if (!repeat) {
+    return t.reward_watch({ time });
+  }
+
+  if (repeat.every_hours === DAY_HOURS) {
+    return t.reward_watch_daily({ time, days: repeat.times });
+  }
+
+  return repeat.every_hours
+    ? t.reward_watch_every({ time, hours: repeat.every_hours, count: repeat.times })
+    : t.reward_watch_times({ time, count: repeat.times });
+};
+
+export const periodsText = (done: number, repeat: RepeatType): string => {
+  const values = { done: Math.min(done, repeat.times), total: repeat.times };
+
+  return repeat.every_hours === DAY_HOURS
+    ? t.reward_days_done(values)
+    : t.reward_times_done(values);
+};
+
+export type PeriodsType = {
+  current: number;
+  required: number;
+  done: number;
+  closed: boolean;
+  repeat: RepeatType | undefined;
+};
+
+export const periodTotals = (item: PeriodsType): { current: number; required: number } => {
+  const watched = Math.min(item.current, item.required);
+
+  if (!item.repeat) {
+    return { current: watched, required: item.required };
+  }
+
+  const times = item.repeat.times;
+  const done = Math.min(item.done, times);
+  const open = item.closed || done >= times ? 0 : watched;
+
+  return { current: done * item.required + open, required: item.required * times };
+};
+
+export const dropTotals = (drop: TimedDropType): { current: number; required: number } =>
+  periodTotals({
+    current: drop.current_minutes,
+    required: drop.required_minutes,
+    done: drop.periods_done,
+    closed: drop.claimed,
+    repeat: drop.repeat,
+  });
+
+export const categoryNames = (categories: GameType[]): string =>
+  categories.map((category) => category.name).join(", ");
 
 export const campaignEnd = (endsAt: string, now: number): string => {
   const time = strong(relativeTime(endsAt, now));
@@ -32,8 +99,7 @@ export const categoryUrl = (name: string, slug: string | undefined): string => {
     : `${TWITCH_SEARCH_URL}?term=${encodeURIComponent(name)}`;
 };
 
-// ! A sitewide quest counts on many categories, and Twitch lists them in no
-// meaningful order: its first category is no game to show.
+// ! A sitewide quest lists many categories in no meaningful order: its first one is no game to show.
 export const sitewideQuest = (campaign: CampaignType): boolean =>
   campaign.kind === CampaignKind.QUEST && campaign.categories.length > 1;
 

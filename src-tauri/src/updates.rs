@@ -76,6 +76,23 @@ async fn unlocked(app: &AppHandle) -> Answer<()> {
     may_update(app.try_state::<crate::AppState>().as_deref()).await
 }
 
+// ! The NSIS installer leaves its uninstaller beside the executable; a portable copy has none.
+pub fn portable() -> bool {
+    cfg!(windows)
+        && std::env::current_exe()
+            .ok()
+            .and_then(|exe| exe.parent().map(|dir| !dir.join("uninstall.exe").exists()))
+            .unwrap_or(false)
+}
+
+async fn installable(app: &AppHandle) -> Answer<()> {
+    if portable() {
+        return Err(ApiError::new(ErrorCode::NotSupported));
+    }
+
+    unlocked(app).await
+}
+
 fn updater(app: &AppHandle) -> Answer<Updater> {
     let handle = app.clone();
 
@@ -83,10 +100,11 @@ fn updater(app: &AppHandle) -> Answer<Updater> {
         .timeout(CHECK_TIMEOUT)
         .configure_client(|client| client.read_timeout(STALL_TIMEOUT))
         // ! Windows only: the plugin starts the installer, then ends the process
-        // itself. The accounts stop here first, like on every other way out.
+        // itself, past `RunEvent::Exit`. The accounts stop here first, like on every other way out.
         .on_before_exit(move || {
             tauri::async_runtime::block_on(crate::lifecycle::stop_miner(&handle));
             handle.cleanup_before_exit();
+            miner_core::logs::close_file_writer();
         })
         .build()
         .map_err(|error| {
@@ -249,7 +267,7 @@ pub async fn download_update(
     found: State<'_, FoundUpdate>,
     pending: State<'_, PendingUpdate>,
 ) -> Answer<String> {
-    unlocked(&app).await?;
+    installable(&app).await?;
 
     let update = miner_core::util::locked(&found.0)
         .as_ref()
@@ -315,7 +333,7 @@ pub async fn apply_update(
     pending: State<'_, PendingUpdate>,
     version: String,
 ) -> Answer<()> {
-    unlocked(&app).await?;
+    installable(&app).await?;
 
     let downloaded = {
         let mut slot = miner_core::util::locked(&pending.0);

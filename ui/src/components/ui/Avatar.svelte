@@ -1,7 +1,7 @@
 <script lang="ts">
   import { cn } from "$lib/utils";
   import AvatarImage from "./AvatarImage.svelte";
-  import { AVATAR_CLASSES, AvatarSize } from "./ui.constants";
+  import { AVATAR_CLASSES, AvatarSize } from "./picture.constants";
 
   type AvatarPropsType = { url: string | undefined; name: string; size: AvatarSize };
 

@@ -8,24 +8,20 @@
   import type { SpamRewardType } from "../../../lib/bindings/SpamRewardType";
   import { ensureBanners, knownBanners } from "../../../lib/channels/channels.svelte";
   import { describeError } from "../../../lib/errors/errors.utils";
-  import { channelUrl } from "../../../lib/events/events.utils";
+  import { channelUrl } from "../../../lib/links/twitch.utils";
   import { number } from "../../../lib/format.utils";
   import { t } from "../../../lib/i18n/i18n.svelte";
   import { BalanceTracker } from "../../../lib/spam/balance.svelte";
-  import { SPAM_CLOCK_MS, UNAVAILABLE_STATUSES } from "../../../lib/spam/spam.constants";
+  import { UNAVAILABLE_STATUSES } from "../../../lib/spam/spam.constants";
   import { redeemBurst } from "../../../lib/spam/spam.svelte";
   import type { SpamChannelType, SpamRewardItemType } from "../../../lib/spam/spam.types";
   import { burstOutcome, rewardStatus, shownUnavailable } from "../../../lib/spam/spam.utils";
   import { ToastKind } from "../../../lib/state/state.constants";
-  import {
-    accountImage,
-    isLocked,
-    reportFailure,
-    saveSpamSettings,
-    sessionEndedBy,
-    toast,
-  } from "../../../lib/state/state.svelte";
+  import { saveSpamSettings } from "../../../lib/state/preferences.svelte";
+  import { isLocked, reportFailure, sessionEndedBy } from "../../../lib/state/session";
+  import { accountImage, toast } from "../../../lib/state/toasts";
   import { strong } from "../../../lib/text.utils";
+  import { secondClock } from "../../../lib/time/clock.svelte";
   import { SECOND_MS } from "../../../lib/time/time.constants";
   import Badge from "../../ui/Badge.svelte";
   import ChannelAvatar from "../../ui/ChannelAvatar.svelte";
@@ -34,16 +30,11 @@
   import LinkTwin from "../../ui/LinkTwin.svelte";
   import IconButton from "../../ui/IconButton.svelte";
   import ViewerCount from "../../ui/ViewerCount.svelte";
-  import {
-    AvatarSize,
-    BadgeTone,
-    ButtonSize,
-    ButtonVariant,
-    IconName,
-    LinkLook,
-    LinkMark,
-    LinkSize,
-  } from "../../ui/ui.constants";
+  import { AvatarSize } from "../../ui/picture.constants";
+  import { BadgeTone } from "../../../lib/tones.constants";
+  import { ButtonSize, ButtonVariant } from "../../ui/button.constants";
+  import { IconName } from "../../../lib/icons.constants";
+  import { LinkLook, LinkMark, LinkSize } from "../../ui/link.constants";
   import SpamBalance from "./SpamBalance.svelte";
   import SpamRewardCard from "./SpamRewardCard.svelte";
   import SpamRewardSkeleton from "./SpamRewardSkeleton.svelte";
@@ -61,7 +52,7 @@
   let problem = $state<string | null>(null);
   let loading = $state(false);
   let gone = false;
-  let now = $state(Date.now());
+  const clock = secondClock();
 
   const balance = new BalanceTracker(
     () => fetchSpamBalance(account.id, channel.login),
@@ -94,10 +85,6 @@
 
   onMount(() => {
     void load();
-
-    const clock = setInterval(() => (now = Date.now()), SPAM_CLOCK_MS);
-
-    return () => clearInterval(clock);
   });
 
   onDestroy(() => (gone = true));
@@ -109,7 +96,7 @@
   const cards = $derived(
     (rewards ?? []).map((reward): SpamRewardItemType => ({
       reward,
-      status: rewardStatus(reward, now),
+      status: rewardStatus(reward, clock.now),
     })),
   );
   const ready = $derived(cards.filter((item) => !UNAVAILABLE_STATUSES.has(item.status)));
@@ -119,8 +106,7 @@
     ),
   );
 
-  // ! The toast comes wherever the user went, but never over a lock screen: it
-  // names the account.
+  // ! The toast follows the user anywhere but over a lock screen: it names the account.
   const report = (kind: ToastKind, text: string): void => {
     if (!isLocked()) {
       toast(kind, text, {
@@ -198,7 +184,7 @@
             status={item.status}
             balance={balance.current?.balance ?? 0}
             free={channel.login === account.login}
-            {now}
+            now={clock.now}
             onredeem={(count, text) => redeem(item.reward, count, text)}
           />
         {/each}
@@ -210,8 +196,7 @@
 {/snippet}
 
 <Card class="gap-0 overflow-visible py-0">
-  <!-- ! -top-6 / max-md:-top-3 undo PageBody's padding: stuck, the header sits on the page's
-       very top edge, with no reward scrolling above it. -->
+  <!-- ! -top-6 / max-md:-top-3 undo PageBody's padding: stuck, the header sits on the very top edge. -->
   <header
     class="group/twin sticky -top-6 z-10 isolate flex flex-wrap items-center gap-x-4 gap-y-3 overflow-hidden rounded-t-xl border-b bg-card px-5 py-4 max-md:-top-3 max-md:px-3.5"
   >
@@ -257,7 +242,7 @@
           changedAt={balance.current.changed_at}
           tracking={balance.tracking}
           free={channel.login === account.login}
-          {now}
+          now={clock.now}
         />
       {/if}
       <div class="flex items-center gap-2">

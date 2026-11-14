@@ -8,22 +8,19 @@
     QUEUE_REASON_LABELS,
   } from "../../../lib/accounts/accounts.utils";
   import { miningOrder, reorderBy } from "../../../lib/accounts/changes.utils";
+  import { catalogueGame, runningGames } from "../../../lib/catalogue/games.utils";
   import {
-    campaignOf,
-    catalogueGame,
     editDropsList,
-    ignoredCampaign,
     movePriorityGame,
-    queueProgress,
-    reorderQueue,
+    reorderWithin,
     resetQueue,
-    runningGames,
     setIgnored,
     setSelected,
-  } from "../../../lib/accounts/drops.utils";
+  } from "../../../lib/accounts/drops-edits.utils";
+  import { ignoredCampaign, queueProgress } from "../../../lib/accounts/drops.utils";
+  import { campaignOf } from "../../../lib/catalogue/catalogue.svelte";
   import type { AccountSnapshotType } from "../../../lib/bindings/AccountSnapshotType";
   import type { CampaignType } from "../../../lib/bindings/CampaignType";
-  import type { SnapshotType } from "../../../lib/bindings/SnapshotType";
   import {
     campaignArtUrl,
     campaignEnd,
@@ -41,34 +38,25 @@
   import Badge from "../../ui/Badge.svelte";
   import ConfirmDialog from "../../ui/ConfirmDialog.svelte";
   import DetailLine from "../../ui/DetailLine.svelte";
-  import ExternalLink from "../../ui/ExternalLink.svelte";
+  import GameName from "../../ui/GameName.svelte";
   import IconButton from "../../ui/IconButton.svelte";
   import Panel from "../../ui/Panel.svelte";
   import ProgressLine from "../../ui/ProgressLine.svelte";
   import SortableList from "../../ui/SortableList.svelte";
   import Thumb from "../../ui/Thumb.svelte";
   import TiledArt from "../../ui/TiledArt.svelte";
-  import {
-    BadgeTone,
-    ButtonSize,
-    ButtonType,
-    ButtonVariant,
-    IconName,
-    LinkLook,
-    LinkMark,
-    LinkSize,
-    ThumbShape,
-    ThumbSize,
-  } from "../../ui/ui.constants";
+  import { BadgeTone } from "../../../lib/tones.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../../ui/button.constants";
+  import { IconName } from "../../../lib/icons.constants";
+  import { ThumbShape, ThumbSize } from "../../ui/picture.constants";
   import GameDialog from "../GameDialog.svelte";
 
   type DropsOrderTabPropsType = {
     account: AccountSnapshotType;
-    snapshot: SnapshotType;
     onopen: (campaign: CampaignType) => void;
   };
 
-  let { account, snapshot, onopen }: DropsOrderTabPropsType = $props();
+  let { account, onopen }: DropsOrderTabPropsType = $props();
 
   const drops = $derived(account.settings.drops);
 
@@ -79,7 +67,7 @@
   const mining = (id: string): boolean =>
     account.slots.some((slot) => slot.drop?.campaign_id === id);
 
-  const running = $derived(runningGames(snapshot, ticker.now));
+  const running = $derived(runningGames(ticker.now));
 
   let adding = $state(false);
   let removing = $state<string | null>(null);
@@ -107,17 +95,18 @@
       onreorder={(list, moved) => movePriorityGame(account, list, moved)}
     >
       {#snippet background(game)}
-        {@const art = boxArt(catalogueGame(snapshot, game)?.box_art_url, BoxArtSize.ROW)}
+        {@const art = boxArt(catalogueGame(game)?.box_art_url, BoxArtSize.ROW)}
         {#if art}<TiledArt url={art} shape={ThumbShape.BOX_ART} grey={false} />{/if}
       {/snippet}
       {#snippet row(game)}
+        {@const known = catalogueGame(game)}
         <span class="flex min-w-0 flex-1">
-          <ExternalLink
-            url={categoryUrl(game, catalogueGame(snapshot, game)?.slug)}
-            text={game}
-            mark={LinkMark.END}
-            look={LinkLook.HOVER}
-            size={LinkSize.MD}
+          <GameName
+            name={game}
+            url={categoryUrl(game, known?.slug)}
+            art={known?.box_art_url}
+            size={ThumbSize.SM}
+            inSentence={false}
           />
         </span>
       {/snippet}
@@ -154,11 +143,16 @@
       empty={t.queue_empty()}
       upLabel={t.common_up()}
       downLabel={t.common_down()}
-      onreorder={(items, moved) => reorderQueue(account, snapshot, items, moved)}
+      onreorder={(items, moved) =>
+        reorderWithin(
+          account,
+          items.map((item) => item.campaign_id),
+          moved.campaign_id,
+        )}
     >
       {#snippet row(item)}
-        {@const c = campaignOf(account, snapshot, item.campaign_id)}
-        {@const done = queueProgress(account, snapshot, item.campaign_id)}
+        {@const c = campaignOf(account, item.campaign_id)}
+        {@const done = queueProgress(account, item.campaign_id)}
         <Thumb
           src={boxArt(c && campaignArtUrl(c), BoxArtSize.ROW)}
           round={false}
@@ -226,7 +220,7 @@
             setSelected(
               account,
               item.campaign_id,
-              campaignOf(account, snapshot, item.campaign_id)?.name ?? item.campaign_id,
+              campaignOf(account, item.campaign_id)?.name ?? item.campaign_id,
               !on,
             )}
         />
@@ -237,8 +231,7 @@
           disabled={false}
           variant={ButtonVariant.GHOST}
           size={ButtonSize.SM}
-          onclick={() =>
-            setIgnored(account, ignoredCampaign(account, snapshot, item.campaign_id), true)}
+          onclick={() => setIgnored(account, ignoredCampaign(account, item.campaign_id), true)}
         />
       {/snippet}
     </SortableList>

@@ -28,15 +28,18 @@ pub enum Operation {
     Quests,
     QuestProgress,
     OwnedBadges,
+    SelectBadge,
 }
 
 // ! Twitch has no persisted query of ours for these: the TV client may send
 // the query's text.
 const QUESTS_QUERY: &str = "query Quests { rewardCampaignsAvailableToUser { id name brand startsAt endsAt summary externalURL aboutURL isSitewide game { id displayName slug boxArtURL } image { image1xURL } rewardGroups { id unlockRequirements { minuteWatchedGoal subsGoal turboSubsGoal eventTriggerGoal } categories { id displayName slug boxArtURL } rewards { id name thumbnailImage { image1xURL } } } } }";
 
-const QUEST_PROGRESS_QUERY: &str = "query QuestProgress { currentUser { inventory { viewerRewardDropCampaignsInProgress { id rewardGroups { id name self { status currentMinutesWatched grantCount nextEligibleAt currentWindow { expiresAt } } rewards { id dropDetail { badge { setID version title imageURL } } } } } completedRewardCampaigns { id } } } }";
+const QUEST_PROGRESS_QUERY: &str = "query QuestProgress { currentUser { selectedBadge { setID version title imageURL } inventory { viewerRewardDropCampaignsInProgress { id rewardGroups { id name self { status currentMinutesWatched currentSubs grantCount nextEligibleAt currentWindow { expiresAt } } rewards { id dropDetail { badge { setID version title imageURL } } } } } completedRewardCampaigns { id } } } }";
 
 const OWNED_BADGES_QUERY: &str = "query OwnedBadges($login: String!) { channelViewer(userLogin: $login, channelLogin: $login) { earnedBadges { setID version title imageURL } } }";
+
+const SELECT_BADGE_MUTATION: &str = "mutation SelectBadge($input: SelectGlobalBadgeInput!) { selectGlobalBadge(input: $input) { user { selectedBadge { setID version title imageURL } } } }";
 
 impl Operation {
     pub fn name(self) -> &'static str {
@@ -64,6 +67,7 @@ impl Operation {
             Self::Quests => "Quests",
             Self::QuestProgress => "QuestProgress",
             Self::OwnedBadges => "OwnedBadges",
+            Self::SelectBadge => "SelectBadge",
         }
     }
 
@@ -72,6 +76,7 @@ impl Operation {
             Self::Quests => Some(QUESTS_QUERY),
             Self::QuestProgress => Some(QUEST_PROGRESS_QUERY),
             Self::OwnedBadges => Some(OWNED_BADGES_QUERY),
+            Self::SelectBadge => Some(SELECT_BADGE_MUTATION),
             _ => None,
         }
     }
@@ -120,7 +125,7 @@ impl Operation {
             Self::RedeemCustomReward => {
                 "d56249a7adb4978898ea3412e196688d4ac3cea1c0c2dfd65561d229ea5dcc42"
             }
-            Self::Quests | Self::QuestProgress | Self::OwnedBadges => "",
+            Self::Quests | Self::QuestProgress | Self::OwnedBadges | Self::SelectBadge => "",
         }
     }
 
@@ -167,17 +172,13 @@ impl Operation {
     }
 }
 
-// ! `drops_only` keeps the streams with Drops on; a Twitch event counts any
-// channel of its categories, so its reads go without the filter.
-pub fn directory_variables(slug: &str, limit: usize, drops_only: bool) -> Value {
-    let filters: &[&str] = if drops_only { &["DROPS_ENABLED"] } else { &[] };
-
+pub fn directory_variables(slug: &str, limit: usize) -> Value {
     json!({
         "limit": limit, "slug": slug, "imageWidth": 50, "includeCostreaming": false,
         "options": {
             "broadcasterLanguages": [], "freeformTags": null, "includeRestricted": ["SUB_ONLY_LIVE"],
             "recommendationsContext": {"platform": "web"}, "sort": "RELEVANCE",
-            "systemFilters": filters, "tags": [], "requestID": "JIRA-VXP-2397"
+            "systemFilters": ["DROPS_ENABLED"], "tags": [], "requestID": "JIRA-VXP-2397"
         },
         "sortTypeIsRecency": false
     })

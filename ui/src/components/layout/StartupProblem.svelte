@@ -6,19 +6,13 @@
   import { describeError } from "../../lib/errors/errors.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { ToastKind } from "../../lib/state/state.constants";
-  import { toast } from "../../lib/state/state.svelte";
+  import { toast } from "../../lib/state/toasts";
   import CopyButton from "../ui/CopyButton.svelte";
   import FormField from "../ui/FormField.svelte";
   import TextButton from "../ui/TextButton.svelte";
-  import {
-    ButtonSize,
-    ButtonType,
-    ButtonVariant,
-    CopyLayout,
-    IconName,
-    NOTICE_TONE_CLASSES,
-    NoticeTone,
-  } from "../ui/ui.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { CopyLayout, NOTICE_TONE_CLASSES, NoticeTone } from "../ui/ui.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   type StartupProblemPropsType = { problem: StartupProblemType };
 

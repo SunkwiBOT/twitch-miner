@@ -1,6 +1,6 @@
 <script lang="ts">
-  // ! Links come from code, never from the text: callers pass every dynamic value through
-  // `strong` or `escapeEmphasis`, so a value can neither style itself nor fake a link.
+  // ! Links come from code, never the text: every dynamic value goes through `strong` or `escapeEmphasis`.
+  import { channelUrl } from "../../lib/links/twitch.utils";
   import {
     LINK_DELIMITER,
     PERSON_DELIMITER,
@@ -11,7 +11,8 @@
   import Avatar from "./Avatar.svelte";
   import ChannelAvatar from "./ChannelAvatar.svelte";
   import ExternalLink from "./ExternalLink.svelte";
-  import { AvatarSize, LinkLook, LinkMark, LinkSize } from "./ui.constants";
+  import { AvatarSize } from "./picture.constants";
+  import { LinkLook, LinkMark, LinkSize } from "./link.constants";
 
   type RichTextPropsType = {
     text: string;
@@ -64,8 +65,14 @@
           size={AvatarSize.SM}
           live={false}
         /></span
-      ><strong class="font-semibold in-[.text-muted-foreground]:text-foreground">{part.text}</strong
-      ></span
+      ><ExternalLink
+        url={channelUrl(part.person.channel)}
+        text={part.text}
+        mark={LinkMark.NONE}
+        look={LinkLook.SENTENCE}
+        size={LinkSize.MD}
+        twin={false}
+      /></span
     >{:else if part.person}<span class="inline-flex items-center gap-1 align-[-0.3em]"
       ><Avatar url={part.person.avatar} name={part.person.name} size={AvatarSize.XS} /><strong
         class="font-semibold in-[.text-muted-foreground]:text-foreground">{part.text}</strong
@@ -74,8 +81,9 @@
       url={part.link.url}
       text={part.text}
       mark={LinkMark.NONE}
-      look={LinkLook.HOVER}
+      look={LinkLook.SENTENCE}
       size={LinkSize.MD}
+      twin={false}
     />{:else if part.strong}<strong
       class="font-semibold in-[.text-muted-foreground]:text-foreground">{part.text}</strong
     >{:else}{part.text}{/if}{/each}

@@ -10,4 +10,5 @@ export type NotificationSettingsType = {
   webhook: WebhookSettingsType;
   system: boolean;
   events: NotificationEventsType;
+  language: string;
 };

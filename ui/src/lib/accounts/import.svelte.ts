@@ -1,4 +1,4 @@
-import type { IconName } from "../../components/ui/ui.constants";
+import type { IconName } from "../icons.constants";
 import type { ChannelType } from "../bindings/ChannelType";
 import type { StreamerSettingsType } from "../bindings/StreamerSettingsType";
 

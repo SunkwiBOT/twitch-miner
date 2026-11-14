@@ -1,5 +1,5 @@
 import type { SpamBalanceType } from "../bindings/SpamBalanceType";
-import { sessionEndedBy } from "../state/state.svelte";
+import { sessionEndedBy } from "../state/session";
 import { BalanceTracking, SPAM_POLL_FAILURES_SHOWN, SPAM_POLL_MS } from "./spam.constants";
 
 const watched = (): boolean => document.hasFocus() && document.visibilityState === "visible";
@@ -59,8 +59,7 @@ export class BalanceTracker {
     this.#failures = 0;
   }
 
-  // ! A failed read is tried again at the next tick: a toast every 2.5 s would
-  // bury the page.
+  // ! A failed read is tried again at the next tick: a toast every 2.5 s would bury the page.
   read = async (): Promise<void> => {
     if (this.#reading) {
       return;

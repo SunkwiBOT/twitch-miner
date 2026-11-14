@@ -4,16 +4,12 @@
   import { t } from "../../lib/i18n/i18n.svelte";
   import { noteActivity, noteReturn, watchSession } from "../../lib/state/autolock";
   import { loadBadges } from "../../lib/badges/badges.svelte";
+  import { loadCatalog } from "../../lib/catalogue/catalogue.svelte";
   import { closeBulk } from "../../lib/state/bulk.svelte";
   import { Page } from "../../lib/state/state.constants";
-  import {
-    account,
-    app,
-    isAccountPage,
-    isDashboardLocked,
-    isVaultLocked,
-    navigate,
-  } from "../../lib/state/state.svelte";
+  import { account, app } from "../../lib/state/app.svelte";
+  import { isAccountPage, navigate } from "../../lib/state/router";
+  import { isDashboardLocked, isVaultLocked } from "../../lib/state/session";
   import { wideLayout } from "../../lib/state/viewport.svelte";
   import AccountDrops from "../account/AccountDrops.svelte";
   import AccountHistory from "../account/AccountHistory.svelte";
@@ -105,8 +101,7 @@
     }
   });
 
-  // ! The drawer is unmounted when the window widens: left open, it would come back open
-  // by itself the next time the window narrows.
+  // ! Unmounted when the window widens: left open, the drawer would reopen by itself at the next narrowing.
   $effect(() => {
     if (wideLayout.current) {
       app.navDrawer = false;
@@ -121,7 +116,8 @@
 
   $effect(() => {
     if (app.snapshot?.vault.unlocked) {
-      void loadBadges(app.snapshot.badges.fetched_at);
+      void loadBadges(app.snapshot.badges.read_at);
+      void loadCatalog(app.snapshot.catalog.read_at);
     }
   });
 
@@ -130,8 +126,7 @@
   });
 </script>
 
-<!-- ! The user's own activity keeps a dashboard session open; the page's
-timers and its push channel never do. -->
+<!-- ! The user's own activity keeps a dashboard session open; timers and the push channel never do. -->
 <svelte:window
   onpointerdowncapture={noteActivity}
   onpointermovecapture={noteActivity}
@@ -176,7 +171,7 @@ timers and its push channel never do. -->
             {#if app.page === Page.ACCOUNT}
               <AccountOverview account={current} snapshot={app.snapshot} />
             {:else if app.page === Page.ACCOUNT_DROPS}
-              <AccountDrops account={current} snapshot={app.snapshot} />
+              <AccountDrops account={current} />
             {:else if app.page === Page.ACCOUNT_POINTS}
               <AccountPoints account={current} />
             {:else if app.page === Page.ACCOUNT_SPAM}
@@ -184,7 +179,7 @@ timers and its push channel never do. -->
             {:else if app.page === Page.ACCOUNT_INVENTORY}
               <AccountInventory account={current} />
             {:else if app.page === Page.ACCOUNT_BADGES}
-              <AccountBadges account={current} snapshot={app.snapshot} />
+              <AccountBadges account={current} />
             {:else if app.page === Page.ACCOUNT_HISTORY}
               <AccountHistory account={current} />
             {:else if app.page === Page.ACCOUNT_SETTINGS}

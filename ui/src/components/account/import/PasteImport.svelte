@@ -2,8 +2,10 @@
   import {
     IMPORT_BATCH,
     IMPORT_STAGGER_MS,
+    IMPORT_STAGGER_TOTAL_MS,
     ImportEntryStatus,
   } from "../../../lib/accounts/accounts.constants";
+  import { IMPORT_ENTRY_CLASSES, IMPORT_ENTRY_TITLES } from "../account.constants";
   import { normalizeLogin, splitEntries } from "../../../lib/accounts/accounts.utils";
   import {
     fromChannels,
@@ -24,15 +26,9 @@
   import RichText from "../../ui/RichText.svelte";
   import Spinner from "../../ui/Spinner.svelte";
   import TextButton from "../../ui/TextButton.svelte";
-  import {
-    AvatarSize,
-    BADGE_TONE_CLASSES,
-    BadgeTone,
-    ButtonSize,
-    ButtonType,
-    ButtonVariant,
-    IconName,
-  } from "../../ui/ui.constants";
+  import { AvatarSize } from "../../ui/picture.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../../ui/button.constants";
+  import { IconName } from "../../../lib/icons.constants";
 
   type PasteImportPropsType = {
     open: boolean;
@@ -47,24 +43,6 @@
   };
 
   let { open, existing }: PasteImportPropsType = $props();
-
-  const ENTRY_CLASSES: Record<ImportEntryStatus, string> = {
-    [ImportEntryStatus.PENDING]: "border-dashed border-input text-muted-foreground",
-    [ImportEntryStatus.FOUND]: BADGE_TONE_CLASSES[BadgeTone.SUCCESS],
-    [ImportEntryStatus.ALREADY]: BADGE_TONE_CLASSES[BadgeTone.MUTED],
-    [ImportEntryStatus.MISSING]: BADGE_TONE_CLASSES[BadgeTone.DANGER],
-    [ImportEntryStatus.UNCHECKED]: BADGE_TONE_CLASSES[BadgeTone.WARNING],
-    [ImportEntryStatus.INVALID]: BADGE_TONE_CLASSES[BadgeTone.DANGER],
-  };
-
-  const ENTRY_TITLES: Record<ImportEntryStatus, (() => string) | null> = {
-    [ImportEntryStatus.PENDING]: null,
-    [ImportEntryStatus.FOUND]: null,
-    [ImportEntryStatus.ALREADY]: () => t.import_entry_already(),
-    [ImportEntryStatus.MISSING]: () => t.import_entry_missing(),
-    [ImportEntryStatus.UNCHECKED]: () => t.import_entry_unchecked(),
-    [ImportEntryStatus.INVALID]: () => t.import_entry_invalid(),
-  };
 
   let pasted = $state("");
   let checking = $state(false);
@@ -85,9 +63,14 @@
 
   const wait = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
 
-  const settle = async (index: number, status: ImportEntryStatus, channel: ChannelType | null) => {
+  const settle = async (
+    index: number,
+    status: ImportEntryStatus,
+    channel: ChannelType | null,
+    stagger: number,
+  ) => {
     entries[index] = { ...entries[index], status, channel };
-    await wait(IMPORT_STAGGER_MS);
+    await wait(stagger);
   };
 
   const run = async (): Promise<void> => {
@@ -132,6 +115,8 @@
   const lookUp = async (pending: { login: string; index: number }[]): Promise<void> => {
     checking = true;
 
+    const stagger = Math.min(IMPORT_STAGGER_MS, IMPORT_STAGGER_TOTAL_MS / pending.length);
+
     try {
       for (let from = 0; from < pending.length; from += IMPORT_BATCH) {
         const batch = pending.slice(from, from + IMPORT_BATCH);
@@ -149,7 +134,7 @@
                 ? ImportEntryStatus.ALREADY
                 : ImportEntryStatus.FOUND;
 
-          await settle(item.index, status, channel);
+          await settle(item.index, status, channel, stagger);
         }
       }
     } catch (e: any) {
@@ -224,9 +209,9 @@
           <li
             class={cn(
               "inline-flex h-9 items-center gap-1.5 rounded-md border px-1.5 text-hint transition-colors duration-300",
-              ENTRY_CLASSES[e.status],
+              IMPORT_ENTRY_CLASSES[e.status],
             )}
-            title={ENTRY_TITLES[e.status]?.()}
+            title={IMPORT_ENTRY_TITLES[e.status]?.()}
           >
             {#if e.status === ImportEntryStatus.PENDING}
               <Spinner size={12} />
@@ -293,7 +278,7 @@
         </div>
       {/if}
     </div>
-    {#if problem}<p class="text-hint text-destructive">
+    {#if problem}<p class="text-hint text-destructive-foreground">
         <RichText text={problem} />
       </p>{/if}
   </form>

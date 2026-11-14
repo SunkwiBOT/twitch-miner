@@ -26,14 +26,17 @@
   } from "../../lib/channels/channels.svelte";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { personMarker, strong } from "../../lib/text.utils";
-  import { changed } from "../../lib/state/bulk.svelte";
-  import type { ToastImageType } from "../../lib/state/state.svelte";
-  import { app, updateAccountSettings } from "../../lib/state/state.svelte";
+  import { changedWhenSaved } from "../../lib/state/bulk.svelte";
+  import { updateAccountSettings } from "../../lib/state/account-settings.svelte";
+  import { app } from "../../lib/state/app.svelte";
+  import type { ToastImageType } from "../../lib/state/toasts";
+  import IconButton from "../ui/IconButton.svelte";
   import PageBody from "../ui/PageBody.svelte";
   import Panel from "../ui/Panel.svelte";
   import Setting from "../ui/Setting.svelte";
   import TextButton from "../ui/TextButton.svelte";
-  import { ButtonSize, ButtonType, ButtonVariant, IconName } from "../ui/ui.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
   import CopyFromDialog from "./CopyFromDialog.svelte";
   import DefaultsOfferDialog from "./points/DefaultsOfferDialog.svelte";
   import GroupEditDialog from "./points/GroupEditDialog.svelte";
@@ -65,8 +68,13 @@
     apply: (settings: AccountSettingsType) => void,
     subject?: ToastImageType,
   ): void => {
-    void updateAccountSettings(account.id, apply);
-    changed(account.id, text, apply, subject);
+    void changedWhenSaved(
+      updateAccountSettings(account.id, apply),
+      account.id,
+      text,
+      apply,
+      subject,
+    );
   };
 
   let adding = $state(false);
@@ -204,6 +212,17 @@
           size={ButtonSize.SM}
           type={ButtonType.BUTTON}
           disabled={false}
+          class="@max-[39rem]/card-header:hidden"
+          onclick={() => (copying = true)}
+        />
+        <IconButton
+          icon={IconName.COPY}
+          label={t.copy_points_from_account()}
+          busy={false}
+          disabled={false}
+          variant={ButtonVariant.OUTLINE}
+          size={ButtonSize.SM}
+          class="@min-[39rem]/card-header:hidden"
           onclick={() => (copying = true)}
         />
       {/if}

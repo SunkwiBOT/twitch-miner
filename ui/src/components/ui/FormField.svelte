@@ -22,5 +22,5 @@
   {@render children()}
   {#if hint}<FieldDescription class="text-hint"><RichText text={hint} {people} /></FieldDescription
     >{/if}
-  {#if error}<FieldError>{error}</FieldError>{/if}
+  {#if error}<FieldError class="text-hint">{error}</FieldError>{/if}
 </Field>

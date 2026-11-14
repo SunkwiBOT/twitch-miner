@@ -1,6 +1,6 @@
 <script lang="ts">
   import Icon from "./Icon.svelte";
-  import { IconName } from "./ui.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   type SpinnerPropsType = { size: number };
 

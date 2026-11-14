@@ -22,25 +22,15 @@
     requestKey,
     type RequestCursorType,
   } from "../../lib/requests/requests.utils";
-  import { app } from "../../lib/state/state.svelte";
-  import CopyButton from "../ui/CopyButton.svelte";
-  import EmptyState from "../ui/EmptyState.svelte";
-  import LoadMoreSentinel from "../ui/LoadMoreSentinel.svelte";
   import MultiSelect from "../ui/MultiSelect.svelte";
   import PageHeader from "../ui/PageHeader.svelte";
   import Select from "../ui/Select.svelte";
-  import TextButton from "../ui/TextButton.svelte";
   import Toggle from "../ui/Toggle.svelte";
-  import {
-    ButtonSize,
-    ButtonType,
-    ButtonVariant,
-    CopyLayout,
-    IconName,
-    MenuAlign,
-  } from "../ui/ui.constants";
-  import LogSkeleton from "./LogSkeleton.svelte";
-  import { LOGS_MORE_SKELETON_ROWS, LOGS_REFRESH_MS, LOGS_SKELETON_ROWS } from "./logs.constants";
+  import { MenuAlign } from "../ui/menu.constants";
+  import LogsActions from "./LogsActions.svelte";
+  import LogsFeed from "./LogsFeed.svelte";
+  import { LOGS_REFRESH_MS } from "./logs.constants";
+  import { accountOptions } from "./logs.utils";
   import RequestRow from "./RequestRow.svelte";
 
   type RequestListPropsType = { snapshot: SnapshotType };
@@ -59,10 +49,7 @@
 
   const ticked = $derived(offered.filter((kind) => !hidden.includes(kind)));
 
-  const accountOptions = $derived([
-    { value: "", label: t.logs_filter_all() },
-    ...snapshot.accounts.map((a) => ({ value: a.id, label: a.display_name, image: a.avatar_url })),
-  ]);
+  const options = $derived(accountOptions(snapshot.accounts));
 
   const kindOptions = $derived(
     groups.flatMap((entry) =>
@@ -92,39 +79,19 @@
     isOlder,
   });
 
-  $effect(() => {
-    void feed.show(filters());
-    const timer = setInterval(() => void feed.refresh(), LOGS_REFRESH_MS);
-
-    return () => clearInterval(timer);
-  });
+  feed.poll(filters, LOGS_REFRESH_MS);
 
   const report = (): Promise<string> => fetchRequestsReport(filters());
 </script>
 
 <PageHeader intro={t.requests_subtitle()}>
   {#snippet actions()}
-    <CopyButton
-      text={report}
-      label={t.logs_copy()}
-      copiedLabel={t.requests_copied()}
-      layout={CopyLayout.LABELLED}
-      size={ButtonSize.MD}
-    />
-    <TextButton
-      label={t.logs_report()}
-      icon={IconName.ALERT}
-      variant={ButtonVariant.OUTLINE}
-      size={ButtonSize.MD}
-      type={ButtonType.BUTTON}
-      disabled={false}
-      onclick={() => (app.feedbackDialog = true)}
-    />
+    <LogsActions {report} copiedLabel={t.requests_copied()} />
   {/snippet}
   <div class="w-56">
     <Select
       value={accountId}
-      options={accountOptions}
+      {options}
       label={t.common_account()}
       align={MenuAlign.LEFT}
       onchange={(next) => (accountId = next)}
@@ -154,24 +121,16 @@
 </PageHeader>
 
 <Card class="@container gap-0 px-5 py-3">
-  {#if feed.loading && feed.items.length === 0}
-    <LogSkeleton rows={LOGS_SKELETON_ROWS} />
-  {:else if feed.items.length === 0 && feed.problem}
-    <EmptyState title={t.requests_load_failed()} text={feed.problem} icon={IconName.ALERT} />
-  {:else if feed.items.length === 0}
-    <EmptyState text={errorsOnly ? t.requests_empty_errors() : t.requests_empty()} />
-  {:else}
+  <LogsFeed
+    {feed}
+    failedTitle={t.requests_load_failed()}
+    emptyText={errorsOnly ? t.requests_empty_errors() : t.requests_empty()}
+    moreLabel={t.requests_load_more()}
+  >
     <div class={REQUEST_LIST_CLASSES} role="list" aria-label={t.logs_tab_requests()}>
       {#each feed.items as entry (requestKey(entry))}
         <RequestRow {entry} account={accountOf(entry.account_id)} />
       {/each}
     </div>
-    {#if feed.loadingMore}<LogSkeleton rows={LOGS_MORE_SKELETON_ROWS} />{/if}
-    <LoadMoreSentinel
-      label={t.requests_load_more()}
-      busy={feed.loadingMore}
-      more={feed.hasMore}
-      onmore={feed.loadMore}
-    />
-  {/if}
+  </LogsFeed>
 </Card>

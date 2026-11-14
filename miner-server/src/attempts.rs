@@ -6,6 +6,8 @@ use std::time::{Duration, Instant};
 const MAX_FAILURES: u32 = 5;
 pub const LOCKOUT: Duration = Duration::from_secs(30);
 const MAX_CLIENTS: usize = 1_000;
+pub const THROTTLED_GAP: Duration = Duration::from_secs(2);
+const CONNECTION_BURST: Duration = Duration::from_secs(60);
 // ! An IPv6 subscriber holds a whole /64: counted per address, it could take
 // a new one after every few tries.
 const IPV6_CLIENT_MASK: u128 = u128::MAX << 64;
@@ -25,6 +27,7 @@ struct Client {
 #[derive(Default)]
 pub struct SignInAttempts {
     clients: Mutex<HashMap<IpAddr, Client>>,
+    connections: Mutex<HashMap<IpAddr, Instant>>,
 }
 
 // ! A dual-stack socket shows an IPv4 visitor as `::ffff:a.b.c.d`: it stays that
@@ -37,12 +40,56 @@ pub(crate) fn client_of(address: IpAddr) -> IpAddr {
 }
 
 impl SignInAttempts {
-    // ! While the client is locked out the password is not looked at, so a
-    // right guess cannot be told from a wrong one.
-    pub fn attempt(&self, client: IpAddr, password_matches: bool) -> SignIn {
-        self.attempt_at(client, password_matches, Instant::now())
+    pub async fn attempt(
+        &self,
+        visitor: IpAddr,
+        connection: IpAddr,
+        password_matches: bool,
+    ) -> SignIn {
+        let reserved = self.throttle_at(connection, Instant::now());
+        if let Some(wait) = reserved {
+            tokio::time::sleep(wait).await;
+        }
+
+        let now = Instant::now();
+        let verdict = self.attempt_at(visitor, password_matches, now);
+        if matches!(verdict, SignIn::Refused) && reserved.is_none() {
+            self.connection_failed_at(connection, now);
+        }
+
+        verdict
     }
 
+    // ! A forged `X-Forwarded-For` makes each try a new visitor: past 30 failures a minute the connection's address gets one try every 2 s, slowed and never locked, so the visitors behind a shared proxy still get in.
+    pub(crate) fn throttle_at(&self, connection: IpAddr, now: Instant) -> Option<Duration> {
+        let mut connections = miner_core::util::locked(&self.connections);
+        let due = connections.get_mut(&client_of(connection))?;
+        let ahead = due.saturating_duration_since(now) + THROTTLED_GAP;
+        if ahead <= CONNECTION_BURST {
+            return None;
+        }
+
+        *due += THROTTLED_GAP;
+
+        Some(ahead - CONNECTION_BURST)
+    }
+
+    pub(crate) fn connection_failed_at(&self, connection: IpAddr, now: Instant) {
+        let connection = client_of(connection);
+        let mut connections = miner_core::util::locked(&self.connections);
+        if !connections.contains_key(&connection) && connections.len() >= MAX_CLIENTS {
+            connections.retain(|_, due| *due > now);
+            if connections.len() >= MAX_CLIENTS {
+                return;
+            }
+        }
+
+        let due = connections.entry(connection).or_insert(now);
+        *due = (*due).max(now) + THROTTLED_GAP;
+    }
+
+    // ! While the client is locked out the password is not looked at, so a
+    // right guess cannot be told from a wrong one.
     pub(crate) fn attempt_at(
         &self,
         client: IpAddr,

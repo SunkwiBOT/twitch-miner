@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ART_TILES, type ThumbShape } from "./ui.constants";
+  import { ART_TILES, type ThumbShape } from "./picture.constants";
 
   type TiledArtPropsType = {
     url: string;

@@ -3,8 +3,10 @@ import type { AccountSnapshotType } from "../bindings/AccountSnapshotType";
 import { t } from "../i18n/i18n.svelte";
 import { strong } from "../text.utils";
 import { BULK_TOAST_KEY, ToastKind } from "./state.constants";
-import { accountImage, app, toast, updateAccountSettings } from "./state.svelte";
-import type { ToastImageType } from "./state.svelte";
+import { updateAccountSettings } from "./account-settings.svelte";
+import { app } from "./app.svelte";
+import { accountImage, toast } from "./toasts";
+import type { ToastImageType } from "./toasts";
 
 export type AccountChangeType = (
   settings: AccountSettingsType,
@@ -19,6 +21,22 @@ export const closeBulk = (): void => {
   bulk.open = false;
   bulk.sourceId = null;
   bulk.changes = [];
+};
+
+export const changedWhenSaved = async (
+  saved: Promise<boolean>,
+  sourceId: string,
+  text: string,
+  change: AccountChangeType,
+  subject?: ToastImageType,
+): Promise<boolean> => {
+  if (!(await saved)) {
+    return false;
+  }
+
+  changed(sourceId, text, change, subject);
+
+  return true;
 };
 
 export const changed = (

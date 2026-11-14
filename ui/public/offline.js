@@ -1,5 +1,3 @@
-// The "no connection" screen the service worker shows when the dashboard cannot be reached:
-// in the language and theme the dashboard last used (offline-texts.js comes from messages/).
 const TEXTS = self.OFFLINE_TEXTS ?? {};
 
 const recall = (key) => {
@@ -49,8 +47,6 @@ try {
   if (theme === "DARK" || theme === "LIGHT") {
     document.documentElement.dataset.theme = theme;
   }
-} catch {
-  // The system's light or dark stays.
-}
+} catch {}
 
 document.getElementById("retry").addEventListener("click", () => location.reload());

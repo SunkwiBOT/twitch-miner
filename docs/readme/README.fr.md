@@ -125,6 +125,8 @@ Ce qui le distingue des autres mineurs. « Voir en image » montre chaque poin
 - **Importer des streamers.** Collez une liste (jusqu'à 500 noms), reprenez celle d'un autre
   compte ou les chaînes suivies par le compte. La liste est vérifiée pour n'ajouter que des
   chaînes qui existent.
+  Les mises à jour en direct couvrent 46 streamers par compte : les suivants de la liste
+  n'ont ni raids, ni moments, ni prédictions.
 
   <details open><summary>Voir en image</summary>
   <img src="../media/fr/streamers-import.avif" alt="Import de streamers : liste collée, autre compte, chaînes suivies">
@@ -164,6 +166,8 @@ Ce qui le distingue des autres mineurs. « Voir en image » montre chaque poin
 - **Inventaire et « Tout réclamer ».** La page Inventaire range les récompenses en
   « À réclamer », « En cours » et « Réclamés ». Réclamez-les une par une, toutes d'un coup,
   ou activez « Réclamer les drops automatiquement ».
+  Après « Lier le compte de jeu », le compte est relu dès votre retour dans l'application :
+  la liaison apparaît tout de suite.
 
   <details open><summary>Voir en image</summary>
   <img src="../media/fr/drops-inventory.avif" alt="L'inventaire et le bouton « Tout réclamer »">
@@ -181,10 +185,20 @@ Ce qui le distingue des autres mineurs. « Voir en image » montre chaque poin
 - **Badges (bêta).** La page Badges liste tous les badges de chat globaux de Twitch et
   comment les obtenir. Chaque compte a sa page Badges : les badges en cours avec leur
   progression, ceux encore à obtenir et ceux qu'il possède. Le mineur va chercher les
-  badges qui ne demandent que du temps de visionnage, dans les campagnes Drops et les
-  quêtes Twitch, et passe ceux que le compte a déjà. Dans « Quoi miner, dans l'ordre »,
-  glissez les jeux prioritaires, les badges et les autres campagnes Drops dans l'ordre
-  voulu, ou désactivez-en un. Cette fonction est en bêta.
+  badges des campagnes Drops et des quêtes Twitch, et passe ceux que le compte a déjà. Un
+  badge à regarder chaque jour est miné de nouveau chaque jour jusqu'au dernier (« 20 min
+  par jour, 3 jours »), et une chaîne de n'importe laquelle des catégories de la campagne
+  compte. Un coffre donne « 1 badge au hasard parmi N ». Un badge qui demande un abonnement
+  est miné une fois que vous vous êtes abonné vous-même et que Twitch le compte. Rien n'est
+  miné avant le début de sa campagne. Dans « Quoi miner, dans l'ordre », glissez les jeux
+  prioritaires, les badges et les autres campagnes Drops dans l'ordre voulu, ou
+  désactivez-en un. Une quête Twitch n'est minée que sur une chaîne où Twitch la propose
+  dans son panneau Drops. Une évolution (Pichu → Pikachu) est minée dès que le compte
+  possède le badge dont elle évolue : le mineur équipe lui-même ce badge juste avant et ne
+  remet pas l'ancien ; « Miner les évolutions de badges », dans les réglages des badges du
+  compte, désactive cela. Un clic sur un badge ouvre ses détails : l'exigence complète,
+  toutes les catégories et les chaînes, la collection, l'évolution et la progression de
+  chaque compte. Cette fonction est en bêta.
 
   <details open><summary>Voir en image</summary>
   <img src="../media/fr/badges.avif" alt="La page Badges, les badges d'un compte, puis « Quoi miner, dans l'ordre » avec les badges glissés en tête">
@@ -194,7 +208,7 @@ Ce qui le distingue des autres mineurs. « Voir en image » montre chaque poin
 
 - **Un journal de tout, et chaque requête.** Le Journal garde chaque événement : drops,
   points gagnés et dépensés, coffres, paris, raids, lives… Filtrez-le par compte, par
-  onglet (Drops, Points, Autres) et par type. **Logs techniques › Requêtes** liste chaque
+  onglet (Drops, Badges, Points, Autres) et par type. **Logs techniques › Requêtes** liste chaque
   requête envoyée à Twitch et aux autres services, avec son résultat et sa durée. Logs et
   requêtes ne contiennent aucun jeton ni secret : « Copier pour un rapport de bug » les
   copie, prêts à coller dans un rapport de bug sur
@@ -233,8 +247,9 @@ Ce qui le distingue des autres mineurs. « Voir en image » montre chaque poin
   de version apparaissent dans la barre du haut. « Installer et redémarrer » demande
   d'abord une confirmation, puis l'application installe la version et redémarre. Avec un
   mot de passe de l'application, elle redémarre verrouillée : retapez-le pour reprendre le
-  minage. Seule une version signée par le projet est installée. La version Docker prévient
-  aussi, avec les commandes à lancer.
+  minage. Seule une version signée par le projet est installée. L'exécutable portable
+  Windows ne se met pas à jour seul : son bouton ouvre la page de téléchargement. La
+  version Docker prévient aussi, avec les commandes à lancer.
 
   <details open><summary>Voir en image</summary>
   <img src="../media/fr/updates.avif" alt="Le badge « Mise à jour », la confirmation, puis l'installation">
@@ -245,8 +260,9 @@ Ce qui le distingue des autres mineurs. « Voir en image » montre chaque poin
 - Comme d'autres mineurs : coffres bonus, raids, moments, objectifs communautaires,
   prédictions (stratégies, moment du pari, conditions), séries de visionnage et priorité
   aux chaînes abonnées, présence dans le chat (désactivable), options par défaut des
-  nouveaux streamers, notifications Discord, Telegram et webhook avec images, proxy global
-  ou par compte.
+  nouveaux streamers, notifications Discord, Telegram et webhook avec images (sur le
+  serveur, leur langue se choisit dans **Paramètres › Notifications**), proxy global ou par
+  compte.
 - 29 langues, thèmes sombre et clair, notifications de bureau, icône dans la zone de
   notification, lancement au démarrage du système.
 
@@ -328,16 +344,18 @@ Téléchargez le fichier pour votre système depuis la
 | Système | Paquet |
 |---|---|
 | **Windows** · x64 | Installateur (`setup.exe`) ou [exécutable portable](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/TwitchMiner-portable.exe) |
-| **macOS** 10.15 ou plus récent · Intel et Apple Silicon | Image disque (`.dmg`) |
+| **macOS** 13 ou plus récent · Intel et Apple Silicon | Image disque (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) ou `.rpm` (Fedora, openSUSE) |
 
-La version macOS n'est pas notariée. La première fois, faites un clic droit sur
-l'application et choisissez **Ouvrir**.
+La version macOS n'est pas notariée. La première fois, ouvrez l'application : macOS la
+bloque. Allez ensuite dans **Réglages Système › Confidentialité et sécurité** et cliquez
+sur **Ouvrir quand même**.
 
 Les mises à jour sont signées. L'application cherche une nouvelle version au démarrage,
 puis toutes les heures (vous pouvez changer la fréquence dans **Paramètres › À propos**).
 Elle n'en installe jamais une toute seule : vous l'installez en un clic, depuis le message
-qui s'affiche ou depuis **Paramètres › À propos**.
+qui s'affiche ou depuis **Paramètres › À propos**. L'exécutable portable ne se met jamais à
+jour seul : « Ouvrir la page de téléchargement » mène à la dernière version publiée.
 
 Les données sont dans le dossier de données de l'utilisateur :
 
@@ -384,7 +402,7 @@ mot de passe.
 | `MINER_PASSWORD_FILE` | aucun | Lit `MINER_PASSWORD` depuis un fichier, par exemple un secret Docker. L'un ou l'autre, pas les deux. |
 | `MINER_PUBLIC_URL` | aucun | Seulement derrière un reverse proxy HTTPS (Caddy, nginx, Traefik, Cloudflare Tunnel…) : l'adresse `https://` du tableau de bord, sans chemin, comme `https://miner.example.com`. Le proxy doit transmettre `X-Forwarded-Proto`, `X-Forwarded-For` et les websockets, ce que font les proxys courants par défaut, et le port du conteneur ne doit pas être joignable directement. Le tableau de bord refuse alors tout ce qui ne passe pas par le proxy en HTTPS, et bloque une adresse pendant 30 secondes après 5 mauvais mots de passe. Le proxy doit tourner sur la même machine ou son réseau local : une connexion depuis une adresse publique est refusée. |
 | `MINER_TRUSTED_HOPS` | `1` | Avec `MINER_PUBLIC_URL` seulement : le nombre de proxys qui ajoutent une entrée à `X-Forwarded-For`, de 1 à 10. `2` avec deux proxys l'un derrière l'autre, comme Cloudflare devant Traefik. |
-| `MINER_PROXY_NETWORKS` | aucun | Seulement avec `MINER_PUBLIC_URL` : d'autres réseaux depuis lesquels le proxy peut se connecter, en plus de cette machine et de son réseau local privé, séparés par des virgules : une seule adresse ou un réseau comme `2001:db8:1::/64`, pour un réseau local dont les adresses IPv6 sont globales. |
+| `MINER_PROXY_NETWORKS` | aucun | Seulement avec `MINER_PUBLIC_URL` : les réseaux depuis lesquels le proxy se connecte, séparés par des virgules : une seule adresse ou un réseau comme `192.168.1.0/24` ou `2001:db8:1::/64`. Une fois défini, le proxy n'est plus accepté que depuis l'adresse de bouclage et ces réseaux, et non plus depuis tout le réseau local privé. |
 | `MINER_VAULT_PASSPHRASE` | aucun | Seulement pour un dossier de données copié depuis l'application de bureau avec un mot de passe de l'application : le déverrouille au démarrage. Un serveur créé de zéro n'en a jamais besoin. |
 | `MINER_VAULT_PASSPHRASE_FILE` | aucun | Lit `MINER_VAULT_PASSPHRASE` depuis un fichier. L'un ou l'autre, pas les deux. |
 | `DATA_DIR` | `/data` dans l'image, sinon `data` dans le dossier de travail | Base de données, fichier de clé et logs. |
@@ -394,6 +412,14 @@ mot de passe.
 
 Le serveur lit et vérifie les variables une seule fois, au démarrage. Une valeur invalide
 arrête le serveur avec un message, au lieu d'un repli silencieux.
+
+Derrière un proxy inverse, renseignez `MINER_PUBLIC_URL` : sans elle, la première requête
+qui arrive par un proxy écrit un avertissement dans les logs, car les essais de connexion
+sont alors comptés sur l'adresse du proxy, et les mauvais mots de passe d'un visiteur
+bloqueraient tout le monde. La connexion en direct envoie un ping toutes les 30 secondes,
+pour qu'un proxy ne la coupe pas quand rien ne se passe. Quand Twitch ou le réseau échoue,
+le serveur répond `424`, jamais `502` ni `504` : derrière Cloudflare, vous voyez la vraie
+erreur au lieu de la page de Cloudflare.
 
 ## <a name="how-it-works"></a>Fonctionnement
 
@@ -433,13 +459,15 @@ compte**, est plus discret.
 
 **Une campagne n'est pas minée, ou un drop ne progresse pas.**\
 Ouvrez la page **Drops** du compte. Dans « Ordre de minage », chaque campagne en attente dit
-pourquoi : « Aucune chaîne en direct », « En attente (une campagne à la fois) » ou « Aucun
-drop disponible pour l'instant ». Une campagne qui n'apparaît pas dans cette liste
-a été écartée : par le réglage « Quelles campagnes », par une règle de l'onglet **Exclusions**, ou
-parce qu'elle ne peut pas finir à temps. Une récompense qui demande un abonnement n'est jamais minée, et un drop qui en suit
-un autre attend que le premier soit fini. En mode **Points uniquement**, le mineur ne
-choisit aucune campagne. « Miner en priorité », dans la fiche d'une campagne, la met en
-tête ; une campagne ignorée peut revenir avec « Miner à nouveau », dans l'onglet **Exclusions**.
+pourquoi : « Aucune chaîne en direct » ou « En attente (une campagne à la fois) ». Une
+campagne qui n'apparaît pas dans cette liste a été écartée : par « Quoi miner, dans
+l'ordre », par le réglage « Quelles campagnes », par une règle de l'onglet **Exclusions**,
+ou parce qu'elle ne peut pas finir à temps. Une récompense qui demande un abonnement
+attend que vous vous soyez abonné vous-même, un badge à regarder chaque jour attend le jour
+suivant, rien n'est miné avant le début de sa campagne, et un drop qui en suit un autre
+attend que le premier soit fini. En mode **Points uniquement**, le mineur ne choisit
+aucune campagne. « Miner en priorité », dans la fiche d'une campagne, la met en tête ; une
+campagne ignorée peut revenir avec « Miner à nouveau », dans l'onglet **Exclusions**.
 
 **Faut-il lier le compte du jeu ?**\
 Pour réclamer, oui : depuis octobre 2026, Twitch ne laisse réclamer un drop que si le
@@ -468,7 +496,9 @@ de passe de l'application n'est défini) et les logs.
 L'application de bureau cherche une nouvelle version au démarrage, puis toutes les heures
 (réglable dans **Paramètres › À propos**). Cliquez sur le badge « Mise à jour », puis sur
 « Installer et redémarrer ». Avec Docker, le tableau de bord prévient : lancez
-`docker compose pull`, puis `docker compose up -d`.
+`docker compose pull`, puis `docker compose up -d`. L'exécutable portable Windows ne se met
+pas à jour seul : « Ouvrir la page de téléchargement » ouvre la dernière version publiée,
+où vous téléchargez le nouveau.
 
 **J'ai oublié le mot de passe de l'application.**\
 Il ne peut pas être récupéré : c'est lui qui chiffre vos sessions Twitch. Quittez
@@ -482,20 +512,23 @@ réglages sont à refaire. Avec Docker, le mot de passe du tableau de bord se ch
 Cela dépend de Twitch et de chaque chaîne. Le mineur gagne ce que Twitch donne à un
 spectateur : les points de visionnage, les coffres bonus (environ un toutes les 15 minutes)
 et le bonus de série de visionnage. Un abonnement multiplie les points, de ×1,2 à ×2 selon
-le palier. L'accueil montre les points gagnés, et le Journal chaque gain.
+le palier, et avec « Priorité aux chaînes abonnées », activé par défaut, ces chaînes
+passent avant le reste de votre liste. L'accueil montre les points gagnés, et le Journal
+chaque gain.
 
 **Les paris sont-ils risqués ?**\
 Oui, des points peuvent être perdus. Les prédictions sont désactivées par défaut, streamer
 par streamer. Vous réglez la stratégie, le moment du pari, la mise (5 % du solde par
 défaut, 50 000 points au plus), un solde minimum et, si vous voulez, une condition, comme
 une cote d'au moins 1,5. Gardez une mise faible.
+Un pari de moins de 10 points n'est jamais placé.
 
 **Un streamer n'est pas regardé.**\
 Seuls les streamers activés et en direct sont regardés, et seulement sur une chaîne libre :
 en mode **Drops et points**, l'une sert la campagne en cours ; en mode **Drops uniquement**,
 aucun streamer n'est regardé ; un compte en pause ne regarde rien. Les places vont dans cet
-ordre, affiché en badge sur chaque chaîne regardée : « Bonus de série », « Série menacée »,
-« Abonné », puis « Ordre de la liste ». Montez le streamer dans la liste, ou coupez
+ordre, affiché en badge sur chaque chaîne regardée : « Série menacée », « Bonus de série »,
+« Abonné », puis « Ordre de la liste ». Montez le streamer dans la liste, ou coupez
 « Priorité aux séries de visionnage » et « Priorité aux chaînes abonnées ».
 
 ## <a name="related-projects"></a>Projets liés
@@ -515,6 +548,8 @@ Autres projets du même auteur :
 - Les jetons sont scellés avec AES-256-GCM. La clé est soit un `master.key` aléatoire à
   côté de la base de données (par défaut, sans intervention), soit dérivée du mot de passe
   de l'application avec Argon2id.
+- Le dossier de données et celui des logs sont privés (`0700`) : seul l'utilisateur qui
+  lance le mineur peut les ouvrir.
 - Le tableau de bord HTTP vérifie le mot de passe en temps constant et utilise des cookies
   HttpOnly, SameSite=Strict (`Secure`, avec le préfixe `__Host-`, derrière HTTPS). Le
   serveur ne garde qu'un SHA-256 de chaque session. Il termine une session après 30 jours
@@ -524,6 +559,9 @@ Autres projets du même auteur :
   bearer), cette adresse attend 30 secondes. Le serveur répond `429` avec `Retry-After`
   sans regarder le mot de passe. Chaque mauvais mot de passe met aussi une demi-seconde à
   répondre.
+  Au-delà de 30 mauvais mots de passe en une minute depuis une même adresse de connexion,
+  proxy partagé compris, cette adresse n'a plus qu'un essai toutes les 2 secondes : deviner
+  devient lent, et personne n'est bloqué.
 - Hors de votre réseau, placez le tableau de bord derrière un reverse proxy HTTPS avec
   `MINER_PUBLIC_URL` (voir [Docker](#docker)).
 - Le mineur ne parle qu'à `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`,

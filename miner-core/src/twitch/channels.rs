@@ -20,8 +20,8 @@ impl TwitchClient {
         read_one(login, &response)
     }
 
-    pub async fn channels(&self, logins: &[String]) -> Result<Vec<Channel>> {
-        let mut out = Vec::with_capacity(logins.len());
+    pub async fn channels(&self, logins: &[String]) -> Result<BatchRead> {
+        let mut out = BatchRead::default();
 
         for chunk in logins.chunks(LOOKUP_BATCH) {
             let response = self
@@ -42,7 +42,8 @@ impl TwitchClient {
                 );
             }
 
-            out.extend(read.channels);
+            out.channels.extend(read.channels);
+            out.unchecked.extend(read.unchecked);
         }
 
         Ok(out)
@@ -90,6 +91,7 @@ impl TwitchClient {
             let mut looked: HashMap<String, Channel> = self
                 .channels(&bare)
                 .await?
+                .channels
                 .into_iter()
                 .map(|channel| (channel.login.clone(), channel))
                 .collect();
@@ -150,11 +152,11 @@ impl TwitchClient {
         Ok(found)
     }
 
-    pub async fn game_directory(&self, game: &Game, drops_only: bool) -> Result<Vec<Channel>> {
+    pub async fn game_directory(&self, game: &Game) -> Result<Vec<Channel>> {
         let response = self
             .gql(
                 Operation::GameDirectory,
-                directory_variables(&game.slug(), DIRECTORY_LIMIT, drops_only),
+                directory_variables(&game.slug(), DIRECTORY_LIMIT),
             )
             .await?;
         let game_node = &response["data"]["game"];
@@ -177,7 +179,7 @@ impl TwitchClient {
         let edges: Vec<&Value> = values(&game_node["streams"]["edges"]).collect();
         let channels: Vec<Channel> = edges
             .iter()
-            .filter_map(|edge| parse_directory_node(&edge["node"], &resolved, drops_only))
+            .filter_map(|edge| parse_directory_node(&edge["node"], &resolved))
             .collect();
 
         note_left_out("directory channels", edges.len(), channels.len());
@@ -194,7 +196,8 @@ pub async fn lookup_public(http: &TwitchHttp, login: &str) -> Result<Option<Chan
             None,
             &Operation::StreamInfo.request(json!({"channel": login})),
         )
-        .await?;
+        .await?
+        .body;
 
     read_one(login, &body)
 }
@@ -228,10 +231,7 @@ pub(crate) fn read_batch(logins: &[String], items: &[Value]) -> BatchRead {
             continue;
         };
         let user = &item["data"]["user"];
-        let failed = item["errors"]
-            .as_array()
-            .is_some_and(|errors| !errors.is_empty())
-            || item["data"].is_null();
+        let failed = has_errors(item) || item["data"].is_null();
 
         if !user.is_null() {
             read.channels.push(parse_user(user, login));
@@ -258,7 +258,8 @@ pub async fn lookup_public_many(http: &TwitchHttp, logins: &[String]) -> Result<
                 None,
                 &Value::Array(batch),
             )
-            .await?;
+            .await?
+            .body;
         let items = body
             .as_array()
             .ok_or_else(|| Error::InvalidResponse("batch must be an array".into()))?;
@@ -271,10 +272,24 @@ pub async fn lookup_public_many(http: &TwitchHttp, logins: &[String]) -> Result<
     Ok(out)
 }
 
+fn has_errors(item: &Value) -> bool {
+    item["errors"]
+        .as_array()
+        .is_some_and(|errors| !errors.is_empty())
+}
+
+// ! A list an error of the item left null says nothing about the channel's
+// campaigns: the channel stays unasked rather than "offers none".
 fn parse_available_drops(item: &Value) -> Option<(String, Vec<String>)> {
     let channel = &item["data"]["channel"];
     let id = text(&channel["id"])?;
-    let campaigns = values(&channel["viewerDropCampaigns"])
+    let list = &channel["viewerDropCampaigns"];
+
+    if list.is_null() && has_errors(item) {
+        return None;
+    }
+
+    let campaigns = values(list)
         .filter_map(|campaign| text(&campaign["id"]))
         .collect();
 
@@ -325,7 +340,7 @@ fn parse_user(user: &Value, login: &str) -> Channel {
     }
 }
 
-fn parse_directory_node(node: &Value, game: &Game, drops_only: bool) -> Option<Channel> {
+fn parse_directory_node(node: &Value, game: &Game) -> Option<Channel> {
     let broadcaster = &node["broadcaster"];
     let login = text(&broadcaster["login"])?;
 
@@ -338,7 +353,7 @@ fn parse_directory_node(node: &Value, game: &Game, drops_only: bool) -> Option<C
         broadcast_id: text(&node["id"]),
         viewers: node["viewersCount"].as_u64(),
         game: Some(parse_game(&node["game"]).unwrap_or_else(|| game.clone())),
-        drops_enabled: drops_only,
+        drops_enabled: true,
     })
 }
 
@@ -348,8 +363,6 @@ const BANNER_BATCH: usize = 15;
 
 const BANNERS_QUERY: &str = "ProfileBanners";
 
-// ! Logins must already be valid (`normalize_login`): they are written into
-// the query.
 pub async fn banners(
     http: &TwitchHttp,
     logins: &[String],
@@ -359,14 +372,7 @@ pub async fn banners(
 
     for chunk in logins.chunks(BANNER_BATCH) {
         match banner_batch(http, chunk).await {
-            Ok(found) => out.extend(chunk.iter().map(|login| {
-                let banner = found
-                    .iter()
-                    .find(|(known, _)| known == login)
-                    .map(|(_, url)| url.clone());
-
-                (login.clone(), banner)
-            })),
+            Ok(found) => out.extend(found),
             Err(error) => {
                 tracing::debug!(%error, logins = chunk.len(), "banners not read");
                 failure = Some(error);
@@ -380,15 +386,19 @@ pub async fn banners(
     }
 }
 
-async fn banner_batch(http: &TwitchHttp, chunk: &[String]) -> Result<Vec<(String, String)>> {
+async fn banner_batch(
+    http: &TwitchHttp,
+    chunk: &[String],
+) -> Result<Vec<(String, Option<String>)>> {
     // ! The logins are written into the query's text: only a plain login may be.
-    let plain: Vec<&String> = chunk
+    let (plain, odd): (Vec<&String>, Vec<&String>) = chunk
         .iter()
-        .filter(|login| crate::util::normalize_login(login).as_ref() == Some(*login))
-        .collect();
+        .partition(|login| crate::util::normalize_login(login).as_ref() == Some(*login));
+    let mut out: Vec<(String, Option<String>)> =
+        odd.into_iter().map(|login| (login.clone(), None)).collect();
 
     if plain.is_empty() {
-        return Ok(Vec::new());
+        return Ok(out);
     }
 
     let fields: String = plain
@@ -406,17 +416,45 @@ async fn banner_batch(http: &TwitchHttp, chunk: &[String]) -> Result<Vec<(String
             None,
             &json!({ "query": format!("query {{ {fields}}}") }),
         )
-        .await?;
+        .await?
+        .body;
 
-    Ok(parse_banners(&body, plain.len()))
+    out.extend(parse_banners(&body, &plain)?);
+
+    Ok(out)
 }
 
-pub(crate) fn parse_banners(body: &Value, count: usize) -> Vec<(String, String)> {
-    (0..count)
-        .filter_map(|index| {
-            let user = &body["data"][format!("u{index}")];
+// ! A field Twitch failed to read is asked again next time, not kept an hour as "no banner".
+pub(crate) fn parse_banners(
+    body: &Value,
+    logins: &[&String],
+) -> Result<Vec<(String, Option<String>)>> {
+    let mut failed = Vec::new();
 
-            Some((text(&user["login"])?, text(&user["bannerImageURL"])?))
+    for error in values(&body["errors"]) {
+        match error["path"][0].as_str() {
+            Some(field) => failed.push(field),
+            None => {
+                return Err(Error::Gql {
+                    operation: BANNERS_QUERY,
+                    code: error["message"].as_str().unwrap_or("refused").to_owned(),
+                })
+            }
+        }
+    }
+
+    if !body["data"].is_object() {
+        return Err(Error::InvalidResponse("banners without data".into()));
+    }
+
+    Ok(logins
+        .iter()
+        .enumerate()
+        .filter(|(index, _)| !failed.contains(&format!("u{index}").as_str()))
+        .map(|(index, login)| {
+            let banner = text(&body["data"][format!("u{index}")]["bannerImageURL"]);
+
+            ((*login).clone(), banner)
         })
-        .collect()
+        .collect())
 }

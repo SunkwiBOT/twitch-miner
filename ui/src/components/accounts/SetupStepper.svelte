@@ -2,7 +2,7 @@
   import { SetupStep } from "../../lib/accounts/accounts.constants";
   import { cn } from "$lib/utils";
   import Icon from "../ui/Icon.svelte";
-  import { IconName } from "../ui/ui.constants";
+  import { IconName } from "../../lib/icons.constants";
   import { SETUP_STEP_LABELS } from "./accounts.utils";
 
   type SetupStepperPropsType = {

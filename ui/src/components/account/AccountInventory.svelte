@@ -3,16 +3,26 @@
   import { untrack } from "svelte";
 
   import AccountSaveBar from "./AccountSaveBar.svelte";
-  import { campaignEnd } from "../../lib/catalogue/campaign.utils";
+  import {
+    campaignEnd,
+    dropDone,
+    dropTotals,
+    periodsText,
+    subsMissing,
+  } from "../../lib/catalogue/campaign.utils";
+  import { refreshWhenBack } from "../../lib/accounts/refresh.utils";
   import type { AccountSnapshotType } from "../../lib/bindings/AccountSnapshotType";
   import type { CampaignType } from "../../lib/bindings/CampaignType";
+  import { campaignsOf } from "../../lib/catalogue/catalogue.svelte";
+  import { gameArt } from "../../lib/catalogue/games.utils";
   import type { TimedDropType } from "../../lib/bindings/TimedDropType";
   import { BoxArtSize } from "../../lib/format.constants";
   import { boxArt } from "../../lib/format.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { AccountField, ToastKind } from "../../lib/state/state.constants";
   import { editsOf } from "../../lib/state/edits.svelte";
-  import { run, toast } from "../../lib/state/state.svelte";
+  import { run } from "../../lib/state/session";
+  import { toast } from "../../lib/state/toasts";
   import { ticker } from "../../lib/state/ticker.svelte";
   import { escapeEmphasis, strong } from "../../lib/text.utils";
   import CampaignDialog from "../catalogue/CampaignDialog.svelte";
@@ -29,17 +39,13 @@
   import Panel from "../ui/Panel.svelte";
   import ProgressLine from "../ui/ProgressLine.svelte";
   import Setting from "../ui/Setting.svelte";
+  import GameName from "../ui/GameName.svelte";
   import Thumb from "../ui/Thumb.svelte";
-  import {
-    BadgeTone,
-    ButtonSize,
-    ButtonType,
-    ButtonVariant,
-    IconName,
-    NoticeTone,
-    ThumbShape,
-    ThumbSize,
-  } from "../ui/ui.constants";
+  import { BadgeTone } from "../../lib/tones.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
+  import { NoticeTone } from "../ui/ui.constants";
+  import { ThumbShape, ThumbSize } from "../ui/picture.constants";
 
   type AccountInventoryPropsType = { account: AccountSnapshotType };
 
@@ -48,7 +54,7 @@
   let { account }: AccountInventoryPropsType = $props();
 
   const rewards = $derived<RewardType[]>(
-    account.campaigns.flatMap((campaign) => campaign.drops.map((drop) => ({ campaign, drop }))),
+    campaignsOf(account).flatMap((campaign) => campaign.drops.map((drop) => ({ campaign, drop }))),
   );
 
   let claimedHere = $state<string[]>([]);
@@ -59,24 +65,25 @@
     ),
   );
 
-  // ! Twitch takes a claim on a game the account has not linked and gives
-  // nothing: those drops wait for the link.
+  // ! Twitch takes a claim on a game the account has not linked and gives nothing: those drops wait for the link.
   const claimable = $derived(ready.filter(({ campaign }) => campaign.linked !== false));
   const waitingLink = $derived(ready.filter(({ campaign }) => campaign.linked === false));
 
   let open = $state<CampaignType | null>(null);
 
   const inProgress = $derived(
-    account.campaigns
+    campaignsOf(account)
       .filter((campaign) => campaign.in_inventory)
       .map((campaign) => ({
         campaign,
-        drops: campaign.drops.filter((drop) => !drop.claimed && !drop.instance_id),
+        drops: campaign.drops.filter(
+          (drop) => !dropDone(drop) && !drop.badge_owned && !(drop.instance_id && !drop.claimed),
+        ),
       }))
       .filter((group) => group.drops.length > 0),
   );
 
-  const claimed = $derived(rewards.filter(({ drop }) => drop.claimed));
+  const claimed = $derived(rewards.filter(({ drop }) => dropDone(drop) || drop.badge_owned));
 
   const edits = editsOf(untrack(() => account.id));
 
@@ -147,7 +154,7 @@
 
 <PageBody>
   <PageHeader intro={t.inventory_hint()} />
-  {#if !account.settings.enabled && account.campaigns.length === 0}
+  {#if !account.settings.enabled && campaignsOf(account).length === 0}
     <Notice tone={NoticeTone.INFO} text={t.inventory_paused()} />
   {/if}
 
@@ -229,6 +236,7 @@
                   variant={ButtonVariant.OUTLINE}
                   size={ButtonSize.SM}
                   icon={IconName.LINK}
+                  onfollow={() => refreshWhenBack(account.id)}
                 />
               {:else}
                 <LinkBadge linked={false} />
@@ -273,17 +281,21 @@
                     <span class="flex min-w-0 flex-1 flex-col gap-1">
                       <span class="flex min-w-0 items-center gap-2">
                         <span class="truncate text-xs font-semibold">{drop.name}</span>
-                        {#if drop.required_subs > 0}<Badge
+                        {#if drop.repeat}<span class="shrink-0 text-hint text-muted-foreground"
+                            >{periodsText(drop.periods_done, drop.repeat)}</span
+                          >{/if}
+                        {#if subsMissing(drop)}<Badge
                             text={t.reward_sub_only()}
                             tone={BadgeTone.WARNING}
                             dot={false}
                             hint={t.badge_hint_sub_only()}
                           />{/if}
                       </span>
-                      {#if drop.required_subs === 0}
+                      {#if !subsMissing(drop)}
+                        {@const totals = dropTotals(drop)}
                         <ProgressLine
-                          current={drop.current_minutes}
-                          required={drop.required_minutes}
+                          current={totals.current}
+                          required={totals.required}
                           stacked={false}
                         />
                       {/if}
@@ -312,7 +324,15 @@
             {@render reward(item, ThumbSize.MD)}
             <span class="flex min-w-0 flex-col">
               <span class="truncate text-xs font-semibold">{item.drop.name}</span>
-              <span class="truncate text-xs text-muted-foreground">{item.campaign.game.name}</span>
+              <span class="text-xs text-muted-foreground"
+                ><GameName
+                  name={item.campaign.game.name}
+                  url={null}
+                  art={gameArt(item.campaign.game.name, item.campaign.game.box_art_url)}
+                  size={ThumbSize.XS}
+                  inSentence={false}
+                /></span
+              >
             </span>
           </button>
         {/each}

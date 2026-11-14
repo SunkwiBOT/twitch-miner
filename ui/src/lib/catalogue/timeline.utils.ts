@@ -21,13 +21,12 @@ import {
   TICK_CHARACTER_PX,
   TICK_LABEL_PADDING_PX,
   ZOOM_FRAMES,
-} from "../../components/catalogue/timeline.constants";
-import type { TimelineZoom } from "../../components/catalogue/timeline.constants";
+} from "./timeline.constants";
+import type { TimelineZoom } from "./timeline.constants";
 
 export const toWallClock = (ms: number, zone: string): number => ms + zoneOffsetMs(ms, zone);
 
-// ! The second pass takes the offset in force at the instant, not at `wall` read
-// as UTC: a time the clocks skip (daylight saving) gives the end of the jump.
+// ! The second pass takes the offset in force at the instant: a time the clocks skip gives the end of the jump.
 export const fromWallClock = (wall: number, zone: string): number => {
   const time = wall - zoneOffsetMs(wall - zoneOffsetMs(wall, zone), zone);
   const shown = toWallClock(time, zone);

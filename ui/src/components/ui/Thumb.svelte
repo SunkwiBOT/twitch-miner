@@ -1,7 +1,8 @@
 <script lang="ts">
   import { cn } from "$lib/utils";
   import Icon from "./Icon.svelte";
-  import { IconName, THUMB_PIXELS, ThumbShape, type ThumbSize } from "./ui.constants";
+  import { IconName } from "../../lib/icons.constants";
+  import { THUMB_PIXELS, ThumbShape, type ThumbSize } from "./picture.constants";
 
   type ThumbPropsType = {
     src: string | null | undefined;

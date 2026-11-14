@@ -3,18 +3,15 @@
   import { EventKind } from "../lib/bindings/EventKind";
   import type { MinerEventType } from "../lib/bindings/MinerEventType";
   import { eventDetail, redeemedReward } from "../lib/events/detail.utils";
-  import {
-    EVENT_ICONS,
-    EVENT_KIND_LABELS,
-    EVENT_TONES,
-    eventIcon,
-    eventText,
-  } from "../lib/events/events.utils";
+  import { EVENT_ICONS, EVENT_TONES } from "../lib/events/events.constants";
+  import { EVENT_KIND_LABELS } from "../lib/events/labels.utils";
+  import { eventIcon } from "../lib/events/events.utils";
+  import { eventText } from "../lib/events/event-text.utils";
   import { ensureChannels } from "../lib/channels/channels.svelte";
   import { shownEvent, unnamedChannels } from "../lib/events/shown.svelte";
   import { BoxArtSize } from "../lib/format.constants";
   import { boxArt } from "../lib/format.utils";
-  import { app } from "../lib/state/state.svelte";
+  import { app } from "../lib/state/app.svelte";
   import { formatClock, formatShortDateTime } from "../lib/time/time.utils";
   import { cn } from "$lib/utils";
   import Avatar from "./ui/Avatar.svelte";
@@ -23,7 +20,7 @@
   import RewardImage from "./ui/RewardImage.svelte";
   import RichText from "./ui/RichText.svelte";
   import Thumb from "./ui/Thumb.svelte";
-  import { AvatarSize, THUMB_PIXELS, ThumbShape, ThumbSize } from "./ui/ui.constants";
+  import { AvatarSize, THUMB_PIXELS, ThumbShape, ThumbSize } from "./ui/picture.constants";
 
   type ActivityFeedPropsType = {
     events: MinerEventType[];

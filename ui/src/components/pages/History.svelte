@@ -5,7 +5,7 @@
   import HistoryList from "../HistoryList.svelte";
   import PageBody from "../ui/PageBody.svelte";
   import Select from "../ui/Select.svelte";
-  import { MenuAlign } from "../ui/ui.constants";
+  import { MenuAlign } from "../ui/menu.constants";
 
   type HistoryPropsType = { snapshot: SnapshotType };
 

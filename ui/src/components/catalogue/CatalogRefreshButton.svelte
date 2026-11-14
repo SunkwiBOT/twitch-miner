@@ -1,45 +1,27 @@
 <script lang="ts">
   import { mmss } from "../../lib/format.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
-  import { app, refreshCatalog } from "../../lib/state/state.svelte";
-  import { SECOND_MS } from "../../lib/time/time.constants";
+  import { app } from "../../lib/state/app.svelte";
+  import { refreshCatalog } from "../../lib/state/session";
+  import { secondClock } from "../../lib/time/clock.svelte";
   import ActionButton from "../ui/ActionButton.svelte";
-  import { ButtonSize, ButtonType, ButtonVariant, IconName } from "../ui/ui.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   type CatalogRefreshButtonPropsType = { label: string };
 
   let { label }: CatalogRefreshButtonPropsType = $props();
 
   let busy = $state(false);
-  let now = $state(Date.now());
 
   const next = $derived(new Date(app.snapshot?.catalog.next_refresh_at ?? 0).getTime());
-  const wait = $derived(Math.max(0, next - now));
-
-  $effect(() => {
-    const until = next;
-
-    now = Date.now();
-
-    if (until <= now) {
-      return;
-    }
-
-    const timer = setInterval(() => {
-      now = Date.now();
-
-      if (now >= until) {
-        clearInterval(timer);
-      }
-    }, SECOND_MS);
-
-    return () => clearInterval(timer);
-  });
+  const clock = secondClock(() => next);
+  const wait = $derived(Math.max(0, next - clock.now));
 
   const refresh = async (): Promise<void> => {
     busy = true;
     await refreshCatalog();
-    now = Date.now();
+    clock.now = Date.now();
     busy = false;
   };
 </script>

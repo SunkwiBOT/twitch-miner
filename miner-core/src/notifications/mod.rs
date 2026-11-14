@@ -70,12 +70,13 @@ impl Answer {
     }
 }
 
+// ! A wait too long for a `Duration` stays "too long", never a panic.
 pub(crate) fn seconds(text: &str) -> Option<Duration> {
     text.trim()
         .parse::<f64>()
         .ok()
         .filter(|seconds| seconds.is_finite() && *seconds >= 0.0)
-        .map(Duration::from_secs_f64)
+        .map(|seconds| Duration::try_from_secs_f64(seconds).unwrap_or(Duration::MAX))
 }
 
 pub(crate) fn retry_after_header(response: &Response) -> Option<Duration> {
@@ -190,8 +191,10 @@ impl Notifier {
         endpoints: &'static Endpoints,
         agent: &str,
     ) -> Result<Self> {
+        // ! A redirect would carry the message and its Authorization elsewhere: it is reported, not followed.
         let client = reqwest::Client::builder()
             .timeout(TIMEOUT)
+            .redirect(reqwest::redirect::Policy::none())
             .user_agent(agent)
             .build()
             .map_err(|e| Error::Network(e.to_string()))?;
@@ -331,10 +334,6 @@ pub fn sample_in(language: &str) -> MinerEvent {
     MinerEvent { title, ..event }
 }
 
-pub fn sample() -> MinerEvent {
-    sample_in(i18n::FALLBACK)
-}
-
 pub fn localized(mut event: MinerEvent, language: &str) -> MinerEvent {
     event.title = i18n::event_text(language, &event);
 
@@ -403,8 +402,11 @@ pub(crate) fn channel_name(context: &EventContext) -> Option<&str> {
 }
 
 pub(crate) fn redacted(mut event: MinerEvent) -> MinerEvent {
-    event.title = crate::logs::redact(&event.title);
-    event.detail = event.detail.as_deref().map(crate::logs::redact);
+    event.title = crate::logs::redact(&event.title).into_owned();
+    event.detail = event
+        .detail
+        .as_deref()
+        .map(|detail| crate::logs::redact(detail).into_owned());
 
     event
 }

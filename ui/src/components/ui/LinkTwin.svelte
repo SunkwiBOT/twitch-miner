@@ -9,8 +9,7 @@
   let { url, live, children }: LinkTwinPropsType = $props();
 </script>
 
-<!-- ! The name's link beside it is the one people tab to and screen readers read:
-     this one only widens the target, and lights that name up on hover. -->
+<!-- ! The name's own link is the one tabbed to and read: this one only widens the target and lights the name. -->
 <a
   class="inline-flex shrink-0"
   href={url}

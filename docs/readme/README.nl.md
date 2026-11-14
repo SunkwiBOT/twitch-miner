@@ -127,6 +127,8 @@ het werkt.
 - **Streamers importeren.** Plak een lijst (tot 500 namen), of neem de lijst van een ander
   account of de kanalen die het account volgt over. De lijst wordt gecontroleerd, zodat
   alleen kanalen die echt bestaan worden toegevoegd.
+  Live-updates gelden voor 46 streamers per account: de volgende in de lijst krijgen geen
+  raids, momenten of voorspellingen.
 
   <details open><summary>Bekijk het in actie</summary>
   <img src="../media/nl/streamers-import.avif" alt="Streamers importeren: geplakte lijst, ander account, gevolgde kanalen">
@@ -166,6 +168,8 @@ het werkt.
 - **Inventaris en “Alles claimen”.** De pagina Inventaris verdeelt de beloningen over
   “Te claimen”, “Lopend” en “Geclaimd”. Claim ze een voor een of allemaal tegelijk, of zet
   “Drops automatisch claimen” aan.
+  Na “Game-account koppelen” wordt het account opnieuw gelezen zodra je terugkomt in de
+  app, zodat de koppeling meteen te zien is.
 
   <details open><summary>Bekijk het in actie</summary>
   <img src="../media/nl/drops-inventory.avif" alt="De inventaris en de knop “Alles claimen”">
@@ -182,10 +186,20 @@ het werkt.
 - **Badges (bèta).** De pagina Badges toont alle globale chatbadges van Twitch en hoe je
   ze krijgt. Elk account heeft een eigen Badges-pagina: de lopende badges met hun
   voortgang, de badges die het nog kan krijgen en de badges die het al heeft. De miner
-  gaat voor de badges die alleen kijktijd vragen, uit Drops-campagnes en Twitch-quests,
-  en slaat de badges over die het account al heeft. Sleep in “Wat te minen, op volgorde”
-  prioriteitsgames, badges en andere Drops-campagnes in de volgorde die je wilt, of zet
-  er een uit. Deze functie is in bèta.
+  gaat voor de badges uit Drops-campagnes en Twitch-quests, en slaat de badges over die
+  het account al heeft. Een badge die je elke dag moet kijken, wordt elke dag opnieuw
+  gemined tot de laatste (“20 min per dag, 3 dagen”), en een kanaal in een van de
+  categorieën van de campagne telt mee. Een kist geeft “1 willekeurige badge uit N”. Een
+  badge waarvoor een abonnement nodig is, wordt gemined zodra je zelf een abonnement hebt
+  genomen en Twitch het telt. Vóór de start van de campagne wordt niets gemined. Sleep in
+  “Wat te minen, op volgorde” prioriteitsgames, badges en andere Drops-campagnes in de
+  volgorde die je wilt, of zet er een uit. Een Twitch-quest wordt alleen gemined op een
+  kanaal waar Twitch hem in zijn Drops-paneel aanbiedt. Een evolutie (Pichu → Pikachu)
+  wordt gemined zodra het account de badge heeft waaruit ze evolueert: de miner zet die
+  badge vlak ervoor zelf op en zet de oude niet terug; “Badge-evoluties minen”, in de
+  badge-instellingen van het account, zet dit uit. Een klik op een badge opent de details:
+  de volledige voorwaarde, alle categorieën en kanalen, de collectie, de evolutie en de
+  voortgang van elk account. Deze functie is in bèta.
 
   <details open><summary>Bekijk het in actie</summary>
   <img src="../media/nl/badges.avif" alt="De pagina Badges, de badges van een account en dan “Wat te minen, op volgorde” met Badges bovenaan gesleept">
@@ -195,7 +209,7 @@ het werkt.
 
 - **Een journaal van alles, en elk verzoek.** Het Journaal houdt elke gebeurtenis bij:
   drops, verdiende en uitgegeven punten, kisten, weddenschappen, raids, streams die live
-  gaan… Filter het op account, op tabblad (Drops, Punten, Overig) en op type.
+  gaan… Filter het op account, op tabblad (Drops, Badges, Punten, Overig) en op type.
   **Technisch logboek › Verzoeken** toont elk verzoek aan Twitch en aan andere diensten,
   met het resultaat en hoe lang het duurde. Logboek en verzoeken bevatten geen tokens of
   geheimen: “Kopiëren voor een bugrapport” kopieert ze, klaar om te plakken in een
@@ -234,7 +248,8 @@ het werkt.
   “Update” met het versienummer. “Installeren en herstarten” vraagt eerst om bevestiging,
   daarna installeert de app de versie en start ze opnieuw op. Met een app-wachtwoord start
   ze vergrendeld op: voer het opnieuw in om verder te minen. Alleen een door het project
-  ondertekende versie wordt geïnstalleerd. De Docker-versie laat het ook weten, met de
+  ondertekende versie wordt geïnstalleerd. Het draagbare Windows-bestand werkt zichzelf
+  niet bij: de knop opent de downloadpagina. De Docker-versie laat het ook weten, met de
   commando's die je moet uitvoeren.
 
   <details open><summary>Bekijk het in actie</summary>
@@ -246,8 +261,8 @@ het werkt.
 - Net als andere miners: bonuskisten, raids, momenten, communitydoelen, voorspellingen
   (strategieën, moment van inzetten, voorwaarden), kijkreeksen en geabonneerde kanalen
   eerst, aanwezigheid in de chat (uit te zetten), standaardopties voor nieuwe streamers,
-  meldingen via Discord, Telegram en webhook met afbeeldingen, een globale proxy of een
-  proxy per account.
+  meldingen via Discord, Telegram en webhook met afbeeldingen (op de server kies je hun
+  taal onder **Instellingen › Meldingen**), een globale proxy of een proxy per account.
 - 29 talen, donker en licht thema, bureaubladmeldingen, een pictogram in het systeemvak,
   starten met het systeem.
 
@@ -329,16 +344,17 @@ Download het bestand voor je systeem uit de
 | Systeem | Pakket |
 |---|---|
 | **Windows** · x64 | Installatieprogramma (`setup.exe`) of [portable versie](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/TwitchMiner-portable.exe) |
-| **macOS** 10.15 of nieuwer · Intel en Apple Silicon | Schijfkopie (`.dmg`) |
+| **macOS** 13 of nieuwer · Intel en Apple Silicon | Schijfkopie (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) of `.rpm` (Fedora, openSUSE) |
 
-De macOS-build is niet genotariseerd. Klik de eerste keer met de rechtermuisknop op de app
-en kies **Open**.
+De macOS-build is niet genotariseerd. Open de app de eerste keer: macOS blokkeert hem. Ga
+dan naar **Systeeminstellingen › Privacy en beveiliging** en klik op **Open toch**.
 
 Updates zijn ondertekend. De app zoekt bij het starten naar een nieuwe versie, en daarna
 elk uur (hoe vaak stel je in onder **Instellingen › Over**). Hij installeert er nooit zelf
 een: je installeert die met één klik, via de melding die verschijnt of via
-**Instellingen › Over**.
+**Instellingen › Over**. Het draagbare bestand werkt zichzelf nooit bij:
+“Downloadpagina openen” brengt je naar de nieuwste versie.
 
 De gegevens staan in de map met gebruikersgegevens:
 
@@ -384,7 +400,7 @@ wachtwoord in.
 | `MINER_PASSWORD_FILE` | geen | Leest `MINER_PASSWORD` uit een bestand, zoals een Docker-secret. Het een of het ander, niet allebei. |
 | `MINER_PUBLIC_URL` | geen | Alleen achter een HTTPS-reverse-proxy (Caddy, nginx, Traefik, Cloudflare Tunnel…): het `https://`-adres van het dashboard, zonder pad, zoals `https://miner.example.com`. De proxy moet `X-Forwarded-Proto`, `X-Forwarded-For` en websockets doorgeven, wat gangbare proxy's standaard doen, en de poort van de container mag niet direct bereikbaar zijn. Het dashboard weigert dan alles wat niet via de proxy over HTTPS binnenkomt, en blokkeert een adres 30 seconden lang na 5 verkeerde wachtwoorden. De proxy moet op dezelfde machine of in het lokale netwerk ervan draaien: een verbinding vanaf een openbaar adres wordt geweigerd. |
 | `MINER_TRUSTED_HOPS` | `1` | Alleen met `MINER_PUBLIC_URL`: hoeveel proxy's een vermelding toevoegen aan `X-Forwarded-For`, van 1 tot 10. `2` met twee proxy's achter elkaar, zoals Cloudflare vóór Traefik. |
-| `MINER_PROXY_NETWORKS` | geen | Alleen met `MINER_PUBLIC_URL`: andere netwerken van waaruit de proxy mag verbinden, naast deze machine en het privé lokale netwerk ervan, gescheiden door komma's: één adres of een netwerk zoals `2001:db8:1::/64`, voor een lokaal netwerk met globale IPv6-adressen. |
+| `MINER_PROXY_NETWORKS` | geen | Alleen met `MINER_PUBLIC_URL`: de netwerken waaruit de proxy verbindt, gescheiden door komma's: één adres of een netwerk zoals `192.168.1.0/24` of `2001:db8:1::/64`. Zodra deze is ingesteld, wordt de proxy alleen nog vanaf het loopback-adres en deze netwerken geaccepteerd, niet meer vanuit het hele privé lokale netwerk. |
 | `MINER_VAULT_PASSPHRASE` | geen | Alleen voor een gegevensmap die is gekopieerd uit de desktop-app met een ingesteld app-wachtwoord: ontgrendelt die bij het starten. Een server die vanaf nul is opgezet, heeft hem nooit nodig. |
 | `MINER_VAULT_PASSPHRASE_FILE` | geen | Leest `MINER_VAULT_PASSPHRASE` uit een bestand. Het een of het ander, niet allebei. |
 | `DATA_DIR` | `/data` in de image, anders `data` in de werkmap | Database, sleutelbestand en logboek. |
@@ -394,6 +410,14 @@ wachtwoord in.
 
 De server leest en controleert de variabelen één keer, bij het starten. Een ongeldige
 waarde stopt de server met een melding, in plaats van stil terug te vallen op iets anders.
+
+Zet achter een reverse proxy `MINER_PUBLIC_URL`: zonder die variabele schrijft het eerste
+verzoek dat via een proxy binnenkomt een waarschuwing in het logboek, want aanmeldpogingen
+worden dan op het adres van de proxy geteld, en de foute wachtwoorden van één bezoeker
+zouden iedereen buitensluiten. De live verbinding stuurt elke 30 seconden een ping, zodat
+een proxy haar niet sluit als er niets gebeurt. Als Twitch of het netwerk faalt, antwoordt
+de server `424`, nooit `502` of `504`: achter Cloudflare zie je de echte fout in plaats van
+de pagina van Cloudflare.
 
 ## <a name="how-it-works"></a>Hoe het werkt
 
@@ -433,14 +457,15 @@ de campagne en het andere je streamers. De instelling “Eén kanaal”, in
 
 **Een campagne wordt niet gemined, of een drop maakt geen voortgang.**\
 Open de pagina **Drops** van het account. Onder “Minevolgorde” staat bij elke wachtende
-campagne waarom: “Geen kanaal live”, “Wacht (één campagne tegelijk)” of “Nog geen drop
-beschikbaar”. Een campagne die niet in die lijst staat, is buiten beschouwing gelaten:
+campagne waarom: “Geen kanaal live” of “Wacht (één campagne tegelijk)”. Een campagne die
+niet in die lijst staat, is buiten beschouwing gelaten: door “Wat te minen, op volgorde”,
 door de instelling “Welke campagnes”, door een regel op het tabblad **Uitsluitingen**, of
-omdat ze niet op tijd af kan. Een beloning waarvoor een abonnement nodig is, wordt nooit
-gemined, en een drop die op een andere volgt, wacht tot de eerste klaar is. In de modus
-**Alleen punten** kiest de miner geen campagne. “Eerst minen”, in de details van een
-campagne, zet haar bovenaan; een genegeerde campagne komt terug met “Weer minen”, op het
-tabblad **Uitsluitingen**.
+omdat ze niet op tijd af kan. Een beloning waarvoor een abonnement nodig is, wacht tot je
+zelf een abonnement hebt genomen, een badge die je elke dag moet kijken, wacht op de
+volgende dag, vóór de start van de campagne wordt niets gemined, en een drop die op een
+andere volgt, wacht tot de eerste klaar is. In de modus **Alleen punten** kiest de miner
+geen campagne. “Eerst minen”, in de details van een campagne, zet haar bovenaan; een
+genegeerde campagne komt terug met “Weer minen”, op het tabblad **Uitsluitingen**.
 
 **Moet ik het game-account koppelen?**\
 Om te claimen wel: sinds oktober 2026 laat Twitch je een drop alleen claimen als het
@@ -469,7 +494,9 @@ er geen app-wachtwoord is ingesteld) en het logboek in.
 De desktop-app zoekt bij het starten naar een nieuwe versie, en daarna elk uur (aan te
 passen in **Instellingen › Over**). Klik op de badge “Update” en daarna op
 “Installeren en herstarten”. Bij Docker meldt het dashboard het: voer
-`docker compose pull` uit en daarna `docker compose up -d`.
+`docker compose pull` uit en daarna `docker compose up -d`. Het draagbare Windows-bestand
+werkt zichzelf niet bij: “Downloadpagina openen” opent de nieuwste versie, waar je het
+nieuwe downloadt.
 
 **Ik ben het app-wachtwoord vergeten.**\
 Het kan niet worden hersteld: juist dit wachtwoord versleutelt je Twitch-sessies. Sluit de
@@ -482,21 +509,23 @@ je daarna `docker compose up -d` uit.
 **Hoeveel punten per uur?**\
 Dat hangt af van Twitch en van elk kanaal. De miner verdient wat Twitch een kijker geeft:
 punten voor kijktijd, bonuskisten (ongeveer één per 15 minuten) en de kijkreeksbonus. Een
-abonnement vermenigvuldigt de punten, van ×1,2 tot ×2, afhankelijk van het niveau. De
-pagina Home toont de verdiende punten, en het Journaal elke opbrengst.
+abonnement vermenigvuldigt de punten, van ×1,2 tot ×2, afhankelijk van het niveau, en met
+“Geabonneerde kanalen eerst”, standaard aan, komen die kanalen vóór de rest van je lijst.
+De pagina Home toont de verdiende punten, en het Journaal elke opbrengst.
 
 **Zijn weddenschappen riskant?**\
 Ja, je kunt punten verliezen. Voorspellingen staan standaard uit, per streamer. Je stelt
 de strategie in, het moment van inzetten, de inzet (standaard 5% van het saldo, hoogstens
 50.000 punten), een minimumsaldo en, als je wilt, een voorwaarde, zoals een quotering van
 minstens 1,5. Houd de inzet klein.
+Een inzet onder 10 punten wordt nooit geplaatst.
 
 **Een streamer wordt niet bekeken.**\
 Alleen streamers die aanstaan en live zijn, worden bekeken, en alleen op een vrij kanaal:
 in de modus **Drops en punten** dient een van de twee de huidige campagne; in de modus
 **Alleen Drops** wordt geen enkele streamer bekeken; een gepauzeerd account bekijkt niets.
 De plaatsen worden in deze volgorde verdeeld, getoond als badge op elk bekeken kanaal:
-“Reeksbonus”, “Reeks in gevaar”, “Geabonneerd”, daarna “Lijstvolgorde”. Zet de streamer
+“Reeks in gevaar”, “Reeksbonus”, “Geabonneerd”, daarna “Lijstvolgorde”. Zet de streamer
 hoger in de lijst, of zet “Kijkreeksen eerst” en “Geabonneerde kanalen eerst” uit.
 
 ## <a name="related-projects"></a>Gerelateerde projecten
@@ -516,6 +545,8 @@ Andere projecten van dezelfde auteur:
 - Tokens worden verzegeld met AES-256-GCM. De sleutel is ofwel een willekeurige `master.key`
   naast de database (standaard, niets te doen), ofwel afgeleid van het app-wachtwoord met
   Argon2id.
+- De gegevensmap en de logmap zijn privé (`0700`): alleen de gebruiker die de miner
+  draait, kan ze openen.
 - Het HTTP-dashboard controleert het wachtwoord in constante tijd en gebruikt cookies met
   HttpOnly en SameSite=Strict (`Secure`, met het voorvoegsel `__Host-`, achter HTTPS). De
   server bewaart van elke sessie alleen een SHA-256-hash. Hij beëindigt een sessie na
@@ -525,6 +556,9 @@ Andere projecten van dezelfde auteur:
   dat adres 30 seconden wachten. De server antwoordt dan `429` met `Retry-After`, zonder
   naar het wachtwoord te kijken. Op elk verkeerd wachtwoord komt bovendien pas na een halve
   seconde antwoord.
+  Na 30 foute wachtwoorden in een minuut vanaf hetzelfde verbindingsadres, een gedeelde
+  proxy inbegrepen, krijgt dat adres nog maar één poging per 2 seconden: raden gaat
+  trager en niemand wordt buitengesloten.
 - Zet het dashboard buiten je netwerk achter een HTTPS-reverse-proxy met
   `MINER_PUBLIC_URL` (zie [Docker](#docker)).
 - De miner praat alleen met `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`,

@@ -9,4 +9,5 @@ export type BadgeSettingsType = {
   exclude_games: Array<string>;
   exclude_names: Array<string>;
   selection_only: boolean;
+  evolutions: boolean;
 };

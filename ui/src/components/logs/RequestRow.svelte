@@ -21,7 +21,8 @@
   import { formatClock, formatClockWithSeconds } from "../../lib/time/time.utils";
   import Avatar from "../ui/Avatar.svelte";
   import Badge from "../ui/Badge.svelte";
-  import { AvatarSize, BadgeTone } from "../ui/ui.constants";
+  import { AvatarSize } from "../ui/picture.constants";
+  import { BadgeTone } from "../../lib/tones.constants";
 
   type RequestRowPropsType = {
     entry: RequestEntryType;

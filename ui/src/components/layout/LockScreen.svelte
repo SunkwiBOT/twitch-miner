@@ -5,11 +5,14 @@
   import { describeError, toApiError } from "../../lib/errors/errors.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { ToastKind } from "../../lib/state/state.constants";
-  import { app, connect, refresh, sessionEnded, toast } from "../../lib/state/state.svelte";
+  import { app } from "../../lib/state/app.svelte";
+  import { connect, refresh, sessionEnded } from "../../lib/state/session";
+  import { toast } from "../../lib/state/toasts";
   import ActionButton from "../ui/ActionButton.svelte";
   import FormField from "../ui/FormField.svelte";
   import SecretInput from "../ui/SecretInput.svelte";
-  import { ButtonSize, ButtonType, ButtonVariant, IconName } from "../ui/ui.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
   import { LockKind } from "./layout.constants";
 
   type LockScreenPropsType = { kind: LockKind };

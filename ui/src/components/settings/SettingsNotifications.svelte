@@ -3,18 +3,23 @@
   import { testNotifications } from "../../lib/api/client";
   import type { GlobalSettingsType } from "../../lib/bindings/GlobalSettingsType";
   import { describeCode, describeError } from "../../lib/errors/errors.utils";
-  import { t } from "../../lib/i18n/i18n.svelte";
+  import { languageOptions, t } from "../../lib/i18n/i18n.svelte";
   import { ToastKind } from "../../lib/state/state.constants";
-  import { toast } from "../../lib/state/state.svelte";
+  import { toast } from "../../lib/state/toasts";
   import { escapeEmphasis, strong } from "../../lib/text.utils";
   import { Input } from "$lib/components/ui/input";
+  import { cn } from "$lib/utils";
   import ActionButton from "../ui/ActionButton.svelte";
   import FormField from "../ui/FormField.svelte";
   import Icon from "../ui/Icon.svelte";
   import Panel from "../ui/Panel.svelte";
   import SecretInput from "../ui/SecretInput.svelte";
+  import Select from "../ui/Select.svelte";
   import Setting from "../ui/Setting.svelte";
-  import { ButtonSize, ButtonType, ButtonVariant, IconName } from "../ui/ui.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
+  import { MenuAlign } from "../ui/menu.constants";
+  import { FIELD_GRID_CLASSES } from "./settings.constants";
   import { NOTIFY_KEYS, NOTIFY_LABELS, TARGET_NAMES } from "./settings.utils";
 
   type SettingsNotificationsPropsType = {
@@ -23,6 +28,8 @@
   };
 
   let { draft = $bindable(), dirty }: SettingsNotificationsPropsType = $props();
+
+  const languages = $derived(languageOptions());
 
   let testingTargets = $state(false);
 
@@ -89,105 +96,125 @@
       onclick={checkTargets}
     />
   {/snippet}
-  <div class="flex flex-col divide-y">
-    <div class="flex flex-col">
-      <Setting
-        title={t.settings_discord()}
-        lead={settings_discordMark}
-        checked={draft.notifications.discord.enabled}
-        disabled={false}
-        onchange={(enabled) => (draft.notifications.discord.enabled = enabled)}
-      />
-      {#if draft.notifications.discord.enabled}
-        <div class="pb-3">
-          <FormField id="n-discord" label={t.settings_discord_url()}>
-            <SecretInput
-              id="n-discord"
-              class="font-mono"
-              autocomplete="off"
-              bind:value={draft.notifications.discord.webhook_url}
-              placeholder="https://discord.com/api/webhooks/…"
-            />
-          </FormField>
+  <div class="grid gap-x-8 gap-y-5 @3xl:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
+    <section class="flex min-w-0 flex-col">
+      <h3 class="pb-2 text-sm font-semibold">{t.settings_notifications_targets()}</h3>
+      <div class="flex flex-col *:border-t">
+        <div class="flex flex-col">
+          <Setting
+            title={t.settings_discord()}
+            lead={settings_discordMark}
+            checked={draft.notifications.discord.enabled}
+            disabled={false}
+            onchange={(enabled) => (draft.notifications.discord.enabled = enabled)}
+          />
+          {#if draft.notifications.discord.enabled}
+            <div class="pb-3">
+              <FormField id="n-discord" label={t.settings_discord_url()}>
+                <SecretInput
+                  id="n-discord"
+                  class="font-mono"
+                  autocomplete="off"
+                  bind:value={draft.notifications.discord.webhook_url}
+                  placeholder="https://discord.com/api/webhooks/…"
+                />
+              </FormField>
+            </div>
+          {/if}
         </div>
-      {/if}
-    </div>
-    <div class="flex flex-col">
-      <Setting
-        title={t.settings_telegram()}
-        lead={settings_telegramMark}
-        checked={draft.notifications.telegram.enabled}
-        disabled={false}
-        onchange={(enabled) => (draft.notifications.telegram.enabled = enabled)}
-      />
-      {#if draft.notifications.telegram.enabled}
-        <div class="grid grid-cols-[repeat(auto-fit,minmax(min(200px,100%),1fr))] gap-3 pb-3">
-          <FormField id="n-tg-token" label={t.settings_telegram_token()}>
-            <SecretInput
-              id="n-tg-token"
-              class="font-mono"
-              autocomplete="off"
-              bind:value={draft.notifications.telegram.bot_token}
-            />
-          </FormField>
-          <FormField id="n-tg-chat" label={t.settings_telegram_chat()}>
-            <Input
-              id="n-tg-chat"
-              class="font-mono"
-              bind:value={draft.notifications.telegram.chat_id}
-            />
-          </FormField>
+        <div class="flex flex-col">
+          <Setting
+            title={t.settings_telegram()}
+            lead={settings_telegramMark}
+            checked={draft.notifications.telegram.enabled}
+            disabled={false}
+            onchange={(enabled) => (draft.notifications.telegram.enabled = enabled)}
+          />
+          {#if draft.notifications.telegram.enabled}
+            <div class={cn(FIELD_GRID_CLASSES, "pb-3")}>
+              <FormField id="n-tg-token" label={t.settings_telegram_token()}>
+                <SecretInput
+                  id="n-tg-token"
+                  class="font-mono"
+                  autocomplete="off"
+                  bind:value={draft.notifications.telegram.bot_token}
+                />
+              </FormField>
+              <FormField id="n-tg-chat" label={t.settings_telegram_chat()}>
+                <Input
+                  id="n-tg-chat"
+                  class="font-mono"
+                  bind:value={draft.notifications.telegram.chat_id}
+                />
+              </FormField>
+            </div>
+          {/if}
         </div>
-      {/if}
-    </div>
-    <div class="flex flex-col">
-      <Setting
-        title={t.settings_webhook()}
-        lead={settings_webhookMark}
-        checked={draft.notifications.webhook.enabled}
-        disabled={false}
-        onchange={(enabled) => (draft.notifications.webhook.enabled = enabled)}
-      />
-      {#if draft.notifications.webhook.enabled}
-        <div class="grid grid-cols-[repeat(auto-fit,minmax(min(200px,100%),1fr))] gap-3 pb-3">
-          <FormField id="n-wh" label={t.settings_webhook_url()}>
-            <SecretInput
-              id="n-wh"
-              class="font-mono"
-              autocomplete="off"
-              bind:value={draft.notifications.webhook.url}
-            />
-          </FormField>
-          <FormField id="n-wh-auth" label={t.settings_webhook_auth()}>
-            <SecretInput
-              id="n-wh-auth"
-              class="font-mono"
-              autocomplete="off"
-              bind:value={draft.notifications.webhook.authorization}
-            />
-          </FormField>
+        <div class="flex flex-col">
+          <Setting
+            title={t.settings_webhook()}
+            lead={settings_webhookMark}
+            checked={draft.notifications.webhook.enabled}
+            disabled={false}
+            onchange={(enabled) => (draft.notifications.webhook.enabled = enabled)}
+          />
+          {#if draft.notifications.webhook.enabled}
+            <div class={cn(FIELD_GRID_CLASSES, "pb-3")}>
+              <FormField id="n-wh" label={t.settings_webhook_url()}>
+                <SecretInput
+                  id="n-wh"
+                  class="font-mono"
+                  autocomplete="off"
+                  bind:value={draft.notifications.webhook.url}
+                />
+              </FormField>
+              <FormField id="n-wh-auth" label={t.settings_webhook_auth()}>
+                <SecretInput
+                  id="n-wh-auth"
+                  class="font-mono"
+                  autocomplete="off"
+                  bind:value={draft.notifications.webhook.authorization}
+                />
+              </FormField>
+            </div>
+          {/if}
         </div>
-      {/if}
-    </div>
-    {#if isTauri()}
-      <Setting
-        title={t.settings_system_notifications()}
-        lead={settings_system_notificationsMark}
-        checked={draft.notifications.system}
-        disabled={false}
-        onchange={(enabled) => (draft.notifications.system = enabled)}
-      />
-    {/if}
-  </div>
-  <h3 class="pt-1 text-sm font-semibold">{t.settings_notifications_events()}</h3>
-  <div class="grid grid-cols-[repeat(auto-fit,minmax(min(280px,100%),1fr))] gap-x-8 *:border-t">
-    {#each NOTIFY_KEYS as key (key)}
-      <Setting
-        title={NOTIFY_LABELS[key]()}
-        checked={draft.notifications.events[key]}
-        disabled={false}
-        onchange={(enabled) => (draft.notifications.events[key] = enabled)}
-      />
-    {/each}
+        {#if isTauri()}
+          <Setting
+            title={t.settings_system_notifications()}
+            lead={settings_system_notificationsMark}
+            checked={draft.notifications.system}
+            disabled={false}
+            onchange={(enabled) => (draft.notifications.system = enabled)}
+          />
+        {:else}
+          <div class="pt-3">
+            <FormField id="n-language" label={t.settings_notifications_language()}>
+              <Select
+                id="n-language"
+                value={draft.notifications.language}
+                options={languages}
+                label={t.settings_notifications_language()}
+                align={MenuAlign.LEFT}
+                onchange={(language) => (draft.notifications.language = language)}
+              />
+            </FormField>
+          </div>
+        {/if}
+      </div>
+    </section>
+    <section class="flex min-w-0 flex-col">
+      <h3 class="pb-2 text-sm font-semibold">{t.settings_notifications_events()}</h3>
+      <div class="grid grid-cols-[repeat(auto-fit,minmax(min(220px,100%),1fr))] gap-x-8 *:border-t">
+        {#each NOTIFY_KEYS as key (key)}
+          <Setting
+            title={NOTIFY_LABELS[key]()}
+            checked={draft.notifications.events[key]}
+            disabled={false}
+            onchange={(enabled) => (draft.notifications.events[key] = enabled)}
+          />
+        {/each}
+      </div>
+    </section>
   </div>
 </Panel>

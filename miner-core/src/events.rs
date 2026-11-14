@@ -273,6 +273,8 @@ pub struct EventContext {
     pub refusals: Option<Vec<String>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub failures: Option<Vec<ErrorCode>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub badge: Option<String>,
 }
 
 impl EventContext {

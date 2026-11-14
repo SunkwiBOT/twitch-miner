@@ -3,7 +3,7 @@
   import type { TimelineRangeType, TimelineTickType } from "../../lib/catalogue/timeline.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { formatClock, formatDayMonth, formatWeekdayDay } from "../../lib/time/time.utils";
-  import { LABEL_ROOM_PX, TimelineZoom } from "./timeline.constants";
+  import { LABEL_ROOM_PX, TimelineZoom } from "../../lib/catalogue/timeline.constants";
 
   type TimelineAxisPropsType = {
     ticks: TimelineTickType[];

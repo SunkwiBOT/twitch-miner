@@ -6,7 +6,8 @@
   import { ticker } from "../../lib/state/ticker.svelte";
   import { NEW_MS, URGENT_MS } from "./catalogue.constants";
   import Badge from "../ui/Badge.svelte";
-  import { BadgeTone, IconName } from "../ui/ui.constants";
+  import { BadgeTone } from "../../lib/tones.constants";
+  import { IconName } from "../../lib/icons.constants";
   import LinkBadge from "./LinkBadge.svelte";
   import TimeLeftTag from "./TimeLeftTag.svelte";
 

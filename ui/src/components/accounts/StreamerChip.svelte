@@ -6,7 +6,8 @@
   import { cn } from "$lib/utils";
   import ChannelAvatar from "../ui/ChannelAvatar.svelte";
   import ChipRemoveButton from "../ui/ChipRemoveButton.svelte";
-  import { AvatarSize, BADGE_VARIANTS, BadgeVariant } from "../ui/ui.constants";
+  import { AvatarSize } from "../ui/picture.constants";
+  import { BADGE_VARIANTS, BadgeVariant } from "../ui/badge.constants";
 
   type StreamerChipPropsType = {
     login: string;

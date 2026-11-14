@@ -3,7 +3,8 @@ import { Mode } from "../bindings/Mode";
 import { PointsReason } from "../bindings/PointsReason";
 import { QueueBlock } from "../bindings/QueueBlock";
 import { QueueReason } from "../bindings/QueueReason";
-import { BadgeTone, IconName } from "../../components/ui/ui.constants";
+import { BadgeTone } from "../tones.constants";
+import { IconName } from "../icons.constants";
 import { t } from "../i18n/i18n.svelte";
 import { PROXY_CREDENTIALS_MASK } from "./accounts.constants";
 
@@ -107,17 +108,14 @@ export const QUEUE_REASON_HINTS: Record<QueueReason, () => string> = {
 export const QUEUE_BLOCK_LABELS: Record<QueueBlock, () => string> = {
   [QueueBlock.NO_LIVE_CHANNEL]: () => t.dashboard_queue_blocked_no_live_channel(),
   [QueueBlock.ONE_CAMPAIGN_AT_A_TIME]: () => t.dashboard_queue_blocked_one_campaign_at_a_time(),
-  [QueueBlock.NO_DROP_AVAILABLE]: () => t.dashboard_queue_blocked_no_drop_available(),
 };
 
 export const QUEUE_BLOCK_HINTS: Record<QueueBlock, () => string> = {
   [QueueBlock.NO_LIVE_CHANNEL]: () => t.badge_hint_blocked_no_live(),
   [QueueBlock.ONE_CAMPAIGN_AT_A_TIME]: () => t.badge_hint_blocked_one_at_a_time(),
-  [QueueBlock.NO_DROP_AVAILABLE]: () => t.badge_hint_blocked_no_drop(),
 };
 
-// ! Shown as the hint of an account's proxy, the default proxy keeps its user and
-// password masked: a field's hint is never hidden like its text.
+// ! A field's hint is never hidden like its text: the default proxy shown there keeps its credentials masked.
 export const maskProxyCredentials = (proxy: string): string =>
   proxy.replace(
     /^([a-z][a-z0-9+.-]*:\/\/)?([^/]*)@/i,

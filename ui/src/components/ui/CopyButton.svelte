@@ -5,22 +5,21 @@
   import { describeError } from "../../lib/errors/errors.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { ToastKind } from "../../lib/state/state.constants";
-  import { toast } from "../../lib/state/state.svelte";
+  import { toast } from "../../lib/state/toasts";
   import Icon from "./Icon.svelte";
   import Spinner from "./Spinner.svelte";
   import Tip from "./Tip.svelte";
   import {
     BUTTON_SIZES,
-    BUTTON_VARIANT_CLASSES,
     BUTTON_VARIANTS,
+    BUTTON_VARIANT_CLASSES,
     ButtonSize,
     ButtonType,
     ButtonVariant,
-    COPIED_FEEDBACK_MS,
-    CopyLayout,
     ICON_BUTTON_SIZES,
-    IconName,
-  } from "./ui.constants";
+  } from "./button.constants";
+  import { COPIED_FEEDBACK_MS, CopyLayout } from "./ui.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   type CopyButtonPropsType = {
     text: () => Promise<string> | string;
@@ -42,7 +41,7 @@
     busy = true;
 
     try {
-      if (await copyText(await text())) {
+      if (await copyText(text())) {
         copied = true;
         setTimeout(() => (copied = false), COPIED_FEEDBACK_MS);
       } else {

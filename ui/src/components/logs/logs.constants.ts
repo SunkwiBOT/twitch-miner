@@ -27,6 +27,15 @@ export const LOG_LEVEL_CLASSES: Record<LogLevel, string> = {
   [LogLevel.TRACE]: "text-muted-foreground",
 };
 
+// ! The level column is hidden on a phone: the message itself carries the colour of a warning or an error there.
+export const LOG_LEVEL_PHONE_CLASSES: Record<LogLevel, string> = {
+  [LogLevel.ERROR]: "max-md:text-destructive",
+  [LogLevel.WARN]: "max-md:text-warning-foreground",
+  [LogLevel.INFO]: "",
+  [LogLevel.DEBUG]: "",
+  [LogLevel.TRACE]: "",
+};
+
 export const LOG_LIST_CLASSES =
   "grid grid-cols-[max-content_minmax(0,1fr)] gap-x-3 font-mono text-xs leading-normal md:grid-cols-[max-content_max-content_7rem_minmax(0,1fr)]";
 export const LOG_LINE_CLASSES =

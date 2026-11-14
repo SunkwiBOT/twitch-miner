@@ -4,13 +4,16 @@
   import type { AccountSnapshotType } from "../../lib/bindings/AccountSnapshotType";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { personMarker, strong } from "../../lib/text.utils";
-  import { changed } from "../../lib/state/bulk.svelte";
-  import { app, updateAccountSettings } from "../../lib/state/state.svelte";
+  import { changedWhenSaved } from "../../lib/state/bulk.svelte";
+  import { updateAccountSettings } from "../../lib/state/account-settings.svelte";
+  import { app } from "../../lib/state/app.svelte";
   import TextButton from "../ui/TextButton.svelte";
   import Dialog from "../ui/Dialog.svelte";
   import FormField from "../ui/FormField.svelte";
   import Select from "../ui/Select.svelte";
-  import { ButtonSize, ButtonType, ButtonVariant, IconName, MenuAlign } from "../ui/ui.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
+  import { MenuAlign } from "../ui/menu.constants";
 
   type CopyFromDialogPropsType = {
     open: boolean;
@@ -51,13 +54,11 @@
       }
     };
 
-    void updateAccountSettings(account.id, take);
-
     const text = drops
       ? t.change_copied_drops({ source: strong(source.name) })
       : t.change_copied_points({ source: strong(source.name) });
 
-    changed(account.id, text, take, source);
+    void changedWhenSaved(updateAccountSettings(account.id, take), account.id, text, take, source);
     onclose();
   };
 </script>

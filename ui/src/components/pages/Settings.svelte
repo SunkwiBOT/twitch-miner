@@ -1,17 +1,20 @@
 <script lang="ts">
-  import { PanelWidth } from "../ui/ui.constants";
-  import PanelColumns from "../ui/PanelColumns.svelte";
   import { untrack } from "svelte";
 
   import { fetchAutostart, setAutostart } from "../../lib/api/client";
   import { isTauri } from "../../lib/api/tauri";
   import type { GlobalSettingsType } from "../../lib/bindings/GlobalSettingsType";
   import type { SnapshotType } from "../../lib/bindings/SnapshotType";
+  import { sameValue } from "../../lib/compare.utils";
   import { describeError } from "../../lib/errors/errors.utils";
+  import { t } from "../../lib/i18n/i18n.svelte";
   import { ToastKind } from "../../lib/state/state.constants";
-  import { saveGlobalSettings, toast } from "../../lib/state/state.svelte";
+  import { saveGlobalSettings } from "../../lib/state/preferences.svelte";
+  import { toast } from "../../lib/state/toasts";
   import SettingsAbout from "../settings/SettingsAbout.svelte";
+  import SettingsCatalogue from "../settings/SettingsCatalogue.svelte";
   import SettingsDesktop from "../settings/SettingsDesktop.svelte";
+  import SettingsFeedback from "../settings/SettingsFeedback.svelte";
   import SettingsGeneral from "../settings/SettingsGeneral.svelte";
   import SettingsNotifications from "../settings/SettingsNotifications.svelte";
   import SettingsProxy from "../settings/SettingsProxy.svelte";
@@ -19,18 +22,18 @@
   import SettingsTime from "../settings/SettingsTime.svelte";
   import UnsavedBar from "../settings/UnsavedBar.svelte";
   import PageBody from "../ui/PageBody.svelte";
+  import PanelGrid, { type PanelGridCellType } from "../ui/PanelGrid.svelte";
 
   type SettingsPropsType = { snapshot: SnapshotType };
 
   let { snapshot }: SettingsPropsType = $props();
 
   const current = (): GlobalSettingsType => $state.snapshot(snapshot.settings);
-  const same = (a: unknown, b: unknown): boolean => JSON.stringify(a) === JSON.stringify(b);
 
   let base = $state<GlobalSettingsType>(untrack(current));
   let draft = $state<GlobalSettingsType>(untrack(current));
 
-  const edited = $derived(!same(draft, base));
+  const edited = $derived(!sameValue(draft, base));
 
   $effect(() => {
     const next = current();
@@ -64,13 +67,15 @@
   let saving = $state(false);
 
   const save = async (): Promise<void> => {
+    const globalEdited = edited;
+
     saving = true;
 
-    if (edited) {
+    if (globalEdited) {
       const before = new Map(Object.entries(base));
       const changes = Object.fromEntries(
         Object.entries($state.snapshot(draft)).filter(
-          ([key, value]) => !same(value, before.get(key)),
+          ([key, value]) => !sameValue(value, before.get(key)),
         ),
       );
       const proxy = draft.default_proxy.trim();
@@ -85,6 +90,10 @@
       try {
         await setAutostart(autostartDraft);
         autostart = autostartDraft;
+
+        if (!globalEdited) {
+          toast(ToastKind.SUCCESS, t.common_saved());
+        }
       } catch (e: any) {
         toast(ToastKind.ERROR, describeError(e));
       }
@@ -98,26 +107,52 @@
     draft = current();
     autostartDraft = autostart ?? false;
   };
+
+  // ! Panels of similar height share a row; the desktop has one more panel, so its order differs to keep rows full.
+  const cells: PanelGridCellType[] = isTauri()
+    ? [
+        { key: "general", wide: false, panel: general },
+        { key: "time", wide: false, panel: time },
+        { key: "security", wide: false, panel: security },
+        { key: "desktop", wide: false, panel: desktop },
+        { key: "proxy", wide: false, panel: proxy },
+        { key: "catalogue", wide: false, panel: catalogue },
+        { key: "notifications", wide: true, panel: notifications },
+        { key: "about", wide: false, panel: about },
+        { key: "feedback", wide: false, panel: feedback },
+      ]
+    : [
+        { key: "general", wide: false, panel: general },
+        { key: "time", wide: false, panel: time },
+        { key: "security", wide: false, panel: security },
+        { key: "about", wide: false, panel: about },
+        { key: "proxy", wide: false, panel: proxy },
+        { key: "catalogue", wide: false, panel: catalogue },
+        { key: "notifications", wide: true, panel: notifications },
+        { key: "feedback", wide: true, panel: feedback },
+      ];
 </script>
 
+{#snippet general()}<SettingsGeneral bind:draft />{/snippet}
+
+{#snippet time()}<SettingsTime bind:draft />{/snippet}
+
+{#snippet security()}<SettingsSecurity {snapshot} bind:draft />{/snippet}
+
+{#snippet desktop()}<SettingsDesktop bind:draft bind:autostart={autostartDraft} />{/snippet}
+
+{#snippet proxy()}<SettingsProxy bind:draft />{/snippet}
+
+{#snippet catalogue()}<SettingsCatalogue />{/snippet}
+
+{#snippet notifications()}<SettingsNotifications bind:draft dirty={edited} />{/snippet}
+
+{#snippet about()}<SettingsAbout {snapshot} bind:draft />{/snippet}
+
+{#snippet feedback()}<SettingsFeedback />{/snippet}
+
 <PageBody>
-  <PanelColumns width={PanelWidth.MD}>
-    <SettingsGeneral bind:draft />
-    <SettingsSecurity {snapshot} bind:draft />
-  </PanelColumns>
-
-  <SettingsTime bind:draft />
-
-  <PanelColumns width={PanelWidth.MD}>
-    <SettingsProxy bind:draft />
-    {#if isTauri()}
-      <SettingsDesktop bind:draft bind:autostart={autostartDraft} />
-    {/if}
-  </PanelColumns>
-
-  <SettingsNotifications bind:draft dirty={edited} />
-
-  <SettingsAbout {snapshot} bind:draft />
+  <PanelGrid {cells} />
 
   {#if dirty}
     <UnsavedBar {saving} oncancel={reset} onsave={save} />

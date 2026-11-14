@@ -1,7 +1,11 @@
 <script lang="ts">
   import { QUEUE_BLOCK_HINTS, QUEUE_BLOCK_LABELS } from "../../../lib/accounts/accounts.utils";
   import { miningOrder } from "../../../lib/accounts/changes.utils";
-  import { reorderWithin, setBadgesIgnored, setSelected } from "../../../lib/accounts/drops.utils";
+  import {
+    reorderWithin,
+    setBadgesIgnored,
+    setSelected,
+  } from "../../../lib/accounts/drops-edits.utils";
   import {
     badgeRows,
     type AccountBadgeType,
@@ -11,7 +15,6 @@
   import type { AccountSnapshotType } from "../../../lib/bindings/AccountSnapshotType";
   import type { CampaignType } from "../../../lib/bindings/CampaignType";
   import type { QueueItemType } from "../../../lib/bindings/QueueItemType";
-  import type { SnapshotType } from "../../../lib/bindings/SnapshotType";
   import { campaignEnd } from "../../../lib/catalogue/campaign.utils";
   import { t } from "../../../lib/i18n/i18n.svelte";
   import { ticker } from "../../../lib/state/ticker.svelte";
@@ -25,24 +28,19 @@
   import ProgressLine from "../../ui/ProgressLine.svelte";
   import SortableList from "../../ui/SortableList.svelte";
   import Thumb from "../../ui/Thumb.svelte";
-  import {
-    BadgeTone,
-    ButtonSize,
-    ButtonVariant,
-    IconName,
-    ThumbShape,
-    ThumbSize,
-  } from "../../ui/ui.constants";
+  import { BadgeTone } from "../../../lib/tones.constants";
+  import { ButtonSize, ButtonVariant } from "../../ui/button.constants";
+  import { IconName } from "../../../lib/icons.constants";
+  import { ThumbShape, ThumbSize } from "../../ui/picture.constants";
   import BadgeStateBadges from "./BadgeStateBadges.svelte";
 
   type BadgesOrderTabPropsType = {
     account: AccountSnapshotType;
-    snapshot: SnapshotType;
     sections: AccountBadgesType;
     onopen: (campaign: CampaignType) => void;
   };
 
-  let { account, snapshot, sections, onopen }: BadgesOrderTabPropsType = $props();
+  let { account, sections, onopen }: BadgesOrderTabPropsType = $props();
 
   const rows = $derived(badgeRows(sections.minable, miningOrder(account.settings, account)));
 
@@ -82,7 +80,6 @@
     onreorder={(list, moved) =>
       reorderWithin(
         account,
-        snapshot,
         list.map((row) => row.campaignId),
         moved.campaignId,
       )}
@@ -90,14 +87,10 @@
     {#snippet row(row)}
       {@const first = row.items[0]}
       {@const item = queued(row.campaignId)}
-      {@render thumb(first)}
-      <button
-        class="flex min-w-0 flex-1 flex-col gap-0.5 text-left"
-        type="button"
-        onclick={() => row.campaign && onopen(row.campaign)}
-      >
+      {@const campaign = row.campaign}
+      {#snippet body()}
         <span class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
-          <span class="truncate font-semibold text-link">{titleOf(row)}</span>
+          <span class={["truncate font-semibold", campaign && "text-link"]}>{titleOf(row)}</span>
           <span class="inline-flex max-w-full flex-wrap items-center gap-1.5">
             {#if mining(row.campaignId)}<Badge
                 text={t.queue_mining()}
@@ -124,7 +117,17 @@
             <ProgressLine current={row.current} required={row.required} stacked={false} />
           </span>
         {/if}
-      </button>
+      {/snippet}
+      {@render thumb(first)}
+      {#if campaign}
+        <button
+          class="flex min-w-0 flex-1 flex-col gap-0.5 text-left"
+          type="button"
+          onclick={() => onopen(campaign)}>{@render body()}</button
+        >
+      {:else}
+        <span class="flex min-w-0 flex-1 flex-col gap-0.5">{@render body()}</span>
+      {/if}
     {/snippet}
     {#snippet actions(row)}
       {@const on = chosen(row.campaignId)}

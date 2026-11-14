@@ -13,7 +13,11 @@ use url::Url;
 use super::{TwitchClient, WEB_URL, WEB_USER_AGENT};
 use crate::domain::Channel;
 use crate::error::{Error, Result};
+use crate::http::{read_bounded, trusted_host};
 use crate::requests::{url_target, RequestKind};
+
+const HOSTS: [&str; 4] = ["twitch.tv", "jtvnw.net", "ttvnw.net", "twitchcdn.net"];
+const MAX_PAGE: usize = 8 * 1024 * 1024;
 
 fn settings_regex() -> &'static Regex {
     static RE: OnceLock<Regex> = OnceLock::new();
@@ -31,14 +35,7 @@ fn spade_regex() -> &'static Regex {
 }
 
 fn trusted(url: &Url) -> bool {
-    url.scheme() == "https"
-        && url.username().is_empty()
-        && url.password().is_none()
-        && url.host_str().is_some_and(|host| {
-            ["twitch.tv", "jtvnw.net", "ttvnw.net", "twitchcdn.net"]
-                .iter()
-                .any(|suffix| host == *suffix || host.ends_with(&format!(".{suffix}")))
-        })
+    trusted_host(url, &HOSTS)
 }
 
 async fn page(client: &TwitchClient, url: Url) -> Result<String> {
@@ -69,7 +66,7 @@ async fn page(client: &TwitchClient, url: Url) -> Result<String> {
         return Err(Error::Status(response.status()));
     }
 
-    Ok(response.text().await?)
+    Ok(String::from_utf8_lossy(&read_bounded(response, MAX_PAGE).await?).into_owned())
 }
 
 pub async fn resolve_beacon(client: &TwitchClient, login: &str) -> Result<Url> {

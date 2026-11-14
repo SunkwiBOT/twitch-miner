@@ -6,13 +6,13 @@
   import Spinner from "./Spinner.svelte";
   import {
     BUTTON_SIZES,
-    BUTTON_VARIANT_CLASSES,
     BUTTON_VARIANTS,
+    BUTTON_VARIANT_CLASSES,
     ButtonSize,
     ButtonType,
     ButtonVariant,
-    IconName,
-  } from "./ui.constants";
+  } from "./button.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   type ActionButtonPropsType = {
     icon: IconName;

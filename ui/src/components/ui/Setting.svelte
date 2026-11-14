@@ -1,10 +1,12 @@
 <script lang="ts">
   import { tick, type Snippet } from "svelte";
 
+  import { cn } from "$lib/utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import Badge from "./Badge.svelte";
   import Toggle from "./Toggle.svelte";
-  import { BadgeTone } from "./ui.constants";
+  import { BadgeTone } from "../../lib/tones.constants";
+  import { FOCUS_INSIDE_CLASSES } from "./field.constants";
   import { YES_NO_CHOICES } from "./ui.utils";
 
   type SettingPropsType = {
@@ -21,8 +23,7 @@
 
   let toggle = $state<ReturnType<typeof Toggle> | null>(null);
 
-  // ! The pressed button leaves with its group: the focus moves to the switch that
-  // takes its place, not back to the top of the page or the dialog.
+  // ! The pressed button leaves with its group: the focus moves to the switch taking its place.
   const choose = async (value: boolean): Promise<void> => {
     onchange(value);
     await tick();
@@ -54,7 +55,10 @@
       {#each YES_NO_CHOICES as choice (choice.value)}
         <button
           type="button"
-          class="h-8 px-3 text-sm font-medium text-muted-foreground transition-colors outline-none hover:bg-muted hover:text-foreground focus-visible:z-10 focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none [&+&]:border-l [&+&]:border-input"
+          class={cn(
+            "h-8 px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:pointer-events-none [&+&]:border-l [&+&]:border-input",
+            FOCUS_INSIDE_CLASSES,
+          )}
           {disabled}
           onclick={() => void choose(choice.value)}>{choice.label()}</button
         >

@@ -57,7 +57,6 @@
   "dashboard_catalog_error": "Catalogo non disponibile: {error}",
   "dashboard_queue_blocked_no_live_channel": "Nessun canale in diretta",
   "dashboard_queue_blocked_one_campaign_at_a_time": "In attesa (una campagna alla volta)",
-  "dashboard_queue_blocked_no_drop_available": "Nessun drop ancora disponibile",
   "dashboard_queue_reason_priority": "Priorità",
   "dashboard_queue_reason_ending_soon": "Termina a breve",
   "dashboard_queue_reason_lowest_remaining": "Quasi completata",
@@ -157,6 +156,7 @@
   "settings_catalog_refresh": "Aggiorna ora",
   "settings_notifications": "Notifiche",
   "settings_notifications_events": "Notifica per",
+  "settings_notifications_targets": "Invia a",
   "settings_discord": "Webhook Discord",
   "settings_discord_url": "URL del webhook",
   "settings_telegram": "Bot Telegram",
@@ -212,7 +212,7 @@
   "error_session_expired": "Twitch ha rifiutato la sessione",
   "error_invalid_response": "Risposta inattesa da Twitch",
   "error_twitch_rejected": "Twitch ha rifiutato la richiesta.",
-  "error_device_code_expired": "Il codice è scaduto",
+  "error_device_code_expired": "Il codice è scaduto o non è più valido: chiedine uno nuovo",
   "error_storage": "Impossibile leggere o scrivere il database locale. Consulta i log tecnici.",
   "error_vault_locked": "L'app è bloccata",
   "error_wrong_passphrase": "Password errata",
@@ -309,6 +309,7 @@
   "campaign_channels_some": "Canali ammessi: {count}",
   "common_account": "Account",
   "campaign_progress": "{current}/{required} min",
+  "campaign_progress_of": "Avanzamento e riscatti di {account}",
   "campaign_link_game": "Collega l'account di gioco",
   "campaign_open_twitch": "Apri su Twitch",
   "logs_title": "Log tecnici",
@@ -369,7 +370,6 @@
   "drops_scope_linked_hint": "Solo i giochi il cui account è collegato a Twitch, così ogni drop può essere riscattato.",
   "drops_skip_hint": "Ignora una campagna quando non resta abbastanza tempo per completarla.",
   "error_unknown_channel": "Nessun canale Twitch ha questo nome.",
-  "error_device_code_pending": "Il codice non è ancora confermato su Twitch.",
   "error_invalid_vault": "Le sessioni salvate sono danneggiate. Accedi di nuovo.",
   "error_invalid_streamer_login": "Questo non è un login Twitch valido.",
   "error_passphrase_required": "Imposta una password dell'app prima di bloccarla.",
@@ -439,14 +439,77 @@
   "ev_campaign_finished": "Campagna completata: {campaign}",
   "ev_drop_progress": "{drop}: {current}/{required} min",
   "ev_bonus": "Forziere bonus riscattato su {channel}",
-  "ev_points": "+{points} punti su {channel}",
+  "ev_points": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input channel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "+{points} punto su {channel}",
+        "countPlural=*": "+{points} punti su {channel}"
+      }
+    }
+  ],
   "ev_online": "{channel} è in diretta",
   "ev_offline": "{channel} è offline",
   "ev_raid": "Raid di {channel} seguito",
   "ev_moment": "Momento riscattato su {channel}",
-  "ev_bet_placed": "Scommessi {points} punti su «{outcome}» ({channel})",
-  "ev_bet_won": "Previsione vinta: +{points} punti",
-  "ev_bet_lost": "Previsione persa: −{points} punti",
+  "ev_bet_placed": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input outcome",
+        "input channel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Scommesso {points} punto su «{outcome}» ({channel})",
+        "countPlural=*": "Scommessi {points} punti su «{outcome}» ({channel})"
+      }
+    }
+  ],
+  "ev_bet_won": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Previsione vinta: +{points} punto",
+        "countPlural=*": "Previsione vinta: +{points} punti"
+      }
+    }
+  ],
+  "ev_bet_lost": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Previsione persa: −{points} punto",
+        "countPlural=*": "Previsione persa: −{points} punti"
+      }
+    }
+  ],
   "ev_bet_refund": "Previsione rimborsata",
   "ev_login": "{login} ha effettuato l'accesso",
   "ev_session_expired": "Sessione Twitch scaduta: accedi di nuovo",
@@ -502,8 +565,19 @@
   "accounts_count": "{count} account",
   "accounts_none": "Nessun account",
   "reward_watch": "Guarda {time}",
+  "reward_watch_daily": "{time} al giorno, {days} giorni",
+  "reward_watch_every": "{time} ogni {hours} h, {count} volte",
+  "reward_watch_times": "{time}, {count} volte",
+  "reward_days_done": "{done}/{total} giorni",
+  "reward_times_done": "{done}/{total} volte",
+  "reward_chest": "1 badge a caso su {count}",
+  "reward_chest_hint": "Twitch dà uno di questi badge: {badges}",
+  "campaign_channels_categories": "Qualsiasi canale in una delle {count} categorie",
+  "badges_collection": "Fa parte della collezione {name}",
+  "badges_collection_chest": "Fa parte della collezione {name}, 1 badge su {count}",
+  "badges_collection_all": "Badge dell'intera collezione {name}, abbonamenti inclusi",
   "reward_watch_stream": "Guarda la live",
-  "reward_subscribe": "Abbonati: non minato",
+  "reward_subscribe": "Abbonati tu stesso",
   "reward_kind_badge": "Badge",
   "reward_kind_item": "Oggetto di gioco",
   "reward_sub_only": "Sub",
@@ -625,32 +699,6 @@
   "chat_always": "Sempre",
   "chat_offline": "Quando lo streamer è offline",
   "chat_never": "Mai (invisibile)",
-  "accounts_stats_bets": "Scommesse vinte / perse: {won} / {lost}",
-  "accounts_stats_bonuses": "Forzieri bonus: {count}",
-  "catalogue_fetched": "recuperato {time}, poi ogni {minutes} min",
-  "change_order_reset": "Ordine automatico ripristinato con successo",
-  "event_kind_goal_contributed": "Obiettivo della community",
-  "ev_goal_contributed": "{points} punti dati a «{goal}» su {channel}",
-  "ev_streak_recovered": "Serie di visione recuperata su {channel}",
-  "filter_by_odds": "Quota della scelta",
-  "filter_by_odds_percentage": "Quota della scelta (%)",
-  "filter_by_percentage_users": "Spettatori sulla scelta (%)",
-  "filter_by_total_users": "Spettatori che hanno scommesso",
-  "filter_by_total_points": "Punti scommessi in totale",
-  "filter_by_decision_users": "Spettatori sulla scelta",
-  "filter_by_decision_points": "Punti sulla scelta",
-  "queue_reset": "Ordine automatico",
-  "slot_last_minute": "ultimo minuto di visione contato {time}",
-  "slot_segments": "Segmenti video richiesti: {count}",
-  "streamer_community_goals_hint": "Dà punti canale agli obiettivi della community dello streamer durante la live: quanto serve ancora all'obiettivo, entro il limite per spettatore e il saldo.",
-  "streamer_last_bonus": "ultimo forziere {time}",
-  "streamer_predictions_filter": "Scommetti solo con una condizione",
-  "streamer_predictions_filter_hint": "Salta la scommessa se la condizione sulla scelta fatta non è soddisfatta.",
-  "streamer_predictions_filter_by": "Valore",
-  "streamer_predictions_filter_op": "Condizione",
-  "streamer_predictions_filter_value": "Soglia",
-  "streamer_predictions_gap_hint": "Smart segue la maggioranza, a meno che le due scelte non siano così vicine: allora prende la quota migliore.",
-  "account_refresh": "Aggiorna l'account ora",
   "settings_start_minimized_hint": "La finestra resta nascosta all'avvio; aprila dall'icona nell'area di notifica.",
   "settings_data_folder": "Cartella dei dati",
   "settings_data_folder_hint": "Account, impostazioni, cronologia e log sono salvati qui.",
@@ -666,6 +714,8 @@
   "updates_last_checked": "Ultimo controllo: {time}",
   "updates_never_checked": "Ultimo controllo: ancora nessuna risposta dall'avvio",
   "updates_install": "Installa e riavvia",
+  "updates_download_page": "Apri la pagina di download",
+  "settings_notifications_language": "Lingua delle notifiche",
   "updates_confirm_title": "Installare la versione {version}?",
   "updates_confirm_text": "Hai la versione {current}. L'app scarica la versione {version}, ferma il mining su tutti gli account, la installa e si riavvia da sola. Poi il mining riprende da solo.",
   "updates_later": "Più tardi",
@@ -710,6 +760,49 @@
       }
     }
   ],
+  "accounts_stats_bets": "Scommesse vinte / perse: {won} / {lost}",
+  "accounts_stats_bonuses": "Forzieri bonus: {count}",
+  "catalogue_fetched": "recuperato {time}, poi ogni {minutes} min",
+  "change_order_reset": "Ordine automatico ripristinato con successo",
+  "event_kind_goal_contributed": "Obiettivo della community",
+  "ev_goal_contributed": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input goal",
+        "input channel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{points} punto dato a «{goal}» su {channel}",
+        "countPlural=*": "{points} punti dati a «{goal}» su {channel}"
+      }
+    }
+  ],
+  "ev_streak_recovered": "Serie di visione recuperata su {channel}",
+  "filter_by_odds": "Quota della scelta",
+  "filter_by_odds_percentage": "Quota della scelta (%)",
+  "filter_by_percentage_users": "Spettatori sulla scelta (%)",
+  "filter_by_total_users": "Spettatori che hanno scommesso",
+  "filter_by_total_points": "Punti scommessi in totale",
+  "filter_by_decision_users": "Spettatori sulla scelta",
+  "filter_by_decision_points": "Punti sulla scelta",
+  "queue_reset": "Ordine automatico",
+  "slot_last_minute": "ultimo minuto di visione contato {time}",
+  "slot_segments": "Segmenti video richiesti: {count}",
+  "streamer_community_goals_hint": "Dà punti canale agli obiettivi della community dello streamer durante la live: quanto serve ancora all'obiettivo, entro il limite per spettatore e il saldo.",
+  "streamer_last_bonus": "ultimo forziere {time}",
+  "streamer_predictions_filter": "Scommetti solo con una condizione",
+  "streamer_predictions_filter_hint": "Salta la scommessa se la condizione sulla scelta fatta non è soddisfatta.",
+  "streamer_predictions_filter_by": "Valore",
+  "streamer_predictions_filter_op": "Condizione",
+  "streamer_predictions_filter_value": "Soglia",
+  "streamer_predictions_gap_hint": "Smart segue la maggioranza, a meno che le due scelte non siano così vicine: allora prende la quota migliore.",
+  "account_refresh": "Aggiorna l'account ora",
   "account_state_running_hint": "L'account mina con le sue impostazioni. La pausa ferma tutto: Drops, punti canale e chat.",
   "account_state_paused_hint": "L'account è in pausa: non guarda nulla e non guadagna nulla. Le sue impostazioni vengono mantenute.",
   "login_code": "codice di accesso",
@@ -754,6 +847,7 @@
   "inventory_claimed_all": "Ricompense riscattate: {count}",
   "reward_state_claimed": "Riscattato",
   "reward_state_ready": "Da riscattare",
+  "reward_state_owned": "Ottenuto",
   "reward_claim": "Riscatta",
   "notify_test_title": "Test: {text}",
   "notify_test_detail": "Twitch Miner raggiunge questa destinazione. Ecco come appare un drop riscattato. Tutti i nomi e le immagini di questo messaggio sono di prova.",
@@ -787,14 +881,14 @@
   "badge_hint_reason_lowest_remaining": "Mancano pochi minuti, quindi viene finita per prima",
   "badge_hint_blocked_no_live": "Nessuno dei suoi canali è in diretta",
   "badge_hint_blocked_one_at_a_time": "Si mina una sola campagna alla volta",
-  "badge_hint_blocked_no_drop": "Twitch non offre ancora drop da ottenere",
   "badge_hint_linked": "Account di gioco collegato: i drop si possono riscattare",
   "badge_hint_not_linked": "Collega l'account di gioco per riscattare i drop",
   "badge_hint_link_required": "Richiede un account di gioco collegato",
   "badge_hint_claimed": "Già nel tuo inventario Twitch",
+  "badge_hint_owned": "Questo account ha già questo badge: il miner non lo mina",
   "badge_hint_ready": "Ottenuto: va solo riscattato",
   "badge_hint_item": "Arriva nel gioco una volta riscattato",
-  "badge_hint_sub_only": "Richiede un abbonamento: non minato",
+  "badge_hint_sub_only": "Richiede un abbonamento fatto da te (uno già attivo, Prime o un rinnovo non contano). Appena Twitch lo conta, il miner mina il tempo di visione.",
   "badge_hint_watching": "Questo account sta guardando il canale ora",
   "badge_hint_streak_risk": "La serie di visione su questo canale sta per interrompersi",
   "badge_hint_in_progress": "Twitch conta i tuoi minuti per questa campagna",
@@ -925,7 +1019,23 @@
     }
   ],
   "event_kind_points_spent": "Punti spesi",
-  "ev_points_spent": "−{points} punti su {channel}",
+  "ev_points_spent": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input channel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "−{points} punto su {channel}",
+        "countPlural=*": "−{points} punti su {channel}"
+      }
+    }
+  ],
   "ev_points_spent_balance": "Punti spesi su {channel} (saldo {balance})",
   "ev_drop_progress_unknown": "Avanzamento di un drop: {current}/{required} min",
   "journal_types": "Tipi di evento",
@@ -1164,7 +1274,7 @@
   "queue_reason_badge": "Badge",
   "badge_hint_reason_badge": "Dà un badge che l'account non ha ancora",
   "quest_label": "Missione Twitch",
-  "badge_hint_quest": "Un evento Twitch: vale qualsiasi canale delle sue categorie",
+  "badge_hint_quest": "Un evento Twitch: vale solo su un canale delle sue categorie che lo offre",
   "quest_next_window": "Prossima finestra {time}",
   "account_badges_not_read": "I badge e le missioni dell'account vengono letti mentre è in esecuzione.",
   "account_badges_tabs_label": "Sezioni della pagina Badge",
@@ -1176,6 +1286,30 @@
   "selection_only_title": "Solo la mia selezione",
   "drops_selection_only_hint": "Mina solo i tuoi giochi prioritari e le campagne segnate con una stella. Una volta minate tutte, non viene avviata nessun'altra campagna.",
   "badges_selection_only_hint": "Mina solo i badge segnati con una stella. Una volta minati tutti, non viene avviato nessun altro badge.",
+  "badges_evolutions_title": "Mina le evoluzioni dei badge",
+  "badges_evolutions_hint": "Per un'evoluzione (Pichu → Pikachu…), il miner equipaggia da solo il badge richiesto subito prima di minarla e non rimette quello precedente. Disattivato: questi badge vengono lasciati da parte e il badge equipaggiato non viene mai toccato.",
+  "badge_evolution": "Evoluzione di {badge}",
+  "badge_hint_evolution": "Il miner equipaggia {badge} subito prima di minare questo badge e non rimette quello precedente",
+  "badge_evolution_unknown": "Badge richiesto sconosciuto",
+  "badge_hint_evolution_unknown": "Twitch non ha ancora detto da quale badge si evolve questo: fino ad allora non viene minato",
+  "badge_evolution_locked": "Serve {badge}",
+  "badge_hint_evolution_locked": "Questo account deve prima ottenere {badge}: poi il miner lo equipaggia per minare questa evoluzione",
+  "badge_evolution_off": "Evoluzioni disattivate",
+  "badge_hint_evolution_off": "“Mina le evoluzioni dei badge” è disattivato nelle impostazioni dei badge di questo account",
+  "ev_badge_equipped": "Badge {badge} equipaggiato per far evolvere {drop}",
+  "ev_badge_equip_failed": "Impossibile equipaggiare il badge {badge} per far evolvere {drop}",
+  "badge_progress_not_started": "Non iniziato",
+  "badge_progress_not_offered": "Non è nelle campagne di questo account",
+  "badge_dialog_subs": "Abbonamenti fatti da te: {count}",
+  "badge_dialog_dates": "Dal {start} al {end}",
+  "badge_dialog_from": "Dal {date}",
+  "badge_dialog_open_campaign": "Apri la campagna",
+  "badge_dialog_categories": "Categorie",
+  "badge_dialog_channels": "Canali",
+  "badge_dialog_collection": "Collezione",
+  "badge_dialog_evolution": "Evoluzione",
+  "badge_dialog_evolves_from": "Twitch conta questo badge solo mentre {badge} è equipaggiato: il miner lo equipaggia subito prima di minare e non rimette il badge precedente.",
+  "badge_dialog_accounts": "Avanzamento degli account",
   "campaign_select": "Aggiungi alla mia selezione",
   "campaign_unselect": "Togli dalla mia selezione",
   "campaign_selected": "Aggiunta alla tua selezione",
@@ -1192,5 +1326,5 @@
   "quest_not_minable": "Non minabile",
   "badge_hint_quest_not_minable": "Twitch non indica alcuna categoria o canale che il miner possa guardare per questo",
   "account_badges_not_mined": "Non minati",
-  "account_badges_not_mined_hint": "Mostrati, mai minati: serve un abbonamento, oppure Twitch non indica alcun canale che il miner possa guardare."
+  "account_badges_not_mined_hint": "Mostrati, non minati: prima serve un abbonamento fatto da te o un altro badge, oppure Twitch non indica alcun canale che il miner possa guardare."
 }

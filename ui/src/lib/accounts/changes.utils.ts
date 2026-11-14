@@ -1,5 +1,4 @@
-// ! Lists differ between accounts, so a place is kept as the item's neighbours
-// rather than as a bare rank.
+// ! Lists differ between accounts: a place is kept as the item's neighbours, not a bare rank.
 
 import type { AccountSettingsType } from "../bindings/AccountSettingsType";
 import type { AccountSnapshotType } from "../bindings/AccountSnapshotType";
@@ -91,9 +90,7 @@ export const miningOrder = (
   ];
 };
 
-// ! Only the start of the mining order down to the last campaign placed by hand
-// stays pinned: the ones after keep the automatic order, so new campaigns and
-// priority games still find their place.
+// ! Only the order down to the last campaign placed by hand stays pinned: new campaigns still find their place after it.
 export const pinnedPrefix = (order: string[], placed: Iterable<string>): string[] => {
   const keep = new Set(placed);
   const last = order.reduce((at, id, index) => (keep.has(id) ? index : at), -1);

@@ -115,7 +115,6 @@ pub enum QueueReason {
 pub enum QueueBlock {
     NoLiveChannel,
     OneCampaignAtATime,
-    NoDropAvailable,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
@@ -224,19 +223,32 @@ fn badges_filtered(settings: &AccountSettings, campaign: &Campaign) -> bool {
 // ! The Drops filters and the badge filters each keep a campaign out of their
 // own kinds only: a badge campaign is out once both filter it.
 pub fn excluded(settings: &AccountSettings, campaign: &Campaign, now: DateTime<Utc>) -> bool {
-    let drops = &settings.drops;
+    left_out(
+        settings,
+        campaign,
+        campaign.gives_badge(now, &settings.drops.exclude_drop_ids),
+    )
+}
 
-    if drops
+// ! A badge mined to the end no longer "gives" one, but its claim still follows the badge filters.
+pub fn claim_excluded(settings: &AccountSettings, campaign: &Campaign) -> bool {
+    left_out(settings, campaign, campaign.has_badge())
+}
+
+fn left_out(settings: &AccountSettings, campaign: &Campaign, badge: bool) -> bool {
+    if settings
+        .drops
         .exclude_campaign_ids
         .iter()
         .any(|id| id == &campaign.id)
+        || (!settings.badges.evolutions && campaign.evolves())
     {
         return true;
     }
 
     let by_drops = campaign.kind == CampaignKind::Quest || drops_filtered(settings, campaign);
 
-    if campaign.gives_badge(now, &drops.exclude_drop_ids) {
+    if badge {
         by_drops && badges_filtered(settings, campaign)
     } else {
         by_drops
@@ -253,11 +265,11 @@ fn priority_index(settings: &AccountSettings, campaign: &Campaign) -> Option<usi
 
 type RankKey = (u8, i64, u8, i64);
 
-// ! A quest has no game account to link: "linked only" never keeps it out.
+// ! "Linked only" never keeps out a quest, and keeps out a campaign only once Twitch says "not linked".
 fn in_scope(scope: DropsScope, campaign: &Campaign) -> bool {
     match scope {
         DropsScope::LinkedOnly => {
-            campaign.kind == CampaignKind::Quest || campaign.linked == Some(true)
+            campaign.kind == CampaignKind::Quest || campaign.claims_delivered()
         }
         DropsScope::All => true,
     }
@@ -321,9 +333,15 @@ fn automatic_key(
     linked_first: bool,
     order: DropsOrder,
     campaign: &Campaign,
+    now: DateTime<Utc>,
     excluded: &[String],
 ) -> (QueueReason, u8, i64) {
-    let linked_rank = u8::from(linked_first && campaign.linked != Some(true));
+    let linked_rank = u8::from(
+        linked_first
+            && campaign.kind != CampaignKind::Quest
+            && campaign.needs_link()
+            && campaign.linked != Some(true),
+    );
 
     match order {
         DropsOrder::EndingSoonest => (
@@ -334,7 +352,7 @@ fn automatic_key(
         DropsOrder::LowestRemaining => (
             QueueReason::LowestRemaining,
             linked_rank,
-            i64::from(campaign.remaining_minutes(excluded)),
+            i64::from(campaign.remaining_minutes(now, excluded)),
         ),
     }
 }
@@ -349,9 +367,7 @@ fn rank_tiers<'a>(
     let drops = &settings.drops;
     let mut ranked: Vec<(&Campaign, QueueReason, RankKey)> = campaigns
         .iter()
-        .filter(|c| {
-            c.active_at(now) && !c.finished() && c.next_drop(now, &drops.exclude_drop_ids).is_some()
-        })
+        .filter(|c| c.active_at(now) && c.next_drop(now, &drops.exclude_drop_ids).is_some())
         .filter(|c| !excluded(settings, c, now))
         .filter(|c| !drops.skip_unfinishable || c.can_finish(now, &drops.exclude_drop_ids))
         .filter_map(|c| {
@@ -377,13 +393,13 @@ fn rank_tiers<'a>(
                         MiningLaneKind::Badges => {
                             let badges = &settings.badges;
                             let (_, linked, value) =
-                                automatic_key(badges.linked_first, badges.order, c, excluded);
+                                automatic_key(badges.linked_first, badges.order, c, now, excluded);
 
                             (QueueReason::Badge, (tier, 0, linked, value))
                         }
                         MiningLaneKind::OtherCampaigns => {
                             let (reason, linked, value) =
-                                automatic_key(drops.linked_first, drops.order, c, excluded);
+                                automatic_key(drops.linked_first, drops.order, c, now, excluded);
 
                             (reason, (tier, 0, linked, value))
                         }
@@ -421,41 +437,34 @@ pub struct CurrentDrop<'a> {
     pub channel_id: &'a str,
 }
 
-pub fn best_channel<'a>(
-    settings: &AccountSettings,
-    campaign: &Campaign,
-    live: &'a [Channel],
-) -> Option<&'a Channel> {
-    pick_channel(settings, campaign, live, None)
-}
-
 fn pick_channel<'a>(
     settings: &AccountSettings,
     campaign: &Campaign,
     live: &'a [Channel],
     watching: Option<&str>,
+    subscribed: &[&str],
 ) -> Option<&'a Channel> {
-    // ! A Twitch event counts any channel of its categories: it has no Drops
-    // for a channel to offer.
     let preferred = |channel: &Channel| {
         settings.drops.streamers_first
-            && (channel.drops_enabled
-                || !campaign.allowed_channels.is_empty()
-                || campaign.kind == CampaignKind::Quest)
+            && (channel.drops_enabled || !campaign.allowed_channels.is_empty())
             && settings
                 .points
                 .streamers
                 .iter()
                 .any(|s| s.enabled && s.login == channel.login)
     };
+    // ! A reward behind subscriptions is watched on a channel the account is
+    // subscribed to, as far as the channel points already read tell.
+    let behind_subs = campaign
+        .drops
+        .iter()
+        .any(|d| d.required_subs > 0 && d.subs_met() && !d.complete());
+    let subscriber =
+        |channel: &Channel| behind_subs && subscribed.contains(&channel.login.as_str());
 
     let eligible: Vec<&Channel> = live
         .iter()
         .filter(|c| c.live && campaign.accepts_channel(&c.id))
-        .filter(|c| {
-            campaign.allowed_channels.is_empty()
-                || campaign.allowed_channels.iter().any(|a| a.id == c.id)
-        })
         .filter(|c| {
             // ! Twitch credits drop minutes only on a stream of the campaign's
             // game, also for a channel of its allow list.
@@ -463,7 +472,7 @@ fn pick_channel<'a>(
         })
         .collect();
 
-    let kind = |c: &Channel| (preferred(c), c.drops_enabled);
+    let kind = |c: &Channel| (subscriber(c), preferred(c), c.drops_enabled);
     let best = eligible
         .iter()
         .copied()
@@ -533,6 +542,11 @@ pub fn plan(
 
     if settings.mode != Mode::Points {
         let mut ranked = rank_tiers(settings, campaigns, now);
+        let subscribed: Vec<&str> = streamers
+            .iter()
+            .filter(|s| s.points.subscribed)
+            .map(|s| s.settings.login.as_str())
+            .collect();
 
         let watching = |campaign: &Campaign| {
             current
@@ -548,7 +562,7 @@ pub fn plan(
             campaign
                 .next_drop(now, &settings.drops.exclude_drop_ids)
                 .is_some()
-                && pick_channel(settings, campaign, live, None).is_some()
+                && pick_channel(settings, campaign, live, None, &subscribed).is_some()
         };
 
         if let Some(current) = current {
@@ -567,7 +581,8 @@ pub fn plan(
                         .map(|(_, _, t)| *t)
                         .collect();
 
-                    pick_channel(settings, campaign, live, watching(campaign)).is_some()
+                    pick_channel(settings, campaign, live, watching(campaign), &subscribed)
+                        .is_some()
                         && !above.iter().any(|t| *t == 0 || t < tier)
                 });
 
@@ -584,12 +599,13 @@ pub fn plan(
                 .get(&campaign.id)
                 .map(Vec::as_slice)
                 .unwrap_or(&[]);
-            let chosen = pick_channel(settings, campaign, live, watching(campaign));
+            let chosen = pick_channel(settings, campaign, live, watching(campaign), &subscribed);
             let mut item = QueueItem {
                 campaign_id: campaign.id.clone(),
                 reason,
                 live_channels: live.iter().filter(|c| c.live).count(),
-                remaining_minutes: campaign.remaining_minutes(&settings.drops.exclude_drop_ids),
+                remaining_minutes: campaign
+                    .remaining_minutes(now, &settings.drops.exclude_drop_ids),
                 ends_at: campaign.ends_at,
                 linked: campaign.linked,
                 blocked: None,
@@ -611,9 +627,8 @@ pub fn plan(
                         },
                     });
                 }
-                (false, None, _) => item.blocked = Some(QueueBlock::NoLiveChannel),
                 (true, _, _) => item.blocked = Some(QueueBlock::OneCampaignAtATime),
-                (false, Some(_), None) => item.blocked = Some(QueueBlock::NoDropAvailable),
+                (false, _, _) => item.blocked = Some(QueueBlock::NoLiveChannel),
             }
 
             plan.queue.push(item);

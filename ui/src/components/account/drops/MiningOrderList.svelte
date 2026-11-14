@@ -7,7 +7,8 @@
   import Icon from "../../ui/Icon.svelte";
   import SortableList from "../../ui/SortableList.svelte";
   import Toggle from "../../ui/Toggle.svelte";
-  import { BadgeTone, IconName } from "../../ui/ui.constants";
+  import { BadgeTone } from "../../../lib/tones.constants";
+  import { IconName } from "../../../lib/icons.constants";
 
   type MiningOrderListPropsType = {
     order: MiningLaneType[];

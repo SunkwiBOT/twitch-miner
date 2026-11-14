@@ -14,8 +14,8 @@
     ButtonSize,
     ButtonType,
     ButtonVariant,
-    IconName,
-  } from "../ui/ui.constants";
+  } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   type SetupActionsPropsType = {
     step: SetupStep;

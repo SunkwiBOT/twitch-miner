@@ -5,7 +5,8 @@
   import { Card } from "$lib/components/ui/card";
   import ActionButton from "../ui/ActionButton.svelte";
   import Icon from "../ui/Icon.svelte";
-  import { ButtonSize, ButtonType, ButtonVariant, IconName } from "../ui/ui.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   type UnsavedBarPropsType = {
     saving: boolean;

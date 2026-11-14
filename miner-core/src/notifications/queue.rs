@@ -22,6 +22,7 @@ const QUEUE_MAX: usize = 500;
 const ATTEMPTS: u32 = 6;
 const BACKOFF: Duration = Duration::from_secs(2);
 const RETRY_AFTER_MAX: Duration = Duration::from_secs(300);
+const HOLD_MAX: Duration = Duration::from_secs(60 * 60);
 // ! A burst (a "Claim all", several accounts at once) is gathered into one
 // Discord message: it ends after a second without a new notification.
 const GATHER_QUIET: Duration = Duration::from_secs(1);
@@ -147,6 +148,7 @@ fn lower(counter: &AtomicUsize, by: usize) {
 enum Next {
     Wait(Duration),
     Drop(Error),
+    Hold(Error, Duration),
 }
 
 fn backoff(attempt: u32) -> Duration {
@@ -158,12 +160,16 @@ fn retry(target: NotificationTarget, attempt: u32, outcome: &Result<Answer>) -> 
         Ok(answer) if answer.status == StatusCode::TOO_MANY_REQUESTS => {
             let wait = answer.retry_after.unwrap_or_else(|| backoff(attempt));
 
+            // ! The service would refuse the next ones too: the target rests for the wait asked, up to an hour.
             if wait > RETRY_AFTER_MAX {
-                return Next::Drop(Error::Notification(format!(
-                    "{} asked to wait {} s",
-                    name(target),
-                    wait.as_secs()
-                )));
+                return Next::Hold(
+                    Error::Notification(format!(
+                        "{} asked to wait {} s",
+                        name(target),
+                        wait.as_secs()
+                    )),
+                    wait.min(HOLD_MAX),
+                );
             }
 
             Next::Wait(wait)
@@ -201,7 +207,7 @@ async fn send_with_retries(
     target: NotificationTarget,
     notices: &[Notice],
     mut reply: Option<&mut Reply>,
-) -> Result<Duration> {
+) -> (Result<()>, Duration) {
     let mut attempt = 1;
 
     loop {
@@ -211,27 +217,30 @@ async fn send_with_retries(
         };
 
         if unwanted {
-            return Ok(Duration::ZERO);
+            return (Ok(()), Duration::ZERO);
         }
 
         let outcome = shared.send(target, notices).await;
 
         if let Ok(answer) = &outcome {
             if answer.status.is_success() {
-                return Ok(pause_after(target, answer));
+                return (Ok(()), pause_after(target, answer));
             }
         }
 
         let wait = match retry(target, attempt, &outcome) {
-            Next::Drop(error) => return Err(error),
-            Next::Wait(_) if attempt == ATTEMPTS => return Err(last_error(target, outcome)),
+            Next::Drop(error) => return (Err(error), Duration::ZERO),
+            Next::Hold(error, pause) => return (Err(error), pause),
+            Next::Wait(_) if attempt == ATTEMPTS => {
+                return (Err(last_error(target, outcome)), Duration::ZERO)
+            }
             Next::Wait(wait) => wait,
         };
 
         match reply.as_deref_mut() {
             Some(reply) => tokio::select! {
                 () = tokio::time::sleep(wait) => {}
-                () = reply.closed() => return Ok(Duration::ZERO),
+                () = reply.closed() => return (Ok(()), Duration::ZERO),
             },
             None => tokio::time::sleep(wait).await,
         }
@@ -327,16 +336,15 @@ async fn deliver(
                 let Some(live) = shared.upgrade() else {
                     return;
                 };
-                let outcome = send_with_retries(
+                let (outcome, pause) = send_with_retries(
                     &live,
                     target,
                     std::slice::from_ref(&notice),
                     Some(&mut reply),
                 )
                 .await;
-                let pause = outcome.as_ref().copied().unwrap_or_default();
 
-                let _ = reply.send(outcome.map(|_| ()));
+                let _ = reply.send(outcome);
 
                 pause
             }
@@ -348,16 +356,16 @@ async fn deliver(
 
                 carried = rest;
 
-                let outcome = send_with_retries(&live, target, &batch, None).await;
+                let (outcome, pause) = send_with_retries(&live, target, &batch, None).await;
 
                 lower(&counters.waiting, batch.len());
 
-                outcome.unwrap_or_else(|error| {
+                if let Err(error) = outcome {
                     counters.lost.fetch_add(batch.len(), Ordering::SeqCst);
                     failure = Some(error);
+                }
 
-                    Duration::ZERO
-                })
+                pause
             }
         };
 

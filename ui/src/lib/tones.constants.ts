@@ -1,0 +1,10 @@
+export enum BadgeTone {
+  NEUTRAL = "NEUTRAL",
+  MUTED = "MUTED",
+  PRIMARY = "PRIMARY",
+  ACCENT = "ACCENT",
+  SUCCESS = "SUCCESS",
+  WARNING = "WARNING",
+  INFO = "INFO",
+  DANGER = "DANGER",
+}

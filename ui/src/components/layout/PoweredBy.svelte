@@ -6,7 +6,7 @@
   import { t } from "../../lib/i18n/i18n.svelte";
   import { PARTNERS, REPO_URL, ROTATION_FADE_MS, ROTATION_MS } from "../../lib/partners.constants";
   import Icon from "../ui/Icon.svelte";
-  import { IconName } from "../ui/ui.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   type EntryType = { url: string; label: string; name: string; mark?: string };
 

@@ -20,7 +20,10 @@
   import { personMarker, strong } from "../../lib/text.utils";
   import { AccountField, Page, ToastKind } from "../../lib/state/state.constants";
   import { editsOf } from "../../lib/state/edits.svelte";
-  import { app, navigate, reportFailure, run, toast } from "../../lib/state/state.svelte";
+  import { app } from "../../lib/state/app.svelte";
+  import { navigate } from "../../lib/state/router";
+  import { reportFailure, run } from "../../lib/state/session";
+  import { toast } from "../../lib/state/toasts";
   import TextButton from "../ui/TextButton.svelte";
   import ActionButton from "../ui/ActionButton.svelte";
   import CopyButton from "../ui/CopyButton.svelte";
@@ -37,19 +40,12 @@
   import MiningOrderList from "./drops/MiningOrderList.svelte";
   import AccountSaveBar from "./AccountSaveBar.svelte";
   import StreamerOptions from "./StreamerOptions.svelte";
-  import {
-    ButtonSize,
-    ButtonType,
-    ButtonVariant,
-    CopyLayout,
-    IconName,
-    MetaLayout,
-    PanelWidth,
-  } from "../ui/ui.constants";
+  import { PROXY_EXAMPLE } from "./account.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { CopyLayout, MetaLayout, PanelWidth } from "../ui/ui.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   type AccountSettingsPropsType = { account: AccountSnapshotType; snapshot: SnapshotType };
-
-  const PROXY_EXAMPLE = "socks5://user:pass@host:1080";
 
   let { account, snapshot }: AccountSettingsPropsType = $props();
 

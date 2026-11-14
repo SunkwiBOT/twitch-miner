@@ -7,7 +7,8 @@
   import ActionButton from "./ActionButton.svelte";
   import Dialog from "./Dialog.svelte";
   import RichText from "./RichText.svelte";
-  import { ButtonSize, ButtonType, ButtonVariant, IconName } from "./ui.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "./button.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   type ConfirmDialogPropsType = {
     open: boolean;

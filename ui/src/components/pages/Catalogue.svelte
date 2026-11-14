@@ -4,7 +4,7 @@
   import { describeCode } from "../../lib/errors/errors.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { DROPS_API_NAME, DROPS_WEB_URL } from "../../lib/partners.constants";
-  import { openTab, showTab } from "../../lib/state/state.svelte";
+  import { openTab, showTab } from "../../lib/state/router";
   import { ticker } from "../../lib/state/ticker.svelte";
   import { runningCampaigns } from "../../lib/catalogue/timeline.utils";
   import { matchesSearch, normalizeSearch } from "../../lib/search/search.utils";
@@ -14,20 +14,21 @@
   import CampaignDialog from "../catalogue/CampaignDialog.svelte";
   import CatalogRefreshButton from "../catalogue/CatalogRefreshButton.svelte";
   import CatalogueTimeline from "../catalogue/CatalogueTimeline.svelte";
-  import { TIMELINE_ZOOMS, TimelineZoom } from "../catalogue/timeline.constants";
+  import { TIMELINE_ZOOMS, TimelineZoom } from "../../lib/catalogue/timeline.constants";
   import EmptyState from "../ui/EmptyState.svelte";
   import PageBody from "../ui/PageBody.svelte";
   import PageHeader from "../ui/PageHeader.svelte";
   import RichText from "../ui/RichText.svelte";
   import SearchField from "../ui/SearchField.svelte";
   import Segmented from "../ui/Segmented.svelte";
-  import { IconName } from "../ui/ui.constants";
+  import { IconName } from "../../lib/icons.constants";
   import {
     CATALOGUE_VIEW_SLUGS,
     CatalogueSort,
     CatalogueView,
   } from "../catalogue/catalogue.constants";
   import { ZOOM_LABELS } from "../catalogue/catalogue.utils";
+  import { catalogue } from "../../lib/catalogue/catalogue.svelte";
 
   type CataloguePropsType = { snapshot: SnapshotType };
 
@@ -42,7 +43,7 @@
 
   const time = (iso: string): number => new Date(iso).getTime();
 
-  const running = $derived(runningCampaigns(snapshot.catalog.campaigns, ticker.now));
+  const running = $derived(runningCampaigns(catalogue.campaigns, ticker.now));
 
   const active = $derived.by(() => {
     const needle = normalizeSearch(query);

@@ -2,7 +2,8 @@
   import { t } from "../../lib/i18n/i18n.svelte";
   import { IMAGE_UPDATE_COMMANDS } from "../../lib/updates/updates.constants";
   import CopyButton from "../ui/CopyButton.svelte";
-  import { ButtonSize, CopyLayout } from "../ui/ui.constants";
+  import { ButtonSize } from "../ui/button.constants";
+  import { CopyLayout } from "../ui/ui.constants";
 
   const commands = IMAGE_UPDATE_COMMANDS.join("\n");
 </script>

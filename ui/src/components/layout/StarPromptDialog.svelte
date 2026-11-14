@@ -2,11 +2,13 @@
   import { CommandName } from "../../lib/bindings/CommandName";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { REPO_URL } from "../../lib/partners.constants";
-  import { app, run } from "../../lib/state/state.svelte";
+  import { app } from "../../lib/state/app.svelte";
+  import { run } from "../../lib/state/session";
   import Dialog from "../ui/Dialog.svelte";
   import ExternalButton from "../ui/ExternalButton.svelte";
   import TextButton from "../ui/TextButton.svelte";
-  import { ButtonSize, ButtonType, ButtonVariant, IconName } from "../ui/ui.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   let closed = $state(false);
 

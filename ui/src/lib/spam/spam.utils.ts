@@ -1,4 +1,5 @@
-import { BadgeTone, IconName } from "../../components/ui/ui.constants";
+import { BadgeTone } from "../tones.constants";
+import { IconName } from "../icons.constants";
 import type { BurstResultType } from "../bindings/BurstResultType";
 import type { ErrorApiMessage } from "../bindings/ErrorApiMessage";
 import type { SpamPointsSettingsType } from "../bindings/SpamPointsSettingsType";
@@ -117,8 +118,7 @@ export const changedAgo = (iso: string, now: number): string => {
     : relativeTime(iso, now);
 };
 
-// ! Not `crypto.randomUUID()`: it needs a secure context, and a dashboard on the
-// local network is plain HTTP.
+// ! Not `crypto.randomUUID()`: it needs a secure context, and a dashboard on the local network is plain HTTP.
 export const newBurstId = (): string =>
   Array.from(crypto.getRandomValues(new Uint8Array(16)), (byte) =>
     byte.toString(16).padStart(2, "0"),

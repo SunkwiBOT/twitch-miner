@@ -108,7 +108,7 @@ Hal-hal yang membedakannya dari penambang lain. “Lihat langsung” di bawah se
   <img src="../media/id/streamers-group-edit.avif" alt="Mengedit beberapa streamer, dengan opsi “Campuran”">
   </details>
 
-- **Impor streamer.** Tempel daftar (hingga 500 nama), atau pakai lagi daftar akun lain atau channel yang diikuti akun tersebut. Daftar itu diperiksa agar hanya channel yang benar-benar ada yang ditambahkan.
+- **Impor streamer.** Tempel daftar (hingga 500 nama), atau pakai lagi daftar akun lain atau channel yang diikuti akun tersebut. Daftar itu diperiksa agar hanya channel yang benar-benar ada yang ditambahkan. Pembaruan langsung mencakup 46 streamer per akun: streamer berikutnya dalam daftar tidak mendapat raid, momen, atau prediksi.
 
   <details open><summary>Lihat langsung</summary>
   <img src="../media/id/streamers-import.avif" alt="Mengimpor streamer: daftar yang ditempel, akun lain, channel yang diikuti">
@@ -134,7 +134,7 @@ Hal-hal yang membedakannya dari penambang lain. “Lihat langsung” di bawah se
   <img src="../media/id/drops-order.avif" alt="Urutan penambangan, game prioritas, dan pengecualian">
   </details>
 
-- **Inventaris dan “Klaim semua”.** Halaman Inventaris memilah hadiah menjadi “Siap diklaim”, “Sedang berjalan”, dan “Sudah diklaim”. Klaim satu per satu, semuanya sekaligus, atau nyalakan “Klaim drop otomatis”.
+- **Inventaris dan “Klaim semua”.** Halaman Inventaris memilah hadiah menjadi “Siap diklaim”, “Sedang berjalan”, dan “Sudah diklaim”. Klaim satu per satu, semuanya sekaligus, atau nyalakan “Klaim drop otomatis”. Setelah “Tautkan akun game”, akun dibaca ulang begitu Anda kembali ke aplikasi, jadi tautannya langsung terlihat.
 
   <details open><summary>Lihat langsung</summary>
   <img src="../media/id/drops-inventory.avif" alt="Inventaris dan tombol “Klaim semua”">
@@ -146,7 +146,7 @@ Hal-hal yang membedakannya dari penambang lain. “Lihat langsung” di bawah se
   <img src="../media/id/drops-streamers-first.avif" alt="Streamer dari daftar, ditonton untuk Drops dan untuk poinnya">
   </details>
 
-- **Lencana (beta).** Halaman Lencana mencantumkan semua lencana obrolan global Twitch dan cara mendapatkannya. Setiap akun punya halaman Lencana sendiri: lencana yang sedang berjalan beserta progresnya, yang masih bisa didapat, dan yang sudah dimiliki. Penambang mengejar lencana yang hanya butuh waktu menonton, dari kampanye Drops dan quest Twitch, dan melewati lencana yang sudah dimiliki akun. Di “Apa yang ditambang, berurutan”, seret game prioritas, lencana, dan kampanye Drops lainnya ke urutan yang Anda inginkan, atau matikan salah satunya. Fitur ini masih beta.
+- **Lencana (beta).** Halaman Lencana mencantumkan semua lencana obrolan global Twitch dan cara mendapatkannya. Setiap akun punya halaman Lencana sendiri: lencana yang sedang berjalan beserta progresnya, yang masih bisa didapat, dan yang sudah dimiliki. Penambang mengejar lencana dari kampanye Drops dan quest Twitch, dan melewati lencana yang sudah dimiliki akun. Lencana yang harus ditonton setiap hari ditambang lagi setiap hari sampai hari terakhir (“20 mnt per hari, 3 hari”), dan channel di kategori mana pun dari kampanye itu ikut dihitung. Peti memberi “1 lencana acak dari N”. Lencana yang membutuhkan langganan ditambang setelah Anda sendiri berlangganan dan Twitch menghitungnya. Tidak ada yang ditambang sebelum kampanyenya dimulai. Di “Apa yang ditambang, berurutan”, seret game prioritas, lencana, dan kampanye Drops lainnya ke urutan yang Anda inginkan, atau matikan salah satunya. Quest Twitch hanya ditambang di channel tempat Twitch menawarkannya di panel Drops-nya. Evolusi (Pichu → Pikachu) ditambang begitu akun memiliki lencana asal evolusinya: penambang memasang sendiri lencana itu tepat sebelumnya dan tidak memasang kembali lencana lama; “Tambang evolusi lencana”, di pengaturan lencana akun, mematikannya. Klik pada lencana membuka detailnya: syarat lengkap, semua kategori dan channel, koleksi, evolusi, dan progres setiap akun. Fitur ini masih beta.
 
   <details open><summary>Lihat langsung</summary>
   <img src="../media/id/badges.avif" alt="Halaman Lencana, lencana sebuah akun, lalu “Apa yang ditambang, berurutan” dengan Lencana diseret ke posisi pertama">
@@ -154,7 +154,7 @@ Hal-hal yang membedakannya dari penambang lain. “Lihat langsung” di bawah se
 
 ### Pemantauan
 
-- **Jurnal untuk semuanya, dan setiap permintaan.** Jurnal menyimpan setiap peristiwa: drop, poin yang didapat dan dibelanjakan, peti, taruhan, raid, stream yang mulai live… Saring berdasarkan akun, tab (Drops, Poin, Lainnya), dan jenis. **Log teknis › Permintaan** mencantumkan setiap permintaan yang dikirim ke Twitch dan ke layanan lain, beserta hasil dan durasinya. Log dan permintaan tidak memuat token atau rahasia apa pun: “Salin untuk laporan bug” menyalinnya, siap ditempel ke laporan bug di [GitHub](https://github.com/SunkwiBOT/twitch-miner/issues) atau [Discord](https://discord.gg/support-bots-891685895781113886).
+- **Jurnal untuk semuanya, dan setiap permintaan.** Jurnal menyimpan setiap peristiwa: drop, poin yang didapat dan dibelanjakan, peti, taruhan, raid, stream yang mulai live… Saring berdasarkan akun, tab (Drops, Lencana, Poin, Lainnya), dan jenis. **Log teknis › Permintaan** mencantumkan setiap permintaan yang dikirim ke Twitch dan ke layanan lain, beserta hasil dan durasinya. Log dan permintaan tidak memuat token atau rahasia apa pun: “Salin untuk laporan bug” menyalinnya, siap ditempel ke laporan bug di [GitHub](https://github.com/SunkwiBOT/twitch-miner/issues) atau [Discord](https://discord.gg/support-bots-891685895781113886).
 
   <details open><summary>Lihat langsung</summary>
   <img src="../media/id/journal-requests.avif" alt="Jurnal yang disaring, lalu Log teknis › Permintaan">
@@ -174,7 +174,7 @@ Hal-hal yang membedakannya dari penambang lain. “Lihat langsung” di bawah se
   <img src="../media/id/security-lock.avif" alt="Gembok: aplikasi terkunci, lalu dibuka dengan kata sandinya">
   </details>
 
-- **Pembaruan bertanda tangan, tidak pernah otomatis.** Lencana “Pembaruan” beserta nomor versinya muncul di bilah atas. “Pasang dan mulai ulang” meminta konfirmasi dulu, lalu aplikasi memasang versi itu dan memulai ulang. Jika ada kata sandi aplikasi, aplikasi dimulai ulang dalam keadaan terkunci: ketik lagi kata sandinya untuk melanjutkan penambangan. Hanya versi yang ditandatangani proyek yang dipasang. Versi Docker juga memberi tahu, lengkap dengan perintah yang perlu dijalankan.
+- **Pembaruan bertanda tangan, tidak pernah otomatis.** Lencana “Pembaruan” beserta nomor versinya muncul di bilah atas. “Pasang dan mulai ulang” meminta konfirmasi dulu, lalu aplikasi memasang versi itu dan memulai ulang. Jika ada kata sandi aplikasi, aplikasi dimulai ulang dalam keadaan terkunci: ketik lagi kata sandinya untuk melanjutkan penambangan. Hanya versi yang ditandatangani proyek yang dipasang. File portabel untuk Windows tidak memperbarui dirinya sendiri: tombolnya membuka halaman unduhan. Versi Docker juga memberi tahu, lengkap dengan perintah yang perlu dijalankan.
 
   <details open><summary>Lihat langsung</summary>
   <img src="../media/id/updates.avif" alt="Lencana “Pembaruan”, konfirmasi, lalu pemasangan">
@@ -182,7 +182,7 @@ Hal-hal yang membedakannya dari penambang lain. “Lihat langsung” di bawah se
 
 ### Selain itu
 
-- Seperti penambang lain: peti bonus, raid, momen, target komunitas, prediksi (strategi, kapan bertaruh, syarat), streak tonton dan channel langganan lebih dulu, kehadiran di chat (bisa dimatikan), opsi default untuk streamer baru, notifikasi Discord, Telegram, dan webhook dengan gambar, proxy global atau per akun.
+- Seperti penambang lain: peti bonus, raid, momen, target komunitas, prediksi (strategi, kapan bertaruh, syarat), streak tonton dan channel langganan lebih dulu, kehadiran di chat (bisa dimatikan), opsi default untuk streamer baru, notifikasi Discord, Telegram, dan webhook dengan gambar (di server, bahasanya dipilih di **Pengaturan › Notifikasi**), proxy global atau per akun.
 - 29 bahasa, tema gelap dan terang, notifikasi desktop, ikon tray, jalan saat sistem dimulai.
 
   <details open><summary>Lihat langsung</summary>
@@ -252,12 +252,12 @@ Unduh file untuk sistem Anda dari [rilis terbaru](https://github.com/SunkwiBOT/t
 | Sistem | Paket |
 |---|---|
 | **Windows** · x64 | Penginstal (`setup.exe`) atau [executable portabel](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/TwitchMiner-portable.exe) |
-| **macOS** 10.15 atau lebih baru · Intel dan Apple Silicon | Image disk (`.dmg`) |
+| **macOS** 13 atau lebih baru · Intel dan Apple Silicon | Image disk (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu), atau `.rpm` (Fedora, openSUSE) |
 
-Build macOS tidak dinotarisasi. Saat pertama kali, klik kanan aplikasi lalu pilih **Buka**.
+Build macOS tidak dinotarisasi. Saat pertama kali, buka aplikasinya: macOS akan memblokirnya. Lalu buka **Pengaturan Sistem › Privasi & Keamanan** dan klik **Tetap Buka**.
 
-Pembaruan ditandatangani. Aplikasi memeriksa versi baru saat dimulai, lalu setiap jam (Anda bisa mengubah frekuensinya di **Pengaturan › Tentang**). Aplikasi tidak pernah memasangnya sendiri: Anda memasangnya dengan sekali klik, dari pesan yang muncul atau dari **Pengaturan › Tentang**.
+Pembaruan ditandatangani. Aplikasi memeriksa versi baru saat dimulai, lalu setiap jam (Anda bisa mengubah frekuensinya di **Pengaturan › Tentang**). Aplikasi tidak pernah memasangnya sendiri: Anda memasangnya dengan sekali klik, dari pesan yang muncul atau dari **Pengaturan › Tentang**. File portabel tidak pernah memperbarui dirinya sendiri: “Buka halaman unduhan” membawa Anda ke rilis terbaru.
 
 Data disimpan di folder data pengguna:
 
@@ -300,7 +300,7 @@ Buka <http://localhost:8080> (atau alamat mesin itu di jaringan Anda) lalu masuk
 | `MINER_PASSWORD_FILE` | tidak ada | Membaca `MINER_PASSWORD` dari file, misalnya Docker secret. Pilih salah satu, jangan keduanya. |
 | `MINER_PUBLIC_URL` | tidak ada | Hanya di belakang reverse proxy HTTPS (Caddy, nginx, Traefik, Cloudflare Tunnel…): alamat `https://` dasbor, tanpa path, seperti `https://miner.example.com`. Proxy harus meneruskan `X-Forwarded-Proto`, `X-Forwarded-For`, dan websocket, yang sudah dilakukan proxy umum secara default, dan port container tidak boleh bisa dijangkau langsung. Dasbor lalu menolak semua akses yang tidak datang lewat proxy melalui HTTPS, dan mengunci sebuah alamat selama 30 detik setelah 5 kata sandi salah. Proxy harus berjalan di mesin yang sama atau jaringan lokalnya: koneksi dari alamat publik ditolak. |
 | `MINER_TRUSTED_HOPS` | `1` | Hanya bersama `MINER_PUBLIC_URL`: berapa banyak proxy yang menambahkan entri ke `X-Forwarded-For`, dari 1 sampai 10. `2` untuk dua proxy yang berlapis, seperti Cloudflare di depan Traefik. |
-| `MINER_PROXY_NETWORKS` | tidak ada | Hanya dengan `MINER_PUBLIC_URL`: jaringan lain tempat proxy boleh terhubung, selain mesin ini dan jaringan lokal privatnya, dipisahkan koma: satu alamat atau jaringan seperti `2001:db8:1::/64`, untuk jaringan lokal yang alamat IPv6-nya global. |
+| `MINER_PROXY_NETWORKS` | tidak ada | Hanya dengan `MINER_PUBLIC_URL`: jaringan tempat proxy terhubung, dipisahkan koma: satu alamat atau jaringan seperti `192.168.1.0/24` atau `2001:db8:1::/64`. Setelah diatur, proxy hanya diterima dari alamat loopback dan jaringan ini, tidak lagi dari seluruh jaringan lokal privat. |
 | `MINER_VAULT_PASSPHRASE` | tidak ada | Hanya untuk folder data yang disalin dari aplikasi desktop yang memakai kata sandi aplikasi: membuka kuncinya saat mulai. Server yang disiapkan dari nol tidak pernah membutuhkannya. |
 | `MINER_VAULT_PASSPHRASE_FILE` | tidak ada | Membaca `MINER_VAULT_PASSPHRASE` dari file. Pilih salah satu, jangan keduanya. |
 | `DATA_DIR` | `/data` di image, selain itu `data` di direktori kerja | Database, file kunci, dan log. |
@@ -309,6 +309,8 @@ Buka <http://localhost:8080> (atau alamat mesin itu di jaringan Anda) lalu masuk
 | `RUST_LOG` | `info,hyper=warn,reqwest=warn` | Level log. |
 
 Server membaca dan memeriksa variabel sekali, saat mulai. Nilai yang tidak valid menghentikan server dengan pesan, alih-alih diam-diam beralih ke nilai cadangan.
+
+Di belakang reverse proxy, atur `MINER_PUBLIC_URL`: tanpanya, permintaan pertama yang datang lewat proxy menulis peringatan di log, karena percobaan masuk lalu dihitung pada alamat proxy, dan kata sandi salah dari satu pengunjung akan mengunci semua orang. Koneksi langsung mengirim ping setiap 30 detik, agar proxy tidak menutupnya saat tidak ada yang terjadi. Saat Twitch atau jaringan gagal, server menjawab `424`, tidak pernah `502` atau `504`: di belakang Cloudflare, Anda melihat galat yang sebenarnya, bukan halaman Cloudflare.
 
 ## <a name="how-it-works"></a>Cara kerja
 
@@ -334,7 +336,7 @@ Itu batas dari Twitch: Twitch hanya menghitung dua channel yang ditonton bersama
 ### Drops
 
 **Sebuah kampanye tidak ditambang, atau sebuah drop tidak maju.**\
-Buka halaman **Drops** akun tersebut. Di “Urutan penambangan”, setiap kampanye yang menunggu menyebutkan alasannya: “Tidak ada channel yang live”, “Menunggu (satu kampanye sekaligus)”, atau “Belum ada drop tersedia”. Kampanye yang tidak muncul di daftar itu sudah disisihkan: oleh pengaturan “Kampanye mana”, oleh aturan di tab **Pengecualian**, atau karena tidak bisa selesai tepat waktu. Hadiah yang membutuhkan langganan tidak pernah ditambang, dan drop yang menyusul drop lain menunggu sampai drop pertama selesai. Di mode **Hanya poin**, penambang tidak memilih kampanye apa pun. “Tambang lebih dulu”, di detail sebuah kampanye, menaruhnya di urutan teratas; kampanye yang diabaikan bisa kembali lewat “Tambang lagi”, di tab **Pengecualian**.
+Buka halaman **Drops** akun tersebut. Di “Urutan penambangan”, setiap kampanye yang menunggu menyebutkan alasannya: “Tidak ada channel yang live” atau “Menunggu (satu kampanye sekaligus)”. Kampanye yang tidak muncul di daftar itu sudah disisihkan: oleh “Apa yang ditambang, berurutan”, oleh pengaturan “Kampanye mana”, oleh aturan di tab **Pengecualian**, atau karena tidak bisa selesai tepat waktu. Hadiah yang membutuhkan langganan menunggu sampai Anda sendiri berlangganan, lencana yang harus ditonton setiap hari menunggu hari berikutnya, tidak ada yang ditambang sebelum kampanyenya dimulai, dan drop yang menyusul drop lain menunggu sampai drop pertama selesai. Di mode **Hanya poin**, penambang tidak memilih kampanye apa pun. “Tambang lebih dulu”, di detail sebuah kampanye, menaruhnya di urutan teratas; kampanye yang diabaikan bisa kembali lewat “Tambang lagi”, di tab **Pengecualian**.
 
 **Apakah saya perlu menautkan akun game?**\
 Untuk mengklaim, ya: sejak Oktober 2026, Twitch hanya mengizinkan klaim drop jika akun game sudah tertaut. Secara default, kampanye yang belum tertaut tetap berjalan dan klaimnya menunggu penautan. Lencana “Belum tertaut” menandainya, dan “Tautkan akun game”, di detail kampanye, membuka halaman penautan. Untuk menambang game yang tertaut saja, pilih “Hanya game yang akunnya tertaut”.
@@ -348,7 +350,7 @@ Aplikasi desktop menambang selama PC Anda menyala, dengan ikon tray, kata sandi 
 Di folder data: `~/.local/share/twitch-miner` di Linux, `%APPDATA%\twitch-miner` di Windows, `~/Library/Application Support/twitch-miner` di macOS, dan volume `/data` dengan Docker. Di desktop, **Pengaturan › Desktop** membukanya dengan sekali klik. Isinya `miner.db` (akun, pengaturan, jurnal), `master.key` (kunci sesi, jika kata sandi aplikasi tidak diatur), dan log.
 
 **Bagaimana cara memperbarui?**\
-Aplikasi desktop memeriksa versi baru saat dimulai, lalu setiap jam (Anda bisa mengubahnya di **Pengaturan › Tentang**). Klik lencana “Pembaruan”, lalu “Pasang dan mulai ulang”. Dengan Docker, dasbor memberi tahu Anda: jalankan `docker compose pull`, lalu `docker compose up -d`.
+Aplikasi desktop memeriksa versi baru saat dimulai, lalu setiap jam (Anda bisa mengubahnya di **Pengaturan › Tentang**). Klik lencana “Pembaruan”, lalu “Pasang dan mulai ulang”. Dengan Docker, dasbor memberi tahu Anda: jalankan `docker compose pull`, lalu `docker compose up -d`. File portabel untuk Windows tidak memperbarui dirinya sendiri: “Buka halaman unduhan” membuka rilis terbaru, tempat Anda mengunduh yang baru.
 
 **Saya lupa kata sandi aplikasi.**\
 Kata sandi itu tidak bisa dipulihkan: justru kata sandi itulah yang mengenkripsi sesi Twitch Anda. Tutup aplikasi, hapus folder data, lalu tambahkan lagi akun Anda; pengaturannya harus dibuat ulang. Dengan Docker, kata sandi dasbor diubah di `MINER_PASSWORD`, lalu `docker compose up -d`.
@@ -356,13 +358,13 @@ Kata sandi itu tidak bisa dipulihkan: justru kata sandi itulah yang mengenkripsi
 ### Poin dan prediksi
 
 **Berapa poin per jam?**\
-Tergantung Twitch dan tiap channel. Penambang mendapat apa yang Twitch berikan kepada penonton: poin waktu tonton, peti bonus (sekitar satu setiap 15 menit), dan bonus streak tonton. Langganan melipatgandakan poin, dari ×1,2 sampai ×2 tergantung tingkatannya. Halaman Beranda menampilkan poin yang didapat, dan Jurnal setiap perolehannya.
+Tergantung Twitch dan tiap channel. Penambang mendapat apa yang Twitch berikan kepada penonton: poin waktu tonton, peti bonus (sekitar satu setiap 15 menit), dan bonus streak tonton. Langganan melipatgandakan poin, dari ×1,2 sampai ×2 tergantung tingkatannya, dan dengan “Channel langganan lebih dulu”, yang aktif secara default, channel itu ditonton sebelum sisa daftar Anda. Halaman Beranda menampilkan poin yang didapat, dan Jurnal setiap perolehannya.
 
 **Apakah taruhan berisiko?**\
-Ya, poin bisa hilang. Prediksi nonaktif secara default, per streamer. Anda mengatur strateginya, kapan bertaruh, besar taruhan (5% dari saldo secara default, paling banyak 50.000 poin), saldo minimum, dan, jika mau, sebuah syarat, misalnya odds minimal 1,5. Jaga taruhan tetap kecil.
+Ya, poin bisa hilang. Prediksi nonaktif secara default, per streamer. Anda mengatur strateginya, kapan bertaruh, besar taruhan (5% dari saldo secara default, paling banyak 50.000 poin), saldo minimum, dan, jika mau, sebuah syarat, misalnya odds minimal 1,5. Jaga taruhan tetap kecil. Taruhan di bawah 10 poin tidak pernah dipasang.
 
 **Sebuah streamer tidak ditonton.**\
-Hanya streamer yang dinyalakan dan sedang live yang ditonton, dan hanya di channel yang kosong: di mode **Drops dan poin**, salah satu dari dua channel melayani kampanye saat ini; di mode **Hanya Drops**, tidak ada streamer yang ditonton; akun yang dijeda tidak menonton apa pun. Slot diisi dengan urutan ini, yang tampil sebagai lencana di setiap channel yang ditonton: “Bonus streak”, “Streak terancam”, “Berlangganan”, lalu “Urutan daftar”. Naikkan streamer itu di daftar, atau matikan “Streak tonton lebih dulu” dan “Channel langganan lebih dulu”.
+Hanya streamer yang dinyalakan dan sedang live yang ditonton, dan hanya di channel yang kosong: di mode **Drops dan poin**, salah satu dari dua channel melayani kampanye saat ini; di mode **Hanya Drops**, tidak ada streamer yang ditonton; akun yang dijeda tidak menonton apa pun. Slot diisi dengan urutan ini, yang tampil sebagai lencana di setiap channel yang ditonton: “Streak terancam”, “Bonus streak”, “Berlangganan”, lalu “Urutan daftar”. Naikkan streamer itu di daftar, atau matikan “Streak tonton lebih dulu” dan “Channel langganan lebih dulu”.
 
 ## <a name="related-projects"></a>Proyek terkait
 
@@ -375,8 +377,9 @@ Proyek lain dari pembuat yang sama:
 ## <a name="security"></a>Keamanan
 
 - Token disegel dengan AES-256-GCM. Kuncinya berupa `master.key` acak di samping database (default, tidak perlu melakukan apa pun) atau diturunkan dari kata sandi aplikasi dengan Argon2id.
+- Folder data dan folder log bersifat privat (`0700`): hanya pengguna yang menjalankan penambang yang bisa membukanya.
 - Dasbor HTTP memeriksa kata sandi dalam waktu konstan dan memakai cookie HttpOnly, SameSite=Strict (`Secure`, dengan awalan `__Host-`, di belakang HTTPS). Server hanya menyimpan SHA-256 dari setiap sesi. Sesi diakhiri setelah 30 hari atau saat keluar. Server memeriksa sesi sebelum membaca body request apa pun dan membatasi body hingga 256 KiB.
-- Setelah 5 kata sandi salah berturut-turut dari satu alamat IP (formulir masuk atau bearer), alamat itu harus menunggu 30 detik. Server menjawab `429` dengan `Retry-After` tanpa melihat kata sandinya. Setiap kata sandi salah juga butuh setengah detik untuk dijawab.
+- Setelah 5 kata sandi salah berturut-turut dari satu alamat IP (formulir masuk atau bearer), alamat itu harus menunggu 30 detik. Server menjawab `429` dengan `Retry-After` tanpa melihat kata sandinya. Setiap kata sandi salah juga butuh setengah detik untuk dijawab. Lewat dari 30 kata sandi salah dalam satu menit dari satu alamat koneksi, termasuk proxy bersama, alamat itu hanya mendapat satu percobaan setiap 2 detik: menebak jadi lambat, dan tidak ada yang terkunci.
 - Di luar jaringan Anda, taruh dasbor di belakang reverse proxy HTTPS dengan `MINER_PUBLIC_URL` (lihat [Docker](#docker)).
 - Penambang hanya berkomunikasi dengan `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`, `drops.sunkwi.com`, dan tujuan notifikasi yang Anda atur. Aplikasi (desktop dan Docker) memeriksa versi baru di `github.com`, dan aplikasi desktop mengunduhnya dari GitHub releases proyek. Versi itu ditandatangani: hanya versi yang ditampilkan yang dipasang.
 

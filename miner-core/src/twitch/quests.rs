@@ -6,30 +6,12 @@ use serde_json::{json, Value};
 use ts_rs::TS;
 
 use super::operations::Operation;
-use super::{note_left_out, text, values, TwitchClient};
-use crate::badges::badge_key;
+use super::{count, gql_error, note_left_out, parse_time, text, values, TwitchClient};
 use crate::domain::{
-    Benefit, BenefitKind, Campaign, CampaignKind, CampaignStatus, Game, TimedDrop,
+    BadgeRef, Benefit, BenefitKind, Campaign, CampaignKind, CampaignStatus, Evolution, Game,
+    Repeat, TimedDrop,
 };
 use crate::error::{Error, Result};
-
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
-#[ts(rename = "BadgeRefType")]
-pub struct BadgeRef {
-    pub set_id: String,
-    pub version: String,
-    #[serde(default)]
-    pub title: String,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    #[ts(optional)]
-    pub image_url: Option<String>,
-}
-
-impl BadgeRef {
-    pub fn key(&self) -> String {
-        badge_key(&self.set_id, &self.version)
-    }
-}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default, TS)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
@@ -64,9 +46,11 @@ pub struct QuestReward {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
     pub image_url: Option<String>,
+    #[serde(default)]
+    pub badges: Vec<BadgeRef>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
-    pub badge: Option<BadgeRef>,
+    pub chest_size: Option<u32>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
@@ -78,6 +62,8 @@ pub struct QuestGroup {
     pub required_minutes: u32,
     #[serde(default)]
     pub required_subs: u32,
+    #[serde(default)]
+    pub current_subs: u32,
     #[serde(default)]
     pub categories: Vec<Game>,
     #[serde(default)]
@@ -98,26 +84,63 @@ pub struct QuestGroup {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
     pub progress_campaign_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub repeat: Option<Repeat>,
+    #[serde(default)]
+    pub after_all: bool,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub evolution: Option<Evolution>,
 }
 
 impl QuestGroup {
-    pub fn watch_only(&self) -> bool {
-        self.required_subs == 0 && self.required_minutes > 0
+    pub fn subs_met(&self) -> bool {
+        self.current_subs >= self.required_subs
     }
 
     pub fn waiting_until(&self, now: DateTime<Utc>) -> Option<DateTime<Utc>> {
         self.next_eligible_at.filter(|at| *at > now)
     }
 
-    pub fn minable(&self, now: DateTime<Utc>) -> bool {
-        self.watch_only()
-            && !self.categories.is_empty()
-            && matches!(
-                self.status,
-                QuestStatus::NotStarted | QuestStatus::InProgress
-            )
-            && self.current_minutes < self.required_minutes
-            && self.waiting_until(now).is_none()
+    // ! A repeated group keeps the status of the period it last earned: once
+    // the next window Twitch named has opened, that status is the old period's.
+    fn new_period(&self, now: DateTime<Utc>) -> bool {
+        self.status == QuestStatus::Claimed
+            && self
+                .repeat
+                .is_some_and(|repeat| self.grant_count < repeat.times)
+            && self.next_eligible_at.is_some_and(|at| at <= now)
+    }
+
+    fn current_minutes(&self, now: DateTime<Utc>) -> u32 {
+        match self.status {
+            QuestStatus::Claimable => self.required_minutes,
+            _ if self.new_period(now) => 0,
+            _ => self.current_minutes,
+        }
+    }
+
+    pub fn earned(&self) -> bool {
+        let grants = self
+            .grant_count
+            .saturating_add(u32::from(self.status == QuestStatus::Claimable));
+
+        match self.repeat {
+            Some(repeat) => grants >= repeat.times,
+            None => matches!(self.status, QuestStatus::Claimable | QuestStatus::Claimed),
+        }
+    }
+
+    pub fn label(&self) -> &str {
+        if self.name.is_empty() {
+            self.rewards
+                .first()
+                .map(|r| r.name.as_str())
+                .unwrap_or_default()
+        } else {
+            self.name.as_str()
+        }
     }
 }
 
@@ -153,24 +176,20 @@ impl Quest {
         self.starts_at <= now && now < self.ends_at
     }
 
-    // ! A quest of several groups is a set of lanes (a track the viewer
-    // picks on Twitch): once one is in progress, only that one counts.
+    // ! The watch groups of a quest are lanes (a track the viewer picks on
+    // Twitch): once one is in progress, only that one counts. A subscription
+    // group and the badge of a whole collection stand apart.
     pub fn lanes(&self) -> Vec<&QuestGroup> {
-        let started: Vec<&QuestGroup> = self
+        let lane = |group: &QuestGroup| group.required_subs == 0 && !group.after_all;
+        let started = self
             .groups
             .iter()
-            .filter(|g| g.status != QuestStatus::NotStarted)
-            .collect();
+            .any(|g| lane(g) && g.status != QuestStatus::NotStarted);
 
-        if started.is_empty() {
-            self.groups.iter().collect()
-        } else {
-            started
-        }
-    }
-
-    pub fn minable(&self, now: DateTime<Utc>) -> bool {
-        self.mined_at(now) && self.lanes().iter().any(|g| g.minable(now))
+        self.groups
+            .iter()
+            .filter(|g| !started || !lane(g) || g.status != QuestStatus::NotStarted)
+            .collect()
     }
 
     // ! Only a sitewide quest names the categories its watch counts on.
@@ -188,7 +207,7 @@ impl Quest {
         let lanes: Vec<&QuestGroup> = self
             .lanes()
             .into_iter()
-            .filter(|g| g.watch_only() && !g.categories.is_empty())
+            .filter(|g| !g.categories.is_empty() && g.status != QuestStatus::Unknown)
             .collect();
         let mut categories: Vec<Game> = Vec::new();
 
@@ -205,27 +224,16 @@ impl Quest {
             .iter()
             .map(|group| TimedDrop {
                 id: group.id.clone(),
-                name: if group.name.is_empty() {
-                    group
-                        .rewards
-                        .first()
-                        .map(|r| r.name.clone())
-                        .unwrap_or_default()
-                } else {
-                    group.name.clone()
-                },
+                name: group.label().to_owned(),
                 starts_at: self.starts_at,
                 ends_at: self.ends_at,
                 required_minutes: group.required_minutes,
                 required_subs: group.required_subs,
-                current_minutes: if group.status == QuestStatus::Claimable {
-                    group.required_minutes
-                } else {
-                    group.current_minutes
-                },
+                current_subs: group.current_subs,
+                current_minutes: group.current_minutes(now),
                 instance_id: (group.status == QuestStatus::Claimable)
                     .then(|| self.claim_instance(user_id, group)),
-                claimed: group.status == QuestStatus::Claimed,
+                claimed: group.status == QuestStatus::Claimed && !group.new_period(now),
                 preconditions_met: Some(group.waiting_until(now).is_none()),
                 precondition_drop_ids: Vec::new(),
                 benefits: group
@@ -234,19 +242,26 @@ impl Quest {
                     .map(|reward| Benefit {
                         id: reward.id.clone(),
                         name: reward.name.clone(),
-                        kind: if reward.badge.is_some() {
-                            BenefitKind::Badge
-                        } else {
+                        kind: if reward.badges.is_empty() {
                             BenefitKind::Other
+                        } else {
+                            BenefitKind::Badge
                         },
                         image_url: reward
-                            .badge
-                            .as_ref()
+                            .badges
+                            .first()
+                            .filter(|_| reward.badges.len() == 1)
                             .and_then(|b| b.image_url.clone())
                             .or_else(|| reward.image_url.clone()),
+                        badges: reward.badges.clone(),
+                        chest_size: reward.chest_size,
                     })
                     .collect(),
                 badge_owned: false,
+                repeat: group.repeat,
+                periods_done: group.grant_count,
+                next_period_at: group.waiting_until(now),
+                evolution: group.evolution.clone(),
             })
             .collect();
 
@@ -275,16 +290,7 @@ impl Quest {
 pub struct QuestsRead {
     pub quests: Vec<Quest>,
     pub owned: Vec<BadgeRef>,
-}
-
-fn parse_time(value: &Value) -> Option<DateTime<Utc>> {
-    text(value)?.parse().ok()
-}
-
-fn count(value: &Value) -> u32 {
-    value
-        .as_u64()
-        .map_or(0, |v| u32::try_from(v).unwrap_or(u32::MAX))
+    pub selected: Option<BadgeRef>,
 }
 
 fn parse_game(node: &Value) -> Option<Game> {
@@ -311,6 +317,7 @@ struct GroupProgress {
     name: String,
     status: QuestStatus,
     current_minutes: u32,
+    current_subs: u32,
     grant_count: u32,
     next_eligible_at: Option<DateTime<Utc>>,
     window_ends_at: Option<DateTime<Utc>>,
@@ -334,6 +341,7 @@ fn parse_progress(inventory: &Value) -> HashMap<String, GroupProgress> {
                     name: text(&group["name"]).unwrap_or_default(),
                     status: QuestStatus::from_twitch(me["status"].as_str()),
                     current_minutes: count(&me["currentMinutesWatched"]),
+                    current_subs: count(&me["currentSubs"]),
                     grant_count: count(&me["grantCount"]),
                     next_eligible_at: parse_time(&me["nextEligibleAt"]),
                     window_ends_at: parse_time(&me["currentWindow"]["expiresAt"]),
@@ -373,8 +381,8 @@ pub fn parse_quests(available: &Value, inventory: &Value) -> Vec<Quest> {
                         name: me.map(|p| p.name.clone()).unwrap_or_default(),
                         required_minutes: count(&needs["minuteWatchedGoal"]),
                         required_subs: count(&needs["subsGoal"])
-                            + count(&needs["turboSubsGoal"])
-                            + count(&needs["eventTriggerGoal"]),
+                            .saturating_add(count(&needs["turboSubsGoal"]))
+                            .saturating_add(count(&needs["eventTriggerGoal"])),
                         categories: values(&group["categories"])
                             .filter_map(parse_game)
                             .collect(),
@@ -385,7 +393,11 @@ pub fn parse_quests(available: &Value, inventory: &Value) -> Vec<Quest> {
                                 Some(QuestReward {
                                     name: text(&reward["name"]).unwrap_or_default(),
                                     image_url: text(&reward["thumbnailImage"]["image1xURL"]),
-                                    badge: me.and_then(|p| p.badges.get(&reward_id).cloned()),
+                                    badges: me
+                                        .and_then(|p| p.badges.get(&reward_id).cloned())
+                                        .into_iter()
+                                        .collect(),
+                                    chest_size: None,
                                     id: reward_id,
                                 })
                             })
@@ -396,6 +408,10 @@ pub fn parse_quests(available: &Value, inventory: &Value) -> Vec<Quest> {
                         next_eligible_at: me.and_then(|p| p.next_eligible_at),
                         window_ends_at: me.and_then(|p| p.window_ends_at),
                         progress_campaign_id: me.and_then(|p| p.campaign_id.clone()),
+                        current_subs: me.map_or(0, |p| p.current_subs),
+                        repeat: None,
+                        after_all: false,
+                        evolution: None,
                         id,
                     })
                 })
@@ -454,8 +470,12 @@ impl TwitchClient {
             ));
         }
 
-        let inventory = progress
-            .pointer("/data/currentUser/inventory")
+        let user = progress
+            .pointer("/data/currentUser")
+            .filter(|v| v.is_object())
+            .ok_or_else(|| Error::InvalidResponse("currentUser missing".into()))?;
+        let inventory = user
+            .get("inventory")
             .filter(|v| v.is_object())
             .ok_or_else(|| Error::InvalidResponse("currentUser.inventory missing".into()))?;
         let owned = self
@@ -465,6 +485,24 @@ impl TwitchClient {
         Ok(QuestsRead {
             quests: parse_quests(list, inventory),
             owned: parse_owned_badges(&owned)?,
+            selected: parse_badge(&user["selectedBadge"]),
         })
+    }
+
+    pub async fn select_badge(&self, badge: &BadgeRef) -> Result<Option<BadgeRef>> {
+        let response = self
+            .gql(
+                Operation::SelectBadge,
+                json!({"input": {"badgeSetID": badge.set_id, "badgeSetVersion": badge.version}}),
+            )
+            .await?;
+
+        if let Some(error) = gql_error(Operation::SelectBadge, &response) {
+            return Err(error);
+        }
+
+        Ok(parse_badge(
+            &response["data"]["selectGlobalBadge"]["user"]["selectedBadge"],
+        ))
     }
 }

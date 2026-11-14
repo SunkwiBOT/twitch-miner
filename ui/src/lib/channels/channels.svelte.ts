@@ -2,7 +2,8 @@ import { fetchBanners, lookupChannels } from "../api/client";
 import type { AccountSnapshotType } from "../bindings/AccountSnapshotType";
 import type { ChannelType } from "../bindings/ChannelType";
 import type { SearchChannelType } from "../bindings/SearchChannelType";
-import { app } from "../state/state.svelte";
+import type { SnapshotType } from "../bindings/SnapshotType";
+import { app } from "../state/app.svelte";
 import { CHANNELS_LOOKUP_MAX } from "./channels.constants";
 
 export const knownChannels: Partial<Record<string, ChannelType>> = $state({});
@@ -51,8 +52,7 @@ const flush = async (): Promise<void> => {
   flushing = false;
 };
 
-// ! A channel known only from a search (no id) is read in full: its game, its
-// viewers.
+// ! A channel known only from a search (no id) is read in full: its game and viewers.
 export const ensureChannels = (logins: string[]): void => {
   const wanted = logins.filter((login) => !knownChannels[login]?.id && !asked.has(login));
 
@@ -71,25 +71,39 @@ export const ensureChannels = (logins: string[]): void => {
   }
 };
 
+const liveIndexes = new WeakMap<SnapshotType, Map<string, boolean>>();
+
+const liveIndexOf = (snapshot: SnapshotType): Map<string, boolean> => {
+  const known = liveIndexes.get(snapshot);
+
+  if (known) {
+    return known;
+  }
+
+  const index = new Map<string, boolean>();
+
+  for (const account of snapshot.accounts) {
+    for (const channel of [
+      ...account.slots.map((slot) => slot.channel),
+      ...account.streamers.map((view) => view.channel),
+    ]) {
+      if (channel && (channel.live || !index.has(channel.login))) {
+        index.set(channel.login, channel.live);
+      }
+    }
+  }
+
+  liveIndexes.set(snapshot, index);
+
+  return index;
+};
+
 export const isLive = (login: string | null | undefined): boolean => {
   if (!login) {
     return false;
   }
 
-  let reported: boolean | undefined;
-
-  for (const account of app.snapshot?.accounts ?? []) {
-    const seen = [
-      ...account.slots.map((slot) => slot.channel),
-      ...account.streamers.map((view) => view.channel),
-    ].find((channel) => channel?.login === login);
-
-    if (seen?.live) {
-      return true;
-    }
-
-    reported ??= seen?.live;
-  }
+  const reported = app.snapshot ? liveIndexOf(app.snapshot).get(login) : undefined;
 
   return reported ?? knownChannels[login]?.live === true;
 };

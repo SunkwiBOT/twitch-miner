@@ -19,18 +19,17 @@
   import { overlay } from "../../lib/state/overlay.svelte";
   import Avatar from "./Avatar.svelte";
   import Icon from "./Icon.svelte";
+  import { AvatarSize } from "./picture.constants";
+  import { BUTTON_VARIANTS, ButtonVariant } from "./button.constants";
+  import type { IconName } from "../../lib/icons.constants";
   import {
-    AvatarSize,
-    BUTTON_VARIANTS,
-    ButtonVariant,
-    type IconName,
     MENU_EDGE_GAP,
-    MenuAlign,
     MULTI_ALL_VALUE,
     MULTI_ITEM_CLASSES,
     MULTI_PICTURES_MAX,
+    MenuAlign,
     SELECT_SEARCH_FROM,
-  } from "./ui.constants";
+  } from "./menu.constants";
   import { matchOption } from "./ui.utils";
 
   type OptionType = { value: T; label: string; image?: string; icon?: IconName; group?: string };

@@ -67,20 +67,24 @@ jobs:
           echo "tagged=true" >> "$GITHUB_OUTPUT"
 
   publish:
+    name: ${{ matrix.name }}
     needs: version
     strategy:
       fail-fast: false
       matrix:
         include:
-          - platform: ubuntu-22.04
+          - name: "Linux (AppImage, deb, rpm)"
+            platform: ubuntu-22.04
             args: --bundles appimage,rpm,deb -- --locked
             # ! No "linux" in the name: every AppImage is for Linux, and AppImage tools
             # warn about a name that says so.
             assets: "twitch-miner_[version]_[arch][setup][ext]"
-          - platform: windows-latest
+          - name: "Windows (installer, portable)"
+            platform: windows-latest
             args: --bundles nsis -- --locked
             assets: "twitch-miner_[version]_[platform]_[arch][setup][ext]"
-          - platform: macos-latest
+          - name: "macOS (dmg, app)"
+            platform: macos-latest
             # ! The macOS updater installs the signed `.app.tar.gz` that only the `app`
             # bundle produces.
             args: --bundles app,dmg --target universal-apple-darwin -- --locked
@@ -125,7 +129,7 @@ jobs:
         with:
           tagName: v${{ needs.version.outputs.version }}
           releaseName: "v${{ needs.version.outputs.version }} - Twitch Miner"
-          releaseBody: "Download the installer for your system, or run the Docker image ${{ needs.version.outputs.image }}:${{ needs.version.outputs.version }} (also tagged latest) on a home server. macOS builds are not notarized: right-click the app and choose Open the first time."
+          releaseBody: "Download the installer for your system, or run the Docker image ${{ needs.version.outputs.image }}:${{ needs.version.outputs.version }} (also tagged latest) on a home server. macOS builds are not notarized: the first time, open the app, then allow it in System Settings › Privacy & Security › Open Anyway. TwitchMiner-portable.exe runs on Windows without installing; it does not update itself, download the new one here."
           releaseDraft: true
           prerelease: false
           uploadUpdaterJson: true
@@ -181,6 +185,27 @@ jobs:
       contents: write
       packages: write
     steps:
+      # ! tauri-action points latest.json at API URLs limited to 60 requests an hour per IP.
+      - name: Point latest.json at the public downloads
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_VERSION: ${{ needs.version.outputs.version }}
+        run: |
+          tag="v$RELEASE_VERSION"
+          gh release download "$tag" --pattern latest.json --dir draft
+          gh release view "$tag" --json assets \
+            --jq '[.assets[] | {key: (.apiUrl | split("/") | last), value: .name}] | from_entries' \
+            > draft/names.json
+          jq --slurpfile names draft/names.json \
+            --arg base "https://github.com/$GH_REPO/releases/download/$tag/" \
+            '.platforms |= map_values(.url = ($base + ($names[0][.url | split("/") | last] // error("no asset for " + .url))))' \
+            draft/latest.json > latest.json
+          # ! The three builds rewrite latest.json in turn: one finishing at the same time as another can drop its system.
+          jq -e '.platforms | has("linux-x86_64") and has("windows-x86_64") and has("darwin-aarch64") and has("darwin-x86_64")' latest.json > /dev/null \
+            || { echo "::error::latest.json lacks a system: $(jq -c '.platforms | keys' latest.json)"; exit 1; }
+          gh release upload "$tag" latest.json --clobber
+
       - name: Publish the complete release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -204,10 +229,10 @@ jobs:
   # ! After a failed run start a NEW run: "Re-run failed jobs" would check out
   # the withdrawn tag and fail.
   withdraw:
-    needs: [version, publish, docker]
+    needs: [version, publish, docker, finalize]
     # ! Only a run that created its own tag may remove it: a refused version must
     # never delete the release already published under that number.
-    if: failure() && needs.version.outputs.tagged == 'true'
+    if: (failure() || cancelled()) && needs.version.outputs.tagged == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -218,5 +243,10 @@ jobs:
           GH_REPO: ${{ github.repository }}
           RELEASE_VERSION: ${{ needs.version.outputs.version }}
         run: |
+          draft="$(gh release view "v$RELEASE_VERSION" --json isDraft --jq .isDraft 2>/dev/null || echo missing)"
+          if [ "$draft" = "false" ]; then
+            echo "v$RELEASE_VERSION is already published: nothing to withdraw"
+            exit 0
+          fi
           gh release delete "v$RELEASE_VERSION" --yes --cleanup-tag || true
           gh api -X DELETE "repos/$GH_REPO/git/refs/tags/v$RELEASE_VERSION" || true

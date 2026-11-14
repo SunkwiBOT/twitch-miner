@@ -15,7 +15,8 @@
   import Avatar from "./Avatar.svelte";
   import ChannelAvatar from "./ChannelAvatar.svelte";
   import EmptyState from "./EmptyState.svelte";
-  import { AvatarSize, ButtonSize, ButtonType, ButtonVariant } from "./ui.constants";
+  import { AvatarSize } from "./picture.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "./button.constants";
 
   type CheckListPropsType = {
     items: CheckItemType[];

@@ -52,6 +52,24 @@ impl BenefitKind {
     }
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[ts(rename = "BadgeRefType")]
+pub struct BadgeRef {
+    pub set_id: String,
+    pub version: String,
+    #[serde(default)]
+    pub title: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub image_url: Option<String>,
+}
+
+impl BadgeRef {
+    pub fn key(&self) -> String {
+        crate::badges::badge_key(&self.set_id, &self.version)
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default, TS)]
 #[ts(rename = "BenefitType")]
 pub struct Benefit {
@@ -62,6 +80,45 @@ pub struct Benefit {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
     pub image_url: Option<String>,
+    // ! A chest gives one of its badges at random: `badges` lists them all.
+    #[serde(default)]
+    pub badges: Vec<BadgeRef>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub chest_size: Option<u32>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[ts(rename = "RepeatType")]
+pub struct Repeat {
+    pub times: u32,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub every_hours: Option<u32>,
+}
+
+impl Repeat {
+    pub fn every(&self) -> Option<chrono::Duration> {
+        self.every_hours
+            .filter(|hours| *hours > 0)
+            .map(|hours| chrono::Duration::hours(i64::from(hours)))
+    }
+}
+
+// ! An evolution counts only while the badge it evolves from is equipped; `from` is unknown until the badge list names it.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[ts(rename = "EvolutionType")]
+pub struct Evolution {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub from: Option<BadgeRef>,
+    pub owned: bool,
+}
+
+impl Evolution {
+    pub fn ready(&self) -> bool {
+        self.from.is_some() && self.owned
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
@@ -74,6 +131,8 @@ pub struct TimedDrop {
     pub required_minutes: u32,
     #[serde(default)]
     pub required_subs: u32,
+    #[serde(default)]
+    pub current_subs: u32,
     #[serde(default)]
     pub current_minutes: u32,
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -90,11 +149,42 @@ pub struct TimedDrop {
     pub benefits: Vec<Benefit>,
     #[serde(default)]
     pub badge_owned: bool,
+    // ! A repeated drop is earned once per period, `times` periods in all:
+    // `claimed` and the minutes are those of the current period.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub repeat: Option<Repeat>,
+    #[serde(default)]
+    pub periods_done: u32,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub next_period_at: Option<DateTime<Utc>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub evolution: Option<Evolution>,
 }
 
 impl TimedDrop {
     pub fn complete(&self) -> bool {
-        self.claimed || self.current_minutes >= self.required_minutes
+        match self.repeat {
+            Some(repeat) => self.periods_done >= repeat.times,
+            None => self.claimed || self.current_minutes >= self.required_minutes,
+        }
+    }
+
+    pub fn periods(&self) -> u32 {
+        self.repeat.map_or(1, |repeat| repeat.times.max(1))
+    }
+
+    pub fn waiting(&self, now: DateTime<Utc>) -> bool {
+        self.next_period_at.is_some_and(|at| at > now)
+    }
+
+    pub fn earned_for_now(&self, now: DateTime<Utc>) -> bool {
+        self.complete()
+            || self.claimed
+            || self.current_minutes >= self.required_minutes
+            || self.waiting(now)
     }
 
     pub fn claimable(&self) -> bool {
@@ -105,12 +195,45 @@ impl TimedDrop {
         self.required_minutes.saturating_sub(self.current_minutes)
     }
 
+    pub fn minutes_left(&self, now: DateTime<Utc>) -> u32 {
+        let periods = self.periods().saturating_sub(self.periods_done);
+
+        if self.repeat.is_none() || periods == 0 {
+            return if self.complete() {
+                0
+            } else {
+                self.remaining_minutes()
+            };
+        }
+
+        if self.claimed || self.waiting(now) {
+            periods.saturating_mul(self.required_minutes)
+        } else {
+            (periods - 1)
+                .saturating_mul(self.required_minutes)
+                .saturating_add(self.remaining_minutes())
+        }
+    }
+
     pub fn active_at(&self, now: DateTime<Utc>) -> bool {
         self.starts_at <= now && now < self.ends_at
     }
 
+    // ! Only Twitch's own count says a subscription was made: one running
+    // already, Prime or a renewal never counts for a drop.
+    pub fn subs_met(&self) -> bool {
+        self.current_subs >= self.required_subs
+    }
+
     pub fn minable(&self, excluded: &[String]) -> bool {
-        self.required_subs == 0 && !self.badge_owned && !excluded.iter().any(|id| id == &self.id)
+        self.subs_met()
+            && !self.badge_owned
+            && self.evolution.as_ref().is_none_or(Evolution::ready)
+            && !excluded.iter().any(|id| id == &self.id)
+    }
+
+    pub fn earnable(&self, now: DateTime<Utc>, excluded: &[String]) -> bool {
+        !self.complete() && self.minable(excluded) && self.ends_at > now
     }
 
     pub fn gives_badge(&self) -> bool {
@@ -146,7 +269,7 @@ pub struct Campaign {
     #[serde(default)]
     pub kind: CampaignKind,
     pub game: Game,
-    // ! A quest counts the watch on any of its categories; `game` is the first.
+    // ! The watch counts on any of the categories; `game` is the first.
     #[serde(default)]
     pub categories: Vec<Game>,
     pub status: CampaignStatus,
@@ -173,34 +296,67 @@ impl Campaign {
     // ! Twitch answers a claim on a game the account has not linked as if it
     // took it, and gives nothing: the drop waits for the link.
     pub fn claims_delivered(&self) -> bool {
-        self.linked != Some(false)
+        self.linked != Some(false) || !self.needs_link()
+    }
+
+    // ! Twitch hands chat badges out itself, though it says "not connected" for
+    // their campaign too: a campaign of badges only has no game account to link.
+    pub fn needs_link(&self) -> bool {
+        let mut benefits = self.drops.iter().flat_map(|d| &d.benefits).peekable();
+
+        benefits.peek().is_none() || benefits.any(|b| b.kind != BenefitKind::Badge)
     }
 
     pub fn active_at(&self, now: DateTime<Utc>) -> bool {
         self.status == CampaignStatus::Active && self.starts_at <= now && now < self.ends_at
     }
 
-    pub fn finished(&self) -> bool {
-        !self.drops.is_empty() && self.drops.iter().all(TimedDrop::complete)
+    pub fn finished(&self, now: DateTime<Utc>, excluded: &[String]) -> bool {
+        self.drops.iter().any(TimedDrop::complete)
+            && !self.drops.iter().any(|d| d.earnable(now, excluded))
     }
 
-    pub fn remaining_minutes(&self, excluded: &[String]) -> u32 {
+    pub fn remaining_minutes(&self, now: DateTime<Utc>, excluded: &[String]) -> u32 {
         self.drops
             .iter()
-            .filter(|d| !d.complete() && d.minable(excluded))
-            .map(|d| d.remaining_minutes())
+            .filter(|d| d.earnable(now, excluded))
+            .map(|d| d.minutes_left(now))
             .max()
             .unwrap_or(0)
     }
 
+    // ! Kept while one reward still fits in its window: the shorter ones are not lost.
+    // A repeated one needs its last period to open and be watched before the end.
     pub fn can_finish(&self, now: DateTime<Utc>, excluded: &[String]) -> bool {
-        self.drops
+        let mut left = self
+            .drops
             .iter()
-            .filter(|d| !d.complete() && d.minable(excluded) && d.ends_at > now)
-            .all(|d| {
-                let window = d.ends_at.min(self.ends_at) - d.starts_at.max(now);
+            .filter(|d| d.earnable(now, excluded))
+            .peekable();
 
-                i64::from(d.remaining_minutes()) <= window.num_minutes()
+        left.peek().is_none()
+            || left.any(|d| {
+                let open = !d.claimed && !d.waiting(now);
+                let start = d.starts_at.max(now).max(d.next_period_at.unwrap_or(now));
+                let periods = d.periods().saturating_sub(d.periods_done).max(1);
+                let last_start = match d.repeat.and_then(|r| r.every()) {
+                    Some(every) => i32::try_from(periods - 1)
+                        .ok()
+                        .and_then(|n| every.checked_mul(n))
+                        .and_then(|span| start.checked_add_signed(span)),
+                    None => Some(start),
+                };
+                let Some(last_start) = last_start else {
+                    return false;
+                };
+                let last = if periods == 1 && open {
+                    d.remaining_minutes()
+                } else {
+                    d.required_minutes
+                };
+                let window = d.ends_at.min(self.ends_at) - last_start;
+
+                i64::from(last) <= window.num_minutes()
             })
     }
 
@@ -214,7 +370,7 @@ impl Campaign {
 
         self.drops
             .iter()
-            .filter(|d| !d.complete() && d.active_at(now) && d.minable(excluded))
+            .filter(|d| !d.earned_for_now(now) && d.active_at(now) && d.minable(excluded))
             .filter(|d| {
                 d.preconditions_met.unwrap_or(true)
                     && d.precondition_drop_ids
@@ -229,7 +385,15 @@ impl Campaign {
             || self
                 .drops
                 .iter()
-                .any(|d| d.gives_badge() && !d.complete() && d.minable(excluded) && d.ends_at > now)
+                .any(|d| d.gives_badge() && d.earnable(now, excluded))
+    }
+
+    pub fn has_badge(&self) -> bool {
+        self.kind == CampaignKind::Quest || self.drops.iter().any(TimedDrop::gives_badge)
+    }
+
+    pub fn evolves(&self) -> bool {
+        self.drops.iter().any(|d| d.evolution.is_some())
     }
 
     // ! What a watch or an event of the campaign is for: a quest, or the drop
@@ -244,6 +408,14 @@ impl Campaign {
                     .is_some_and(TimedDrop::gives_badge),
                 None => !self.drops.is_empty() && self.drops.iter().all(TimedDrop::gives_badge),
             }
+    }
+
+    pub fn played(&self) -> impl Iterator<Item = &Game> {
+        std::iter::once(&self.game).chain(
+            self.categories
+                .iter()
+                .filter(move |category| category.id != self.game.id),
+        )
     }
 
     pub fn plays(&self, game: &Game) -> bool {

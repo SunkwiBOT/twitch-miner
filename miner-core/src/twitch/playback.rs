@@ -12,6 +12,7 @@ use url::Url;
 use super::operations::Operation;
 use super::{TwitchClient, USHER_URL, WEB_USER_AGENT};
 use crate::error::{Error, NetworkErrorKind, Result};
+use crate::http::{read_bounded, trusted_host};
 use crate::requests::{host_target, url_target, RequestKind};
 
 pub const POLL_INTERVAL: Duration = Duration::from_secs(15);
@@ -20,24 +21,21 @@ const MAX_SEGMENTS: usize = 256;
 const MAX_PLAYLIST: usize = 512 * 1024;
 // ! A segment refused with one of these was signed by a playback token that
 // expired: the next poll reads the playlist again with a new one. Only a
-// playlist or a segment gone (`NOT_FOUND`) says the stream ended.
+// playlist gone (`NOT_FOUND`) says the stream ended; a segment gone only asks for the playlist again.
 const SEGMENT_REFUSED: [StatusCode; 2] = [StatusCode::UNAUTHORIZED, StatusCode::FORBIDDEN];
+const HOSTS: [&str; 3] = ["ttvnw.net", "twitch.tv", "jtvnw.net"];
 
 pub struct Playback {
-    pub channel_id: String,
     pub login: String,
-    pub broadcast_id: String,
     playlist: Option<Url>,
     seen: VecDeque<Url>,
     pub segments_requested: u64,
 }
 
 impl Playback {
-    pub fn new(channel_id: &str, login: &str, broadcast_id: &str) -> Self {
+    pub fn new(login: &str) -> Self {
         Self {
-            channel_id: channel_id.to_owned(),
             login: login.to_owned(),
-            broadcast_id: broadcast_id.to_owned(),
             playlist: None,
             seen: VecDeque::new(),
             segments_requested: 0,
@@ -97,9 +95,12 @@ impl Playback {
                     self.segments_requested += 1;
                     self.remember(segment);
                 }
-                Err(Error::Status(status))
-                    if status == StatusCode::NOT_FOUND || SEGMENT_REFUSED.contains(&status) =>
-                {
+                Err(Error::Status(StatusCode::NOT_FOUND)) => {
+                    self.playlist = None;
+
+                    break;
+                }
+                Err(Error::Status(status)) if SEGMENT_REFUSED.contains(&status) => {
                     self.playlist = None;
 
                     return Err(Error::Status(status));
@@ -152,14 +153,7 @@ impl Playback {
 }
 
 fn trusted(url: &Url) -> bool {
-    url.scheme() == "https"
-        && url.username().is_empty()
-        && url.password().is_none()
-        && url.host_str().is_some_and(|host| {
-            ["ttvnw.net", "twitch.tv", "jtvnw.net"]
-                .iter()
-                .any(|suffix| host == *suffix || host.ends_with(&format!(".{suffix}")))
-        })
+    trusted_host(url, &HOSTS)
 }
 
 async fn fetch(client: &TwitchClient, method: Method, url: Url) -> Result<String> {
@@ -202,20 +196,9 @@ async fn fetch(client: &TwitchClient, method: Method, url: Url) -> Result<String
         return Ok(String::new());
     }
 
-    if response
-        .content_length()
-        .is_some_and(|len| len > MAX_PLAYLIST as u64)
-    {
-        return Err(Error::InvalidResponse("playlist too large".into()));
-    }
+    let body = read_bounded(response, MAX_PLAYLIST).await?;
 
-    let body = response.text().await?;
-
-    if body.len() > MAX_PLAYLIST {
-        return Err(Error::InvalidResponse("playlist too large".into()));
-    }
-
-    Ok(body)
+    Ok(String::from_utf8_lossy(&body).into_owned())
 }
 
 pub fn parse_master_playlist(body: &str, base: &Url) -> Result<Vec<Url>> {

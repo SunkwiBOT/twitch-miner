@@ -108,7 +108,7 @@ Những gì làm nên khác biệt so với các trình đào khác. “Xem minh
   <img src="../media/vi/streamers-group-edit.avif" alt="Sửa nhiều streamer, với các tùy chọn “Hỗn hợp”">
   </details>
 
-- **Nhập streamer.** Dán một danh sách (tối đa 500 tên), hoặc dùng lại danh sách của tài khoản khác hay các kênh mà tài khoản đang theo dõi. Danh sách được kiểm tra để chỉ thêm những kênh có thật.
+- **Nhập streamer.** Dán một danh sách (tối đa 500 tên), hoặc dùng lại danh sách của tài khoản khác hay các kênh mà tài khoản đang theo dõi. Danh sách được kiểm tra để chỉ thêm những kênh có thật. Cập nhật trực tiếp bao gồm 46 streamer mỗi tài khoản: những streamer tiếp theo trong danh sách không nhận raid, khoảnh khắc hay dự đoán.
 
   <details open><summary>Xem minh họa</summary>
   <img src="../media/vi/streamers-import.avif" alt="Nhập streamer: danh sách đã dán, tài khoản khác, kênh đang theo dõi">
@@ -134,7 +134,7 @@ Những gì làm nên khác biệt so với các trình đào khác. “Xem minh
   <img src="../media/vi/drops-order.avif" alt="Thứ tự đào, game ưu tiên và các quy tắc loại trừ">
   </details>
 
-- **Kho đồ và “Nhận tất cả”.** Trang Kho đồ chia phần thưởng thành “Có thể nhận”, “Đang tiến hành” và “Đã nhận”. Nhận từng cái, nhận tất cả một lần, hoặc bật “Tự động nhận drop”.
+- **Kho đồ và “Nhận tất cả”.** Trang Kho đồ chia phần thưởng thành “Có thể nhận”, “Đang tiến hành” và “Đã nhận”. Nhận từng cái, nhận tất cả một lần, hoặc bật “Tự động nhận drop”. Sau khi bấm “Liên kết tài khoản game”, tài khoản được đọc lại ngay khi bạn quay lại ứng dụng, nên liên kết hiện ra ngay.
 
   <details open><summary>Xem minh họa</summary>
   <img src="../media/vi/drops-inventory.avif" alt="Kho đồ và nút “Nhận tất cả”">
@@ -146,7 +146,7 @@ Những gì làm nên khác biệt so với các trình đào khác. “Xem minh
   <img src="../media/vi/drops-streamers-first.avif" alt="Một streamer trong danh sách, được xem để lấy Drops và điểm kênh">
   </details>
 
-- **Huy hiệu (beta).** Trang Huy hiệu liệt kê mọi huy hiệu chat toàn cầu của Twitch và cách nhận chúng. Mỗi tài khoản có trang Huy hiệu riêng: các huy hiệu đang tiến hành kèm tiến độ, những huy hiệu còn có thể nhận và những huy hiệu đã có. Trình đào nhắm đến các huy hiệu chỉ cần thời gian xem, từ các chiến dịch Drops và nhiệm vụ Twitch, và bỏ qua những huy hiệu tài khoản đã có. Trong “Đào gì, theo thứ tự”, kéo game ưu tiên, huy hiệu và các chiến dịch Drops khác vào thứ tự bạn muốn, hoặc tắt một mục. Tính năng này đang ở giai đoạn beta.
+- **Huy hiệu (beta).** Trang Huy hiệu liệt kê mọi huy hiệu chat toàn cầu của Twitch và cách nhận chúng. Mỗi tài khoản có trang Huy hiệu riêng: các huy hiệu đang tiến hành kèm tiến độ, những huy hiệu còn có thể nhận và những huy hiệu đã có. Trình đào nhắm đến huy hiệu của các chiến dịch Drops và nhiệm vụ Twitch, và bỏ qua những huy hiệu tài khoản đã có. Một huy hiệu cần xem mỗi ngày sẽ được đào lại mỗi ngày cho đến ngày cuối (“20 phút mỗi ngày, 3 ngày”), và kênh thuộc bất kỳ danh mục nào của chiến dịch đều được tính. Một rương cho “1 huy hiệu ngẫu nhiên trong N”. Huy hiệu yêu cầu đăng ký kênh sẽ được đào sau khi chính bạn đã đăng ký và Twitch đã tính lượt đăng ký đó. Không có gì được đào trước khi chiến dịch bắt đầu. Trong “Đào gì, theo thứ tự”, kéo game ưu tiên, huy hiệu và các chiến dịch Drops khác vào thứ tự bạn muốn, hoặc tắt một mục. Một nhiệm vụ Twitch chỉ được đào trên kênh mà Twitch đề xuất nó trong bảng Drops của kênh. Một tiến hóa (Pichu → Pikachu) được đào ngay khi tài khoản có huy hiệu mà nó tiến hóa từ đó: trình đào tự gắn huy hiệu đó ngay trước và không gắn lại huy hiệu cũ; “Đào các tiến hóa huy hiệu”, trong cài đặt huy hiệu của tài khoản, tắt điều này. Bấm vào một huy hiệu sẽ mở chi tiết của nó: toàn bộ yêu cầu, mọi danh mục và kênh, bộ sưu tập, tiến hóa và tiến độ của từng tài khoản. Tính năng này đang ở giai đoạn beta.
 
   <details open><summary>Xem minh họa</summary>
   <img src="../media/vi/badges.avif" alt="Trang Huy hiệu, huy hiệu của một tài khoản, rồi “Đào gì, theo thứ tự” với Huy hiệu được kéo lên đầu">
@@ -154,7 +154,7 @@ Những gì làm nên khác biệt so với các trình đào khác. “Xem minh
 
 ### Giám sát
 
-- **Nhật ký của mọi thứ, và mọi yêu cầu.** Nhật ký lưu mọi sự kiện: drop, điểm nhận được và đã tiêu, rương, cược, raid, kênh bắt đầu phát… Lọc theo tài khoản, theo tab (Drops, Điểm, Khác) và theo loại. **Log kỹ thuật › Yêu cầu** liệt kê mọi yêu cầu gửi tới Twitch và các dịch vụ khác, kèm kết quả và thời gian xử lý. Log và yêu cầu không chứa token hay thông tin bí mật nào: “Sao chép để báo lỗi” sao chép chúng, sẵn sàng để dán vào báo cáo lỗi trên [GitHub](https://github.com/SunkwiBOT/twitch-miner/issues) hoặc [Discord](https://discord.gg/support-bots-891685895781113886).
+- **Nhật ký của mọi thứ, và mọi yêu cầu.** Nhật ký lưu mọi sự kiện: drop, điểm nhận được và đã tiêu, rương, cược, raid, kênh bắt đầu phát… Lọc theo tài khoản, theo tab (Drops, Huy hiệu, Điểm, Khác) và theo loại. **Log kỹ thuật › Yêu cầu** liệt kê mọi yêu cầu gửi tới Twitch và các dịch vụ khác, kèm kết quả và thời gian xử lý. Log và yêu cầu không chứa token hay thông tin bí mật nào: “Sao chép để báo lỗi” sao chép chúng, sẵn sàng để dán vào báo cáo lỗi trên [GitHub](https://github.com/SunkwiBOT/twitch-miner/issues) hoặc [Discord](https://discord.gg/support-bots-891685895781113886).
 
   <details open><summary>Xem minh họa</summary>
   <img src="../media/vi/journal-requests.avif" alt="Nhật ký đã lọc, rồi Log kỹ thuật › Yêu cầu">
@@ -174,7 +174,7 @@ Những gì làm nên khác biệt so với các trình đào khác. “Xem minh
   <img src="../media/vi/security-lock.avif" alt="Ổ khóa: ứng dụng bị khóa, rồi được mở bằng mật khẩu">
   </details>
 
-- **Cập nhật có chữ ký, không bao giờ tự động.** Huy hiệu “Cập nhật” kèm số phiên bản xuất hiện trên thanh trên cùng. “Cài đặt và khởi động lại” trước tiên hỏi xác nhận, rồi ứng dụng cài phiên bản đó và khởi động lại. Nếu có mật khẩu ứng dụng, ứng dụng khởi động lại ở trạng thái khóa: nhập lại mật khẩu để tiếp tục đào. Chỉ phiên bản do dự án ký mới được cài. Bản Docker cũng báo cho bạn, kèm các lệnh cần chạy.
+- **Cập nhật có chữ ký, không bao giờ tự động.** Huy hiệu “Cập nhật” kèm số phiên bản xuất hiện trên thanh trên cùng. “Cài đặt và khởi động lại” trước tiên hỏi xác nhận, rồi ứng dụng cài phiên bản đó và khởi động lại. Nếu có mật khẩu ứng dụng, ứng dụng khởi động lại ở trạng thái khóa: nhập lại mật khẩu để tiếp tục đào. Chỉ phiên bản do dự án ký mới được cài. Bản di động cho Windows không tự cập nhật: nút của nó mở trang tải xuống. Bản Docker cũng báo cho bạn, kèm các lệnh cần chạy.
 
   <details open><summary>Xem minh họa</summary>
   <img src="../media/vi/updates.avif" alt="Huy hiệu “Cập nhật”, bước xác nhận, rồi quá trình cài đặt">
@@ -182,7 +182,7 @@ Những gì làm nên khác biệt so với các trình đào khác. “Xem minh
 
 ### Và còn nữa
 
-- Như các trình đào khác: rương thưởng, raid, khoảnh khắc, mục tiêu cộng đồng, dự đoán (chiến lược, thời điểm cược, điều kiện), ưu tiên chuỗi xem và kênh đã đăng ký, hiện diện trong chat (có thể tắt), tùy chọn mặc định cho streamer mới, thông báo Discord, Telegram và webhook kèm hình ảnh, proxy chung hoặc theo từng tài khoản.
+- Như các trình đào khác: rương thưởng, raid, khoảnh khắc, mục tiêu cộng đồng, dự đoán (chiến lược, thời điểm cược, điều kiện), ưu tiên chuỗi xem và kênh đã đăng ký, hiện diện trong chat (có thể tắt), tùy chọn mặc định cho streamer mới, thông báo Discord, Telegram và webhook kèm hình ảnh (trên máy chủ, ngôn ngữ thông báo được chọn trong **Cài đặt › Thông báo**), proxy chung hoặc theo từng tài khoản.
 - 29 ngôn ngữ, giao diện tối và sáng, thông báo trên máy tính, biểu tượng trong khay hệ thống, khởi động cùng hệ thống.
 
   <details open><summary>Xem minh họa</summary>
@@ -252,12 +252,12 @@ Tải tệp cho hệ thống của bạn từ [bản phát hành mới nhất](h
 | Hệ thống | Gói |
 |---|---|
 | **Windows** · x64 | Trình cài đặt (`setup.exe`) hoặc [tệp thực thi portable](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/TwitchMiner-portable.exe) |
-| **macOS** 10.15 trở lên · Intel và Apple Silicon | Ảnh đĩa (`.dmg`) |
+| **macOS** 13 trở lên · Intel và Apple Silicon | Ảnh đĩa (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) hoặc `.rpm` (Fedora, openSUSE) |
 
-Bản macOS chưa được công chứng (notarize). Lần đầu tiên, hãy nhấp chuột phải vào ứng dụng và chọn **Mở**.
+Bản macOS chưa được công chứng (notarize). Lần đầu tiên, hãy mở ứng dụng: macOS sẽ chặn nó. Sau đó vào **Cài đặt hệ thống › Quyền riêng tư & bảo mật** và bấm **Vẫn mở**.
 
-Các bản cập nhật đều có chữ ký. Ứng dụng kiểm tra phiên bản mới khi khởi động, rồi mỗi giờ một lần (bạn có thể đổi tần suất trong **Cài đặt › Giới thiệu**). Ứng dụng không bao giờ tự cài: bạn cài chỉ với một cú nhấp, từ thông báo hiện ra hoặc từ **Cài đặt › Giới thiệu**.
+Các bản cập nhật đều có chữ ký. Ứng dụng kiểm tra phiên bản mới khi khởi động, rồi mỗi giờ một lần (bạn có thể đổi tần suất trong **Cài đặt › Giới thiệu**). Ứng dụng không bao giờ tự cài: bạn cài chỉ với một cú nhấp, từ thông báo hiện ra hoặc từ **Cài đặt › Giới thiệu**. Bản di động không bao giờ tự cập nhật: “Mở trang tải xuống” đưa bạn tới bản phát hành mới nhất.
 
 Dữ liệu nằm trong thư mục dữ liệu người dùng:
 
@@ -300,7 +300,7 @@ Mở <http://localhost:8080> (hoặc địa chỉ của máy đó trong mạng c
 | `MINER_PASSWORD_FILE` | không có | Đọc `MINER_PASSWORD` từ một tệp, chẳng hạn một Docker secret. Chỉ dùng một trong hai, không dùng cả hai. |
 | `MINER_PUBLIC_URL` | không có | Chỉ dùng sau một reverse proxy HTTPS (Caddy, nginx, Traefik, Cloudflare Tunnel…): địa chỉ `https://` của bảng điều khiển, không kèm đường dẫn, như `https://miner.example.com`. Proxy phải chuyển tiếp `X-Forwarded-Proto`, `X-Forwarded-For` và websocket, điều mà các proxy phổ biến làm sẵn theo mặc định, và cổng của container không được truy cập trực tiếp được. Khi đó bảng điều khiển từ chối mọi truy cập không đi qua proxy bằng HTTPS, và khóa một địa chỉ trong 30 giây sau 5 lần nhập sai mật khẩu. Proxy phải chạy trên cùng máy hoặc trong mạng nội bộ của máy: kết nối từ địa chỉ công khai sẽ bị từ chối. |
 | `MINER_TRUSTED_HOPS` | `1` | Chỉ dùng cùng `MINER_PUBLIC_URL`: số proxy thêm một mục vào `X-Forwarded-For`, từ 1 đến 10. Đặt `2` khi có hai proxy nối tiếp nhau, như Cloudflare đứng trước Traefik. |
-| `MINER_PROXY_NETWORKS` | không có | Chỉ dùng với `MINER_PUBLIC_URL`: các mạng khác mà proxy được phép kết nối từ đó, ngoài máy này và mạng nội bộ riêng của máy, phân tách bằng dấu phẩy: một địa chỉ hoặc một mạng như `2001:db8:1::/64`, cho mạng nội bộ có địa chỉ IPv6 toàn cục. |
+| `MINER_PROXY_NETWORKS` | không có | Chỉ dùng với `MINER_PUBLIC_URL`: các mạng mà proxy kết nối từ đó, phân tách bằng dấu phẩy: một địa chỉ hoặc một mạng như `192.168.1.0/24` hay `2001:db8:1::/64`. Khi đã đặt, proxy chỉ được chấp nhận từ địa chỉ loopback và các mạng này, không còn từ toàn bộ mạng nội bộ riêng nữa. |
 | `MINER_VAULT_PASSPHRASE` | không có | Chỉ dành cho thư mục dữ liệu sao chép từ ứng dụng máy tính có mật khẩu ứng dụng: mở khóa thư mục đó khi khởi động. Máy chủ dựng mới từ đầu không bao giờ cần biến này. |
 | `MINER_VAULT_PASSPHRASE_FILE` | không có | Đọc `MINER_VAULT_PASSPHRASE` từ một tệp. Chỉ dùng một trong hai, không dùng cả hai. |
 | `DATA_DIR` | `/data` trong image, nếu không thì `data` trong thư mục làm việc | Cơ sở dữ liệu, tệp khóa và log. |
@@ -309,6 +309,8 @@ Mở <http://localhost:8080> (hoặc địa chỉ của máy đó trong mạng c
 | `RUST_LOG` | `info,hyper=warn,reqwest=warn` | Mức log. |
 
 Máy chủ đọc và kiểm tra các biến một lần, khi khởi động. Một giá trị không hợp lệ sẽ dừng máy chủ kèm thông báo, thay vì âm thầm dùng giá trị dự phòng.
+
+Phía sau một reverse proxy, hãy đặt `MINER_PUBLIC_URL`: nếu không, yêu cầu đầu tiên đi qua proxy sẽ ghi một cảnh báo vào log, vì lúc đó các lần đăng nhập được đếm theo địa chỉ của proxy, và mật khẩu sai của một người truy cập sẽ khóa tất cả mọi người. Kết nối trực tiếp gửi một ping mỗi 30 giây, để proxy không đóng nó khi không có gì xảy ra. Khi Twitch hoặc mạng gặp lỗi, máy chủ trả về `424`, không bao giờ `502` hay `504`: phía sau Cloudflare, bạn thấy lỗi thật thay vì trang của Cloudflare.
 
 ## <a name="how-it-works"></a>Cách hoạt động
 
@@ -334,7 +336,7 @@ Không, không có video nào được tải về. Với Drops, cứ mỗi 15 gi
 ### Drops
 
 **Một chiến dịch không được đào, hoặc một drop không tăng tiến độ.**\
-Mở trang **Drops** của tài khoản. Trong “Thứ tự đào”, mỗi chiến dịch đang chờ đều ghi lý do: “Không có kênh đang phát”, “Đang chờ (mỗi lần một chiến dịch)” hoặc “Chưa có drop nào khả dụng”. Chiến dịch không xuất hiện trong danh sách đó đã bị gạt ra: do cài đặt “Chiến dịch nào”, do một quy tắc trong tab **Loại trừ**, hoặc vì không thể hoàn thành kịp. Phần thưởng yêu cầu đăng ký kênh không bao giờ được đào, và một drop nối tiếp drop khác sẽ chờ drop đầu tiên xong. Ở chế độ **Chỉ điểm**, trình đào không chọn chiến dịch nào. “Đào trước”, trong chi tiết của một chiến dịch, đưa chiến dịch đó lên đầu; chiến dịch đã bỏ qua có thể quay lại bằng “Đào lại”, trong tab **Loại trừ**.
+Mở trang **Drops** của tài khoản. Trong “Thứ tự đào”, mỗi chiến dịch đang chờ đều ghi lý do: “Không có kênh đang phát” hoặc “Đang chờ (mỗi lần một chiến dịch)”. Chiến dịch không xuất hiện trong danh sách đó đã bị gạt ra: do “Đào gì, theo thứ tự”, do cài đặt “Chiến dịch nào”, do một quy tắc trong tab **Loại trừ**, hoặc vì không thể hoàn thành kịp. Phần thưởng yêu cầu đăng ký kênh sẽ chờ đến khi chính bạn đăng ký, huy hiệu cần xem mỗi ngày sẽ chờ ngày hôm sau, không có gì được đào trước khi chiến dịch bắt đầu, và một drop nối tiếp drop khác sẽ chờ drop đầu tiên xong. Ở chế độ **Chỉ điểm**, trình đào không chọn chiến dịch nào. “Đào trước”, trong chi tiết của một chiến dịch, đưa chiến dịch đó lên đầu; chiến dịch đã bỏ qua có thể quay lại bằng “Đào lại”, trong tab **Loại trừ**.
 
 **Tôi có cần liên kết tài khoản game không?**\
 Để nhận thì có: từ tháng 10 năm 2026, Twitch chỉ cho nhận drop khi tài khoản game đã được liên kết. Theo mặc định, chiến dịch chưa liên kết vẫn tăng tiến độ và việc nhận sẽ chờ đến khi liên kết. Huy hiệu “Chưa liên kết” đánh dấu điều đó, và “Liên kết tài khoản game”, trong chi tiết chiến dịch, mở trang liên kết. Để chỉ đào game đã liên kết, hãy chọn “Chỉ game đã liên kết tài khoản”.
@@ -348,7 +350,7 @@ Mở trang **Drops** của tài khoản. Trong “Thứ tự đào”, mỗi chi
 Trong thư mục dữ liệu: `~/.local/share/twitch-miner` trên Linux, `%APPDATA%\twitch-miner` trên Windows, `~/Library/Application Support/twitch-miner` trên macOS, và volume `/data` với Docker. Trên máy tính, **Cài đặt › Máy tính** mở thư mục này chỉ với một cú nhấp. Thư mục chứa `miner.db` (tài khoản, cài đặt, nhật ký), `master.key` (khóa của các phiên, khi không đặt mật khẩu ứng dụng) và log.
 
 **Làm sao để cập nhật?**\
-Ứng dụng máy tính kiểm tra phiên bản mới khi khởi động, rồi mỗi giờ một lần (bạn có thể đổi trong **Cài đặt › Giới thiệu**). Nhấp vào huy hiệu “Cập nhật”, rồi “Cài đặt và khởi động lại”. Với Docker, bảng điều khiển sẽ báo cho bạn: chạy `docker compose pull`, rồi `docker compose up -d`.
+Ứng dụng máy tính kiểm tra phiên bản mới khi khởi động, rồi mỗi giờ một lần (bạn có thể đổi trong **Cài đặt › Giới thiệu**). Nhấp vào huy hiệu “Cập nhật”, rồi “Cài đặt và khởi động lại”. Với Docker, bảng điều khiển sẽ báo cho bạn: chạy `docker compose pull`, rồi `docker compose up -d`. Bản di động cho Windows không tự cập nhật: “Mở trang tải xuống” mở bản phát hành mới nhất, nơi bạn tải bản mới.
 
 **Tôi quên mật khẩu ứng dụng.**\
 Không thể khôi phục: chính mật khẩu này mã hóa các phiên Twitch của bạn. Thoát ứng dụng, xóa thư mục dữ liệu, rồi thêm lại tài khoản; cài đặt của chúng cũng phải làm lại từ đầu. Với Docker, mật khẩu bảng điều khiển được đổi trong `MINER_PASSWORD`, rồi chạy `docker compose up -d`.
@@ -356,13 +358,13 @@ Không thể khôi phục: chính mật khẩu này mã hóa các phiên Twitch 
 ### Điểm và dự đoán
 
 **Mỗi giờ được bao nhiêu điểm?**\
-Tùy vào Twitch và từng kênh. Trình đào nhận những gì Twitch trao cho một người xem: điểm theo thời gian xem, rương thưởng (khoảng 15 phút một lần) và thưởng chuỗi xem. Đăng ký kênh sẽ nhân số điểm, từ ×1,2 đến ×2 tùy cấp. Trang chủ hiển thị điểm đã nhận, còn Nhật ký ghi từng lần nhận.
+Tùy vào Twitch và từng kênh. Trình đào nhận những gì Twitch trao cho một người xem: điểm theo thời gian xem, rương thưởng (khoảng 15 phút một lần) và thưởng chuỗi xem. Đăng ký kênh sẽ nhân số điểm, từ ×1,2 đến ×2 tùy cấp, và với “Ưu tiên kênh đã đăng ký”, bật theo mặc định, những kênh đó được xem trước phần còn lại của danh sách. Trang chủ hiển thị điểm đã nhận, còn Nhật ký ghi từng lần nhận.
 
 **Đặt cược có rủi ro không?**\
-Có, bạn có thể mất điểm. Dự đoán tắt theo mặc định, cho từng streamer. Bạn đặt chiến lược, thời điểm cược, mức cược (mặc định 5% số dư, tối đa 50.000 điểm), số dư tối thiểu và, nếu muốn, một điều kiện, chẳng hạn tỷ lệ cược tối thiểu 1,5. Hãy giữ mức cược nhỏ.
+Có, bạn có thể mất điểm. Dự đoán tắt theo mặc định, cho từng streamer. Bạn đặt chiến lược, thời điểm cược, mức cược (mặc định 5% số dư, tối đa 50.000 điểm), số dư tối thiểu và, nếu muốn, một điều kiện, chẳng hạn tỷ lệ cược tối thiểu 1,5. Hãy giữ mức cược nhỏ. Một lượt cược dưới 10 điểm sẽ không bao giờ được đặt.
 
 **Một streamer không được xem.**\
-Chỉ những streamer đang bật và đang phát mới được xem, và chỉ trên một kênh còn trống: ở chế độ **Drops và điểm**, một trong hai kênh phục vụ chiến dịch hiện tại; ở chế độ **Chỉ Drops**, không streamer nào được xem; tài khoản đang tạm dừng không xem gì cả. Các vị trí được phân theo thứ tự sau, hiện thành huy hiệu trên mỗi kênh đang xem: “Thưởng chuỗi”, “Chuỗi sắp đứt”, “Đã đăng ký”, rồi “Thứ tự danh sách”. Hãy đưa streamer lên cao hơn trong danh sách, hoặc tắt “Ưu tiên chuỗi xem” và “Ưu tiên kênh đã đăng ký”.
+Chỉ những streamer đang bật và đang phát mới được xem, và chỉ trên một kênh còn trống: ở chế độ **Drops và điểm**, một trong hai kênh phục vụ chiến dịch hiện tại; ở chế độ **Chỉ Drops**, không streamer nào được xem; tài khoản đang tạm dừng không xem gì cả. Các vị trí được phân theo thứ tự sau, hiện thành huy hiệu trên mỗi kênh đang xem: “Chuỗi sắp đứt”, “Thưởng chuỗi”, “Đã đăng ký”, rồi “Thứ tự danh sách”. Hãy đưa streamer lên cao hơn trong danh sách, hoặc tắt “Ưu tiên chuỗi xem” và “Ưu tiên kênh đã đăng ký”.
 
 ## <a name="related-projects"></a>Dự án liên quan
 
@@ -375,8 +377,9 @@ Các dự án khác của cùng tác giả:
 ## <a name="security"></a>Bảo mật
 
 - Token được niêm phong bằng AES-256-GCM. Khóa hoặc là một `master.key` ngẫu nhiên nằm cạnh cơ sở dữ liệu (mặc định, bạn không cần làm gì), hoặc được dẫn xuất từ mật khẩu ứng dụng bằng Argon2id.
+- Thư mục dữ liệu và thư mục log là riêng tư (`0700`): chỉ người dùng chạy trình đào mới mở được chúng.
 - Bảng điều khiển HTTP kiểm tra mật khẩu trong thời gian hằng định và dùng cookie HttpOnly, SameSite=Strict (`Secure`, với tiền tố `__Host-`, khi chạy sau HTTPS). Máy chủ chỉ lưu SHA-256 của mỗi phiên. Nó kết thúc một phiên sau 30 ngày hoặc khi đăng xuất. Nó kiểm tra phiên trước khi đọc bất kỳ nội dung yêu cầu nào và giới hạn nội dung ở 256 KiB.
-- Sau 5 lần nhập sai mật khẩu liên tiếp từ một địa chỉ IP (biểu mẫu đăng nhập hoặc bearer), địa chỉ đó phải chờ 30 giây. Máy chủ trả về `429` kèm `Retry-After` mà không xem mật khẩu. Mỗi mật khẩu sai cũng phải chờ nửa giây mới được trả lời.
+- Sau 5 lần nhập sai mật khẩu liên tiếp từ một địa chỉ IP (biểu mẫu đăng nhập hoặc bearer), địa chỉ đó phải chờ 30 giây. Máy chủ trả về `429` kèm `Retry-After` mà không xem mật khẩu. Mỗi mật khẩu sai cũng phải chờ nửa giây mới được trả lời. Quá 30 mật khẩu sai trong một phút từ cùng một địa chỉ kết nối, kể cả một proxy dùng chung, địa chỉ đó chỉ được thử một lần mỗi 2 giây: việc đoán chậm lại và không ai bị khóa.
 - Bên ngoài mạng của bạn, hãy đặt bảng điều khiển sau một reverse proxy HTTPS với `MINER_PUBLIC_URL` (xem [Docker](#docker)).
 - Trình đào chỉ liên lạc với `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`, `drops.sunkwi.com` và các đích thông báo bạn cấu hình. Ứng dụng (bản máy tính và Docker) kiểm tra phiên bản mới trên `github.com`, và ứng dụng máy tính tải chúng từ GitHub releases của dự án. Các phiên bản đều có chữ ký: chỉ phiên bản được hiển thị mới được cài.
 

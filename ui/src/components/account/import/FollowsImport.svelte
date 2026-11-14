@@ -9,7 +9,8 @@
   import { personMarker } from "../../../lib/text.utils";
   import ActionButton from "../../ui/ActionButton.svelte";
   import RichText from "../../ui/RichText.svelte";
-  import { ButtonSize, ButtonType, ButtonVariant, IconName } from "../../ui/ui.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../../ui/button.constants";
+  import { IconName } from "../../../lib/icons.constants";
 
   type FollowsImportPropsType = {
     open: boolean;

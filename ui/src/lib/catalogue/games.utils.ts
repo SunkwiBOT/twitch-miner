@@ -1,0 +1,28 @@
+import type { GameType } from "../bindings/GameType";
+import { catalogue } from "./catalogue.svelte";
+
+export type RunningGameType = { game: GameType; drops: number };
+
+export const catalogueGame = (name: string): GameType | undefined =>
+  catalogue.campaigns.find((c) => c.game.name.toLowerCase() === name.toLowerCase())?.game;
+
+export const gameArt = (name: string, art: string | undefined): string | undefined =>
+  art ?? catalogueGame(name)?.box_art_url;
+
+export const runningGames = (now: number): RunningGameType[] => {
+  const byName = new Map<string, RunningGameType>();
+
+  for (const c of catalogue.campaigns) {
+    if (new Date(c.ends_at).getTime() <= now) {
+      continue;
+    }
+
+    const key = c.game.name.toLowerCase();
+    const known = byName.get(key) ?? { game: c.game, drops: 0 };
+
+    known.drops += c.drops.length;
+    byName.set(key, known);
+  }
+
+  return [...byName.values()].sort((a, b) => a.game.name.localeCompare(b.game.name));
+};

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { FILLED_ICON_VIEWBOXES, ICON_PATHS } from "./icons.constants";
-  import type { IconName } from "./ui.constants";
+  import type { IconName } from "../../lib/icons.constants";
 
   type IconPropsType = { name: IconName; size: number; class?: string };
 

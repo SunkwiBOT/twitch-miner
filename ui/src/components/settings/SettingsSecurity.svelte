@@ -10,25 +10,23 @@
   import { minutes } from "../../lib/format.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { AUTO_LOCK_MINUTES } from "../../lib/state/state.constants";
-  import { app, run } from "../../lib/state/state.svelte";
+  import { app } from "../../lib/state/app.svelte";
+  import { run } from "../../lib/state/session";
   import { strong } from "../../lib/text.utils";
   import TextButton from "../ui/TextButton.svelte";
   import ActionButton from "../ui/ActionButton.svelte";
   import Badge from "../ui/Badge.svelte";
+  import FieldActions from "../ui/FieldActions.svelte";
   import FormField from "../ui/FormField.svelte";
   import Panel from "../ui/Panel.svelte";
   import RichText from "../ui/RichText.svelte";
   import SecretInput from "../ui/SecretInput.svelte";
   import Select from "../ui/Select.svelte";
-  import {
-    BadgeTone,
-    ButtonSize,
-    ButtonType,
-    ButtonVariant,
-    IconName,
-    MenuAlign,
-  } from "../ui/ui.constants";
-  import { PASSWORD_MIN_LENGTH } from "./settings.constants";
+  import { BadgeTone } from "../../lib/tones.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
+  import { MenuAlign } from "../ui/menu.constants";
+  import { FIELD_GRID_CLASSES, PASSWORD_MIN_LENGTH } from "./settings.constants";
 
   type SettingsSecurityPropsType = { snapshot: SnapshotType; draft: GlobalSettingsType };
 
@@ -129,7 +127,7 @@
   };
 </script>
 
-<div bind:this={card} tabindex="-1" class="min-w-0 outline-none">
+<div bind:this={card} tabindex="-1" class="flex min-w-0 flex-col outline-none *:flex-1">
   {#if isTauri()}
     <Panel
       title={t.security_title()}
@@ -151,12 +149,12 @@
             void changePassword(false);
           }}
         >
-          <div class="grid grid-cols-[repeat(auto-fit,minmax(min(200px,100%),1fr))] gap-3">
-            {#if hasPassword}
-              <FormField id="pw-current" label={t.settings_vault_current()}>
-                <SecretInput id="pw-current" bind:value={current} autocomplete="current-password" />
-              </FormField>
-            {/if}
+          {#if hasPassword}
+            <FormField id="pw-current" label={t.settings_vault_current()}>
+              <SecretInput id="pw-current" bind:value={current} autocomplete="current-password" />
+            </FormField>
+          {/if}
+          <div class={FIELD_GRID_CLASSES}>
             <FormField id="pw-new" label={t.security_new()}>
               <SecretInput id="pw-new" bind:value={next} autocomplete="new-password" />
             </FormField>
@@ -221,16 +219,16 @@
           />
         </div>
         <form
-          class="flex flex-col gap-2 border-t pt-4"
+          class="border-t pt-4"
           onsubmit={(event) => {
             event.preventDefault();
             void changePassword(true);
           }}
         >
-          <FormField id="pw-remove" label={t.settings_vault_current()}>
+          {#snippet removalInput()}
             <SecretInput id="pw-remove" bind:value={removal} autocomplete="current-password" />
-          </FormField>
-          <div class="flex justify-end">
+          {/snippet}
+          {#snippet removalAction()}
             <ActionButton
               icon={IconName.UNLOCK}
               label={t.security_disable()}
@@ -241,7 +239,10 @@
               size={ButtonSize.MD}
               type={ButtonType.SUBMIT}
             />
-          </div>
+          {/snippet}
+          <FormField id="pw-remove" label={t.settings_vault_current()}>
+            <FieldActions field={removalInput} actions={removalAction} />
+          </FormField>
         </form>
       {/if}
     </Panel>

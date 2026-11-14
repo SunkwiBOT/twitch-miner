@@ -2,7 +2,7 @@
   import { cn } from "$lib/utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import AvatarImage from "./AvatarImage.svelte";
-  import { AVATAR_CLASSES, AvatarSize, LIVE_TAG, LIVE_TAG_CLASSES } from "./ui.constants";
+  import { AVATAR_CLASSES, AvatarSize, LIVE_TAG, LIVE_TAG_CLASSES } from "./picture.constants";
 
   type ChannelAvatarPropsType = {
     url: string | undefined | null;

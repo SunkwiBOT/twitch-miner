@@ -1,43 +1,31 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-
   import type { LoginFlowViewType } from "../../lib/bindings/LoginFlowViewType";
   import { mmss } from "../../lib/format.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { TWITCH_CONNECTIONS_URL } from "../../lib/partners.constants";
-  import { refresh } from "../../lib/state/state.svelte";
+  import { refresh } from "../../lib/state/session";
   import { linkMarker } from "../../lib/text.utils";
-  import { SECOND_MS } from "../../lib/time/time.constants";
+  import { secondClock } from "../../lib/time/clock.svelte";
   import { Progress } from "$lib/components/ui/progress";
   import { cn } from "$lib/utils";
   import CopyButton from "../ui/CopyButton.svelte";
   import ExternalLink from "../ui/ExternalLink.svelte";
   import RichText from "../ui/RichText.svelte";
   import StatusDot from "../ui/StatusDot.svelte";
-  import {
-    BadgeTone,
-    ButtonSize,
-    CopyLayout,
-    LinkLook,
-    LinkMark,
-    LinkSize,
-  } from "../ui/ui.constants";
+  import { BadgeTone } from "../../lib/tones.constants";
+  import { ButtonSize } from "../ui/button.constants";
+  import { CopyLayout } from "../ui/ui.constants";
+  import { LinkLook, LinkMark, LinkSize } from "../ui/link.constants";
   import { LOW_TIME_MS } from "./accounts.constants";
 
   type LoginCodePropsType = { flow: LoginFlowViewType };
 
   let { flow }: LoginCodePropsType = $props();
 
-  let now = $state(Date.now());
-
-  onMount(() => {
-    const timer = setInterval(() => (now = Date.now()), SECOND_MS);
-
-    return () => clearInterval(timer);
-  });
+  const clock = secondClock();
 
   const total = $derived(new Date(flow.expires_at).getTime() - new Date(flow.issued_at).getTime());
-  const left = $derived(Math.max(0, new Date(flow.expires_at).getTime() - now));
+  const left = $derived(Math.max(0, new Date(flow.expires_at).getTime() - clock.now));
   const share = $derived(Math.max(0, Math.min(100, (left / total) * 100)));
   const shortLink = $derived(flow.verification_uri.replace(/^https:\/\/(www\.)?/, ""));
 
@@ -64,6 +52,7 @@
           mark={LinkMark.END}
           look={LinkLook.ALWAYS}
           size={LinkSize.LG}
+          twin={false}
         />
         <CopyButton
           text={() => flow.verification_uri}

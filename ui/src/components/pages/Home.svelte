@@ -5,12 +5,13 @@
   import { AccountStatus } from "../../lib/bindings/AccountStatus";
   import { EventKind } from "../../lib/bindings/EventKind";
   import type { SnapshotType } from "../../lib/bindings/SnapshotType";
-  import { POINTS_ROUTINE } from "../../lib/events/events.utils";
+  import { recentEvents } from "../../lib/events/events.utils";
   import { number } from "../../lib/format.utils";
   import { strong } from "../../lib/text.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { Page } from "../../lib/state/state.constants";
-  import { app, navigate } from "../../lib/state/state.svelte";
+  import { app } from "../../lib/state/app.svelte";
+  import { navigate } from "../../lib/state/router";
   import AccountActivity from "../AccountActivity.svelte";
   import ActivityFeed from "../ActivityFeed.svelte";
   import { Button } from "$lib/components/ui/button";
@@ -29,8 +30,8 @@
     ButtonSize,
     ButtonType,
     ButtonVariant,
-    IconName,
-  } from "../ui/ui.constants";
+  } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
   import { RECENT_MAX } from "./home.constants";
 
   type HomePropsType = { snapshot: SnapshotType };
@@ -38,10 +39,12 @@
   let { snapshot }: HomePropsType = $props();
 
   const events = $derived(
-    [...app.liveEvents, ...snapshot.recent_events]
-      .filter((e) => !POINTS_ROUTINE.has(e.kind) && e.kind !== EventKind.DROP_PROGRESS)
-      .filter((e, i, all) => all.findIndex((o) => o.at === e.at && o.title === e.title) === i)
-      .slice(0, RECENT_MAX),
+    recentEvents(
+      app.liveEvents,
+      snapshot.recent_events,
+      (e) => e.kind !== EventKind.DROP_PROGRESS,
+      RECENT_MAX,
+    ),
   );
 
   const stats = (a: (typeof snapshot.accounts)[number]): string[] =>

@@ -1,5 +1,4 @@
-// ! Command names are kept by hand in TauriCommand: a renamed `#[tauri::command]`
-// fails only at run time.
+// ! Command names are kept by hand in TauriCommand: a renamed `#[tauri::command]` fails only at run time.
 
 import { invoke as tauriInvoke } from "@tauri-apps/api/core";
 import { listen as tauriListen } from "@tauri-apps/api/event";
@@ -22,6 +21,7 @@ import type { LoginFlowResponseType } from "../bindings/LoginFlowResponseType";
 import type { LogsQueryType } from "../bindings/LogsQueryType";
 import type { LogsReportResponseType } from "../bindings/LogsReportResponseType";
 import type { BadgesResponseType } from "../bindings/BadgesResponseType";
+import type { CatalogResponseType } from "../bindings/CatalogResponseType";
 import type { LogsResponseType } from "../bindings/LogsResponseType";
 import type { MinerEventType } from "../bindings/MinerEventType";
 import type { NotificationTestResponseType } from "../bindings/NotificationTestResponseType";
@@ -40,9 +40,7 @@ import type { TauriCommand, UpdateEvent } from "./api.constants";
 
 export type UnsubscribeType = () => void;
 
-// ! The desktop shell exports no bindings: these three mirror `UpdateInfoDto`,
-// `FailedUpdateDto` and `UpdateProgressDto` in src-tauri/src/updates.rs and
-// change with them.
+// ! Hand mirrors of `UpdateInfoDto`, `FailedUpdateDto`, `UpdateProgressDto` (src-tauri/src/updates.rs): no bindings there.
 export type UpdateInfoType = {
   version: string;
   current_version: string;
@@ -56,7 +54,7 @@ export type UpdateProgressType = {
   total: number | null;
 };
 
-type TauriCommandsType = {
+export type TauriCommandsType = {
   [TauriCommand.SNAPSHOT]: { args: undefined; result: SnapshotResponseType };
   [TauriCommand.COMMAND]: { args: { command: CommandType }; result: null };
   [TauriCommand.REFRESH_CATALOG]: { args: undefined; result: CatalogRefreshResponseType };
@@ -85,6 +83,7 @@ type TauriCommandsType = {
   [TauriCommand.TEST_PROXY]: { args: { url: string }; result: ProxyTestResponseType };
   [TauriCommand.HISTORY]: { args: { query: HistoryQueryType }; result: HistoryResponseType };
   [TauriCommand.BADGES]: { args: undefined; result: BadgesResponseType };
+  [TauriCommand.CATALOG]: { args: undefined; result: CatalogResponseType };
   [TauriCommand.LOGS]: { args: { query: LogsQueryType }; result: LogsResponseType };
   [TauriCommand.LOGS_REPORT]: { args: { query: LogsQueryType }; result: LogsReportResponseType };
   [TauriCommand.REQUESTS]: { args: { query: RequestsQueryType }; result: RequestsResponseType };
@@ -107,7 +106,7 @@ type TauriCommandsType = {
   [TauriCommand.APPLY_UPDATE]: { args: { version: string }; result: null };
 };
 
-type ArgumentsType<K extends TauriCommand> = TauriCommandsType[K]["args"] extends undefined
+export type ArgumentsType<K extends TauriCommand> = TauriCommandsType[K]["args"] extends undefined
   ? []
   : [TauriCommandsType[K]["args"]];
 
@@ -125,8 +124,7 @@ type UpdateEventsType = {
 
 export const isTauri = (): boolean => "__TAURI_INTERNALS__" in window;
 
-// ! Goes through the bundled API module, never a global: a script injected into
-// the page cannot reach `invoke` from `window`.
+// ! Through the bundled API module, never `window`: a script injected into the page cannot reach `invoke`.
 export const invoke = async <K extends TauriCommand>(
   command: K,
   ...args: ArgumentsType<K>

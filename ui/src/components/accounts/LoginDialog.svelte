@@ -6,22 +6,23 @@
   import { LoginFlowStatus } from "../../lib/bindings/LoginFlowStatus";
   import { describeCode, describeError } from "../../lib/errors/errors.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
-  import { account, app, refresh, run } from "../../lib/state/state.svelte";
+  import { account, app } from "../../lib/state/app.svelte";
+  import { refresh, run } from "../../lib/state/session";
   import { strong } from "../../lib/text.utils";
   import ActionButton from "../ui/ActionButton.svelte";
   import Dialog from "../ui/Dialog.svelte";
   import Icon from "../ui/Icon.svelte";
   import RichText from "../ui/RichText.svelte";
   import TextButton from "../ui/TextButton.svelte";
-  import { ButtonSize, ButtonType, ButtonVariant, IconName } from "../ui/ui.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
   import LoginCode from "./LoginCode.svelte";
   import SetupWizard from "./SetupWizard.svelte";
 
   type KnownAccountsType = { flowId: string; ids: string[] };
 
   const flow = $derived(app.snapshot?.login ?? null);
-  // ! Kept while the dialog fades out: closing cancels the flow, and the snapshot
-  // that clears it can land mid-animation.
+  // ! Kept while the dialog fades out: closing cancels the flow, and the clearing snapshot can land mid-animation.
   let shown = $state<typeof flow>(null);
   let starting = $state(false);
   let startError = $state<string | null>(null);
@@ -82,8 +83,7 @@
     }
   };
 
-  // ! One automatic start per opening: a failed start stays on screen with its Restart
-  // button instead of retrying in a loop.
+  // ! One automatic start per opening: a failed start keeps its Restart button instead of looping.
   $effect(() => {
     if (!app.loginDialog) {
       autoStarted = false;

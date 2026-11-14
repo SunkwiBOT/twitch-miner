@@ -1,8 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { extendTailwindMerge } from "tailwind-merge";
 
-// ! The theme's text roles are font sizes: merging them keeps the colour. Its
-// named widths join the container scale, so `w-toast` replaces another width.
+// ! The theme's text roles are font sizes (merging keeps the colour) and its named widths join the container scale.
 const twMerge = extendTailwindMerge({
   extend: {
     theme: {

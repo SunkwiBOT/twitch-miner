@@ -36,8 +36,7 @@ impl SnapshotFeed {
     async fn run(self: Arc<Self>) {
         let mut debounce = tokio::time::interval(SNAPSHOT_DEBOUNCE);
 
-        // ! One waiter kept armed between iterations, so a change signalled
-        // while the loop builds is not lost.
+        // ! One waiter stays armed between iterations, so a change signalled while the loop builds is not lost.
         let changed = self.manager.changed.notified();
         tokio::pin!(changed);
         changed.as_mut().enable();

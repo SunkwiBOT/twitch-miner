@@ -1,8 +1,5 @@
 <script lang="ts">
-  // ! Edited after generation: the field is the app's SearchField instead of an
-  // input group with the magnifier on the left, so a menu's search looks and behaves
-  // like every other search field (magnifier on the right, a clear button, Escape
-  // empties it before it closes the menu).
+  // ! Edited after generation: the app's SearchField replaces the input group, so a menu search behaves like any other.
   import { Command as CommandPrimitive } from "bits-ui";
   import SearchField from "../../../../components/ui/SearchField.svelte";
 

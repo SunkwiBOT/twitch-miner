@@ -6,6 +6,7 @@ export enum RoutesApi {
   ACTIVITY = "/api/activity",
   SNAPSHOT = "/api/snapshot",
   COMMAND = "/api/command",
+  CATALOG = "/api/catalog",
   CATALOG_REFRESH = "/api/catalog/refresh",
   UPDATES_CHECK = "/api/updates/check",
   LOGIN_FLOW = "/api/login-flow",

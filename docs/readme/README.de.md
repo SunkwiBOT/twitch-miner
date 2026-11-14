@@ -127,6 +127,8 @@ im Einsatz.
 - **Streamer importieren.** Fügen Sie eine Liste ein (bis zu 500 Namen) oder übernehmen Sie
   die Liste eines anderen Kontos oder die Kanäle, denen das Konto folgt. Die Liste wird
   geprüft, damit nur Kanäle hinzukommen, die es wirklich gibt.
+  Live-Updates gibt es für 46 Streamer pro Konto: Die weiteren der Liste bekommen keine
+  Raids, Momente oder Vorhersagen.
 
   <details open><summary>In Aktion ansehen</summary>
   <img src="../media/de/streamers-import.avif" alt="Streamer importieren: eingefügte Liste, anderes Konto, gefolgte Kanäle">
@@ -166,6 +168,8 @@ im Einsatz.
 - **Inventar und „Alle abholen“.** Die Seite Inventar sortiert die Belohnungen in
   „Abzuholen“, „Laufend“ und „Abgeholt“. Holen Sie sie einzeln oder alle auf einmal ab,
   oder aktivieren Sie „Drops automatisch abholen“.
+  Nach „Spielkonto verknüpfen“ wird das Konto erneut gelesen, sobald Sie zur App
+  zurückkehren, sodass die Verknüpfung sofort erscheint.
 
   <details open><summary>In Aktion ansehen</summary>
   <img src="../media/de/drops-inventory.avif" alt="Das Inventar und die Schaltfläche „Alle abholen“">
@@ -182,11 +186,21 @@ im Einsatz.
 - **Abzeichen (Beta).** Die Seite Abzeichen listet alle globalen Chat-Abzeichen von
   Twitch auf und wie man sie bekommt. Jedes Konto hat seine eigene Abzeichen-Seite: die
   laufenden Abzeichen mit ihrem Fortschritt, die noch erhältlichen und die, die es
-  besitzt. Der Miner holt sich die Abzeichen, die nur Zuschauzeit brauchen, aus
-  Drops-Kampagnen und Twitch-Quests und überspringt die, die das Konto schon besitzt.
-  Ziehen Sie in „Was gemint wird, der Reihe nach“ Prioritätsspiele, Abzeichen und andere
-  Drops-Kampagnen in die gewünschte Reihenfolge, oder schalten Sie eine davon aus. Diese
-  Funktion ist in der Beta.
+  besitzt. Der Miner holt sich die Abzeichen aus Drops-Kampagnen und Twitch-Quests und
+  überspringt die, die das Konto schon besitzt. Ein Abzeichen, das jeden Tag geschaut
+  werden muss, wird jeden Tag erneut gemint, bis zum letzten („20 Min. pro Tag, 3 Tage“),
+  und ein Kanal in einer beliebigen Kategorie der Kampagne zählt. Eine Truhe gibt
+  „1 zufälliges Abzeichen aus N“. Ein Abzeichen, das ein Abo braucht, wird gemint, sobald
+  Sie selbst abonniert haben und Twitch es zählt. Vor dem Start seiner Kampagne wird nichts
+  gemint. Ziehen Sie in „Was gemint wird, der Reihe nach“ Prioritätsspiele, Abzeichen und
+  andere Drops-Kampagnen in die gewünschte Reihenfolge, oder schalten Sie eine davon aus.
+  Eine Twitch-Quest wird nur auf einem Kanal gemint, auf dem Twitch sie in seinem
+  Drops-Bereich anbietet. Eine Entwicklung (Pichu → Pikachu) wird gemint, sobald das Konto
+  das Abzeichen besitzt, aus dem sie sich entwickelt: Der Miner legt dieses Abzeichen kurz
+  vorher selbst an und setzt das alte nicht wieder ein; „Abzeichen-Entwicklungen minen“ in
+  den Abzeichen-Einstellungen des Kontos schaltet das aus. Ein Klick auf ein Abzeichen
+  öffnet seine Details: die ganze Voraussetzung, alle Kategorien und Kanäle, die Sammlung,
+  die Entwicklung und den Fortschritt jedes Kontos. Diese Funktion ist in der Beta.
 
   <details open><summary>In Aktion ansehen</summary>
   <img src="../media/de/badges.avif" alt="Die Seite Abzeichen, die Abzeichen eines Kontos, dann „Was gemint wird, der Reihe nach“ mit Abzeichen an die Spitze gezogen">
@@ -196,7 +210,7 @@ im Einsatz.
 
 - **Ein Journal über alles, dazu jede Anfrage.** Das Journal hält jedes Ereignis fest:
   Drops, verdiente und ausgegebene Punkte, Truhen, Wetten, Raids, Streams, die live gehen …
-  Filtern Sie es nach Konto, nach Tab (Drops, Punkte, Sonstiges) und nach Typ.
+  Filtern Sie es nach Konto, nach Tab (Drops, Abzeichen, Punkte, Sonstiges) und nach Typ.
   **Technische Protokolle › Anfragen** listet jede Anfrage an Twitch und an andere Dienste
   auf, mit ihrem Ergebnis und ihrer Dauer. Logs und Anfragen enthalten weder Tokens noch
   Geheimnisse: „Für Fehlerbericht kopieren“ kopiert sie, fertig zum Einfügen in einen
@@ -237,8 +251,9 @@ im Einsatz.
   „Update“ mit der Versionsnummer. „Installieren und neu starten“ fragt zuerst nach einer
   Bestätigung, dann installiert die App die Version und startet neu. Mit App-Passwort
   startet sie gesperrt neu: Geben Sie es erneut ein, um das Mining fortzusetzen. Installiert
-  wird nur eine vom Projekt signierte Version. Die Docker-Version meldet sich ebenfalls, mit
-  den passenden Befehlen.
+  wird nur eine vom Projekt signierte Version. Die portable Windows-Datei aktualisiert sich
+  nicht selbst: Ihr Button öffnet die Downloadseite. Die Docker-Version meldet sich
+  ebenfalls, mit den passenden Befehlen.
 
   <details open><summary>In Aktion ansehen</summary>
   <img src="../media/de/updates.avif" alt="Das Badge „Update“, die Bestätigung, dann die Installation">
@@ -249,7 +264,8 @@ im Einsatz.
 - Wie bei anderen Minern: Bonus-Truhen, Raids, Momente, Community-Ziele, Vorhersagen
   (Strategien, Zeitpunkt der Wette, Bedingungen), Zuschauerserien und abonnierte Kanäle
   zuerst, Chat-Präsenz (abschaltbar), Standardoptionen für neue Streamer, Benachrichtigungen
-  über Discord, Telegram und Webhook mit Bildern, ein globaler Proxy oder einer pro Konto.
+  über Discord, Telegram und Webhook mit Bildern (auf dem Server wird ihre Sprache unter
+  **Einstellungen › Benachrichtigungen** gewählt), ein globaler Proxy oder einer pro Konto.
 - 29 Sprachen, dunkles und helles Design, Desktop-Benachrichtigungen, Symbol im
   Infobereich, Start mit dem System.
 
@@ -335,16 +351,18 @@ herunter.
 | System | Paket |
 |---|---|
 | **Windows** · x64 | Installationsprogramm (`setup.exe`) oder [portable ausführbare Datei](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/TwitchMiner-portable.exe) |
-| **macOS** 10.15 oder neuer · Intel und Apple Silicon | Disk-Image (`.dmg`) |
+| **macOS** 13 oder neuer · Intel und Apple Silicon | Disk-Image (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) oder `.rpm` (Fedora, openSUSE) |
 
-Der macOS-Build ist nicht notarisiert. Klicken Sie beim ersten Mal mit der rechten
-Maustaste auf die App und wählen Sie **Öffnen**.
+Der macOS-Build ist nicht notarisiert. Öffnen Sie die App beim ersten Mal: macOS blockiert
+sie. Gehen Sie dann zu **Systemeinstellungen › Datenschutz und Sicherheit** und klicken Sie
+auf **Dennoch öffnen**.
 
 Updates sind signiert. Die App sucht beim Start nach einer neuen Version, danach jede
 Stunde (wie oft, können Sie unter **Einstellungen › Über** ändern). Sie installiert nie
 selbst eine neue Version: Das tun Sie mit einem Klick, über die angezeigte Meldung oder
-über **Einstellungen › Über**.
+über **Einstellungen › Über**. Die portable Datei aktualisiert sich nie selbst:
+„Downloadseite öffnen“ führt zur neuesten Version.
 
 Die Daten liegen im Benutzerdatenordner:
 
@@ -391,7 +409,7 @@ geben Sie das Passwort ein.
 | `MINER_PASSWORD_FILE` | keiner | Liest `MINER_PASSWORD` aus einer Datei, etwa einem Docker-Secret. Entweder die eine oder die andere, nicht beide. |
 | `MINER_PUBLIC_URL` | keiner | Nur hinter einem HTTPS-Reverse-Proxy (Caddy, nginx, Traefik, Cloudflare Tunnel …): die `https://`-Adresse des Dashboards, ohne Pfad, etwa `https://miner.example.com`. Der Proxy muss `X-Forwarded-Proto`, `X-Forwarded-For` und Websockets weiterleiten, was gängige Proxys standardmäßig tun, und der Port des Containers darf nicht direkt erreichbar sein. Das Dashboard verweigert dann alles, was nicht über den Proxy per HTTPS kommt, und sperrt eine Adresse nach 5 falschen Passwörtern für 30 Sekunden. Der Proxy muss auf demselben Rechner oder in dessen lokalem Netzwerk laufen: Eine Verbindung von einer öffentlichen Adresse wird abgelehnt. |
 | `MINER_TRUSTED_HOPS` | `1` | Nur mit `MINER_PUBLIC_URL`: wie viele Proxys einen Eintrag zu `X-Forwarded-For` hinzufügen, von 1 bis 10. `2` bei zwei hintereinandergeschalteten Proxys, etwa Cloudflare vor Traefik. |
-| `MINER_PROXY_NETWORKS` | keiner | Nur mit `MINER_PUBLIC_URL`: weitere Netzwerke, aus denen sich der Proxy verbinden darf, außer diesem Rechner und seinem privaten lokalen Netzwerk, durch Kommas getrennt: eine einzelne Adresse oder ein Netzwerk wie `2001:db8:1::/64`, für ein lokales Netzwerk mit globalen IPv6-Adressen. |
+| `MINER_PROXY_NETWORKS` | keiner | Nur mit `MINER_PUBLIC_URL`: die Netzwerke, aus denen sich der Proxy verbindet, durch Kommas getrennt: eine einzelne Adresse oder ein Netzwerk wie `192.168.1.0/24` oder `2001:db8:1::/64`. Ist sie gesetzt, wird der Proxy nur noch von der Loopback-Adresse und aus diesen Netzwerken angenommen, nicht mehr aus dem ganzen privaten lokalen Netzwerk. |
 | `MINER_VAULT_PASSPHRASE` | keiner | Nur für einen Datenordner, der aus der Desktop-App mit gesetztem App-Passwort kopiert wurde: entsperrt ihn beim Start. Ein von Grund auf neu eingerichteter Server braucht sie nie. |
 | `MINER_VAULT_PASSPHRASE_FILE` | keiner | Liest `MINER_VAULT_PASSPHRASE` aus einer Datei. Entweder die eine oder die andere, nicht beide. |
 | `DATA_DIR` | `/data` im Image, sonst `data` im Arbeitsverzeichnis | Datenbank, Schlüsseldatei und Logs. |
@@ -401,6 +419,14 @@ geben Sie das Passwort ein.
 
 Der Server liest und prüft die Variablen einmal, beim Start. Ein ungültiger Wert stoppt
 den Server mit einer Meldung, statt stillschweigend auf einen Ersatzwert zurückzufallen.
+
+Setzen Sie hinter einem Reverse-Proxy `MINER_PUBLIC_URL`: Ohne sie schreibt die erste
+Anfrage, die über einen Proxy kommt, eine Warnung in die Logs, denn Anmeldeversuche werden
+dann auf die Adresse des Proxys gezählt, und die falschen Passwörter eines Besuchers würden
+alle aussperren. Die Live-Verbindung sendet alle 30 Sekunden einen Ping, damit ein Proxy
+sie nicht schließt, wenn nichts passiert. Wenn Twitch oder das Netzwerk ausfällt, antwortet
+der Server mit `424`, nie mit `502` oder `504`: Hinter Cloudflare sehen Sie den echten
+Fehler statt der Seite von Cloudflare.
 
 ## <a name="how-it-works"></a>Funktionsweise
 
@@ -441,14 +467,16 @@ der Kampagne und der andere Ihren Streamern. Die Einstellung „Ein Kanal“ in 
 
 **Eine Kampagne wird nicht gemint, oder ein Drop macht keinen Fortschritt.**\
 Öffnen Sie die Seite **Drops** des Kontos. Unter „Mining-Reihenfolge“ nennt jede wartende
-Kampagne den Grund: „Kein Kanal live“, „Wartet (eine Kampagne nach der anderen)“ oder
-„Noch kein Drop verfügbar“. Eine Kampagne, die nicht in dieser Liste erscheint, wurde
-aussortiert: durch die Einstellung „Welche Kampagnen“, durch eine Regel im Tab
+Kampagne den Grund: „Kein Kanal live“ oder „Wartet (eine Kampagne nach der anderen)“. Eine
+Kampagne, die nicht in dieser Liste erscheint, wurde aussortiert: durch „Was gemint wird,
+der Reihe nach“, durch die Einstellung „Welche Kampagnen“, durch eine Regel im Tab
 **Ausschlüsse** oder weil sie nicht rechtzeitig fertig werden kann. Eine Belohnung, die ein
-Abo voraussetzt, wird nie gemint, und ein Drop, der auf einen anderen folgt, wartet, bis
-der erste fertig ist. Im Modus **Nur Punkte** wählt der Miner keine Kampagne.
-„Vorrangig minen“ in den Details einer Kampagne setzt sie an die Spitze; eine ignorierte
-Kampagne lässt sich im Tab **Ausschlüsse** mit „Wieder minen“ zurückholen.
+Abo voraussetzt, wartet, bis Sie selbst abonniert haben, ein Abzeichen, das jeden Tag
+geschaut werden muss, wartet auf den nächsten Tag, vor dem Start seiner Kampagne wird
+nichts gemint, und ein Drop, der auf einen anderen folgt, wartet, bis der erste fertig
+ist. Im Modus **Nur Punkte** wählt der Miner keine Kampagne. „Vorrangig minen“ in den
+Details einer Kampagne setzt sie an die Spitze; eine ignorierte Kampagne lässt sich im Tab
+**Ausschlüsse** mit „Wieder minen“ zurückholen.
 
 **Muss ich das Spielkonto verknüpfen?**\
 Zum Abholen ja: Seit Oktober 2026 lässt Twitch einen Drop nur abholen, wenn das Spielkonto
@@ -477,7 +505,9 @@ Sitzungsschlüssel, wenn kein App-Passwort gesetzt ist) und die Logs.
 Die Desktop-App sucht beim Start nach einer neuen Version, danach jede Stunde (änderbar
 unter **Einstellungen › Über**). Klicken Sie auf das Badge „Update“, dann auf
 „Installieren und neu starten“. Bei Docker meldet es das Dashboard: Führen Sie
-`docker compose pull` und dann `docker compose up -d` aus.
+`docker compose pull` und dann `docker compose up -d` aus. Die portable Windows-Datei
+aktualisiert sich nicht selbst: „Downloadseite öffnen“ öffnet die neueste Version, wo Sie
+die neue herunterladen.
 
 **Ich habe das App-Passwort vergessen.**\
 Es lässt sich nicht wiederherstellen: Mit ihm werden Ihre Twitch-Sitzungen verschlüsselt.
@@ -490,21 +520,24 @@ Dashboard-Passwort in `MINER_PASSWORD` und führen dann `docker compose up -d` a
 **Wie viele Punkte pro Stunde?**\
 Das hängt von Twitch und vom jeweiligen Kanal ab. Der Miner verdient, was Twitch einem
 Zuschauer gibt: Punkte fürs Zuschauen, Bonus-Truhen (etwa eine alle 15 Minuten) und den
-Bonus der Zuschauerserie. Ein Abo vervielfacht die Punkte, je nach Stufe von ×1,2 bis ×2.
-Die Startseite zeigt die verdienten Punkte, das Journal jeden einzelnen Gewinn.
+Bonus der Zuschauerserie. Ein Abo vervielfacht die Punkte, je nach Stufe von ×1,2 bis ×2,
+und mit „Abonnierte Kanäle zuerst“, standardmäßig an, kommen diese Kanäle vor dem Rest
+Ihrer Liste. Die Startseite zeigt die verdienten Punkte, das Journal jeden einzelnen
+Gewinn.
 
 **Sind Wetten riskant?**\
 Ja, Punkte können verloren gehen. Vorhersagen sind standardmäßig aus, Streamer für
 Streamer. Sie legen die Strategie fest, den Zeitpunkt der Wette, den Einsatz
 (standardmäßig 5 % des Guthabens, höchstens 50.000 Punkte), ein Mindestguthaben und auf
 Wunsch eine Bedingung, etwa eine Quote von mindestens 1,5. Halten Sie den Einsatz klein.
+Ein Einsatz unter 10 Punkten wird nie platziert.
 
 **Ein Streamer wird nicht geschaut.**\
 Geschaut werden nur aktivierte Streamer, die live sind, und nur auf einem freien Kanal: Im
 Modus **Drops und Punkte** dient einer der beiden der aktuellen Kampagne; im Modus
 **Nur Drops** wird kein Streamer geschaut; ein pausiertes Konto schaut gar nichts. Die
 Plätze werden in dieser Reihenfolge vergeben, angezeigt als Badge auf jedem geschauten
-Kanal: „Serienbonus“, „Serie in Gefahr“, „Abonniert“, dann „Listenreihenfolge“. Schieben
+Kanal: „Serie in Gefahr“, „Serienbonus“, „Abonniert“, dann „Listenreihenfolge“. Schieben
 Sie den Streamer in der Liste nach oben, oder schalten Sie „Zuschauerserien zuerst“ und
 „Abonnierte Kanäle zuerst“ aus.
 
@@ -525,6 +558,8 @@ Weitere Projekte desselben Autors:
 - Tokens werden mit AES-256-GCM versiegelt. Der Schlüssel ist entweder eine zufällige
   Datei `master.key` neben der Datenbank (Standard, ohne Zutun) oder wird mit Argon2id aus
   dem App-Passwort abgeleitet.
+- Der Datenordner und der Log-Ordner sind privat (`0700`): Nur der Benutzer, der den Miner
+  ausführt, kann sie öffnen.
 - Das HTTP-Dashboard prüft das Passwort in konstanter Zeit und nutzt Cookies mit
   HttpOnly und SameSite=Strict (`Secure`, mit dem Präfix `__Host-`, hinter HTTPS). Der
   Server speichert von jeder Sitzung nur einen SHA-256-Hash. Er beendet eine Sitzung nach
@@ -534,6 +569,9 @@ Weitere Projekte desselben Autors:
   Bearer) muss diese Adresse 30 Sekunden warten. Der Server antwortet mit `429` und
   `Retry-After`, ohne das Passwort anzusehen. Jedes falsche Passwort verzögert die
   Antwort außerdem um eine halbe Sekunde.
+  Nach 30 falschen Passwörtern in einer Minute von derselben Verbindungsadresse, ein
+  gemeinsamer Proxy eingeschlossen, bekommt diese Adresse nur noch einen Versuch alle
+  2 Sekunden: Raten wird langsam, und niemand wird ausgesperrt.
 - Außerhalb Ihres Netzwerks stellen Sie das Dashboard mit `MINER_PUBLIC_URL` hinter einen
   HTTPS-Reverse-Proxy (siehe [Docker](#docker)).
 - Der Miner kommuniziert nur mit `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`,

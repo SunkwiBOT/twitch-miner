@@ -13,8 +13,12 @@ import { ErrorApiMessage } from "../bindings/ErrorApiMessage";
 import { describeCode, toApiError } from "../errors/errors.utils";
 import { percent } from "../format.utils";
 import { t } from "../i18n/i18n.svelte";
+import { REPO_URL } from "../partners.constants";
 import { Page, ToastKind } from "../state/state.constants";
-import { app, dismissToast, isVaultLocked, navigate, toast } from "../state/state.svelte";
+import { app } from "../state/app.svelte";
+import { navigate } from "../state/router";
+import { isVaultLocked } from "../state/session";
+import { dismissToast, openLink, toast } from "../state/toasts";
 import { strong } from "../text.utils";
 import { UPDATE_TOAST_KEY, UpdateCheck, UpdateStage } from "./updates.constants";
 
@@ -79,12 +83,24 @@ export const checkUpdates = async (): Promise<void> => {
   }
 };
 
+export const installLabel = (): string =>
+  app.info?.portable ? t.updates_download_page() : t.updates_install();
+
 export const askInstall = (): void => {
-  if (!isTauri() || isVaultLocked() || !availableVersion() || updates.stage !== UpdateStage.IDLE) {
+  const version = availableVersion();
+
+  if (!isTauri() || isVaultLocked() || !version || updates.stage !== UpdateStage.IDLE) {
     return;
   }
 
   dismissToast(UPDATE_TOAST_KEY);
+
+  if (app.info?.portable) {
+    void openLink(`${REPO_URL}/releases/tag/v${version}`);
+
+    return;
+  }
+
   updates.confirming = true;
 };
 
@@ -121,8 +137,7 @@ export const installUpdate = async (): Promise<void> => {
 
     const version = await downloadUpdate();
 
-    // ! A check found a newer one since the confirmation: it is confirmed
-    // first, never installed unseen.
+    // ! A newer version found since the confirmation is confirmed first, never installed unseen.
     if (version !== confirmed) {
       updates.available = version;
       updates.stage = UpdateStage.IDLE;
@@ -171,7 +186,7 @@ const offer = (found: UpdateInfoType): void => {
 
   toast(ToastKind.INFO, t.updates_available({ version: found.version }), {
     key: UPDATE_TOAST_KEY,
-    action: { label: t.updates_install(), run: askInstall },
+    action: { label: installLabel(), run: askInstall },
   });
 };
 

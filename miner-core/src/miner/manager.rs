@@ -14,8 +14,8 @@ use super::record_event;
 use super::spam_points::{spam_channels, SpamAccess, SpamPoints};
 use crate::api::{
     AccountSnapshot, AccountStats, AccountStatus, BadgeCatalogView, BadgesResponse, CatalogRefresh,
-    CatalogView, ChannelsLookupResponse, Command, HistoryQuery, HistoryResponse, LoginFlowStatus,
-    LoginFlowView, LogsQuery, LogsReportResponse, LogsResponse, NotificationTest,
+    CatalogResponse, CatalogView, ChannelsLookupResponse, Command, HistoryQuery, HistoryResponse,
+    LoginFlowStatus, LoginFlowView, LogsQuery, LogsReportResponse, LogsResponse, NotificationTest,
     ProxyTestResponse, RedeemRequest, RequestsQuery, RequestsResponse, Shell, Snapshot,
     CHANNELS_LOOKUP_MAX, FOLLOWS_MAX, HISTORY_LIMIT_DEFAULT, HISTORY_LIMIT_MAX, LOGS_LIMIT_DEFAULT,
     LOGS_LIMIT_MAX, REQUESTS_LIMIT_DEFAULT, REQUESTS_LIMIT_MAX,
@@ -26,6 +26,7 @@ use crate::config::{AccountSettings, GlobalSettings};
 use crate::domain::Channel;
 use crate::error::{Error, ErrorCode, Result};
 use crate::events::{EventContext, EventKind, MinerEvent};
+use crate::feed::{Feed, Refresh, REFRESH_INTERVAL};
 use crate::logs::LogFilter;
 use crate::notifications::Notifier;
 use crate::requests::{RequestCursor, RequestFilter, RequestLog, REPORT_MAX};
@@ -63,10 +64,8 @@ const SEARCH_MAX_CHARS: usize = 60;
 const LOGIN_MIN_CHARS: usize = 4;
 
 const MANUAL_REFRESH_GAP: Duration = Duration::from_secs(300);
-const CATALOG_CACHE_KEY: &str = "catalog_cache";
-const BADGES_CACHE_KEY: &str = "badges_cache";
-const CATALOG_CACHE_MAX_AGE: chrono::Duration = chrono::Duration::days(7);
 const HISTORY_PRUNE_EVERY: Duration = Duration::from_secs(3600);
+const REQUESTS_MAX_AGE: chrono::Duration = chrono::Duration::days(365);
 const REQUESTS_TICK: Duration = Duration::from_secs(60);
 const TASK_STOP_TIMEOUT: Duration = Duration::from_secs(5);
 const PASSPHRASE_MIN_CHARS: usize = 4;
@@ -116,13 +115,11 @@ pub struct Manager {
     // ! Swapped when the default proxy changes: read through `http()` at each use.
     http: std::sync::RwLock<Arc<TwitchHttp>>,
     device_id: String,
-    catalog: Arc<RwLock<Catalog>>,
-    catalog_client: CatalogClient,
+    catalog: Feed<Catalog>,
     catalog_refresh: Notify,
     catalog_fetching: Mutex<()>,
     catalog_next_manual: std::sync::Mutex<chrono::DateTime<Utc>>,
-    badges: Arc<RwLock<BadgeCatalog>>,
-    badges_client: BadgeCatalogClient,
+    badges: Feed<BadgeCatalog>,
     shell: Shell,
     settings: RwLock<GlobalSettings>,
     accounts: Mutex<HashMap<String, AccountHandle>>,
@@ -144,6 +141,7 @@ pub struct Manager {
     star_prompt_at: std::sync::Mutex<Option<chrono::DateTime<Utc>>>,
     // ! A key derivation takes 64 MiB and a good part of a second: one at a time.
     deriving: Mutex<()>,
+    vault_change: Mutex<()>,
     wrong_passphrases: std::sync::Mutex<WrongPassphrases>,
     restarts: std::sync::Mutex<HashMap<String, Arc<Mutex<()>>>>,
     spam: Arc<SpamPoints>,
@@ -166,8 +164,8 @@ impl Manager {
         };
 
         let vault = store.open_default_vault()?;
-        let catalog = cached_catalog(&store);
-        let badges = cached_badges(&store);
+        let catalog: Catalog = crate::feed::cached(&store);
+        let badges: BadgeCatalog = crate::feed::cached(&store);
         let next_manual = catalog.fetched_at.map_or_else(Utc::now, |at| {
             at + chrono::Duration::from_std(MANUAL_REFRESH_GAP).unwrap_or_default()
         });
@@ -187,7 +185,7 @@ impl Manager {
         Ok(Arc::new(Self {
             notifier: Notifier::new(
                 settings.notifications.clone(),
-                &settings.language,
+                settings.notification_language(),
                 requests.clone(),
                 shell,
             )?,
@@ -195,13 +193,11 @@ impl Manager {
             vault: RwLock::new(vault),
             http: std::sync::RwLock::new(Arc::new(http)),
             device_id,
-            catalog: Arc::new(RwLock::new(catalog)),
-            catalog_client: CatalogClient::new(requests.clone(), shell)?,
+            catalog: Feed::new(catalog, CatalogClient::new(requests.clone(), shell)?),
             catalog_refresh: Notify::new(),
             catalog_fetching: Mutex::new(()),
             catalog_next_manual: std::sync::Mutex::new(next_manual),
-            badges: Arc::new(RwLock::new(badges)),
-            badges_client: BadgeCatalogClient::new(requests.clone(), shell)?,
+            badges: Feed::new(badges, BadgeCatalogClient::new(requests.clone(), shell)?),
             shell,
             settings: RwLock::new(settings),
             accounts: Mutex::new(HashMap::new()),
@@ -220,6 +216,7 @@ impl Manager {
             update_checked_at: std::sync::Mutex::new(None),
             star_prompt_at: std::sync::Mutex::new(None),
             deriving: Mutex::new(()),
+            vault_change: Mutex::new(()),
             wrong_passphrases: std::sync::Mutex::new(WrongPassphrases::default()),
             restarts: std::sync::Mutex::new(HashMap::new()),
             spam: Arc::new(spam),
@@ -327,45 +324,25 @@ impl Manager {
     }
 
     async fn catalog_loop(self: Arc<Self>) {
-        let mut wait = self
-            .catalog
-            .read()
-            .await
-            .fetched_at
-            .map_or(Duration::ZERO, |at| {
-                let due =
-                    at + chrono::Duration::from_std(CatalogClient::interval()).unwrap_or_default();
-
-                (due - Utc::now()).to_std().unwrap_or(Duration::ZERO)
-            });
+        let mut wait = self.catalog.first_wait().await;
 
         loop {
             tokio::select! {
                 _ = self.cancel.cancelled() => return,
                 _ = tokio::time::sleep(wait) => {}
                 _ = self.catalog_refresh.notified() => {
-                    wait = CatalogClient::interval();
+                    wait = REFRESH_INTERVAL;
 
                     continue;
                 }
             }
 
-            wait = CatalogClient::interval().max(self.fetch_catalog().await);
+            wait = self.fetch_catalog().await;
         }
     }
 
     async fn badges_loop(self: Arc<Self>) {
-        let mut wait = self
-            .badges
-            .read()
-            .await
-            .fetched_at
-            .map_or(Duration::ZERO, |at| {
-                let due =
-                    at + chrono::Duration::from_std(CatalogClient::interval()).unwrap_or_default();
-
-                (due - Utc::now()).to_std().unwrap_or(Duration::ZERO)
-            });
+        let mut wait = self.badges.first_wait().await;
 
         loop {
             tokio::select! {
@@ -373,27 +350,8 @@ impl Manager {
                 _ = tokio::time::sleep(wait) => {}
             }
 
-            let fetch = self.badges_client.fetch().await;
-
-            wait = CatalogClient::interval().max(fetch.retry_after);
-
-            match fetch.result {
-                Ok(next) => {
-                    tracing::info!(badges = next.badges.len(), "badge list refreshed");
-
-                    let json = serde_json::to_string(&next);
-
-                    *self.badges.write().await = next;
-                    self.keep_setting(BADGES_CACHE_KEY, json, "badge list")
-                        .await;
-                }
-                Err(error) => {
-                    tracing::warn!(%error, "badge list refresh failed, the last one is kept");
-                    self.badges.write().await.problem = Some(error.code());
-                }
-            }
-
-            self.badges.write().await.next_refresh_at = chrono::Duration::from_std(wait)
+            wait = self.badges.refresh(&self.store).await.wait();
+            self.badges.state.write().await.next_refresh_at = chrono::Duration::from_std(wait)
                 .ok()
                 .map(|left| Utc::now() + left);
             self.changed.notify_waiters();
@@ -404,88 +362,28 @@ impl Manager {
         let _one_at_a_time = self.catalog_fetching.lock().await;
 
         if Utc::now() < self.next_manual_refresh() {
-            return Duration::ZERO;
+            return REFRESH_INTERVAL;
         }
 
-        self.fetch_catalog_locked().await.1
+        self.fetch_catalog_locked().await.wait()
     }
 
-    async fn fetch_catalog_locked(&self) -> (Result<usize>, Duration) {
-        let fetch = self.catalog_client.fetch().await;
-        let gap = match &fetch.result {
-            Ok(_) | Err(Error::CatalogRateLimited) => MANUAL_REFRESH_GAP.max(fetch.retry_after),
+    async fn fetch_catalog_locked(&self) -> Refresh {
+        let refresh = self.catalog.refresh(&self.store).await;
+        let gap = match &refresh.result {
+            Ok(_) | Err(Error::CatalogRateLimited) => MANUAL_REFRESH_GAP.max(refresh.retry_after),
             Err(_) => Duration::ZERO,
         };
 
         *locked(&self.catalog_next_manual) =
             Utc::now() + chrono::Duration::from_std(gap).unwrap_or_default();
-
-        let result = match fetch.result {
-            Ok(next) => {
-                let count = next.campaigns.len();
-                let json = serde_json::to_string(&next);
-
-                tracing::info!(campaigns = count, "catalogue refreshed");
-                *self.catalog.write().await = next;
-                self.keep_setting(CATALOG_CACHE_KEY, json, "catalogue")
-                    .await;
-
-                Ok(count)
-            }
-            Err(Error::CatalogRateLimited) => {
-                let retry_in_seconds = CatalogClient::interval().max(fetch.retry_after).as_secs();
-                let mut catalog = self.catalog.write().await;
-
-                if catalog.campaigns.is_empty() {
-                    tracing::info!(
-                        retry_in_seconds,
-                        "catalogue refresh postponed: the Twitch Drops API asks to wait"
-                    );
-                } else {
-                    tracing::info!(
-                        retry_in_seconds,
-                        "catalogue refresh postponed: the Twitch Drops API asks to wait, the saved catalogue is used"
-                    );
-                }
-
-                catalog.problem = Some(Error::CatalogRateLimited.code());
-                Err(Error::CatalogRateLimited)
-            }
-            Err(error) => {
-                tracing::warn!(%error, "catalogue refresh failed");
-                self.catalog.write().await.problem = Some(error.code());
-                Err(error)
-            }
-        };
-
         self.changed.notify_waiters();
 
-        if result.is_ok() {
+        if matches!(refresh.result, Ok((_, true))) {
             self.refresh_all().await;
         }
 
-        (result, fetch.retry_after)
-    }
-
-    async fn keep_setting(
-        &self,
-        key: &'static str,
-        json: serde_json::Result<String>,
-        what: &'static str,
-    ) {
-        let kept = async {
-            let json = json?;
-            let store = self.store.clone();
-
-            tokio::task::spawn_blocking(move || store.set_setting(key, &json))
-                .await
-                .map_err(|error| Error::Storage(error.to_string()))?
-        }
-        .await;
-
-        if let Err(error) = kept {
-            tracing::warn!(%error, what, "list not kept for the next start");
-        }
+        refresh
     }
 
     fn next_manual_refresh(&self) -> chrono::DateTime<Utc> {
@@ -499,19 +397,25 @@ impl Manager {
             return Err(Error::CatalogRateLimited);
         }
 
-        let (result, _) = self.fetch_catalog_locked().await;
+        let refresh = self.fetch_catalog_locked().await;
 
         self.catalog_refresh.notify_one();
 
         Ok(CatalogRefresh {
-            campaign_count: u32::try_from(result?).unwrap_or(u32::MAX),
+            campaign_count: u32::try_from(refresh.result?.0).unwrap_or(u32::MAX),
             next_refresh_at: self.next_manual_refresh(),
         })
     }
 
     pub async fn badge_list(&self) -> BadgesResponse {
         BadgesResponse {
-            badges: self.badges.read().await.badges.clone(),
+            badges: self.badges.state.read().await.badges.clone(),
+        }
+    }
+
+    pub async fn catalog_list(&self) -> CatalogResponse {
+        CatalogResponse {
+            campaigns: self.catalog.state.read().await.campaigns.clone(),
         }
     }
 
@@ -562,74 +466,79 @@ impl Manager {
     }
 
     async fn prune_history(&self) {
-        let retention = self.settings.read().await.history_retention;
-
-        if let Some(age) = retention.max_age() {
-            let cutoff = Utc::now() - age;
-            let store = self.store.clone();
-            let pruned = tokio::task::spawn_blocking(move || {
+        let retention = self.settings.read().await.history_retention.max_age();
+        let now = Utc::now();
+        let history_cutoff = retention.map(|age| now - age);
+        let requests_cutoff =
+            now - retention.map_or(REQUESTS_MAX_AGE, |age| age.min(REQUESTS_MAX_AGE));
+        let store = self.store.clone();
+        let pruned = tokio::task::spawn_blocking(move || {
+            if let Some(cutoff) = history_cutoff {
                 store.prune_history(cutoff)?;
-                store.prune_requests(cutoff)
-            })
-            .await;
-
-            match pruned {
-                Ok(Ok(_)) => {}
-                Ok(Err(error)) => tracing::warn!(%error, "history pruning failed"),
-                Err(error) => tracing::warn!(%error, "history pruning stopped"),
             }
 
+            store.prune_requests(requests_cutoff)
+        })
+        .await;
+
+        match pruned {
+            Ok(Ok(_)) => {}
+            Ok(Err(error)) => tracing::warn!(%error, "history pruning failed"),
+            Err(error) => tracing::warn!(%error, "history pruning stopped"),
+        }
+
+        if let Some(cutoff) = history_cutoff {
             self.recent().retain(|event| event.at >= cutoff);
         }
     }
 
-    pub fn requests_page(&self, query: &RequestsQuery) -> Result<RequestsResponse> {
-        let limit = query
-            .limit
-            .unwrap_or(REQUESTS_LIMIT_DEFAULT)
-            .clamp(1, REQUESTS_LIMIT_MAX) as usize;
-        let filter = RequestFilter {
-            account_id: query.account_id.as_deref(),
-            kinds: query.kinds.as_deref(),
-            errors_only: query.errors_only.unwrap_or(false),
-        };
-        let cursor = RequestCursor {
-            live_id: query.before_live_id,
-            stored_id: query.before_stored_id,
-        };
-        let page = self.requests.page(&filter, cursor, limit)?;
+    pub async fn requests_page(&self, query: RequestsQuery) -> Result<RequestsResponse> {
+        let requests = self.requests.clone();
 
-        Ok(RequestsResponse {
-            requests: page.requests,
-            next_live_id: page.next.live_id,
-            next_stored_id: page.next.stored_id,
+        blocking(move || {
+            let limit = query
+                .limit
+                .unwrap_or(REQUESTS_LIMIT_DEFAULT)
+                .clamp(1, REQUESTS_LIMIT_MAX) as usize;
+            let cursor = RequestCursor {
+                live_id: query.before_live_id,
+                stored_id: query.before_stored_id,
+            };
+            let page = requests.page(&request_filter(&query), cursor, limit)?;
+
+            Ok(RequestsResponse {
+                requests: page.requests,
+                next_live_id: page.next.live_id,
+                next_stored_id: page.next.stored_id,
+            })
         })
+        .await
     }
 
-    pub fn requests_report(&self, query: &RequestsQuery) -> Result<LogsReportResponse> {
-        let filter = RequestFilter {
-            account_id: query.account_id.as_deref(),
-            kinds: query.kinds.as_deref(),
-            errors_only: query.errors_only.unwrap_or(false),
-        };
-        let limit = query
-            .limit
-            .map_or(REPORT_MAX, |limit| limit as usize)
-            .clamp(1, REPORT_MAX);
-        let logins: HashMap<String, String> = self
-            .store
-            .accounts()?
-            .into_iter()
-            .map(|account| (account.id, account.login))
-            .collect();
+    pub async fn requests_report(&self, query: RequestsQuery) -> Result<LogsReportResponse> {
+        let requests = self.requests.clone();
+        let store = self.store.clone();
 
-        Ok(LogsReportResponse {
-            report: format!(
-                "{}\n{}",
-                report_header(),
-                self.requests.report(&filter, &logins, limit)?
-            ),
+        blocking(move || {
+            let limit = query
+                .limit
+                .map_or(REPORT_MAX, |limit| limit as usize)
+                .clamp(1, REPORT_MAX);
+            let logins: HashMap<String, String> = store
+                .accounts()?
+                .into_iter()
+                .map(|account| (account.id, account.login))
+                .collect();
+
+            Ok(LogsReportResponse {
+                report: format!(
+                    "{}\n{}",
+                    report_header(),
+                    requests.report(&request_filter(&query), &logins, limit)?
+                ),
+            })
         })
+        .await
     }
 
     pub async fn vault_status(&self) -> VaultStatus {
@@ -662,6 +571,8 @@ impl Manager {
             return Err(Error::NotSupported);
         }
 
+        let _one_change_at_a_time = self.vault_change.lock().await;
+
         // ! Only `None` removes the password: a blank one would silently
         // switch the vault back to the key file.
         if next.is_some_and(|passphrase| passphrase.trim().chars().count() < PASSPHRASE_MIN_CHARS) {
@@ -677,7 +588,9 @@ impl Manager {
         }
 
         let current_vault = match mode {
-            VaultMode::KeyFile => Vault::from_key_file(&self.store.dir)?,
+            VaultMode::KeyFile => {
+                Vault::from_key_file(&self.store.dir, !self.store.has_credentials()?)?
+            }
             VaultMode::Passphrase => {
                 self.open_with_passphrase(current.unwrap_or_default())
                     .await?
@@ -756,7 +669,7 @@ impl Manager {
             None => {
                 crate::store::vault::remove_key_file(&self.store.dir);
 
-                let vault = Vault::from_key_file(&self.store.dir)?;
+                let vault = Vault::from_key_file(&self.store.dir, true)?;
 
                 self.store
                     .rekey(current, &vault, VaultMode::KeyFile, None)?;
@@ -786,6 +699,8 @@ impl Manager {
         if self.shell == Shell::Server {
             return Err(Error::NotSupported);
         }
+
+        let _one_change_at_a_time = self.vault_change.lock().await;
 
         if self.store.vault_mode()? != VaultMode::Passphrase {
             return Err(Error::PassphraseRequired);
@@ -848,12 +763,7 @@ impl Manager {
                 Ok(())
             }
             Err(error) => {
-                let failure = match error {
-                    Error::WrongPassphrase => Error::InvalidVault,
-                    ref other => other.clone(),
-                };
-
-                self.start_failures().insert(id, failure);
+                self.start_failures().insert(id, error.clone());
 
                 Err(error)
             }
@@ -889,8 +799,8 @@ impl Manager {
             store: self.store.clone(),
             vault: vault.clone(),
             http: Arc::new(http),
-            catalog: self.catalog.clone(),
-            badges: self.badges.clone(),
+            catalog: self.catalog.state.clone(),
+            badges: self.badges.state.clone(),
             events: self.events.clone(),
             stats,
             spends: self.spam.spends(&record.id),
@@ -1068,8 +978,18 @@ impl Manager {
         if previous_proxy != settings.proxy {
             self.respawn_account(account_id).await?;
         } else {
-            self.send_command(account_id, AccountCommand::Settings(Box::new(settings)))
-                .await?;
+            let commands = self
+                .accounts
+                .lock()
+                .await
+                .get(account_id)
+                .map(|handle| handle.commands.clone());
+
+            if let Some(commands) = commands {
+                let _ = commands
+                    .send(AccountCommand::Settings(Box::new(settings)))
+                    .await;
+            }
         }
 
         self.changed.notify_waiters();
@@ -1106,7 +1026,12 @@ impl Manager {
         }
 
         self.requests.forget(account_id);
-        self.store.delete_account(account_id)?;
+
+        let store = self.store.clone();
+        let id = account_id.to_owned();
+
+        blocking(move || store.delete_account(&id)).await?;
+
         self.recent().retain(|event| event.account_id != account_id);
         self.start_failures().remove(account_id);
         self.changed.notify_waiters();
@@ -1209,7 +1134,16 @@ impl Manager {
 
             let http = self.http();
 
-            match auth::poll_device_flow(&http, &code).await? {
+            let poll = match auth::poll_device_flow(&http, &code).await {
+                Err(error) if auth::missed_poll(&error) => {
+                    tracing::debug!(%error, "sign-in poll failed; trying again");
+
+                    continue;
+                }
+                poll => poll?,
+            };
+
+            match poll {
                 Poll::Pending => continue,
                 Poll::Token(tokens) => {
                     let validation = auth::validate(&http, None, &tokens.access_token)
@@ -1412,8 +1346,10 @@ impl Manager {
         };
 
         self.store.save_global_settings(&settings)?;
-        self.notifier
-            .update(settings.notifications.clone(), &settings.language);
+        self.notifier.update(
+            settings.notifications.clone(),
+            settings.notification_language(),
+        );
         *self.settings.write().await = settings;
 
         if let Some(http) = http {
@@ -1505,7 +1441,8 @@ impl Manager {
                         slots: vec![],
                         queue: vec![],
                         streamers: vec![],
-                        campaigns: vec![],
+                        progress: vec![],
+                        other_campaigns: vec![],
                         quests: vec![],
                         owned_badges: vec![],
                         badges_read_at: None,
@@ -1528,10 +1465,10 @@ impl Manager {
             account.spam_channels = spam_channels(account, &rows);
         }
 
-        let catalog = self.catalog.read().await;
-        let badges = self.badges.read().await;
+        let catalog = self.catalog.state.read().await;
+        let badges = self.badges.state.read().await;
         let settings = self.settings.read().await.clone();
-        let interval = CatalogClient::interval().as_secs();
+        let interval = REFRESH_INTERVAL.as_secs();
         let mut recent_events: Vec<MinerEvent> = self.recent().iter().cloned().collect();
 
         for event in &mut recent_events {
@@ -1552,7 +1489,7 @@ impl Manager {
             star_prompt,
             accounts,
             catalog: CatalogView {
-                campaigns: catalog.campaigns.clone(),
+                read_at: catalog.read_at,
                 updated_at: catalog.updated_at,
                 fetched_at: catalog.fetched_at,
                 problem: catalog.problem,
@@ -1560,6 +1497,7 @@ impl Manager {
                 next_refresh_at: self.next_manual_refresh(),
             },
             badges: BadgeCatalogView {
+                read_at: badges.read_at,
                 updated_at: badges.updated_at,
                 fetched_at: badges.fetched_at,
                 problem: badges.problem,
@@ -1728,29 +1666,9 @@ impl Manager {
     }
 
     pub async fn followed_channels(&self, account_id: &str) -> Result<Vec<Channel>> {
-        let record = self
-            .store
-            .account(account_id)?
-            .ok_or_else(|| Error::UnknownAccount(account_id.to_owned()))?;
-        let vault = self.vault().await?;
-        let credential = self
-            .store
-            .load_credential(&record.id, &vault)?
-            .ok_or_else(|| Error::UnknownAccount(record.id.clone()))?;
-        let proxy = self.effective_proxy(&record.settings.proxy).await;
-        let http = Arc::new(TwitchHttp::new(
-            self.device_id.clone(),
-            proxy.as_deref(),
-            self.requests.clone(),
-        )?);
-        let client = TwitchClient::new(
-            http,
-            record.id.clone(),
-            record.login.clone(),
-            credential.tokens.access_token.clone(),
-        );
+        let access = self.account_access(account_id).await?;
 
-        client.followed_channels(FOLLOWS_MAX).await
+        access.client.followed_channels(FOLLOWS_MAX).await
     }
 
     pub async fn test_notification_targets(&self) -> Vec<NotificationTest> {
@@ -1784,13 +1702,13 @@ impl Manager {
 
     pub async fn spam_channel(&self, account_id: &str, login: &str) -> Result<SpamChannelView> {
         self.spam
-            .channel(account_id, login, self.spam_access(account_id))
+            .channel(account_id, login, self.account_access(account_id))
             .await
     }
 
     pub async fn spam_balance(&self, account_id: &str, login: &str) -> Result<SpamBalance> {
         self.spam
-            .balance(account_id, login, self.spam_access(account_id))
+            .balance(account_id, login, self.account_access(account_id))
             .await
     }
 
@@ -1799,11 +1717,12 @@ impl Manager {
         let delay = Duration::from_millis(self.settings.read().await.spam_points.delay_ms.into());
 
         self.spam
-            .redeem(request, delay, self.spam_access(&account_id))
+            .redeem(request, delay, self.account_access(&account_id))
             .await
     }
 
-    async fn spam_access(&self, account_id: &str) -> Result<SpamAccess> {
+    // ! A paused account does not renew its token: it checks its session first, as the only spender of the refresh token.
+    async fn account_access(&self, account_id: &str) -> Result<SpamAccess> {
         let access = self
             .accounts
             .lock()
@@ -1815,15 +1734,28 @@ impl Manager {
                 snapshot: handle.snapshot.clone(),
             });
 
-        match access {
-            Some(access) => Ok(access),
-            None if !self.vault_status().await.unlocked => Err(Error::VaultLocked),
-            None => Err(self
-                .start_failures()
-                .get(account_id)
-                .cloned()
-                .unwrap_or_else(|| Error::UnknownAccount(account_id.to_owned()))),
-        }
+        let access = match access {
+            Some(access) => access,
+            None if !self.vault_status().await.unlocked => return Err(Error::VaultLocked),
+            None => {
+                return Err(self
+                    .start_failures()
+                    .get(account_id)
+                    .cloned()
+                    .unwrap_or_else(|| Error::UnknownAccount(account_id.to_owned())))
+            }
+        };
+        let (reply, answer) = oneshot::channel();
+        let gone = || Error::UnknownAccount(account_id.to_owned());
+
+        access
+            .commands
+            .send(AccountCommand::Session(reply))
+            .await
+            .map_err(|_| gone())?;
+        answer.await.map_err(|_| gone())??;
+
+        Ok(access)
     }
 
     pub async fn test_proxy(&self, url: &str) -> Result<ProxyTestResponse> {
@@ -1863,6 +1795,22 @@ fn report_header() -> String {
     )
 }
 
+async fn blocking<T: Send + 'static>(
+    work: impl FnOnce() -> Result<T> + Send + 'static,
+) -> Result<T> {
+    tokio::task::spawn_blocking(work)
+        .await
+        .map_err(|error| Error::Storage(error.to_string()))?
+}
+
+fn request_filter(query: &RequestsQuery) -> RequestFilter<'_> {
+    RequestFilter {
+        account_id: query.account_id.as_deref(),
+        kinds: query.kinds.as_deref(),
+        errors_only: query.errors_only.unwrap_or(false),
+    }
+}
+
 fn within_lookup_max(count: usize) -> Result<()> {
     if count > CHANNELS_LOOKUP_MAX {
         return Err(Error::InvalidRequest(format!(
@@ -1889,66 +1837,5 @@ async fn stop_task(handle: AccountHandle) {
         task.abort();
 
         let _ = task.await;
-    }
-}
-
-fn cached_catalog(store: &Store) -> Catalog {
-    let kept = match store.get_setting(CATALOG_CACHE_KEY) {
-        Ok(Some(json)) => serde_json::from_str::<Catalog>(&json)
-            .inspect_err(|error| tracing::warn!(%error, "kept catalogue unreadable, fetched again"))
-            .ok(),
-        Ok(None) => None,
-        Err(error) => {
-            tracing::warn!(%error, "kept catalogue unreadable");
-            None
-        }
-    };
-
-    match kept {
-        Some(catalog)
-            if catalog
-                .fetched_at
-                .is_some_and(|at| Utc::now() - at < CATALOG_CACHE_MAX_AGE) =>
-        {
-            tracing::info!(
-                campaigns = catalog.campaigns.len(),
-                "catalogue kept from the last start"
-            );
-            Catalog {
-                problem: None,
-                ..catalog
-            }
-        }
-        _ => Catalog::default(),
-    }
-}
-
-fn cached_badges(store: &Store) -> BadgeCatalog {
-    let kept = store
-        .get_setting(BADGES_CACHE_KEY)
-        .map_err(|error| tracing::warn!(%error, "kept badge list unreadable"))
-        .ok()
-        .flatten()
-        .and_then(|json| {
-            serde_json::from_str::<BadgeCatalog>(&json)
-                .inspect_err(
-                    |error| tracing::warn!(%error, "kept badge list unreadable, fetched again"),
-                )
-                .ok()
-        });
-
-    match kept {
-        Some(badges)
-            if badges
-                .fetched_at
-                .is_some_and(|at| Utc::now() - at < CATALOG_CACHE_MAX_AGE) =>
-        {
-            BadgeCatalog {
-                problem: None,
-                next_refresh_at: None,
-                ..badges
-            }
-        }
-        _ => BadgeCatalog::default(),
     }
 }

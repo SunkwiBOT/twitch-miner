@@ -21,6 +21,7 @@ export enum TauriCommand {
   TEST_PROXY = "test_proxy",
   HISTORY = "history",
   BADGES = "badges",
+  CATALOG = "catalog",
   LOGS = "logs",
   LOGS_REPORT = "logs_report",
   REQUESTS = "requests",

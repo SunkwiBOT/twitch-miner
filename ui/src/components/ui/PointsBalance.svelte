@@ -4,7 +4,8 @@
   import { number } from "../../lib/format.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import Icon from "./Icon.svelte";
-  import { BalanceAlign, IconName } from "./ui.constants";
+  import { BalanceAlign } from "./ui.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   type PointsBalancePropsType = {
     balance: number;

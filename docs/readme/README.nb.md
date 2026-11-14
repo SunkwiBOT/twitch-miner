@@ -126,6 +126,8 @@ bruk.
 - **Importer streamere.** Lim inn en liste (opptil 500 navn), eller gjenbruk listen til en
   annen konto eller kanalene kontoen følger. Listen kontrolleres, slik at bare kanaler som
   finnes, blir lagt til.
+  Liveoppdateringer dekker 46 streamere per konto: de neste på listen får ingen raids,
+  øyeblikk eller spådommer.
 
   <details open><summary>Se det i aksjon</summary>
   <img src="../media/nb/streamers-import.avif" alt="Import av streamere: innlimt liste, annen konto, fulgte kanaler">
@@ -164,6 +166,8 @@ bruk.
 - **Inventar og «Hent alle».** Inventar-siden sorterer belønningene i
   «Klar til henting», «Pågår» og «Hentet». Hent dem én og én eller alle samtidig, eller
   slå på «Hent drops automatisk».
+  Etter «Koble spillkontoen» leses kontoen på nytt så snart du kommer tilbake til appen,
+  så koblingen vises med en gang.
 
   <details open><summary>Se det i aksjon</summary>
   <img src="../media/nb/drops-inventory.avif" alt="Inventaret og knappen «Hent alle»">
@@ -179,11 +183,19 @@ bruk.
 
 - **Merker (beta).** Siden Merker viser alle Twitchs globale chattemerker og hvordan du
   får dem. Hver konto har sin egen Merker-side: merkene som pågår, med fremgangen sin, de
-  den fortsatt kan få, og de den eier. Mineren går etter merkene som bare krever
-  visningstid, fra Drops-kampanjer og Twitch-quests, og hopper over dem kontoen allerede
-  har. I «Hva som skal mines, i rekkefølge» drar du prioriterte spill, merker og andre
-  Drops-kampanjer i den rekkefølgen du vil, eller slår av en av dem. Denne funksjonen er
-  i beta.
+  den fortsatt kan få, og de den eier. Mineren går etter merkene fra Drops-kampanjer og
+  Twitch-quests, og hopper over dem kontoen allerede har. Et merke som skal ses hver dag,
+  mines på nytt hver dag til den siste («20 min per dag, 3 dager»), og en kanal i hvilken
+  som helst av kampanjens kategorier teller. En kiste gir «1 tilfeldig merke av N». Et
+  merke som krever abonnement, mines når du selv har abonnert og Twitch teller det. Ingenting
+  mines før kampanjen starter. I «Hva som skal mines, i rekkefølge» drar du prioriterte
+  spill, merker og andre Drops-kampanjer i den rekkefølgen du vil, eller slår av en av dem.
+  En Twitch-quest mines bare på en kanal der Twitch tilbyr den i Drops-panelet sitt. En
+  utvikling (Pichu → Pikachu) mines så snart kontoen eier merket den utvikler seg fra:
+  mineren tar selv på det merket rett før og setter ikke det gamle tilbake; «Min
+  merkeutviklinger» i kontoens merkeinnstillinger slår det av. Et klikk på et merke åpner
+  detaljene: hele kravet, alle kategorier og kanaler, samlingen, utviklingen og hver kontos
+  fremgang. Denne funksjonen er i beta.
 
   <details open><summary>Se det i aksjon</summary>
   <img src="../media/nb/badges.avif" alt="Siden Merker, merkene til en konto og deretter «Hva som skal mines, i rekkefølge» med Merker dratt øverst">
@@ -193,7 +205,7 @@ bruk.
 
 - **En journal over alt, og hver forespørsel.** Journalen tar vare på hver hendelse:
   drops, opptjente og brukte poeng, kister, veddemål, raids, sendinger som går direkte …
-  Filtrer den etter konto, etter fane (Drops, Poeng, Annet) og etter type.
+  Filtrer den etter konto, etter fane (Drops, Merker, Poeng, Annet) og etter type.
   **Tekniske logger › Forespørsler** viser hver forespørsel som er sendt til Twitch og til
   andre tjenester, med resultatet og hvor lang tid den tok. Logger og forespørsler
   inneholder ingen tokens eller hemmeligheter: «Kopier til feilrapport» kopierer dem, klare
@@ -234,8 +246,8 @@ bruk.
   versjonsnummeret i den øverste linjen. «Installer og start på nytt» ber deg først
   bekrefte, deretter installerer appen versjonen og starter på nytt. Med app-passord
   starter den låst: skriv det inn igjen for å fortsette å mine. Bare en versjon signert av
-  prosjektet blir installert. Docker-versjonen sier også fra, med kommandoene som skal
-  kjøres.
+  prosjektet blir installert. Den portable Windows-filen oppdaterer seg ikke selv: knappen
+  åpner nedlastingssiden. Docker-versjonen sier også fra, med kommandoene som skal kjøres.
 
   <details open><summary>Se det i aksjon</summary>
   <img src="../media/nb/updates.avif" alt="Merket «Oppdatering», bekreftelsen, deretter installasjonen">
@@ -246,7 +258,8 @@ bruk.
 - Som andre minere: bonuskister, raids, øyeblikk, fellesskapsmål, spådommer (strategier,
   når det skal satses, betingelser), seerrekker og abonnerte kanaler først,
   tilstedeværelse i chatten (kan slås av), standardalternativer for nye streamere, varsler
-  via Discord, Telegram og webhook med bilder, en global proxy eller én per konto.
+  via Discord, Telegram og webhook med bilder (på serveren velges språket deres under
+  **Innstillinger › Varsler**), en global proxy eller én per konto.
 - 29 språk, mørkt og lyst tema, skrivebordsvarsler, et ikon i systemstatusfeltet, start
   med systemet.
 
@@ -330,16 +343,18 @@ Last ned filen for systemet ditt fra den
 | System | Pakke |
 |---|---|
 | **Windows** · x64 | Installasjonsprogram (`setup.exe`) eller [bærbar kjørbar fil](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/TwitchMiner-portable.exe) |
-| **macOS** 10.15 eller nyere · Intel og Apple Silicon | Diskbilde (`.dmg`) |
+| **macOS** 13 eller nyere · Intel og Apple Silicon | Diskbilde (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) eller `.rpm` (Fedora, openSUSE) |
 
-macOS-versjonen er ikke notarisert. Første gang høyreklikker du på appen og velger
-**Åpne**.
+macOS-versjonen er ikke notarisert. Første gang åpner du appen: macOS blokkerer den. Gå
+deretter til **Systeminnstillinger › Personvern og sikkerhet** og klikk på
+**Åpne likevel**.
 
 Oppdateringene er signert. Appen ser etter en ny versjon når den starter, og deretter hver
 time (hvor ofte endrer du i **Innstillinger › Om**). Den installerer aldri en versjon av
 seg selv: du installerer den med ett klikk, fra meldingen som vises, eller fra
-**Innstillinger › Om**.
+**Innstillinger › Om**. Den portable filen oppdaterer seg aldri selv: «Åpne
+nedlastingssiden» tar deg til den nyeste versjonen.
 
 Dataene ligger i brukerens datamappe:
 
@@ -385,7 +400,7 @@ passordet.
 | `MINER_PASSWORD_FILE` | ingen | Leser `MINER_PASSWORD` fra en fil, for eksempel en Docker-secret. Den ene eller den andre, ikke begge. |
 | `MINER_PUBLIC_URL` | ingen | Bare bak en omvendt HTTPS-proxy (Caddy, nginx, Traefik, Cloudflare Tunnel …): oversiktens `https://`-adresse, uten sti, for eksempel `https://miner.example.com`. Proxyen må videresende `X-Forwarded-Proto`, `X-Forwarded-For` og websockets, noe vanlige proxyer gjør som standard, og containerens port må ikke kunne nås direkte. Oversikten avviser da alt som ikke kommer gjennom proxyen over HTTPS, og sperrer en adresse i 30 sekunder etter 5 feil passord. Proxyen må kjøre på samme maskin eller i det lokale nettverket dens: en tilkobling fra en offentlig adresse avvises. |
 | `MINER_TRUSTED_HOPS` | `1` | Bare med `MINER_PUBLIC_URL`: hvor mange proxyer som legger til en oppføring i `X-Forwarded-For`, fra 1 til 10. `2` med to proxyer etter hverandre, for eksempel Cloudflare foran Traefik. |
-| `MINER_PROXY_NETWORKS` | ingen | Bare med `MINER_PUBLIC_URL`: andre nettverk proxyen kan koble til fra, i tillegg til denne maskinen og det private lokale nettverket, skilt med komma: én adresse eller et nettverk som `2001:db8:1::/64`, for et lokalt nettverk med globale IPv6-adresser. |
+| `MINER_PROXY_NETWORKS` | ingen | Bare med `MINER_PUBLIC_URL`: nettverkene proxyen kobler til fra, skilt med komma: én adresse eller et nettverk som `192.168.1.0/24` eller `2001:db8:1::/64`. Når den er satt, godtas proxyen bare fra loopback-adressen og disse nettverkene, ikke lenger fra hele det private lokale nettverket. |
 | `MINER_VAULT_PASSPHRASE` | ingen | Bare for en datamappe kopiert fra skrivebordsappen med et app-passord satt: låser den opp ved oppstart. En server bygget fra bunnen av trenger den aldri. |
 | `MINER_VAULT_PASSPHRASE_FILE` | ingen | Leser `MINER_VAULT_PASSPHRASE` fra en fil. Den ene eller den andre, ikke begge. |
 | `DATA_DIR` | `/data` i imaget, ellers `data` i arbeidskatalogen | Database, nøkkelfil og logger. |
@@ -395,6 +410,13 @@ passordet.
 
 Serveren leser og kontrollerer variablene én gang, ved oppstart. En ugyldig verdi stopper
 serveren med en melding i stedet for en stille reserveverdi.
+
+Bak en omvendt proxy må du angi `MINER_PUBLIC_URL`: uten den skriver den første
+forespørselen som kommer via en proxy, en advarsel i loggene, fordi innloggingsforsøk da
+telles på proxyens adresse, og én besøkendes feil passord ville stengt alle ute.
+Direktetilkoblingen sender en ping hvert 30. sekund, så en proxy ikke lukker den når ingenting
+skjer. Når Twitch eller nettverket svikter, svarer serveren `424`, aldri `502` eller
+`504`: bak Cloudflare ser du den virkelige feilen i stedet for Cloudflares side.
 
 ## <a name="how-it-works"></a>Slik fungerer det
 
@@ -434,14 +456,15 @@ kampanjen og den andre til streamerne dine. Innstillingen «Én kanal», i
 
 **En kampanje mines ikke, eller en drop gjør ingen fremgang.**\
 Åpne siden **Drops** for kontoen. Under «Mining-rekkefølge» står det ved hver ventende
-kampanje hvorfor: «Ingen kanal direkte», «Venter (én kampanje om gangen)» eller «Ingen
-drop tilgjengelig ennå». En kampanje som ikke vises i listen, er sortert bort: av
-innstillingen «Hvilke kampanjer», av en regel i fanen **Unntak**, eller fordi den ikke
-rekker å bli ferdig i tide. En belønning som krever abonnement, mines aldri, og en drop som
-følger etter en annen, venter til den første er ferdig. I modusen **Bare poeng** velger
-mineren ingen kampanje. «Sett først i mining-rekkefølgen», i detaljene til en kampanje,
-setter den øverst; en ignorert kampanje kan komme tilbake med «Ta med i mining igjen», i
-fanen **Unntak**.
+kampanje hvorfor: «Ingen kanal direkte» eller «Venter (én kampanje om gangen)». En
+kampanje som ikke vises i listen, er sortert bort: av «Hva som skal mines, i rekkefølge»,
+av innstillingen «Hvilke kampanjer», av en regel i fanen **Unntak**, eller fordi den ikke
+rekker å bli ferdig i tide. En belønning som krever abonnement, venter til du selv har
+abonnert, et merke som skal ses hver dag, venter på neste dag, ingenting mines før
+kampanjen starter, og en drop som følger etter en annen, venter til den første er ferdig.
+I modusen **Bare poeng** velger mineren ingen kampanje. «Sett først i
+mining-rekkefølgen», i detaljene til en kampanje, setter den øverst; en ignorert kampanje
+kan komme tilbake med «Ta med i mining igjen», i fanen **Unntak**.
 
 **Må jeg koble spillkontoen?**\
 For å hente, ja: siden oktober 2026 lar Twitch deg bare hente en drop når spillkontoen er
@@ -470,7 +493,8 @@ ikke noe app-passord er satt) og loggene.
 Skrivebordsappen ser etter en ny versjon når den starter, og deretter hver time (kan
 endres i **Innstillinger › Om**). Klikk på merket «Oppdatering», deretter på
 «Installer og start på nytt». Med Docker sier oversikten fra: kjør `docker compose pull`
-og deretter `docker compose up -d`.
+og deretter `docker compose up -d`. Den portable Windows-filen oppdaterer seg ikke selv:
+«Åpne nedlastingssiden» åpner den nyeste versjonen, der du laster ned den nye.
 
 **Jeg har glemt app-passordet.**\
 Det kan ikke gjenopprettes: det er det som krypterer Twitch-øktene dine. Avslutt appen,
@@ -483,21 +507,23 @@ kjører deretter `docker compose up -d`.
 **Hvor mange poeng i timen?**\
 Det avhenger av Twitch og av hver kanal. Mineren tjener det Twitch gir en seer: poeng for
 seertid, bonuskister (omtrent én hvert 15. minutt) og bonusen for seerrekken. Et
-abonnement ganger poengene, fra ×1,2 til ×2 avhengig av nivå. Hjem-siden viser opptjente
-poeng, og Journal-siden hver enkelt gevinst.
+abonnement ganger poengene, fra ×1,2 til ×2 avhengig av nivå, og med «Abonnerte kanaler
+først», slått på som standard, kommer de kanalene foran resten av listen din. Hjem-siden
+viser opptjente poeng, og Journal-siden hver enkelt gevinst.
 
 **Er veddemål risikabelt?**\
 Ja, poeng kan gå tapt. Spådommer er slått av som standard, streamer for streamer. Du
 stiller inn strategien, når det skal satses, innsatsen (5 % av saldoen som standard,
 høyst 50 000 poeng), en minstesaldo og, om du vil, en betingelse, for eksempel odds på
 minst 1,5. Hold innsatsen lav.
+Et veddemål under 10 poeng blir aldri plassert.
 
 **En streamer blir ikke sett på.**\
 Bare streamere som er slått på og er direkte, blir sett på, og bare på en ledig kanal: i
 modusen **Drops og poeng** brukes én av de to til den gjeldende kampanjen; i modusen
 **Bare Drops** ses ingen streamer på; en konto på pause ser ikke på noe. Plassene fordeles
-i denne rekkefølgen, vist som et merke på hver kanal som ses på: «Rekkebonus»,
-«Rekke i fare», «Abonnert» og til slutt «Listerekkefølge». Flytt streameren opp i listen,
+i denne rekkefølgen, vist som et merke på hver kanal som ses på: «Rekke i fare»,
+«Rekkebonus», «Abonnert» og til slutt «Listerekkefølge». Flytt streameren opp i listen,
 eller slå av «Seerrekker først» og «Abonnerte kanaler først».
 
 ## <a name="related-projects"></a>Relaterte prosjekter
@@ -517,6 +543,8 @@ Andre prosjekter fra samme utvikler:
 - Tokenene forsegles med AES-256-GCM. Nøkkelen er enten en tilfeldig `master.key` ved
   siden av databasen (standard, ingenting å gjøre) eller avledet fra app-passordet med
   Argon2id.
+- Datamappen og loggmappen er private (`0700`): bare brukeren som kjører mineren, kan
+  åpne dem.
 - HTTP-oversikten sjekker passordet på konstant tid og bruker HttpOnly-,
   SameSite=Strict-informasjonskapsler (`Secure`, med prefikset `__Host-`, bak HTTPS).
   Serveren lagrer bare en SHA-256 av hver økt. Den avslutter en økt etter 30 dager eller
@@ -525,6 +553,8 @@ Andre prosjekter fra samme utvikler:
 - Etter 5 feil passord på rad fra én IP-adresse (innloggingsskjema eller bearer) må den
   adressen vente i 30 sekunder. Serveren svarer `429` med `Retry-After` uten å se på
   passordet. Hvert feil passord tar dessuten et halvt sekund å besvare.
+  Etter 30 feil passord på ett minutt fra én tilkoblingsadresse, også en delt proxy, får
+  den adressen ett forsøk hvert 2. sekund: gjetting går tregere, og ingen blir låst ute.
 - Utenfor nettverket ditt plasserer du oversikten bak en omvendt HTTPS-proxy med
   `MINER_PUBLIC_URL` (se [Docker](#docker)).
 - Mineren snakker bare med `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`,

@@ -1,5 +1,4 @@
-// ! Only the "no connection" screen is kept on the device: everything else always comes from
-// the network, so the dashboard never shows old data and nothing private is stored.
+// ! Only the "no connection" screen is cached: everything else comes from the network, never old or private data.
 const CACHE = "offline";
 const OFFLINE_PAGE = "/offline.html";
 const KEPT = [OFFLINE_PAGE, "/offline.js", "/offline-texts.js", "/app-icon.svg", "/favicon.png"];
@@ -34,7 +33,6 @@ self.addEventListener("fetch", (event) => {
             return offline().then((page) => page ?? response);
           }
 
-          // A new build may have changed the screen: kept up to date while online.
           event.waitUntil(keep().catch(() => {}));
 
           return response;

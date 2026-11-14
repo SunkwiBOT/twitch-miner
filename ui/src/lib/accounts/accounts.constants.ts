@@ -16,6 +16,8 @@ export const IMPORT_BATCH = 20;
 
 export const IMPORT_STAGGER_MS = 35;
 
+export const IMPORT_STAGGER_TOTAL_MS = 1500;
+
 export enum ImportEntryStatus {
   PENDING = "PENDING",
   FOUND = "FOUND",
@@ -48,6 +50,8 @@ export const FILTER_OP_SYMBOLS: Record<FilterOp, string> = {
 export const PROXY_CREDENTIALS_MASK = "•••";
 
 export const GROUP_CHIPS_MAX = 16;
+
+export const U32_MAX = 4_294_967_295;
 
 export enum StreamerOption {
   CLAIM_BONUS = "CLAIM_BONUS",

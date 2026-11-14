@@ -1,10 +1,11 @@
 <script lang="ts">
   import PanelColumns from "../../ui/PanelColumns.svelte";
   import { DropsList } from "../../../lib/accounts/accounts.constants";
-  import { editDropsList, setIgnored, type IgnoredType } from "../../../lib/accounts/drops.utils";
+  import { editDropsList, setIgnored } from "../../../lib/accounts/drops-edits.utils";
+  import type { IgnoredType } from "../../../lib/accounts/drops.utils";
   import type { AccountSnapshotType } from "../../../lib/bindings/AccountSnapshotType";
   import type { CampaignType } from "../../../lib/bindings/CampaignType";
-  import type { SnapshotType } from "../../../lib/bindings/SnapshotType";
+  import { catalogue } from "../../../lib/catalogue/catalogue.svelte";
   import { BoxArtSize } from "../../../lib/format.constants";
   import { boxArt } from "../../../lib/format.utils";
   import { t } from "../../../lib/i18n/i18n.svelte";
@@ -17,27 +18,21 @@
   import Panel from "../../ui/Panel.svelte";
   import TagInput from "../../ui/TagInput.svelte";
   import Thumb from "../../ui/Thumb.svelte";
-  import {
-    ButtonSize,
-    ButtonType,
-    ButtonVariant,
-    IconName,
-    PanelWidth,
-    ThumbShape,
-    ThumbSize,
-  } from "../../ui/ui.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../../ui/button.constants";
+  import { IconName } from "../../../lib/icons.constants";
+  import { PanelWidth } from "../../ui/ui.constants";
+  import { ThumbShape, ThumbSize } from "../../ui/picture.constants";
 
   type DropsExclusionsTabPropsType = {
     account: AccountSnapshotType;
-    snapshot: SnapshotType;
     ignored: IgnoredType[];
     onopen: (campaign: CampaignType) => void;
   };
 
-  let { account, snapshot, ignored, onopen }: DropsExclusionsTabPropsType = $props();
+  let { account, ignored, onopen }: DropsExclusionsTabPropsType = $props();
 
   const drops = $derived(account.settings.drops);
-  const games = $derived([...new Set(snapshot.catalog.campaigns.map((c) => c.game.name))].sort());
+  const games = $derived([...new Set(catalogue.campaigns.map((c) => c.game.name))].sort());
 </script>
 
 <PanelColumns width={PanelWidth.LG}>

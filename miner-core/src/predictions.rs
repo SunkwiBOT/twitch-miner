@@ -4,6 +4,8 @@ use crate::config::{BetFilter, BetTiming, FilterBy, FilterOp, PredictionSettings
 use crate::domain::{PredictionEvent, PredictionOutcome};
 
 pub const MAX_PREDICTION_POINTS: i64 = 250_000;
+// ! Twitch refuses a prediction under 10 points.
+const MIN_PREDICTION_POINTS: i64 = 10;
 
 const TIMING_PERCENT_MIN: u8 = 1;
 const TIMING_PERCENT_MAX: u8 = 99;
@@ -161,7 +163,7 @@ pub fn decide(
         points = (chosen.top_points - offset).max(0);
     }
 
-    if points <= 0 {
+    if points < MIN_PREDICTION_POINTS {
         return None;
     }
 

@@ -5,20 +5,17 @@
   import type { ChannelType } from "../../../lib/bindings/ChannelType";
   import { rememberChannels } from "../../../lib/channels/channels.svelte";
   import { t } from "../../../lib/i18n/i18n.svelte";
-  import { changed } from "../../../lib/state/bulk.svelte";
-  import { app, updateAccountSettings } from "../../../lib/state/state.svelte";
+  import { changedWhenSaved } from "../../../lib/state/bulk.svelte";
+  import { updateAccountSettings } from "../../../lib/state/account-settings.svelte";
+  import { app } from "../../../lib/state/app.svelte";
   import { strong } from "../../../lib/text.utils";
   import ActionButton from "../../ui/ActionButton.svelte";
   import Dialog from "../../ui/Dialog.svelte";
   import Select from "../../ui/Select.svelte";
   import TextButton from "../../ui/TextButton.svelte";
-  import {
-    ButtonSize,
-    ButtonType,
-    ButtonVariant,
-    IconName,
-    MenuAlign,
-  } from "../../ui/ui.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../../ui/button.constants";
+  import { IconName } from "../../../lib/icons.constants";
+  import { MenuAlign } from "../../ui/menu.constants";
   import StreamerImport from "../StreamerImport.svelte";
 
   type ImportDialogPropsType = {
@@ -62,8 +59,12 @@
       }
     };
 
-    void updateAccountSettings(into.id, append);
-    changed(into.id, t.change_streamers_imported({ count: strong(logins.length) }), append);
+    void changedWhenSaved(
+      updateAccountSettings(into.id, append),
+      into.id,
+      t.change_streamers_imported({ count: strong(logins.length) }),
+      append,
+    );
   };
 </script>
 
@@ -73,7 +74,7 @@
   wide={true}
   closable={true}
   closeLabel={t.common_close()}
-  {onclose}
+  onclose={close}
 >
   <StreamerImport
     bind:this={importer}

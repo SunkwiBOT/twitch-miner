@@ -1,9 +1,10 @@
 <script lang="ts">
   import type { AccountSnapshotType } from "../../lib/bindings/AccountSnapshotType";
   import { t } from "../../lib/i18n/i18n.svelte";
-  import { updateAccountSettings } from "../../lib/state/state.svelte";
+  import { updateAccountSettings } from "../../lib/state/account-settings.svelte";
   import ActionButton from "./ActionButton.svelte";
-  import { ButtonSize, ButtonType, ButtonVariant, IconName } from "./ui.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "./button.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   type PauseButtonPropsType = { account: AccountSnapshotType; size: ButtonSize };
 

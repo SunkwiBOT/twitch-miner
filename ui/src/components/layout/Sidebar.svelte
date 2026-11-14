@@ -4,30 +4,29 @@
   import { CommandName } from "../../lib/bindings/CommandName";
   import TextButton from "../ui/TextButton.svelte";
   import { cn } from "$lib/utils";
-  import { STATUS_TONES } from "../../lib/accounts/accounts.utils";
+  import { STATUS_LABELS, STATUS_TONES } from "../../lib/accounts/accounts.utils";
   import { badgeList } from "../../lib/badges/badges.svelte";
   import { minableBadgeCount } from "../../lib/badges/badges.utils";
   import { runningCampaigns } from "../../lib/catalogue/timeline.utils";
+  import { catalogue } from "../../lib/catalogue/catalogue.svelte";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { REPO_URL } from "../../lib/partners.constants";
   import { Page } from "../../lib/state/state.constants";
   import { followLink } from "../../lib/links/links.utils";
-  import { app, isAccountPage, navigate, run } from "../../lib/state/state.svelte";
+  import { app } from "../../lib/state/app.svelte";
+  import { isAccountPage, navigate } from "../../lib/state/router";
+  import { run } from "../../lib/state/session";
   import { ticker } from "../../lib/state/ticker.svelte";
   import { number } from "../../lib/format.utils";
   import Avatar from "../ui/Avatar.svelte";
   import Badge from "../ui/Badge.svelte";
   import Icon from "../ui/Icon.svelte";
   import StatusDot from "../ui/StatusDot.svelte";
-  import {
-    AvatarSize,
-    BadgeTone,
-    ButtonSize,
-    ButtonType,
-    ButtonVariant,
-    IconName,
-    KeyboardKey,
-  } from "../ui/ui.constants";
+  import { AvatarSize } from "../ui/picture.constants";
+  import { BadgeTone } from "../../lib/tones.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
+  import { KeyboardKey } from "../ui/field.constants";
   import { APP_TITLE, REORDER_HINT_ID } from "./layout.constants";
   import PoweredBy from "./PoweredBy.svelte";
 
@@ -43,6 +42,10 @@
   let dragOver = $state<string | null>(null);
 
   const moveAccount = (id: string, target: string): void => {
+    if (id === target) {
+      return;
+    }
+
     const order = accounts.map((a) => a.id).filter((x) => x !== id);
     const at = order.indexOf(target);
     const from = accounts.findIndex((a) => a.id === id);
@@ -60,7 +63,7 @@
       page: Page.CATALOGUE,
       icon: IconName.GIFT,
       label: t.nav_catalogue(),
-      count: runningCampaigns(app.snapshot?.catalog.campaigns ?? [], ticker.now).length,
+      count: runningCampaigns(catalogue.campaigns, ticker.now).length,
     },
     {
       page: Page.BADGES,
@@ -192,7 +195,11 @@
       >
         <Avatar url={a.avatar_url} name={a.display_name} size={AvatarSize.SM} />
         <span class="truncate">{a.display_name}</span>
-        <span class="ml-auto"><StatusDot tone={STATUS_TONES[a.status]} /></span>
+        <span class="ml-auto"
+          ><StatusDot tone={STATUS_TONES[a.status]} /><span class="sr-only"
+            >{STATUS_LABELS[a.status]()}</span
+          ></span
+        >
       </button>
       {#if selected}
         <div class="mt-0.5 mb-1.5 ml-5.5 flex flex-col gap-0.5 border-l border-input pl-2.5">

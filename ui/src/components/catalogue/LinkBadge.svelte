@@ -1,7 +1,8 @@
 <script lang="ts">
   import { t } from "../../lib/i18n/i18n.svelte";
   import Badge from "../ui/Badge.svelte";
-  import { BadgeTone, IconName } from "../ui/ui.constants";
+  import { BadgeTone } from "../../lib/tones.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   type LinkBadgePropsType = { linked: boolean | null | undefined };
 

@@ -125,6 +125,8 @@ funcionando.
 - **Importar streamers.** Pega una lista (hasta 500 nombres) o reutiliza la de otra cuenta
   o los canales que sigue la cuenta. La lista se comprueba para añadir solo canales que
   existen.
+  Las actualizaciones en directo cubren 46 streamers por cuenta: los siguientes de la lista
+  no reciben raids, momentos ni predicciones.
 
   <details open><summary>Verlo en acción</summary>
   <img src="../media/es-ES/streamers-import.avif" alt="Importación de streamers: una lista pegada, otra cuenta, los canales seguidos">
@@ -163,6 +165,8 @@ funcionando.
 - **Inventario y «Reclamar todo».** La página Inventario clasifica las recompensas en
   «Por reclamar», «En curso» y «Reclamadas». Reclámalas una a una, todas a la vez, o
   activa «Reclamar drops automáticamente».
+  Después de «Vincular la cuenta del juego», la cuenta se vuelve a leer en cuanto vuelves
+  a la app, así que la vinculación aparece al momento.
 
   <details open><summary>Verlo en acción</summary>
   <img src="../media/es-ES/drops-inventory.avif" alt="El inventario y el botón «Reclamar todo»">
@@ -179,10 +183,20 @@ funcionando.
 - **Insignias (beta).** La página Insignias muestra todas las insignias globales del chat
   de Twitch y cómo conseguirlas. Cada cuenta tiene su propia página Insignias: las
   insignias en curso con su progreso, las que aún puede conseguir y las que tiene. El
-  minero va a por las insignias que solo requieren tiempo de visualización, de campañas
-  de Drops y misiones de Twitch, y se salta las que la cuenta ya tiene. En «Qué minar, en
-  orden», arrastra los juegos prioritarios, las insignias y las demás campañas de Drops
-  al orden que quieras, o desactiva alguno. Esta función está en beta.
+  minero va a por las insignias de las campañas de Drops y las misiones de Twitch, y se
+  salta las que la cuenta ya tiene. Una insignia que hay que ver cada día se vuelve a minar
+  cada día hasta el último («20 min al día, 3 días»), y cuenta un canal de cualquiera de las
+  categorías de la campaña. Un cofre da «1 insignia al azar entre N». Una insignia que
+  requiere una suscripción se mina cuando te has suscrito tú mismo y Twitch la cuenta. No se
+  mina nada antes de que empiece su campaña. En «Qué minar, en orden», arrastra los juegos
+  prioritarios, las insignias y las demás campañas de Drops al orden que quieras, o
+  desactiva alguno. Una misión de Twitch solo se mina en un canal donde Twitch la ofrece en
+  su panel de Drops. Una evolución (Pichu → Pikachu) se mina en cuanto la cuenta tiene la
+  insignia de la que evoluciona: el minero se pone él mismo esa insignia justo antes y no
+  vuelve a poner la anterior; «Minar las evoluciones de insignias», en los ajustes de
+  insignias de la cuenta, lo desactiva. Un clic en una insignia abre sus detalles: el
+  requisito completo, todas las categorías y los canales, la colección, la evolución y el
+  progreso de cada cuenta. Esta función está en beta.
 
   <details open><summary>Verlo en acción</summary>
   <img src="../media/es-ES/badges.avif" alt="La página Insignias, las insignias de una cuenta y luego «Qué minar, en orden» con Insignias arrastradas al primer puesto">
@@ -192,7 +206,7 @@ funcionando.
 
 - **Un diario de todo, y cada solicitud.** El Diario guarda cada evento: drops, puntos
   ganados y gastados, cofres, apuestas, raids, directos que empiezan… Fíltralo por cuenta,
-  por pestaña (Drops, Puntos, Otros) y por tipo. **Registros técnicos › Solicitudes**
+  por pestaña (Drops, Insignias, Puntos, Otros) y por tipo. **Registros técnicos › Solicitudes**
   muestra cada solicitud enviada a Twitch y a otros servicios, con su resultado y su
   duración. Los registros y las solicitudes no contienen ningún token ni secreto:
   «Copiar para un informe de error» los copia, listos para pegarlos en un informe de error
@@ -231,7 +245,8 @@ funcionando.
   insignia «Actualización» con el número de versión. «Instalar y reiniciar» primero te
   pide confirmación; luego la app instala la versión y se reinicia. Si tiene contraseña de
   la app, se reinicia bloqueada: vuelve a escribirla para seguir minando. Solo se instala
-  una versión firmada por el proyecto. La versión de Docker también te avisa, con los
+  una versión firmada por el proyecto. El ejecutable portátil de Windows no se actualiza
+  solo: su botón abre la página de descarga. La versión de Docker también te avisa, con los
   comandos que hay que ejecutar.
 
   <details open><summary>Verlo en acción</summary>
@@ -243,8 +258,8 @@ funcionando.
 - Como otros mineros: cofres de bonificación, raids, momentos, metas de la comunidad,
   predicciones (estrategias, momento de la apuesta, condiciones), rachas de visualización
   y canales suscritos primero, presencia en el chat (desactivable), opciones por defecto
-  para nuevos streamers, notificaciones de Discord, Telegram y webhook con imágenes, proxy
-  global o por cuenta.
+  para nuevos streamers, notificaciones de Discord, Telegram y webhook con imágenes (en el
+  servidor, su idioma se elige en **Ajustes › Notificaciones**), proxy global o por cuenta.
 - 29 idiomas, temas oscuro y claro, notificaciones de escritorio, icono en la bandeja,
   inicio con el sistema.
 
@@ -326,16 +341,18 @@ Descarga el archivo para tu sistema desde la
 | Sistema | Paquete |
 |---|---|
 | **Windows** · x64 | Instalador (`setup.exe`) o [ejecutable portátil](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/TwitchMiner-portable.exe) |
-| **macOS** 10.15 o posterior · Intel y Apple Silicon | Imagen de disco (`.dmg`) |
+| **macOS** 13 o posterior · Intel y Apple Silicon | Imagen de disco (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) o `.rpm` (Fedora, openSUSE) |
 
-La versión para macOS no está notarizada. La primera vez, haz clic derecho en la app y
-elige **Abrir**.
+La versión para macOS no está notarizada. La primera vez, abre la app: macOS la bloquea.
+Luego ve a **Ajustes del Sistema › Privacidad y seguridad** y haz clic en
+**Abrir igualmente**.
 
 Las actualizaciones están firmadas. La app busca una versión nueva al arrancar y luego cada
 hora (puedes cambiar la frecuencia en **Ajustes › Acerca de**). Nunca instala una por su
 cuenta: la instalas tú con un clic, desde el mensaje que aparece o desde
-**Ajustes › Acerca de**.
+**Ajustes › Acerca de**. El ejecutable portátil nunca se actualiza solo: «Abrir la página
+de descarga» te lleva a la última versión publicada.
 
 Los datos se guardan en la carpeta de datos del usuario:
 
@@ -382,7 +399,7 @@ contraseña.
 | `MINER_PASSWORD_FILE` | ninguno | Lee `MINER_PASSWORD` desde un archivo, por ejemplo un secreto de Docker. Una u otra, no las dos. |
 | `MINER_PUBLIC_URL` | ninguno | Solo detrás de un proxy inverso HTTPS (Caddy, nginx, Traefik, Cloudflare Tunnel…): la dirección `https://` del panel, sin ruta, como `https://miner.example.com`. El proxy debe reenviar `X-Forwarded-Proto`, `X-Forwarded-For` y los websockets, algo que los proxies habituales hacen por defecto, y el puerto del contenedor no debe ser accesible directamente. Así, el panel rechaza todo lo que no llegue por el proxy en HTTPS y bloquea una dirección durante 30 segundos tras 5 contraseñas incorrectas. El proxy debe ejecutarse en la misma máquina o en su red local: una conexión desde una dirección pública se rechaza. |
 | `MINER_TRUSTED_HOPS` | `1` | Solo con `MINER_PUBLIC_URL`: cuántos proxies añaden una entrada a `X-Forwarded-For`, de 1 a 10. `2` con dos proxies, uno detrás de otro, como Cloudflare delante de Traefik. |
-| `MINER_PROXY_NETWORKS` | ninguno | Solo con `MINER_PUBLIC_URL`: otras redes desde las que el proxy puede conectarse, además de esta máquina y su red local privada, separadas por comas: una sola dirección o una red como `2001:db8:1::/64`, para una red local con direcciones IPv6 globales. |
+| `MINER_PROXY_NETWORKS` | ninguno | Solo con `MINER_PUBLIC_URL`: las redes desde las que se conecta el proxy, separadas por comas: una sola dirección o una red como `192.168.1.0/24` o `2001:db8:1::/64`. Una vez definida, el proxy solo se acepta desde la dirección de loopback y estas redes, ya no desde toda la red local privada. |
 | `MINER_VAULT_PASSPHRASE` | ninguno | Solo para una carpeta de datos copiada de la app de escritorio con una contraseña de la app: la desbloquea al arrancar. Un servidor creado desde cero nunca la necesita. |
 | `MINER_VAULT_PASSPHRASE_FILE` | ninguno | Lee `MINER_VAULT_PASSPHRASE` desde un archivo. Una u otra, no las dos. |
 | `DATA_DIR` | `/data` en la imagen; si no, `data` en el directorio de trabajo | Base de datos, archivo de clave y registros. |
@@ -393,6 +410,14 @@ contraseña.
 El servidor lee y comprueba las variables una sola vez, al arrancar. Un valor no válido
 detiene el servidor con un mensaje, en lugar de recurrir en silencio a un valor
 alternativo.
+
+Detrás de un proxy inverso, define `MINER_PUBLIC_URL`: sin ella, la primera solicitud que
+llega a través de un proxy escribe un aviso en los registros, porque los intentos de
+inicio de sesión se cuentan entonces sobre la dirección del proxy, y las contraseñas
+erróneas de un visitante bloquearían a todo el mundo. La conexión en directo envía un ping
+cada 30 segundos, para que un proxy no la cierre cuando no pasa nada. Cuando Twitch o la
+red fallan, el servidor responde `424`, nunca `502` ni `504`: detrás de Cloudflare, ves el
+error real en lugar de la página de Cloudflare.
 
 ## <a name="how-it-works"></a>Cómo funciona
 
@@ -431,13 +456,15 @@ otro a tus streamers. El ajuste «Un canal», en **Ajustes de la cuenta**, es m�
 
 **Una campaña no se mina, o un drop no avanza.**\
 Abre la página **Drops** de la cuenta. En «Orden de minado», cada campaña en espera indica
-por qué: «Ningún canal en directo», «En espera (una campaña a la vez)» o «Aún no hay drops
-disponibles». Una campaña que no aparece en esa lista se ha descartado: por el ajuste
-«Qué campañas», por una regla de la pestaña **Exclusiones** o porque no puede terminar a
-tiempo. Una recompensa que requiere una suscripción nunca se mina, y un drop que va
-después de otro espera a que el primero termine. En el modo **Solo puntos**, el minero no
-elige ninguna campaña. «Minar primero», en la ficha de una campaña, la pone en cabeza; una
-campaña ignorada puede volver con «Volver a minar», en la pestaña **Exclusiones**.
+por qué: «Ningún canal en directo» o «En espera (una campaña a la vez)». Una campaña que no
+aparece en esa lista se ha descartado: por «Qué minar, en orden», por el ajuste «Qué
+campañas», por una regla de la pestaña **Exclusiones** o porque no puede terminar a
+tiempo. Una recompensa que requiere una suscripción espera a que te suscribas tú mismo,
+una insignia que hay que ver cada día espera al día siguiente, no se mina nada antes de
+que empiece su campaña, y un drop que va después de otro espera a que el primero termine.
+En el modo **Solo puntos**, el minero no elige ninguna campaña. «Minar primero», en la
+ficha de una campaña, la pone en cabeza; una campaña ignorada puede volver con «Volver a
+minar», en la pestaña **Exclusiones**.
 
 **¿Tengo que vincular la cuenta del juego?**\
 Para reclamar, sí: desde octubre de 2026, Twitch solo deja reclamar un drop si la cuenta
@@ -466,7 +493,8 @@ hay contraseña de la app) y los registros.
 La app de escritorio busca una versión nueva al arrancar y luego cada hora (puedes
 cambiarlo en **Ajustes › Acerca de**). Haz clic en la insignia «Actualización» y después
 en «Instalar y reiniciar». Con Docker, el panel te avisa: ejecuta `docker compose pull` y
-luego `docker compose up -d`.
+luego `docker compose up -d`. El ejecutable portátil de Windows no se actualiza solo:
+«Abrir la página de descarga» abre la última versión publicada, donde descargas el nuevo.
 
 **He olvidado la contraseña de la app.**\
 No se puede recuperar: es lo que cifra tus sesiones de Twitch. Cierra la app, borra la
@@ -480,20 +508,22 @@ ajustes. Con Docker, la contraseña del panel se cambia en `MINER_PASSWORD` y lu
 Depende de Twitch y de cada canal. El minero gana lo que Twitch da a un espectador: los
 puntos por tiempo de visualización, los cofres de bonificación (más o menos uno cada 15
 minutos) y el bono de racha de visualización. Una suscripción multiplica los puntos, de
-×1,2 a ×2 según el nivel. La página Inicio muestra los puntos ganados, y el Diario, cada
-ganancia.
+×1,2 a ×2 según el nivel, y con «Canales suscritos primero», activado por defecto, esos
+canales van antes que el resto de tu lista. La página Inicio muestra los puntos ganados, y
+el Diario, cada ganancia.
 
 **¿Son arriesgadas las apuestas?**\
 Sí, se pueden perder puntos. Las predicciones están desactivadas por defecto, streamer por
 streamer. Tú eliges la estrategia, cuándo apostar, la apuesta (5 % del saldo por defecto,
 50 000 puntos como máximo), un saldo mínimo y, si quieres, una condición, como una cuota
 de al menos 1,5. Mantén una apuesta pequeña.
+Una apuesta de menos de 10 puntos nunca se hace.
 
 **No se está viendo un streamer.**\
 Solo se ven los streamers activados y en directo, y solo en un canal libre: en el modo
 **Drops y puntos**, uno de los dos sirve a la campaña actual; en el modo **Solo Drops**, no
 se ve ningún streamer; una cuenta en pausa no ve nada. Los huecos se asignan en este
-orden, que aparece como insignia en cada canal visto: «Bono de racha», «Racha en riesgo»,
+orden, que aparece como insignia en cada canal visto: «Racha en riesgo», «Bono de racha»,
 «Suscrito» y, por último, «Orden de la lista». Sube el streamer en la lista, o desactiva
 «Rachas de visualización primero» y «Canales suscritos primero».
 
@@ -514,6 +544,8 @@ Otros proyectos del mismo autor:
 - Los tokens se sellan con AES-256-GCM. La clave es o bien un archivo `master.key`
   aleatorio junto a la base de datos (por defecto, sin hacer nada), o bien una clave
   derivada de la contraseña de la app con Argon2id.
+- La carpeta de datos y la de registros son privadas (`0700`): solo el usuario que ejecuta
+  el minero puede abrirlas.
 - El panel HTTP comprueba la contraseña en tiempo constante y usa cookies HttpOnly y
   SameSite=Strict (`Secure`, con el prefijo `__Host-`, detrás de HTTPS). El servidor
   solo guarda un SHA-256 de cada sesión. Termina una sesión a los 30 días o al cerrar
@@ -523,6 +555,9 @@ Otros proyectos del mismo autor:
   inicio de sesión o bearer), esa dirección espera 30 segundos. El servidor responde
   `429` con `Retry-After` sin mirar la contraseña. Además, cada contraseña incorrecta
   tarda medio segundo en recibir respuesta.
+  Pasadas 30 contraseñas incorrectas en un minuto desde una misma dirección de conexión,
+  un proxy compartido incluido, esa dirección tiene un solo intento cada 2 segundos:
+  adivinar se vuelve lento y nadie se queda bloqueado.
 - Fuera de tu red, pon el panel detrás de un proxy inverso HTTPS con
   `MINER_PUBLIC_URL` (consulta [Docker](#docker)).
 - El minero solo se comunica con `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`,

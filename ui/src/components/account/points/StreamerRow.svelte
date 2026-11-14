@@ -2,8 +2,9 @@
   import type { ChannelType } from "../../../lib/bindings/ChannelType";
   import type { StreamerSettingsType } from "../../../lib/bindings/StreamerSettingsType";
   import type { StreamerViewType } from "../../../lib/bindings/StreamerViewType";
+  import { gameArt } from "../../../lib/catalogue/games.utils";
   import { isLive } from "../../../lib/channels/channels.svelte";
-  import { channelUrl } from "../../../lib/events/events.utils";
+  import { channelUrl } from "../../../lib/links/twitch.utils";
   import { t } from "../../../lib/i18n/i18n.svelte";
   import { ticker } from "../../../lib/state/ticker.svelte";
   import { wideLayout } from "../../../lib/state/viewport.svelte";
@@ -15,16 +16,13 @@
   import LinkTwin from "../../ui/LinkTwin.svelte";
   import PointsBalance from "../../ui/PointsBalance.svelte";
   import RichText from "../../ui/RichText.svelte";
+  import GameName from "../../ui/GameName.svelte";
   import ViewerCount from "../../ui/ViewerCount.svelte";
-  import {
-    AvatarSize,
-    BadgeTone,
-    BalanceAlign,
-    IconName,
-    LinkLook,
-    LinkMark,
-    LinkSize,
-  } from "../../ui/ui.constants";
+  import { AvatarSize, ThumbSize } from "../../ui/picture.constants";
+  import { BadgeTone } from "../../../lib/tones.constants";
+  import { BalanceAlign } from "../../ui/ui.constants";
+  import { IconName } from "../../../lib/icons.constants";
+  import { LinkLook, LinkMark, LinkSize } from "../../ui/link.constants";
 
   type StreamerRowPropsType = {
     streamer: StreamerSettingsType;
@@ -98,8 +96,13 @@
       class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-muted-foreground"
     >
       {#if channel?.live}
-        {#if channel.game}<span class="min-w-0 [overflow-wrap:anywhere]">{channel.game.name}</span
-          >{/if}
+        {#if channel.game}<GameName
+            name={channel.game.name}
+            url={null}
+            art={gameArt(channel.game.name, channel.game.box_art_url)}
+            size={ThumbSize.XS}
+            inSentence={false}
+          />{/if}
         {#if channel.viewers !== undefined}<ViewerCount count={channel.viewers} />{/if}
       {:else if !channel}
         <span class="truncate">{t.points_offline_hint()}</span>

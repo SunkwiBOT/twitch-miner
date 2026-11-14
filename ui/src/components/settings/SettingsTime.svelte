@@ -2,7 +2,6 @@
   import { ClockFormat } from "../../lib/bindings/ClockFormat";
   import { DateFormat } from "../../lib/bindings/DateFormat";
   import type { GlobalSettingsType } from "../../lib/bindings/GlobalSettingsType";
-  import { HistoryRetention } from "../../lib/bindings/HistoryRetention";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { ticker } from "../../lib/state/ticker.svelte";
   import { AUTO_TIME_ZONE } from "../../lib/time/time.constants";
@@ -16,7 +15,7 @@
   import FormField from "../ui/FormField.svelte";
   import Panel from "../ui/Panel.svelte";
   import Select from "../ui/Select.svelte";
-  import { MenuAlign } from "../ui/ui.constants";
+  import { MenuAlign } from "../ui/menu.constants";
   import { SAMPLE_DATE } from "./settings.constants";
 
   type SettingsTimePropsType = {
@@ -52,17 +51,10 @@
     { value: ClockFormat.H24, label: t.clock_24({ example: sampleClock(ClockFormat.H24) }) },
     { value: ClockFormat.H12, label: t.clock_12({ example: sampleClock(ClockFormat.H12) }) },
   ]);
-
-  const retentions = $derived([
-    { value: HistoryRetention.DAYS30, label: t.retention_30() },
-    { value: HistoryRetention.DAYS90, label: t.retention_90() },
-    { value: HistoryRetention.YEAR1, label: t.retention_365() },
-    { value: HistoryRetention.UNLIMITED, label: t.retention_unlimited() },
-  ]);
 </script>
 
 <Panel title={t.settings_time()}>
-  <div class="grid grid-cols-[repeat(auto-fit,minmax(min(200px,100%),1fr))] gap-3">
+  <div class="grid gap-3">
     <FormField id="set-zone" label={t.settings_time_zone()}>
       <Select
         id="set-zone"
@@ -91,16 +83,6 @@
         label={t.settings_clock_format()}
         align={MenuAlign.LEFT}
         onchange={(value) => (draft.clock_format = value)}
-      />
-    </FormField>
-    <FormField id="set-retention" label={t.settings_history_retention()}>
-      <Select
-        id="set-retention"
-        value={draft.history_retention}
-        options={retentions}
-        label={t.settings_history_retention()}
-        align={MenuAlign.LEFT}
-        onchange={(value) => (draft.history_retention = value)}
       />
     </FormField>
   </div>

@@ -5,7 +5,7 @@
   import { BALANCE_HINTS, changedAgo } from "../../../lib/spam/spam.utils";
   import Icon from "../../ui/Icon.svelte";
   import Tip from "../../ui/Tip.svelte";
-  import { IconName } from "../../ui/ui.constants";
+  import { IconName } from "../../../lib/icons.constants";
 
   type SpamBalancePropsType = {
     balance: number;

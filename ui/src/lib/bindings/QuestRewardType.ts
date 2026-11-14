@@ -5,5 +5,6 @@ export type QuestRewardType = {
   id: string;
   name: string;
   image_url?: string;
-  badge?: BadgeRefType;
+  badges: Array<BadgeRefType>;
+  chest_size?: number;
 };

@@ -124,6 +124,8 @@ What sets it apart from other miners. “See it in action” under a point shows
 - **Import streamers.** Paste a list (up to 500 names), or reuse another account's list or
   the channels the account follows. The list is checked so that only channels that exist
   are added.
+  Live updates cover 46 streamers per account: the next ones in the list get no raids,
+  moments or predictions.
 
   <details open><summary>See it in action</summary>
   <img src="docs/media/en/streamers-import.avif" alt="Importing streamers: a pasted list, another account, followed channels">
@@ -161,6 +163,8 @@ What sets it apart from other miners. “See it in action” under a point shows
 - **Inventory and “Claim all”.** The Inventory page sorts rewards into “To claim”,
   “In progress” and “Claimed”. Claim them one by one, all at once, or turn on
   “Claim drops automatically”.
+  After “Link the game account”, the account is read again as soon as you come back to
+  the app, so the link shows right away.
 
   <details open><summary>See it in action</summary>
   <img src="docs/media/en/drops-inventory.avif" alt="The inventory and the “Claim all” button">
@@ -176,10 +180,19 @@ What sets it apart from other miners. “See it in action” under a point shows
 
 - **Badges (beta).** The Badges page lists every global Twitch chat badge and how to get
   it. Each account has its own Badges page: the badges in progress with their progress, the
-  ones still to get and the ones it owns. The miner goes after the badges that only need
-  watch time, from Drops campaigns and Twitch quests, and skips those the account already
-  owns. In “What to mine, in order”, drag priority games, badges and other Drops campaigns
-  into the order you want, or switch one off. This feature is in beta.
+  ones still to get and the ones it owns. The miner goes after the badges of Drops
+  campaigns and Twitch quests, and skips those the account already owns. A badge watched
+  every day is mined again each day until the last one (“20 min per day, 3 days”), and a
+  channel in any of the campaign's categories counts. A chest gives “1 random badge out of
+  N”. A badge that needs a subscription is mined once you have subscribed yourself and
+  Twitch counts it. Nothing is mined before its campaign starts. In “What to mine, in
+  order”, drag priority games, badges and other Drops campaigns into the order you want,
+  or switch one off. A Twitch quest is mined only on a channel where Twitch offers it in
+  its Drops panel. An evolution (Pichu → Pikachu) is mined once the account owns the badge
+  it evolves from: the miner equips that badge itself just before and does not put the old
+  one back; “Mine badge evolutions”, in the account's badge settings, turns this off. A
+  click on a badge opens its details: the whole requirement, every category and channel,
+  the collection, the evolution and each account's progress. This feature is in beta.
 
   <details open><summary>See it in action</summary>
   <img src="docs/media/en/badges.avif" alt="The Badges page, an account's badges, then “What to mine, in order” with Badges dragged first">
@@ -189,7 +202,7 @@ What sets it apart from other miners. “See it in action” under a point shows
 
 - **A journal of everything, and every request.** The Journal keeps every event: drops,
   points earned and spent, chests, bets, raids, streams going live… Filter it by account,
-  by tab (Drops, Points, Other) and by type. **Technical logs › Requests** lists every
+  by tab (Drops, Badges, Points, Other) and by type. **Technical logs › Requests** lists every
   request sent to Twitch and to other services, with its result and how long it took.
   Logs and requests contain no token or secret: “Copy for a bug report” copies them, ready
   to paste into a bug report on
@@ -226,7 +239,8 @@ What sets it apart from other miners. “See it in action” under a point shows
 - **Signed updates, never automatic.** An “Update” badge with the version number appears
   in the top bar. “Install and restart” first asks you to confirm, then the app installs
   the version and restarts. With an app password, it restarts locked: type it again to
-  resume mining. Only a version signed by the project is installed. The Docker version
+  resume mining. Only a version signed by the project is installed. The portable Windows
+  executable does not update itself: its button opens the download page. The Docker version
   tells you too, with the commands to run.
 
   <details open><summary>See it in action</summary>
@@ -238,7 +252,8 @@ What sets it apart from other miners. “See it in action” under a point shows
 - Like other miners: bonus chests, raids, moments, community goals, predictions
   (strategies, when to bet, conditions), watch streaks and subscribed channels first,
   chat presence (can be turned off), default options for new streamers, Discord, Telegram
-  and webhook notifications with images, a global or per-account proxy.
+  and webhook notifications with images (on the server, their language is chosen in
+  **Settings › Notifications**), a global or per-account proxy.
 - 29 languages, dark and light themes, desktop notifications, a tray icon, start with the
   system.
 
@@ -320,15 +335,17 @@ Download the file for your system from the
 | System | Package |
 |---|---|
 | **Windows** · x64 | Installer (`setup.exe`) or [portable executable](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/TwitchMiner-portable.exe) |
-| **macOS** 10.15 or later · Intel and Apple Silicon | Disk image (`.dmg`) |
+| **macOS** 13 or later · Intel and Apple Silicon | Disk image (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) or `.rpm` (Fedora, openSUSE) |
 
-The macOS build is not notarized. The first time, right-click the app and choose
-**Open**.
+The macOS build is not notarized. The first time, open the app: macOS blocks it. Then go
+to **System Settings › Privacy & Security** and click **Open Anyway**.
 
 Updates are signed. The app checks for a new version when it starts, then every hour
 (you can change how often in **Settings › About**). It never installs one by itself: you
-install it in one click, from the message that appears or from **Settings › About**.
+install it in one click, from the message that appears or from **Settings › About**. The
+portable executable never updates itself: “Open the download page” takes you to the
+latest release.
 
 Data lives in the user data folder:
 
@@ -375,7 +392,7 @@ password.
 | `MINER_PASSWORD_FILE` | none | Reads `MINER_PASSWORD` from a file, such as a Docker secret. One or the other, not both. |
 | `MINER_PUBLIC_URL` | none | Only behind an HTTPS reverse proxy (Caddy, nginx, Traefik, Cloudflare Tunnel…): the dashboard's `https://` address, without a path, like `https://miner.example.com`. The proxy must forward `X-Forwarded-Proto`, `X-Forwarded-For` and websockets, which common proxies do by default, and the container's port must not be reachable directly. The dashboard then refuses anything that does not come through the proxy over HTTPS, and locks out an address for 30 seconds after 5 wrong passwords. The proxy must run on the same machine or its local network: a connection from a public address is refused. |
 | `MINER_TRUSTED_HOPS` | `1` | With `MINER_PUBLIC_URL` only: how many proxies add an entry to `X-Forwarded-For`, from 1 to 10. `2` with two proxies one behind the other, like Cloudflare in front of Traefik. |
-| `MINER_PROXY_NETWORKS` | none | With `MINER_PUBLIC_URL` only: other networks the proxy may connect from, besides this machine and its private local network, separated by commas: a single address or a network like `2001:db8:1::/64`, for a local network whose IPv6 addresses are global. |
+| `MINER_PROXY_NETWORKS` | none | With `MINER_PUBLIC_URL` only: the networks the proxy connects from, separated by commas: a single address or a network like `192.168.1.0/24` or `2001:db8:1::/64`. Once it is set, the proxy is accepted only from the loopback address and these networks, no longer from the whole private local network. |
 | `MINER_VAULT_PASSPHRASE` | none | Only for a data folder copied from the desktop app with an app password: unlocks it at start. A server set up from scratch never needs it. |
 | `MINER_VAULT_PASSPHRASE_FILE` | none | Reads `MINER_VAULT_PASSPHRASE` from a file. One or the other, not both. |
 | `DATA_DIR` | `/data` in the image, otherwise `data` in the working directory | Database, key file and logs. |
@@ -385,6 +402,13 @@ password.
 
 The server reads and checks the variables once, at start. An invalid value stops the
 server with a message, instead of a silent fallback.
+
+Behind a reverse proxy, set `MINER_PUBLIC_URL`: without it, the first request that comes
+through a proxy writes a warning in the logs, because sign-in tries are then counted on
+the proxy's address and one visitor's wrong passwords would lock everyone out. The live
+connection sends a ping every 30 seconds, so a proxy does not close it while nothing
+happens. When Twitch or the network fails, the server answers `424`, never `502` or
+`504`: behind Cloudflare, you see the real error instead of Cloudflare's page.
 
 ## <a name="how-it-works"></a>How it works
 
@@ -423,13 +447,14 @@ is quieter.
 
 **A campaign is not being mined, or a drop is not progressing.**\
 Open the account's **Drops** page. In “Mining order”, each waiting campaign says why:
-“No live channel”, “Waiting (one campaign at a time)” or “No drop available yet”. A
-campaign that does not appear in that list was left out: by the “Which campaigns”
-setting, by a rule in the **Exclusions** tab, or because it cannot finish in time. A reward that
-requires a subscription is never mined, and a drop that follows another one waits until
-the first is done. In **Points only** mode, the miner picks no campaign. “Mine first”, in a
-campaign's details, puts it at the top; an ignored campaign can come back with
-“Mine again”, in the **Exclusions** tab.
+“No live channel” or “Waiting (one campaign at a time)”. A campaign that does not appear
+in that list was left out: by “What to mine, in order”, by the “Which campaigns”
+setting, by a rule in the **Exclusions** tab, or because it cannot finish in time. A
+reward that needs a subscription waits until you have subscribed yourself, a badge watched
+every day waits for its next day, nothing is mined before its campaign starts, and a drop
+that follows another one waits until the first is done. In **Points only** mode, the miner
+picks no campaign. “Mine first”, in a campaign's details, puts it at the top; an ignored
+campaign can come back with “Mine again”, in the **Exclusions** tab.
 
 **Do I need to link the game account?**\
 To claim, yes: since October 2026, Twitch only lets you claim a drop when the game account
@@ -458,6 +483,8 @@ password is set) and the logs.
 The desktop app checks for a new version when it starts, then every hour (you can change
 this in **Settings › About**). Click the “Update” badge, then “Install and restart”. With
 Docker, the dashboard tells you: run `docker compose pull`, then `docker compose up -d`.
+The portable Windows executable does not update itself: “Open the download page” opens
+the latest release, where you download the new one.
 
 **I forgot the app password.**\
 It cannot be recovered: it is what encrypts your Twitch sessions. Quit the app, delete the
@@ -470,20 +497,22 @@ Docker, the dashboard password is changed in `MINER_PASSWORD`, then
 **How many points per hour?**\
 It depends on Twitch and on each channel. The miner earns what Twitch gives a viewer:
 watch-time points, bonus chests (about one every 15 minutes) and the watch streak bonus. A
-subscription multiplies the points, from ×1.2 to ×2 depending on the tier. The Home page
-shows the points earned, and the Journal each gain.
+subscription multiplies the points, from ×1.2 to ×2 depending on the tier, and with
+“Subscribed channels first”, on by default, those channels come before the rest of your
+list. The Home page shows the points earned, and the Journal each gain.
 
 **Are bets risky?**\
 Yes, points can be lost. Predictions are off by default, streamer by streamer. You set the
 strategy, when to bet, the stake (5% of the balance by default, 50,000 points at most), a
 minimum balance and, if you want, a condition, such as odds of at least 1.5. Keep the
 stake small.
+A bet under 10 points is never placed.
 
 **A streamer is not being watched.**\
 Only streamers that are turned on and live are watched, and only on a free channel: in
 **Drops and points** mode, one of the two serves the current campaign; in **Drops only**
 mode, no streamer is watched; a paused account watches nothing. The slots go in this
-order, shown as a badge on each watched channel: “Streak bonus”, “Streak at risk”,
+order, shown as a badge on each watched channel: “Streak at risk”, “Streak bonus”,
 “Subscribed”, then “List order”. Move the streamer up the list, or turn off
 “Watch streaks first” and “Subscribed channels first”.
 
@@ -503,6 +532,8 @@ Other projects by the same author:
 
 - Tokens are sealed with AES-256-GCM. The key is either a random `master.key` next to the
   database (default, nothing to do) or derived from the app password with Argon2id.
+- The data folder and the log folder are private (`0700`): only the user that runs the
+  miner can open them.
 - The HTTP dashboard checks the password in constant time and uses HttpOnly,
   SameSite=Strict cookies (`Secure`, with the `__Host-` prefix, behind HTTPS). The
   server keeps only a SHA-256 of each session. It ends a session after 30 days or at
@@ -511,6 +542,9 @@ Other projects by the same author:
 - After 5 wrong passwords in a row from one IP address (sign-in form or bearer), that
   address waits 30 seconds. The server answers `429` with `Retry-After` without looking at
   the password. Each wrong password also takes half a second to answer.
+  Past 30 wrong passwords in a minute from one connection address, a shared proxy
+  included, that address gets one try every 2 seconds: guessing slows down and nobody is
+  locked out.
 - Outside your network, put the dashboard behind an HTTPS reverse proxy with
   `MINER_PUBLIC_URL` (see [Docker](#docker)).
 - The miner only talks to `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`,

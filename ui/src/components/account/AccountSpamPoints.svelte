@@ -16,12 +16,13 @@
   import { cancelBursts } from "../../lib/spam/spam.svelte";
   import type { SpamChannelType, SpamHistoryRowType } from "../../lib/spam/spam.types";
   import { ToastKind } from "../../lib/state/state.constants";
-  import { run, toast } from "../../lib/state/state.svelte";
+  import { run } from "../../lib/state/session";
+  import { toast } from "../../lib/state/toasts";
   import { strong } from "../../lib/text.utils";
   import EmptyState from "../ui/EmptyState.svelte";
   import PageBody from "../ui/PageBody.svelte";
   import Panel from "../ui/Panel.svelte";
-  import { IconName } from "../ui/ui.constants";
+  import { IconName } from "../../lib/icons.constants";
   import SpamChannelList from "./spam/SpamChannelList.svelte";
   import SpamChannelPanel from "./spam/SpamChannelPanel.svelte";
 

@@ -4,11 +4,11 @@ use std::net::IpAddr;
 use tokio::sync::mpsc;
 use tokio_util::sync::CancellationToken;
 use url::Url;
-use zeroize::Zeroizing;
 
-use crate::domain::{Channel, Game, WatchStreak};
+use crate::domain::{BadgeRef, Channel, Game, WatchStreak};
 use crate::error::Result;
 use crate::twitch::auth::{self, TokenSet, Validation};
+use crate::twitch::channels::BatchRead;
 use crate::twitch::chat::Chat;
 use crate::twitch::drops::{ClaimOutcome, Inventory};
 use crate::twitch::playback::Playback;
@@ -29,9 +29,11 @@ pub(crate) trait TwitchApi {
 
     async fn quests(&self) -> Result<QuestsRead>;
 
-    async fn game_directory(&self, game: &Game, drops_only: bool) -> Result<Vec<Channel>>;
+    async fn select_badge(&self, badge: &BadgeRef) -> Result<Option<BadgeRef>>;
 
-    async fn channels(&self, logins: &[String]) -> Result<Vec<Channel>>;
+    async fn game_directory(&self, game: &Game) -> Result<Vec<Channel>>;
+
+    async fn channels(&self, logins: &[String]) -> Result<BatchRead>;
 
     async fn follows(&self, max: usize) -> Result<Vec<Channel>>;
 
@@ -42,7 +44,7 @@ pub(crate) trait TwitchApi {
 
     async fn watch_streak(&self, login: &str) -> Result<Option<WatchStreak>>;
 
-    async fn claim_bonus(&self, channel_id: &str, claim_id: &str) -> Result<i64>;
+    async fn claim_bonus(&self, channel_id: &str, claim_id: &str) -> Result<Option<i64>>;
 
     async fn claim_moment(&self, moment_id: &str) -> Result<()>;
 
@@ -73,7 +75,7 @@ pub(crate) trait TwitchApi {
 // type picks before the trait's: these calls do not recurse.
 impl TwitchApi for TwitchClient {
     async fn validate(&self) -> Result<Option<Validation>> {
-        let token = Zeroizing::new(self.token().await);
+        let token = self.token().await;
 
         auth::validate(&self.http, Some(&self.user_id), &token).await
     }
@@ -98,11 +100,15 @@ impl TwitchApi for TwitchClient {
         TwitchClient::quests(self).await
     }
 
-    async fn game_directory(&self, game: &Game, drops_only: bool) -> Result<Vec<Channel>> {
-        TwitchClient::game_directory(self, game, drops_only).await
+    async fn select_badge(&self, badge: &BadgeRef) -> Result<Option<BadgeRef>> {
+        TwitchClient::select_badge(self, badge).await
     }
 
-    async fn channels(&self, logins: &[String]) -> Result<Vec<Channel>> {
+    async fn game_directory(&self, game: &Game) -> Result<Vec<Channel>> {
+        TwitchClient::game_directory(self, game).await
+    }
+
+    async fn channels(&self, logins: &[String]) -> Result<BatchRead> {
         TwitchClient::channels(self, logins).await
     }
 
@@ -125,7 +131,7 @@ impl TwitchApi for TwitchClient {
         TwitchClient::watch_streak(self, login).await
     }
 
-    async fn claim_bonus(&self, channel_id: &str, claim_id: &str) -> Result<i64> {
+    async fn claim_bonus(&self, channel_id: &str, claim_id: &str) -> Result<Option<i64>> {
         TwitchClient::claim_bonus(self, channel_id, claim_id).await
     }
 

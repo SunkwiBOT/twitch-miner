@@ -12,8 +12,7 @@
   let { shown, query }: SearchNoResultPropsType = $props();
 </script>
 
-<!-- ! Always in the page, empty until needed: a live region added with its text is
-     not read out by every screen reader. -->
+<!-- ! Always in the page, empty until needed: a live region added with its text is not read by every screen reader. -->
 <p role="status" class={cn("text-hint text-muted-foreground", !shown && "sr-only")}>
   {#if shown}<RichText text={t.search_no_result({ query: strong(query.trim()) })} />{/if}
 </p>

@@ -2,6 +2,7 @@
 import type { ErrorApiMessage } from "./ErrorApiMessage";
 
 export type BadgeCatalogViewType = {
+  read_at?: string;
   updated_at?: string;
   fetched_at?: string;
   problem?: ErrorApiMessage;

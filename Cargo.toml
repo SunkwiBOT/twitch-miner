@@ -36,14 +36,13 @@ tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
 tracing-appender = "0.2"
 dirs = "6"
 axum = { version = "0.8", features = ["ws", "macros"] }
-tower-http = { version = "0.6", features = ["cors", "compression-gzip", "trace", "set-header"] }
+tower-http = { version = "0.6", features = ["compression-gzip", "set-header"] }
 rust-embed = { version = "8", features = ["interpolate-folder-path"] }
 mime_guess = "2"
 subtle = "2"
 sha2 = "0.10"
 semver = "1"
 ts-rs = { version = "12", features = ["chrono-impl", "no-serde-warnings"] }
-tower = { version = "0.5", features = ["util"] }
 notify-rust = "4.18"
 zbus = "5"
 sys-locale = "0.3"

@@ -16,8 +16,8 @@
 :root,
 :root[data-theme="DARK"] {
   --brand-discord: #5865f2;
-  --brand-discord-foreground: #ffffff;
   --brand-telegram: #26a5e4;
+  --brand-twitch: #9147ff;
 
   color-scheme: dark;
   --radius: 0.25rem;
@@ -121,8 +121,8 @@
   --font-sans: "Inter Variable", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-mono: ui-monospace, "JetBrains Mono", Menlo, Consolas, monospace;
   --color-brand-discord: var(--brand-discord);
-  --color-brand-discord-foreground: var(--brand-discord-foreground);
   --color-brand-telegram: var(--brand-telegram);
+  --color-brand-twitch: var(--brand-twitch);
 
   --text-hint: 0.8125rem;
   --text-hint--line-height: 1.25rem;
@@ -208,8 +208,7 @@
     @apply bg-background text-foreground font-sans antialiased overflow-hidden text-sm;
   }
 
-  /* ! viewport-fit=cover (index.html): installed on a notched phone, the app would draw
-     under the notch and the home bar. */
+  /* ! viewport-fit=cover (index.html): installed on a notched phone, the app would draw under the notch. */
   #app {
     padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom)
       env(safe-area-inset-left);
@@ -244,6 +243,12 @@
     @apply rounded-sm outline-2 outline-offset-2 outline-ring;
   }
 
+  input[type="search"]::-webkit-search-cancel-button,
+  input[type="search"]::-webkit-search-decoration {
+    appearance: none;
+    display: none;
+  }
+
   ::selection {
     @apply bg-primary text-primary-foreground;
   }
@@ -266,9 +271,7 @@
     background-clip: padding-box;
   }
 
-  /* ! Deliberate: every animation plays whatever the "reduce motion" setting,
-     so svelte-sonner's own values are put back. In a layer, an !important
-     rule beats the library's unlayered one. */
+  /* ! Deliberate: animations ignore "reduce motion", sonner's values put back; a layered !important beats its rule. */
   @media (prefers-reduced-motion: reduce) {
     [data-sonner-toast] {
       transition:

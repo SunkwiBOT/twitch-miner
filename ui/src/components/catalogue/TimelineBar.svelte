@@ -11,7 +11,7 @@
   import { t } from "../../lib/i18n/i18n.svelte";
   import { strong } from "../../lib/text.utils";
   import { formatClock, formatDayMonth, formatWeekdayDayMonth } from "../../lib/time/time.utils";
-  import { BarLabelPlacement, TIMELINE_PILL_MS } from "./timeline.constants";
+  import { BarLabelPlacement, TIMELINE_PILL_MS } from "../../lib/catalogue/timeline.constants";
   import RichText from "../ui/RichText.svelte";
   import TimeLeftTag from "./TimeLeftTag.svelte";
 

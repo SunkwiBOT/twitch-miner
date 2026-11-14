@@ -9,24 +9,24 @@ pub mod pubsub;
 pub mod quests;
 pub mod rewards;
 pub mod search;
+mod socket;
 pub mod spade;
 
-use std::future::Future;
 use std::sync::Arc;
 use std::time::Duration;
+
+use chrono::{DateTime, Utc};
 
 use reqwest::header::{
     HeaderMap, HeaderValue, ACCEPT, ACCEPT_LANGUAGE, AUTHORIZATION, ORIGIN, REFERER,
 };
 use reqwest::{Method, StatusCode};
-use reqwest_websocket::Upgrade as _;
 use serde_json::Value;
 use tokio::sync::{RwLock, Semaphore};
-use tokio_util::sync::CancellationToken;
 use zeroize::Zeroizing;
 
 use crate::error::{Error, NetworkErrorKind, Result};
-use crate::requests::{address_target, RequestKind, RequestLog, SocketEvent};
+use crate::requests::{address_target, RequestKind, RequestLog};
 use operations::Operation;
 
 // ! Twitch for Android TV ("SMARTBOX"): its device code still works.
@@ -51,19 +51,10 @@ pub const DIRECTORY_READS_AT_ONCE: usize = 4;
 const GQL_ATTEMPTS: u32 = 3;
 const GQL_BACKOFF: Duration = Duration::from_millis(400);
 const PROXY_TEST_TIMEOUT: Duration = Duration::from_secs(15);
-pub const SOCKET_WARN_AFTER_TRIES: u32 = 3;
-const SOCKET_CONNECT_TIMEOUT: Duration = Duration::from_secs(20);
-
-pub type Socket = reqwest_websocket::WebSocket;
-
-pub struct SocketPlace {
-    pub kind: RequestKind,
-    pub address: &'static str,
-    pub name: &'static str,
-}
 
 pub struct TwitchHttp {
     pub client: reqwest::Client,
+    socket_client: reqwest::Client,
     pub device_id: String,
     pub proxied: bool,
     pub requests: RequestLog,
@@ -72,30 +63,39 @@ pub struct TwitchHttp {
 
 impl TwitchHttp {
     pub fn new(device_id: String, proxy: Option<&str>, requests: RequestLog) -> Result<Self> {
-        let mut headers = HeaderMap::new();
-
-        headers.insert(ACCEPT, HeaderValue::from_static("application/json"));
-        headers.insert(ACCEPT_LANGUAGE, HeaderValue::from_static("en-US"));
-
-        let mut builder = reqwest::Client::builder()
-            .default_headers(headers)
-            .user_agent(TV_USER_AGENT)
-            .timeout(REQUEST_TIMEOUT)
-            .gzip(true);
         let proxy = proxy.map(str::trim).filter(|p| !p.is_empty());
+        let proxy = proxy.map(parse_proxy).transpose()?;
+        let build = |http1_only: bool| {
+            let mut headers = HeaderMap::new();
 
-        if let Some(proxy) = proxy {
-            builder = builder.proxy(parse_proxy(proxy)?);
-        }
+            headers.insert(ACCEPT, HeaderValue::from_static("application/json"));
+            headers.insert(ACCEPT_LANGUAGE, HeaderValue::from_static("en-US"));
 
-        let client = builder.build().map_err(|error| {
-            tracing::warn!(%error, "the HTTP client could not be built");
+            let mut builder = reqwest::Client::builder()
+                .default_headers(headers)
+                .user_agent(TV_USER_AGENT)
+                .timeout(REQUEST_TIMEOUT)
+                .gzip(true);
 
-            Error::Transport(NetworkErrorKind::Other)
-        })?;
+            if let Some(proxy) = proxy.clone() {
+                builder = builder.proxy(proxy);
+            }
+
+            // ! The websocket library fails if the server picks HTTP/2 for the upgrade.
+            if http1_only {
+                builder = builder.http1_only();
+            }
+
+            builder.build().map_err(|error| {
+                tracing::warn!(%error, "the HTTP client could not be built");
+
+                Error::Transport(NetworkErrorKind::Other)
+            })
+        };
 
         Ok(Self {
-            client,
+            client: build(false)?,
+            socket_client: build(true)?,
             device_id,
             proxied: proxy.is_some(),
             requests,
@@ -125,7 +125,7 @@ impl TwitchHttp {
         operation: &str,
         token: Option<&str>,
         body: &Value,
-    ) -> Result<Value> {
+    ) -> Result<GqlAnswer> {
         self.post_gql_leaving(account_id, operation, token, body, || true)
             .await
     }
@@ -139,7 +139,7 @@ impl TwitchHttp {
         token: Option<&str>,
         body: &Value,
         leaving: impl FnOnce() -> bool,
-    ) -> Result<Value> {
+    ) -> Result<GqlAnswer> {
         let _permit = self.permit().await;
 
         if !leaving() {
@@ -176,7 +176,9 @@ impl TwitchHttp {
 
         match response.json::<Value>().await {
             Ok(answer) => {
-                pending.graphql(status, &answer, gql_refusal(&answer).is_some());
+                let answer = GqlAnswer::new(answer);
+
+                pending.graphql(status, &answer.body, answer.refusal.is_some());
 
                 Ok(answer)
             }
@@ -220,8 +222,8 @@ impl TwitchClient {
         }
     }
 
-    pub async fn token(&self) -> String {
-        self.token.read().await.as_str().to_owned()
+    pub async fn token(&self) -> Zeroizing<String> {
+        self.token.read().await.clone()
     }
 
     pub async fn set_token(&self, token: String) {
@@ -229,6 +231,16 @@ impl TwitchClient {
     }
 
     pub async fn gql(&self, operation: Operation, variables: Value) -> Result<Value> {
+        self.gql_resent(operation, variables)
+            .await
+            .map(|(answer, _)| answer)
+    }
+
+    pub async fn gql_resent(
+        &self,
+        operation: Operation,
+        variables: Value,
+    ) -> Result<(Value, bool)> {
         self.send_gql(operation, &operation.request(variables))
             .await
     }
@@ -254,7 +266,7 @@ impl TwitchClient {
             .await;
 
         match sent {
-            Ok(answer) => check_gql_errors(operation, answer),
+            Ok(answer) => answer.checked(operation),
             Err(Error::Status(status)) => match status_outcome(status) {
                 StatusOutcome::Retry(error) | StatusOutcome::Fail(error) => Err(error),
             },
@@ -272,10 +284,12 @@ impl TwitchClient {
             .map(|variables| operation.request(variables))
             .collect();
 
-        self.send_gql(operation, &Value::Array(batch)).await
+        self.send_gql(operation, &Value::Array(batch))
+            .await
+            .map(|(answer, _)| answer)
     }
 
-    async fn send_gql(&self, operation: Operation, body: &Value) -> Result<Value> {
+    async fn send_gql(&self, operation: Operation, body: &Value) -> Result<(Value, bool)> {
         let token = self.token.read().await.clone();
         let mut attempt = 1;
 
@@ -287,9 +301,9 @@ impl TwitchClient {
                 .post_gql(Some(&self.user_id), operation.name(), Some(&token), body)
                 .await;
             let retried = match sent {
-                Ok(answer) => match check_gql_errors(operation, answer) {
+                Ok(answer) => match answer.checked(operation) {
                     Err(error) if busy(&error) => error,
-                    answer => return answer,
+                    answer => return answer.map(|answer| (answer, attempt > 1)),
                 },
                 Err(Error::Status(status)) => match status_outcome(status) {
                     StatusOutcome::Retry(error) => error,
@@ -328,40 +342,71 @@ const SERVICE_ERRORS: [&str; 2] = ["service error", "service timeout"];
 // ! GraphQL errors arrive with status 200. Persisted-query misses mean a
 // hash is outdated; integrity failures mean the operation needs the web client.
 fn gql_refusal(body: &Value) -> Option<&'static str> {
-    let errors: Vec<&Value> = match body {
-        Value::Array(items) => items.iter().filter_map(|v| v.get("errors")).collect(),
-        _ => body.get("errors").into_iter().collect(),
+    let refusals: Vec<Option<&'static str>> = match body {
+        Value::Array(items) => items.iter().map(item_refusal).collect(),
+        _ => vec![item_refusal(body)],
     };
 
-    errors
-        .into_iter()
-        .filter_map(Value::as_array)
+    refusals
+        .iter()
         .flatten()
-        .find_map(|error| {
-            let message = error["message"].as_str().unwrap_or("");
-
-            if message.contains("PersistedQueryNotFound") {
-                return Some("persisted query outdated");
-            }
-
-            if message.contains("integrity") {
-                return Some("integrity check failed");
-            }
-
-            SERVICE_ERRORS
+        .find(|refusal| !SERVICE_ERRORS.contains(refusal))
+        .or_else(|| {
+            refusals
                 .iter()
-                .find(|service| message.contains(*service))
-                .copied()
+                .all(Option::is_some)
+                .then(|| refusals.first().and_then(Option::as_ref))
+                .flatten()
         })
+        .copied()
 }
 
-fn check_gql_errors(operation: Operation, body: Value) -> Result<Value> {
-    match gql_refusal(&body) {
-        Some(code) => Err(Error::Gql {
-            operation: operation.name(),
-            code: code.to_owned(),
-        }),
-        None => Ok(body),
+fn item_refusal(item: &Value) -> Option<&'static str> {
+    values(&item["errors"]).find_map(|error| {
+        let message = error["message"].as_str().unwrap_or("");
+
+        if message.contains("PersistedQueryNotFound") {
+            return Some("persisted query outdated");
+        }
+
+        if message.contains("integrity") {
+            return Some("integrity check failed");
+        }
+
+        SERVICE_ERRORS
+            .iter()
+            .find(|service| message.contains(*service))
+            .copied()
+    })
+}
+
+pub(crate) fn gql_error(operation: Operation, response: &Value) -> Option<Error> {
+    values(&response["errors"]).next().map(|error| Error::Gql {
+        operation: operation.name(),
+        code: text(&error["message"]).unwrap_or_default(),
+    })
+}
+
+pub struct GqlAnswer {
+    pub body: Value,
+    refusal: Option<&'static str>,
+}
+
+impl GqlAnswer {
+    pub(crate) fn new(body: Value) -> Self {
+        let refusal = gql_refusal(&body);
+
+        Self { body, refusal }
+    }
+
+    pub(crate) fn checked(self, operation: Operation) -> Result<Value> {
+        match self.refusal {
+            Some(code) => Err(Error::Gql {
+                operation: operation.name(),
+                code: code.to_owned(),
+            }),
+            None => Ok(self.body),
+        }
     }
 }
 
@@ -383,7 +428,7 @@ pub fn transient(error: &Error) -> bool {
     }
 }
 
-// ! The messages never quote the URL: it can carry the proxy password.
+// ! No message quotes the URL, nor its scheme: without one, `user:password@host` reads as scheme `user`.
 pub fn parse_proxy(url: &str) -> Result<reqwest::Proxy> {
     let parsed =
         url::Url::parse(url).map_err(|_| Error::InvalidProxy("the proxy is not a URL".into()))?;
@@ -392,10 +437,9 @@ pub fn parse_proxy(url: &str) -> Result<reqwest::Proxy> {
         parsed.scheme(),
         "http" | "https" | "socks5" | "socks5h" | "socks4" | "socks4a"
     ) {
-        return Err(Error::InvalidProxy(format!(
-            "unsupported proxy scheme: {}",
-            parsed.scheme()
-        )));
+        return Err(Error::InvalidProxy(
+            "the proxy must start with http://, https://, socks4:// or socks5://".into(),
+        ));
     }
 
     if parsed.host_str().is_none() {
@@ -426,86 +470,6 @@ pub async fn test_proxy(proxy: &str, requests: RequestLog) -> Result<Duration> {
     Ok(started.elapsed())
 }
 
-pub async fn open_socket(
-    client: &TwitchClient,
-    place: &SocketPlace,
-    event: SocketEvent,
-) -> Result<Socket> {
-    let name = place.name;
-    let pending = client
-        .http
-        .requests
-        .start(place.kind, address_target(place.address))
-        .account(Some(&client.user_id))
-        .socket(event);
-    let sent = tokio::time::timeout(
-        SOCKET_CONNECT_TIMEOUT,
-        client.http.client.get(place.address).upgrade().send(),
-    )
-    .await;
-    let response = match sent {
-        Ok(Ok(response)) => response,
-        Ok(Err(error)) => {
-            let error = Error::Network(format!("{name} connect: {error}"));
-
-            pending.failed(&error);
-
-            return Err(error);
-        }
-        Err(_) => {
-            pending.failed(&Error::Transport(NetworkErrorKind::Timeout));
-
-            return Err(Error::Network(format!("{name} connect timeout")));
-        }
-    };
-    let status = response.status();
-
-    match response.into_websocket().await {
-        Ok(socket) => {
-            pending.succeeded(Some(status));
-
-            Ok(socket)
-        }
-        Err(error) => {
-            let error = Error::Network(format!("{name} upgrade: {error}"));
-
-            if status == StatusCode::SWITCHING_PROTOCOLS {
-                pending.failed(&error);
-            } else {
-                pending.answered(status);
-            }
-
-            Err(error)
-        }
-    }
-}
-
-pub async fn hold_socket(
-    client: &TwitchClient,
-    place: &SocketPlace,
-    cancel: &CancellationToken,
-    session: impl Future<Output = Result<()>>,
-) -> Option<Result<()>> {
-    let close = client
-        .http
-        .requests
-        .start(place.kind, address_target(place.address))
-        .account(Some(&client.user_id))
-        .socket(SocketEvent::Close);
-    let result = tokio::select! { biased;
-        _ = cancel.cancelled() => None,
-        result = session => Some(result),
-    };
-
-    match &result {
-        Some(Err(Error::Network(reason))) => close.closed(reason),
-        Some(Err(error)) => close.closed(&error.to_string()),
-        _ => close.succeeded(None),
-    }
-
-    result
-}
-
 pub fn values(value: &Value) -> impl Iterator<Item = &Value> {
     value.as_array().into_iter().flatten()
 }
@@ -518,4 +482,16 @@ pub(crate) fn note_left_out(list: &'static str, total: usize, kept: usize) {
 
 pub fn text(value: &Value) -> Option<String> {
     value.as_str().filter(|v| !v.is_empty()).map(str::to_owned)
+}
+
+pub fn parse_time(value: &Value) -> Option<DateTime<Utc>> {
+    text(value)?.parse().ok()
+}
+
+pub fn saturated(value: u64) -> u32 {
+    u32::try_from(value).unwrap_or(u32::MAX)
+}
+
+pub fn count(value: &Value) -> u32 {
+    value.as_u64().map_or(0, saturated)
 }

@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { Snippet } from "svelte";
+
   import { isTauri } from "../../lib/api/tauri";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { ticker } from "../../lib/state/ticker.svelte";
@@ -9,17 +11,19 @@
     askInstall,
     availableVersion,
     checkUpdates,
+    installLabel,
     installStatus,
     updates,
   } from "../../lib/updates/updates.svelte";
   import ActionButton from "../ui/ActionButton.svelte";
   import RichText from "../ui/RichText.svelte";
-  import { ButtonSize, ButtonType, ButtonVariant, IconName } from "../ui/ui.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
   import ImageUpdateCommands from "./ImageUpdateCommands.svelte";
 
-  type UpdatesPanelPropsType = { checkedAt: string | null };
+  type UpdatesPanelPropsType = { checkedAt: string | null; actions: Snippet };
 
-  let { checkedAt }: UpdatesPanelPropsType = $props();
+  let { checkedAt, actions }: UpdatesPanelPropsType = $props();
 
   const version = $derived(availableVersion());
   const current = $derived(!version && updates.check === UpdateCheck.CURRENT);
@@ -70,7 +74,7 @@
   {#if isTauri() && version}
     <ActionButton
       icon={IconName.IMPORT}
-      label={t.updates_install()}
+      label={installLabel()}
       busyLabel={t.updates_installing()}
       busy={updates.stage !== UpdateStage.IDLE}
       disabled={false}
@@ -80,4 +84,5 @@
       onclick={askInstall}
     />
   {/if}
+  {@render actions()}
 </div>

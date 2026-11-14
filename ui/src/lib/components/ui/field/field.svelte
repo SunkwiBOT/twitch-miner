@@ -1,8 +1,9 @@
 <script lang="ts" module>
+  // ! Edited after generation: an invalid field reddens its label and message only, never the typed value.
   import { tv, type VariantProps } from "tailwind-variants";
 
   export const fieldVariants = tv({
-    base: "data-[invalid=true]:text-destructive gap-2 group/field flex w-full",
+    base: "gap-2 group/field flex w-full",
     variants: {
       orientation: {
         vertical: "flex-col *:w-full [&>.sr-only]:w-auto",

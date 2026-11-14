@@ -7,8 +7,6 @@ import { fileURLToPath } from "node:url";
 
 const devHost = process.env.TAURI_DEV_HOST;
 
-// The service worker's "no connection" screen (ui/public/offline.html) is no Svelte page:
-// its three texts in every language are written next to it at build time, from messages/.
 const offlineTexts = () => ({
   name: "offline-texts",
   generateBundle() {
@@ -69,7 +67,7 @@ export default defineConfig({
     outDir: "dist",
     chunkSizeWarningLimit: 1000,
     emptyOutDir: true,
-    target: process.env.TAURI_ENV_PLATFORM === "windows" ? "chrome105" : "safari13",
+    target: process.env.TAURI_ENV_PLATFORM === "windows" ? "chrome105" : "safari16.4",
     minify: !process.env.TAURI_ENV_DEBUG,
     sourcemap: Boolean(process.env.TAURI_ENV_DEBUG),
   },

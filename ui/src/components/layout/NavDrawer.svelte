@@ -2,9 +2,11 @@
   import { Dialog as DialogPrimitive } from "bits-ui";
 
   import { t } from "../../lib/i18n/i18n.svelte";
-  import { app } from "../../lib/state/state.svelte";
+  import { app } from "../../lib/state/app.svelte";
   import IconButton from "../ui/IconButton.svelte";
-  import { ButtonSize, ButtonVariant, IconName, MenuAlign } from "../ui/ui.constants";
+  import { ButtonSize, ButtonVariant } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
+  import { MenuAlign } from "../ui/menu.constants";
   import ShellControls from "./ShellControls.svelte";
   import Sidebar from "./Sidebar.svelte";
 

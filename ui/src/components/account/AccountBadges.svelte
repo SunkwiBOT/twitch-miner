@@ -9,12 +9,11 @@
   import type { AccountSnapshotType } from "../../lib/bindings/AccountSnapshotType";
   import type { CampaignType } from "../../lib/bindings/CampaignType";
   import { MiningLaneKind } from "../../lib/bindings/MiningLaneKind";
-  import type { SnapshotType } from "../../lib/bindings/SnapshotType";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { matchesSearch, normalizeSearch } from "../../lib/search/search.utils";
   import { editsOf } from "../../lib/state/edits.svelte";
   import { AccountField } from "../../lib/state/state.constants";
-  import { openTab, showTab } from "../../lib/state/state.svelte";
+  import { openTab, showTab } from "../../lib/state/router";
   import { ticker } from "../../lib/state/ticker.svelte";
   import CampaignDialog from "../catalogue/CampaignDialog.svelte";
   import EmptyState from "../ui/EmptyState.svelte";
@@ -23,17 +22,20 @@
   import Panel from "../ui/Panel.svelte";
   import SearchField from "../ui/SearchField.svelte";
   import Segmented from "../ui/Segmented.svelte";
+  import Setting from "../ui/Setting.svelte";
   import Thumb from "../ui/Thumb.svelte";
-  import { IconName, NoticeTone, PanelWidth, ThumbShape, ThumbSize } from "../ui/ui.constants";
+  import { IconName } from "../../lib/icons.constants";
+  import { NoticeTone, PanelWidth } from "../ui/ui.constants";
+  import { ThumbShape, ThumbSize } from "../ui/picture.constants";
   import AccountSaveBar from "./AccountSaveBar.svelte";
   import BadgesExclusionsTab from "./badges/BadgesExclusionsTab.svelte";
   import BadgesOrderTab from "./badges/BadgesOrderTab.svelte";
   import CampaignScopeFields from "./drops/CampaignScopeFields.svelte";
   import MiningOrderList from "./drops/MiningOrderList.svelte";
 
-  type AccountBadgesPropsType = { account: AccountSnapshotType; snapshot: SnapshotType };
+  type AccountBadgesPropsType = { account: AccountSnapshotType };
 
-  let { account, snapshot }: AccountBadgesPropsType = $props();
+  let { account }: AccountBadgesPropsType = $props();
 
   const edits = editsOf(untrack(() => account.id));
   const badges = $derived(edits.applied(account.settings).badges);
@@ -97,9 +99,9 @@
   {/if}
 
   {#if tab === BadgesTab.ORDER}
-    <BadgesOrderTab {account} {snapshot} {sections} onopen={(campaign) => (open = campaign)} />
+    <BadgesOrderTab {account} {sections} onopen={(campaign) => (open = campaign)} />
   {:else if tab === BadgesTab.EXCLUSIONS}
-    <BadgesExclusionsTab {account} {snapshot} {sections} onopen={(campaign) => (open = campaign)} />
+    <BadgesExclusionsTab {account} {sections} onopen={(campaign) => (open = campaign)} />
   {:else if tab === BadgesTab.SETTINGS}
     <PanelColumns width={PanelWidth.LG}>
       <Panel title={t.mining_order_title()} description={t.mining_order_hint()}>
@@ -123,6 +125,14 @@
           onlinkedfirst={(value) =>
             edits.set(AccountField.BADGE_LINKED_FIRST, (s) => (s.badges.linked_first = value))}
           onorder={(next) => edits.set(AccountField.BADGE_ORDER, (s) => (s.badges.order = next))}
+        />
+        <Setting
+          title={t.badges_evolutions_title()}
+          description={t.badges_evolutions_hint()}
+          checked={badges.evolutions}
+          disabled={false}
+          onchange={(value) =>
+            edits.set(AccountField.BADGE_EVOLUTIONS, (s) => (s.badges.evolutions = value))}
         />
       </Panel>
     </PanelColumns>

@@ -15,17 +15,16 @@
   import SearchField from "./SearchField.svelte";
   import SearchNoResult from "./SearchNoResult.svelte";
   import TextButton from "./TextButton.svelte";
+  import { BADGE_VARIANTS, BadgeVariant } from "./badge.constants";
   import {
-    BADGE_VARIANTS,
     BUTTON_SIZES,
     BUTTON_VARIANTS,
-    BadgeVariant,
     ButtonSize,
     ButtonType,
     ButtonVariant,
-    IconName,
-    KeyboardKey,
-  } from "./ui.constants";
+  } from "./button.constants";
+  import { IconName } from "../../lib/icons.constants";
+  import { KeyboardKey } from "./field.constants";
 
   type TagInputPropsType = {
     id: string;
@@ -103,8 +102,7 @@
     onchange([...items, item]);
   };
 
-  // ! An IME's Enter only ends the word being composed, and while Twitch answers
-  // the first suggestion is not known yet: both add nothing.
+  // ! An IME's Enter only ends the composed word, and no suggestion is known while Twitch answers: both add nothing.
   const onkeydown = (event: KeyboardEvent): void => {
     if (event.key !== KeyboardKey.ENTER || event.isComposing) {
       return;

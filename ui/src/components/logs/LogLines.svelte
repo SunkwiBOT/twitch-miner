@@ -10,38 +10,31 @@
   import { formatClockWithSeconds } from "../../lib/time/time.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { ToastKind } from "../../lib/state/state.constants";
-  import { app, toast } from "../../lib/state/state.svelte";
+  import { app } from "../../lib/state/app.svelte";
+  import { toast } from "../../lib/state/toasts";
   import TextButton from "../ui/TextButton.svelte";
   import { Card } from "$lib/components/ui/card";
   import { cn } from "$lib/utils";
   import Avatar from "../ui/Avatar.svelte";
-  import CopyButton from "../ui/CopyButton.svelte";
-  import EmptyState from "../ui/EmptyState.svelte";
-  import LoadMoreSentinel from "../ui/LoadMoreSentinel.svelte";
   import MultiSelect from "../ui/MultiSelect.svelte";
   import PageHeader from "../ui/PageHeader.svelte";
   import Select from "../ui/Select.svelte";
-  import {
-    AvatarSize,
-    ButtonSize,
-    ButtonType,
-    ButtonVariant,
-    CopyLayout,
-    IconName,
-    MenuAlign,
-  } from "../ui/ui.constants";
-  import LogSkeleton from "./LogSkeleton.svelte";
+  import { AvatarSize } from "../ui/picture.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
+  import { MenuAlign } from "../ui/menu.constants";
+  import LogsActions from "./LogsActions.svelte";
+  import LogsFeed from "./LogsFeed.svelte";
   import {
     LOG_LEVEL_CLASSES,
+    LOG_LEVEL_PHONE_CLASSES,
     LOG_LEVELS_KEPT,
     LOG_LINE_CLASSES,
     LOG_LIST_CLASSES,
-    LOGS_MORE_SKELETON_ROWS,
     LOGS_PAGE_SIZE,
     LOGS_REFRESH_MS,
-    LOGS_SKELETON_ROWS,
   } from "./logs.constants";
-  import { LOG_LEVEL_LABELS } from "./logs.utils";
+  import { accountOptions, LOG_LEVEL_LABELS } from "./logs.utils";
 
   type LogLinesPropsType = { snapshot: SnapshotType };
 
@@ -55,10 +48,7 @@
 
   let levels = $state<LogLevel[]>([...LOG_LEVELS_KEPT]);
 
-  const options = $derived([
-    { value: "", label: t.logs_filter_all() },
-    ...snapshot.accounts.map((a) => ({ value: a.id, label: a.display_name, image: a.avatar_url })),
-  ]);
+  const options = $derived(accountOptions(snapshot.accounts));
 
   const filters = (): LogsQueryType => ({
     account_id: filter || undefined,
@@ -78,12 +68,7 @@
     isOlder: (line, oldest) => line.id < oldest.id,
   });
 
-  $effect(() => {
-    void feed.show(filters());
-    const timer = setInterval(() => void feed.refresh(), LOGS_REFRESH_MS);
-
-    return () => clearInterval(timer);
-  });
+  feed.poll(filters, LOGS_REFRESH_MS);
 
   const filterLevels = (next: LogLevel[]): void => {
     levels = LOG_LEVELS_KEPT.filter((level) => next.includes(level));
@@ -102,33 +87,19 @@
 
 <PageHeader intro={t.logs_subtitle()}>
   {#snippet actions()}
-    <CopyButton
-      text={report}
-      label={t.logs_copy()}
-      copiedLabel={t.logs_copied()}
-      layout={CopyLayout.LABELLED}
-      size={ButtonSize.MD}
-    />
-    {#if isTauri()}
-      <TextButton
-        label={t.logs_open_folder()}
-        icon={IconName.FILE}
-        variant={ButtonVariant.OUTLINE}
-        size={ButtonSize.MD}
-        type={ButtonType.BUTTON}
-        disabled={false}
-        onclick={openFolder}
-      />
-    {/if}
-    <TextButton
-      label={t.logs_report()}
-      icon={IconName.ALERT}
-      variant={ButtonVariant.OUTLINE}
-      size={ButtonSize.MD}
-      type={ButtonType.BUTTON}
-      disabled={false}
-      onclick={() => (app.feedbackDialog = true)}
-    />
+    <LogsActions {report} copiedLabel={t.logs_copied()}>
+      {#if isTauri()}
+        <TextButton
+          label={t.logs_open_folder()}
+          icon={IconName.FILE}
+          variant={ButtonVariant.OUTLINE}
+          size={ButtonSize.MD}
+          type={ButtonType.BUTTON}
+          disabled={false}
+          onclick={openFolder}
+        />
+      {/if}
+    </LogsActions>
   {/snippet}
   <div class="w-56">
     <Select
@@ -157,13 +128,12 @@
 </PageHeader>
 
 <Card class="gap-0 px-5 py-3">
-  {#if feed.loading && feed.items.length === 0}
-    <LogSkeleton rows={LOGS_SKELETON_ROWS} />
-  {:else if feed.items.length === 0 && feed.problem}
-    <EmptyState title={t.logs_load_failed()} text={feed.problem} icon={IconName.ALERT} />
-  {:else if feed.items.length === 0}
-    <EmptyState text={t.logs_empty()} />
-  {:else}
+  <LogsFeed
+    {feed}
+    failedTitle={t.logs_load_failed()}
+    emptyText={t.logs_empty()}
+    moreLabel={t.logs_load_more()}
+  >
     <div class={LOG_LIST_CLASSES}>
       {#each feed.items as line (line.id)}
         <div class={LOG_LINE_CLASSES}>
@@ -182,16 +152,9 @@
               <span class="truncate text-link">{owner?.display_name ?? line.account}</span>
             {/if}
           </span>
-          <span>{line.text}</span>
+          <span class={LOG_LEVEL_PHONE_CLASSES[line.level]}>{line.text}</span>
         </div>
       {/each}
     </div>
-    {#if feed.loadingMore}<LogSkeleton rows={LOGS_MORE_SKELETON_ROWS} />{/if}
-    <LoadMoreSentinel
-      label={t.logs_load_more()}
-      busy={feed.loadingMore}
-      more={feed.hasMore}
-      onmore={feed.loadMore}
-    />
-  {/if}
+  </LogsFeed>
 </Card>

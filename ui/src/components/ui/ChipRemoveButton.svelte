@@ -2,7 +2,8 @@
   import { cn } from "$lib/utils";
   import Icon from "./Icon.svelte";
   import Tip from "./Tip.svelte";
-  import { BUTTON_VARIANT_CLASSES, ButtonVariant, IconName } from "./ui.constants";
+  import { BUTTON_VARIANT_CLASSES, ButtonVariant } from "./button.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   type ChipRemoveButtonPropsType = {
     label: string;

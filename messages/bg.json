@@ -57,7 +57,6 @@
   "dashboard_catalog_error": "Каталогът е недостъпен: {error}",
   "dashboard_queue_blocked_no_live_channel": "Няма канал на живо",
   "dashboard_queue_blocked_one_campaign_at_a_time": "Изчаква (по една кампания)",
-  "dashboard_queue_blocked_no_drop_available": "Все още няма наличен drop",
   "dashboard_queue_reason_priority": "Приоритет",
   "dashboard_queue_reason_ending_soon": "Приключва скоро",
   "dashboard_queue_reason_lowest_remaining": "Почти готово",
@@ -157,6 +156,7 @@
   "settings_catalog_refresh": "Обнови сега",
   "settings_notifications": "Известия",
   "settings_notifications_events": "Известявай при",
+  "settings_notifications_targets": "Изпращай до",
   "settings_discord": "Discord уебхук",
   "settings_discord_url": "URL на уебхука",
   "settings_telegram": "Telegram бот",
@@ -212,7 +212,7 @@
   "error_session_expired": "Twitch отхвърли сесията",
   "error_invalid_response": "Неочакван отговор от Twitch",
   "error_twitch_rejected": "Twitch отказа заявката.",
-  "error_device_code_expired": "Кодът изтече",
+  "error_device_code_expired": "Кодът изтече или вече не е валиден: поискайте нов",
   "error_storage": "Локалната база данни не може да бъде прочетена или записана. Вижте техническите логове.",
   "error_vault_locked": "Приложението е заключено",
   "error_wrong_passphrase": "Грешна парола",
@@ -309,6 +309,7 @@
   "campaign_channels_some": "Разрешени канали: {count}",
   "common_account": "Акаунт",
   "campaign_progress": "{current}/{required} мин",
+  "campaign_progress_of": "Напредък и получаване за {account}",
   "campaign_link_game": "Свържи игровия акаунт",
   "campaign_open_twitch": "Отвори в Twitch",
   "logs_title": "Технически логове",
@@ -369,7 +370,6 @@
   "drops_scope_linked_hint": "Само игри, чийто акаунт е свързан с Twitch, така че всеки drop може да бъде взет.",
   "drops_skip_hint": "Пропуска кампания, когато не остава достатъчно време тя да бъде завършена.",
   "error_unknown_channel": "Няма Twitch канал с това име.",
-  "error_device_code_pending": "Кодът още не е потвърден в Twitch.",
   "error_invalid_vault": "Запазените сесии са повредени. Влезте отново.",
   "error_invalid_streamer_login": "Това не е валидно потребителско име в Twitch.",
   "error_passphrase_required": "Задайте парола за приложението, преди да го заключите.",
@@ -439,14 +439,77 @@
   "ev_campaign_finished": "Кампанията е завършена: {campaign}",
   "ev_drop_progress": "{drop}: {current}/{required} мин",
   "ev_bonus": "Взет бонус сандък в {channel}",
-  "ev_points": "+{points} точки в {channel}",
+  "ev_points": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input channel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "+{points} точка в {channel}",
+        "countPlural=*": "+{points} точки в {channel}"
+      }
+    }
+  ],
   "ev_online": "{channel} е на живо",
   "ev_offline": "{channel} спря излъчването",
   "ev_raid": "Последван рейд на {channel}",
   "ev_moment": "Взет момент в {channel}",
-  "ev_bet_placed": "Залог {points} точки на „{outcome}“ ({channel})",
-  "ev_bet_won": "Спечелена прогноза: +{points} точки",
-  "ev_bet_lost": "Загубена прогноза: −{points} точки",
+  "ev_bet_placed": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input outcome",
+        "input channel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Залог {points} точка на „{outcome}“ ({channel})",
+        "countPlural=*": "Залог {points} точки на „{outcome}“ ({channel})"
+      }
+    }
+  ],
+  "ev_bet_won": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Спечелена прогноза: +{points} точка",
+        "countPlural=*": "Спечелена прогноза: +{points} точки"
+      }
+    }
+  ],
+  "ev_bet_lost": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Загубена прогноза: −{points} точка",
+        "countPlural=*": "Загубена прогноза: −{points} точки"
+      }
+    }
+  ],
   "ev_bet_refund": "Прогноза: залогът е върнат",
   "ev_login": "{login} влезе",
   "ev_session_expired": "Сесията в Twitch изтече: влезте отново",
@@ -502,8 +565,19 @@
   "accounts_count": "{count} акаунта",
   "accounts_none": "Няма акаунт",
   "reward_watch": "Гледай {time}",
+  "reward_watch_daily": "{time} на ден, {days} дни",
+  "reward_watch_every": "{time} на всеки {hours} ч, {count} пъти",
+  "reward_watch_times": "{time}, {count} пъти",
+  "reward_days_done": "{done}/{total} дни",
+  "reward_times_done": "{done}/{total} пъти",
+  "reward_chest": "1 случайна значка от {count}",
+  "reward_chest_hint": "Twitch дава една от тези значки: {badges}",
+  "campaign_channels_categories": "Всеки канал в една от {count} категории",
+  "badges_collection": "Част от колекцията {name}",
+  "badges_collection_chest": "Част от колекцията {name}, 1 значка от {count}",
+  "badges_collection_all": "Значка за цялата колекция {name}, с абонаментите",
   "reward_watch_stream": "Гледай стрийма",
-  "reward_subscribe": "Абонамент: не се копае",
+  "reward_subscribe": "Абонирайте се сами",
   "reward_kind_badge": "Значка",
   "reward_kind_item": "Игрови предмет",
   "reward_sub_only": "Абон.",
@@ -625,32 +699,6 @@
   "chat_always": "Винаги",
   "chat_offline": "Докато стриймърът е офлайн",
   "chat_never": "Никога (невидим)",
-  "accounts_stats_bets": "Залози спечелени / загубени: {won} / {lost}",
-  "accounts_stats_bonuses": "Бонус сандъци: {count}",
-  "catalogue_fetched": "получено {time}, после на всеки {minutes} мин",
-  "change_order_reset": "Автоматичният ред е възстановен успешно",
-  "event_kind_goal_contributed": "Цел на общността",
-  "ev_goal_contributed": "{points} точки дадени за „{goal}“ в {channel}",
-  "ev_streak_recovered": "Серията гледания е възстановена в {channel}",
-  "filter_by_odds": "Коефициент на избора",
-  "filter_by_odds_percentage": "Коефициент на избора (%)",
-  "filter_by_percentage_users": "Зрители на избора (%)",
-  "filter_by_total_users": "Зрители, които са заложили",
-  "filter_by_total_points": "Общо заложени точки",
-  "filter_by_decision_users": "Зрители на избора",
-  "filter_by_decision_points": "Точки на избора",
-  "queue_reset": "Автоматичен ред",
-  "slot_last_minute": "последна минута гледане отчетена {time}",
-  "slot_segments": "Заявени видеосегменти: {count}",
-  "streamer_community_goals_hint": "Дава точки на канала за целите на общността на стриймъра по време на излъчване: колкото още са нужни на целта, в рамките на лимита на зрител и баланса.",
-  "streamer_last_bonus": "последен сандък {time}",
-  "streamer_predictions_filter": "Залагай само при условие",
-  "streamer_predictions_filter_hint": "Пропуска залога, ако условието за избраната страна не е изпълнено.",
-  "streamer_predictions_filter_by": "Стойност",
-  "streamer_predictions_filter_op": "Условие",
-  "streamer_predictions_filter_value": "Праг",
-  "streamer_predictions_gap_hint": "Умната следва мнозинството, освен ако двете страни не са толкова близо: тогава избира най-добрия коефициент.",
-  "account_refresh": "Обнови акаунта сега",
   "settings_start_minimized_hint": "Прозорецът остава скрит при стартиране; отворете го от иконата в системната област.",
   "settings_data_folder": "Папка с данни",
   "settings_data_folder_hint": "Тук се съхраняват акаунтите, настройките, историята и логовете.",
@@ -666,6 +714,8 @@
   "updates_last_checked": "Последна проверка: {time}",
   "updates_never_checked": "Последна проверка: все още няма отговор от стартирането",
   "updates_install": "Инсталирай и рестартирай",
+  "updates_download_page": "Отвори страницата за изтегляне",
+  "settings_notifications_language": "Език на известията",
   "updates_confirm_title": "Да се инсталира ли версия {version}?",
   "updates_confirm_text": "Имате версия {current}. Приложението изтегля версия {version}, спира копаенето във всички акаунти, инсталира я и се рестартира само. След това копаенето продължава само.",
   "updates_later": "По-късно",
@@ -710,6 +760,49 @@
       }
     }
   ],
+  "accounts_stats_bets": "Залози спечелени / загубени: {won} / {lost}",
+  "accounts_stats_bonuses": "Бонус сандъци: {count}",
+  "catalogue_fetched": "получено {time}, после на всеки {minutes} мин",
+  "change_order_reset": "Автоматичният ред е възстановен успешно",
+  "event_kind_goal_contributed": "Цел на общността",
+  "ev_goal_contributed": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input goal",
+        "input channel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{points} точка дадена за „{goal}“ в {channel}",
+        "countPlural=*": "{points} точки дадени за „{goal}“ в {channel}"
+      }
+    }
+  ],
+  "ev_streak_recovered": "Серията гледания е възстановена в {channel}",
+  "filter_by_odds": "Коефициент на избора",
+  "filter_by_odds_percentage": "Коефициент на избора (%)",
+  "filter_by_percentage_users": "Зрители на избора (%)",
+  "filter_by_total_users": "Зрители, които са заложили",
+  "filter_by_total_points": "Общо заложени точки",
+  "filter_by_decision_users": "Зрители на избора",
+  "filter_by_decision_points": "Точки на избора",
+  "queue_reset": "Автоматичен ред",
+  "slot_last_minute": "последна минута гледане отчетена {time}",
+  "slot_segments": "Заявени видеосегменти: {count}",
+  "streamer_community_goals_hint": "Дава точки на канала за целите на общността на стриймъра по време на излъчване: колкото още са нужни на целта, в рамките на лимита на зрител и баланса.",
+  "streamer_last_bonus": "последен сандък {time}",
+  "streamer_predictions_filter": "Залагай само при условие",
+  "streamer_predictions_filter_hint": "Пропуска залога, ако условието за избраната страна не е изпълнено.",
+  "streamer_predictions_filter_by": "Стойност",
+  "streamer_predictions_filter_op": "Условие",
+  "streamer_predictions_filter_value": "Праг",
+  "streamer_predictions_gap_hint": "Умната следва мнозинството, освен ако двете страни не са толкова близо: тогава избира най-добрия коефициент.",
+  "account_refresh": "Обнови акаунта сега",
   "account_state_running_hint": "Акаунтът копае със своите настройки. Паузата спира всичко: Drops, точки на канала и чат.",
   "account_state_paused_hint": "Акаунтът е на пауза: не гледа нищо и не печели нищо. Настройките му се запазват.",
   "login_code": "кода за вход",
@@ -754,6 +847,7 @@
   "inventory_claimed_all": "Взети награди: {count}",
   "reward_state_claimed": "Получено",
   "reward_state_ready": "За получаване",
+  "reward_state_owned": "Получена",
   "reward_claim": "Получи",
   "notify_test_title": "Тест: {text}",
   "notify_test_detail": "Twitch Miner може да достигне тази цел. Така изглежда получен drop. Всички имена и снимки в това съобщение са тестови.",
@@ -787,14 +881,14 @@
   "badge_hint_reason_lowest_remaining": "Остават малко минути, затова се завършва първа",
   "badge_hint_blocked_no_live": "Никой от каналите ѝ не е на живо",
   "badge_hint_blocked_one_at_a_time": "Копае се само една кампания наведнъж",
-  "badge_hint_blocked_no_drop": "Twitch все още не предлага drop",
   "badge_hint_linked": "Игровият акаунт е свързан: drops могат да се вземат",
   "badge_hint_not_linked": "Свържете игровия акаунт, за да вземете drops",
   "badge_hint_link_required": "Изисква свързан игрови акаунт",
   "badge_hint_claimed": "Вече е в инвентара ви в Twitch",
+  "badge_hint_owned": "Този акаунт вече има тази значка: майнерът не я копае",
   "badge_hint_ready": "Спечелено: остава само да се вземе",
   "badge_hint_item": "Пристига в играта след вземане",
-  "badge_hint_sub_only": "Изисква абонамент: не се копае",
+  "badge_hint_sub_only": "Изисква абонамент, който правите сами (вече действащ абонамент, Prime или подновяване не се броят). Щом Twitch го отчете, майнерът копае времето за гледане.",
   "badge_hint_watching": "Този акаунт гледа канала в момента",
   "badge_hint_streak_risk": "Серията на гледане в този канал ще се прекъсне",
   "badge_hint_in_progress": "Twitch брои минутите ви за тази кампания",
@@ -939,7 +1033,23 @@
     }
   ],
   "event_kind_points_spent": "Похарчени точки",
-  "ev_points_spent": "−{points} точки в {channel}",
+  "ev_points_spent": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input channel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "−{points} точка в {channel}",
+        "countPlural=*": "−{points} точки в {channel}"
+      }
+    }
+  ],
   "ev_points_spent_balance": "Похарчени точки в {channel} (баланс {balance})",
   "ev_drop_progress_unknown": "Напредък на дроп: {current}/{required} мин",
   "journal_types": "Типове събития",
@@ -1163,7 +1273,7 @@
   "badges_error": "Списъкът със значки не е наличен: {error}",
   "badges_retry": "Нов опит след {time}.",
   "badges_minable": "Копаема",
-  "badge_hint_badge_minable": "Само време на гледане: приложението може да я получи",
+  "badge_hint_badge_minable": "Само време на гледане: майнерът може да я получи",
   "badges_until": "До {date}",
   "mining_order_title": "Какво да се копае, по ред",
   "mining_order_hint": "Плъзнете редовете, за да изберете какво да се копае първо. Изключен ред не се копае, освен кампаниите, които сте сложили сами в реда на копаене.",
@@ -1178,7 +1288,7 @@
   "queue_reason_badge": "Значка",
   "badge_hint_reason_badge": "Дава значка, която акаунтът още няма",
   "quest_label": "Куест на Twitch",
-  "badge_hint_quest": "Събитие на Twitch: всеки канал от неговите категории се брои",
+  "badge_hint_quest": "Събитие на Twitch: брои се само в канал от неговите категории, който го предлага",
   "quest_next_window": "Следващ прозорец {time}",
   "account_badges_not_read": "Значките и куестовете на акаунта се четат, докато той работи.",
   "account_badges_tabs_label": "Раздели на страница „Значки“",
@@ -1190,6 +1300,30 @@
   "selection_only_title": "Само моят избор",
   "drops_selection_only_hint": "Копае само приоритетните ви игри и кампаниите, отбелязани със звезда. Когато всички са изкопани, не се започва друга кампания.",
   "badges_selection_only_hint": "Копае само значките, отбелязани със звезда. Когато всички са изкопани, не се започва друга значка.",
+  "badges_evolutions_title": "Копаене на еволюции на значки",
+  "badges_evolutions_hint": "За еволюция (Pichu → Pikachu…) майнерът сам слага нужната значка точно преди да я копае и не връща старата. Изключено: тези значки се пропускат и сложената значка никога не се пипа.",
+  "badge_evolution": "Еволюция на {badge}",
+  "badge_hint_evolution": "Майнерът слага {badge} точно преди да копае тази значка и не връща старата",
+  "badge_evolution_unknown": "Нужната значка е неизвестна",
+  "badge_hint_evolution_unknown": "Twitch още не е казал от коя значка еволюира тази: дотогава не се копае",
+  "badge_evolution_locked": "Нужна е {badge}",
+  "badge_hint_evolution_locked": "Този акаунт първо трябва да получи {badge}: след това майнерът я слага, за да копае тази еволюция",
+  "badge_evolution_off": "Еволюциите са изключени",
+  "badge_hint_evolution_off": "„Копаене на еволюции на значки“ е изключено в настройките за значки на този акаунт",
+  "ev_badge_equipped": "Сложена е значката {badge} за еволюцията на {drop}",
+  "ev_badge_equip_failed": "Значката {badge} не можа да бъде сложена за еволюцията на {drop}",
+  "badge_progress_not_started": "Не е започната",
+  "badge_progress_not_offered": "Няма я в кампаниите на този акаунт",
+  "badge_dialog_subs": "Абонаменти, които правите сами: {count}",
+  "badge_dialog_dates": "От {start} до {end}",
+  "badge_dialog_from": "От {date}",
+  "badge_dialog_open_campaign": "Отваряне на кампанията",
+  "badge_dialog_categories": "Категории",
+  "badge_dialog_channels": "Канали",
+  "badge_dialog_collection": "Колекция",
+  "badge_dialog_evolution": "Еволюция",
+  "badge_dialog_evolves_from": "Twitch брои тази значка само докато {badge} е сложена: майнерът я слага точно преди копаенето и не връща старата значка.",
+  "badge_dialog_accounts": "Напредък на акаунтите",
   "campaign_select": "Добавяне към моя избор",
   "campaign_unselect": "Премахване от моя избор",
   "campaign_selected": "Добавено към избора ви",
@@ -1206,5 +1340,5 @@
   "quest_not_minable": "Не може да се копае",
   "badge_hint_quest_not_minable": "Twitch не посочва категория или канал, които майнерът да гледа за това",
   "account_badges_not_mined": "Не се копаят",
-  "account_badges_not_mined_hint": "Показани, но не се копаят: нужен е абонамент или Twitch не посочва канал, който майнерът да гледа."
+  "account_badges_not_mined_hint": "Показани, но не се копаят: първо е нужен абонамент, който правите сами, или друга значка, или Twitch не посочва канал, който майнерът да гледа."
 }

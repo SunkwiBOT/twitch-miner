@@ -7,7 +7,7 @@ import {
   LOCK_CHECK_DELAY_MS,
   LOCK_CHECK_TIMEOUT_MS,
 } from "./state.constants";
-import { checkSession, sessionEnded, sessionEndedBy } from "./state.svelte";
+import { checkSession, sessionEnded, sessionEndedBy } from "./session";
 
 type WatchedType = { open: boolean; idleMs: number | null };
 
@@ -38,8 +38,7 @@ const armLock = (from: number): void => {
   lockTimer = setTimeout(() => void lockIfIdle(), Math.max(0, wait));
 };
 
-// ! Without the server's answer in LOCK_CHECK_TIMEOUT_MS, nothing says the session
-// was in use: the page locks.
+// ! No server answer within LOCK_CHECK_TIMEOUT_MS: nothing says the session was in use, so the page locks.
 const lockIfIdle = async (): Promise<void> => {
   lockTimer = null;
 
@@ -75,8 +74,7 @@ const report = async (): Promise<void> => {
   }
 };
 
-// ! Activity within ACTIVITY_REPORT_GAP_MS is reported at its end, so the server
-// never takes the user for idle earlier than they were.
+// ! Reported at the end of ACTIVITY_REPORT_GAP_MS: the server never takes the user for idle too early.
 export const noteActivity = (): void => {
   if (!watched.open || pendingReport) {
     return;

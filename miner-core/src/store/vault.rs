@@ -93,7 +93,8 @@ impl Vault {
         Ok(Self { key })
     }
 
-    pub fn from_key_file(dir: &Path) -> Result<Self> {
+    // ! A new key would make every sealed session unreadable without a word.
+    pub fn from_key_file(dir: &Path, create: bool) -> Result<Self> {
         let path = dir.join(KEY_FILE);
 
         if path.exists() {
@@ -113,18 +114,16 @@ impl Vault {
             return Ok(Self { key });
         }
 
+        if !create {
+            return Err(Error::InvalidVault);
+        }
+
         let mut key = Zeroizing::new([0u8; KEY_LENGTH]);
 
         rand::rng().fill_bytes(key.as_mut());
         write_private(&path, Zeroizing::new(hex::encode(key.as_ref())).as_bytes())?;
 
         Ok(Self { key })
-    }
-
-    pub fn from_raw(key: [u8; KEY_LENGTH]) -> Self {
-        Self {
-            key: Zeroizing::new(key),
-        }
     }
 
     pub fn seal(&self, plaintext: &[u8]) -> Result<Sealed> {
@@ -145,6 +144,10 @@ impl Vault {
     }
 
     pub fn open(&self, sealed: &Sealed) -> Result<Zeroizing<Vec<u8>>> {
+        self.decrypt(sealed)?.ok_or(Error::InvalidVault)
+    }
+
+    fn decrypt(&self, sealed: &Sealed) -> Result<Option<Zeroizing<Vec<u8>>>> {
         let nonce = unb64(&sealed.nonce)?;
 
         if nonce.len() != NONCE_LENGTH {
@@ -155,10 +158,10 @@ impl Vault {
         let cipher =
             Aes256Gcm::new_from_slice(self.key.as_ref()).map_err(|_| Error::InvalidVault)?;
 
-        cipher
+        Ok(cipher
             .decrypt(Nonce::from_slice(&nonce), ciphertext.as_ref())
-            .map(Zeroizing::new)
-            .map_err(|_| Error::WrongPassphrase)
+            .ok()
+            .map(Zeroizing::new))
     }
 
     pub fn check_blob(&self) -> Result<Sealed> {
@@ -166,12 +169,9 @@ impl Vault {
     }
 
     pub fn verify(&self, check: &Sealed) -> Result<()> {
-        let plain = self.open(check)?;
-
-        if plain.as_slice() == CHECK_PLAINTEXT {
-            Ok(())
-        } else {
-            Err(Error::WrongPassphrase)
+        match self.decrypt(check)? {
+            Some(plain) if plain.as_slice() == CHECK_PLAINTEXT => Ok(()),
+            _ => Err(Error::WrongPassphrase),
         }
     }
 }

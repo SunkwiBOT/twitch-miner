@@ -10,16 +10,21 @@
   import { AccountStatus } from "../../lib/bindings/AccountStatus";
   import type { AccountSnapshotType } from "../../lib/bindings/AccountSnapshotType";
   import type { CampaignType } from "../../lib/bindings/CampaignType";
+  import { campaignOf } from "../../lib/catalogue/catalogue.svelte";
+  import { QUEUE_PREVIEW, RECENT_MAX } from "./account.constants";
   import { ErrorApiMessage } from "../../lib/bindings/ErrorApiMessage";
   import type { SnapshotType } from "../../lib/bindings/SnapshotType";
   import { describeCode } from "../../lib/errors/errors.utils";
-  import { POINTS_ROUTINE } from "../../lib/events/events.utils";
+  import { recentEvents } from "../../lib/events/events.utils";
   import { BoxArtSize } from "../../lib/format.constants";
   import { boxArt } from "../../lib/format.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { escapeEmphasis, strong } from "../../lib/text.utils";
   import { Page } from "../../lib/state/state.constants";
-  import { app, navigate, run, setDropIgnored } from "../../lib/state/state.svelte";
+  import { setDropIgnored } from "../../lib/state/account-settings.svelte";
+  import { app } from "../../lib/state/app.svelte";
+  import { navigate } from "../../lib/state/router";
+  import { run } from "../../lib/state/session";
   import { ticker } from "../../lib/state/ticker.svelte";
   import AccountActivity from "../AccountActivity.svelte";
   import ActivityFeed from "../ActivityFeed.svelte";
@@ -35,38 +40,28 @@
   import PageBody from "../ui/PageBody.svelte";
   import Panel from "../ui/Panel.svelte";
   import Thumb from "../ui/Thumb.svelte";
-  import {
-    ButtonSize,
-    ButtonType,
-    ButtonVariant,
-    IconName,
-    NoticeTone,
-    PanelWidth,
-    ThumbShape,
-    ThumbSize,
-  } from "../ui/ui.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
+  import { NoticeTone, PanelWidth } from "../ui/ui.constants";
+  import { ThumbShape, ThumbSize } from "../ui/picture.constants";
 
   type AccountOverviewPropsType = { account: AccountSnapshotType; snapshot: SnapshotType };
-
-  const QUEUE_PREVIEW = 6;
-  const RECENT_MAX = 12;
 
   let { account, snapshot }: AccountOverviewPropsType = $props();
 
   const current = $derived.by<CampaignType | null>(() => {
     const id = account.slots.find((slot) => slot.drop)?.drop?.campaign_id;
 
-    return id ? (account.campaigns.find((c) => c.id === id) ?? null) : null;
+    return id ? (campaignOf(account, id) ?? null) : null;
   });
 
-  const campaignOf = (id: string): CampaignType | undefined =>
-    account.campaigns.find((c) => c.id === id);
-
   const events = $derived(
-    [...app.liveEvents, ...snapshot.recent_events]
-      .filter((e) => e.account_id === account.id && !POINTS_ROUTINE.has(e.kind))
-      .filter((e, i, all) => all.findIndex((o) => o.at === e.at && o.title === e.title) === i)
-      .slice(0, RECENT_MAX),
+    recentEvents(
+      app.liveEvents,
+      snapshot.recent_events,
+      (e) => e.account_id === account.id,
+      RECENT_MAX,
+    ),
   );
 
   let open = $state<CampaignType | null>(null);
@@ -101,7 +96,7 @@
       {:else}
         <List>
           {#each account.queue.slice(0, QUEUE_PREVIEW) as q, i (q.campaign_id)}
-            {@const c = campaignOf(q.campaign_id)}
+            {@const c = campaignOf(account, q.campaign_id)}
             <ListRow
               title={c ? campaignHeading(c) : q.campaign_id}
               details={[

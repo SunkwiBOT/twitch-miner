@@ -1,13 +1,20 @@
 import type { AccountSnapshotType } from "../bindings/AccountSnapshotType";
+import type { BadgeRefType } from "../bindings/BadgeRefType";
 import { BenefitKind } from "../bindings/BenefitKind";
 import type { CampaignType } from "../bindings/CampaignType";
 import { CampaignKind } from "../bindings/CampaignKind";
+import type { EvolutionType } from "../bindings/EvolutionType";
 import type { GlobalBadgeType } from "../bindings/GlobalBadgeType";
 import type { QuestGroupType } from "../bindings/QuestGroupType";
 import { QuestStatus } from "../bindings/QuestStatus";
 import type { QuestType } from "../bindings/QuestType";
+import type { RepeatType } from "../bindings/RepeatType";
 import type { TimedDropType } from "../bindings/TimedDropType";
+import { dropDone, periodTotals, subsMissing } from "../catalogue/campaign.utils";
+import { campaignOf, campaignsOf } from "../catalogue/catalogue.svelte";
 import { matchesSearch } from "../search/search.utils";
+import { t } from "../i18n/i18n.svelte";
+import type { BadgeRequirementType } from "../bindings/BadgeRequirementType";
 import type { IgnoredType } from "../accounts/drops.utils";
 import { BadgeFilter, HIDDEN_BADGE_SETS, NEW_BADGE_MS } from "./badges.constants";
 
@@ -67,7 +74,18 @@ export enum AccountBadgeState {
   SUB_ONLY = "SUB_ONLY",
   NOT_MINABLE = "NOT_MINABLE",
   WAITING = "WAITING",
+  EVOLUTION_UNKNOWN = "EVOLUTION_UNKNOWN",
+  EVOLUTION_LOCKED = "EVOLUTION_LOCKED",
+  EVOLUTION_OFF = "EVOLUTION_OFF",
 }
+
+const NOT_MINED_STATES: ReadonlySet<AccountBadgeState> = new Set([
+  AccountBadgeState.SUB_ONLY,
+  AccountBadgeState.NOT_MINABLE,
+  AccountBadgeState.EVOLUTION_UNKNOWN,
+  AccountBadgeState.EVOLUTION_LOCKED,
+  AccountBadgeState.EVOLUTION_OFF,
+]);
 
 export type AccountBadgeType = {
   key: string;
@@ -78,12 +96,18 @@ export type AccountBadgeType = {
   source: string;
   current: number;
   required: number;
+  repeat: RepeatType | undefined;
+  periodsDone: number;
+  closed: boolean;
+  badges: BadgeRefType[];
+  chest: number | undefined;
   endsAt: string;
   state: AccountBadgeState;
   quest: QuestType | null;
   campaign: CampaignType | null;
   nextAt: string | undefined;
   ignored: IgnoredType | null;
+  evolution: EvolutionType | undefined;
 };
 
 // ! One row per campaign: its badges are mined, moved and ignored together.
@@ -104,29 +128,69 @@ export type AccountBadgesType = {
 const dropGivesBadge = (drop: TimedDropType): boolean =>
   drop.benefits.some((benefit) => benefit.kind === BenefitKind.BADGE);
 
-const dropState = (drop: TimedDropType): AccountBadgeState => {
-  if (drop.required_subs > 0) {
+// ! An evolution is mined only once the badge it evolves from is named and owned, and only with evolutions switched on.
+const evolutionHold = (
+  evolution: EvolutionType | undefined,
+  enabled: boolean,
+): AccountBadgeState | null => {
+  if (!evolution) {
+    return null;
+  }
+
+  if (!evolution.from) {
+    return AccountBadgeState.EVOLUTION_UNKNOWN;
+  }
+
+  if (!evolution.owned) {
+    return AccountBadgeState.EVOLUTION_LOCKED;
+  }
+
+  return enabled ? null : AccountBadgeState.EVOLUTION_OFF;
+};
+
+const dropState = (
+  drop: TimedDropType,
+  now: number,
+  hold: AccountBadgeState | null,
+): AccountBadgeState => {
+  if (drop.instance_id && !drop.claimed) {
+    return AccountBadgeState.CLAIMABLE;
+  }
+
+  if (subsMissing(drop)) {
     return AccountBadgeState.SUB_ONLY;
   }
 
-  if (drop.instance_id) {
-    return AccountBadgeState.CLAIMABLE;
+  if (hold) {
+    return hold;
+  }
+
+  if (time(drop.next_period_at) > now) {
+    return AccountBadgeState.WAITING;
   }
 
   return drop.current_minutes > 0 ? AccountBadgeState.IN_PROGRESS : AccountBadgeState.AVAILABLE;
 };
 
-const groupState = (group: QuestGroupType, now: number): AccountBadgeState => {
-  if (group.required_subs > 0 || group.required_minutes === 0) {
+const groupState = (
+  group: QuestGroupType,
+  now: number,
+  hold: AccountBadgeState | null,
+): AccountBadgeState => {
+  if (group.status === QuestStatus.CLAIMABLE) {
+    return AccountBadgeState.CLAIMABLE;
+  }
+
+  if (subsMissing(group) || group.required_minutes === 0) {
     return AccountBadgeState.SUB_ONLY;
+  }
+
+  if (hold) {
+    return hold;
   }
 
   if (group.status === QuestStatus.UNKNOWN) {
     return AccountBadgeState.NOT_MINABLE;
-  }
-
-  if (group.status === QuestStatus.CLAIMABLE) {
-    return AccountBadgeState.CLAIMABLE;
   }
 
   if (time(group.next_eligible_at) > now) {
@@ -138,12 +202,19 @@ const groupState = (group: QuestGroupType, now: number): AccountBadgeState => {
     : AccountBadgeState.AVAILABLE;
 };
 
-// ! A quest of several groups is a set of lanes: once one is started, the
-// others no longer count.
-export const questLanes = (quest: QuestType): QuestGroupType[] => {
-  const started = quest.groups.filter((group) => group.status !== QuestStatus.NOT_STARTED);
+const groupDone = (group: QuestGroupType): boolean =>
+  group.repeat ? group.grant_count >= group.repeat.times : group.status === QuestStatus.CLAIMED;
 
-  return started.length > 0 ? started : quest.groups;
+// ! Same lanes as `Quest::lanes` in the core: watch groups are one track; subscription groups and the whole-collection badge stand apart.
+export const questLanes = (quest: QuestType): QuestGroupType[] => {
+  const lane = (group: QuestGroupType): boolean => group.required_subs === 0 && !group.after_all;
+  const started = quest.groups.some(
+    (group) => lane(group) && group.status !== QuestStatus.NOT_STARTED,
+  );
+
+  return quest.groups.filter(
+    (group) => !started || !lane(group) || group.status !== QuestStatus.NOT_STARTED,
+  );
 };
 
 const groupOwned = (
@@ -152,15 +223,15 @@ const groupOwned = (
   group: QuestGroupType,
 ): boolean => {
   const owned = new Set(account.owned_badges.map((badge) => badgeKey(badge.set_id, badge.version)));
-  const drop = account.campaigns
-    .find((campaign) => campaign.id === quest.id)
-    ?.drops.find((item) => item.id === group.id);
+  const drop = campaignOf(account, quest.id)?.drops.find((item) => item.id === group.id);
 
   return (
     drop?.badge_owned === true ||
     (group.rewards.length > 0 &&
       group.rewards.every(
-        (reward) => reward.badge && owned.has(badgeKey(reward.badge.set_id, reward.badge.version)),
+        (reward) =>
+          reward.badges.length > 0 &&
+          reward.badges.every((badge) => owned.has(badgeKey(badge.set_id, badge.version))),
       ))
   );
 };
@@ -187,32 +258,41 @@ const ignoredOf = (
 
 export const accountBadges = (account: AccountSnapshotType, now: number): AccountBadgesType => {
   const items: AccountBadgeType[] = [];
+  const evolutions = account.settings.badges.evolutions;
 
-  for (const campaign of account.campaigns) {
+  for (const campaign of campaignsOf(account)) {
     if (campaign.kind === CampaignKind.QUEST || time(campaign.ends_at) <= now) {
       continue;
     }
 
     for (const drop of campaign.drops) {
-      if (!dropGivesBadge(drop) || drop.claimed || drop.badge_owned) {
+      if (!dropGivesBadge(drop) || dropDone(drop) || drop.badge_owned) {
         continue;
       }
+
+      const benefit = drop.benefits.find((b) => b.kind === BenefitKind.BADGE);
 
       items.push({
         key: `${campaign.id}/${drop.id}`,
         dropId: drop.id,
         campaignId: campaign.id,
         title: drop.name,
-        image: drop.benefits.find((b) => b.kind === BenefitKind.BADGE)?.image_url,
+        image: benefit?.image_url,
         source: `${campaign.game.name} · ${campaign.name}`,
         current: drop.current_minutes,
         required: drop.required_minutes,
+        repeat: drop.repeat,
+        periodsDone: drop.periods_done,
+        closed: drop.claimed,
+        badges: benefit?.badges ?? [],
+        chest: benefit?.chest_size,
         endsAt: drop.ends_at < campaign.ends_at ? drop.ends_at : campaign.ends_at,
-        state: dropState(drop),
+        state: dropState(drop, now, evolutionHold(drop.evolution, evolutions)),
         quest: null,
         campaign,
-        nextAt: undefined,
+        nextAt: drop.next_period_at,
         ignored: ignoredOf(account, campaign, campaign.id, drop.id, drop.name),
+        evolution: drop.evolution,
       });
     }
   }
@@ -223,29 +303,38 @@ export const accountBadges = (account: AccountSnapshotType, now: number): Accoun
     }
 
     for (const group of questLanes(quest)) {
-      if (group.status === QuestStatus.CLAIMED || groupOwned(account, quest, group)) {
+      if (groupDone(group) || groupOwned(account, quest, group)) {
         continue;
       }
 
       const reward = group.rewards.at(0);
       const title = group.name || reward?.name || quest.name;
-      const campaign = account.campaigns.find((item) => item.id === quest.id) ?? null;
+      const campaign = campaignOf(account, quest.id) ?? null;
+      const single = reward?.badges.length === 1 ? reward.badges[0] : undefined;
 
       items.push({
         key: `${quest.id}/${group.id}`,
         dropId: group.id,
         campaignId: quest.id,
         title,
-        image: reward?.badge?.image_url ?? reward?.image_url ?? quest.image_url,
+        image: single?.image_url ?? reward?.image_url ?? quest.image_url,
         source: quest.name,
         current: group.current_minutes,
         required: group.required_minutes,
+        repeat: group.repeat,
+        periodsDone: group.grant_count,
+        closed: group.status === QuestStatus.CLAIMED,
+        badges: reward?.badges ?? [],
+        chest: reward?.chest_size,
         endsAt: quest.ends_at,
-        state: quest.sitewide ? groupState(group, now) : AccountBadgeState.NOT_MINABLE,
+        state: quest.sitewide
+          ? groupState(group, now, evolutionHold(group.evolution, evolutions))
+          : AccountBadgeState.NOT_MINABLE,
         quest,
         campaign,
         nextAt: group.next_eligible_at,
         ignored: ignoredOf(account, campaign, quest.id, group.id, title),
+        evolution: group.evolution,
       });
     }
   }
@@ -253,8 +342,7 @@ export const accountBadges = (account: AccountSnapshotType, now: number): Accoun
   const byEnd = (a: AccountBadgeType, b: AccountBadgeType): number =>
     time(a.endsAt) - time(b.endsAt) || a.title.localeCompare(b.title);
 
-  const notMinable = (item: AccountBadgeType): boolean =>
-    [AccountBadgeState.SUB_ONLY, AccountBadgeState.NOT_MINABLE].includes(item.state);
+  const notMinable = (item: AccountBadgeType): boolean => NOT_MINED_STATES.has(item.state);
 
   return {
     minable: items.filter((item) => !item.ignored && !notMinable(item)).sort(byEnd),
@@ -263,8 +351,7 @@ export const accountBadges = (account: AccountSnapshotType, now: number): Accoun
   };
 };
 
-// ! Rows follow the account's mining order; the ones it does not hold yet
-// (waiting for a window, badges lane off) come after, by end date.
+// ! Rows follow the account's mining order; the ones it does not hold yet (waiting for a window, badges lane off) come after, by end date.
 export const badgeRows = (items: AccountBadgeType[], order: string[]): BadgeRowType[] => {
   const rows = new Map<string, BadgeRowType>();
 
@@ -276,10 +363,17 @@ export const badgeRows = (items: AccountBadgeType[], order: string[]): BadgeRowT
       current: 0,
       required: 0,
     };
+    const totals = periodTotals({
+      current: item.current,
+      required: item.required,
+      done: item.periodsDone,
+      closed: item.closed,
+      repeat: item.repeat,
+    });
 
     row.items.push(item);
-    row.current += Math.min(item.current, item.required);
-    row.required += item.required;
+    row.current += totals.current;
+    row.required += totals.required;
     rows.set(item.campaignId, row);
   }
 
@@ -312,4 +406,16 @@ export const ownedBadges = (
       image: known?.image_url ?? owned.image_url,
     }))
     .sort((a, b) => a.title.localeCompare(b.title));
+};
+
+export const collectionText = (rule: BadgeRequirementType): string => {
+  const name = rule.campaign_name ?? "";
+
+  if (rule.collection?.complete_all) {
+    return t.badges_collection_all({ name });
+  }
+
+  return rule.collection?.chest_size
+    ? t.badges_collection_chest({ name, count: rule.collection.chest_size })
+    : t.badges_collection({ name });
 };

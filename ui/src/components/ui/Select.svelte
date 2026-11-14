@@ -14,15 +14,14 @@
   import { t } from "../../lib/i18n/i18n.svelte";
   import { overlay } from "../../lib/state/overlay.svelte";
   import Avatar from "./Avatar.svelte";
+  import { AvatarSize } from "./picture.constants";
+  import { BUTTON_VARIANTS, ButtonVariant } from "./button.constants";
   import {
-    AvatarSize,
-    BUTTON_VARIANTS,
-    ButtonVariant,
     MENU_EDGE_GAP,
     MENU_ITEM_CLASSES,
     MenuAlign,
     SELECT_SEARCH_FROM,
-  } from "./ui.constants";
+  } from "./menu.constants";
   import { matchOption } from "./ui.utils";
 
   type OptionType = {

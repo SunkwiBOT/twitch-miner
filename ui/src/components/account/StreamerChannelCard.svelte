@@ -1,10 +1,13 @@
 <script lang="ts">
   import type { ChannelType } from "../../lib/bindings/ChannelType";
+  import { gameArt } from "../../lib/catalogue/games.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import ChannelAvatar from "../ui/ChannelAvatar.svelte";
+  import GameName from "../ui/GameName.svelte";
   import TextButton from "../ui/TextButton.svelte";
   import ViewerCount from "../ui/ViewerCount.svelte";
-  import { AvatarSize, ButtonSize, ButtonType, ButtonVariant } from "../ui/ui.constants";
+  import { AvatarSize, ThumbSize } from "../ui/picture.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
 
   type StreamerChannelCardPropsType = {
     channel: ChannelType | null;
@@ -28,7 +31,13 @@
     </span>
     {#if channel?.live}
       <span class="flex min-w-0 items-center gap-2 text-xs text-muted-foreground">
-        {#if channel.game}<span class="truncate">{channel.game.name}</span>{/if}
+        {#if channel.game}<GameName
+            name={channel.game.name}
+            url={null}
+            art={gameArt(channel.game.name, channel.game.box_art_url)}
+            size={ThumbSize.XS}
+            inSentence={false}
+          />{/if}
         {#if channel.viewers !== undefined}<ViewerCount count={channel.viewers} />{/if}
       </span>
     {/if}

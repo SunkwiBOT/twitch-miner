@@ -5,10 +5,8 @@ import type { AppInfoType } from "../bindings/AppInfoType";
 import type { AuthResponseType } from "../bindings/AuthResponseType";
 import type { AuthStatusType } from "../bindings/AuthStatusType";
 import type { BurstProgressType } from "../bindings/BurstProgressType";
-import type { CatalogRefreshResponseType } from "../bindings/CatalogRefreshResponseType";
 import type { CatalogRefreshType } from "../bindings/CatalogRefreshType";
 import type { ChannelQueryType } from "../bindings/ChannelQueryType";
-import type { ChannelResponseType } from "../bindings/ChannelResponseType";
 import type { ChannelsLookupRequestType } from "../bindings/ChannelsLookupRequestType";
 import type { ChannelsLookupResponseType } from "../bindings/ChannelsLookupResponseType";
 import type { ChannelType } from "../bindings/ChannelType";
@@ -17,36 +15,27 @@ import type { CommandType } from "../bindings/CommandType";
 import type { DashboardLoginRequestType } from "../bindings/DashboardLoginRequestType";
 import { DesktopEvent } from "../bindings/DesktopEvent";
 import type { FollowsQueryType } from "../bindings/FollowsQueryType";
-import type { FollowsResponseType } from "../bindings/FollowsResponseType";
 import type { HistoryQueryType } from "../bindings/HistoryQueryType";
 import type { HistoryResponseType } from "../bindings/HistoryResponseType";
-import type { LoginFlowResponseType } from "../bindings/LoginFlowResponseType";
 import type { LoginFlowViewType } from "../bindings/LoginFlowViewType";
 import type { LogsQueryType } from "../bindings/LogsQueryType";
-import type { LogsReportResponseType } from "../bindings/LogsReportResponseType";
 import type { BadgesResponseType } from "../bindings/BadgesResponseType";
+import type { CatalogResponseType } from "../bindings/CatalogResponseType";
 import type { LogsResponseType } from "../bindings/LogsResponseType";
 import type { MinerEventType } from "../bindings/MinerEventType";
-import type { NotificationTestResponseType } from "../bindings/NotificationTestResponseType";
 import type { NotificationTestType } from "../bindings/NotificationTestType";
 import type { ProxyTestRequestType } from "../bindings/ProxyTestRequestType";
-import type { ProxyTestResponseType } from "../bindings/ProxyTestResponseType";
 import type { RedeemRequestType } from "../bindings/RedeemRequestType";
-import type { RedeemResponseType } from "../bindings/RedeemResponseType";
 import type { RequestsQueryType } from "../bindings/RequestsQueryType";
 import type { RequestsResponseType } from "../bindings/RequestsResponseType";
 import type { SearchQueryType } from "../bindings/SearchQueryType";
 import type { SearchResponseType } from "../bindings/SearchResponseType";
 import type { ChannelBannersRequestType } from "../bindings/ChannelBannersRequestType";
-import type { ChannelBannersResponseType } from "../bindings/ChannelBannersResponseType";
 import { RoutesApi } from "../bindings/RoutesApi";
 import type { ServerMessageType } from "../bindings/ServerMessageType";
-import type { SnapshotResponseType } from "../bindings/SnapshotResponseType";
 import type { SnapshotType } from "../bindings/SnapshotType";
-import type { SpamBalanceResponseType } from "../bindings/SpamBalanceResponseType";
 import type { SpamBalanceType } from "../bindings/SpamBalanceType";
 import type { SpamChannelQueryType } from "../bindings/SpamChannelQueryType";
-import type { SpamChannelResponseType } from "../bindings/SpamChannelResponseType";
 import type { SpamChannelViewType } from "../bindings/SpamChannelViewType";
 import type { StartupProblemType } from "../bindings/StartupProblemType";
 import type { UpdateCheckResponseType } from "../bindings/UpdateCheckResponseType";
@@ -60,6 +49,8 @@ import {
 import { http } from "./http";
 import { invoke, isTauri, listen, listenUpdate } from "./tauri";
 import type {
+  ArgumentsType,
+  TauriCommandsType,
   FailedUpdateType,
   UnsubscribeType,
   UpdateInfoType,
@@ -73,261 +64,163 @@ type ListenersType = {
   onConnection: (connected: boolean) => void;
 };
 
-export const fetchSnapshot = async (): Promise<SnapshotType> => {
+type HttpRouteType = { route: RoutesApi; method: HttpMethod };
+
+type HttpBodyType = { params?: object; data?: unknown };
+
+const ROUTES = {
+  [TauriCommand.SNAPSHOT]: { route: RoutesApi.SNAPSHOT, method: HttpMethod.GET },
+  [TauriCommand.COMMAND]: { route: RoutesApi.COMMAND, method: HttpMethod.POST },
+  [TauriCommand.REFRESH_CATALOG]: { route: RoutesApi.CATALOG_REFRESH, method: HttpMethod.POST },
+  [TauriCommand.START_LOGIN]: { route: RoutesApi.LOGIN_FLOW, method: HttpMethod.POST },
+  [TauriCommand.LOOKUP_CHANNEL]: { route: RoutesApi.CHANNEL, method: HttpMethod.GET },
+  [TauriCommand.CHANNEL_BANNERS]: { route: RoutesApi.CHANNELS_BANNERS, method: HttpMethod.POST },
+  [TauriCommand.SEARCH]: { route: RoutesApi.SEARCH, method: HttpMethod.GET },
+  [TauriCommand.LOOKUP_CHANNELS]: { route: RoutesApi.CHANNELS_LOOKUP, method: HttpMethod.POST },
+  [TauriCommand.FOLLOWS]: { route: RoutesApi.FOLLOWS, method: HttpMethod.GET },
+  [TauriCommand.SPAM_CHANNEL]: { route: RoutesApi.SPAM_CHANNEL, method: HttpMethod.GET },
+  [TauriCommand.SPAM_BALANCE]: { route: RoutesApi.SPAM_BALANCE, method: HttpMethod.GET },
+  [TauriCommand.REDEEM]: { route: RoutesApi.SPAM_REDEEM, method: HttpMethod.POST },
+  [TauriCommand.TEST_NOTIFICATIONS]: {
+    route: RoutesApi.NOTIFICATIONS_TEST,
+    method: HttpMethod.POST,
+  },
+  [TauriCommand.TEST_PROXY]: { route: RoutesApi.PROXY_TEST, method: HttpMethod.POST },
+  [TauriCommand.HISTORY]: { route: RoutesApi.HISTORY, method: HttpMethod.GET },
+  [TauriCommand.BADGES]: { route: RoutesApi.BADGES, method: HttpMethod.GET },
+  [TauriCommand.CATALOG]: { route: RoutesApi.CATALOG, method: HttpMethod.GET },
+  [TauriCommand.LOGS]: { route: RoutesApi.LOGS, method: HttpMethod.GET },
+  [TauriCommand.LOGS_REPORT]: { route: RoutesApi.LOGS_REPORT, method: HttpMethod.GET },
+  [TauriCommand.REQUESTS]: { route: RoutesApi.REQUESTS, method: HttpMethod.GET },
+  [TauriCommand.REQUESTS_REPORT]: { route: RoutesApi.REQUESTS_REPORT, method: HttpMethod.GET },
+} satisfies Partial<Record<TauriCommand, HttpRouteType>>;
+
+type RoutedCommandType = keyof typeof ROUTES;
+
+const transport = async <K extends RoutedCommandType>(
+  command: K,
+  request: HttpBodyType,
+  ...args: ArgumentsType<K>
+): Promise<TauriCommandsType[K]["result"]> => {
   if (isTauri()) {
-    return (await invoke(TauriCommand.SNAPSHOT)).snapshot;
+    return invoke(command, ...args);
   }
 
-  const response = await http<SnapshotResponseType>(RoutesApi.SNAPSHOT, {
-    method: HttpMethod.GET,
-  });
+  const { route, method } = ROUTES[command];
+  const response = await http<TauriCommandsType[K]["result"]>(route, { method, ...request });
 
-  return response.data.snapshot;
+  return response.data;
 };
+
+export const fetchSnapshot = async (): Promise<SnapshotType> =>
+  (await transport(TauriCommand.SNAPSHOT, {})).snapshot;
 
 export const sendCommand = async (command: CommandType): Promise<void> => {
-  if (isTauri()) {
-    await invoke(TauriCommand.COMMAND, { command });
-
-    return;
-  }
-
-  await http<null>(RoutesApi.COMMAND, { method: HttpMethod.POST, data: command });
+  await transport(TauriCommand.COMMAND, { data: command }, { command });
 };
 
-export const requestCatalogRefresh = async (): Promise<CatalogRefreshType> => {
-  if (isTauri()) {
-    return (await invoke(TauriCommand.REFRESH_CATALOG)).refresh;
-  }
+export const requestCatalogRefresh = async (): Promise<CatalogRefreshType> =>
+  (await transport(TauriCommand.REFRESH_CATALOG, {})).refresh;
 
-  const response = await http<CatalogRefreshResponseType>(RoutesApi.CATALOG_REFRESH, {
-    method: HttpMethod.POST,
-  });
+export const startLogin = async (): Promise<LoginFlowViewType> =>
+  (await transport(TauriCommand.START_LOGIN, {})).login;
 
-  return response.data.refresh;
-};
+export const lookupChannel = async (login: string): Promise<ChannelType> =>
+  (
+    await transport(
+      TauriCommand.LOOKUP_CHANNEL,
+      { params: { login } satisfies ChannelQueryType },
+      { login },
+    )
+  ).channel;
 
-export const startLogin = async (): Promise<LoginFlowViewType> => {
-  if (isTauri()) {
-    return (await invoke(TauriCommand.START_LOGIN)).login;
-  }
+export const fetchBanners = async (logins: string[]): Promise<Record<string, string>> =>
+  (
+    await transport(
+      TauriCommand.CHANNEL_BANNERS,
+      { data: { logins } satisfies ChannelBannersRequestType },
+      { logins },
+    )
+  ).banners;
 
-  const response = await http<LoginFlowResponseType>(RoutesApi.LOGIN_FLOW, {
-    method: HttpMethod.POST,
-  });
+export const searchTwitch = async (query: string): Promise<SearchResponseType> =>
+  transport(TauriCommand.SEARCH, { params: { query } satisfies SearchQueryType }, { query });
 
-  return response.data.login;
-};
+export const lookupChannels = async (logins: string[]): Promise<ChannelsLookupResponseType> =>
+  transport(
+    TauriCommand.LOOKUP_CHANNELS,
+    { data: { logins } satisfies ChannelsLookupRequestType },
+    { logins },
+  );
 
-export const lookupChannel = async (login: string): Promise<ChannelType> => {
-  if (isTauri()) {
-    return (await invoke(TauriCommand.LOOKUP_CHANNEL, { login })).channel;
-  }
-
-  const response = await http<ChannelResponseType>(RoutesApi.CHANNEL, {
-    method: HttpMethod.GET,
-    params: { login } satisfies ChannelQueryType,
-  });
-
-  return response.data.channel;
-};
-
-export const fetchBanners = async (logins: string[]): Promise<Record<string, string>> => {
-  if (isTauri()) {
-    return (await invoke(TauriCommand.CHANNEL_BANNERS, { logins })).banners;
-  }
-
-  const response = await http<ChannelBannersResponseType>(RoutesApi.CHANNELS_BANNERS, {
-    method: HttpMethod.POST,
-    data: { logins } satisfies ChannelBannersRequestType,
-  });
-
-  return response.data.banners;
-};
-
-export const searchTwitch = async (query: string): Promise<SearchResponseType> => {
-  if (isTauri()) {
-    return invoke(TauriCommand.SEARCH, { query });
-  }
-
-  const response = await http<SearchResponseType>(RoutesApi.SEARCH, {
-    method: HttpMethod.GET,
-    params: { query } satisfies SearchQueryType,
-  });
-
-  return response.data;
-};
-
-export const lookupChannels = async (logins: string[]): Promise<ChannelsLookupResponseType> => {
-  if (isTauri()) {
-    return invoke(TauriCommand.LOOKUP_CHANNELS, { logins });
-  }
-
-  const response = await http<ChannelsLookupResponseType>(RoutesApi.CHANNELS_LOOKUP, {
-    method: HttpMethod.POST,
-    data: { logins } satisfies ChannelsLookupRequestType,
-  });
-
-  return response.data;
-};
-
-export const fetchFollows = async (accountId: string): Promise<ChannelType[]> => {
-  if (isTauri()) {
-    return (await invoke(TauriCommand.FOLLOWS, { accountId })).channels;
-  }
-
-  const response = await http<FollowsResponseType>(RoutesApi.FOLLOWS, {
-    method: HttpMethod.GET,
-    params: { account_id: accountId } satisfies FollowsQueryType,
-  });
-
-  return response.data.channels;
-};
+export const fetchFollows = async (accountId: string): Promise<ChannelType[]> =>
+  (
+    await transport(
+      TauriCommand.FOLLOWS,
+      { params: { account_id: accountId } satisfies FollowsQueryType },
+      { accountId },
+    )
+  ).channels;
 
 export const fetchSpamChannel = async (
   accountId: string,
   login: string,
-): Promise<SpamChannelViewType> => {
-  if (isTauri()) {
-    return (await invoke(TauriCommand.SPAM_CHANNEL, { accountId, login })).channel;
-  }
-
-  const response = await http<SpamChannelResponseType>(RoutesApi.SPAM_CHANNEL, {
-    method: HttpMethod.GET,
-    params: { account_id: accountId, login } satisfies SpamChannelQueryType,
-  });
-
-  return response.data.channel;
-};
+): Promise<SpamChannelViewType> =>
+  (
+    await transport(
+      TauriCommand.SPAM_CHANNEL,
+      { params: { account_id: accountId, login } satisfies SpamChannelQueryType },
+      { accountId, login },
+    )
+  ).channel;
 
 export const fetchSpamBalance = async (
   accountId: string,
   login: string,
-): Promise<SpamBalanceType> => {
-  if (isTauri()) {
-    return (await invoke(TauriCommand.SPAM_BALANCE, { accountId, login })).balance;
-  }
+): Promise<SpamBalanceType> =>
+  (
+    await transport(
+      TauriCommand.SPAM_BALANCE,
+      { params: { account_id: accountId, login } satisfies SpamChannelQueryType },
+      { accountId, login },
+    )
+  ).balance;
 
-  const response = await http<SpamBalanceResponseType>(RoutesApi.SPAM_BALANCE, {
-    method: HttpMethod.GET,
-    params: { account_id: accountId, login } satisfies SpamChannelQueryType,
-  });
+export const redeemRewards = async (request: RedeemRequestType): Promise<string> =>
+  (await transport(TauriCommand.REDEEM, { data: request }, { request })).burst_id;
 
-  return response.data.balance;
-};
+export const testNotifications = async (): Promise<NotificationTestType[]> =>
+  (await transport(TauriCommand.TEST_NOTIFICATIONS, {})).targets;
 
-export const redeemRewards = async (request: RedeemRequestType): Promise<string> => {
-  if (isTauri()) {
-    return (await invoke(TauriCommand.REDEEM, { request })).burst_id;
-  }
+export const testProxy = async (url: string): Promise<number> =>
+  (
+    await transport(
+      TauriCommand.TEST_PROXY,
+      { data: { url } satisfies ProxyTestRequestType },
+      { url },
+    )
+  ).latency_ms;
 
-  const response = await http<RedeemResponseType>(RoutesApi.SPAM_REDEEM, {
-    method: HttpMethod.POST,
-    data: request,
-  });
+export const fetchHistory = async (query: HistoryQueryType): Promise<HistoryResponseType> =>
+  transport(TauriCommand.HISTORY, { params: query }, { query });
 
-  return response.data.burst_id;
-};
+export const fetchBadges = async (): Promise<BadgesResponseType> =>
+  transport(TauriCommand.BADGES, {});
 
-export const testNotifications = async (): Promise<NotificationTestType[]> => {
-  if (isTauri()) {
-    return (await invoke(TauriCommand.TEST_NOTIFICATIONS)).targets;
-  }
+export const fetchCatalog = async (): Promise<CatalogResponseType> =>
+  transport(TauriCommand.CATALOG, {});
 
-  const response = await http<NotificationTestResponseType>(RoutesApi.NOTIFICATIONS_TEST, {
-    method: HttpMethod.POST,
-  });
+export const fetchLogs = async (query: LogsQueryType): Promise<LogsResponseType> =>
+  transport(TauriCommand.LOGS, { params: query }, { query });
 
-  return response.data.targets;
-};
+export const fetchLogsReport = async (query: LogsQueryType): Promise<string> =>
+  (await transport(TauriCommand.LOGS_REPORT, { params: query }, { query })).report;
 
-export const testProxy = async (url: string): Promise<number> => {
-  if (isTauri()) {
-    return (await invoke(TauriCommand.TEST_PROXY, { url })).latency_ms;
-  }
+export const fetchRequests = async (query: RequestsQueryType): Promise<RequestsResponseType> =>
+  transport(TauriCommand.REQUESTS, { params: query }, { query });
 
-  const response = await http<ProxyTestResponseType>(RoutesApi.PROXY_TEST, {
-    method: HttpMethod.POST,
-    data: { url } satisfies ProxyTestRequestType,
-  });
-
-  return response.data.latency_ms;
-};
-
-export const fetchHistory = async (query: HistoryQueryType): Promise<HistoryResponseType> => {
-  if (isTauri()) {
-    return invoke(TauriCommand.HISTORY, { query });
-  }
-
-  const response = await http<HistoryResponseType>(RoutesApi.HISTORY, {
-    method: HttpMethod.GET,
-    params: query,
-  });
-
-  return response.data;
-};
-
-export const fetchBadges = async (): Promise<BadgesResponseType> => {
-  if (isTauri()) {
-    return invoke(TauriCommand.BADGES);
-  }
-
-  const response = await http<BadgesResponseType>(RoutesApi.BADGES, { method: HttpMethod.GET });
-
-  return response.data;
-};
-
-export const fetchLogs = async (query: LogsQueryType): Promise<LogsResponseType> => {
-  if (isTauri()) {
-    return invoke(TauriCommand.LOGS, { query });
-  }
-
-  const response = await http<LogsResponseType>(RoutesApi.LOGS, {
-    method: HttpMethod.GET,
-    params: query,
-  });
-
-  return response.data;
-};
-
-export const fetchLogsReport = async (query: LogsQueryType): Promise<string> => {
-  if (isTauri()) {
-    return (await invoke(TauriCommand.LOGS_REPORT, { query })).report;
-  }
-
-  const response = await http<LogsReportResponseType>(RoutesApi.LOGS_REPORT, {
-    method: HttpMethod.GET,
-    params: query,
-  });
-
-  return response.data.report;
-};
-
-export const fetchRequests = async (query: RequestsQueryType): Promise<RequestsResponseType> => {
-  if (isTauri()) {
-    return invoke(TauriCommand.REQUESTS, { query });
-  }
-
-  const response = await http<RequestsResponseType>(RoutesApi.REQUESTS, {
-    method: HttpMethod.GET,
-    params: query,
-  });
-
-  return response.data;
-};
-
-export const fetchRequestsReport = async (query: RequestsQueryType): Promise<string> => {
-  if (isTauri()) {
-    return (await invoke(TauriCommand.REQUESTS_REPORT, { query })).report;
-  }
-
-  const response = await http<LogsReportResponseType>(RoutesApi.REQUESTS_REPORT, {
-    method: HttpMethod.GET,
-    params: query,
-  });
-
-  return response.data.report;
-};
+export const fetchRequestsReport = async (query: RequestsQueryType): Promise<string> =>
+  (await transport(TauriCommand.REQUESTS_REPORT, { params: query }, { query })).report;
 
 const isServerMessage = (value: unknown): value is ServerMessageType =>
   typeof value === "object" &&

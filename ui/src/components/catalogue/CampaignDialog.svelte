@@ -5,40 +5,41 @@
     campaignEnd,
     campaignHeading,
     campaignSubtitle,
+    categoryNames,
+    dropDone,
     onDropsPage,
     sitewideQuest,
+    subsMissing,
   } from "../../lib/catalogue/campaign.utils";
   import type { CampaignType } from "../../lib/bindings/CampaignType";
-  import { campaignUrl } from "../../lib/events/events.utils";
+  import { campaignOf } from "../../lib/catalogue/catalogue.svelte";
+  import { refreshWhenBack } from "../../lib/accounts/refresh.utils";
+  import { campaignUrl } from "../../lib/links/twitch.utils";
   import { BoxArtSize } from "../../lib/format.constants";
   import { boxArt, shortDuration } from "../../lib/format.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { strong } from "../../lib/text.utils";
   import { TWITCH_CATEGORY_URL } from "../../lib/partners.constants";
   import {
-    app,
     prioritizeCampaign,
-    run,
     setCampaignIgnored,
     setCampaignSelected,
     setDropIgnored,
-  } from "../../lib/state/state.svelte";
+  } from "../../lib/state/account-settings.svelte";
+  import { app } from "../../lib/state/app.svelte";
+  import { run } from "../../lib/state/session";
   import { ticker } from "../../lib/state/ticker.svelte";
-  import { URGENT_MS, URGENT_TONE } from "./catalogue.constants";
+  import { CampaignAction, URGENT_MS, URGENT_TONE } from "./catalogue.constants";
   import ActionButton from "../ui/ActionButton.svelte";
   import Badge from "../ui/Badge.svelte";
   import Dialog from "../ui/Dialog.svelte";
   import ExternalButton from "../ui/ExternalButton.svelte";
   import MultiSelect from "../ui/MultiSelect.svelte";
   import RichText from "../ui/RichText.svelte";
-  import {
-    BadgeTone,
-    ButtonSize,
-    ButtonType,
-    ButtonVariant,
-    IconName,
-    MenuAlign,
-  } from "../ui/ui.constants";
+  import { BadgeTone } from "../../lib/tones.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
+  import { MenuAlign } from "../ui/menu.constants";
   import LinkBadge from "./LinkBadge.svelte";
   import RewardTiles from "./RewardTiles.svelte";
 
@@ -75,7 +76,7 @@
   );
 
   const view = $derived(
-    campaign ? (viewer?.campaigns.find((c) => c.id === campaign.id) ?? campaign) : null,
+    campaign ? ((viewer && campaignOf(viewer, campaign.id)) ?? campaign) : null,
   );
 
   const ignoredDrops = $derived(
@@ -84,19 +85,25 @@
       .flatMap((a) => a.settings.drops.exclude_drop_ids),
   );
 
-  // ! Pinning a campaign whose rewards all need a subscription would hold a
-  // place in the order that is never mined.
+  // ! Pinning a campaign no selected account can mine (subscription only, done, owned) would hold a place in the order that is never mined.
   const minable = $derived(
-    view !== null &&
-      view.drops.some(
-        (drop) =>
-          drop.required_subs === 0 && !drop.claimed && !drop.badge_owned && !drop.instance_id,
-      ),
+    campaign !== null &&
+      accounts
+        .filter((a) => selected.includes(a.id))
+        .some((a) =>
+          (campaignOf(a, campaign.id) ?? campaign).drops.some(
+            (drop) =>
+              !subsMissing(drop) &&
+              !dropDone(drop) &&
+              !drop.badge_owned &&
+              !(drop.instance_id && !drop.claimed),
+          ),
+        ),
   );
 
-  let busy = $state<string | null>(null);
+  let busy = $state<CampaignAction | null>(null);
 
-  const act = async (key: string, action: () => Promise<unknown>): Promise<void> => {
+  const act = async (key: CampaignAction, action: () => Promise<unknown>): Promise<void> => {
     busy = key;
     await action();
     busy = null;
@@ -177,9 +184,16 @@
           <RichText
             text={view.allowed_channels.length
               ? t.campaign_channels_some({ count: strong(view.allowed_channels.length) })
-              : t.campaign_channels_any()}
+              : view.categories.length > 1
+                ? t.campaign_channels_categories({ count: strong(view.categories.length) })
+                : t.campaign_channels_any()}
           />{" · "}<RichText text={campaignEnd(view.ends_at, ticker.now)} />
         </span>
+        {#if !view.allowed_channels.length && view.categories.length > 1}
+          <span class="line-clamp-2 text-hint text-muted-foreground"
+            >{categoryNames(view.categories)}</span
+          >
+        {/if}
         <div class="flex flex-wrap gap-2">
           {#if onDropsPage(view)}
             <ExternalButton
@@ -197,6 +211,7 @@
               variant={ButtonVariant.OUTLINE}
               size={ButtonSize.SM}
               icon={IconName.LINK}
+              onfollow={viewer ? () => viewer && refreshWhenBack(viewer.id) : undefined}
             />
           {/if}
           {#if view.game.slug && !sitewideQuest(view)}
@@ -212,6 +227,11 @@
         </div>
       </div>
     </div>
+    {#if viewer && selected.length > 1}
+      <span class="text-hint text-muted-foreground"
+        ><RichText text={t.campaign_progress_of({ account: strong(viewer.display_name) })} /></span
+      >
+    {/if}
     <RewardTiles
       campaign={view}
       ignored={ignoredDrops}
@@ -245,35 +265,37 @@
         icon={allIgnore ? IconName.EYE : IconName.EYE_OFF}
         label={allIgnore ? t.campaign_unignore() : t.campaign_ignore()}
         busyLabel={t.common_saving()}
-        busy={busy === "ignore"}
+        busy={busy === CampaignAction.IGNORE}
         disabled={busy !== null || selected.length === 0}
         variant={ButtonVariant.DEFAULT}
         size={ButtonSize.MD}
         type={ButtonType.BUTTON}
-        onclick={() => act("ignore", () => setCampaignIgnored(selected, id, !allIgnore))}
+        onclick={() =>
+          act(CampaignAction.IGNORE, () => setCampaignIgnored(selected, id, !allIgnore))}
       />
       {#if minable}
         <ActionButton
           icon={allSelected ? IconName.STAR_FILLED : IconName.STAR}
           label={allSelected ? t.campaign_unselect() : t.campaign_select()}
           busyLabel={t.common_saving()}
-          busy={busy === "select"}
+          busy={busy === CampaignAction.SELECT}
           disabled={busy !== null || selected.length === 0}
           variant={ButtonVariant.DEFAULT}
           size={ButtonSize.MD}
           type={ButtonType.BUTTON}
-          onclick={() => act("select", () => setCampaignSelected(selected, id, !allSelected))}
+          onclick={() =>
+            act(CampaignAction.SELECT, () => setCampaignSelected(selected, id, !allSelected))}
         />
         <ActionButton
           icon={IconName.ARROW_UP}
           label={t.campaign_prioritize()}
           busyLabel={t.common_saving()}
-          busy={busy === "first"}
+          busy={busy === CampaignAction.FIRST}
           disabled={busy !== null || selected.length === 0}
           variant={ButtonVariant.PRIMARY}
           size={ButtonSize.MD}
           type={ButtonType.BUTTON}
-          onclick={() => act("first", () => prioritizeCampaign(selected, id))}
+          onclick={() => act(CampaignAction.FIRST, () => prioritizeCampaign(selected, id))}
         />
       {/if}
     {/if}

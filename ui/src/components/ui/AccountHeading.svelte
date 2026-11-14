@@ -4,7 +4,7 @@
   import type { AccountSnapshotType } from "../../lib/bindings/AccountSnapshotType";
   import Avatar from "./Avatar.svelte";
   import AccountStatusBadges from "./AccountStatusBadges.svelte";
-  import { AvatarSize } from "./ui.constants";
+  import { AvatarSize } from "./picture.constants";
 
   type AccountHeadingPropsType = {
     account: AccountSnapshotType;

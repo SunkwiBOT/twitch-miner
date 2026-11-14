@@ -90,6 +90,13 @@ impl Access {
         }
     }
 
+    // ! Without MINER_PUBLIC_URL every visitor of a proxy shares the proxy's
+    // address: one person's wrong passwords lock the sign-in for all.
+    pub fn behind_unknown_proxy(&self, headers: &HeaderMap) -> bool {
+        matches!(self, Self::Local { .. })
+            && (headers.contains_key(X_FORWARDED_FOR) || headers.contains_key(X_FORWARDED_PROTO))
+    }
+
     // ! Behind the proxy every connection comes from the proxy itself: a request
     // without what the proxy adds reached the published port directly, or the proxy
     // is set up wrong, and the password and the cookie must not travel over it.
@@ -102,12 +109,16 @@ impl Access {
                 ..
             } => {
                 let proxy = socket.to_canonical();
+                let trusted = if proxy_networks.is_empty() {
+                    from_local_network(proxy)
+                } else {
+                    proxy.is_loopback()
+                        || proxy_networks
+                            .iter()
+                            .any(|network| network.contains(&proxy))
+                };
 
-                if !from_local_network(proxy)
-                    && !proxy_networks
-                        .iter()
-                        .any(|network| network.contains(&proxy))
-                {
+                if !trusted {
                     return Err(ErrorCode::ProxyNotLocal);
                 }
 
@@ -121,9 +132,7 @@ impl Access {
     }
 }
 
-// ! The proxy runs on this machine or its local network (Docker's bridge
-// included): a public address reached the published port directly, and the
-// `X-Forwarded-*` it sends are its own words.
+// ! Every device of the local network can reach the port and write its own `X-Forwarded-*`, and Docker's userland proxy relays IPv6 visitors from its bridge gateway: MINER_PROXY_NETWORKS narrows this to the real proxy.
 fn from_local_network(socket: IpAddr) -> bool {
     match socket.to_canonical() {
         IpAddr::V4(ip) => {

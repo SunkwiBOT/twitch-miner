@@ -12,7 +12,8 @@
   import Icon from "../../ui/Icon.svelte";
   import Spinner from "../../ui/Spinner.svelte";
   import Tip from "../../ui/Tip.svelte";
-  import { IconName } from "../../ui/ui.constants";
+  import { IconName } from "../../../lib/icons.constants";
+  import { KeyboardKey } from "../../ui/field.constants";
   import QuantityStepper from "./QuantityStepper.svelte";
 
   type SpamRewardCardPropsType = {
@@ -68,8 +69,7 @@
   class="relative flex flex-col overflow-hidden rounded-md bg-background ring-1 ring-border"
   aria-labelledby="{uid}-title"
 >
-  <!-- ! The streamer's own color, as Twitch paints it: the default image is
-  white and only reads on it. -->
+  <!-- ! Twitch's default reward image is white and only reads on the streamer's colour. -->
   <div
     class={cn(
       "relative grid h-20 place-items-center",
@@ -146,7 +146,7 @@
           disabled={blocked}
           bind:value={message}
           onkeydown={(event) => {
-            if (event.key === "Enter" && !event.isComposing) {
+            if (event.key === KeyboardKey.ENTER && !event.isComposing) {
               void redeem();
             }
           }}

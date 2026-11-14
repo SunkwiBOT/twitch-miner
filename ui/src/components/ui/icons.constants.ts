@@ -1,4 +1,4 @@
-import { IconName } from "./ui.constants";
+import { IconName } from "../../lib/icons.constants";
 
 export const FILLED_ICON_VIEWBOXES: ReadonlyMap<IconName, string> = new Map([
   [IconName.CHANNEL_POINTS, "0 0 20 20"],
@@ -40,7 +40,6 @@ export const ICON_PATHS: Record<IconName, string> = {
   [IconName.PAUSE]: "M6 4h4v16H6zM14 4h4v16h-4z",
   [IconName.CHANNEL_POINTS]:
     "M10 6a4 4 0 0 1 4 4h-2a2 2 0 0 0-2-2V6zM2 10a8 8 0 1 1 16 0 8 8 0 0 1-16 0zm2 0a6 6 0 1 1 12 0 6 6 0 0 1-12 0z",
-  [IconName.DROP]: "M12 2.7 5.4 10a7 7 0 1 0 13.2 0z",
   [IconName.LINK]:
     "M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7",
   [IconName.ALERT]:
@@ -56,11 +55,11 @@ export const ICON_PATHS: Record<IconName, string> = {
   [IconName.LOGOUT]: "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9",
   [IconName.FILE]:
     "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8",
+  [IconName.FOLDER]:
+    "m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2",
   [IconName.PIN]: "M12 17v5M9 10.8V5h6v5.8l2 2.2H7z",
   [IconName.HOME]: "M3 10.5 12 3l9 7.5V21H3zM9 21v-7h6v7",
-  [IconName.LANGUAGE]: "M5 8l6 6M4 14l6-6 2-3M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6",
   [IconName.UNLOCK]: "M5 11h14v10H5zM8 11V7a4 4 0 0 1 7.5-2",
-  [IconName.TV2]: "M2 7h20v13H2zM17 2l-5 5-5-5",
   [IconName.CLOCK]: "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM12 6v6l4 2",
   [IconName.ARROW_UP]: "M12 19V5M5 12l7-7 7 7",
   [IconName.ARROW_DOWN]: "M12 5v14M19 12l-7 7-7-7",

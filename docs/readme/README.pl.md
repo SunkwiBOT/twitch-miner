@@ -124,6 +124,8 @@ działa.
 
 - **Import streamerów.** Wklej listę (do 500 nazw) albo weź listę innego konta lub kanały,
   które obserwuje konto. Lista jest sprawdzana, więc dodawane są tylko istniejące kanały.
+  Aktualizacje na żywo obejmują 46 streamerów na konto: kolejni z listy nie dostają rajdów,
+  momentów ani prognoz.
 
   <details open><summary>Zobacz w akcji</summary>
   <img src="../media/pl/streamers-import.avif" alt="Import streamerów: wklejona lista, inne konto, obserwowane kanały">
@@ -162,6 +164,8 @@ działa.
 - **Ekwipunek i „Odbierz wszystkie”.** Strona Ekwipunek dzieli nagrody na „Do odebrania”,
   „W toku” i „Odebrane”. Odbieraj je pojedynczo, wszystkie naraz albo włącz
   „Odbieraj dropy automatycznie”.
+  Po „Połącz konto gry” konto jest odczytywane ponownie, gdy tylko wrócisz do aplikacji,
+  więc połączenie widać od razu.
 
   <details open><summary>Zobacz w akcji</summary>
   <img src="../media/pl/drops-inventory.avif" alt="Ekwipunek i przycisk „Odbierz wszystkie”">
@@ -178,11 +182,19 @@ działa.
 
 - **Odznaki (beta).** Strona Odznaki pokazuje wszystkie globalne odznaki czatu Twitcha i
   sposób ich zdobycia. Każde konto ma własną stronę Odznaki: odznaki w toku z postępem,
-  te, które może jeszcze zdobyć, i te, które posiada. Miner celuje w odznaki wymagające
-  tylko czasu oglądania, z kampanii Drops i zadań Twitcha, i pomija te, które konto już
-  ma. W „Co kopać, w jakiej kolejności” ustaw przeciąganiem gry priorytetowe, odznaki i
-  inne kampanie Drops w wybranej kolejności albo wyłącz którąś z nich. Ta funkcja jest w
-  wersji beta.
+  te, które może jeszcze zdobyć, i te, które posiada. Miner celuje w odznaki z kampanii
+  Drops i zadań Twitcha i pomija te, które konto już ma. Odznaka do oglądania codziennie
+  jest kopana od nowa każdego dnia aż do ostatniego („20 min dziennie, 3 dni”), a liczy
+  się kanał z dowolnej kategorii kampanii. Skrzynka daje „1 losowa odznaka z N”. Odznaka
+  wymagająca subskrypcji jest kopana, gdy sam wykupisz subskrypcję i Twitch ją policzy.
+  Przed startem kampanii nic nie jest kopane. W „Co kopać, w jakiej kolejności” ustaw
+  przeciąganiem gry priorytetowe, odznaki i inne kampanie Drops w wybranej kolejności albo
+  wyłącz którąś z nich. Zadanie Twitcha jest kopane tylko na kanale, na którym Twitch
+  oferuje je w swoim panelu Drops. Ewolucja (Pichu → Pikachu) jest kopana, gdy tylko konto
+  ma odznakę, z której ewoluuje: miner sam zakłada tę odznakę tuż przedtem i nie przywraca
+  poprzedniej; „Kop ewolucje odznak” w ustawieniach odznak konta wyłącza to. Kliknięcie
+  odznaki otwiera jej szczegóły: pełny wymóg, wszystkie kategorie i kanały, kolekcję,
+  ewolucję i postęp każdego konta. Ta funkcja jest w wersji beta.
 
   <details open><summary>Zobacz w akcji</summary>
   <img src="../media/pl/badges.avif" alt="Strona Odznaki, odznaki jednego konta, a potem „Co kopać, w jakiej kolejności” z Odznakami przeciągniętymi na początek">
@@ -192,7 +204,7 @@ działa.
 
 - **Dziennik wszystkiego i każde żądanie.** Dziennik zapisuje każde zdarzenie: dropy,
   zdobyte i wydane punkty, skrzynki, zakłady, rajdy, rozpoczęte transmisje… Filtruj go
-  według konta, karty (Drops, Punkty, Inne) i typu. **Logi techniczne › Żądania** wyświetla
+  według konta, karty (Drops, Odznaki, Punkty, Inne) i typu. **Logi techniczne › Żądania** wyświetla
   każde żądanie wysłane do Twitcha i innych usług, z wynikiem i czasem trwania. Logi
   i żądania nie zawierają żadnego tokenu ani sekretu: „Kopiuj do zgłoszenia błędu” kopiuje
   je, gotowe do wklejenia w zgłoszeniu błędu na
@@ -229,8 +241,9 @@ działa.
   „Aktualizacja” z numerem wersji. „Zainstaluj i uruchom ponownie” najpierw prosi
   o potwierdzenie, a potem aplikacja instaluje wersję i uruchamia się ponownie. Z hasłem
   aplikacji uruchamia się zablokowana: wpisz je ponownie, aby wznowić kopanie. Instalowana
-  jest tylko wersja podpisana przez projekt. Wersja Docker też o tym informuje i podaje
-  polecenia do uruchomienia.
+  jest tylko wersja podpisana przez projekt. Przenośny plik dla Windows nie aktualizuje
+  się sam: jego przycisk otwiera stronę pobierania. Wersja Docker też o tym informuje
+  i podaje polecenia do uruchomienia.
 
   <details open><summary>Zobacz w akcji</summary>
   <img src="../media/pl/updates.avif" alt="Plakietka „Aktualizacja”, potwierdzenie, a potem instalacja">
@@ -241,8 +254,8 @@ działa.
 - Tak jak w innych minerach: skrzynki bonusowe, rajdy, momenty, cele społeczności, prognozy
   (strategie, moment zakładu, warunki), pierwszeństwo dla serii oglądania i subskrybowanych
   kanałów, obecność na czacie (można ją wyłączyć), domyślne opcje dla nowych streamerów,
-  powiadomienia Discord, Telegram i webhook z obrazkami, proxy globalne lub osobne dla
-  każdego konta.
+  powiadomienia Discord, Telegram i webhook z obrazkami (na serwerze ich język wybierasz
+  w **Ustawienia › Powiadomienia**), proxy globalne lub osobne dla każdego konta.
 - 29 języków, ciemny i jasny motyw, powiadomienia na pulpicie, ikona w zasobniku,
   uruchamianie razem z systemem.
 
@@ -323,16 +336,18 @@ Pobierz plik dla swojego systemu z
 | System | Pakiet |
 |---|---|
 | **Windows** · x64 | Instalator (`setup.exe`) lub [wersja przenośna](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/TwitchMiner-portable.exe) |
-| **macOS** 10.15 lub nowszy · Intel i Apple Silicon | Obraz dysku (`.dmg`) |
+| **macOS** 13 lub nowszy · Intel i Apple Silicon | Obraz dysku (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) lub `.rpm` (Fedora, openSUSE) |
 
-Wersja na macOS nie jest notaryzowana. Za pierwszym razem kliknij aplikację prawym
-przyciskiem myszy i wybierz **Otwórz**.
+Wersja na macOS nie jest notaryzowana. Za pierwszym razem otwórz aplikację: macOS ją
+zablokuje. Następnie przejdź do **Ustawienia systemowe › Prywatność i ochrona** i kliknij
+**Otwórz mimo to**.
 
 Aktualizacje są podpisane. Aplikacja sprawdza dostępność nowej wersji przy uruchomieniu,
 a potem co godzinę (częstotliwość zmienisz w sekcji **Ustawienia › O programie**). Nigdy
 nie instaluje jej sama: instalujesz ją jednym kliknięciem, z wyświetlonego komunikatu lub
-z sekcji **Ustawienia › O programie**.
+z sekcji **Ustawienia › O programie**. Przenośny plik nigdy nie aktualizuje się sam:
+„Otwórz stronę pobierania” prowadzi do najnowszej wersji.
 
 Dane są przechowywane w folderze danych użytkownika:
 
@@ -377,7 +392,7 @@ Otwórz <http://localhost:8080> (lub adres maszyny w Twojej sieci) i wpisz hasł
 | `MINER_PASSWORD_FILE` | brak | Odczytuje `MINER_PASSWORD` z pliku, np. z sekretu Dockera. Ustaw jedno albo drugie, nie oba. |
 | `MINER_PUBLIC_URL` | brak | Tylko za odwrotnym proxy HTTPS (Caddy, nginx, Traefik, Cloudflare Tunnel…): adres `https://` panelu, bez ścieżki, np. `https://miner.example.com`. Proxy musi przekazywać `X-Forwarded-Proto`, `X-Forwarded-For` i websockety, co popularne proxy robią domyślnie, a port kontenera nie może być dostępny bezpośrednio. Panel odrzuca wtedy wszystko, co nie przechodzi przez proxy po HTTPS, a po 5 błędnych hasłach blokuje adres na 30 sekund. Proxy musi działać na tym samym komputerze lub w jego sieci lokalnej: połączenie z adresu publicznego jest odrzucane. |
 | `MINER_TRUSTED_HOPS` | `1` | Tylko z `MINER_PUBLIC_URL`: ile proxy dodaje wpis do `X-Forwarded-For`, od 1 do 10. `2` przy dwóch proxy, jednym za drugim, np. Cloudflare przed Traefikiem. |
-| `MINER_PROXY_NETWORKS` | brak | Tylko z `MINER_PUBLIC_URL`: inne sieci, z których proxy może się łączyć, oprócz tego komputera i jego prywatnej sieci lokalnej, rozdzielone przecinkami: pojedynczy adres lub sieć jak `2001:db8:1::/64`, dla sieci lokalnej z globalnymi adresami IPv6. |
+| `MINER_PROXY_NETWORKS` | brak | Tylko z `MINER_PUBLIC_URL`: sieci, z których łączy się proxy, rozdzielone przecinkami: pojedynczy adres lub sieć, np. `192.168.1.0/24` albo `2001:db8:1::/64`. Po ustawieniu proxy jest przyjmowane tylko z adresu loopback i z tych sieci, a już nie z całej prywatnej sieci lokalnej. |
 | `MINER_VAULT_PASSPHRASE` | brak | Tylko dla folderu danych skopiowanego z aplikacji desktopowej z ustawionym hasłem aplikacji: odblokowuje go przy starcie. Serwer postawiony od zera nigdy jej nie potrzebuje. |
 | `MINER_VAULT_PASSPHRASE_FILE` | brak | Odczytuje `MINER_VAULT_PASSPHRASE` z pliku. Ustaw jedno albo drugie, nie oba. |
 | `DATA_DIR` | `/data` w obrazie, w przeciwnym razie `data` w katalogu roboczym | Baza danych, plik klucza i logi. |
@@ -387,6 +402,13 @@ Otwórz <http://localhost:8080> (lub adres maszyny w Twojej sieci) i wpisz hasł
 
 Serwer odczytuje i sprawdza zmienne raz, przy starcie. Nieprawidłowa wartość zatrzymuje
 serwer z komunikatem, zamiast po cichu zastąpić ją wartością domyślną.
+
+Za odwrotnym proxy ustaw `MINER_PUBLIC_URL`: bez niej pierwsze żądanie, które przyjdzie
+przez proxy, zapisuje ostrzeżenie w logach, bo próby logowania są wtedy liczone na adres
+proxy, a błędne hasła jednego gościa zablokowałyby wszystkich. Połączenie na żywo wysyła
+ping co 30 sekund, żeby proxy go nie zamknęło, gdy nic się nie dzieje. Gdy Twitch lub
+sieć zawiedzie, serwer odpowiada `424`, nigdy `502` ani `504`: za Cloudflare widzisz
+prawdziwy błąd zamiast strony Cloudflare.
 
 ## <a name="how-it-works"></a>Jak to działa
 
@@ -426,13 +448,15 @@ dyskretniejsze.
 
 **Kampania nie jest kopana albo drop nie robi postępów.**\
 Otwórz stronę **Drops** danego konta. W sekcji „Kolejność kopania” każda oczekująca
-kampania podaje powód: „Brak kanału na żywo”, „Oczekiwanie (jedna kampania naraz)” lub
-„Brak dostępnego dropa”. Kampania, której nie ma na tej liście, została pominięta: przez
-ustawienie „Które kampanie”, przez regułę na karcie **Wykluczenia** albo dlatego, że nie da
-się jej ukończyć na czas. Nagroda wymagająca subskrypcji nigdy nie jest kopana, a drop,
-który następuje po innym, czeka, aż pierwszy zostanie ukończony. W trybie **Tylko punkty**
-miner nie wybiera żadnej kampanii. „Kop najpierw” w szczegółach kampanii przenosi ją na
-górę; ignorowana kampania może wrócić dzięki „Kop ponownie” na karcie **Wykluczenia**.
+kampania podaje powód: „Brak kanału na żywo” lub „Oczekiwanie (jedna kampania naraz)”.
+Kampania, której nie ma na tej liście, została pominięta: przez „Co kopać, w jakiej
+kolejności”, przez ustawienie „Które kampanie”, przez regułę na karcie **Wykluczenia**
+albo dlatego, że nie da się jej ukończyć na czas. Nagroda wymagająca subskrypcji czeka,
+aż sam ją wykupisz, odznaka do oglądania codziennie czeka na kolejny dzień, przed startem
+kampanii nic nie jest kopane, a drop, który następuje po innym, czeka, aż pierwszy
+zostanie ukończony. W trybie **Tylko punkty** miner nie wybiera żadnej kampanii.
+„Kop najpierw” w szczegółach kampanii przenosi ją na górę; ignorowana kampania może
+wrócić dzięki „Kop ponownie” na karcie **Wykluczenia**.
 
 **Czy muszę połączyć konto gry?**\
 Żeby odebrać nagrodę, tak: od października 2026 r. Twitch pozwala odebrać drop tylko
@@ -461,7 +485,9 @@ hasła aplikacji) i logi.
 Aplikacja desktopowa sprawdza dostępność nowej wersji przy uruchomieniu, a potem co godzinę
 (zmienisz to w sekcji **Ustawienia › O programie**). Kliknij plakietkę „Aktualizacja”,
 a potem „Zainstaluj i uruchom ponownie”. W Dockerze panel o tym informuje: uruchom
-`docker compose pull`, a potem `docker compose up -d`.
+`docker compose pull`, a potem `docker compose up -d`. Przenośny plik dla Windows nie
+aktualizuje się sam: „Otwórz stronę pobierania” otwiera najnowszą wersję, skąd pobierzesz
+nowy plik.
 
 **Nie pamiętam hasła aplikacji.**\
 Nie da się go odzyskać: to ono szyfruje Twoje sesje Twitch. Zamknij aplikację, usuń folder
@@ -474,20 +500,22 @@ W Dockerze hasło panelu zmienia się w `MINER_PASSWORD`, a potem uruchamia
 **Ile punktów na godzinę?**\
 To zależy od Twitcha i od każdego kanału. Miner zdobywa to, co Twitch daje widzowi: punkty
 za oglądanie, skrzynki bonusowe (mniej więcej jedna co 15 minut) i bonus za serię
-oglądania. Subskrypcja mnoży punkty, od ×1,2 do ×2 w zależności od poziomu. Strona Start
-pokazuje zdobyte punkty, a Dziennik każdy zysk.
+oglądania. Subskrypcja mnoży punkty, od ×1,2 do ×2 w zależności od poziomu, a dzięki
+„Najpierw subskrybowane kanały”, domyślnie włączonemu, te kanały idą przed resztą twojej
+listy. Strona Start pokazuje zdobyte punkty, a Dziennik każdy zysk.
 
 **Czy zakłady są ryzykowne?**\
 Tak, punkty można stracić. Prognozy są domyślnie wyłączone, dla każdego streamera osobno.
 Ustawiasz strategię, moment zakładu, stawkę (domyślnie 5% salda, najwyżej 50 000 punktów),
 minimalne saldo i, jeśli chcesz, warunek, np. kurs co najmniej 1,5. Trzymaj stawkę niską.
+Zakład poniżej 10 punktów nigdy nie jest stawiany.
 
 **Streamer nie jest oglądany.**\
 Oglądani są tylko streamerzy włączeni i nadający na żywo, i tylko na wolnym kanale:
 w trybie **Drops i punkty** jeden z dwóch obsługuje bieżącą kampanię; w trybie
 **Tylko Drops** żaden streamer nie jest oglądany; wstrzymane konto nic nie ogląda. Miejsca
 są przydzielane w tej kolejności, pokazanej jako plakietka na każdym oglądanym kanale:
-„Bonus za serię”, „Seria zagrożona”, „Subskrybowany”, potem „Kolejność listy”. Przesuń
+„Seria zagrożona”, „Bonus za serię”, „Subskrybowany”, potem „Kolejność listy”. Przesuń
 streamera wyżej na liście albo wyłącz „Najpierw serie oglądania” i
 „Najpierw subskrybowane kanały”.
 
@@ -508,6 +536,8 @@ Inne projekty tego samego autora:
 - Tokeny są szyfrowane algorytmem AES-256-GCM. Kluczem jest albo losowy `master.key` obok
   bazy danych (domyślnie, bez udziału użytkownika), albo klucz wyprowadzony z hasła
   aplikacji za pomocą Argon2id.
+- Folder danych i folder logów są prywatne (`0700`): otworzyć je może tylko użytkownik,
+  który uruchamia minera.
 - Panel HTTP sprawdza hasło w stałym czasie i używa ciasteczek HttpOnly, SameSite=Strict
   (`Secure`, z prefiksem `__Host-`, za HTTPS). Serwer przechowuje tylko skrót
   SHA-256 każdej sesji. Kończy sesję po 30 dniach lub przy wylogowaniu. Sprawdza sesję
@@ -515,6 +545,9 @@ Inne projekty tego samego autora:
 - Po 5 błędnych hasłach z rzędu z jednego adresu IP (formularz logowania lub bearer) ten
   adres czeka 30 sekund. Serwer odpowiada wtedy `429` z `Retry-After`, nie patrząc na
   hasło. Każde błędne hasło dostaje też odpowiedź dopiero po pół sekundy.
+  Po ponad 30 błędnych hasłach w ciągu minuty z jednego adresu połączenia, także ze
+  wspólnego proxy, ten adres dostaje jedną próbę co 2 sekundy: zgadywanie zwalnia, a nikt
+  nie zostaje zablokowany.
 - Poza swoją siecią umieść panel za odwrotnym proxy HTTPS z `MINER_PUBLIC_URL`
   (zob. [Docker](#docker)).
 - Miner łączy się tylko z `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`,

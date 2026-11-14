@@ -1,6 +1,6 @@
 <script lang="ts">
   import TextButton from "./TextButton.svelte";
-  import { ButtonSize, ButtonType, ButtonVariant } from "./ui.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "./button.constants";
 
   type LoadMoreSentinelPropsType = {
     label: string;
