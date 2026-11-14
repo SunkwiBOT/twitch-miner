@@ -10,7 +10,7 @@ use crate::badges::GlobalBadge;
 use crate::config::{AccountSettings, GlobalSettings};
 use crate::domain::{Campaign, Channel, PointsState};
 use crate::error::{Error, ErrorCode};
-use crate::events::{EventCategory, EventKind, MinerEvent};
+use crate::events::{EventCategory, EventKind, MinerEvent, MinerKind};
 use crate::logs::{LogLevel, LogLine};
 use crate::requests::{RequestEntry, RequestKind};
 use crate::scheduler::{QueueItem, SlotPurpose};
@@ -53,6 +53,8 @@ pub struct DropProgressView {
 pub struct SlotView {
     pub channel: Channel,
     pub purpose: SlotPurpose,
+    // ! A Drops slot watching for a badge says Badges.
+    pub miner: MinerKind,
     pub since: DateTime<Utc>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]

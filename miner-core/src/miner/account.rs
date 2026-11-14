@@ -442,14 +442,30 @@ impl<T: TwitchApi> AccountMiner<T> {
 
         self.illustrate(&mut event);
 
+        // ! A quest's progress is told before the quest joins the campaigns.
         if event.context.miner.is_none() {
-            event.context.miner = event
+            let drops_campaign = event
                 .context
-                .channel
+                .campaign_id
                 .as_deref()
-                .and_then(|login| self.slots.iter().find(|s| s.channel.login == login))
-                .map(|slot| miner_of(&slot.purpose))
-                .or_else(|| event.kind.miner());
+                .filter(|_| event.kind.miner() == Some(MinerKind::Drops));
+
+            event.context.miner = match drops_campaign {
+                Some(id) if self.quests.iter().any(|quest| quest.id == id) => {
+                    Some(MinerKind::Badges)
+                }
+                Some(id) if self.campaigns.contains_key(id) => Some(drops_miner(
+                    self.campaigns.get(id),
+                    event.context.drop_id.as_deref(),
+                )),
+                _ => event
+                    .context
+                    .channel
+                    .as_deref()
+                    .and_then(|login| self.slots.iter().find(|s| s.channel.login == login))
+                    .map(|slot| miner_of(&slot.purpose, &self.campaigns))
+                    .or_else(|| event.kind.miner()),
+            };
         }
 
         event.categorize();
@@ -1775,7 +1791,7 @@ impl<T: TwitchApi> AccountMiner<T> {
                         )
                         .context(EventContext {
                             avatar: slot.channel.avatar_url.clone(),
-                            miner: Some(miner_of(&slot.purpose)),
+                            miner: Some(miner_of(&slot.purpose, &self.campaigns)),
                             ..EventContext::channel(&slot.channel.login)
                         });
 
@@ -1840,7 +1856,7 @@ impl<T: TwitchApi> AccountMiner<T> {
                     drop_id,
                 } => EventContext {
                     channel: Some(channel.login.clone()),
-                    miner: Some(MinerKind::Drops),
+                    miner: Some(drops_miner(self.campaigns.get(campaign_id), Some(drop_id))),
                     ..EventContext::drop(campaign_id, drop_id)
                 },
                 SlotPurpose::Points { reason } => EventContext {
@@ -1972,7 +1988,7 @@ impl<T: TwitchApi> AccountMiner<T> {
                     )
                     .context(EventContext {
                         avatar: slot.channel.avatar_url.clone(),
-                        miner: Some(miner_of(&slot.purpose)),
+                        miner: Some(miner_of(&slot.purpose, &self.campaigns)),
                         ..EventContext::channel(&slot.channel.login)
                     });
 
@@ -2029,15 +2045,17 @@ impl<T: TwitchApi> AccountMiner<T> {
     async fn stop_all_slots(&mut self, reason: &str) {
         let stopped: Vec<(String, String, MinerKind)> = self
             .slots
-            .drain(..)
+            .iter()
             .map(|s| {
                 (
-                    s.channel.login,
-                    s.channel.display_name,
-                    miner_of(&s.purpose),
+                    s.channel.login.clone(),
+                    s.channel.display_name.clone(),
+                    miner_of(&s.purpose, &self.campaigns),
                 )
             })
             .collect();
+
+        self.slots.clear();
 
         for (login, name, miner) in stopped {
             let event = self
@@ -3203,6 +3221,7 @@ impl<T: TwitchApi> AccountMiner<T> {
                 SlotView {
                     channel: slot.channel.clone(),
                     purpose: slot.purpose.clone(),
+                    miner: miner_of(&slot.purpose, &self.campaigns),
                     since: slot.since,
                     last_beacon_at: slot.last_beacon_at,
                     segments_requested: slot
@@ -3386,9 +3405,22 @@ fn plays(channel: &Channel, game: &Game) -> bool {
         .is_some_and(|played| played.id == game.id)
 }
 
-fn miner_of(purpose: &SlotPurpose) -> MinerKind {
+// ! A badge is mined in a Drops slot: its watch and its events say so, for
+// the status, the activity card and the journal.
+fn drops_miner(campaign: Option<&Campaign>, drop_id: Option<&str>) -> MinerKind {
+    if campaign.is_some_and(|campaign| campaign.mined_for_badge(drop_id)) {
+        MinerKind::Badges
+    } else {
+        MinerKind::Drops
+    }
+}
+
+fn miner_of(purpose: &SlotPurpose, campaigns: &HashMap<String, Campaign>) -> MinerKind {
     match purpose {
-        SlotPurpose::Drop { .. } => MinerKind::Drops,
+        SlotPurpose::Drop {
+            campaign_id,
+            drop_id,
+        } => drops_miner(campaigns.get(campaign_id), Some(drop_id)),
         SlotPurpose::Points { .. } => MinerKind::Points,
     }
 }

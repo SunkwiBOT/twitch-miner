@@ -268,16 +268,19 @@ export const eventText = (event: MinerEventType, linked: boolean): EventTextType
 
 export const MINER_LABELS: Record<MinerKind, () => string> = {
   [MinerKind.DROPS]: () => t.miner_drops(),
+  [MinerKind.BADGES]: () => t.miner_badges(),
   [MinerKind.POINTS]: () => t.miner_points(),
 };
 
 export const MINER_TONES: Record<MinerKind, BadgeTone> = {
   [MinerKind.DROPS]: BadgeTone.ACCENT,
+  [MinerKind.BADGES]: BadgeTone.INFO,
   [MinerKind.POINTS]: BadgeTone.SUCCESS,
 };
 
 export const MINER_ICONS: Record<MinerKind, IconName> = {
   [MinerKind.DROPS]: IconName.GIFT,
+  [MinerKind.BADGES]: IconName.AWARD,
   [MinerKind.POINTS]: IconName.CHANNEL_POINTS,
 };
 
@@ -288,6 +291,7 @@ export type JournalFilterType = EventCategory | typeof JOURNAL_ALL;
 export const JOURNAL_FILTER_SLUGS: Record<JournalFilterType, string> = {
   [JOURNAL_ALL]: "all",
   [EventCategory.DROPS]: "drops",
+  [EventCategory.BADGES]: "badges",
   [EventCategory.POINTS]: "points",
   [EventCategory.OTHER]: "other",
 };
@@ -299,6 +303,7 @@ export const JOURNAL_FILTERS: {
 }[] = [
   { value: JOURNAL_ALL, label: () => t.journal_filter_all() },
   { value: EventCategory.DROPS, label: () => t.journal_filter_drops(), icon: IconName.GIFT },
+  { value: EventCategory.BADGES, label: () => t.journal_filter_badges(), icon: IconName.AWARD },
   {
     value: EventCategory.POINTS,
     label: () => t.journal_filter_points(),
@@ -326,7 +331,7 @@ export const KIND_GROUPS: { group: KindGroup; kinds: EventKind[]; categories: Ev
     {
       group: KindGroup.DROPS,
       kinds: [EventKind.DROP_PROGRESS, EventKind.DROP_CLAIMED, EventKind.CAMPAIGN_FINISHED],
-      categories: [EventCategory.DROPS],
+      categories: [EventCategory.DROPS, EventCategory.BADGES],
     },
     {
       group: KindGroup.POINTS,
@@ -350,7 +355,7 @@ export const KIND_GROUPS: { group: KindGroup; kinds: EventKind[]; categories: Ev
     {
       group: KindGroup.WATCH,
       kinds: [EventKind.WATCH_STARTED, EventKind.WATCH_STOPPED],
-      categories: [EventCategory.DROPS, EventCategory.POINTS],
+      categories: [EventCategory.DROPS, EventCategory.BADGES, EventCategory.POINTS],
     },
     {
       group: KindGroup.OTHER,

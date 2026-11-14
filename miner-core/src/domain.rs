@@ -232,6 +232,20 @@ impl Campaign {
                 .any(|d| d.gives_badge() && !d.complete() && d.minable(excluded) && d.ends_at > now)
     }
 
+    // ! What a watch or an event of the campaign is for: a quest, or the drop
+    // when it gives a badge; without a drop, every drop of the campaign.
+    pub fn mined_for_badge(&self, drop_id: Option<&str>) -> bool {
+        self.kind == CampaignKind::Quest
+            || match drop_id {
+                Some(id) => self
+                    .drops
+                    .iter()
+                    .find(|d| d.id == id)
+                    .is_some_and(TimedDrop::gives_badge),
+                None => !self.drops.is_empty() && self.drops.iter().all(TimedDrop::gives_badge),
+            }
+    }
+
     pub fn plays(&self, game: &Game) -> bool {
         std::iter::once(&self.game)
             .chain(&self.categories)

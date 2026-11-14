@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { SlotPurposeKind } from "../../lib/bindings/SlotPurposeKind";
   import { STATUS_HINTS, STATUS_LABELS, STATUS_TONES } from "../../lib/accounts/accounts.utils";
   import { AccountStatus } from "../../lib/bindings/AccountStatus";
   import type { AccountSnapshotType } from "../../lib/bindings/AccountSnapshotType";
+  import { MinerKind } from "../../lib/bindings/MinerKind";
   import Badge from "./Badge.svelte";
   import MiningBadge from "./MiningBadge.svelte";
 
@@ -10,15 +10,13 @@
 
   let { account }: AccountStatusBadgesPropsType = $props();
 
-  const drops = $derived(account.slots.some((slot) => slot.purpose.kind === SlotPurposeKind.DROP));
-  const points = $derived(
-    account.slots.some((slot) => slot.purpose.kind === SlotPurposeKind.POINTS),
+  const miners = $derived(
+    Object.values(MinerKind).filter((kind) => account.slots.some((slot) => slot.miner === kind)),
   );
 </script>
 
-{#if account.status === AccountStatus.MINING && (drops || points)}
-  {#if drops}<MiningBadge kind={SlotPurposeKind.DROP} />{/if}
-  {#if points}<MiningBadge kind={SlotPurposeKind.POINTS} />{/if}
+{#if account.status === AccountStatus.MINING && miners.length > 0}
+  {#each miners as kind (kind)}<MiningBadge {kind} />{/each}
 {:else}
   <Badge
     text={STATUS_LABELS[account.status]()}

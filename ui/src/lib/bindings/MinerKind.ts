@@ -2,5 +2,6 @@
 
 export enum MinerKind {
   DROPS = "DROPS",
+  BADGES = "BADGES",
   POINTS = "POINTS",
 }

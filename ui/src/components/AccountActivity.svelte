@@ -17,6 +17,7 @@
   import type { AccountSnapshotType } from "../lib/bindings/AccountSnapshotType";
   import type { CampaignType } from "../lib/bindings/CampaignType";
   import { Mode } from "../lib/bindings/Mode";
+  import { MinerKind } from "../lib/bindings/MinerKind";
   import { SlotPurposeKind } from "../lib/bindings/SlotPurposeKind";
   import { channelUrl } from "../lib/events/events.utils";
   import { BoxArtSize } from "../lib/format.constants";
@@ -90,7 +91,7 @@
 
 {#snippet points(reason: PointsReason | null)}
   <span class="flex flex-wrap gap-1.5"
-    ><MiningBadge kind={SlotPurposeKind.POINTS} />{#if reason}<Badge
+    ><MiningBadge kind={MinerKind.POINTS} />{#if reason}<Badge
         text={POINTS_REASON_LABELS[reason]()}
         tone={BadgeTone.NEUTRAL}
         dot={false}
@@ -154,7 +155,7 @@
         />
       </button>
       <div class="flex min-w-0 flex-col gap-1.5">
-        <span class="flex"><MiningBadge kind={SlotPurposeKind.DROP} /></span>
+        <span class="flex"><MiningBadge kind={slot.miner} /></span>
         <!-- ! Hovering the box art beside lights this up too: both open the campaign. -->
         <button
           class="group flex min-w-0 flex-col text-left transition-colors group-has-[[data-game-twin]:hover]/game:text-link hover:text-link"

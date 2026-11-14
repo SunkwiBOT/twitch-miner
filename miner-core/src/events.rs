@@ -95,20 +95,22 @@ impl EventKind {
     }
 
     // ! A Spam Points burst is the user's own spend: no miner acts, but it is
-    // a channel points event.
+    // a channel points event. A badge is mined in a Drops slot: a Drops event
+    // the miner tagged as a badge's counts as a badge event.
     pub fn category(self, miner: Option<MinerKind>) -> EventCategory {
         if self == Self::RewardRedeemed {
             return EventCategory::Points;
         }
 
-        let miner = if self.follows_miner() {
-            miner
-        } else {
-            self.miner()
+        let miner = match self.miner() {
+            _ if self.follows_miner() => miner,
+            Some(MinerKind::Drops) if miner == Some(MinerKind::Badges) => miner,
+            own => own,
         };
 
         match miner {
             Some(MinerKind::Drops) => EventCategory::Drops,
+            Some(MinerKind::Badges) => EventCategory::Badges,
             Some(MinerKind::Points) => EventCategory::Points,
             None => EventCategory::Other,
         }
@@ -159,6 +161,7 @@ impl EventKind {
 #[ts(repr(enum = name))]
 pub enum MinerKind {
     Drops,
+    Badges,
     Points,
 }
 
@@ -167,6 +170,7 @@ pub enum MinerKind {
 #[ts(repr(enum = name))]
 pub enum EventCategory {
     Drops,
+    Badges,
     Points,
     #[default]
     Other,

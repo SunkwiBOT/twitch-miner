@@ -2,6 +2,7 @@
 
 export enum EventCategory {
   DROPS = "DROPS",
+  BADGES = "BADGES",
   POINTS = "POINTS",
   OTHER = "OTHER",
 }

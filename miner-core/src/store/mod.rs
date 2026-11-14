@@ -152,16 +152,25 @@ fn kinds_condition(filter: &HistoryFilter, before: bool) -> String {
         .into_iter()
         .filter(|kind| filter.kinds.is_none_or(|kinds| kinds.contains(kind)))
         .filter_map(|kind| {
+            // ! A Drops event of a badge keeps its miner, `BADGES`, in its
+            // stored context; the other Drops events store none.
+            let drops_kind = kind.category(None) == EventCategory::Drops;
             let miner = match filter.category {
                 None => "",
                 Some(EventCategory::Drops) if kind.follows_miner() => {
                     " AND json_extract(context, '$.miner') = 'DROPS'"
+                }
+                Some(EventCategory::Badges) if kind.follows_miner() || drops_kind => {
+                    " AND json_extract(context, '$.miner') = 'BADGES'"
                 }
                 Some(EventCategory::Points) if kind.follows_miner() => {
                     " AND json_extract(context, '$.miner') = 'POINTS'"
                 }
                 Some(EventCategory::Other) if kind.follows_miner() => {
                     " AND json_extract(context, '$.miner') IS NULL"
+                }
+                Some(EventCategory::Drops) if drops_kind => {
+                    " AND IFNULL(json_extract(context, '$.miner'), '') <> 'BADGES'"
                 }
                 Some(category) if kind.category(None) == category => "",
                 Some(_) => return None,
