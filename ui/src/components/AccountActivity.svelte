@@ -1,5 +1,9 @@
 <script lang="ts">
-  import { campaignArtUrl } from "../lib/catalogue/campaign.utils";
+  import {
+    campaignArtUrl,
+    campaignHeading,
+    campaignSubtitle,
+  } from "../lib/catalogue/campaign.utils";
   import Badge from "./ui/Badge.svelte";
   import {
     POINTS_REASON_HINTS,
@@ -157,11 +161,11 @@
           type="button"
           onclick={() => (open = c ?? null)}
         >
-          <span class="truncate font-semibold">{progress.game}</span>
-          <span
-            class="truncate text-hint text-muted-foreground group-hover:text-link group-has-[[data-game-twin]:hover]/game:text-link"
-            >{progress.campaign_name}</span
-          >
+          <span class="truncate font-semibold">{c ? campaignHeading(c) : progress.game}</span>
+          {#if !c || campaignSubtitle(c)}<span
+              class="truncate text-hint text-muted-foreground group-hover:text-link group-has-[[data-game-twin]:hover]/game:text-link"
+              >{progress.campaign_name}</span
+            >{/if}
         </button>
       </div>
       {@render streamer(slot)}

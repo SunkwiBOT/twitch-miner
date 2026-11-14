@@ -908,9 +908,11 @@ impl<T: TwitchApi> AccountMiner<T> {
 
         match self.client.quests().await {
             Ok(read) => {
-                self.quests = read.quests;
+                let before = std::mem::replace(&mut self.quests, read.quests);
+
                 self.owned_badges = read.owned;
                 self.badges_read_at = Some(Utc::now());
+                self.tell_quest_progress(&before);
             }
             Err(Error::Unauthorized) => return Err(Error::Unauthorized),
             Err(error) => {
@@ -1028,6 +1030,77 @@ impl<T: TwitchApi> AccountMiner<T> {
         self.campaigns = merged;
 
         Ok(())
+    }
+
+    // ! Twitch sends no live progress for a quest: each read of the inventory
+    // writes the groups that moved, so the journal and the log show it.
+    fn tell_quest_progress(&mut self, before: &[Quest]) {
+        struct Moved {
+            quest_id: String,
+            group_id: String,
+            text: String,
+            current: u32,
+            required: u32,
+        }
+
+        let now = Utc::now();
+        let seen: HashMap<&str, (u32, QuestStatus)> = before
+            .iter()
+            .flat_map(|quest| &quest.groups)
+            .map(|group| (group.id.as_str(), (group.current_minutes, group.status)))
+            .collect();
+        let moved: Vec<Moved> = self
+            .quests
+            .iter()
+            .filter(|quest| quest.mined_at(now))
+            .flat_map(|quest| quest.groups.iter().map(move |group| (quest, group)))
+            .filter(|(_, group)| {
+                matches!(
+                    group.status,
+                    QuestStatus::InProgress | QuestStatus::Claimable
+                ) && seen.get(group.id.as_str()) != Some(&(group.current_minutes, group.status))
+            })
+            .map(|(quest, group)| {
+                let name = if group.name.is_empty() {
+                    group
+                        .rewards
+                        .first()
+                        .map(|r| r.name.as_str())
+                        .unwrap_or_default()
+                } else {
+                    group.name.as_str()
+                };
+                let (current, required) = (group.current_minutes, group.required_minutes);
+                let mut text = format!("{name}: {current}/{required} min ({})", quest.name);
+
+                if let Some(at) = group.waiting_until(now) {
+                    text.push_str(&format!(
+                        ", next window at {} UTC",
+                        at.format("%Y-%m-%d %H:%M")
+                    ));
+                }
+
+                Moved {
+                    quest_id: quest.id.clone(),
+                    group_id: group.id.clone(),
+                    text,
+                    current,
+                    required,
+                }
+            })
+            .collect();
+
+        for moved in moved {
+            let event = self
+                .emit(EventKind::DropProgress, moved.text)
+                .context(EventContext {
+                    current: Some(moved.current),
+                    required: Some(moved.required),
+                    ..EventContext::drop(&moved.quest_id, &moved.group_id)
+                });
+
+            self.publish(event);
+        }
     }
 
     fn quest_group(&self, group_id: &str) -> Option<&QuestGroup> {
@@ -1687,11 +1760,18 @@ impl<T: TwitchApi> AccountMiner<T> {
                     index += 1;
                 }
                 None => {
+                    let watched = &self.slots[index];
+                    let live = watched.channel.live
+                        && self
+                            .streamer_channels
+                            .get(&watched.channel.login)
+                            .is_none_or(|channel| channel.live);
+                    let reason = stop_reason(watched, live, &plan, &campaigns, &self.quests, now);
                     let slot = self.slots.remove(index);
                     let event = self
                         .emit(
                             EventKind::WatchStopped,
-                            format!("Stopped watching {}", slot.channel.display_name),
+                            format!("Stopped watching {} ({reason})", slot.channel.display_name),
                         )
                         .context(EventContext {
                             avatar: slot.channel.avatar_url.clone(),
@@ -3237,6 +3317,66 @@ fn shows(event: &PubSubEvent) -> bool {
         event,
         PubSubEvent::ViewCount { .. } | PubSubEvent::Reconnected
     )
+}
+
+// ! Why a watch ends, for the journal and the log: the plan only says what to
+// watch next.
+fn stop_reason(
+    slot: &ActiveSlot,
+    live: bool,
+    plan: &scheduler::Plan,
+    campaigns: &[Campaign],
+    quests: &[Quest],
+    now: DateTime<Utc>,
+) -> String {
+    if !live {
+        return "the stream ended".to_owned();
+    }
+
+    let SlotPurpose::Drop {
+        campaign_id,
+        drop_id,
+    } = &slot.purpose
+    else {
+        return "another channel comes first".to_owned();
+    };
+
+    if let Some(at) = quests
+        .iter()
+        .flat_map(|quest| &quest.groups)
+        .find(|group| &group.id == drop_id)
+        .and_then(|group| group.waiting_until(now))
+    {
+        return format!(
+            "the quest's next window opens at {} UTC",
+            at.format("%Y-%m-%d %H:%M")
+        );
+    }
+
+    if !plan
+        .queue
+        .iter()
+        .any(|item| &item.campaign_id == campaign_id)
+    {
+        return "the campaign left the mining order: done, ignored or out of time".to_owned();
+    }
+
+    match plan.slots.iter().find_map(|wanted| match &wanted.purpose {
+        SlotPurpose::Drop {
+            campaign_id: id, ..
+        } => Some(id),
+        SlotPurpose::Points { .. } => None,
+    }) {
+        Some(id) if id == campaign_id => "another channel of the campaign".to_owned(),
+        Some(id) => format!(
+            "{} comes first",
+            campaigns
+                .iter()
+                .find(|c| &c.id == id)
+                .map_or(id.as_str(), |c| c.name.as_str())
+        ),
+        None => "no live channel offers the campaign".to_owned(),
+    }
 }
 
 fn plays(channel: &Channel, game: &Game) -> bool {

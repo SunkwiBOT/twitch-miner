@@ -5,6 +5,7 @@
     campaignEnd,
     campaignHeading,
     campaignSubtitle,
+    onDropsPage,
     sitewideQuest,
   } from "../../lib/catalogue/campaign.utils";
   import type { CampaignType } from "../../lib/bindings/CampaignType";
@@ -180,12 +181,14 @@
           />{" · "}<RichText text={campaignEnd(view.ends_at, ticker.now)} />
         </span>
         <div class="flex flex-wrap gap-2">
-          <ExternalButton
-            url={campaignUrl(id)}
-            label={t.campaign_open_twitch()}
-            variant={ButtonVariant.PRIMARY}
-            size={ButtonSize.SM}
-          />
+          {#if onDropsPage(view)}
+            <ExternalButton
+              url={campaignUrl(id)}
+              label={t.campaign_open_twitch()}
+              variant={ButtonVariant.PRIMARY}
+              size={ButtonSize.SM}
+            />
+          {/if}
           {#if view.link_url && view.linked !== true}
             {@const link = view.link_url}
             <ExternalButton
@@ -201,7 +204,7 @@
             <ExternalButton
               url={`${TWITCH_CATEGORY_URL}/${slug}`}
               label={view.game.name}
-              variant={ButtonVariant.OUTLINE}
+              variant={onDropsPage(view) ? ButtonVariant.OUTLINE : ButtonVariant.PRIMARY}
               size={ButtonSize.SM}
               icon={IconName.TV}
             />

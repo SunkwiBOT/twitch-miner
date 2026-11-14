@@ -1,3 +1,4 @@
+import { BenefitKind } from "../bindings/BenefitKind";
 import { CampaignKind } from "../bindings/CampaignKind";
 import type { CampaignType } from "../bindings/CampaignType";
 import { t } from "../i18n/i18n.svelte";
@@ -44,3 +45,10 @@ export const campaignArtUrl = (campaign: CampaignType): string | undefined =>
 
 export const campaignSubtitle = (campaign: CampaignType): string =>
   sitewideQuest(campaign) ? "" : campaign.name;
+
+// ! Twitch's Drops page lists no badge-only campaign and no quest: a link to it would land on nothing.
+export const onDropsPage = (campaign: CampaignType): boolean =>
+  campaign.kind !== CampaignKind.QUEST &&
+  campaign.drops.some((drop) =>
+    drop.benefits.some((benefit) => benefit.kind !== BenefitKind.BADGE),
+  );
