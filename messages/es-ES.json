@@ -1336,6 +1336,7 @@
   "badge_hint_evolution": "El minero se pone {badge} justo antes de minar esta insignia y no vuelve a poner la anterior",
   "badge_evolution_unknown": "Insignia requerida desconocida",
   "badge_hint_evolution_unknown": "Twitch aún no ha dicho de qué insignia evoluciona esta: no se mina hasta entonces",
+  "badge_card_details": "Detalles de {badge}",
   "badge_evolution_locked": "Hace falta {badge}",
   "badge_hint_evolution_locked": "Esta cuenta primero debe conseguir {badge}: luego el minero se la pone para minar esta evolución",
   "badge_evolution_off": "Evoluciones desactivadas",

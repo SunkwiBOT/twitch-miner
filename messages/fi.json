@@ -1308,6 +1308,7 @@
   "badge_hint_evolution": "Louhija ottaa {badge} käyttöön juuri ennen tämän merkin louhintaa eikä palauta vanhaa",
   "badge_evolution_unknown": "Vaadittu merkki tuntematon",
   "badge_hint_evolution_unknown": "Twitch ei ole vielä kertonut, mistä merkistä tämä kehittyy: sitä ei louhita ennen sitä",
+  "badge_card_details": "Tiedot: {badge}",
   "badge_evolution_locked": "Vaatii merkin {badge}",
   "badge_hint_evolution_locked": "Tämän tilin on ensin saatava {badge}: louhija ottaa sen sitten käyttöön louhiakseen tämän kehityksen",
   "badge_evolution_off": "Kehitykset pois",

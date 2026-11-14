@@ -1336,6 +1336,7 @@
   "badge_hint_evolution": "De miner zet {badge} op vlak voor het minen van deze badge en zet de oude niet terug",
   "badge_evolution_unknown": "Vereiste badge onbekend",
   "badge_hint_evolution_unknown": "Twitch heeft nog niet gezegd uit welke badge deze evolueert: tot dan wordt hij niet gemined",
+  "badge_card_details": "Details van {badge}",
   "badge_evolution_locked": "{badge} nodig",
   "badge_hint_evolution_locked": "Dit account moet eerst {badge} krijgen: daarna zet de miner die op om deze evolutie te minen",
   "badge_evolution_off": "Evoluties uit",

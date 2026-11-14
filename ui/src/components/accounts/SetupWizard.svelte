@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { Snippet } from "svelte";
+
   import { SetupEnd, SetupSource, SetupStep } from "../../lib/accounts/accounts.constants";
   import { newStreamer } from "../../lib/accounts/import.svelte";
   import { sameMiningOrder } from "../../lib/accounts/mining-order.utils";
@@ -19,7 +21,6 @@
   import { account as accountOf, app } from "../../lib/state/app.svelte";
   import { personMarker } from "../../lib/text.utils";
   import ChoiceCards from "../ui/ChoiceCards.svelte";
-  import DialogActions from "../ui/DialogActions.svelte";
   import FormField from "../ui/FormField.svelte";
   import RichText from "../ui/RichText.svelte";
   import Select from "../ui/Select.svelte";
@@ -36,9 +37,24 @@
     account: AccountSnapshotType;
     onclose: () => void;
     finishing: boolean;
+    actions: Snippet | undefined;
   };
 
-  let { account, onclose, finishing = $bindable() }: SetupWizardPropsType = $props();
+  let {
+    account,
+    onclose,
+    finishing = $bindable(),
+    actions = $bindable(),
+  }: SetupWizardPropsType = $props();
+
+  // ! The steps' buttons go up to the dialog's footer, which stays in view while the step scrolls.
+  $effect.pre(() => {
+    actions = footer;
+
+    return () => {
+      actions = undefined;
+    };
+  });
 
   const others = $derived((app.snapshot?.accounts ?? []).filter((a) => a.id !== account.id));
 
@@ -254,7 +270,7 @@
   {/if}
 </div>
 
-<DialogActions>
+{#snippet footer()}
   <SetupActions
     {step}
     {stepIndex}
@@ -264,4 +280,4 @@
     ongo={goTo}
     onfinish={finish}
   />
-</DialogActions>
+{/snippet}

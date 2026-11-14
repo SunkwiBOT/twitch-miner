@@ -1336,6 +1336,7 @@
   "badge_hint_evolution": "The miner equips {badge} just before mining this badge and does not put the old one back",
   "badge_evolution_unknown": "Required badge unknown",
   "badge_hint_evolution_unknown": "Twitch has not said yet which badge this one evolves from: it is not mined until then",
+  "badge_card_details": "Details for {badge}",
   "badge_evolution_locked": "Needs {badge}",
   "badge_hint_evolution_locked": "This account must get {badge} first: the miner then equips it to mine this evolution",
   "badge_evolution_off": "Evolutions off",

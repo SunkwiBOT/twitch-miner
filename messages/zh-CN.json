@@ -974,6 +974,7 @@
   "badge_hint_evolution": "挖掘器会在挖取此徽章前佩戴 {badge}，且不会换回原来的徽章",
   "badge_evolution_unknown": "所需徽章未知",
   "badge_hint_evolution_unknown": "Twitch 尚未说明此徽章由哪个徽章进化而来：在此之前不会挖取",
+  "badge_card_details": "{badge} 详情",
   "badge_evolution_locked": "需要 {badge}",
   "badge_hint_evolution_locked": "此账号需先获得 {badge}：之后挖掘器会佩戴它来挖取此进化",
   "badge_evolution_off": "进化已关闭",

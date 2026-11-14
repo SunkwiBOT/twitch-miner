@@ -41,3 +41,6 @@ export enum PanelWidth {
   MD = "420px",
   LG = "460px",
 }
+
+export const CARD_LIFT_CLASSES =
+  "transition-[translate,box-shadow] duration-150 group-hover:translate-x-0.75 group-hover:-translate-y-0.75 group-hover:shadow-[-4px_4px_0_var(--primary)] group-focus-visible:translate-x-0.75 group-focus-visible:-translate-y-0.75 group-focus-visible:shadow-[-4px_4px_0_var(--primary)] group-has-focus-visible:translate-x-0.75 group-has-focus-visible:-translate-y-0.75 group-has-focus-visible:shadow-[-4px_4px_0_var(--primary)]";

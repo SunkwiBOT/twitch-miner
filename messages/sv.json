@@ -1257,6 +1257,7 @@
   "badge_hint_evolution": "Minern sätter på {badge} strax innan det här märket minas och sätter inte tillbaka det gamla",
   "badge_evolution_unknown": "Märket som krävs är okänt",
   "badge_hint_evolution_unknown": "Twitch har ännu inte sagt vilket märke det här utvecklas från: det minas inte förrän dess",
+  "badge_card_details": "Detaljer om {badge}",
   "badge_evolution_locked": "Kräver {badge}",
   "badge_hint_evolution_locked": "Det här kontot måste först få {badge}: sedan sätter minern på det för att mina den här utvecklingen",
   "badge_evolution_off": "Utvecklingar av",

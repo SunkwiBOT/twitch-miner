@@ -49,7 +49,7 @@
   };
 </script>
 
-<div class="w-56 sm:mr-auto">
+<div class="w-full sm:mr-auto sm:w-56">
   <MultiSelect
     values={selected}
     options={accounts.map((a) => ({ value: a.id, label: a.display_name, image: a.avatar_url }))}

@@ -1336,6 +1336,7 @@
   "badge_hint_evolution": "O minerador equipa {badge} logo antes de minerar este emblema e não volta a pôr o antigo",
   "badge_evolution_unknown": "Emblema exigido desconhecido",
   "badge_hint_evolution_unknown": "A Twitch ainda não disse de qual emblema este evolui: até lá ele não é minerado",
+  "badge_card_details": "Detalhes de {badge}",
   "badge_evolution_locked": "Precisa de {badge}",
   "badge_hint_evolution_locked": "Esta conta precisa primeiro obter {badge}: depois o minerador o equipa para minerar esta evolução",
   "badge_evolution_off": "Evoluções desativadas",

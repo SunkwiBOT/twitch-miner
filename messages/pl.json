@@ -1255,6 +1255,7 @@
   "badge_hint_evolution": "Miner zakłada {badge} tuż przed kopaniem tej odznaki i nie przywraca poprzedniej",
   "badge_evolution_unknown": "Wymagana odznaka nieznana",
   "badge_hint_evolution_unknown": "Twitch nie podał jeszcze, z jakiej odznaki ewoluuje ta: do tego czasu nie jest kopana",
+  "badge_card_details": "Szczegóły: {badge}",
   "badge_evolution_locked": "Wymaga {badge}",
   "badge_hint_evolution_locked": "To konto musi najpierw zdobyć {badge}: potem miner ją zakłada, by kopać tę ewolucję",
   "badge_evolution_off": "Ewolucje wyłączone",

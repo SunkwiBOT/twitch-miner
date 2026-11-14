@@ -1240,6 +1240,7 @@
   "badge_hint_evolution": "Mineren tar på {badge} rett før dette merket mines og setter ikke det gamle tilbake",
   "badge_evolution_unknown": "Nødvendig merke ukjent",
   "badge_hint_evolution_unknown": "Twitch har ennå ikke sagt hvilket merke dette utvikler seg fra: det mines ikke før da",
+  "badge_card_details": "Detaljer om {badge}",
   "badge_evolution_locked": "Krever {badge}",
   "badge_hint_evolution_locked": "Denne kontoen må først få {badge}: mineren tar det så på for å mine denne utviklingen",
   "badge_evolution_off": "Utviklinger av",

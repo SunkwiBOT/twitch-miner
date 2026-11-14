@@ -8,6 +8,6 @@
   let { children }: DialogActionsPropsType = $props();
 </script>
 
-<DialogFooter class="sticky -bottom-5 z-10 -mx-5 -mb-5 bg-popover px-5 py-3.5">
+<DialogFooter class="m-0 shrink-0 bg-popover px-5 py-3.5">
   {@render children()}
 </DialogFooter>

@@ -1336,6 +1336,7 @@
   "badge_hint_evolution": "Ο miner φοράει το {badge} λίγο πριν εξορύξει αυτό το σήμα και δεν ξαναβάζει το παλιό",
   "badge_evolution_unknown": "Άγνωστο απαιτούμενο σήμα",
   "badge_hint_evolution_unknown": "Το Twitch δεν έχει πει ακόμη από ποιο σήμα εξελίσσεται αυτό: μέχρι τότε δεν εξορύσσεται",
+  "badge_card_details": "Λεπτομέρειες: {badge}",
   "badge_evolution_locked": "Χρειάζεται το {badge}",
   "badge_hint_evolution_locked": "Αυτός ο λογαριασμός πρέπει πρώτα να αποκτήσει το {badge}: ο miner το φοράει μετά για να εξορύξει αυτή την εξέλιξη",
   "badge_evolution_off": "Οι εξελίξεις είναι ανενεργές",

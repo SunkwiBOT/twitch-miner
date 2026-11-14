@@ -8,6 +8,7 @@
   import Badge from "../ui/Badge.svelte";
   import { BadgeTone } from "../../lib/tones.constants";
   import { IconName } from "../../lib/icons.constants";
+  import { CARD_LIFT_CLASSES } from "../ui/ui.constants";
   import LinkBadge from "./LinkBadge.svelte";
   import TimeLeftTag from "./TimeLeftTag.svelte";
 
@@ -29,9 +30,7 @@
   type="button"
   onclick={() => onopen(campaign)}
 >
-  <span
-    class="relative block aspect-[3/4] overflow-hidden rounded-lg bg-muted transition-[translate,box-shadow] duration-150 group-hover:translate-x-0.75 group-hover:-translate-y-0.75 group-hover:shadow-[-4px_4px_0_var(--primary)] group-focus-visible:translate-x-0.75 group-focus-visible:-translate-y-0.75 group-focus-visible:shadow-[-4px_4px_0_var(--primary)]"
-  >
+  <span class="relative block aspect-[3/4] overflow-hidden rounded-lg bg-muted {CARD_LIFT_CLASSES}">
     {#if art}<img class="block size-full object-cover" src={art} alt="" loading="lazy" />{/if}
     <span class="absolute bottom-1.5 left-1.5"
       ><TimeLeftTag

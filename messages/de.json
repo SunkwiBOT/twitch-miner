@@ -1322,6 +1322,7 @@
   "badge_hint_evolution": "Der Miner legt {badge} kurz vor dem Minen dieses Abzeichens an und setzt das alte nicht wieder ein",
   "badge_evolution_unknown": "Benötigtes Abzeichen unbekannt",
   "badge_hint_evolution_unknown": "Twitch hat noch nicht gesagt, aus welchem Abzeichen sich dieses entwickelt: Bis dahin wird es nicht gemint",
+  "badge_card_details": "Details zu {badge}",
   "badge_evolution_locked": "{badge} nötig",
   "badge_hint_evolution_locked": "Dieses Konto braucht zuerst {badge}: Der Miner legt es dann an, um diese Entwicklung zu minen",
   "badge_evolution_off": "Entwicklungen aus",

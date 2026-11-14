@@ -974,6 +974,7 @@
   "badge_hint_evolution": "Penambang memasang {badge} tepat sebelum menambang lencana ini dan tidak memasang kembali yang lama",
   "badge_evolution_unknown": "Lencana yang dibutuhkan tidak diketahui",
   "badge_hint_evolution_unknown": "Twitch belum menyebutkan lencana asal evolusi ini: lencana ini tidak ditambang sampai saat itu",
+  "badge_card_details": "Detail {badge}",
   "badge_evolution_locked": "Perlu {badge}",
   "badge_hint_evolution_locked": "Akun ini harus mendapatkan {badge} lebih dulu: penambang lalu memasangnya untuk menambang evolusi ini",
   "badge_evolution_off": "Evolusi nonaktif",

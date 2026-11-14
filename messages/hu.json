@@ -1016,6 +1016,7 @@
   "badge_hint_evolution": "A bányász közvetlenül e jelvény bányászása előtt felteszi a(z) {badge} jelvényt, és nem teszi vissza a régit",
   "badge_evolution_unknown": "Ismeretlen szükséges jelvény",
   "badge_hint_evolution_unknown": "A Twitch még nem mondta meg, melyik jelvényből fejlődik ez: addig nem bányássza",
+  "badge_card_details": "Részletek: {badge}",
   "badge_evolution_locked": "Kell: {badge}",
   "badge_hint_evolution_locked": "Ennek a fióknak előbb meg kell szereznie a(z) {badge} jelvényt: a bányász ezután felteszi, hogy bányássza ezt a fejlődést",
   "badge_evolution_off": "Fejlődések kikapcsolva",

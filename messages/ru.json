@@ -1254,6 +1254,7 @@
   "badge_hint_evolution": "Майнер надевает {badge} прямо перед майнингом этого значка и не возвращает прежний",
   "badge_evolution_unknown": "Нужный значок неизвестен",
   "badge_hint_evolution_unknown": "Twitch ещё не сообщил, из какого значка эволюционирует этот: до тех пор он не майнится",
+  "badge_card_details": "Подробности: {badge}",
   "badge_evolution_locked": "Нужен {badge}",
   "badge_hint_evolution_locked": "Этому аккаунту сначала нужно получить {badge}: затем майнер наденет его, чтобы намайнить эту эволюцию",
   "badge_evolution_off": "Эволюции выключены",

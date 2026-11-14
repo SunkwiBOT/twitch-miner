@@ -1,6 +1,6 @@
 <script lang="ts">
   import { CommandName } from "../../lib/bindings/CommandName";
-  import { untrack } from "svelte";
+  import { untrack, type Snippet } from "svelte";
 
   import { startLogin } from "../../lib/api/client";
   import { LoginFlowStatus } from "../../lib/bindings/LoginFlowStatus";
@@ -74,6 +74,7 @@
   );
 
   let finishing = $state(false);
+  let setupActions = $state<Snippet>();
 
   const close = (): void => {
     app.loginDialog = false;
@@ -135,9 +136,11 @@
   closable={!finishing}
   closeLabel={t.common_close()}
   onclose={close}
-  footer={!newAccount && (failure !== null || (shown && shown.status !== LoginFlowStatus.PENDING))
-    ? actions
-    : undefined}
+  footer={newAccount
+    ? setupActions
+    : failure !== null || (shown && shown.status !== LoginFlowStatus.PENDING)
+      ? actions
+      : undefined}
 >
   {#if !app.snapshot?.vault.unlocked}
     <p class="text-hint text-muted-foreground">{t.login_vault_locked()}</p>
@@ -150,7 +153,7 @@
   {:else if shown.status === LoginFlowStatus.PENDING}
     <LoginCode flow={shown} />
   {:else if shown.status === LoginFlowStatus.COMPLETED && newAccount}
-    <SetupWizard account={newAccount} onclose={close} bind:finishing />
+    <SetupWizard account={newAccount} onclose={close} bind:finishing bind:actions={setupActions} />
   {:else if shown.status === LoginFlowStatus.COMPLETED}
     <p class="flex items-center gap-2 text-success-foreground">
       <Icon name={IconName.CHECK} size={18} />

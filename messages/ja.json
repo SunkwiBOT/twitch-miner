@@ -974,6 +974,7 @@
   "badge_hint_evolution": "マイナーはこのバッジのマイニング直前に {badge} を装備し、元のバッジには戻しません",
   "badge_evolution_unknown": "必要なバッジが不明",
   "badge_hint_evolution_unknown": "どのバッジから進化するかを Twitch がまだ示していません：それまではマイニングされません",
+  "badge_card_details": "{badge} の詳細",
   "badge_evolution_locked": "{badge} が必要",
   "badge_hint_evolution_locked": "このアカウントはまず {badge} を手に入れる必要があります：その後マイナーが装備してこの進化をマイニングします",
   "badge_evolution_off": "進化はオフ",

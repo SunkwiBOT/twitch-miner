@@ -974,6 +974,7 @@
   "badge_hint_evolution": "Trình đào gắn {badge} ngay trước khi đào huy hiệu này và không gắn lại huy hiệu cũ",
   "badge_evolution_unknown": "Chưa rõ huy hiệu cần thiết",
   "badge_hint_evolution_unknown": "Twitch chưa cho biết huy hiệu này tiến hóa từ huy hiệu nào: chưa đào cho đến lúc đó",
+  "badge_card_details": "Chi tiết {badge}",
   "badge_evolution_locked": "Cần {badge}",
   "badge_hint_evolution_locked": "Tài khoản này phải có {badge} trước: sau đó trình đào gắn nó để đào tiến hóa này",
   "badge_evolution_off": "Đã tắt tiến hóa",

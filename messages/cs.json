@@ -1359,6 +1359,7 @@
   "badge_hint_evolution": "Miner nasadí {badge} těsně před těžbou tohoto odznaku a starý už nevrátí",
   "badge_evolution_unknown": "Potřebný odznak neznámý",
   "badge_hint_evolution_unknown": "Twitch zatím neřekl, z jakého odznaku se tento vyvíjí: do té doby se netěží",
+  "badge_card_details": "Podrobnosti: {badge}",
   "badge_evolution_locked": "Je potřeba {badge}",
   "badge_hint_evolution_locked": "Tento účet musí nejdřív získat {badge}: miner ho pak nasadí, aby tento vývoj vytěžil",
   "badge_evolution_off": "Vývoje vypnuté",

@@ -1336,6 +1336,7 @@
   "badge_hint_evolution": "Майнерът слага {badge} точно преди да копае тази значка и не връща старата",
   "badge_evolution_unknown": "Нужната значка е неизвестна",
   "badge_hint_evolution_unknown": "Twitch още не е казал от коя значка еволюира тази: дотогава не се копае",
+  "badge_card_details": "Подробности за {badge}",
   "badge_evolution_locked": "Нужна е {badge}",
   "badge_hint_evolution_locked": "Този акаунт първо трябва да получи {badge}: след това майнерът я слага, за да копае тази еволюция",
   "badge_evolution_off": "Еволюциите са изключени",

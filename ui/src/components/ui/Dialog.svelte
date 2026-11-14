@@ -40,10 +40,12 @@
   const behavior = $derived(closable ? "close" : "ignore");
 
   let content = $state<HTMLElement | null>(null);
+  let scrolled = $state(false);
 
   // ! The close cross is never focused first: it would show selected, its tip open.
   const focusFirst = (event: Event): void => {
     event.preventDefault();
+    scrolled = false;
 
     const field = content?.querySelector<HTMLElement>(
       "input:not([type=hidden]):not([disabled]), textarea:not([disabled])",
@@ -69,12 +71,13 @@
     interactOutsideBehavior={behavior}
     escapeKeydownBehavior={behavior}
     class={cn(
-      // ! One column no wider than the dialog: a long unbroken line would widen the track past the edge.
-      "max-h-[90vh] grid-cols-[minmax(0,1fr)] gap-4 overflow-y-auto p-5 outline-none",
+      "flex max-h-[90dvh] flex-col gap-0 p-0 outline-none",
       wide ? "sm:max-w-3xl" : "sm:max-w-lg",
     )}
   >
-    <DialogHeader>
+    <DialogHeader
+      class={cn("border-b px-5 pt-5 pb-3", scrolled ? "border-border" : "border-transparent")}
+    >
       <DialogTitle class="flex items-center gap-2.5 pr-8 text-base font-semibold">
         {#if lead}{@render lead()}{/if}
         <span class="truncate">{title}</span>
@@ -91,7 +94,16 @@
         onclick={onclose}
       />
     </div>
-    {@render children()}
+    <div
+      class={cn(
+        // ! One column no wider than the dialog: a long unbroken line would widen the track past the edge.
+        "grid min-h-0 grid-cols-[minmax(0,1fr)] gap-4 overflow-y-auto px-5 pt-1",
+        footer ? "pb-4" : "pb-5",
+      )}
+      onscroll={(event) => (scrolled = event.currentTarget.scrollTop > 0)}
+    >
+      {@render children()}
+    </div>
     {#if footer}
       <DialogActions>{@render footer()}</DialogActions>
     {/if}

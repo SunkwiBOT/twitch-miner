@@ -1322,6 +1322,7 @@
   "badge_hint_evolution": "Il miner equipaggia {badge} subito prima di minare questo badge e non rimette quello precedente",
   "badge_evolution_unknown": "Badge richiesto sconosciuto",
   "badge_hint_evolution_unknown": "Twitch non ha ancora detto da quale badge si evolve questo: fino ad allora non viene minato",
+  "badge_card_details": "Dettagli di {badge}",
   "badge_evolution_locked": "Serve {badge}",
   "badge_hint_evolution_locked": "Questo account deve prima ottenere {badge}: poi il miner lo equipaggia per minare questa evoluzione",
   "badge_evolution_off": "Evoluzioni disattivate",

@@ -1359,6 +1359,7 @@
   "badge_hint_evolution": "Minerul își pune {badge} chiar înainte de a mina această insignă și nu o mai pune la loc pe cea veche",
   "badge_evolution_unknown": "Insignă cerută necunoscută",
   "badge_hint_evolution_unknown": "Twitch nu a spus încă din ce insignă evoluează aceasta: până atunci nu e minată",
+  "badge_card_details": "Detalii despre {badge}",
   "badge_evolution_locked": "E nevoie de {badge}",
   "badge_hint_evolution_locked": "Acest cont trebuie mai întâi să obțină {badge}: apoi minerul o pune ca să mineze această evoluție",
   "badge_evolution_off": "Evoluții dezactivate",

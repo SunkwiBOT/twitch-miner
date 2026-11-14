@@ -974,6 +974,7 @@
   "badge_hint_evolution": "ตัวขุดจะติด {badge} ก่อนขุดตรานี้ และจะไม่เปลี่ยนกลับเป็นตราเดิม",
   "badge_evolution_unknown": "ไม่ทราบตราที่ต้องใช้",
   "badge_hint_evolution_unknown": "Twitch ยังไม่บอกว่าตรานี้วิวัฒนาการมาจากตราใด: จะยังไม่ขุดจนกว่าจะรู้",
+  "badge_card_details": "รายละเอียดของ {badge}",
   "badge_evolution_locked": "ต้องมี {badge}",
   "badge_hint_evolution_locked": "บัญชีนี้ต้องได้ {badge} ก่อน: จากนั้นตัวขุดจะติดตรานั้นเพื่อขุดวิวัฒนาการนี้",
   "badge_evolution_off": "ปิดวิวัฒนาการ",

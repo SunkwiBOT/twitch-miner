@@ -1336,6 +1336,7 @@
   "badge_hint_evolution": "Le mineur équipe {badge} juste avant de miner ce badge et ne remet pas l'ancien",
   "badge_evolution_unknown": "Badge requis inconnu",
   "badge_hint_evolution_unknown": "Twitch n'a pas encore dit de quel badge celui-ci évolue : il n'est pas miné en attendant",
+  "badge_card_details": "Détails de {badge}",
   "badge_evolution_locked": "Il faut {badge}",
   "badge_hint_evolution_locked": "Ce compte doit d'abord obtenir {badge} : le mineur l'équipera ensuite pour miner cette évolution",
   "badge_evolution_off": "Évolutions désactivées",

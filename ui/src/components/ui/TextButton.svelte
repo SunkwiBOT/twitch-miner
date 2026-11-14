@@ -14,6 +14,7 @@
 
   type TextButtonPropsType = {
     label: string;
+    name?: string;
     icon?: IconName;
     variant: ButtonVariant;
     size: ButtonSize;
@@ -25,6 +26,7 @@
 
   let {
     label,
+    name,
     icon,
     variant,
     size,
@@ -42,6 +44,7 @@
   size={BUTTON_SIZES[size]}
   class={cn(BUTTON_VARIANT_CLASSES[variant], className)}
   {type}
+  aria-label={name}
   {disabled}
   {onclick}
 >

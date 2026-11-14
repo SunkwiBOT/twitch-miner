@@ -1016,6 +1016,7 @@
   "badge_hint_evolution": "Madenci bu rozeti kazmadan hemen önce {badge} rozetini takar ve eskisini geri takmaz",
   "badge_evolution_unknown": "Gereken rozet bilinmiyor",
   "badge_hint_evolution_unknown": "Twitch bu rozetin hangi rozetten evrildiğini henüz söylemedi: o zamana kadar kazılmaz",
+  "badge_card_details": "Ayrıntılar: {badge}",
   "badge_evolution_locked": "{badge} gerekli",
   "badge_hint_evolution_locked": "Bu hesabın önce {badge} rozetini alması gerekir: madenci ardından bu evrimi kazmak için onu takar",
   "badge_evolution_off": "Evrimler kapalı",
