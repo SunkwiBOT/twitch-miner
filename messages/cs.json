@@ -325,7 +325,8 @@
   "campaign_progress": "{current}/{required} min",
   "campaign_link_game": "Propojit účet vydavatele",
   "campaign_open_twitch": "Otevřít na Twitchi",
-  "campaign_open_drops_web": "Otevřít na {domain}",
+  "campaign_view_details": "Zobrazit podrobnosti",
+  "campaign_view_details_web": "Zobrazit podrobnosti na {domain}",
   "campaign_view_category": "Zobrazit kategorii",
   "logs_title": "Technické protokoly",
   "logs_subtitle": "Logy mineru, bez tokenů a tajných údajů. Lze bezpečně vložit do hlášení chyby.",
@@ -630,7 +631,7 @@
     }
   ],
   "catalogue_refreshed_title": "Katalog obnoven",
-  "catalogue_refresh_wait": "Dostupné za {time}",
+  "common_refresh_wait": "Dostupné za {time}",
   "campaign_prioritized": "Umístěno na začátek pořadí těžby",
   "campaign_ignored": "Kampaň ignorována",
   "campaign_unignored": "Kampaň se opět těží",
@@ -1238,6 +1239,7 @@
   "request_kind_pubsub": "PubSub",
   "request_kind_chat": "Chat",
   "request_kind_catalog": "Katalog",
+  "request_kind_badges": "Odznaky",
   "request_kind_discord": "Discord",
   "request_kind_telegram": "Telegram",
   "request_kind_webhook": "Webhook",
@@ -1254,6 +1256,8 @@
   "request_outcome_network": "Chyba sítě",
   "request_outcome_graphql": "Chyba GraphQL",
   "request_outcome_closed": "Spojení ztraceno",
+  "request_not_modified": "beze změny",
+  "request_not_modified_hint": "ETag: nic se nezměnilo, žádný požadavek se nezapočítal.",
   "common_select_all_count": "Vybrat vše ({count})",
   "common_select_none_count": "Zrušit výběr ({count})",
   "nav_support_project": "Podpořit projekt",
@@ -1433,6 +1437,24 @@
   "badges_empty": "Žádný odznak neodpovídá.",
   "badges_none": "Seznam odznaků ještě nebyl načten.",
   "badges_error": "Seznam odznaků není dostupný: {error}",
+  "badges_refreshed_title": "Odznaky obnoveny",
+  "badges_refreshed": [
+    {
+      "declarations": [
+        "input count",
+        "input shown",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{shown} odznak",
+        "countPlural=few": "{shown} odznaky",
+        "countPlural=*": "{shown} odznaků"
+      }
+    }
+  ],
   "badges_retry": "Další pokus za {time}.",
   "badges_count": [
     {

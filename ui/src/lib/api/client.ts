@@ -5,7 +5,7 @@ import type { AppInfoType } from "../bindings/AppInfoType";
 import type { AuthResponseType } from "../bindings/AuthResponseType";
 import type { AuthStatusType } from "../bindings/AuthStatusType";
 import type { BurstProgressType } from "../bindings/BurstProgressType";
-import type { CatalogRefreshType } from "../bindings/CatalogRefreshType";
+import type { RefreshCountType } from "../bindings/RefreshCountType";
 import type { ChannelQueryType } from "../bindings/ChannelQueryType";
 import type { ChannelsLookupRequestType } from "../bindings/ChannelsLookupRequestType";
 import type { ChannelsLookupResponseType } from "../bindings/ChannelsLookupResponseType";
@@ -72,6 +72,7 @@ const ROUTES = {
   [TauriCommand.SNAPSHOT]: { route: RoutesApi.SNAPSHOT, method: HttpMethod.GET },
   [TauriCommand.COMMAND]: { route: RoutesApi.COMMAND, method: HttpMethod.POST },
   [TauriCommand.REFRESH_CATALOG]: { route: RoutesApi.CATALOG_REFRESH, method: HttpMethod.POST },
+  [TauriCommand.REFRESH_BADGES]: { route: RoutesApi.BADGES_REFRESH, method: HttpMethod.POST },
   [TauriCommand.START_LOGIN]: { route: RoutesApi.LOGIN_FLOW, method: HttpMethod.POST },
   [TauriCommand.LOOKUP_CHANNEL]: { route: RoutesApi.CHANNEL, method: HttpMethod.GET },
   [TauriCommand.CHANNEL_BANNERS]: { route: RoutesApi.CHANNELS_BANNERS, method: HttpMethod.POST },
@@ -119,8 +120,11 @@ export const sendCommand = async (command: CommandType): Promise<void> => {
   await transport(TauriCommand.COMMAND, { data: command }, { command });
 };
 
-export const requestCatalogRefresh = async (): Promise<CatalogRefreshType> =>
+export const requestCatalogRefresh = async (): Promise<RefreshCountType> =>
   (await transport(TauriCommand.REFRESH_CATALOG, {})).refresh;
+
+export const requestBadgesRefresh = async (): Promise<RefreshCountType> =>
+  (await transport(TauriCommand.REFRESH_BADGES, {})).refresh;
 
 export const startLogin = async (): Promise<LoginFlowViewType> =>
   (await transport(TauriCommand.START_LOGIN, {})).login;

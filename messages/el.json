@@ -322,7 +322,8 @@
   "campaign_progress": "{current}/{required} λεπτά",
   "campaign_link_game": "Σύνδεση λογαριασμού εκδότη",
   "campaign_open_twitch": "Άνοιγμα στο Twitch",
-  "campaign_open_drops_web": "Άνοιγμα στο {domain}",
+  "campaign_view_details": "Προβολή λεπτομερειών",
+  "campaign_view_details_web": "Προβολή λεπτομερειών στο {domain}",
   "campaign_view_category": "Προβολή κατηγορίας",
   "logs_title": "Αρχεία καταγραφής",
   "logs_subtitle": "Αρχεία καταγραφής του miner, χωρίς token ή μυστικά. Ασφαλές για επικόλληση σε αναφορά σφάλματος.",
@@ -620,7 +621,7 @@
     }
   ],
   "catalogue_refreshed_title": "Ο κατάλογος ανανεώθηκε",
-  "catalogue_refresh_wait": "Διαθέσιμο σε {time}",
+  "common_refresh_wait": "Διαθέσιμο σε {time}",
   "campaign_prioritized": "Τοποθετήθηκε στην κορυφή της σειράς εξόρυξης",
   "campaign_ignored": "Η καμπάνια παραβλέπεται",
   "campaign_unignored": "Η καμπάνια εξορύσσεται ξανά",
@@ -1202,6 +1203,7 @@
   "request_kind_pubsub": "PubSub",
   "request_kind_chat": "Συνομιλία",
   "request_kind_catalog": "Κατάλογος",
+  "request_kind_badges": "Σήματα",
   "request_kind_discord": "Discord",
   "request_kind_telegram": "Telegram",
   "request_kind_webhook": "Webhook",
@@ -1218,6 +1220,8 @@
   "request_outcome_network": "Σφάλμα δικτύου",
   "request_outcome_graphql": "Σφάλμα GraphQL",
   "request_outcome_closed": "Η σύνδεση χάθηκε",
+  "request_not_modified": "αμετάβλητο",
+  "request_not_modified_hint": "ETag: τίποτα δεν άλλαξε, δεν μετρήθηκε αίτημα.",
   "common_select_all_count": "Επιλογή όλων ({count})",
   "common_select_none_count": "Αποεπιλογή όλων ({count})",
   "nav_support_project": "Στήριξη του έργου",
@@ -1392,6 +1396,23 @@
   "badges_empty": "Κανένα σήμα δεν ταιριάζει.",
   "badges_none": "Η λίστα σημάτων δεν έχει διαβαστεί ακόμη.",
   "badges_error": "Η λίστα σημάτων δεν είναι διαθέσιμη: {error}",
+  "badges_refreshed_title": "Τα σήματα ανανεώθηκαν",
+  "badges_refreshed": [
+    {
+      "declarations": [
+        "input count",
+        "input shown",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{shown} σήμα",
+        "countPlural=*": "{shown} σήματα"
+      }
+    }
+  ],
   "badges_retry": "Νέα προσπάθεια σε {time}.",
   "badges_count": [
     {

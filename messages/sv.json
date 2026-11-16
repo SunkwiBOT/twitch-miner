@@ -322,7 +322,8 @@
   "campaign_progress": "{current}/{required} min",
   "campaign_link_game": "Länka utgivarkontot",
   "campaign_open_twitch": "Öppna på Twitch",
-  "campaign_open_drops_web": "Öppna på {domain}",
+  "campaign_view_details": "Visa detaljer",
+  "campaign_view_details_web": "Visa detaljer på {domain}",
   "campaign_view_category": "Visa kategorin",
   "logs_title": "Tekniska loggar",
   "logs_subtitle": "Loggar från minern, utan token eller hemligheter. Säkert att klistra in i en buggrapport.",
@@ -526,7 +527,7 @@
     }
   ],
   "catalogue_refreshed_title": "Katalogen uppdaterad",
-  "catalogue_refresh_wait": "Tillgänglig om {time}",
+  "common_refresh_wait": "Tillgänglig om {time}",
   "campaign_prioritized": "Placerad överst i miningordningen",
   "campaign_ignored": "Kampanjen ignoreras",
   "campaign_unignored": "Kampanjen minas igen",
@@ -1077,6 +1078,7 @@
   "request_kind_pubsub": "PubSub",
   "request_kind_chat": "Chatt",
   "request_kind_catalog": "Katalog",
+  "request_kind_badges": "Märken",
   "request_kind_discord": "Discord",
   "request_kind_telegram": "Telegram",
   "request_kind_webhook": "Webhook",
@@ -1093,6 +1095,8 @@
   "request_outcome_network": "Nätverksfel",
   "request_outcome_graphql": "GraphQL-fel",
   "request_outcome_closed": "Anslutningen bröts",
+  "request_not_modified": "oförändrad",
+  "request_not_modified_hint": "ETag: inget har ändrats, ingen förfrågan räknades.",
   "common_select_all_count": "Markera alla ({count})",
   "common_select_none_count": "Avmarkera alla ({count})",
   "nav_support_project": "Stöd projektet",
@@ -1267,6 +1271,23 @@
   "badges_empty": "Inget märke matchar.",
   "badges_none": "Märkeslistan har inte lästs ännu.",
   "badges_error": "Märkeslistan är inte tillgänglig: {error}",
+  "badges_refreshed_title": "Märken uppdaterade",
+  "badges_refreshed": [
+    {
+      "declarations": [
+        "input count",
+        "input shown",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{shown} märke",
+        "countPlural=*": "{shown} märken"
+      }
+    }
+  ],
   "badges_retry": "Nytt försök om {time}.",
   "badges_count": [
     {

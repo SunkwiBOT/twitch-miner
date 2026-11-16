@@ -6,7 +6,12 @@ import type { RequestsQueryType } from "../bindings/RequestsQueryType";
 import type { RequestsResponseType } from "../bindings/RequestsResponseType";
 import { SocketEvent } from "../bindings/SocketEvent";
 import { t } from "../i18n/i18n.svelte";
-import { RequestKindGroup, TARGET_BREAK_AFTER } from "./requests.constants";
+import {
+  HTTP_STATUS_NOT_MODIFIED,
+  PART_SEPARATOR,
+  RequestKindGroup,
+  TARGET_BREAK_AFTER,
+} from "./requests.constants";
 
 export type RequestCursorType = Pick<RequestsQueryType, "before_live_id" | "before_stored_id">;
 
@@ -20,6 +25,7 @@ export const REQUEST_KIND_LABELS: Record<RequestKind, () => string> = {
   [RequestKind.PUBSUB]: () => t.request_kind_pubsub(),
   [RequestKind.CHAT]: () => t.request_kind_chat(),
   [RequestKind.CATALOG]: () => t.request_kind_catalog(),
+  [RequestKind.BADGES]: () => t.request_kind_badges(),
   [RequestKind.DISCORD]: () => t.request_kind_discord(),
   [RequestKind.TELEGRAM]: () => t.request_kind_telegram(),
   [RequestKind.WEBHOOK]: () => t.request_kind_webhook(),
@@ -80,9 +86,18 @@ export const resultText = (entry: RequestEntryType): string => {
   const shownStatus =
     entry.outcome === RequestOutcome.OK || entry.outcome === RequestOutcome.STATUS;
 
+  if (entry.outcome === RequestOutcome.OK && entry.status === HTTP_STATUS_NOT_MODIFIED) {
+    return `${entry.status}${PART_SEPARATOR}${t.request_not_modified()}`;
+  }
+
   if (shownStatus && entry.status !== undefined) {
     return String(entry.status);
   }
 
   return OUTCOME_LABELS[entry.outcome]?.() ?? entry.outcome;
 };
+
+export const resultHint = (entry: RequestEntryType): string | undefined =>
+  entry.outcome === RequestOutcome.OK && entry.status === HTTP_STATUS_NOT_MODIFIED
+    ? t.request_not_modified_hint()
+    : undefined;

@@ -322,7 +322,8 @@
   "campaign_progress": "{current}/{required} min",
   "campaign_link_game": "Linkitä julkaisijatili",
   "campaign_open_twitch": "Avaa Twitchissä",
-  "campaign_open_drops_web": "Avaa sivulla {domain}",
+  "campaign_view_details": "Näytä tiedot",
+  "campaign_view_details_web": "Näytä tiedot sivustolla {domain}",
   "campaign_view_category": "Näytä kategoria",
   "logs_title": "Tekniset lokit",
   "logs_subtitle": "Louhijan lokit ilman tokeneita tai salaisuuksia. Turvallista liittää bugiraporttiin.",
@@ -620,7 +621,7 @@
     }
   ],
   "catalogue_refreshed_title": "Luettelo päivitetty",
-  "catalogue_refresh_wait": "Käytettävissä {time} kuluttua",
+  "common_refresh_wait": "Käytettävissä {time} kuluttua",
   "campaign_prioritized": "Siirretty louhintajärjestyksen kärkeen",
   "campaign_ignored": "Kampanja ohitetaan",
   "campaign_unignored": "Kampanjaa louhitaan taas",
@@ -1188,6 +1189,7 @@
   "request_kind_pubsub": "PubSub",
   "request_kind_chat": "Chat",
   "request_kind_catalog": "Luettelo",
+  "request_kind_badges": "Merkit",
   "request_kind_discord": "Discord",
   "request_kind_telegram": "Telegram",
   "request_kind_webhook": "Webhook",
@@ -1204,6 +1206,8 @@
   "request_outcome_network": "Verkkovirhe",
   "request_outcome_graphql": "GraphQL-virhe",
   "request_outcome_closed": "Yhteys katkesi",
+  "request_not_modified": "muuttumaton",
+  "request_not_modified_hint": "ETag: mikään ei muuttunut, pyyntöä ei laskettu.",
   "common_select_all_count": "Valitse kaikki ({count})",
   "common_select_none_count": "Poista valinnat ({count})",
   "nav_support_project": "Tue projektia",
@@ -1378,6 +1382,23 @@
   "badges_empty": "Mikään merkki ei täsmää.",
   "badges_none": "Merkkiluetteloa ei ole vielä luettu.",
   "badges_error": "Merkkiluettelo ei ole saatavilla: {error}",
+  "badges_refreshed_title": "Merkit päivitetty",
+  "badges_refreshed": [
+    {
+      "declarations": [
+        "input count",
+        "input shown",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{shown} merkki",
+        "countPlural=*": "{shown} merkkiä"
+      }
+    }
+  ],
   "badges_retry": "Uusi yritys {time} kuluttua.",
   "badges_count": [
     {

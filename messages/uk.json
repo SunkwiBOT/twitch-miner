@@ -325,7 +325,8 @@
   "campaign_progress": "{current}/{required} хв",
   "campaign_link_game": "Прив'язати обліковий запис видавця",
   "campaign_open_twitch": "Відкрити на Twitch",
-  "campaign_open_drops_web": "Відкрити на {domain}",
+  "campaign_view_details": "Переглянути деталі",
+  "campaign_view_details_web": "Переглянути деталі на {domain}",
   "campaign_view_category": "Переглянути категорію",
   "logs_title": "Технічні логи",
   "logs_subtitle": "Логи майнера, без токенів і секретів. Можна сміливо вставляти в баг-репорт.",
@@ -530,7 +531,7 @@
     }
   ],
   "catalogue_refreshed_title": "Каталог оновлено",
-  "catalogue_refresh_wait": "Доступно через {time}",
+  "common_refresh_wait": "Доступно через {time}",
   "campaign_prioritized": "Переміщено на початок порядку майнінгу",
   "campaign_ignored": "Кампанія ігнорується",
   "campaign_unignored": "Кампанія знову майниться",
@@ -1069,6 +1070,7 @@
   "request_kind_pubsub": "PubSub",
   "request_kind_chat": "Чат",
   "request_kind_catalog": "Каталог",
+  "request_kind_badges": "Значки",
   "request_kind_discord": "Discord",
   "request_kind_telegram": "Telegram",
   "request_kind_webhook": "Вебхук",
@@ -1085,6 +1087,8 @@
   "request_outcome_network": "Помилка мережі",
   "request_outcome_graphql": "Помилка GraphQL",
   "request_outcome_closed": "З'єднання втрачено",
+  "request_not_modified": "без змін",
+  "request_not_modified_hint": "ETag: нічого не змінилося, запит не враховано.",
   "common_select_all_count": "Вибрати все ({count})",
   "common_select_none_count": "Зняти вибір ({count})",
   "nav_support_project": "Підтримати проєкт",
@@ -1263,6 +1267,24 @@
   "badges_empty": "Немає відповідних значків.",
   "badges_none": "Список значків ще не прочитано.",
   "badges_error": "Список значків недоступний: {error}",
+  "badges_refreshed_title": "Значки оновлено",
+  "badges_refreshed": [
+    {
+      "declarations": [
+        "input count",
+        "input shown",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{shown} значок",
+        "countPlural=few": "{shown} значки",
+        "countPlural=*": "{shown} значків"
+      }
+    }
+  ],
   "badges_retry": "Наступна спроба через {time}.",
   "badges_count": [
     {

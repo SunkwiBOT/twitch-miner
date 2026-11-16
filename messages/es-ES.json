@@ -322,7 +322,8 @@
   "campaign_progress": "{current}/{required} min",
   "campaign_link_game": "Vincular la cuenta del editor",
   "campaign_open_twitch": "Abrir en Twitch",
-  "campaign_open_drops_web": "Abrir en {domain}",
+  "campaign_view_details": "Ver detalles",
+  "campaign_view_details_web": "Ver detalles en {domain}",
   "campaign_view_category": "Ver la categoría",
   "logs_title": "Registros técnicos",
   "logs_subtitle": "Logs del minero, sin ningún token ni secreto. Se puede pegar sin riesgo en un informe de error.",
@@ -620,7 +621,7 @@
     }
   ],
   "catalogue_refreshed_title": "Catálogo actualizado",
-  "catalogue_refresh_wait": "Disponible en {time}",
+  "common_refresh_wait": "Disponible en {time}",
   "campaign_prioritized": "Colocada al principio del orden de minado",
   "campaign_ignored": "Campaña ignorada",
   "campaign_unignored": "La campaña vuelve a minarse",
@@ -1202,6 +1203,7 @@
   "request_kind_pubsub": "PubSub",
   "request_kind_chat": "Chat",
   "request_kind_catalog": "Catálogo",
+  "request_kind_badges": "Insignias",
   "request_kind_discord": "Discord",
   "request_kind_telegram": "Telegram",
   "request_kind_webhook": "Webhook",
@@ -1218,6 +1220,8 @@
   "request_outcome_network": "Error de red",
   "request_outcome_graphql": "Error de GraphQL",
   "request_outcome_closed": "Conexión perdida",
+  "request_not_modified": "sin cambios",
+  "request_not_modified_hint": "ETag: nada cambió, no se contó ninguna solicitud.",
   "common_select_all_count": "Seleccionar todo ({count})",
   "common_select_none_count": "Deseleccionar todo ({count})",
   "nav_support_project": "Apoyar el proyecto",
@@ -1392,6 +1396,23 @@
   "badges_empty": "Ninguna insignia coincide.",
   "badges_none": "La lista de insignias aún no se ha leído.",
   "badges_error": "Lista de insignias no disponible: {error}",
+  "badges_refreshed_title": "Insignias actualizadas",
+  "badges_refreshed": [
+    {
+      "declarations": [
+        "input count",
+        "input shown",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{shown} insignia",
+        "countPlural=*": "{shown} insignias"
+      }
+    }
+  ],
   "badges_retry": "Nuevo intento en {time}.",
   "badges_count": [
     {

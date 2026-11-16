@@ -79,6 +79,8 @@
     };
   });
 
+  const actionable = $derived(view !== null && accounts.length > 0);
+
   const progress = $derived(
     campaign ? picked.map((account) => campaignProgress(account, campaign.id, claimed)) : [],
   );
@@ -112,6 +114,18 @@
   };
 </script>
 
+{#snippet actions()}
+  {#if view && accounts.length}
+    <CampaignActions
+      campaignId={view.id}
+      {selected}
+      minable={progress.some((entry) => entry.minable)}
+      bind:busy
+      onselect={(values) => (chosen = values)}
+    />
+  {/if}
+{/snippet}
+
 <Dialog
   open={campaign !== null}
   title={campaign
@@ -121,6 +135,7 @@
   closable={busy === null && claiming === null}
   closeLabel={t.common_close()}
   onclose={close}
+  footer={actionable ? actions : undefined}
 >
   {#if view}
     {@const art = boxArt(campaignArtUrl(view), BoxArtSize.CARD)}
@@ -204,7 +219,8 @@
             {@const webUrl = view.web_url}
             <ExternalButton
               url={webUrl}
-              label={t.campaign_open_drops_web({ domain: DROPS_WEB_HOST })}
+              label={t.campaign_view_details()}
+              ariaLabel={t.campaign_view_details_web({ domain: DROPS_WEB_HOST })}
               variant={ButtonVariant.OUTLINE}
               size={ButtonSize.SM}
               icon={IconName.GLOBE}
@@ -261,16 +277,4 @@
       </AccountProgressList>
     {/if}
   {/if}
-
-  {#snippet footer()}
-    {#if view && accounts.length}
-      <CampaignActions
-        campaignId={view.id}
-        {selected}
-        minable={progress.some((entry) => entry.minable)}
-        bind:busy
-        onselect={(values) => (chosen = values)}
-      />
-    {/if}
-  {/snippet}
 </Dialog>

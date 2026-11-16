@@ -322,7 +322,8 @@
   "campaign_progress": "{current}/{required} min",
   "campaign_link_game": "Link the publisher account",
   "campaign_open_twitch": "Open on Twitch",
-  "campaign_open_drops_web": "Open on {domain}",
+  "campaign_view_details": "View details",
+  "campaign_view_details_web": "View details on {domain}",
   "campaign_view_category": "View the category",
   "logs_title": "Technical logs",
   "logs_subtitle": "Logs of the miner, without any token or secret. Safe to paste in a bug report.",
@@ -620,7 +621,7 @@
     }
   ],
   "catalogue_refreshed_title": "Catalogue refreshed",
-  "catalogue_refresh_wait": "Available in {time}",
+  "common_refresh_wait": "Available in {time}",
   "campaign_prioritized": "Placed at the top of the mining order",
   "campaign_ignored": "Campaign ignored",
   "campaign_unignored": "Campaign mined again",
@@ -1202,6 +1203,7 @@
   "request_kind_pubsub": "PubSub",
   "request_kind_chat": "Chat",
   "request_kind_catalog": "Catalogue",
+  "request_kind_badges": "Badges",
   "request_kind_discord": "Discord",
   "request_kind_telegram": "Telegram",
   "request_kind_webhook": "Webhook",
@@ -1218,6 +1220,8 @@
   "request_outcome_network": "Network error",
   "request_outcome_graphql": "GraphQL error",
   "request_outcome_closed": "Connection lost",
+  "request_not_modified": "unchanged",
+  "request_not_modified_hint": "ETag: nothing changed, no request counted.",
   "common_select_all_count": "Select all ({count})",
   "common_select_none_count": "Deselect all ({count})",
   "nav_support_project": "Support the project",
@@ -1392,6 +1396,23 @@
   "badges_empty": "No badge matches.",
   "badges_none": "The badge list has not been read yet.",
   "badges_error": "Badge list unavailable: {error}",
+  "badges_refreshed_title": "Badges refreshed",
+  "badges_refreshed": [
+    {
+      "declarations": [
+        "input count",
+        "input shown",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{shown} badge",
+        "countPlural=*": "{shown} badges"
+      }
+    }
+  ],
   "badges_retry": "Next try in {time}.",
   "badges_count": [
     {

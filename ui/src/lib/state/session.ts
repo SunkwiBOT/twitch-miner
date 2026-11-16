@@ -4,6 +4,7 @@ import {
   fetchSnapshot,
   fetchStartupProblem,
   onCloseRequested,
+  requestBadgesRefresh,
   requestCatalogRefresh,
   sendCommand,
   subscribe,
@@ -163,16 +164,18 @@ export const run = async (command: CommandType, success?: string): Promise<boole
   }
 };
 
-export const refreshCatalog = async (): Promise<void> => {
+const refreshFeed = async (
+  request: () => Promise<number>,
+  title: () => string,
+  description: (args: { count: number; shown: string }) => string,
+): Promise<void> => {
   try {
-    const refreshed = await requestCatalogRefresh();
+    const count = await request();
 
-    const count = refreshed.campaign_count;
-
-    toast(ToastKind.SUCCESS, t.catalogue_refreshed_title(), {
-      description: t.catalogue_refreshed({ count, shown: strong(number(count)) }),
+    toast(ToastKind.SUCCESS, title(), {
+      description: description({ count, shown: strong(number(count)) }),
     });
-  } catch (e: any) {
+  } catch (e: unknown) {
     if (!reportFailure(e)) {
       return;
     }
@@ -180,6 +183,20 @@ export const refreshCatalog = async (): Promise<void> => {
 
   await refresh();
 };
+
+export const refreshCatalog = (): Promise<void> =>
+  refreshFeed(
+    async () => (await requestCatalogRefresh()).count,
+    t.catalogue_refreshed_title,
+    t.catalogue_refreshed,
+  );
+
+export const refreshBadges = (): Promise<void> =>
+  refreshFeed(
+    async () => (await requestBadgesRefresh()).count,
+    t.badges_refreshed_title,
+    t.badges_refreshed,
+  );
 
 export const checkSession = async (): Promise<boolean> => {
   try {

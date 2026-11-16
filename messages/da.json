@@ -322,7 +322,8 @@
   "campaign_progress": "{current}/{required} min.",
   "campaign_link_game": "Tilknyt udgiverkontoen",
   "campaign_open_twitch": "Åbn på Twitch",
-  "campaign_open_drops_web": "Åbn på {domain}",
+  "campaign_view_details": "Se detaljer",
+  "campaign_view_details_web": "Se detaljer på {domain}",
   "campaign_view_category": "Vis kategorien",
   "logs_title": "Tekniske logfiler",
   "logs_subtitle": "Logs fra mineren, uden tokens eller hemmeligheder. Sikkert at indsætte i en fejlrapport.",
@@ -526,7 +527,7 @@
     }
   ],
   "catalogue_refreshed_title": "Katalog opdateret",
-  "catalogue_refresh_wait": "Tilgængelig om {time}",
+  "common_refresh_wait": "Tilgængelig om {time}",
   "campaign_prioritized": "Placeret øverst i mining-rækkefølgen",
   "campaign_ignored": "Kampagne ignoreret",
   "campaign_unignored": "Kampagnen mines igen",
@@ -1044,6 +1045,7 @@
   "request_kind_pubsub": "PubSub",
   "request_kind_chat": "Chat",
   "request_kind_catalog": "Katalog",
+  "request_kind_badges": "Badges",
   "request_kind_discord": "Discord",
   "request_kind_telegram": "Telegram",
   "request_kind_webhook": "Webhook",
@@ -1060,6 +1062,8 @@
   "request_outcome_network": "Netværksfejl",
   "request_outcome_graphql": "GraphQL-fejl",
   "request_outcome_closed": "Forbindelse mistet",
+  "request_not_modified": "uændret",
+  "request_not_modified_hint": "ETag: intet har ændret sig, ingen anmodning talt med.",
   "common_select_all_count": "Vælg alle ({count})",
   "common_select_none_count": "Fravælg alle ({count})",
   "nav_support_project": "Støt projektet",
@@ -1234,6 +1238,23 @@
   "badges_empty": "Ingen badge matcher.",
   "badges_none": "Badgelisten er ikke læst endnu.",
   "badges_error": "Badgelisten er utilgængelig: {error}",
+  "badges_refreshed_title": "Badges opdateret",
+  "badges_refreshed": [
+    {
+      "declarations": [
+        "input count",
+        "input shown",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{shown} badge",
+        "countPlural=*": "{shown} badges"
+      }
+    }
+  ],
   "badges_retry": "Nyt forsøg om {time}.",
   "badges_count": [
     {

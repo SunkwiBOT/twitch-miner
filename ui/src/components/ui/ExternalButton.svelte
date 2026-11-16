@@ -18,6 +18,7 @@
     variant: ButtonVariant;
     size: ButtonSize;
     icon?: IconName;
+    ariaLabel?: string;
     class?: string;
     onfollow?: () => void;
   };
@@ -28,6 +29,7 @@
     variant,
     size,
     icon,
+    ariaLabel,
     class: className,
     onfollow,
   }: ExternalButtonPropsType = $props();
@@ -41,6 +43,7 @@
   variant={BUTTON_VARIANTS[variant]}
   size={BUTTON_SIZES[size]}
   class={cn("no-underline hover:no-underline", BUTTON_VARIANT_CLASSES[variant], className)}
+  aria-label={ariaLabel}
   onclick={(event: MouseEvent) => {
     followLink(event, url);
     onfollow?.();

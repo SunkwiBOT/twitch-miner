@@ -322,7 +322,8 @@
   "campaign_progress": "{current}/{required} Min.",
   "campaign_link_game": "Herausgeberkonto verknüpfen",
   "campaign_open_twitch": "Auf Twitch öffnen",
-  "campaign_open_drops_web": "Auf {domain} öffnen",
+  "campaign_view_details": "Details ansehen",
+  "campaign_view_details_web": "Details ansehen auf {domain}",
   "campaign_view_category": "Kategorie ansehen",
   "logs_title": "Technische Protokolle",
   "logs_subtitle": "Logs des Miners, ohne Token oder Geheimnisse. Kann gefahrlos in einen Fehlerbericht eingefügt werden.",
@@ -620,7 +621,7 @@
     }
   ],
   "catalogue_refreshed_title": "Katalog aktualisiert",
-  "catalogue_refresh_wait": "Verfügbar in {time}",
+  "common_refresh_wait": "Verfügbar in {time}",
   "campaign_prioritized": "An die Spitze der Mining-Reihenfolge gesetzt",
   "campaign_ignored": "Kampagne ignoriert",
   "campaign_unignored": "Kampagne wird wieder gemint",
@@ -1188,6 +1189,7 @@
   "request_kind_pubsub": "PubSub",
   "request_kind_chat": "Chat",
   "request_kind_catalog": "Katalog",
+  "request_kind_badges": "Abzeichen",
   "request_kind_discord": "Discord",
   "request_kind_telegram": "Telegram",
   "request_kind_webhook": "Webhook",
@@ -1204,6 +1206,8 @@
   "request_outcome_network": "Netzwerkfehler",
   "request_outcome_graphql": "GraphQL-Fehler",
   "request_outcome_closed": "Verbindung verloren",
+  "request_not_modified": "unverändert",
+  "request_not_modified_hint": "ETag: Es hat sich nichts geändert, keine Anfrage wurde gezählt.",
   "common_select_all_count": "Alle auswählen ({count})",
   "common_select_none_count": "Keine auswählen ({count})",
   "nav_support_project": "Projekt unterstützen",
@@ -1378,6 +1382,23 @@
   "badges_empty": "Kein Abzeichen passt.",
   "badges_none": "Die Abzeichenliste wurde noch nicht gelesen.",
   "badges_error": "Abzeichenliste nicht verfügbar: {error}",
+  "badges_refreshed_title": "Abzeichen aktualisiert",
+  "badges_refreshed": [
+    {
+      "declarations": [
+        "input count",
+        "input shown",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{shown} Abzeichen",
+        "countPlural=*": "{shown} Abzeichen"
+      }
+    }
+  ],
   "badges_retry": "Nächster Versuch in {time}.",
   "badges_count": [
     {

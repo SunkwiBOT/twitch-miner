@@ -23,6 +23,7 @@ export const REQUEST_KIND_GROUPS: readonly { group: RequestKindGroup; kinds: Req
     group: RequestKindGroup.OTHER,
     kinds: [
       RequestKind.CATALOG,
+      RequestKind.BADGES,
       RequestKind.DISCORD,
       RequestKind.TELEGRAM,
       RequestKind.WEBHOOK,
@@ -45,6 +46,9 @@ export const GROUP_COUNT_PREFIX = "×";
 export const TIME_RANGE_SEPARATOR = "–";
 export const PART_SEPARATOR = " · ";
 export const NO_TARGET = "—";
+
+// ! The only 2xx-adjacent status the feed client expects: an ETag revalidation hit.
+export const HTTP_STATUS_NOT_MODIFIED = 304;
 
 export const TARGET_BREAK_AFTER = "/";
 

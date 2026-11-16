@@ -322,7 +322,8 @@
   "campaign_progress": "{current}/{required} min",
   "campaign_link_game": "Uitgeversaccount koppelen",
   "campaign_open_twitch": "Openen op Twitch",
-  "campaign_open_drops_web": "Openen op {domain}",
+  "campaign_view_details": "Details bekijken",
+  "campaign_view_details_web": "Details bekijken op {domain}",
   "campaign_view_category": "Categorie bekijken",
   "logs_title": "Technisch logboek",
   "logs_subtitle": "Logs van de miner, zonder tokens of geheimen. Veilig om in een bugrapport te plakken.",
@@ -620,7 +621,7 @@
     }
   ],
   "catalogue_refreshed_title": "Catalogus ververst",
-  "catalogue_refresh_wait": "Beschikbaar over {time}",
+  "common_refresh_wait": "Beschikbaar over {time}",
   "campaign_prioritized": "Bovenaan de minevolgorde geplaatst",
   "campaign_ignored": "Campagne genegeerd",
   "campaign_unignored": "Campagne wordt weer gemind",
@@ -1202,6 +1203,7 @@
   "request_kind_pubsub": "PubSub",
   "request_kind_chat": "Chat",
   "request_kind_catalog": "Catalogus",
+  "request_kind_badges": "Badges",
   "request_kind_discord": "Discord",
   "request_kind_telegram": "Telegram",
   "request_kind_webhook": "Webhook",
@@ -1218,6 +1220,8 @@
   "request_outcome_network": "Netwerkfout",
   "request_outcome_graphql": "GraphQL-fout",
   "request_outcome_closed": "Verbinding verbroken",
+  "request_not_modified": "ongewijzigd",
+  "request_not_modified_hint": "ETag: er is niets veranderd, geen verzoek geteld.",
   "common_select_all_count": "Alles selecteren ({count})",
   "common_select_none_count": "Niets selecteren ({count})",
   "nav_support_project": "Project steunen",
@@ -1392,6 +1396,23 @@
   "badges_empty": "Geen badge komt overeen.",
   "badges_none": "De badgelijst is nog niet gelezen.",
   "badges_error": "Badgelijst niet beschikbaar: {error}",
+  "badges_refreshed_title": "Badges ververst",
+  "badges_refreshed": [
+    {
+      "declarations": [
+        "input count",
+        "input shown",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{shown} badge",
+        "countPlural=*": "{shown} badges"
+      }
+    }
+  ],
   "badges_retry": "Volgende poging over {time}.",
   "badges_count": [
     {

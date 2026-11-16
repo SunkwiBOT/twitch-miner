@@ -38,8 +38,8 @@
   import Icon from "../ui/Icon.svelte";
   import RichText from "../ui/RichText.svelte";
   import TextButton from "../ui/TextButton.svelte";
-  import Thumb from "../ui/Thumb.svelte";
-  import { ThumbShape, ThumbSize } from "../ui/picture.constants";
+  import BadgeTile from "../ui/BadgeTile.svelte";
+  import { ThumbSize } from "../ui/picture.constants";
   import { BadgeTone } from "../../lib/tones.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import { IconName } from "../../lib/icons.constants";
@@ -47,14 +47,24 @@
   type BadgeDialogPropsType = {
     badge: GlobalBadgeType | null;
     badges: GlobalBadgeType[];
+    contextAccountId: string | null;
     onopencampaign: (campaign: CampaignType) => void;
     onopenbadge: (badge: GlobalBadgeType) => void;
     onclose: () => void;
   };
 
-  let { badge, badges, onopencampaign, onopenbadge, onclose }: BadgeDialogPropsType = $props();
+  let {
+    badge,
+    badges,
+    contextAccountId,
+    onopencampaign,
+    onopenbadge,
+    onclose,
+  }: BadgeDialogPropsType = $props();
 
   const accounts = $derived(app.snapshot?.accounts ?? []);
+  const context = $derived(accounts.find((a) => a.id === contextAccountId) ?? null);
+
   const requirement = $derived(badge?.requirement);
   const campaign = $derived(badge ? badgeCampaign(badge, accounts) : null);
   const chest = $derived(chestBadges(campaign));
@@ -69,7 +79,7 @@
   let chosen = $state<string[] | null>(null);
   let busy = $state<CampaignAction | null>(null);
 
-  const selected = $derived(chosen ?? accounts.map((a) => a.id));
+  const selected = $derived(chosen ?? (context ? [context.id] : accounts.map((a) => a.id)));
   const progress = $derived(
     badge
       ? accounts
@@ -86,6 +96,7 @@
 
     return id && ends && Date.parse(ends) > ticker.now ? id : null;
   });
+  const actionable = $derived(running !== null && accounts.length > 0);
   const categories = $derived(
     requirement?.categories.length
       ? requirement.categories
@@ -149,6 +160,18 @@
   </h3>
 {/snippet}
 
+{#snippet actions()}
+  {#if running && accounts.length}
+    <CampaignActions
+      campaignId={running}
+      {selected}
+      {minable}
+      bind:busy
+      onselect={(values) => (chosen = values)}
+    />
+  {/if}
+{/snippet}
+
 <Dialog
   open={badge !== null}
   title={badge?.title ?? ""}
@@ -156,6 +179,7 @@
   closable={busy === null}
   closeLabel={t.common_close()}
   onclose={close}
+  footer={actionable ? actions : undefined}
 >
   {#if badge}
     <div class="flex items-start gap-4">
@@ -251,7 +275,8 @@
             {@const webUrl = badge.web_url}
             <ExternalButton
               url={webUrl}
-              label={t.campaign_open_drops_web({ domain: DROPS_WEB_HOST })}
+              label={t.campaign_view_details()}
+              ariaLabel={t.campaign_view_details_web({ domain: DROPS_WEB_HOST })}
               variant={ButtonVariant.OUTLINE}
               size={ButtonSize.SM}
               icon={IconName.GLOBE}
@@ -307,16 +332,8 @@
         {#if chest.length > 0}
           <ul class="grid grid-cols-[repeat(auto-fill,minmax(min(170px,100%),1fr))] gap-2">
             {#each chest as possible (badgeKey(possible.set_id, possible.version))}
-              <li class="flex min-w-0 items-center gap-2.5 rounded-lg border p-2">
-                <Thumb
-                  src={possible.image_url}
-                  round={false}
-                  contain={true}
-                  size={ThumbSize.MD}
-                  shape={ThumbShape.SQUARE}
-                  fallback={IconName.AWARD}
-                />
-                <span class="truncate text-xs font-semibold">{possible.title}</span>
+              <li>
+                <BadgeTile image={possible.image_url} title={possible.title} small={true} />
               </li>
             {/each}
           </ul>
@@ -332,21 +349,13 @@
           <div class="flex items-center gap-3">
             {#if from}
               {@const known = from}
-              <button
-                class="flex min-w-0 items-center gap-2.5 rounded-lg border p-2 text-left transition-colors hover:bg-accent"
-                type="button"
+              <BadgeTile
+                image={source.image_url}
+                title={source.title}
+                small={true}
+                link={true}
                 onclick={() => onopenbadge(known)}
-              >
-                <Thumb
-                  src={source.image_url}
-                  round={false}
-                  contain={true}
-                  size={ThumbSize.MD}
-                  shape={ThumbShape.SQUARE}
-                  fallback={IconName.AWARD}
-                />
-                <span class="truncate text-xs font-semibold text-link">{source.title}</span>
-              </button>
+              />
             {/if}
             <p class="min-w-0 flex-1 text-hint text-muted-foreground">
               <RichText text={t.badge_dialog_evolves_from({ badge: strong(source.title) })} />
@@ -381,16 +390,4 @@
       </AccountProgressList>
     {/if}
   {/if}
-
-  {#snippet footer()}
-    {#if running && accounts.length}
-      <CampaignActions
-        campaignId={running}
-        {selected}
-        {minable}
-        bind:busy
-        onselect={(values) => (chosen = values)}
-      />
-    {/if}
-  {/snippet}
 </Dialog>

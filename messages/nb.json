@@ -322,7 +322,8 @@
   "campaign_progress": "{current}/{required} min",
   "campaign_link_game": "Koble utgiverkontoen",
   "campaign_open_twitch": "Åpne på Twitch",
-  "campaign_open_drops_web": "Åpne på {domain}",
+  "campaign_view_details": "Vis detaljer",
+  "campaign_view_details_web": "Vis detaljer på {domain}",
   "campaign_view_category": "Vis kategorien",
   "logs_title": "Tekniske logger",
   "logs_subtitle": "Logger fra mineren, uten token eller hemmeligheter. Trygt å lime inn i en feilrapport.",
@@ -526,7 +527,7 @@
     }
   ],
   "catalogue_refreshed_title": "Katalogen oppdatert",
-  "catalogue_refresh_wait": "Tilgjengelig om {time}",
+  "common_refresh_wait": "Tilgjengelig om {time}",
   "campaign_prioritized": "Plassert øverst i mining-rekkefølgen",
   "campaign_ignored": "Kampanjen ignoreres",
   "campaign_unignored": "Kampanjen mines igjen",
@@ -1044,6 +1045,7 @@
   "request_kind_pubsub": "PubSub",
   "request_kind_chat": "Chat",
   "request_kind_catalog": "Katalog",
+  "request_kind_badges": "Merker",
   "request_kind_discord": "Discord",
   "request_kind_telegram": "Telegram",
   "request_kind_webhook": "Webhook",
@@ -1060,6 +1062,8 @@
   "request_outcome_network": "Nettverksfeil",
   "request_outcome_graphql": "GraphQL-feil",
   "request_outcome_closed": "Forbindelsen ble brutt",
+  "request_not_modified": "uendret",
+  "request_not_modified_hint": "ETag: ingenting endret seg, ingen forespørsel telt.",
   "common_select_all_count": "Velg alle ({count})",
   "common_select_none_count": "Velg ingen ({count})",
   "nav_support_project": "Støtt prosjektet",
@@ -1234,6 +1238,23 @@
   "badges_empty": "Ingen merker passer.",
   "badges_none": "Merkelisten er ikke lest ennå.",
   "badges_error": "Merkelisten er utilgjengelig: {error}",
+  "badges_refreshed_title": "Merker oppdatert",
+  "badges_refreshed": [
+    {
+      "declarations": [
+        "input count",
+        "input shown",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{shown} merke",
+        "countPlural=*": "{shown} merker"
+      }
+    }
+  ],
   "badges_retry": "Nytt forsøk om {time}.",
   "badges_count": [
     {

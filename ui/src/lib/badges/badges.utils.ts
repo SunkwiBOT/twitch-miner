@@ -453,7 +453,9 @@ export type OwnedBadgeType = {
   key: string;
   title: string;
   image: string | undefined;
-  url: string | undefined;
+  // ! Only set when the owned badge is also in the global catalogue: the account
+  // page's dialog needs the full record, not just the title and image it kept.
+  badge: GlobalBadgeType | null;
 };
 
 export const ownedBadges = (
@@ -472,7 +474,7 @@ export const ownedBadges = (
       key: badgeKey(owned.set_id, owned.version),
       title: known?.title ?? owned.title,
       image: known?.image_url ?? owned.image_url,
-      url: known?.web_url,
+      badge: known ?? null,
     }))
     .sort((a, b) => a.title.localeCompare(b.title));
 };

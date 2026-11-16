@@ -9,7 +9,7 @@ import type { DesktopEvent } from "../bindings/DesktopEvent";
 import type { AppInfoResponseType } from "../bindings/AppInfoResponseType";
 import type { AutostartResponseType } from "../bindings/AutostartResponseType";
 import type { BurstProgressType } from "../bindings/BurstProgressType";
-import type { CatalogRefreshResponseType } from "../bindings/CatalogRefreshResponseType";
+import type { RefreshResponseType } from "../bindings/RefreshResponseType";
 import type { ChannelResponseType } from "../bindings/ChannelResponseType";
 import type { ChannelsLookupResponseType } from "../bindings/ChannelsLookupResponseType";
 import type { CloseAction } from "../bindings/CloseAction";
@@ -57,7 +57,8 @@ export type UpdateProgressType = {
 export type TauriCommandsType = {
   [TauriCommand.SNAPSHOT]: { args: undefined; result: SnapshotResponseType };
   [TauriCommand.COMMAND]: { args: { command: CommandType }; result: null };
-  [TauriCommand.REFRESH_CATALOG]: { args: undefined; result: CatalogRefreshResponseType };
+  [TauriCommand.REFRESH_CATALOG]: { args: undefined; result: RefreshResponseType };
+  [TauriCommand.REFRESH_BADGES]: { args: undefined; result: RefreshResponseType };
   [TauriCommand.START_LOGIN]: { args: undefined; result: LoginFlowResponseType };
   [TauriCommand.LOOKUP_CHANNEL]: { args: { login: string }; result: ChannelResponseType };
   [TauriCommand.LOOKUP_CHANNELS]: {

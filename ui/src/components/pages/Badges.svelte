@@ -16,6 +16,7 @@
   import { DROPS_API_NAME, DROPS_WEB_URL } from "../../lib/partners.constants";
   import { normalizeSearch } from "../../lib/search/search.utils";
   import { openTab, showTab } from "../../lib/state/router";
+  import { refreshBadges } from "../../lib/state/session";
   import { ticker } from "../../lib/state/ticker.svelte";
   import { linkMarker, strong } from "../../lib/text.utils";
   import { HOUR_MS } from "../../lib/time/time.constants";
@@ -29,6 +30,7 @@
   import EmptyState from "../ui/EmptyState.svelte";
   import PageBody from "../ui/PageBody.svelte";
   import PageHeader from "../ui/PageHeader.svelte";
+  import RefreshButton from "../ui/RefreshButton.svelte";
   import RichText from "../ui/RichText.svelte";
   import SearchField from "../ui/SearchField.svelte";
   import Segmented from "../ui/Segmented.svelte";
@@ -108,6 +110,11 @@
           />{/if}
       {/if}
     {/snippet}
+    {#snippet actions()}<RefreshButton
+        label={t.common_refresh()}
+        nextRefreshAt={list.next_manual_refresh_at}
+        onrefresh={refreshBadges}
+      />{/snippet}
     <div class="w-full max-w-96">
       <SearchField
         placeholder={t.badges_search_placeholder()}
@@ -185,6 +192,7 @@
 <BadgeDialog
   badge={open}
   badges={badgeList.badges}
+  contextAccountId={null}
   onopencampaign={(next) => {
     open = null;
     campaign = next;

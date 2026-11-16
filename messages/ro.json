@@ -325,7 +325,8 @@
   "campaign_progress": "{current}/{required} min",
   "campaign_link_game": "Conectează contul de editor",
   "campaign_open_twitch": "Deschide pe Twitch",
-  "campaign_open_drops_web": "Deschide pe {domain}",
+  "campaign_view_details": "Vezi detaliile",
+  "campaign_view_details_web": "Vezi detaliile pe {domain}",
   "campaign_view_category": "Vezi categoria",
   "logs_title": "Loguri tehnice",
   "logs_subtitle": "Logurile minerului, fără niciun token sau secret. Sigur de lipit într-un raport de eroare.",
@@ -630,7 +631,7 @@
     }
   ],
   "catalogue_refreshed_title": "Catalog reîmprospătat",
-  "catalogue_refresh_wait": "Disponibil în {time}",
+  "common_refresh_wait": "Disponibil în {time}",
   "campaign_prioritized": "Plasată în fruntea ordinii de minare",
   "campaign_ignored": "Campanie ignorată",
   "campaign_unignored": "Campania este minată din nou",
@@ -1222,6 +1223,7 @@
   "request_kind_pubsub": "PubSub",
   "request_kind_chat": "Chat",
   "request_kind_catalog": "Catalog",
+  "request_kind_badges": "Insigne",
   "request_kind_discord": "Discord",
   "request_kind_telegram": "Telegram",
   "request_kind_webhook": "Webhook",
@@ -1238,6 +1240,8 @@
   "request_outcome_network": "Eroare de rețea",
   "request_outcome_graphql": "Eroare GraphQL",
   "request_outcome_closed": "Conexiune pierdută",
+  "request_not_modified": "neschimbat",
+  "request_not_modified_hint": "ETag: nimic nu s-a schimbat, nicio cerere nu a fost contorizată.",
   "common_select_all_count": "Selectează tot ({count})",
   "common_select_none_count": "Deselectează tot ({count})",
   "nav_support_project": "Susține proiectul",
@@ -1417,6 +1421,24 @@
   "badges_empty": "Nicio insignă nu se potrivește.",
   "badges_none": "Lista de insigne nu a fost încă citită.",
   "badges_error": "Lista de insigne este indisponibilă: {error}",
+  "badges_refreshed_title": "Insigne reîmprospătate",
+  "badges_refreshed": [
+    {
+      "declarations": [
+        "input count",
+        "input shown",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{shown} insignă",
+        "countPlural=few": "{shown} insigne",
+        "countPlural=*": "{shown} de insigne"
+      }
+    }
+  ],
   "badges_retry": "Nouă încercare peste {time}.",
   "badges_count": [
     {

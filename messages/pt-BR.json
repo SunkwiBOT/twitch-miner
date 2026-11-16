@@ -322,7 +322,8 @@
   "campaign_progress": "{current}/{required} min",
   "campaign_link_game": "Vincular a conta da editora",
   "campaign_open_twitch": "Abrir na Twitch",
-  "campaign_open_drops_web": "Abrir em {domain}",
+  "campaign_view_details": "Ver detalhes",
+  "campaign_view_details_web": "Ver detalhes em {domain}",
   "campaign_view_category": "Ver a categoria",
   "logs_title": "Registros técnicos",
   "logs_subtitle": "Logs do minerador, sem nenhum token ou segredo. Pode ser colado sem risco em um relatório de bug.",
@@ -620,7 +621,7 @@
     }
   ],
   "catalogue_refreshed_title": "Catálogo atualizado",
-  "catalogue_refresh_wait": "Disponível em {time}",
+  "common_refresh_wait": "Disponível em {time}",
   "campaign_prioritized": "Colocada no topo da ordem de mineração",
   "campaign_ignored": "Campanha ignorada",
   "campaign_unignored": "Campanha minerada novamente",
@@ -1202,6 +1203,7 @@
   "request_kind_pubsub": "PubSub",
   "request_kind_chat": "Chat",
   "request_kind_catalog": "Catálogo",
+  "request_kind_badges": "Emblemas",
   "request_kind_discord": "Discord",
   "request_kind_telegram": "Telegram",
   "request_kind_webhook": "Webhook",
@@ -1218,6 +1220,8 @@
   "request_outcome_network": "Erro de rede",
   "request_outcome_graphql": "Erro do GraphQL",
   "request_outcome_closed": "Conexão perdida",
+  "request_not_modified": "inalterado",
+  "request_not_modified_hint": "ETag: nada mudou, nenhuma solicitação contabilizada.",
   "common_select_all_count": "Selecionar tudo ({count})",
   "common_select_none_count": "Desmarcar tudo ({count})",
   "nav_support_project": "Apoiar o projeto",
@@ -1392,6 +1396,23 @@
   "badges_empty": "Nenhum emblema corresponde.",
   "badges_none": "A lista de emblemas ainda não foi lida.",
   "badges_error": "Lista de emblemas indisponível: {error}",
+  "badges_refreshed_title": "Emblemas atualizados",
+  "badges_refreshed": [
+    {
+      "declarations": [
+        "input count",
+        "input shown",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{shown} emblema",
+        "countPlural=*": "{shown} emblemas"
+      }
+    }
+  ],
   "badges_retry": "Nova tentativa em {time}.",
   "badges_count": [
     {

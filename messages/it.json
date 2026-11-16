@@ -322,7 +322,8 @@
   "campaign_progress": "{current}/{required} min",
   "campaign_link_game": "Collega l'account editore",
   "campaign_open_twitch": "Apri su Twitch",
-  "campaign_open_drops_web": "Apri su {domain}",
+  "campaign_view_details": "Visualizza dettagli",
+  "campaign_view_details_web": "Visualizza dettagli su {domain}",
   "campaign_view_category": "Visualizza la categoria",
   "logs_title": "Log tecnici",
   "logs_subtitle": "Log del miner, senza token né segreti. Si può incollare senza rischi in una segnalazione di bug.",
@@ -620,7 +621,7 @@
     }
   ],
   "catalogue_refreshed_title": "Catalogo aggiornato",
-  "catalogue_refresh_wait": "Disponibile tra {time}",
+  "common_refresh_wait": "Disponibile tra {time}",
   "campaign_prioritized": "Messa in cima all'ordine di mining",
   "campaign_ignored": "Campagna ignorata",
   "campaign_unignored": "Campagna di nuovo minata",
@@ -1188,6 +1189,7 @@
   "request_kind_pubsub": "PubSub",
   "request_kind_chat": "Chat",
   "request_kind_catalog": "Catalogo",
+  "request_kind_badges": "Badge",
   "request_kind_discord": "Discord",
   "request_kind_telegram": "Telegram",
   "request_kind_webhook": "Webhook",
@@ -1204,6 +1206,8 @@
   "request_outcome_network": "Errore di rete",
   "request_outcome_graphql": "Errore GraphQL",
   "request_outcome_closed": "Connessione persa",
+  "request_not_modified": "invariato",
+  "request_not_modified_hint": "ETag: nulla è cambiato, nessuna richiesta conteggiata.",
   "common_select_all_count": "Seleziona tutto ({count})",
   "common_select_none_count": "Deseleziona tutto ({count})",
   "nav_support_project": "Sostieni il progetto",
@@ -1378,6 +1382,23 @@
   "badges_empty": "Nessun badge corrisponde.",
   "badges_none": "L'elenco dei badge non è ancora stato letto.",
   "badges_error": "Elenco dei badge non disponibile: {error}",
+  "badges_refreshed_title": "Badge aggiornati",
+  "badges_refreshed": [
+    {
+      "declarations": [
+        "input count",
+        "input shown",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{shown} badge",
+        "countPlural=*": "{shown} badge"
+      }
+    }
+  ],
   "badges_retry": "Nuovo tentativo tra {time}.",
   "badges_count": [
     {

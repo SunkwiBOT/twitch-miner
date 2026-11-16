@@ -325,7 +325,8 @@
   "campaign_progress": "{current}/{required} мин",
   "campaign_link_game": "Привязать аккаунт издателя",
   "campaign_open_twitch": "Открыть на Twitch",
-  "campaign_open_drops_web": "Открыть на {domain}",
+  "campaign_view_details": "Подробнее",
+  "campaign_view_details_web": "Подробнее на {domain}",
   "campaign_view_category": "Посмотреть категорию",
   "logs_title": "Технические логи",
   "logs_subtitle": "Логи майнера, без токенов и секретов. Можно смело вставлять в баг-репорт.",
@@ -530,7 +531,7 @@
     }
   ],
   "catalogue_refreshed_title": "Каталог обновлён",
-  "catalogue_refresh_wait": "Доступно через {time}",
+  "common_refresh_wait": "Доступно через {time}",
   "campaign_prioritized": "Перемещено в начало порядка майнинга",
   "campaign_ignored": "Кампания игнорируется",
   "campaign_unignored": "Кампания снова майнится",
@@ -1069,6 +1070,7 @@
   "request_kind_pubsub": "PubSub",
   "request_kind_chat": "Чат",
   "request_kind_catalog": "Каталог",
+  "request_kind_badges": "Значки",
   "request_kind_discord": "Discord",
   "request_kind_telegram": "Telegram",
   "request_kind_webhook": "Вебхук",
@@ -1085,6 +1087,8 @@
   "request_outcome_network": "Ошибка сети",
   "request_outcome_graphql": "Ошибка GraphQL",
   "request_outcome_closed": "Соединение потеряно",
+  "request_not_modified": "без изменений",
+  "request_not_modified_hint": "ETag: ничего не изменилось, запрос не засчитан.",
   "common_select_all_count": "Выбрать все ({count})",
   "common_select_none_count": "Снять выбор ({count})",
   "nav_support_project": "Поддержать проект",
@@ -1263,6 +1267,24 @@
   "badges_empty": "Нет подходящих значков.",
   "badges_none": "Список значков ещё не прочитан.",
   "badges_error": "Список значков недоступен: {error}",
+  "badges_refreshed_title": "Значки обновлены",
+  "badges_refreshed": [
+    {
+      "declarations": [
+        "input count",
+        "input shown",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{shown} значок",
+        "countPlural=few": "{shown} значка",
+        "countPlural=*": "{shown} значков"
+      }
+    }
+  ],
   "badges_retry": "Следующая попытка через {time}.",
   "badges_count": [
     {

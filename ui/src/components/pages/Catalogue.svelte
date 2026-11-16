@@ -5,6 +5,7 @@
   import { t } from "../../lib/i18n/i18n.svelte";
   import { DROPS_API_NAME, DROPS_WEB_URL } from "../../lib/partners.constants";
   import { openTab, showTab } from "../../lib/state/router";
+  import { refreshCatalog } from "../../lib/state/session";
   import { ticker } from "../../lib/state/ticker.svelte";
   import { campaignTimelineRows, runningCampaigns } from "../../lib/catalogue/timeline.utils";
   import { matchesSearch, normalizeSearch } from "../../lib/search/search.utils";
@@ -12,8 +13,8 @@
   import { relativeTime } from "../../lib/time/time.utils";
   import CampaignCard from "../catalogue/CampaignCard.svelte";
   import CampaignDialog from "../catalogue/CampaignDialog.svelte";
-  import CatalogRefreshButton from "../catalogue/CatalogRefreshButton.svelte";
   import Timeline from "../catalogue/Timeline.svelte";
+  import RefreshButton from "../ui/RefreshButton.svelte";
   import {
     TIMELINE_VIEW_SLUGS,
     TimelineView,
@@ -96,7 +97,11 @@
           />{/if}
       {/if}
     {/snippet}
-    {#snippet actions()}<CatalogRefreshButton label={t.common_refresh()} />{/snippet}
+    {#snippet actions()}<RefreshButton
+        label={t.common_refresh()}
+        nextRefreshAt={snapshot.catalog.next_manual_refresh_at}
+        onrefresh={refreshCatalog}
+      />{/snippet}
     <div class="w-full max-w-96">
       <SearchField
         placeholder={t.campaigns_search_placeholder()}

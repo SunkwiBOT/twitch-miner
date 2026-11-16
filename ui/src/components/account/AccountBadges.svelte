@@ -8,6 +8,7 @@
   import { badgeList } from "../../lib/badges/badges.svelte";
   import type { AccountSnapshotType } from "../../lib/bindings/AccountSnapshotType";
   import type { CampaignType } from "../../lib/bindings/CampaignType";
+  import type { GlobalBadgeType } from "../../lib/bindings/GlobalBadgeType";
   import { MiningLaneKind } from "../../lib/bindings/MiningLaneKind";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { matchesSearch, normalizeSearch } from "../../lib/search/search.utils";
@@ -17,18 +18,16 @@
   import { ticker } from "../../lib/state/ticker.svelte";
   import CampaignDialog from "../catalogue/CampaignDialog.svelte";
   import EmptyState from "../ui/EmptyState.svelte";
-  import ExternalLink from "../ui/ExternalLink.svelte";
+  import BadgeDialog from "../badges/BadgeDialog.svelte";
+  import BadgeTile from "../ui/BadgeTile.svelte";
   import Notice from "../ui/Notice.svelte";
   import PageBody from "../ui/PageBody.svelte";
   import Panel from "../ui/Panel.svelte";
   import SearchField from "../ui/SearchField.svelte";
   import Segmented from "../ui/Segmented.svelte";
   import Setting from "../ui/Setting.svelte";
-  import Thumb from "../ui/Thumb.svelte";
   import { IconName } from "../../lib/icons.constants";
   import { NoticeTone, PanelWidth } from "../ui/ui.constants";
-  import { ThumbShape, ThumbSize } from "../ui/picture.constants";
-  import { LinkLook, LinkMark, LinkSize } from "../ui/link.constants";
   import AccountSaveBar from "./AccountSaveBar.svelte";
   import BadgesExclusionsTab from "./badges/BadgesExclusionsTab.svelte";
   import BadgesOrderTab from "./badges/BadgesOrderTab.svelte";
@@ -59,6 +58,7 @@
   const tab = $derived(openTab(Object.values(BadgesTab), BADGES_TAB_SLUGS, BadgesTab.ORDER));
 
   let open = $state<CampaignType | null>(null);
+  let openBadge = $state<GlobalBadgeType | null>(null);
 </script>
 
 <PageBody>
@@ -156,36 +156,13 @@
         {:else}
           <ul class="grid grid-cols-[repeat(auto-fill,minmax(min(170px,100%),1fr))] gap-2.5">
             {#each ownedShown as badge (badge.key)}
-              <li
-                class="flex min-w-0 items-center gap-2.5 rounded-lg border p-2"
-                title={badge.title}
-              >
-                {#snippet thumb()}
-                  <Thumb
-                    src={badge.image}
-                    round={false}
-                    contain={true}
-                    size={ThumbSize.MD}
-                    shape={ThumbShape.SQUARE}
-                    fallback={IconName.AWARD}
-                  />
-                {/snippet}
-                {#if badge.url}
-                  <ExternalLink
-                    url={badge.url}
-                    text={badge.title}
-                    mark={LinkMark.END}
-                    look={LinkLook.ALWAYS}
-                    size={LinkSize.MD}
-                  >
-                    {#snippet lead()}
-                      {@render thumb()}
-                    {/snippet}
-                  </ExternalLink>
-                {:else}
-                  {@render thumb()}
-                  <span class="min-w-0 truncate text-sm font-semibold">{badge.title}</span>
-                {/if}
+              <li class="grid">
+                <BadgeTile
+                  image={badge.image}
+                  title={badge.title}
+                  tooltip={true}
+                  onclick={badge.badge ? () => (openBadge = badge.badge!) : undefined}
+                />
               </li>
             {/each}
           </ul>
@@ -197,3 +174,14 @@
 </PageBody>
 
 <CampaignDialog campaign={open} contextAccountId={account.id} onclose={() => (open = null)} />
+<BadgeDialog
+  badge={openBadge}
+  badges={badgeList.badges}
+  contextAccountId={account.id}
+  onopencampaign={(next) => {
+    openBadge = null;
+    open = next;
+  }}
+  onopenbadge={(next) => (openBadge = next)}
+  onclose={() => (openBadge = null)}
+/>

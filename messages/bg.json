@@ -322,7 +322,8 @@
   "campaign_progress": "{current}/{required} мин",
   "campaign_link_game": "Свържи акаунта на издателя",
   "campaign_open_twitch": "Отвори в Twitch",
-  "campaign_open_drops_web": "Отвори на {domain}",
+  "campaign_view_details": "Преглед на детайлите",
+  "campaign_view_details_web": "Преглед на детайлите на {domain}",
   "campaign_view_category": "Виж категорията",
   "logs_title": "Технически логове",
   "logs_subtitle": "Логове на майнера, без токени и тайни. Безопасно за поставяне в доклад за бъг.",
@@ -620,7 +621,7 @@
     }
   ],
   "catalogue_refreshed_title": "Каталогът е обновен",
-  "catalogue_refresh_wait": "Достъпно след {time}",
+  "common_refresh_wait": "Достъпно след {time}",
   "campaign_prioritized": "Поставена начело в реда на копаене",
   "campaign_ignored": "Кампанията се игнорира",
   "campaign_unignored": "Кампанията отново се копае",
@@ -1202,6 +1203,7 @@
   "request_kind_pubsub": "PubSub",
   "request_kind_chat": "Чат",
   "request_kind_catalog": "Каталог",
+  "request_kind_badges": "Значки",
   "request_kind_discord": "Discord",
   "request_kind_telegram": "Telegram",
   "request_kind_webhook": "Уебхук",
@@ -1218,6 +1220,8 @@
   "request_outcome_network": "Мрежова грешка",
   "request_outcome_graphql": "Грешка в GraphQL",
   "request_outcome_closed": "Връзката прекъсна",
+  "request_not_modified": "непроменено",
+  "request_not_modified_hint": "ETag: нищо не е променено, не е преброена заявка.",
   "common_select_all_count": "Избери всички ({count})",
   "common_select_none_count": "Отмени избора ({count})",
   "nav_support_project": "Подкрепи проекта",
@@ -1392,6 +1396,23 @@
   "badges_empty": "Няма съвпадаща значка.",
   "badges_none": "Списъкът със значки още не е прочетен.",
   "badges_error": "Списъкът със значки не е наличен: {error}",
+  "badges_refreshed_title": "Значките са обновени",
+  "badges_refreshed": [
+    {
+      "declarations": [
+        "input count",
+        "input shown",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{shown} значка",
+        "countPlural=*": "{shown} значки"
+      }
+    }
+  ],
   "badges_retry": "Нов опит след {time}.",
   "badges_count": [
     {

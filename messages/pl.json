@@ -325,7 +325,8 @@
   "campaign_progress": "{current}/{required} min",
   "campaign_link_game": "Połącz konto wydawcy",
   "campaign_open_twitch": "Otwórz na Twitch",
-  "campaign_open_drops_web": "Otwórz na {domain}",
+  "campaign_view_details": "Zobacz szczegóły",
+  "campaign_view_details_web": "Zobacz szczegóły na {domain}",
   "campaign_view_category": "Zobacz kategorię",
   "logs_title": "Logi techniczne",
   "logs_subtitle": "Logi minera, bez żadnych tokenów ani sekretów. Można bezpiecznie wkleić do zgłoszenia błędu.",
@@ -530,7 +531,7 @@
     }
   ],
   "catalogue_refreshed_title": "Katalog odświeżony",
-  "catalogue_refresh_wait": "Dostępne za {time}",
+  "common_refresh_wait": "Dostępne za {time}",
   "campaign_prioritized": "Umieszczono na początku kolejności kopania",
   "campaign_ignored": "Kampania ignorowana",
   "campaign_unignored": "Kampania znów jest kopana",
@@ -1069,6 +1070,7 @@
   "request_kind_pubsub": "PubSub",
   "request_kind_chat": "Czat",
   "request_kind_catalog": "Katalog",
+  "request_kind_badges": "Odznaki",
   "request_kind_discord": "Discord",
   "request_kind_telegram": "Telegram",
   "request_kind_webhook": "Webhook",
@@ -1085,6 +1087,8 @@
   "request_outcome_network": "Błąd sieci",
   "request_outcome_graphql": "Błąd GraphQL",
   "request_outcome_closed": "Utracono połączenie",
+  "request_not_modified": "bez zmian",
+  "request_not_modified_hint": "ETag: nic się nie zmieniło, żadne żądanie nie zostało policzone.",
   "common_select_all_count": "Zaznacz wszystko ({count})",
   "common_select_none_count": "Odznacz wszystko ({count})",
   "nav_support_project": "Wesprzyj projekt",
@@ -1264,6 +1268,24 @@
   "badges_empty": "Żadna odznaka nie pasuje.",
   "badges_none": "Lista odznak nie została jeszcze odczytana.",
   "badges_error": "Lista odznak niedostępna: {error}",
+  "badges_refreshed_title": "Odznaki odświeżone",
+  "badges_refreshed": [
+    {
+      "declarations": [
+        "input count",
+        "input shown",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{shown} odznaka",
+        "countPlural=few": "{shown} odznaki",
+        "countPlural=*": "{shown} odznak"
+      }
+    }
+  ],
   "badges_retry": "Kolejna próba za {time}.",
   "badges_count": [
     {

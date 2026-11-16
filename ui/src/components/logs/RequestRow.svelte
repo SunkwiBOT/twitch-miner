@@ -14,6 +14,7 @@
   } from "../../lib/requests/requests.constants";
   import {
     REQUEST_KIND_LABELS,
+    resultHint,
     resultText,
     SOCKET_EVENT_LABELS,
     targetParts,
@@ -22,6 +23,7 @@
   import Avatar from "../ui/Avatar.svelte";
   import Badge from "../ui/Badge.svelte";
   import { AvatarSize } from "../ui/picture.constants";
+  import Tip from "../ui/Tip.svelte";
   import { BadgeTone } from "../../lib/tones.constants";
 
   type RequestRowPropsType = {
@@ -33,6 +35,7 @@
 
   const failed = $derived(entry.outcome !== RequestOutcome.OK);
   const kind = $derived(REQUEST_KIND_LABELS[entry.kind]());
+  const notModifiedHint = $derived(resultHint(entry));
 </script>
 
 <div class={REQUEST_LINE_CLASSES} role="listitem">
@@ -91,7 +94,18 @@
   </span>
 
   <span class={cn("whitespace-nowrap", failed ? "text-destructive" : "text-success-foreground")}>
-    {resultText(entry)}
+    {#if notModifiedHint}
+      <Tip text={notModifiedHint}>
+        {#snippet children(props)}
+          <span {...props} class="cursor-help underline decoration-dotted underline-offset-2"
+            >{resultText(entry)}</span
+          >
+        {/snippet}
+      </Tip>
+      <span class="sr-only">{notModifiedHint}</span>
+    {:else}
+      {resultText(entry)}
+    {/if}
   </span>
 
   <span class="text-right whitespace-nowrap text-muted-foreground @max-2xl:sr-only @2xl:block">
