@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Mines Twitch Drops and channel points on several accounts, with no browser and no Twitch tab open.</strong>
+  <strong>Mine Twitch Drops, badges and channel points, with no browser and no Twitch tab open.</strong>
 </p>
 
 <p align="center">
@@ -143,7 +143,7 @@ What sets it apart from other miners. “See it in action” under a point shows
 
 ### Drops
 
-- **Every running Drops campaign.** Each campaign has its own details: rewards, game
+- **Every running Drops campaign.** Each campaign has its own details: rewards, publisher
   account linking, “Mine first”. The list comes from the
   [Twitch Drops API](https://drops.sunkwi.com) project and refreshes every 10 minutes.
 
@@ -152,18 +152,18 @@ What sets it apart from other miners. “See it in action” under a point shows
   </details>
 
 - **Your mining order.** Drag the campaigns into the order you want. New ones find their
-  own place: your priority games first, then the soonest end or the fewest minutes left.
-  Exclude games, words, a campaign or a single reward, and skip the campaigns that cannot
+  own place: your priority categories first, then the soonest end or the fewest minutes left.
+  Exclude categories, words, a campaign or a single reward, and skip the campaigns that cannot
   finish in time. “Mine first”, in a campaign's details, puts it at the top.
 
   <details open><summary>See it in action</summary>
-  <img src="docs/media/en/drops-order.avif" alt="The mining order, the priority games and the exclusions">
+  <img src="docs/media/en/drops-order.avif" alt="The mining order, the priority categories and the exclusions">
   </details>
 
 - **Inventory and “Claim all”.** The Inventory page sorts rewards into “To claim”,
   “In progress” and “Claimed”. Claim them one by one, all at once, or turn on
   “Claim drops automatically”.
-  After “Link the game account”, the account is read again as soon as you come back to
+  After “Link the publisher account”, the account is read again as soon as you come back to
   the app, so the link shows right away.
 
   <details open><summary>See it in action</summary>
@@ -186,7 +186,7 @@ What sets it apart from other miners. “See it in action” under a point shows
   channel in any of the campaign's categories counts. A chest gives “1 random badge out of
   N”. A badge that needs a subscription is mined once you have subscribed yourself and
   Twitch counts it. Nothing is mined before its campaign starts. In “What to mine, in
-  order”, drag priority games, badges and other Drops campaigns into the order you want,
+  order”, drag priority categories, badges and other Drops campaigns into the order you want,
   or switch one off. A Twitch quest is mined only on a channel where Twitch offers it in
   its Drops panel. An evolution (Pichu → Pikachu) is mined once the account owns the badge
   it evolves from: the miner equips that badge itself just before and does not put the old
@@ -320,7 +320,7 @@ browser.\
 ⁷ Text only, without images. It also has Matrix, Pushover and Gotify, which this project
 does not.\
 ⁸ A list of campaigns with filters, without a calendar or search.\
-⁹ It has priority games and excluded games, chosen by game name.\
+⁹ It has priority categories and excluded categories, chosen by category name.\
 ¹⁰ By default, it first watches the streamers on its list whose stream carries Drops (its
 `DROPS` priority), but never another channel.\
 ¹¹ Not measured.\
@@ -416,8 +416,18 @@ Every 20 seconds, each account picks its two channels: the best live channel for
 campaign of its queue, then the streamers of its points list.
 
 Twitch credits **one Drops campaign** and **two channels for points** at a time per
-account. Since October 2026, a drop can only be claimed when the game account is linked.
+account. Since October 2026, a drop can only be claimed when the publisher account is linked.
 Unlinked campaigns still make progress, and the dashboard shows the link.
+
+If Twitch's own progress on the top campaign hasn't moved after 30 minutes of real
+watching, it is not crediting that campaign: the account sets it aside, the next-ranked
+campaign gets the slot, and it is retried automatically 6 hours later — sooner if progress
+reappears first, though the retried campaign may still wait behind whichever one is being
+mined. Any progress resets the wait, and it applies to every campaign kind (Drops, badges,
+quests). If Twitch credits another campaign of the same category instead and that one
+finishes or is claimed, the set-aside lifts right away instead of waiting out the full 6
+hours. Restarting the app or the server forgets every set-aside: a stuck campaign simply
+gets a fresh 30 minutes.
 
 The campaign list comes from the [Twitch Drops API](https://drops.sunkwi.com) project
 (refreshed every 10 minutes), because Twitch hides it from the TV client.
@@ -447,8 +457,11 @@ is quieter.
 
 **A campaign is not being mined, or a drop is not progressing.**\
 Open the account's **Drops** page. In “Mining order”, each waiting campaign says why:
-“No live channel” or “Waiting (one campaign at a time)”. A campaign that does not appear
-in that list was left out: by “What to mine, in order”, by the “Which campaigns”
+“No live channel” or “Waiting (one campaign at a time)”. “Twitch isn't crediting it —
+retrying …” means 30 minutes of real watching brought no progress on Twitch's side: the
+campaign is set aside and tried again automatically in the time shown, or sooner if
+progress reappears first. A campaign that does not appear in that list was left out: by
+“What to mine, in order”, by the “Which campaigns”
 setting, by a rule in the **Exclusions** tab, or because it cannot finish in time. A
 reward that needs a subscription waits until you have subscribed yourself, a badge watched
 every day waits for its next day, nothing is mined before its campaign starts, and a drop
@@ -456,12 +469,12 @@ that follows another one waits until the first is done. In **Points only** mode,
 picks no campaign. “Mine first”, in a campaign's details, puts it at the top; an ignored
 campaign can come back with “Mine again”, in the **Exclusions** tab.
 
-**Do I need to link the game account?**\
-To claim, yes: since October 2026, Twitch only lets you claim a drop when the game account
+**Do I need to link the publisher account?**\
+To claim, yes: since October 2026, Twitch only lets you claim a drop when the publisher account
 is linked. By default, an unlinked campaign still makes progress and the claim waits for
-the link. The “Not linked” badge flags it, and “Link the game account”, in the campaign's
-details, opens the linking page. To mine linked games only, choose
-“Only games whose account is linked”.
+the link. The “Not linked” badge flags it, and “Link the publisher account”, in the campaign's
+details, opens the linking page. To mine linked categories only, choose
+“Only categories whose publisher account is linked”.
 
 ### Install and data
 

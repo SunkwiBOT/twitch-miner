@@ -7,6 +7,7 @@ import { catalogueCampaign } from "../catalogue/catalogue.svelte";
 import { number } from "../format.utils";
 import { t } from "../i18n/i18n.svelte";
 import { campaignUrl, channelUrl } from "../links/twitch.utils";
+import { relativeTime } from "../time/time.utils";
 import { escapeEmphasis, linkMarker, strong, type TextLinkType } from "../text.utils";
 
 type ShortLongTextType = [short: () => string, long: (args: { channel: string }) => string];
@@ -96,6 +97,16 @@ export const eventText = (
         return drop && campaign ? t.ev_drop_claimed({ drop, campaign }) : fallback;
       case EventKind.CAMPAIGN_FINISHED:
         return campaign ? t.ev_campaign_finished({ campaign }) : fallback;
+      case EventKind.CAMPAIGN_SET_ASIDE:
+        return campaign && context.set_aside_until && context.required !== undefined
+          ? t.ev_campaign_set_aside({
+              campaign,
+              minutes: bold(context.required) ?? "",
+              time: strong(relativeTime(context.set_aside_until, new Date(event.at).getTime())),
+            })
+          : fallback;
+      case EventKind.CAMPAIGN_RETRIED:
+        return campaign ? t.ev_campaign_retried({ campaign }) : fallback;
       case EventKind.DROP_PROGRESS:
         if (context.current === undefined || context.required === undefined) {
           return fallback;
@@ -212,6 +223,13 @@ export const eventText = (
       case EventKind.UPDATE_AVAILABLE:
         return context.version
           ? t.ev_update_available({ version: strong(context.version) })
+          : fallback;
+      case EventKind.VERSION_UPDATED:
+        return context.version && context.previous_version
+          ? t.ev_version_updated({
+              version: strong(context.version),
+              previous: strong(context.previous_version),
+            })
           : fallback;
       case EventKind.STREAK_RECOVERED:
         return channelOnly([t.ev_streak_recovered_short, t.ev_streak_recovered]);

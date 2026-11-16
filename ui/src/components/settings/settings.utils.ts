@@ -5,6 +5,7 @@ import { t } from "../../lib/i18n/i18n.svelte";
 export const NOTIFY_LABELS: Record<keyof NotificationEventsType, () => string> = {
   drop_claimed: () => t.notify_drop_claimed(),
   drop_progress: () => t.notify_drop_progress(),
+  campaign_set_aside: () => t.notify_campaign_set_aside(),
   bonus_claimed: () => t.notify_bonus_claimed(),
   prediction_placed: () => t.notify_prediction_placed(),
   prediction_result: () => t.notify_prediction_result(),

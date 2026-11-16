@@ -1,6 +1,10 @@
 use super::*;
 
-pub(super) async fn forward_events(app: AppHandle, manager: Arc<Manager>) {
+pub(super) async fn forward_events(
+    app: AppHandle,
+    manager: Arc<Manager>,
+    mut receiver: tokio::sync::broadcast::Receiver<miner_core::events::MinerEvent>,
+) {
     let data_dir = app.state::<DataFolder>().path.clone();
     let desktop = DesktopNotifier::open(
         &data_dir,
@@ -12,7 +16,6 @@ pub(super) async fn forward_events(app: AppHandle, manager: Arc<Manager>) {
     .await;
 
     let window = app.state::<WindowShown>().0.subscribe();
-    let mut receiver = manager.subscribe();
     let mut bursts = manager.subscribe_bursts();
     let mut dirty = false;
     let mut held = false;

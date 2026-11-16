@@ -17,6 +17,8 @@ pub enum EventKind {
     DropProgress,
     DropClaimed,
     CampaignFinished,
+    CampaignSetAside,
+    CampaignRetried,
     PointsEarned,
     PointsSpent,
     BonusClaimed,
@@ -32,11 +34,12 @@ pub enum EventKind {
     SessionExpired,
     LoginCompleted,
     UpdateAvailable,
+    VersionUpdated,
     RewardRedeemed,
 }
 
 impl EventKind {
-    pub const ALL: [EventKind; 23] = [
+    pub const ALL: [EventKind; 26] = [
         Self::Info,
         Self::Error,
         Self::WatchStarted,
@@ -44,6 +47,8 @@ impl EventKind {
         Self::DropProgress,
         Self::DropClaimed,
         Self::CampaignFinished,
+        Self::CampaignSetAside,
+        Self::CampaignRetried,
         Self::PointsEarned,
         Self::PointsSpent,
         Self::BonusClaimed,
@@ -59,14 +64,17 @@ impl EventKind {
         Self::SessionExpired,
         Self::LoginCompleted,
         Self::UpdateAvailable,
+        Self::VersionUpdated,
         Self::RewardRedeemed,
     ];
 
     pub fn miner(self) -> Option<MinerKind> {
         match self {
-            Self::DropProgress | Self::DropClaimed | Self::CampaignFinished => {
-                Some(MinerKind::Drops)
-            }
+            Self::DropProgress
+            | Self::DropClaimed
+            | Self::CampaignFinished
+            | Self::CampaignSetAside
+            | Self::CampaignRetried => Some(MinerKind::Drops),
             Self::PointsEarned
             | Self::PointsSpent
             | Self::BonusClaimed
@@ -86,12 +94,19 @@ impl EventKind {
             | Self::SessionExpired
             | Self::LoginCompleted
             | Self::UpdateAvailable
+            | Self::VersionUpdated
             | Self::RewardRedeemed => None,
         }
     }
 
     pub fn follows_miner(self) -> bool {
         matches!(self, Self::WatchStarted | Self::WatchStopped)
+    }
+
+    // ! A generic Info or Error line carries no miner of its own: the miner
+    // that logged it decides its category, exactly like WatchStarted/Stopped.
+    pub fn generic(self) -> bool {
+        matches!(self, Self::Info | Self::Error)
     }
 
     // ! A Spam Points burst is the user's own spend: no miner acts, but it is
@@ -103,7 +118,7 @@ impl EventKind {
         }
 
         let miner = match self.miner() {
-            _ if self.follows_miner() => miner,
+            _ if self.follows_miner() || self.generic() => miner,
             Some(MinerKind::Drops) if miner == Some(MinerKind::Badges) => miner,
             own => own,
         };
@@ -125,6 +140,8 @@ impl EventKind {
             Self::DropProgress => "DROP_PROGRESS",
             Self::DropClaimed => "DROP_CLAIMED",
             Self::CampaignFinished => "CAMPAIGN_FINISHED",
+            Self::CampaignSetAside => "CAMPAIGN_SET_ASIDE",
+            Self::CampaignRetried => "CAMPAIGN_RETRIED",
             Self::PointsEarned => "POINTS_EARNED",
             Self::PointsSpent => "POINTS_SPENT",
             Self::BonusClaimed => "BONUS_CLAIMED",
@@ -140,6 +157,7 @@ impl EventKind {
             Self::SessionExpired => "SESSION_EXPIRED",
             Self::LoginCompleted => "LOGIN_COMPLETED",
             Self::UpdateAvailable => "UPDATE_AVAILABLE",
+            Self::VersionUpdated => "VERSION_UPDATED",
             Self::RewardRedeemed => "REWARD_REDEEMED",
         }
     }
@@ -226,6 +244,8 @@ pub struct EventContext {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub drop_name: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
+    pub set_aside_until: Option<DateTime<Utc>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub watch_reason: Option<PointsReason>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub reward: Option<String>,
@@ -259,6 +279,8 @@ pub struct EventContext {
     pub staked: Option<i64>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub version: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub previous_version: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub reward_title: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]

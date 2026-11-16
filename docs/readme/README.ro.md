@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Minează Twitch Drops și puncte de canal pe mai multe conturi, fără browser și fără vreo filă Twitch deschisă.</strong>
+  <strong>Minează Twitch Drops, insigne și puncte de canal, fără browser și fără vreo filă Twitch deschisă.</strong>
 </p>
 
 <p align="center">
@@ -145,7 +145,7 @@ la lucru.
 ### Drops
 
 - **Toate campaniile Drops în desfășurare.** Fiecare campanie are fișa ei: recompense,
-  conectarea contului de joc, „Minează cu prioritate”. Lista vine de la proiectul
+  conectarea contului de editor, „Minează cu prioritate”. Lista vine de la proiectul
   [Twitch Drops API](https://drops.sunkwi.com) și se reîmprospătează la fiecare 10 minute.
 
   <details open><summary>Vezi în acțiune</summary>
@@ -153,19 +153,19 @@ la lucru.
   </details>
 
 - **Ordinea ta de minare.** Trage campaniile în ordinea dorită. Cele noi își găsesc singure
-  locul: întâi jocurile tale prioritare, apoi cele care se termină mai devreme sau cărora
-  le-au rămas cele mai puține minute. Exclude jocuri, cuvinte, o campanie sau o singură
+  locul: întâi categoriile tale prioritare, apoi cele care se termină mai devreme sau cărora
+  le-au rămas cele mai puține minute. Exclude categorii, cuvinte, o campanie sau o singură
   recompensă și sari peste campaniile care nu se pot termina la timp. „Minează cu
   prioritate”, în fișa unei campanii, o pune pe primul loc.
 
   <details open><summary>Vezi în acțiune</summary>
-  <img src="../media/ro/drops-order.avif" alt="Ordinea de minare, jocurile prioritare și excluderile">
+  <img src="../media/ro/drops-order.avif" alt="Ordinea de minare, categoriile prioritare și excluderile">
   </details>
 
 - **Inventar și „Revendică tot”.** Pagina Inventar împarte recompensele în „De revendicat”,
   „În desfășurare” și „Revendicate”. Revendică-le pe rând, pe toate odată sau activează
   „Revendică drops automat”.
-  După „Conectează contul de joc”, contul este citit din nou imediat ce revii în
+  După „Conectează contul de editor”, contul este citit din nou imediat ce revii în
   aplicație, așa că legătura apare pe loc.
 
   <details open><summary>Vezi în acțiune</summary>
@@ -189,7 +189,7 @@ la lucru.
   categoriile campaniei contează. Un cufăr dă „1 insignă la întâmplare din N”. O insignă
   care cere un abonament este minată după ce te-ai abonat tu însuți și Twitch îl
   numără. Nimic nu este minat înainte de începutul campaniei. În „Ce să se mineze, în
-  ordine”, trage jocurile prioritare, insignele și celelalte campanii Drops în ordinea
+  ordine”, trage categoriile prioritare, insignele și celelalte campanii Drops în ordinea
   dorită sau dezactivează una dintre ele. O misiune Twitch este minată doar pe un canal
   unde Twitch o oferă în panoul său Drops. O evoluție (Pichu → Pikachu) este minată imediat
   ce contul are insigna din care evoluează: minerul își pune singur acea insignă chiar
@@ -326,7 +326,7 @@ log.\
 ⁷ Doar text, fără imagini. Are și Matrix, Pushover și Gotify, pe care acest proiect nu le
 are.\
 ⁸ O listă de campanii cu filtre, fără calendar și fără căutare.\
-⁹ Are jocuri prioritare și jocuri excluse, alese după numele jocului.\
+⁹ Are categorii prioritare și categorii excluse, alese după numele categoriei.\
 ¹⁰ Implicit, urmărește întâi streamerii din lista lui al căror stream are Drops
 (prioritatea lui `DROPS`), dar niciodată alt canal.\
 ¹¹ Nemăsurat.\
@@ -423,7 +423,15 @@ pentru prima campanie din coada sa, apoi streamerii din lista sa de puncte.
 
 Twitch creditează simultan, per cont, **o singură campanie Drops** și **două canale pentru
 puncte**. Din octombrie 2026, un drop poate fi revendicat doar dacă este conectat contul de
-joc. Campaniile neconectate progresează oricum, iar panoul afișează linkul de conectare.
+editor. Campaniile neconectate progresează oricum, iar panoul afișează linkul de conectare.
+
+Dacă progresul Twitch pe campania de top nu avansează după 30 de minute de vizionare
+reală, înseamnă că nu o creditează: contul o pune deoparte, campania următoare în clasament
+preia locul, iar o nouă încercare are loc automat 6 ore mai târziu — mai devreme, dacă
+progresul reapare înainte, deși campania reîncercată poate încă aștepta după cea care este
+minată în prezent. Orice progres resetează așteptarea, iar asta se aplică fiecărui tip de
+campanie (Drops, insigne, misiuni). Dacă Twitch creditează în schimb o altă campanie din aceeași categorie, iar aceasta se încheie sau este revendicată, amânarea este ridicată imediat, în loc să aștepte cele 6 ore complete. Repornirea aplicației sau a serverului uită toate
+campaniile puse deoparte: o campanie blocată primește pur și simplu încă 30 de minute noi.
 
 Lista campaniilor vine de la proiectul [Twitch Drops API](https://drops.sunkwi.com)
 (reîmprospătată la fiecare 10 minute), pentru că Twitch o ascunde de clientul TV.
@@ -453,7 +461,9 @@ iar celălalt streamerii tăi. Setarea „Un canal”, din **Setări cont**, e m
 
 **O campanie nu este minată sau un drop nu avansează.**\
 Deschide pagina **Drops** a contului. În „Ordinea de minare”, fiecare campanie în așteptare
-spune de ce: „Niciun canal live” sau „În așteptare (o campanie pe rând)”. O campanie care
+spune de ce: „Niciun canal live” sau „În așteptare (o campanie pe rând)”. „Twitch nu o contorizează — reîncercare …” înseamnă că 30 de minute de vizionare reală nu au adus niciun
+progres din partea Twitch: campania este pusă deoparte și reîncercată automat după timpul
+afișat, sau mai devreme, dacă progresul reapare înainte. O campanie care
 nu apare în acea listă a fost lăsată deoparte: de „Ce să se mineze, în ordine”, de
 setarea „Ce campanii”, de o regulă din fila **Excluderi** sau pentru că nu se poate
 termina la timp. O recompensă care cere un abonament așteaptă să te abonezi tu însuți, o
@@ -463,12 +473,12 @@ termine. În modul **Doar puncte**, minerul nu alege nicio campanie. „Minează
 prioritate”, în fișa unei campanii, o pune pe primul loc; o campanie ignorată poate
 reveni cu „Minează din nou”, din fila **Excluderi**.
 
-**Trebuie să conectez contul de joc?**\
+**Trebuie să conectez contul de editor?**\
 Pentru revendicare, da: din octombrie 2026, Twitch permite revendicarea unui drop doar
-dacă contul de joc este conectat. Implicit, o campanie neconectată progresează oricum, iar
+dacă contul de editor este conectat. Implicit, o campanie neconectată progresează oricum, iar
 revendicarea așteaptă conectarea. Insigna „Neconectat” semnalează asta, iar „Conectează
-contul de joc”, din fișa campaniei, deschide pagina de conectare. Ca să minezi doar
-jocurile conectate, alege „Doar jocurile cu contul conectat”.
+contul de editor”, din fișa campaniei, deschide pagina de conectare. Ca să minezi doar
+categoriile conectate, alege „Doar categoriile al căror cont de editor este conectat”.
 
 ### Instalare și date
 

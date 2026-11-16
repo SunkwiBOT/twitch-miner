@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Birden fazla hesapta, tarayıcı ve açık bir Twitch sekmesi olmadan Twitch Drops ve kanal puanları kazar.</strong>
+  <strong>Twitch Drops, rozet ve kanal puanlarını, tarayıcı ve açık bir Twitch sekmesi olmadan kazar.</strong>
 </p>
 
 <p align="center">
@@ -122,19 +122,19 @@ Onu diğer madencilerden ayıran şeyler. Bir maddenin altındaki “Çalışır
 
 ### Drops
 
-- **Süren tüm Drops kampanyaları.** Her kampanyanın kendi ayrıntıları vardır: ödüller, oyun hesabı bağlama, “Önce kaz”. Liste [Twitch Drops API](https://drops.sunkwi.com) projesinden gelir ve 10 dakikada bir yenilenir.
+- **Süren tüm Drops kampanyaları.** Her kampanyanın kendi ayrıntıları vardır: ödüller, yayıncı hesabı bağlama, “Önce kaz”. Liste [Twitch Drops API](https://drops.sunkwi.com) projesinden gelir ve 10 dakikada bir yenilenir.
 
   <details open><summary>Çalışırken görün</summary>
   <img src="../media/tr/drops-catalogue.avif" alt="Takvim görünümündeki Katalog, arama ve bir kampanyanın ayrıntıları">
   </details>
 
-- **Kendi kazma sıranız.** Kampanyaları istediğiniz sıraya sürükleyin. Yeni kampanyalar yerlerini kendileri bulur: önce öncelikli oyunlarınız, ardından en erken bitenler ya da en az dakikası kalanlar. Oyunları, kelimeleri, bir kampanyayı veya tek bir ödülü hariç tutun ve zamanında bitemeyecek kampanyaları atlayın. Bir kampanyanın ayrıntılarındaki “Önce kaz”, onu en başa taşır.
+- **Kendi kazma sıranız.** Kampanyaları istediğiniz sıraya sürükleyin. Yeni kampanyalar yerlerini kendileri bulur: önce öncelikli kategorileriniz, ardından en erken bitenler ya da en az dakikası kalanlar. Kategorileri, kelimeleri, bir kampanyayı veya tek bir ödülü hariç tutun ve zamanında bitemeyecek kampanyaları atlayın. Bir kampanyanın ayrıntılarındaki “Önce kaz”, onu en başa taşır.
 
   <details open><summary>Çalışırken görün</summary>
-  <img src="../media/tr/drops-order.avif" alt="Kazma sırası, öncelikli oyunlar ve hariç tutmalar">
+  <img src="../media/tr/drops-order.avif" alt="Kazma sırası, öncelikli kategoriler ve hariç tutmalar">
   </details>
 
-- **Envanter ve “Tümünü al”.** Envanter sayfası ödülleri “Alınacaklar”, “Devam edenler” ve “Alınanlar” olarak ayırır. Ödülleri tek tek ya da hepsini birden alın veya “Drops'u otomatik al” seçeneğini açın. “Oyun hesabını bağla”dan sonra uygulamaya döner dönmez hesap yeniden okunur, böylece bağlantı hemen görünür.
+- **Envanter ve “Tümünü al”.** Envanter sayfası ödülleri “Alınacaklar”, “Devam edenler” ve “Alınanlar” olarak ayırır. Ödülleri tek tek ya da hepsini birden alın veya “Drops'u otomatik al” seçeneğini açın. “Yayıncı hesabını bağla”dan sonra uygulamaya döner dönmez hesap yeniden okunur, böylece bağlantı hemen görünür.
 
   <details open><summary>Çalışırken görün</summary>
   <img src="../media/tr/drops-inventory.avif" alt="Envanter ve “Tümünü al” düğmesi">
@@ -146,7 +146,7 @@ Onu diğer madencilerden ayıran şeyler. Bir maddenin altındaki “Çalışır
   <img src="../media/tr/drops-streamers-first.avif" alt="Listeden bir yayıncı, hem Drops hem de puanları için izleniyor">
   </details>
 
-- **Rozetler (beta).** Rozetler sayfası, Twitch'in tüm genel sohbet rozetlerini ve nasıl alınacaklarını listeler. Her hesabın kendi Rozetler sayfası vardır: ilerlemeleriyle birlikte devam eden rozetler, hâlâ alınabilecekler ve hesabın sahip olduğu rozetler. Madenci, Drops kampanyalarının ve Twitch görevlerinin rozetlerinin peşine düşer ve hesabın zaten sahip olduğu rozetleri atlar. Her gün izlenmesi gereken bir rozet, sonuncusuna kadar her gün yeniden kazılır (“Günde 20 dk., 3 gün”) ve kampanyanın kategorilerinden herhangi birindeki bir kanal sayılır. Bir sandık “N rozetten rastgele 1 tanesi” verir. Abonelik gerektiren bir rozet, aboneliği kendiniz yaptıktan ve Twitch onu saydıktan sonra kazılır. Kampanyası başlamadan hiçbir şey kazılmaz. “Ne kazılacak, sırayla” bölümünde öncelikli oyunları, rozetleri ve diğer Drops kampanyalarını istediğiniz sıraya sürükleyin ya da birini kapatın. Bir Twitch görevi yalnızca Twitch'in onu Drops panelinde sunduğu bir kanalda kazılır. Bir evrim (Pichu → Pikachu), hesap evrimleştiği rozete sahip olur olmaz kazılır: madenci o rozeti hemen önce kendisi takar ve eskisini geri takmaz; hesabın rozet ayarlarındaki “Rozet evrimlerini kaz” bunu kapatır. Bir rozete tıklamak ayrıntılarını açar: tüm gereksinim, bütün kategoriler ve kanallar, koleksiyon, evrim ve her hesabın ilerlemesi. Bu özellik beta aşamasındadır.
+- **Rozetler (beta).** Rozetler sayfası, Twitch'in tüm genel sohbet rozetlerini ve nasıl alınacaklarını listeler. Her hesabın kendi Rozetler sayfası vardır: ilerlemeleriyle birlikte devam eden rozetler, hâlâ alınabilecekler ve hesabın sahip olduğu rozetler. Madenci, Drops kampanyalarının ve Twitch görevlerinin rozetlerinin peşine düşer ve hesabın zaten sahip olduğu rozetleri atlar. Her gün izlenmesi gereken bir rozet, sonuncusuna kadar her gün yeniden kazılır (“Günde 20 dk., 3 gün”) ve kampanyanın kategorilerinden herhangi birindeki bir kanal sayılır. Bir sandık “N rozetten rastgele 1 tanesi” verir. Abonelik gerektiren bir rozet, aboneliği kendiniz yaptıktan ve Twitch onu saydıktan sonra kazılır. Kampanyası başlamadan hiçbir şey kazılmaz. “Ne kazılacak, sırayla” bölümünde öncelikli kategorileri, rozetleri ve diğer Drops kampanyalarını istediğiniz sıraya sürükleyin ya da birini kapatın. Bir Twitch görevi yalnızca Twitch'in onu Drops panelinde sunduğu bir kanalda kazılır. Bir evrim (Pichu → Pikachu), hesap evrimleştiği rozete sahip olur olmaz kazılır: madenci o rozeti hemen önce kendisi takar ve eskisini geri takmaz; hesabın rozet ayarlarındaki “Rozet evrimlerini kaz” bunu kapatır. Bir rozete tıklamak ayrıntılarını açar: tüm gereksinim, bütün kategoriler ve kanallar, koleksiyon, evrim ve her hesabın ilerlemesi. Bu özellik beta aşamasındadır.
 
   <details open><summary>Çalışırken görün</summary>
   <img src="../media/tr/badges.avif" alt="Rozetler sayfası, bir hesabın rozetleri, ardından Rozetler'in en başa sürüklendiği “Ne kazılacak, sırayla”">
@@ -240,7 +240,7 @@ Onu diğer madencilerden ayıran şeyler. Bir maddenin altındaki “Çalışır
 ⁶ Hesabın takip ettiği kanalları takip edebilir.\
 ⁷ Yalnızca metin, resim yok. Ayrıca Matrix, Pushover ve Gotify desteği var; bunlar bu projede yok.\
 ⁸ Filtreli bir kampanya listesi; takvim veya arama yok.\
-⁹ Oyun adına göre seçilen öncelikli oyunları ve hariç tutulan oyunları vardır.\
+⁹ Kategori adına göre seçilen öncelikli kategorileri ve hariç tutulan kategorileri vardır.\
 ¹⁰ Varsayılan olarak önce listesindeki yayıncılardan yayınında Drops olanları izler (`DROPS` önceliği), ama hiçbir zaman başka bir kanalı izlemez.\
 ¹¹ Ölçülmedi.\
 ¹² Ödülleri rozet veya ifade olan Drops kampanyalarını kazmak ya da dışarıda bırakmak için bir ayar; Twitch görevleri ve rozet listesi yok.
@@ -316,7 +316,9 @@ Bir ters proxy arkasında `MINER_PUBLIC_URL` değişkenini ayarlayın: o olmadan
 
 Her hesap 20 saniyede bir iki kanalını seçer: kuyruğunun başındaki kampanya için en iyi canlı kanal, ardından puan listesindeki yayıncılar.
 
-Twitch, hesap başına aynı anda **bir Drops kampanyası** ve **puanlar için iki kanal** sayar. Ekim 2026'dan beri bir drop yalnızca oyun hesabı bağlıysa alınabilir. Bağlı olmayan kampanyalar yine de ilerler ve panel bağlantıyı gösterir.
+Twitch, hesap başına aynı anda **bir Drops kampanyası** ve **puanlar için iki kanal** sayar. Ekim 2026'dan beri bir drop yalnızca yayıncı hesabı bağlıysa alınabilir. Bağlı olmayan kampanyalar yine de ilerler ve panel bağlantıyı gösterir.
+
+Twitch, 30 dakika gerçek izleme sonrasında en üstteki kampanyanın kendi ilerlemesini hiç hareket ettirmediyse, o kampanyayı saymıyor demektir: hesap onu bir kenara bırakır, sıradaki kampanya onun yerini alır ve 6 saat sonra otomatik olarak yeniden denenir — ilerleme daha önce geri dönerse daha erken, ancak yeniden denenen kampanya yine de o sırada kazılan kampanyanın arkasında bekleyebilir. Herhangi bir ilerleme bu bekleme süresini sıfırlar ve bu, her kampanya türü için geçerlidir (Drops, rozetler, görevler). Twitch bunun yerine aynı kategorideki başka bir kampanyayı sayarsa ve o kampanya tamamlanır veya alınırsa, bir kenara bırakma tam 6 saat beklemek yerine hemen kaldırılır. Uygulamayı veya sunucuyu yeniden başlatmak her bir kenara bırakmayı unutturur: takılı kalan bir kampanya basitçe yeni bir 30 dakika alır.
 
 Kampanya listesi [Twitch Drops API](https://drops.sunkwi.com) projesinden gelir (10 dakikada bir yenilenir), çünkü Twitch onu TV istemcisinden gizler.
 
@@ -336,10 +338,10 @@ Twitch'in sınırı bu: hesap başına yalnızca aynı anda izlenen iki kanalı 
 ### Drops
 
 **Bir kampanya kazılmıyor veya bir drop ilerlemiyor.**\
-Hesabın **Drops** sayfasını açın. “Kazma sırası” bölümünde bekleyen her kampanya nedenini söyler: “Canlı kanal yok” veya “Bekliyor (tek seferde bir kampanya)”. Bu listede görünmeyen bir kampanya dışarıda bırakılmıştır: “Ne kazılacak, sırayla”, “Hangi kampanyalar” ayarı ya da **Hariç tutmalar** sekmesindeki bir kural yüzünden veya zamanında bitemeyeceği için. Abonelik gerektiren bir ödül, aboneliği kendiniz yapana kadar bekler; her gün izlenmesi gereken bir rozet ertesi günü bekler; kampanyası başlamadan hiçbir şey kazılmaz ve başka bir drop'un ardından gelen bir drop, ilki bitene kadar bekler. **Yalnızca puan** modunda madenci hiçbir kampanya seçmez. Bir kampanyanın ayrıntılarındaki “Önce kaz” onu en başa taşır; yok sayılan bir kampanya, **Hariç tutmalar** sekmesindeki “Yeniden kaz” ile geri gelebilir.
+Hesabın **Drops** sayfasını açın. “Kazma sırası” bölümünde bekleyen her kampanya nedenini söyler: “Canlı kanal yok” veya “Bekliyor (tek seferde bir kampanya)”. “Twitch bunu saymıyor — … tekrar denenecek” ifadesi, 30 dakikalık gerçek izlemenin Twitch tarafında hiçbir ilerleme getirmediği anlamına gelir: kampanya bir kenara bırakılır ve gösterilen sürede, ya da ilerleme daha önce geri dönerse daha erken, otomatik olarak yeniden denenir. Bu listede görünmeyen bir kampanya dışarıda bırakılmıştır: “Ne kazılacak, sırayla”, “Hangi kampanyalar” ayarı ya da **Hariç tutmalar** sekmesindeki bir kural yüzünden veya zamanında bitemeyeceği için. Abonelik gerektiren bir ödül, aboneliği kendiniz yapana kadar bekler; her gün izlenmesi gereken bir rozet ertesi günü bekler; kampanyası başlamadan hiçbir şey kazılmaz ve başka bir drop'un ardından gelen bir drop, ilki bitene kadar bekler. **Yalnızca puan** modunda madenci hiçbir kampanya seçmez. Bir kampanyanın ayrıntılarındaki “Önce kaz” onu en başa taşır; yok sayılan bir kampanya, **Hariç tutmalar** sekmesindeki “Yeniden kaz” ile geri gelebilir.
 
-**Oyun hesabını bağlamam gerekiyor mu?**\
-Ödülü almak için evet: Ekim 2026'dan beri Twitch, bir drop yalnızca oyun hesabı bağlıysa alınmasına izin veriyor. Varsayılan olarak bağlı olmayan bir kampanya yine de ilerler ve alma işlemi bağlantıyı bekler. “Bağlı değil” rozeti bunu belirtir; kampanyanın ayrıntılarındaki “Oyun hesabını bağla” da bağlama sayfasını açar. Yalnızca bağlı oyunları kazmak için “Yalnızca hesabı bağlı oyunlar” seçeneğini seçin.
+**Yayıncı hesabını bağlamam gerekiyor mu?**\
+Ödülü almak için evet: Ekim 2026'dan beri Twitch, bir drop yalnızca yayıncı hesabı bağlıysa alınmasına izin veriyor. Varsayılan olarak bağlı olmayan bir kampanya yine de ilerler ve alma işlemi bağlantıyı bekler. “Bağlı değil” rozeti bunu belirtir; kampanyanın ayrıntılarındaki “Yayıncı hesabını bağla” da bağlama sayfasını açar. Yalnızca bağlı kategorileri kazmak için “Yalnızca yayıncı hesabı bağlı kategoriler” seçeneğini seçin.
 
 ### Kurulum ve veriler
 

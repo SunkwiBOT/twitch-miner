@@ -223,6 +223,7 @@ pub fn parse_campaign(record: &Value, from_inventory: bool) -> Option<Campaign> 
         linked: account["isAccountConnected"].as_bool(),
         link_url: text(&record["accountLinkURL"]),
         image_url: text(&record["imageURL"]),
+        web_url: crate::drops_api::valid_web_url(text(&record["webUrl"])),
         starts_at: parse_time(&record["startAt"])?,
         ends_at: parse_time(&record["endAt"])?,
         allowed_channels,

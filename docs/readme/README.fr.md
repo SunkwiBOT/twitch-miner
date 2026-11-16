@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Mine les Drops Twitch et les points de chaîne sur plusieurs comptes, sans navigateur ni onglet Twitch ouvert.</strong>
+  <strong>Mine les Drops, badges et points de chaîne Twitch, sans navigateur ni onglet Twitch ouvert.</strong>
 </p>
 
 <p align="center">
@@ -145,8 +145,8 @@ Ce qui le distingue des autres mineurs. « Voir en image » montre chaque poin
 
 ### Drops
 
-- **Toutes les campagnes Drops en cours.** Chaque campagne a sa fiche : récompenses,
-  liaison du compte de jeu, « Miner en priorité ». La liste vient du projet
+- **Toutes les campagnes Drops en cours.** Chaque campagne a sa fiche : récompenses,
+  liaison du compte de l'éditeur, « Miner en priorité ». La liste vient du projet
   [Twitch Drops API](https://drops.sunkwi.com) et se rafraîchit toutes les 10 minutes.
 
   <details open><summary>Voir en image</summary>
@@ -154,19 +154,19 @@ Ce qui le distingue des autres mineurs. « Voir en image » montre chaque poin
   </details>
 
 - **Votre ordre de minage.** Glissez les campagnes dans l'ordre voulu. Les nouvelles se
-  placent seules : vos jeux prioritaires d'abord, puis la fin la plus proche ou le moins de
-  minutes restantes. Excluez des jeux, des mots, une campagne ou une seule récompense, et
-  passez les campagnes qui ne peuvent pas finir à temps. « Miner en priorité », dans la
+  placent seules : vos catégories prioritaires d'abord, puis la fin la plus proche ou le moins de
+  minutes restantes. Excluez des catégories, des mots, une campagne ou une seule récompense, et
+  passez les campagnes qui ne peuvent pas finir à temps. « Miner en priorité », dans la
   fiche d'une campagne, la met en tête.
 
   <details open><summary>Voir en image</summary>
-  <img src="../media/fr/drops-order.avif" alt="L'ordre de minage, les jeux prioritaires et les exclusions">
+  <img src="../media/fr/drops-order.avif" alt="L'ordre de minage, les catégories prioritaires et les exclusions">
   </details>
 
 - **Inventaire et « Tout réclamer ».** La page Inventaire range les récompenses en
   « À réclamer », « En cours » et « Réclamés ». Réclamez-les une par une, toutes d'un coup,
   ou activez « Réclamer les drops automatiquement ».
-  Après « Lier le compte de jeu », le compte est relu dès votre retour dans l'application :
+  Après « Lier le compte de l'éditeur », le compte est relu dès votre retour dans l'application :
   la liaison apparaît tout de suite.
 
   <details open><summary>Voir en image</summary>
@@ -190,7 +190,7 @@ Ce qui le distingue des autres mineurs. « Voir en image » montre chaque poin
   par jour, 3 jours »), et une chaîne de n'importe laquelle des catégories de la campagne
   compte. Un coffre donne « 1 badge au hasard parmi N ». Un badge qui demande un abonnement
   est miné une fois que vous vous êtes abonné vous-même et que Twitch le compte. Rien n'est
-  miné avant le début de sa campagne. Dans « Quoi miner, dans l'ordre », glissez les jeux
+  miné avant le début de sa campagne. Dans « Quoi miner, dans l'ordre », glissez les catégories
   prioritaires, les badges et les autres campagnes Drops dans l'ordre voulu, ou
   désactivez-en un. Une quête Twitch n'est minée que sur une chaîne où Twitch la propose
   dans son panneau Drops. Une évolution (Pichu → Pikachu) est minée dès que le compte
@@ -329,7 +329,7 @@ fichier de logs.\
 ⁶ Il peut suivre les chaînes que le compte suit.\
 ⁷ Du texte seul, sans images. Il a aussi Matrix, Pushover et Gotify, que ce projet n'a pas.\
 ⁸ Une liste des campagnes avec des filtres, sans calendrier ni recherche.\
-⁹ Il a des jeux prioritaires et des jeux exclus, choisis par nom de jeu.\
+⁹ Il a des catégories prioritaires et des catégories exclues, choisies par nom de catégorie.\
 ¹⁰ Par défaut, il regarde d'abord les streamers de sa liste dont le stream porte des Drops
 (sa priorité `DROPS`), mais jamais une autre chaîne.\
 ¹¹ Non mesuré.\
@@ -427,8 +427,19 @@ Toutes les 20 secondes, chaque compte choisit ses deux chaînes : la meilleure 
 direct pour la première campagne de sa file, puis les streamers de sa liste de points.
 
 Twitch crédite **une campagne de Drops** et **deux chaînes pour les points** à la fois par
-compte. Depuis octobre 2026, un drop ne peut être réclamé que si le compte du jeu est lié.
+compte. Depuis octobre 2026, un drop ne peut être réclamé que si le compte de l'éditeur est lié.
 Les campagnes non liées progressent quand même, et le tableau de bord affiche le lien.
+
+Si Twitch ne fait pas progresser la première campagne après 30 minutes de visionnage réel,
+il ne la compte pas : le compte la met de côté, la campagne suivante prend le créneau, et
+un nouvel essai a lieu automatiquement 6 heures plus tard — plus tôt si une progression
+réapparaît avant, même si la campagne réessayée peut encore attendre derrière celle en
+cours de minage. Toute progression remet ce délai à zéro, et cela s'applique à chaque type
+de campagne (Drops, badges, quêtes). Si Twitch crédite une autre campagne de la même
+catégorie à sa place et qu'elle se termine ou est réclamée, la mise de côté est levée
+immédiatement au lieu d'attendre les 6 heures complètes. Redémarrer l'application ou le
+serveur oublie toute
+mise de côté : une campagne bloquée repart simplement avec 30 minutes neuves.
 
 La liste des campagnes vient du projet [Twitch Drops API](https://drops.sunkwi.com)
 (actualisée toutes les 10 minutes), parce que Twitch la cache au client TV.
@@ -458,23 +469,27 @@ compte**, est plus discret.
 ### Drops
 
 **Une campagne n'est pas minée, ou un drop ne progresse pas.**\
-Ouvrez la page **Drops** du compte. Dans « Ordre de minage », chaque campagne en attente dit
-pourquoi : « Aucune chaîne en direct » ou « En attente (une campagne à la fois) ». Une
-campagne qui n'apparaît pas dans cette liste a été écartée : par « Quoi miner, dans
-l'ordre », par le réglage « Quelles campagnes », par une règle de l'onglet **Exclusions**,
-ou parce qu'elle ne peut pas finir à temps. Une récompense qui demande un abonnement
-attend que vous vous soyez abonné vous-même, un badge à regarder chaque jour attend le jour
-suivant, rien n'est miné avant le début de sa campagne, et un drop qui en suit un autre
-attend que le premier soit fini. En mode **Points uniquement**, le mineur ne choisit
-aucune campagne. « Miner en priorité », dans la fiche d'une campagne, la met en tête ; une
-campagne ignorée peut revenir avec « Miner à nouveau », dans l'onglet **Exclusions**.
+Ouvrez la page **Drops** du compte. Dans « Ordre de minage », chaque campagne en attente dit
+pourquoi : « Aucune chaîne en direct » ou « En attente (une campagne à la fois) ». « Twitch
+ne compte pas — nouvel essai dans … » signifie que 30 minutes de visionnage réel n'ont
+apporté aucune progression côté Twitch : la campagne est mise de côté et réessayée
+automatiquement, ou plus tôt si une progression réapparaît avant. Une campagne qui
+n'apparaît pas dans cette liste a été écartée :
+par « Quoi miner, dans l'ordre », par le réglage « Quelles campagnes », par une règle de
+l'onglet **Exclusions**, ou parce qu'elle ne peut pas finir à temps. Une récompense qui
+demande un abonnement attend que vous vous soyez abonné vous-même, un badge à regarder
+chaque jour attend le jour suivant, rien n'est miné avant le début de sa campagne, et un
+drop qui en suit un autre attend que le premier soit fini. En mode **Points uniquement**,
+le mineur ne choisit aucune campagne. « Miner en priorité », dans la fiche d'une campagne,
+la met en tête ; une campagne ignorée peut revenir avec « Miner à nouveau », dans l'onglet
+**Exclusions**.
 
-**Faut-il lier le compte du jeu ?**\
-Pour réclamer, oui : depuis octobre 2026, Twitch ne laisse réclamer un drop que si le
-compte du jeu est lié. Par défaut, une campagne non liée progresse quand même et la
-réclamation attend la liaison. Le badge « Non lié » le signale, et « Lier le compte de
-jeu », dans la fiche de la campagne, ouvre la page de liaison. Pour ne miner que les jeux
-liés, choisissez « Uniquement les jeux dont le compte est lié ».
+**Faut-il lier le compte de l'éditeur ?**\
+Pour réclamer, oui : depuis octobre 2026, Twitch ne laisse réclamer un drop que si le
+compte de l'éditeur est lié. Par défaut, une campagne non liée progresse quand même et la
+réclamation attend la liaison. Le badge « Non lié » le signale, et « Lier le compte de
+l'éditeur », dans la fiche de la campagne, ouvre la page de liaison. Pour ne miner que les
+catégories liées, choisissez « Uniquement les catégories dont le compte de l'éditeur est lié ».
 
 ### Installation et données
 

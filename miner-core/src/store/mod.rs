@@ -186,6 +186,7 @@ impl Store {
         };
 
         store.verify()?;
+        store.clear_stale_miner_field()?;
 
         Ok(store)
     }

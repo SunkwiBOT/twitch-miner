@@ -4,6 +4,7 @@ import { BenefitKind } from "../bindings/BenefitKind";
 import type { CampaignType } from "../bindings/CampaignType";
 import type { EvolutionType } from "../bindings/EvolutionType";
 import type { GlobalBadgeType } from "../bindings/GlobalBadgeType";
+import { QueueBlock } from "../bindings/QueueBlock";
 import type { QuestGroupType } from "../bindings/QuestGroupType";
 import { QuestStatus } from "../bindings/QuestStatus";
 import type { QuestType } from "../bindings/QuestType";
@@ -65,6 +66,7 @@ const watchedProgress = (
 ): BadgeProgressType => {
   const totals = periodTotals(item.periods);
   const drops = account.settings.drops;
+  const queued = account.queue.find((q) => q.campaign_id === campaignId);
   const entry = {
     account,
     current: totals.current,
@@ -72,6 +74,7 @@ const watchedProgress = (
     minable: false,
     done: item.periods.done,
     repeat: item.periods.repeat,
+    setAsideUntil: queued?.set_aside_until ?? null,
   };
 
   if (item.claimable) {
@@ -101,6 +104,10 @@ const watchedProgress = (
       return ProgressState.NOT_MINABLE;
     }
 
+    if (queued?.blocked === QueueBlock.SET_ASIDE) {
+      return ProgressState.SET_ASIDE;
+    }
+
     if (
       account.slots.some(
         (slot) => slot.drop?.campaign_id === campaignId && slot.drop.drop_id === item.id,
@@ -120,7 +127,15 @@ export const badgeProgress = (
   badge: GlobalBadgeType,
 ): BadgeProgressType => {
   const key = badgeKey(badge.set_id, badge.version_id);
-  const none = { account, current: 0, required: 0, minable: false, done: 0, repeat: undefined };
+  const none = {
+    account,
+    current: 0,
+    required: 0,
+    minable: false,
+    done: 0,
+    repeat: undefined,
+    setAsideUntil: null,
+  };
 
   if (account.owned_badges.some((owned) => badgeKey(owned.set_id, owned.version) === key)) {
     return { ...none, state: ProgressState.OWNED };

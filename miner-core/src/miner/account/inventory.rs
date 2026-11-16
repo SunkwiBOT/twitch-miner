@@ -19,6 +19,7 @@ pub(super) struct Merged {
 impl<T: TwitchApi> AccountMiner<T> {
     pub(super) async fn refresh_inventory(&mut self) -> Result<()> {
         let inventory = self.client.inventory().await?;
+        let mut quests_read = true;
 
         match self.client.quests().await {
             Ok(mut read) => {
@@ -44,6 +45,8 @@ impl<T: TwitchApi> AccountMiner<T> {
             }
             Err(Error::Unauthorized) => return Err(Error::Unauthorized),
             Err(error) => {
+                quests_read = false;
+
                 tracing::debug!(account = %self.login, %error, "quests and badges not read")
             }
         }
@@ -71,7 +74,41 @@ impl<T: TwitchApi> AccountMiner<T> {
         self.claims.periods = merged.claimed_periods;
         self.claims
             .settle_quest_windows(&self.quests, &mut campaigns);
+
+        let now = Utc::now();
+        let excluded = &self.settings.drops.exclude_drop_ids;
+        // ! A real category id only: quests carry an empty `game.id` and
+        // never count as siblings of one another.
+        let lifted_categories: HashSet<String> = campaigns
+            .values()
+            .filter(|campaign| !campaign.game.id.is_empty())
+            .filter(|campaign| campaign.finished(now, excluded))
+            .filter(|campaign| {
+                self.campaigns
+                    .get(&campaign.id)
+                    .is_none_or(|previous| !previous.finished(now, excluded))
+            })
+            .map(|campaign| campaign.game.id.clone())
+            .collect();
+
         self.campaigns = campaigns;
+
+        let stale_quests: HashSet<String> = if quests_read {
+            HashSet::new()
+        } else {
+            self.quests.iter().map(|quest| quest.id.clone()).collect()
+        };
+
+        for (campaign_id, drop_id, retry_at) in setaside::observe_all(
+            &mut self.set_aside,
+            &self.campaigns,
+            excluded,
+            &stale_quests,
+            &lifted_categories,
+            now,
+        ) {
+            self.set_aside_campaign(&campaign_id, &drop_id, retry_at);
+        }
 
         Ok(())
     }

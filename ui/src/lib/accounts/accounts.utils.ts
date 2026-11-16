@@ -2,8 +2,10 @@ import { AccountStatus } from "../bindings/AccountStatus";
 import { Mode } from "../bindings/Mode";
 import { PointsReason } from "../bindings/PointsReason";
 import { QueueBlock } from "../bindings/QueueBlock";
+import type { QueueItemType } from "../bindings/QueueItemType";
 import { QueueReason } from "../bindings/QueueReason";
 import { BadgeTone } from "../tones.constants";
+import { relativeTime } from "../time/time.utils";
 import { IconName } from "../icons.constants";
 import { t } from "../i18n/i18n.svelte";
 import { PROXY_CREDENTIALS_MASK } from "./accounts.constants";
@@ -105,15 +107,27 @@ export const QUEUE_REASON_HINTS: Record<QueueReason, () => string> = {
   [QueueReason.LOWEST_REMAINING]: () => t.badge_hint_reason_lowest_remaining(),
 };
 
-export const QUEUE_BLOCK_LABELS: Record<QueueBlock, () => string> = {
+export const setAsideLabel = (until: string | null | undefined, now: number): string =>
+  until ? t.dashboard_queue_blocked_set_aside({ time: relativeTime(until, now) }) : "";
+
+const QUEUE_BLOCK_LABELS: Record<QueueBlock, (item: QueueItemType, now: number) => string> = {
   [QueueBlock.NO_LIVE_CHANNEL]: () => t.dashboard_queue_blocked_no_live_channel(),
   [QueueBlock.ONE_CAMPAIGN_AT_A_TIME]: () => t.dashboard_queue_blocked_one_campaign_at_a_time(),
+  [QueueBlock.SET_ASIDE]: (item, now) => setAsideLabel(item.set_aside_until, now),
 };
 
-export const QUEUE_BLOCK_HINTS: Record<QueueBlock, () => string> = {
+export const queueBlockLabel = (item: QueueItemType, now: number): string =>
+  item.blocked ? QUEUE_BLOCK_LABELS[item.blocked](item, now) : "";
+
+const QUEUE_BLOCK_HINTS: Record<QueueBlock, (item: QueueItemType, now: number) => string> = {
   [QueueBlock.NO_LIVE_CHANNEL]: () => t.badge_hint_blocked_no_live(),
   [QueueBlock.ONE_CAMPAIGN_AT_A_TIME]: () => t.badge_hint_blocked_one_at_a_time(),
+  [QueueBlock.SET_ASIDE]: (item) =>
+    t.queue_hint_blocked_set_aside({ minutes: item.set_aside_stall_minutes ?? 0 }),
 };
+
+export const queueBlockHint = (item: QueueItemType, now: number): string =>
+  item.blocked ? QUEUE_BLOCK_HINTS[item.blocked](item, now) : "";
 
 // ! A field's hint is never hidden like its text: the default proxy shown there keeps its credentials masked.
 export const maskProxyCredentials = (proxy: string): string =>

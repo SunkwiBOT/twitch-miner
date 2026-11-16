@@ -516,6 +516,7 @@ pub struct WebhookSettings {
 pub struct NotificationEvents {
     pub drop_claimed: bool,
     pub drop_progress: bool,
+    pub campaign_set_aside: bool,
     pub bonus_claimed: bool,
     pub prediction_placed: bool,
     pub prediction_result: bool,
@@ -534,6 +535,7 @@ impl Default for NotificationEvents {
         Self {
             drop_claimed: true,
             drop_progress: false,
+            campaign_set_aside: true,
             bonus_claimed: false,
             prediction_placed: true,
             prediction_result: true,
@@ -879,6 +881,7 @@ strict_input!(WebhookSettingsInput => WebhookSettings {
 strict_input!(NotificationEventsInput => NotificationEvents {
     drop_claimed: bool,
     drop_progress: bool,
+    campaign_set_aside: bool,
     bonus_claimed: bool,
     prediction_placed: bool,
     prediction_result: bool,

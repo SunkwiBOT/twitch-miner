@@ -160,24 +160,32 @@
                 class="flex min-w-0 items-center gap-2.5 rounded-lg border p-2"
                 title={badge.title}
               >
-                <ExternalLink
-                  url={badge.url}
-                  text={badge.title}
-                  mark={LinkMark.END}
-                  look={LinkLook.ALWAYS}
-                  size={LinkSize.MD}
-                >
-                  {#snippet lead()}
-                    <Thumb
-                      src={badge.image}
-                      round={false}
-                      contain={true}
-                      size={ThumbSize.MD}
-                      shape={ThumbShape.SQUARE}
-                      fallback={IconName.AWARD}
-                    />
-                  {/snippet}
-                </ExternalLink>
+                {#snippet thumb()}
+                  <Thumb
+                    src={badge.image}
+                    round={false}
+                    contain={true}
+                    size={ThumbSize.MD}
+                    shape={ThumbShape.SQUARE}
+                    fallback={IconName.AWARD}
+                  />
+                {/snippet}
+                {#if badge.url}
+                  <ExternalLink
+                    url={badge.url}
+                    text={badge.title}
+                    mark={LinkMark.END}
+                    look={LinkLook.ALWAYS}
+                    size={LinkSize.MD}
+                  >
+                    {#snippet lead()}
+                      {@render thumb()}
+                    {/snippet}
+                  </ExternalLink>
+                {:else}
+                  {@render thumb()}
+                  <span class="min-w-0 truncate text-sm font-semibold">{badge.title}</span>
+                {/if}
               </li>
             {/each}
           </ul>

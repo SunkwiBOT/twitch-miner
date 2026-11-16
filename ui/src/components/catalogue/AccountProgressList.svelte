@@ -7,6 +7,7 @@
     type AccountProgressType,
   } from "../../lib/catalogue/progress.constants";
   import { t } from "../../lib/i18n/i18n.svelte";
+  import { ticker } from "../../lib/state/ticker.svelte";
   import Avatar from "../ui/Avatar.svelte";
   import Badge from "../ui/Badge.svelte";
   import ProgressLine from "../ui/ProgressLine.svelte";
@@ -41,7 +42,7 @@
               tone={badge.tone}
               dot={entry.state === ProgressState.MINING}
               icon={badge.icon}
-              hint={badge.hint?.()}
+              hint={badge.hint?.(entry, ticker.now)}
             />
             {@render tags?.(entry)}
           </span>

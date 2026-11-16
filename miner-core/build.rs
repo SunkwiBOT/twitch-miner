@@ -5,7 +5,7 @@ use std::{env, fs};
 
 use serde_json::Value;
 
-const PREFIXES: [&str; 3] = ["ev_", "event_kind_", "notify_"];
+const PREFIXES: [&str; 4] = ["ev_", "event_kind_", "notify_", "time_in_"];
 // ! Read by the desktop shell through the core, whose build does not see its sources.
 const SHELL_PREFIX: &str = "tray_";
 

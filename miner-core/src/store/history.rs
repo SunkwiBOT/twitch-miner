@@ -5,6 +5,8 @@ use super::{foreign_data, json_error, AccountIdsParam, Store};
 use crate::error::{Error, Result};
 use crate::events::{EventCategory, EventContext, EventKind, MinerEvent};
 
+const MIGRATED_STALE_MINER_FIELD_KEY: &str = "migrated_stale_miner_field";
+
 // ! Only the conditions a page sets, so SQLite picks an index for them: a
 // condition written `(?1 IS NULL OR ...)` makes it read the table row by row.
 fn page_conditions(account_ids: Option<&AccountIdsParam>, before: bool, table: &str) -> String {
@@ -42,20 +44,23 @@ fn kinds_condition(
         .filter(|kind| filter.kinds.is_none_or(|kinds| kinds.contains(kind)))
         .filter_map(|kind| {
             // ! A Drops event of a badge keeps its miner, `BADGES`, in its
-            // stored context; the other Drops events store none.
+            // stored context; the other Drops events store none. A generic
+            // Info or Error line carries no miner of its own either: its
+            // category comes only from the miner tagged in its context.
             let drops_kind = kind.category(None) == EventCategory::Drops;
+            let tags_miner = kind.follows_miner() || kind.generic();
             let miner = match filter.category {
                 None => "",
-                Some(EventCategory::Drops) if kind.follows_miner() => {
+                Some(EventCategory::Drops) if tags_miner => {
                     " AND json_extract(context, '$.miner') = 'DROPS'"
                 }
-                Some(EventCategory::Badges) if kind.follows_miner() || drops_kind => {
+                Some(EventCategory::Badges) if tags_miner || drops_kind => {
                     " AND json_extract(context, '$.miner') = 'BADGES'"
                 }
-                Some(EventCategory::Points) if kind.follows_miner() => {
+                Some(EventCategory::Points) if tags_miner => {
                     " AND json_extract(context, '$.miner') = 'POINTS'"
                 }
-                Some(EventCategory::Other) if kind.follows_miner() => {
+                Some(EventCategory::Other) if tags_miner => {
                     " AND json_extract(context, '$.miner') IS NULL"
                 }
                 Some(EventCategory::Drops) if drops_kind => {
@@ -259,5 +264,26 @@ impl Store {
             "DELETE FROM history WHERE id IN (SELECT id FROM history WHERE at < ?1 LIMIT ?2)",
             &cutoff.timestamp_millis(),
         )
+    }
+
+    // ! A slot fallback used to tag generic Info/Error rows with the slot's
+    // miner kind; the tab filter now trusts that field, so rows written
+    // before this fix stay misfiled until it is stripped once. Idempotent:
+    // clearing an absent `$.miner` is a no-op, so running this again, or
+    // being interrupted before the flag below is saved, changes nothing.
+    pub(super) fn clear_stale_miner_field(&self) -> Result<()> {
+        if self.get_setting(MIGRATED_STALE_MINER_FIELD_KEY)?.is_some() {
+            return Ok(());
+        }
+
+        self.lock().execute(
+            "UPDATE history SET context = json_remove(context, '$.miner')
+             WHERE kind IN ('INFO', 'ERROR') AND json_extract(context, '$.miner') IS NOT NULL",
+            [],
+        )?;
+
+        self.set_setting(MIGRATED_STALE_MINER_FIELD_KEY, "1")?;
+
+        Ok(())
     }
 }

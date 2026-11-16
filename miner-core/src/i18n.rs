@@ -1,5 +1,6 @@
 use crate::events::{BetResult, EventKind, MinerEvent};
 use crate::scheduler::PointsReason;
+use chrono::{DateTime, Utc};
 
 pub(crate) enum Text {
     Plain(&'static str),
@@ -121,6 +122,31 @@ fn plural_category(language: &str, count: i64) -> &'static str {
     }
 }
 
+// ! Mirrors the dashboard's own relative-time rule (minutes under an hour,
+// then hours, then days), from the same `time_in_*` keys.
+fn relative_in(language: &str, until: DateTime<Utc>, now: DateTime<Utc>) -> String {
+    let seconds = (until - now).num_seconds().max(0);
+    let minutes = (seconds as f64 / 60.0).round() as i64;
+
+    if minutes < 60 {
+        return text(
+            language,
+            "time_in_minutes",
+            &[("count", &minutes.to_string())],
+        );
+    }
+
+    let hours = (seconds as f64 / 3600.0).round() as i64;
+
+    if hours < 48 {
+        return text(language, "time_in_hours", &[("count", &hours.to_string())]);
+    }
+
+    let days = (seconds as f64 / 86400.0).round() as i64;
+
+    text(language, "time_in_days", &[("count", &days.to_string())])
+}
+
 fn pattern(language: &str, text: &'static Text, args: &[(&str, &str)]) -> &'static str {
     match text {
         Text::Plain(text) => text,
@@ -227,6 +253,8 @@ pub fn kind_label(language: &str, kind: EventKind) -> String {
         EventKind::DropProgress => "event_kind_drop_progress",
         EventKind::DropClaimed => "event_kind_drop_claimed",
         EventKind::CampaignFinished => "event_kind_campaign_finished",
+        EventKind::CampaignSetAside => "event_kind_campaign_set_aside",
+        EventKind::CampaignRetried => "event_kind_campaign_retried",
         EventKind::PointsEarned => "event_kind_points_earned",
         EventKind::PointsSpent => "event_kind_points_spent",
         EventKind::BonusClaimed => "event_kind_bonus_claimed",
@@ -242,6 +270,7 @@ pub fn kind_label(language: &str, kind: EventKind) -> String {
         EventKind::SessionExpired => "event_kind_session_expired",
         EventKind::LoginCompleted => "event_kind_login_completed",
         EventKind::UpdateAvailable => "event_kind_update_available",
+        EventKind::VersionUpdated => "event_kind_version_updated",
         EventKind::RewardRedeemed => "event_kind_reward_redeemed",
     };
 
@@ -396,6 +425,16 @@ pub fn event_text(language: &str, event: &MinerEvent) -> String {
             .version
             .as_deref()
             .and_then(|version| say("ev_update_available", &[("version", version)])),
+        EventKind::VersionUpdated => match (
+            context.version.as_deref(),
+            context.previous_version.as_deref(),
+        ) {
+            (Some(version), Some(previous)) => say(
+                "ev_version_updated",
+                &[("version", version), ("previous", previous)],
+            ),
+            _ => None,
+        },
         EventKind::StreakRecovered => {
             channel.and_then(|channel| say("ev_streak_recovered", &[("channel", channel)]))
         }
@@ -424,6 +463,22 @@ pub fn event_text(language: &str, event: &MinerEvent) -> String {
             }
             _ => None,
         },
+        EventKind::CampaignSetAside => {
+            match (campaign, context.required, context.set_aside_until) {
+                (Some(campaign), Some(minutes), Some(until)) => say(
+                    "ev_campaign_set_aside",
+                    &[
+                        ("campaign", campaign),
+                        ("minutes", &count(i64::from(minutes))),
+                        ("time", &relative_in(language, until, event.at)),
+                    ],
+                ),
+                _ => None,
+            }
+        }
+        EventKind::CampaignRetried => {
+            campaign.and_then(|campaign| say("ev_campaign_retried", &[("campaign", campaign)]))
+        }
         EventKind::Info | EventKind::RewardRedeemed => None,
     };
 

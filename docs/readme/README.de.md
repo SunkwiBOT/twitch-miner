@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Mint Twitch-Drops und Kanalpunkte auf mehreren Konten, ohne Browser und ohne offenen Twitch-Tab.</strong>
+  <strong>Mint Twitch-Drops, Abzeichen und Kanalpunkte, ohne Browser und ohne offenen Twitch-Tab.</strong>
 </p>
 
 <p align="center">
@@ -148,7 +148,7 @@ im Einsatz.
 ### Drops
 
 - **Alle laufenden Drops-Kampagnen.** Jede Kampagne hat ihre eigenen Details: Belohnungen,
-  Verknüpfung des Spielkontos, „Vorrangig minen“. Die Liste stammt aus dem Projekt
+  Verknüpfung des Herausgeberkontos, „Vorrangig minen“. Die Liste stammt aus dem Projekt
   [Twitch Drops API](https://drops.sunkwi.com) und wird alle 10 Minuten aktualisiert.
 
   <details open><summary>In Aktion ansehen</summary>
@@ -156,19 +156,19 @@ im Einsatz.
   </details>
 
 - **Ihre Mining-Reihenfolge.** Ziehen Sie die Kampagnen in die gewünschte Reihenfolge. Neue
-  finden ihren Platz von selbst: zuerst Ihre Prioritätsspiele, dann das nächste Ende oder
-  die wenigsten verbleibenden Minuten. Schließen Sie Spiele, Wörter, eine Kampagne oder
+  finden ihren Platz von selbst: zuerst Ihre Prioritätskategorien, dann das nächste Ende oder
+  die wenigsten verbleibenden Minuten. Schließen Sie Kategorien, Wörter, eine Kampagne oder
   eine einzelne Belohnung aus, und überspringen Sie Kampagnen, die nicht rechtzeitig fertig
   werden können. „Vorrangig minen“ in den Details einer Kampagne setzt sie an die Spitze.
 
   <details open><summary>In Aktion ansehen</summary>
-  <img src="../media/de/drops-order.avif" alt="Die Mining-Reihenfolge, die Prioritätsspiele und die Ausschlüsse">
+  <img src="../media/de/drops-order.avif" alt="Die Mining-Reihenfolge, die Prioritätskategorien und die Ausschlüsse">
   </details>
 
 - **Inventar und „Alle abholen“.** Die Seite Inventar sortiert die Belohnungen in
   „Abzuholen“, „Laufend“ und „Abgeholt“. Holen Sie sie einzeln oder alle auf einmal ab,
   oder aktivieren Sie „Drops automatisch abholen“.
-  Nach „Spielkonto verknüpfen“ wird das Konto erneut gelesen, sobald Sie zur App
+  Nach „Herausgeberkonto verknüpfen“ wird das Konto erneut gelesen, sobald Sie zur App
   zurückkehren, sodass die Verknüpfung sofort erscheint.
 
   <details open><summary>In Aktion ansehen</summary>
@@ -192,7 +192,7 @@ im Einsatz.
   und ein Kanal in einer beliebigen Kategorie der Kampagne zählt. Eine Truhe gibt
   „1 zufälliges Abzeichen aus N“. Ein Abzeichen, das ein Abo braucht, wird gemint, sobald
   Sie selbst abonniert haben und Twitch es zählt. Vor dem Start seiner Kampagne wird nichts
-  gemint. Ziehen Sie in „Was gemint wird, der Reihe nach“ Prioritätsspiele, Abzeichen und
+  gemint. Ziehen Sie in „Was gemint wird, der Reihe nach“ Prioritätskategorien, Abzeichen und
   andere Drops-Kampagnen in die gewünschte Reihenfolge, oder schalten Sie eine davon aus.
   Eine Twitch-Quest wird nur auf einem Kanal gemint, auf dem Twitch sie in seinem
   Drops-Bereich anbietet. Eine Entwicklung (Pichu → Pikachu) wird gemint, sobald das Konto
@@ -335,7 +335,7 @@ Logdatei.\
 ⁷ Nur Text, ohne Bilder. Dafür gibt es dort Matrix, Pushover und Gotify, die dieses Projekt
 nicht hat.\
 ⁸ Eine Kampagnenliste mit Filtern, ohne Kalender und ohne Suche.\
-⁹ Es hat Prioritätsspiele und ausgeschlossene Spiele, ausgewählt nach Spielname.\
+⁹ Es hat Prioritätskategorien und ausgeschlossene Kategorien, ausgewählt nach Kategoriename.\
 ¹⁰ Standardmäßig schaut es zuerst die Streamer auf seiner Liste, deren Stream Drops trägt
 (seine Priorität `DROPS`), aber nie einen anderen Kanal.\
 ¹¹ Nicht gemessen.\
@@ -434,9 +434,22 @@ Alle 20 Sekunden wählt jedes Konto seine zwei Kanäle: den besten Live-Kanal f�
 oberste Kampagne seiner Warteschlange, dann die Streamer seiner Punkteliste.
 
 Twitch rechnet pro Konto gleichzeitig **eine Drops-Kampagne** und **zwei Kanäle für
-Punkte** an. Seit Oktober 2026 lässt sich ein Drop nur abholen, wenn das Spielkonto
+Punkte** an. Seit Oktober 2026 lässt sich ein Drop nur abholen, wenn das Herausgeberkonto
 verknüpft ist. Nicht verknüpfte Kampagnen machen trotzdem Fortschritt, und das Dashboard
 zeigt den Link zum Verknüpfen.
+
+Wenn Twitchs eigener Fortschritt bei der obersten Kampagne nach 30 Minuten echter
+Wiedergabezeit nicht vorankommt, rechnet es sie nicht an: Das Konto stellt sie zurück,
+die nächstplatzierte Kampagne übernimmt den Platz, und ein erneuter Versuch erfolgt
+automatisch 6 Stunden später — früher, falls zuerst wieder Fortschritt auftaucht, auch
+wenn die erneut versuchte Kampagne noch hinter der gerade geminten warten kann.
+Jeglicher Fortschritt setzt diese Wartezeit zurück, und das gilt für jede Kampagnenart
+(Drops, Abzeichen, Aufgaben). Wenn Twitch stattdessen eine andere Kampagne derselben
+Kategorie anrechnet und diese fertig ist oder abgeholt wird, wird die Zurückstellung
+sofort aufgehoben, statt die vollen 6 Stunden abzuwarten. Ein Neustart der App oder des
+Servers vergisst jede
+zurückgestellte Kampagne: Eine festhängende Kampagne erhält einfach wieder frische
+30 Minuten.
 
 Die Kampagnenliste stammt aus dem Projekt [Twitch Drops API](https://drops.sunkwi.com)
 (alle 10 Minuten aktualisiert), weil Twitch sie vor dem TV-Client verbirgt.
@@ -467,7 +480,11 @@ der Kampagne und der andere Ihren Streamern. Die Einstellung „Ein Kanal“ in 
 
 **Eine Kampagne wird nicht gemint, oder ein Drop macht keinen Fortschritt.**\
 Öffnen Sie die Seite **Drops** des Kontos. Unter „Mining-Reihenfolge“ nennt jede wartende
-Kampagne den Grund: „Kein Kanal live“ oder „Wartet (eine Kampagne nach der anderen)“. Eine
+Kampagne den Grund: „Kein Kanal live“ oder „Wartet (eine Kampagne nach der anderen)“.
+„Twitch zählt es nicht — nächster Versuch …“ bedeutet, dass 30 Minuten echte
+Wiedergabezeit keinen Fortschritt auf Twitchs Seite gebracht haben: Die Kampagne wird
+zurückgestellt und automatisch nach der angezeigten Zeit erneut versucht, oder früher,
+falls zuerst wieder Fortschritt auftaucht. Eine
 Kampagne, die nicht in dieser Liste erscheint, wurde aussortiert: durch „Was gemint wird,
 der Reihe nach“, durch die Einstellung „Welche Kampagnen“, durch eine Regel im Tab
 **Ausschlüsse** oder weil sie nicht rechtzeitig fertig werden kann. Eine Belohnung, die ein
@@ -478,12 +495,12 @@ ist. Im Modus **Nur Punkte** wählt der Miner keine Kampagne. „Vorrangig minen
 Details einer Kampagne setzt sie an die Spitze; eine ignorierte Kampagne lässt sich im Tab
 **Ausschlüsse** mit „Wieder minen“ zurückholen.
 
-**Muss ich das Spielkonto verknüpfen?**\
-Zum Abholen ja: Seit Oktober 2026 lässt Twitch einen Drop nur abholen, wenn das Spielkonto
+**Muss ich das Herausgeberkonto verknüpfen?**\
+Zum Abholen ja: Seit Oktober 2026 lässt Twitch einen Drop nur abholen, wenn das Herausgeberkonto
 verknüpft ist. Standardmäßig macht eine nicht verknüpfte Kampagne trotzdem Fortschritt,
 und das Abholen wartet auf die Verknüpfung. Das Badge „Nicht verknüpft“ weist darauf hin,
-und „Spielkonto verknüpfen“ in den Details der Kampagne öffnet die Verknüpfungsseite. Um
-nur verknüpfte Spiele zu minen, wählen Sie „Nur Spiele mit verknüpftem Konto“.
+und „Herausgeberkonto verknüpfen“ in den Details der Kampagne öffnet die Verknüpfungsseite. Um
+nur verknüpfte Kategorien zu minen, wählen Sie „Nur Kategorien mit verknüpftem Herausgeberkonto“.
 
 ### Installation und Daten
 

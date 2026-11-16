@@ -17,6 +17,7 @@
   import type { CampaignType } from "../../lib/bindings/CampaignType";
   import type { GlobalBadgeType } from "../../lib/bindings/GlobalBadgeType";
   import { categoryUrl, periodsText, watchText } from "../../lib/catalogue/campaign.utils";
+  import { DROPS_WEB_HOST } from "../../lib/partners.constants";
   import { ProgressState } from "../../lib/catalogue/progress.constants";
   import { gameArt } from "../../lib/catalogue/games.utils";
   import { ensureChannels, knownChannels } from "../../lib/channels/channels.svelte";
@@ -244,6 +245,16 @@
               label={t.campaign_open_twitch()}
               variant={campaign ? ButtonVariant.OUTLINE : ButtonVariant.PRIMARY}
               size={ButtonSize.SM}
+            />
+          {/if}
+          {#if badge.web_url}
+            {@const webUrl = badge.web_url}
+            <ExternalButton
+              url={webUrl}
+              label={t.campaign_open_drops_web({ domain: DROPS_WEB_HOST })}
+              variant={ButtonVariant.OUTLINE}
+              size={ButtonSize.SM}
+              icon={IconName.GLOBE}
             />
           {/if}
         </div>

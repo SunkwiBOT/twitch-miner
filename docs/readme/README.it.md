@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Mina i Drops di Twitch e i punti canale su più account, senza browser e senza schede di Twitch aperte.</strong>
+  <strong>Mina i Drops, i badge e i punti canale di Twitch, senza browser e senza schede di Twitch aperte.</strong>
 </p>
 
 <p align="center">
@@ -145,7 +145,7 @@ all'opera.
 ### Drops
 
 - **Tutte le campagne Drops in corso.** Ogni campagna ha i suoi dettagli: ricompense,
-  collegamento dell'account di gioco, «Mina per prima». L'elenco arriva dal progetto
+  collegamento dell'account editore, «Mina per prima». L'elenco arriva dal progetto
   [Twitch Drops API](https://drops.sunkwi.com) e si aggiorna ogni 10 minuti.
 
   <details open><summary>Vedilo in azione</summary>
@@ -153,19 +153,19 @@ all'opera.
   </details>
 
 - **Il tuo ordine di mining.** Trascina le campagne nell'ordine che preferisci. Le nuove
-  trovano posto da sole: prima i tuoi giochi prioritari, poi quelle che finiscono prima o
-  a cui mancano meno minuti. Escludi giochi, parole, una campagna o una singola
+  trovano posto da sole: prima le tue categorie prioritarie, poi quelle che finiscono prima o
+  a cui mancano meno minuti. Escludi categorie, parole, una campagna o una singola
   ricompensa, e salta le campagne che non possono finire in tempo. «Mina per prima», nei
   dettagli di una campagna, la porta in cima.
 
   <details open><summary>Vedilo in azione</summary>
-  <img src="../media/it/drops-order.avif" alt="L'ordine di mining, i giochi prioritari e le esclusioni">
+  <img src="../media/it/drops-order.avif" alt="L'ordine di mining, le categorie prioritarie e le esclusioni">
   </details>
 
 - **Inventario e «Riscatta tutto».** La pagina Inventario divide le ricompense in
   «Da riscattare», «In corso» e «Riscattate». Riscattale una alla volta, tutte insieme,
   oppure attiva «Riscatta i drop automaticamente».
-  Dopo «Collega l'account di gioco», l'account viene riletto appena torni nell'app, così il
+  Dopo «Collega l'account editore», l'account viene riletto appena torni nell'app, così il
   collegamento compare subito.
 
   <details open><summary>Vedilo in azione</summary>
@@ -189,7 +189,7 @@ all'opera.
   al giorno, 3 giorni»), e conta un canale di una qualsiasi delle categorie della campagna.
   Un forziere dà «1 badge a caso su N». Un badge che richiede un abbonamento viene minato
   una volta che ti sei abbonato tu e Twitch lo conta. Niente viene minato prima dell'inizio
-  della sua campagna. In «Cosa minare, in ordine», trascina i giochi prioritari, i badge e
+  della sua campagna. In «Cosa minare, in ordine», trascina le categorie prioritarie, i badge e
   le altre campagne Drops nell'ordine che vuoi, oppure disattivane uno. Una missione
   Twitch viene minata solo su un canale in cui Twitch la offre nel suo pannello Drops.
   Un'evoluzione (Pichu → Pikachu) viene minata appena l'account possiede il badge da cui
@@ -326,7 +326,7 @@ log.\
 ⁷ Solo testo, senza immagini. Ha anche Matrix, Pushover e Gotify, che questo progetto non
 ha.\
 ⁸ Un elenco di campagne con filtri, senza calendario né ricerca.\
-⁹ Ha giochi prioritari e giochi esclusi, scelti per nome del gioco.\
+⁹ Ha categorie prioritarie e categorie escluse, scelte per nome della categoria.\
 ¹⁰ Per impostazione predefinita, guarda prima gli streamer della sua lista la cui live ha
 i Drops (la sua priorità `DROPS`), ma mai un altro canale.\
 ¹¹ Non misurato.\
@@ -424,9 +424,19 @@ Ogni 20 secondi, ogni account sceglie i suoi due canali: il miglior canale in di
 la prima campagna della sua coda, poi gli streamer della sua lista dei punti.
 
 Twitch accredita **una campagna Drops** e **due canali per i punti** alla volta per
-account. Da ottobre 2026, un drop si può riscattare solo se l'account di gioco è
+account. Da ottobre 2026, un drop si può riscattare solo se l'account editore è
 collegato. Le campagne non collegate avanzano comunque, e la dashboard mostra il link per
 collegarlo.
+
+Se il progresso di Twitch sulla prima campagna non si muove dopo 30 minuti di visione
+reale, non la sta accreditando: l'account la mette da parte, la campagna successiva in
+ordine prende il posto, e viene ritentata automaticamente 6 ore dopo — prima se nel
+frattempo riappare un progresso, anche se la campagna ritentata può ancora aspettare
+dietro quella in corso di mining. Qualsiasi progresso azzera l'attesa, e questo vale per
+ogni tipo di campagna (Drops, badge, missioni). Se Twitch accredita invece un'altra
+campagna della stessa categoria e quella si conclude o viene riscattata, l'accantonamento
+viene revocato subito, invece di attendere le 6 ore intere. Riavviare l'app o il server dimentica
+ogni accantonamento: una campagna bloccata riparte semplicemente con 30 minuti nuovi.
 
 L'elenco delle campagne arriva dal progetto [Twitch Drops API](https://drops.sunkwi.com)
 (aggiornato ogni 10 minuti), perché Twitch lo nasconde al client TV.
@@ -456,7 +466,10 @@ campagna e l'altro i tuoi streamer. L'impostazione «Un canale», in
 
 **Una campagna non viene minata, o un drop non avanza.**\
 Apri la pagina **Drops** dell'account. In «Ordine di mining», ogni campagna in attesa
-spiega perché: «Nessun canale in diretta» o «In attesa (una campagna alla volta)». Una
+spiega perché: «Nessun canale in diretta» o «In attesa (una campagna alla volta)». «Twitch non la conta — nuovo tentativo …» significa che 30 minuti di visione reale
+non hanno portato progressi dal lato di Twitch: la campagna viene messa da parte e
+ritentata automaticamente nel tempo indicato, o prima se nel frattempo riappare un
+progresso. Una
 campagna che non compare in quell'elenco è stata scartata: da «Cosa minare, in ordine»,
 dall'impostazione «Quali campagne», da una regola della scheda **Esclusioni**, oppure
 perché non può finire in tempo. Una ricompensa che richiede un abbonamento aspetta che tu
@@ -466,13 +479,13 @@ il primo sia completato. In modalità **Solo punti**, il miner non sceglie alcun
 campagna. «Mina per prima», nei dettagli di una campagna, la porta in cima; una campagna
 ignorata può tornare con «Mina di nuovo», nella scheda **Esclusioni**.
 
-**Devo collegare l'account di gioco?**\
+**Devo collegare l'account editore?**\
 Per riscattare, sì: da ottobre 2026 Twitch permette di riscattare un drop solo se
-l'account di gioco è collegato. Per impostazione predefinita, una campagna non collegata
+l'account editore è collegato. Per impostazione predefinita, una campagna non collegata
 avanza comunque e il riscatto aspetta il collegamento. Il badge «Non collegato» lo
-segnala, e «Collega l'account di gioco», nei dettagli della campagna, apre la pagina di
-collegamento. Per minare solo i giochi collegati, scegli
-«Solo giochi con l'account collegato».
+segnala, e «Collega l'account editore», nei dettagli della campagna, apre la pagina di
+collegamento. Per minare solo le categorie collegate, scegli
+«Solo categorie con l'account editore collegato».
 
 ### Installazione e dati
 

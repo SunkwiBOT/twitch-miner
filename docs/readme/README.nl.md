@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Mint Twitch Drops en kanaalpunten op meerdere accounts, zonder browser en zonder open Twitch-tabblad.</strong>
+  <strong>Mint Twitch Drops, badges en kanaalpunten, zonder browser en zonder open Twitch-tabblad.</strong>
 </p>
 
 <p align="center">
@@ -148,7 +148,7 @@ het werkt.
 ### Drops
 
 - **Alle lopende Drops-campagnes.** Elke campagne heeft haar eigen details: beloningen,
-  koppeling van het game-account, “Eerst minen”. De lijst komt van het project
+  koppeling van het uitgeversaccount, “Eerst minen”. De lijst komt van het project
   [Twitch Drops API](https://drops.sunkwi.com) en wordt elke 10 minuten ververst.
 
   <details open><summary>Bekijk het in actie</summary>
@@ -156,19 +156,19 @@ het werkt.
   </details>
 
 - **Jouw minevolgorde.** Sleep de campagnes in de volgorde die je wilt. Nieuwe campagnes
-  vinden zelf hun plek: eerst je prioriteitsgames, daarna het dichtstbijzijnde einde of de
-  minste resterende minuten. Sluit games, woorden, een campagne of één enkele beloning uit,
+  vinden zelf hun plek: eerst je prioriteitscategorieën, daarna het dichtstbijzijnde einde of de
+  minste resterende minuten. Sluit categorieën, woorden, een campagne of één enkele beloning uit,
   en sla de campagnes over die niet op tijd af kunnen. “Eerst minen”, in de details van een
   campagne, zet haar bovenaan.
 
   <details open><summary>Bekijk het in actie</summary>
-  <img src="../media/nl/drops-order.avif" alt="De minevolgorde, de prioriteitsgames en de uitsluitingen">
+  <img src="../media/nl/drops-order.avif" alt="De minevolgorde, de prioriteitscategorieën en de uitsluitingen">
   </details>
 
 - **Inventaris en “Alles claimen”.** De pagina Inventaris verdeelt de beloningen over
   “Te claimen”, “Lopend” en “Geclaimd”. Claim ze een voor een of allemaal tegelijk, of zet
   “Drops automatisch claimen” aan.
-  Na “Game-account koppelen” wordt het account opnieuw gelezen zodra je terugkomt in de
+  Na “Uitgeversaccount koppelen” wordt het account opnieuw gelezen zodra je terugkomt in de
   app, zodat de koppeling meteen te zien is.
 
   <details open><summary>Bekijk het in actie</summary>
@@ -192,7 +192,7 @@ het werkt.
   categorieën van de campagne telt mee. Een kist geeft “1 willekeurige badge uit N”. Een
   badge waarvoor een abonnement nodig is, wordt gemined zodra je zelf een abonnement hebt
   genomen en Twitch het telt. Vóór de start van de campagne wordt niets gemined. Sleep in
-  “Wat te minen, op volgorde” prioriteitsgames, badges en andere Drops-campagnes in de
+  “Wat te minen, op volgorde” prioriteitscategorieën, badges en andere Drops-campagnes in de
   volgorde die je wilt, of zet er een uit. Een Twitch-quest wordt alleen gemined op een
   kanaal waar Twitch hem in zijn Drops-paneel aanbiedt. Een evolutie (Pichu → Pikachu)
   wordt gemined zodra het account de badge heeft waaruit ze evolueert: de miner zet die
@@ -329,7 +329,7 @@ browser.\
 ⁷ Alleen tekst, zonder afbeeldingen. Het heeft ook Matrix, Pushover en Gotify, die dit
 project niet heeft.\
 ⁸ Een lijst van campagnes met filters, zonder kalender of zoekfunctie.\
-⁹ Het heeft prioriteitsgames en uitgesloten games, gekozen op naam van de game.\
+⁹ Het heeft prioriteitscategorieën en uitgesloten categorieën, gekozen op naam van de categorie.\
 ¹⁰ Standaard kijkt het eerst naar de streamers op zijn lijst wier stream Drops heeft (zijn
 prioriteit `DROPS`), maar nooit naar een ander kanaal.\
 ¹¹ Niet gemeten.\
@@ -425,8 +425,17 @@ Elke 20 seconden kiest elk account zijn twee kanalen: het beste live kanaal voor
 bovenste campagne in zijn wachtrij, daarna de streamers van zijn puntenlijst.
 
 Twitch telt per account **één Drops-campagne** en **twee kanalen voor punten** tegelijk
-mee. Sinds oktober 2026 kan een drop alleen worden geclaimd als het game-account gekoppeld
+mee. Sinds oktober 2026 kan een drop alleen worden geclaimd als het uitgeversaccount gekoppeld
 is. Niet-gekoppelde campagnes maken toch voortgang, en het dashboard toont de koppellink.
+
+Als Twitchs eigen voortgang op de bovenste campagne na 30 minuten echt kijken niet
+beweegt, telt het die campagne niet mee: het account zet haar opzij, de volgende
+campagne in de rij krijgt de plek, en er wordt automatisch 6 uur later opnieuw
+geprobeerd — eerder als er intussen voortgang terugkomt, al kan de herprobeerde
+campagne nog steeds moeten wachten achter degene die wordt gemined. Elke voortgang zet
+de wachttijd terug naar nul, en dit geldt voor elk type campagne (Drops, badges,
+missies). Als Twitch in plaats daarvan een andere campagne uit dezelfde categorie meetelt en die campagne wordt voltooid of opgehaald, wordt het opzijzetten meteen opgeheven in plaats van de volle 6 uur af te wachten. Het herstarten van de app of de server vergeet alle opzijgezette campagnes:
+een vastzittende campagne krijgt gewoon weer 30 nieuwe minuten.
 
 De campagnelijst komt van het project [Twitch Drops API](https://drops.sunkwi.com) (elke
 10 minuten ververst), omdat Twitch die verbergt voor de tv-client.
@@ -457,7 +466,9 @@ de campagne en het andere je streamers. De instelling “Eén kanaal”, in
 
 **Een campagne wordt niet gemined, of een drop maakt geen voortgang.**\
 Open de pagina **Drops** van het account. Onder “Minevolgorde” staat bij elke wachtende
-campagne waarom: “Geen kanaal live” of “Wacht (één campagne tegelijk)”. Een campagne die
+campagne waarom: “Geen kanaal live” of “Wacht (één campagne tegelijk)”. “Twitch telt het niet — nieuwe poging …” betekent dat 30 minuten echt kijken geen voortgang opleverden aan
+de kant van Twitch: de campagne wordt opzijgezet en automatisch opnieuw geprobeerd
+binnen de getoonde tijd, of eerder als er intussen voortgang terugkomt. Een campagne die
 niet in die lijst staat, is buiten beschouwing gelaten: door “Wat te minen, op volgorde”,
 door de instelling “Welke campagnes”, door een regel op het tabblad **Uitsluitingen**, of
 omdat ze niet op tijd af kan. Een beloning waarvoor een abonnement nodig is, wacht tot je
@@ -467,12 +478,12 @@ andere volgt, wacht tot de eerste klaar is. In de modus **Alleen punten** kiest 
 geen campagne. “Eerst minen”, in de details van een campagne, zet haar bovenaan; een
 genegeerde campagne komt terug met “Weer minen”, op het tabblad **Uitsluitingen**.
 
-**Moet ik het game-account koppelen?**\
+**Moet ik het uitgeversaccount koppelen?**\
 Om te claimen wel: sinds oktober 2026 laat Twitch je een drop alleen claimen als het
-game-account gekoppeld is. Standaard maakt een niet-gekoppelde campagne toch voortgang en
+uitgeversaccount gekoppeld is. Standaard maakt een niet-gekoppelde campagne toch voortgang en
 wacht het claimen op de koppeling. De badge “Niet gekoppeld” geeft dat aan, en
-“Game-account koppelen”, in de details van de campagne, opent de koppelpagina. Wil je
-alleen gekoppelde games minen, kies dan “Alleen games met een gekoppeld account”.
+“Uitgeversaccount koppelen”, in de details van de campagne, opent de koppelpagina. Wil je
+alleen gekoppelde categorieën minen, kies dan “Alleen categorieën met een gekoppeld uitgeversaccount”.
 
 ### Installatie en gegevens
 

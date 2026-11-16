@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Miner Twitch Drops og kanalpoeng på flere kontoer, uten nettleser og uten noen åpen Twitch-fane.</strong>
+  <strong>Miner Twitch Drops, merker og kanalpoeng, uten nettleser og uten noen åpen Twitch-fane.</strong>
 </p>
 
 <p align="center">
@@ -146,7 +146,7 @@ bruk.
 ### Drops
 
 - **Alle pågående Drops-kampanjer.** Hver kampanje har sine egne detaljer: belønninger,
-  kobling av spillkontoen, «Sett først i mining-rekkefølgen». Listen kommer fra prosjektet
+  kobling av utgiverkontoen, «Sett først i mining-rekkefølgen». Listen kommer fra prosjektet
   [Twitch Drops API](https://drops.sunkwi.com) og oppdateres hvert 10. minutt.
 
   <details open><summary>Se det i aksjon</summary>
@@ -154,19 +154,19 @@ bruk.
   </details>
 
 - **Din mining-rekkefølge.** Dra kampanjene i den rekkefølgen du vil. Nye finner plassen
-  sin selv: de prioriterte spillene dine først, deretter nærmeste slutt eller færrest
-  gjenværende minutter. Utelukk spill, ord, en kampanje eller én enkelt belønning, og hopp
+  sin selv: de prioriterte kategoriene dine først, deretter nærmeste slutt eller færrest
+  gjenværende minutter. Utelukk kategorier, ord, en kampanje eller én enkelt belønning, og hopp
   over kampanjer som ikke rekker å bli ferdige i tide. «Sett først i mining-rekkefølgen»,
   i detaljene til en kampanje, setter den øverst.
 
   <details open><summary>Se det i aksjon</summary>
-  <img src="../media/nb/drops-order.avif" alt="Mining-rekkefølgen, de prioriterte spillene og unntakene">
+  <img src="../media/nb/drops-order.avif" alt="Mining-rekkefølgen, de prioriterte kategoriene og unntakene">
   </details>
 
 - **Inventar og «Hent alle».** Inventar-siden sorterer belønningene i
   «Klar til henting», «Pågår» og «Hentet». Hent dem én og én eller alle samtidig, eller
   slå på «Hent drops automatisk».
-  Etter «Koble spillkontoen» leses kontoen på nytt så snart du kommer tilbake til appen,
+  Etter «Koble utgiverkontoen» leses kontoen på nytt så snart du kommer tilbake til appen,
   så koblingen vises med en gang.
 
   <details open><summary>Se det i aksjon</summary>
@@ -189,7 +189,7 @@ bruk.
   som helst av kampanjens kategorier teller. En kiste gir «1 tilfeldig merke av N». Et
   merke som krever abonnement, mines når du selv har abonnert og Twitch teller det. Ingenting
   mines før kampanjen starter. I «Hva som skal mines, i rekkefølge» drar du prioriterte
-  spill, merker og andre Drops-kampanjer i den rekkefølgen du vil, eller slår av en av dem.
+  kategorier, merker og andre Drops-kampanjer i den rekkefølgen du vil, eller slår av en av dem.
   En Twitch-quest mines bare på en kanal der Twitch tilbyr den i Drops-panelet sitt. En
   utvikling (Pichu → Pikachu) mines så snart kontoen eier merket den utvikler seg fra:
   mineren tar selv på det merket rett før og setter ikke det gamle tilbake; «Min
@@ -328,7 +328,7 @@ som helst nettleser.\
 ⁷ Bare tekst, uten bilder. Den har også Matrix, Pushover og Gotify, som dette prosjektet
 ikke har.\
 ⁸ En liste over kampanjer med filtre, uten kalender eller søk.\
-⁹ Den har prioriterte spill og ekskluderte spill, valgt etter spillnavn.\
+⁹ Den har prioriterte kategorier og ekskluderte kategorier, valgt etter kategorinavn.\
 ¹⁰ Som standard ser den først på streamerne på listen sin der sendingen har Drops
 (prioriteten `DROPS`), men aldri på en annen kanal.\
 ¹¹ Ikke målt.\
@@ -424,8 +424,19 @@ Hvert 20. sekund velger hver konto sine to kanaler: den beste direktekanalen for
 øverste kampanjen i køen, deretter streamerne på poenglisten.
 
 Twitch godskriver **én Drops-kampanje** og **to kanaler for poeng** om gangen per konto.
-Siden oktober 2026 kan en drop bare hentes når spillkontoen er koblet. Ukoblede kampanjer
+Siden oktober 2026 kan en drop bare hentes når utgiverkontoen er koblet. Ukoblede kampanjer
 gir fortsatt fremgang, og oversikten viser lenken.
+
+Hvis Twitchs egen fremgang på den øverste kampanjen ikke beveger seg etter 30 minutter
+med reell titting, godskriver den ikke kampanjen: kontoen setter den til side, den neste
+kampanjen i rekkefølgen tar plassen, og den prøves automatisk på nytt 6 timer senere —
+tidligere hvis fremgang dukker opp igjen først, selv om den fornyede kampanjen fortsatt
+kan måtte vente bak den som mines. All fremgang nullstiller ventetiden, og dette gjelder
+for alle typer kampanjer (Drops, merker, oppdrag). Hvis Twitch i stedet godskriver en
+annen kampanje i samme kategori, og den kampanjen fullføres eller hentes, oppheves
+utsettelsen med én gang i stedet for å vente de fulle 6 timene. Omstart av appen eller serveren
+glemmer alle kampanjer som er satt til side: en fastlåst kampanje får rett og slett 30
+nye minutter.
 
 Kampanjelisten kommer fra prosjektet [Twitch Drops API](https://drops.sunkwi.com)
 (oppdatert hvert 10. minutt), fordi Twitch skjuler den for TV-klienten.
@@ -456,7 +467,9 @@ kampanjen og den andre til streamerne dine. Innstillingen «Én kanal», i
 
 **En kampanje mines ikke, eller en drop gjør ingen fremgang.**\
 Åpne siden **Drops** for kontoen. Under «Mining-rekkefølge» står det ved hver ventende
-kampanje hvorfor: «Ingen kanal direkte» eller «Venter (én kampanje om gangen)». En
+kampanje hvorfor: «Ingen kanal direkte» eller «Venter (én kampanje om gangen)». «Twitch teller det ikke — nytt forsøk …» betyr at 30 minutter med reell titting ikke ga
+noen fremgang på Twitchs side: kampanjen settes til side og prøves automatisk på nytt
+innen tiden som vises, eller tidligere hvis fremgang dukker opp igjen først. En
 kampanje som ikke vises i listen, er sortert bort: av «Hva som skal mines, i rekkefølge»,
 av innstillingen «Hvilke kampanjer», av en regel i fanen **Unntak**, eller fordi den ikke
 rekker å bli ferdig i tide. En belønning som krever abonnement, venter til du selv har
@@ -466,12 +479,12 @@ I modusen **Bare poeng** velger mineren ingen kampanje. «Sett først i
 mining-rekkefølgen», i detaljene til en kampanje, setter den øverst; en ignorert kampanje
 kan komme tilbake med «Ta med i mining igjen», i fanen **Unntak**.
 
-**Må jeg koble spillkontoen?**\
-For å hente, ja: siden oktober 2026 lar Twitch deg bare hente en drop når spillkontoen er
+**Må jeg koble utgiverkontoen?**\
+For å hente, ja: siden oktober 2026 lar Twitch deg bare hente en drop når utgiverkontoen er
 koblet. Som standard gir en ukoblet kampanje likevel fremgang, og hentingen venter på
-koblingen. Merket «Ikke koblet» viser det, og «Koble spillkontoen», i detaljene til
-kampanjen, åpner koblingssiden. Vil du bare mine koblede spill, velger du
-«Bare spill med koblet konto».
+koblingen. Merket «Ikke koblet» viser det, og «Koble utgiverkontoen», i detaljene til
+kampanjen, åpner koblingssiden. Vil du bare mine koblede kategorier, velger du
+«Bare kategorier med koblet utgiverkonto».
 
 ### Installasjon og data
 

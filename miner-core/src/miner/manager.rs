@@ -74,6 +74,7 @@ const PASSPHRASE_PAUSE: Duration = Duration::from_secs(30);
 const UPDATE_ANNOUNCED_KEY: &str = "update_announced";
 const UPDATE_FAILED_KEY: &str = "update_failed";
 const FIRST_STARTED_KEY: &str = "first_started_at";
+const LAST_RUN_VERSION_KEY: &str = "last_run_version";
 const STAR_PROMPT_DONE_KEY: &str = "star_prompt_done";
 const STAR_PROMPT_AFTER_HOURS: i64 = 48;
 
@@ -228,6 +229,12 @@ impl Manager {
             tracing::debug!(error = %e, "star prompt date not read");
         }
 
+        let event_receiver = self.events.subscribe();
+
+        if let Err(e) = self.note_version(crate::VERSION) {
+            tracing::debug!(error = %e, "version change not read");
+        }
+
         let this = self.clone();
         tokio::spawn(async move { this.catalog_loop().await });
 
@@ -235,7 +242,7 @@ impl Manager {
         tokio::spawn(async move { this.badges_loop().await });
 
         let this = self.clone();
-        tokio::spawn(async move { this.event_loop().await });
+        tokio::spawn(async move { this.event_loop(event_receiver).await });
 
         if self.vault.read().await.is_some() {
             self.spawn_all_accounts().await;
@@ -262,9 +269,7 @@ impl Manager {
         self.spam.subscribe()
     }
 
-    async fn event_loop(self: Arc<Self>) {
-        let mut receiver = self.events.subscribe();
-
+    async fn event_loop(self: Arc<Self>, mut receiver: broadcast::Receiver<MinerEvent>) {
         self.prune_history().await;
 
         let mut pruned = tokio::time::Instant::now();
@@ -1226,6 +1231,34 @@ impl Manager {
                 }
             }
         }
+    }
+
+    fn note_version(&self, version: &str) -> Result<()> {
+        let previous = self.store.get_setting(LAST_RUN_VERSION_KEY)?;
+
+        if previous.as_deref() != Some(version) {
+            self.store.set_setting(LAST_RUN_VERSION_KEY, version)?;
+        }
+
+        let Some(previous) = previous.filter(|previous| previous != version) else {
+            return Ok(());
+        };
+
+        let event = MinerEvent::new(
+            "",
+            "",
+            EventKind::VersionUpdated,
+            format!("Updated to {version} (from {previous})"),
+        )
+        .context(EventContext {
+            version: Some(version.to_owned()),
+            previous_version: Some(previous),
+            ..EventContext::default()
+        });
+
+        record_event(&self.store, &self.events, event);
+
+        Ok(())
     }
 
     fn plan_star_prompt(&self) -> Result<()> {

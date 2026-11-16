@@ -15,13 +15,15 @@
     campaignProgress,
     type CampaignProgressType,
   } from "../../lib/catalogue/campaign-progress.utils";
+  import { ProgressState } from "../../lib/catalogue/progress.constants";
+  import { setAsideLabel } from "../../lib/accounts/accounts.utils";
   import { refreshWhenBack } from "../../lib/accounts/refresh.utils";
   import { campaignUrl } from "../../lib/links/twitch.utils";
   import { BoxArtSize } from "../../lib/format.constants";
   import { boxArt, shortDuration } from "../../lib/format.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { strong } from "../../lib/text.utils";
-  import { TWITCH_CATEGORY_URL } from "../../lib/partners.constants";
+  import { DROPS_WEB_HOST, TWITCH_CATEGORY_URL } from "../../lib/partners.constants";
   import { setDropIgnored } from "../../lib/state/account-settings.svelte";
   import { app } from "../../lib/state/app.svelte";
   import { run } from "../../lib/state/session";
@@ -198,6 +200,16 @@
               onfollow={linker ? () => linker && refreshWhenBack(linker.id) : undefined}
             />
           {/if}
+          {#if view.web_url}
+            {@const webUrl = view.web_url}
+            <ExternalButton
+              url={webUrl}
+              label={t.campaign_open_drops_web({ domain: DROPS_WEB_HOST })}
+              variant={ButtonVariant.OUTLINE}
+              size={ButtonSize.SM}
+              icon={IconName.GLOBE}
+            />
+          {/if}
           {#if view.game.slug && !sitewideQuest(view)}
             {@const slug = view.game.slug}
             <ExternalButton
@@ -222,6 +234,13 @@
       <AccountProgressList entries={progress}>
         {#snippet tags(entry)}
           {#if entry.linked === false}<LinkBadge linked={false} />{/if}
+          {#if entry.state === ProgressState.SET_ASIDE && entry.setAsideUntil}
+            <Badge
+              text={setAsideLabel(entry.setAsideUntil, ticker.now)}
+              tone={BadgeTone.WARNING}
+              dot={false}
+            />
+          {/if}
         {/snippet}
         {#snippet action(entry)}
           {#if entry.ready.length > 0 && entry.linked !== false}

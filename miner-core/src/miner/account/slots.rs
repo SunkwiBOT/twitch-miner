@@ -1,12 +1,17 @@
 use super::*;
 
-impl<T: TwitchApi> AccountMiner<T> {
-    pub(super) async fn apply_plan(&mut self) {
-        let now = Utc::now();
+// ! One real minute of Drops progress, accumulated from playback polls that
+// returned segments: independent of the beacon timer, which can back off to
+// once every 10 minutes while still blocked.
+const WATCHED_MINUTE: Duration = Duration::from_secs(60);
 
+impl<T: TwitchApi> AccountMiner<T> {
+    pub(super) async fn apply_plan(&mut self, now: DateTime<Utc>) {
         self.settle_streak_bonuses(now);
 
         let campaigns: Vec<Campaign> = self.campaigns.values().cloned().collect();
+        setaside::expire(&mut self.set_aside, now);
+        let aside = setaside::active(&self.set_aside, now);
         let empty = PointsState::default();
         let states: Vec<StreamerState<'_>> = self
             .settings
@@ -27,14 +32,21 @@ impl<T: TwitchApi> AccountMiner<T> {
             }),
             SlotPurpose::Points { .. } => None,
         });
-        let plan = scheduler::plan(
+        let mut plan = scheduler::plan(
             &self.settings,
             &campaigns,
+            &aside,
             &self.live_by_campaign,
             &states,
             current,
             now,
         );
+
+        for item in &mut plan.queue {
+            if item.blocked == Some(scheduler::QueueBlock::SetAside) {
+                item.set_aside_stall_minutes = Some(PROGRESS_STALL_MINUTES);
+            }
+        }
 
         self.last_queue = plan.queue.clone();
         self.equip_for(&plan).await;
@@ -65,6 +77,16 @@ impl<T: TwitchApi> AccountMiner<T> {
                     self.slots[index].purpose = wanted.purpose.clone();
 
                     if told {
+                        if let SlotPurpose::Drop {
+                            campaign_id,
+                            drop_id,
+                        } = &wanted.purpose
+                        {
+                            if setaside::take_pending_retry(&mut self.set_aside, campaign_id) {
+                                self.retry_campaign(campaign_id, drop_id);
+                            }
+                        }
+
                         let event = self.watch_started(&wanted.channel, &wanted.purpose);
 
                         self.publish(event);
@@ -102,6 +124,16 @@ impl<T: TwitchApi> AccountMiner<T> {
                 continue;
             }
 
+            if let SlotPurpose::Drop {
+                campaign_id,
+                drop_id,
+            } = &slot.purpose
+            {
+                if setaside::take_pending_retry(&mut self.set_aside, campaign_id) {
+                    self.retry_campaign(campaign_id, drop_id);
+                }
+            }
+
             let event = self.watch_started(&slot.channel, &slot.purpose);
 
             self.publish(event);
@@ -115,15 +147,68 @@ impl<T: TwitchApi> AccountMiner<T> {
             self.slots.push(ActiveSlot {
                 channel: slot.channel,
                 purpose: slot.purpose,
-                since: Utc::now(),
+                since: now,
                 beacon: None,
                 last_beacon_at: None,
                 next_beacon: tokio::time::Instant::now(),
                 playback,
                 next_playback: tokio::time::Instant::now(),
                 beacon_failures: 0,
+                playback_accumulated: Duration::ZERO,
             });
         }
+    }
+
+    fn retry_campaign(&mut self, campaign_id: &str, drop_id: &str) {
+        let name = self
+            .campaigns
+            .get(campaign_id)
+            .map(|c| c.name.clone())
+            .unwrap_or_default();
+
+        tracing::info!(account = %self.login, campaign_id, "campaign retried after being set aside");
+
+        let event = self
+            .emit(EventKind::CampaignRetried, format!("Retrying {name}"))
+            .context(EventContext::drop(campaign_id, drop_id));
+
+        self.publish(event);
+    }
+
+    pub(super) fn set_aside_campaign(
+        &mut self,
+        campaign_id: &str,
+        drop_id: &str,
+        retry_at: DateTime<Utc>,
+    ) {
+        let name = self
+            .campaigns
+            .get(campaign_id)
+            .map(|c| c.name.clone())
+            .unwrap_or_default();
+
+        tracing::info!(
+            account = %self.login,
+            campaign_id,
+            retry_at = %retry_at,
+            "campaign set aside: no progress in {PROGRESS_STALL_MINUTES} real minutes",
+        );
+
+        let event = self
+            .emit(
+                EventKind::CampaignSetAside,
+                format!(
+                    "{name} is set aside: no progress in {PROGRESS_STALL_MINUTES} minutes, retrying at {} UTC",
+                    retry_at.format("%Y-%m-%d %H:%M"),
+                ),
+            )
+            .context(EventContext {
+                required: Some(PROGRESS_STALL_MINUTES),
+                set_aside_until: Some(retry_at),
+                ..EventContext::drop(campaign_id, drop_id)
+            });
+
+        self.publish(event);
     }
 
     // ! Twitch counts an evolution only while the badge it evolves from is equipped; the old badge is never put back.
@@ -262,6 +347,54 @@ impl<T: TwitchApi> AccountMiner<T> {
         let mut minutes = 0u64;
 
         for index in 0..self.slots.len() {
+            if self.slots[index].next_playback <= now {
+                let mut progressed = false;
+
+                if let Some(mut playback) = self.slots[index].playback.take() {
+                    match self.client.poll_playback(&mut playback).await {
+                        Ok(count) => progressed = count > 0,
+                        Err(Error::Status(status)) if status == StatusCode::NOT_FOUND => {
+                            self.slots[index].channel.live = false;
+                        }
+                        Err(Error::Unauthorized) => errors.push(Error::Unauthorized),
+                        Err(error) => {
+                            tracing::debug!(account = %self.login, %error, "playback poll failed")
+                        }
+                    }
+
+                    self.slots[index].playback = Some(playback);
+                }
+
+                self.slots[index].next_playback = after(
+                    self.slots[index].next_playback,
+                    playback::POLL_INTERVAL,
+                    now,
+                );
+
+                if progressed {
+                    self.slots[index].playback_accumulated += playback::POLL_INTERVAL;
+                }
+
+                // ! Counted from accumulated playback polls that returned segments,
+                // not from the beacon timer: a DNS-blocked beacon still lets Drops
+                // progress through the video playlist, and that timer can back off
+                // to once every 10 minutes.
+                while self.slots[index].playback_accumulated >= WATCHED_MINUTE {
+                    self.slots[index].playback_accumulated -= WATCHED_MINUTE;
+
+                    if let SlotPurpose::Drop { campaign_id, .. } = &self.slots[index].purpose {
+                        let campaign_id = campaign_id.clone();
+                        let credited = self.campaigns.get(&campaign_id).is_some_and(|campaign| {
+                            scheduler::credits_drops(&self.slots[index].channel, campaign)
+                        });
+
+                        if credited {
+                            setaside::record_minute(&mut self.set_aside, &campaign_id);
+                        }
+                    }
+                }
+            }
+
             if self.slots[index].next_beacon <= now {
                 if self.slots[index].beacon.is_none() {
                     match self
@@ -328,29 +461,6 @@ impl<T: TwitchApi> AccountMiner<T> {
                 };
 
                 self.slots[index].next_beacon = after(self.slots[index].next_beacon, backoff, now);
-            }
-
-            if self.slots[index].next_playback <= now {
-                if let Some(mut playback) = self.slots[index].playback.take() {
-                    match self.client.poll_playback(&mut playback).await {
-                        Ok(_) => {}
-                        Err(Error::Status(status)) if status == StatusCode::NOT_FOUND => {
-                            self.slots[index].channel.live = false;
-                        }
-                        Err(Error::Unauthorized) => errors.push(Error::Unauthorized),
-                        Err(error) => {
-                            tracing::debug!(account = %self.login, %error, "playback poll failed")
-                        }
-                    }
-
-                    self.slots[index].playback = Some(playback);
-                }
-
-                self.slots[index].next_playback = after(
-                    self.slots[index].next_playback,
-                    playback::POLL_INTERVAL,
-                    now,
-                );
             }
         }
 
@@ -523,12 +633,16 @@ pub(super) fn stop_reason(
         };
     }
 
-    if !plan
+    let Some(item) = plan
         .queue
         .iter()
-        .any(|item| &item.campaign_id == campaign_id)
-    {
+        .find(|item| &item.campaign_id == campaign_id)
+    else {
         return "the campaign left the mining order: done, ignored or out of time".to_owned();
+    };
+
+    if item.blocked == Some(scheduler::QueueBlock::SetAside) {
+        return "Twitch is not crediting it: set aside until it is retried".to_owned();
     }
 
     match plan.slots.iter().find_map(|wanted| match &wanted.purpose {

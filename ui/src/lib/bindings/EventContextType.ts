@@ -18,6 +18,7 @@ export type EventContextType = {
   art?: string;
   drop_id?: string;
   drop_name?: string;
+  set_aside_until?: string;
   watch_reason?: PointsReason;
   reward?: string;
   current?: number;
@@ -35,6 +36,7 @@ export type EventContextType = {
   points_won?: number;
   staked?: number;
   version?: string;
+  previous_version?: string;
   reward_title?: string;
   reward_color?: string;
   count?: number;

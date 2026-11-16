@@ -1,13 +1,14 @@
+import { relativeTime } from "../../lib/time/time.utils";
 import { t } from "../../lib/i18n/i18n.svelte";
 import { IconName } from "../../lib/icons.constants";
-import { ProgressState } from "../../lib/catalogue/progress.constants";
+import { ProgressState, type AccountProgressType } from "../../lib/catalogue/progress.constants";
 import { BadgeTone } from "../../lib/tones.constants";
 
 type ProgressBadgeType = {
   text: () => string;
   tone: BadgeTone;
   icon?: IconName;
-  hint?: () => string;
+  hint?: (entry: AccountProgressType, now: number) => string;
 };
 
 export const PROGRESS_BADGES: Record<ProgressState, ProgressBadgeType> = {
@@ -21,6 +22,15 @@ export const PROGRESS_BADGES: Record<ProgressState, ProgressBadgeType> = {
     text: () => t.queue_mining(),
     tone: BadgeTone.SUCCESS,
     hint: () => t.badge_hint_queue_mining(),
+  },
+  [ProgressState.SET_ASIDE]: {
+    text: () => t.badge_progress_set_aside(),
+    tone: BadgeTone.WARNING,
+    icon: IconName.CLOCK,
+    hint: (entry, now) =>
+      entry.setAsideUntil
+        ? t.badge_hint_blocked_set_aside({ time: relativeTime(entry.setAsideUntil, now) })
+        : "",
   },
   [ProgressState.IN_PROGRESS]: {
     text: () => t.campaigns_filter_in_progress(),

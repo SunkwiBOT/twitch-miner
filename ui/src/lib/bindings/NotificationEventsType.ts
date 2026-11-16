@@ -3,6 +3,7 @@
 export type NotificationEventsType = {
   drop_claimed: boolean;
   drop_progress: boolean;
+  campaign_set_aside: boolean;
   bonus_claimed: boolean;
   prediction_placed: boolean;
   prediction_result: boolean;

@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Menambang Twitch Drops dan poin channel di beberapa akun, tanpa browser dan tanpa tab Twitch yang terbuka.</strong>
+  <strong>Menambang Twitch Drops, lencana, dan poin channel, tanpa browser dan tanpa tab Twitch yang terbuka.</strong>
 </p>
 
 <p align="center">
@@ -122,19 +122,19 @@ Hal-hal yang membedakannya dari penambang lain. “Lihat langsung” di bawah se
 
 ### Drops
 
-- **Semua kampanye Drops yang sedang berjalan.** Setiap kampanye punya detailnya sendiri: hadiah, penautan akun game, “Tambang lebih dulu”. Daftarnya berasal dari proyek [Twitch Drops API](https://drops.sunkwi.com) dan diperbarui setiap 10 menit.
+- **Semua kampanye Drops yang sedang berjalan.** Setiap kampanye punya detailnya sendiri: hadiah, penautan akun penerbit, “Tambang lebih dulu”. Daftarnya berasal dari proyek [Twitch Drops API](https://drops.sunkwi.com) dan diperbarui setiap 10 menit.
 
   <details open><summary>Lihat langsung</summary>
   <img src="../media/id/drops-catalogue.avif" alt="Katalog dalam tampilan kalender, pencarian, dan detail sebuah kampanye">
   </details>
 
-- **Urutan penambangan Anda.** Seret kampanye ke urutan yang Anda mau. Kampanye baru menemukan tempatnya sendiri: game prioritas Anda dulu, lalu yang paling cepat berakhir atau yang sisa menitnya paling sedikit. Kecualikan game, kata, satu kampanye, atau satu hadiah saja, dan lewati kampanye yang tidak bisa selesai tepat waktu. “Tambang lebih dulu”, di detail sebuah kampanye, menaruhnya di urutan teratas.
+- **Urutan penambangan Anda.** Seret kampanye ke urutan yang Anda mau. Kampanye baru menemukan tempatnya sendiri: kategori prioritas Anda dulu, lalu yang paling cepat berakhir atau yang sisa menitnya paling sedikit. Kecualikan kategori, kata, satu kampanye, atau satu hadiah saja, dan lewati kampanye yang tidak bisa selesai tepat waktu. “Tambang lebih dulu”, di detail sebuah kampanye, menaruhnya di urutan teratas.
 
   <details open><summary>Lihat langsung</summary>
-  <img src="../media/id/drops-order.avif" alt="Urutan penambangan, game prioritas, dan pengecualian">
+  <img src="../media/id/drops-order.avif" alt="Urutan penambangan, kategori prioritas, dan pengecualian">
   </details>
 
-- **Inventaris dan “Klaim semua”.** Halaman Inventaris memilah hadiah menjadi “Siap diklaim”, “Sedang berjalan”, dan “Sudah diklaim”. Klaim satu per satu, semuanya sekaligus, atau nyalakan “Klaim drop otomatis”. Setelah “Tautkan akun game”, akun dibaca ulang begitu Anda kembali ke aplikasi, jadi tautannya langsung terlihat.
+- **Inventaris dan “Klaim semua”.** Halaman Inventaris memilah hadiah menjadi “Siap diklaim”, “Sedang berjalan”, dan “Sudah diklaim”. Klaim satu per satu, semuanya sekaligus, atau nyalakan “Klaim drop otomatis”. Setelah “Tautkan akun penerbit”, akun dibaca ulang begitu Anda kembali ke aplikasi, jadi tautannya langsung terlihat.
 
   <details open><summary>Lihat langsung</summary>
   <img src="../media/id/drops-inventory.avif" alt="Inventaris dan tombol “Klaim semua”">
@@ -146,7 +146,7 @@ Hal-hal yang membedakannya dari penambang lain. “Lihat langsung” di bawah se
   <img src="../media/id/drops-streamers-first.avif" alt="Streamer dari daftar, ditonton untuk Drops dan untuk poinnya">
   </details>
 
-- **Lencana (beta).** Halaman Lencana mencantumkan semua lencana obrolan global Twitch dan cara mendapatkannya. Setiap akun punya halaman Lencana sendiri: lencana yang sedang berjalan beserta progresnya, yang masih bisa didapat, dan yang sudah dimiliki. Penambang mengejar lencana dari kampanye Drops dan quest Twitch, dan melewati lencana yang sudah dimiliki akun. Lencana yang harus ditonton setiap hari ditambang lagi setiap hari sampai hari terakhir (“20 mnt per hari, 3 hari”), dan channel di kategori mana pun dari kampanye itu ikut dihitung. Peti memberi “1 lencana acak dari N”. Lencana yang membutuhkan langganan ditambang setelah Anda sendiri berlangganan dan Twitch menghitungnya. Tidak ada yang ditambang sebelum kampanyenya dimulai. Di “Apa yang ditambang, berurutan”, seret game prioritas, lencana, dan kampanye Drops lainnya ke urutan yang Anda inginkan, atau matikan salah satunya. Quest Twitch hanya ditambang di channel tempat Twitch menawarkannya di panel Drops-nya. Evolusi (Pichu → Pikachu) ditambang begitu akun memiliki lencana asal evolusinya: penambang memasang sendiri lencana itu tepat sebelumnya dan tidak memasang kembali lencana lama; “Tambang evolusi lencana”, di pengaturan lencana akun, mematikannya. Klik pada lencana membuka detailnya: syarat lengkap, semua kategori dan channel, koleksi, evolusi, dan progres setiap akun. Fitur ini masih beta.
+- **Lencana (beta).** Halaman Lencana mencantumkan semua lencana obrolan global Twitch dan cara mendapatkannya. Setiap akun punya halaman Lencana sendiri: lencana yang sedang berjalan beserta progresnya, yang masih bisa didapat, dan yang sudah dimiliki. Penambang mengejar lencana dari kampanye Drops dan quest Twitch, dan melewati lencana yang sudah dimiliki akun. Lencana yang harus ditonton setiap hari ditambang lagi setiap hari sampai hari terakhir (“20 mnt per hari, 3 hari”), dan channel di kategori mana pun dari kampanye itu ikut dihitung. Peti memberi “1 lencana acak dari N”. Lencana yang membutuhkan langganan ditambang setelah Anda sendiri berlangganan dan Twitch menghitungnya. Tidak ada yang ditambang sebelum kampanyenya dimulai. Di “Apa yang ditambang, berurutan”, seret kategori prioritas, lencana, dan kampanye Drops lainnya ke urutan yang Anda inginkan, atau matikan salah satunya. Quest Twitch hanya ditambang di channel tempat Twitch menawarkannya di panel Drops-nya. Evolusi (Pichu → Pikachu) ditambang begitu akun memiliki lencana asal evolusinya: penambang memasang sendiri lencana itu tepat sebelumnya dan tidak memasang kembali lencana lama; “Tambang evolusi lencana”, di pengaturan lencana akun, mematikannya. Klik pada lencana membuka detailnya: syarat lengkap, semua kategori dan channel, koleksi, evolusi, dan progres setiap akun. Fitur ini masih beta.
 
   <details open><summary>Lihat langsung</summary>
   <img src="../media/id/badges.avif" alt="Halaman Lencana, lencana sebuah akun, lalu “Apa yang ditambang, berurutan” dengan Lencana diseret ke posisi pertama">
@@ -240,7 +240,7 @@ Posisi [Twitch Miner](https://github.com/SunkwiBOT/twitch-miner) dibandingkan de
 ⁶ Ia bisa mengikuti channel yang diikuti akun tersebut.\
 ⁷ Hanya teks, tanpa gambar. Ia juga punya Matrix, Pushover, dan Gotify, yang tidak dimiliki proyek ini.\
 ⁸ Daftar kampanye dengan filter, tanpa kalender atau pencarian.\
-⁹ Ia punya game prioritas dan game yang dikecualikan, dipilih berdasarkan nama game.\
+⁹ Ia punya kategori prioritas dan kategori yang dikecualikan, dipilih berdasarkan nama kategori.\
 ¹⁰ Secara default, ia lebih dulu menonton streamer di daftarnya yang stream-nya membawa Drops (prioritas `DROPS`-nya), tetapi tidak pernah channel lain.\
 ¹¹ Tidak diukur.\
 ¹² Pengaturan untuk menambang atau melewati kampanye Drops yang hadiahnya berupa lencana atau emote; tanpa quest Twitch dan tanpa daftar lencana.
@@ -316,7 +316,9 @@ Di belakang reverse proxy, atur `MINER_PUBLIC_URL`: tanpanya, permintaan pertama
 
 Setiap 20 detik, tiap akun memilih dua channel-nya: channel live terbaik untuk kampanye teratas di antreannya, lalu streamer di daftar poinnya.
 
-Twitch menghitung **satu kampanye Drops** dan **dua channel untuk poin** sekaligus per akun. Sejak Oktober 2026, drop hanya bisa diklaim jika akun game sudah tertaut. Kampanye yang belum tertaut tetap berjalan, dan dasbor menampilkan tautan untuk menautkannya.
+Jika Twitch tidak membuat kampanye teratas maju setelah 30 menit menonton sungguhan, berarti Twitch tidak menghitungnya: akun menyisihkannya, kampanye peringkat berikutnya mengambil slotnya, dan dicoba lagi secara otomatis 6 jam kemudian — lebih cepat jika progres muncul lebih dulu, meski kampanye yang dicoba ulang itu masih bisa menunggu di belakang kampanye yang sedang ditambang. Progres apa pun mengatur ulang waktu tunggu ini, dan ini berlaku untuk semua jenis kampanye (Drops, lencana, misi). Jika Twitch malah menghitung kampanye lain dari kategori yang sama dan kampanye itu selesai atau diklaim, penyisihan langsung dicabut, bukan menunggu 6 jam penuh. Memulai ulang aplikasi atau server melupakan semua kampanye yang disisihkan: kampanye yang macet akan langsung mendapat 30 menit baru.
+
+Twitch menghitung **satu kampanye Drops** dan **dua channel untuk poin** sekaligus per akun. Sejak Oktober 2026, drop hanya bisa diklaim jika akun penerbit sudah tertaut. Kampanye yang belum tertaut tetap berjalan, dan dasbor menampilkan tautan untuk menautkannya.
 
 Daftar kampanye berasal dari proyek [Twitch Drops API](https://drops.sunkwi.com) (diperbarui setiap 10 menit), karena Twitch menyembunyikannya dari klien TV.
 
@@ -336,10 +338,10 @@ Itu batas dari Twitch: Twitch hanya menghitung dua channel yang ditonton bersama
 ### Drops
 
 **Sebuah kampanye tidak ditambang, atau sebuah drop tidak maju.**\
-Buka halaman **Drops** akun tersebut. Di “Urutan penambangan”, setiap kampanye yang menunggu menyebutkan alasannya: “Tidak ada channel yang live” atau “Menunggu (satu kampanye sekaligus)”. Kampanye yang tidak muncul di daftar itu sudah disisihkan: oleh “Apa yang ditambang, berurutan”, oleh pengaturan “Kampanye mana”, oleh aturan di tab **Pengecualian**, atau karena tidak bisa selesai tepat waktu. Hadiah yang membutuhkan langganan menunggu sampai Anda sendiri berlangganan, lencana yang harus ditonton setiap hari menunggu hari berikutnya, tidak ada yang ditambang sebelum kampanyenya dimulai, dan drop yang menyusul drop lain menunggu sampai drop pertama selesai. Di mode **Hanya poin**, penambang tidak memilih kampanye apa pun. “Tambang lebih dulu”, di detail sebuah kampanye, menaruhnya di urutan teratas; kampanye yang diabaikan bisa kembali lewat “Tambang lagi”, di tab **Pengecualian**.
+Buka halaman **Drops** akun tersebut. Di “Urutan penambangan”, setiap kampanye yang menunggu menyebutkan alasannya: “Tidak ada channel yang live” atau “Menunggu (satu kampanye sekaligus)”. “Twitch tidak menghitungnya — coba lagi dalam …” berarti 30 menit menonton sungguhan tidak membawa progres di sisi Twitch: kampanye tersebut disisihkan dan dicoba lagi secara otomatis dalam waktu yang ditampilkan, atau lebih cepat jika progres muncul lebih dulu. Kampanye yang tidak muncul di daftar itu sudah disisihkan: oleh “Apa yang ditambang, berurutan”, oleh pengaturan “Kampanye mana”, oleh aturan di tab **Pengecualian**, atau karena tidak bisa selesai tepat waktu. Hadiah yang membutuhkan langganan menunggu sampai Anda sendiri berlangganan, lencana yang harus ditonton setiap hari menunggu hari berikutnya, tidak ada yang ditambang sebelum kampanyenya dimulai, dan drop yang menyusul drop lain menunggu sampai drop pertama selesai. Di mode **Hanya poin**, penambang tidak memilih kampanye apa pun. “Tambang lebih dulu”, di detail sebuah kampanye, menaruhnya di urutan teratas; kampanye yang diabaikan bisa kembali lewat “Tambang lagi”, di tab **Pengecualian**.
 
-**Apakah saya perlu menautkan akun game?**\
-Untuk mengklaim, ya: sejak Oktober 2026, Twitch hanya mengizinkan klaim drop jika akun game sudah tertaut. Secara default, kampanye yang belum tertaut tetap berjalan dan klaimnya menunggu penautan. Lencana “Belum tertaut” menandainya, dan “Tautkan akun game”, di detail kampanye, membuka halaman penautan. Untuk menambang game yang tertaut saja, pilih “Hanya game yang akunnya tertaut”.
+**Apakah saya perlu menautkan akun penerbit?**\
+Untuk mengklaim, ya: sejak Oktober 2026, Twitch hanya mengizinkan klaim drop jika akun penerbit sudah tertaut. Secara default, kampanye yang belum tertaut tetap berjalan dan klaimnya menunggu penautan. Lencana “Belum tertaut” menandainya, dan “Tautkan akun penerbit”, di detail kampanye, membuka halaman penautan. Untuk menambang kategori yang tertaut saja, pilih “Hanya kategori yang akun penerbitnya tertaut”.
 
 ### Instalasi dan data
 

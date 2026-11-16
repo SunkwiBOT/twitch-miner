@@ -91,6 +91,7 @@ pub fn wanted(events: &NotificationEvents, kind: EventKind) -> bool {
     match kind {
         EventKind::DropClaimed | EventKind::CampaignFinished => events.drop_claimed,
         EventKind::DropProgress => events.drop_progress,
+        EventKind::CampaignSetAside | EventKind::CampaignRetried => events.campaign_set_aside,
         EventKind::BonusClaimed => events.bonus_claimed,
         EventKind::PredictionPlaced => events.prediction_placed,
         EventKind::PredictionResult => events.prediction_result,
@@ -101,7 +102,7 @@ pub fn wanted(events: &NotificationEvents, kind: EventKind) -> bool {
         EventKind::ChatMention => events.chat_mention,
         EventKind::SessionExpired => events.session_expired,
         EventKind::Error => events.errors,
-        EventKind::UpdateAvailable => events.update_available,
+        EventKind::UpdateAvailable | EventKind::VersionUpdated => events.update_available,
         EventKind::Info
         | EventKind::WatchStarted
         | EventKind::WatchStopped

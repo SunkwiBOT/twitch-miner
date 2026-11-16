@@ -1,4 +1,5 @@
 import type { AccountSnapshotType } from "../bindings/AccountSnapshotType";
+import { QueueBlock } from "../bindings/QueueBlock";
 import type { TimedDropType } from "../bindings/TimedDropType";
 import { campaignOf } from "./catalogue.svelte";
 import { dropDone, dropTotals, evolutionBlocked, subsMissing } from "./campaign.utils";
@@ -29,10 +30,12 @@ export const campaignProgress = (
       minable: false,
       ready: [],
       linked: undefined,
+      setAsideUntil: null,
     };
   }
 
   const drops = account.settings.drops;
+  const queued = account.queue.find((item) => item.campaign_id === id);
   const done = (drop: TimedDropType): boolean =>
     dropDone(drop) ||
     (!drop.repeat && drop.instance_id !== undefined && claimed.includes(drop.instance_id));
@@ -68,6 +71,10 @@ export const campaignProgress = (
       return ProgressState.SUB_ONLY;
     }
 
+    if (queued?.blocked === QueueBlock.SET_ASIDE) {
+      return ProgressState.SET_ASIDE;
+    }
+
     if (minesCampaign(account, id)) {
       return ProgressState.MINING;
     }
@@ -90,5 +97,6 @@ export const campaignProgress = (
     ),
     ready: waiting,
     linked: campaign.linked,
+    setAsideUntil: queued?.set_aside_until ?? null,
   };
 };

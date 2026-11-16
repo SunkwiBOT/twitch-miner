@@ -95,6 +95,10 @@ pub struct GlobalBadge {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
     pub click_url: Option<String>,
+    // ! From the public catalogue only: its own page on drops.sunkwi.com.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub web_url: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
     pub first_seen_at: Option<DateTime<Utc>>,
@@ -264,6 +268,7 @@ pub fn parse_badges(payload: &Value) -> Result<BadgeCatalog> {
                     .or_else(|| text(&record["imageUrl2x"]))
                     .or_else(|| text(&record["imageUrl1x"])),
                 click_url: text(&record["clickUrl"]),
+                web_url: crate::drops_api::valid_web_url(text(&record["webUrl"])),
                 first_seen_at: parse_time(&record["firstSeenAt"]),
                 requirement: record
                     .get("requirement")

@@ -282,6 +282,10 @@ pub struct Campaign {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
     pub image_url: Option<String>,
+    // ! From the public catalogue only: its game's page on drops.sunkwi.com, anchored to the campaign.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub web_url: Option<String>,
     pub starts_at: DateTime<Utc>,
     pub ends_at: DateTime<Utc>,
     #[serde(default)]

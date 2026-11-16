@@ -5,6 +5,7 @@ mod inventory;
 mod points;
 mod registry;
 mod session;
+mod setaside;
 mod slots;
 mod snapshot;
 mod sockets;
@@ -75,6 +76,11 @@ const QUEST_OFFERS_ASKED: usize = 20;
 const EQUIP_RETRY: Duration = Duration::from_secs(10 * 60);
 const MENTION_COOLDOWN: Duration = Duration::from_secs(60);
 const OWN_SPEND_WAIT: Duration = Duration::from_secs(2 * 60);
+// ! Real minutes sent for a campaign's Drop slot without Twitch moving its
+// own progress counter, before the campaign is set aside for the account.
+const PROGRESS_STALL_MINUTES: u32 = 30;
+// ! How long a set-aside campaign waits before Twitch is asked to credit it again.
+const SET_ASIDE_RETRY: chrono::Duration = chrono::Duration::hours(6);
 // ! Twitch's answer for a bonus chest another session took first, or that
 // expired: nothing went wrong here.
 const BONUS_GONE: [&str; 1] = ["NOT_FOUND"];
@@ -126,6 +132,7 @@ struct ActiveSlot {
     playback: Option<Playback>,
     next_playback: tokio::time::Instant,
     beacon_failures: u32,
+    playback_accumulated: Duration,
 }
 
 struct OwnSpend {
@@ -251,6 +258,7 @@ struct AccountMiner<T> {
     // ! A bet sent once is never sent again for its prediction: Twitch repeats the prediction at every update.
     bets_tried: HashSet<String>,
     claims: ClaimRegistry,
+    set_aside: setaside::SetAside,
     // ! PubSub and the balance read can both bring the same chest.
     bonus_claims: HashMap<String, String>,
     beacon_blocked: bool,
@@ -370,6 +378,7 @@ impl<T: TwitchApi> AccountMiner<T> {
             predictions_placed: HashMap::new(),
             bets_tried: HashSet::new(),
             claims: ClaimRegistry::default(),
+            set_aside: HashMap::new(),
             bonus_claims: HashMap::new(),
             beacon_blocked: false,
             beacon_connect_failures: 0,
@@ -472,11 +481,10 @@ impl<T: TwitchApi> AccountMiner<T> {
 
         // ! A quest's progress is told before the quest joins the campaigns.
         if event.context.miner.is_none() {
-            let drops_campaign = event
-                .context
-                .campaign_id
-                .as_deref()
-                .filter(|_| event.kind.miner() == Some(MinerKind::Drops));
+            let drops_campaign =
+                event.context.campaign_id.as_deref().filter(|_| {
+                    event.kind.miner() == Some(MinerKind::Drops) || event.kind.generic()
+                });
 
             event.context.miner = match drops_campaign {
                 Some(id) if self.quests.iter().any(|quest| quest.id == id) => {
@@ -486,6 +494,7 @@ impl<T: TwitchApi> AccountMiner<T> {
                     self.campaigns.get(id),
                     event.context.drop_id.as_deref(),
                 )),
+                _ if event.kind.generic() => None,
                 _ => event
                     .context
                     .channel
@@ -761,7 +770,7 @@ impl<T: TwitchApi> AccountMiner<T> {
             return;
         }
 
-        self.apply_plan().await;
+        self.apply_plan(Utc::now()).await;
         self.refresh_follows(now).await;
         self.pump_slots().await;
         self.serve_waiting().await;

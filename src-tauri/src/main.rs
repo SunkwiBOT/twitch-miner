@@ -207,12 +207,14 @@ fn main() {
             let handle = app.handle().clone();
 
             tauri::async_runtime::spawn(async move {
+                let event_receiver = manager.subscribe();
+
                 manager.start().await;
                 tauri::async_runtime::spawn(updates::check_regularly(
                     handle.clone(),
                     manager.clone(),
                 ));
-                forward_events(handle, manager).await;
+                forward_events(handle, manager, event_receiver).await;
             });
 
             tray::install(app.handle(), i18n::resolve(&settings.language))?;

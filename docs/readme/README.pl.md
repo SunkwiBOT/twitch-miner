@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Kopie Twitch Drops i punkty kanału na wielu kontach, bez przeglądarki i bez otwartej karty Twitcha.</strong>
+  <strong>Kopie Twitch Drops, odznaki i punkty kanału, bez przeglądarki i bez otwartej karty Twitcha.</strong>
 </p>
 
 <p align="center">
@@ -144,7 +144,7 @@ działa.
 ### Drops
 
 - **Wszystkie trwające kampanie Drops.** Każda kampania ma własną kartę szczegółów: nagrody,
-  połączenie konta gry, „Kop najpierw”. Lista pochodzi z projektu
+  połączenie konta wydawcy, „Kop najpierw”. Lista pochodzi z projektu
   [Twitch Drops API](https://drops.sunkwi.com) i odświeża się co 10 minut.
 
   <details open><summary>Zobacz w akcji</summary>
@@ -152,19 +152,19 @@ działa.
   </details>
 
 - **Twoja kolejność kopania.** Przeciągnij kampanie w wybranej kolejności. Nowe same
-  znajdują swoje miejsce: najpierw Twoje gry priorytetowe, potem najbliższy koniec albo
-  najmniej pozostałych minut. Wykluczaj gry, słowa, kampanię albo pojedynczą nagrodę
+  znajdują swoje miejsce: najpierw Twoje kategorie priorytetowe, potem najbliższy koniec albo
+  najmniej pozostałych minut. Wykluczaj kategorie, słowa, kampanię albo pojedynczą nagrodę
   i pomijaj kampanie, których nie da się ukończyć na czas. „Kop najpierw” w szczegółach
   kampanii przenosi ją na samą górę.
 
   <details open><summary>Zobacz w akcji</summary>
-  <img src="../media/pl/drops-order.avif" alt="Kolejność kopania, gry priorytetowe i wykluczenia">
+  <img src="../media/pl/drops-order.avif" alt="Kolejność kopania, kategorie priorytetowe i wykluczenia">
   </details>
 
 - **Ekwipunek i „Odbierz wszystkie”.** Strona Ekwipunek dzieli nagrody na „Do odebrania”,
   „W toku” i „Odebrane”. Odbieraj je pojedynczo, wszystkie naraz albo włącz
   „Odbieraj dropy automatycznie”.
-  Po „Połącz konto gry” konto jest odczytywane ponownie, gdy tylko wrócisz do aplikacji,
+  Po „Połącz konto wydawcy” konto jest odczytywane ponownie, gdy tylko wrócisz do aplikacji,
   więc połączenie widać od razu.
 
   <details open><summary>Zobacz w akcji</summary>
@@ -188,7 +188,7 @@ działa.
   się kanał z dowolnej kategorii kampanii. Skrzynka daje „1 losowa odznaka z N”. Odznaka
   wymagająca subskrypcji jest kopana, gdy sam wykupisz subskrypcję i Twitch ją policzy.
   Przed startem kampanii nic nie jest kopane. W „Co kopać, w jakiej kolejności” ustaw
-  przeciąganiem gry priorytetowe, odznaki i inne kampanie Drops w wybranej kolejności albo
+  przeciąganiem kategorie priorytetowe, odznaki i inne kampanie Drops w wybranej kolejności albo
   wyłącz którąś z nich. Zadanie Twitcha jest kopane tylko na kanale, na którym Twitch
   oferuje je w swoim panelu Drops. Ewolucja (Pichu → Pikachu) jest kopana, gdy tylko konto
   ma odznakę, z której ewoluuje: miner sam zakłada tę odznakę tuż przedtem i nie przywraca
@@ -321,7 +321,7 @@ się w dowolnej przeglądarce.\
 ⁶ Potrafi obserwować kanały, które obserwuje konto.\
 ⁷ Sam tekst, bez obrazków. Ma też Matrix, Pushover i Gotify, których ten projekt nie ma.\
 ⁸ Lista kampanii z filtrami, bez kalendarza i wyszukiwarki.\
-⁹ Ma gry priorytetowe i wykluczone, wybierane po nazwie gry.\
+⁹ Ma kategorie priorytetowe i wykluczone, wybierane po nazwie kategorii.\
 ¹⁰ Domyślnie najpierw ogląda streamerów ze swojej listy, których transmisja ma Drops (jego
 priorytet `DROPS`), ale nigdy innego kanału.\
 ¹¹ Nie mierzono.\
@@ -416,8 +416,18 @@ Co 20 sekund każde konto wybiera swoje dwa kanały: najlepszy kanał na żywo d
 kampanii w swojej kolejce, a potem streamerów ze swojej listy punktów.
 
 Twitch zalicza na konto jednocześnie **jedną kampanię Drops** i **dwa kanały dla punktów**.
-Od października 2026 r. drop można odebrać tylko wtedy, gdy konto gry jest połączone.
+Od października 2026 r. drop można odebrać tylko wtedy, gdy konto wydawcy jest połączone.
 Niepołączone kampanie nadal robią postępy, a panel pokazuje link do połączenia.
+
+Jeśli postęp Twitcha w najwyżej rankingowanej kampanii nie rusza po 30 minutach
+rzeczywistego oglądania, nie zalicza on tej kampanii: konto odkłada ją na bok, kolejna w
+rankingu kampania zajmuje jej miejsce, a ponowna próba następuje automatycznie 6 godzin
+później — wcześniej, jeśli postęp pojawi się ponownie, choć ponawiana kampania może nadal
+czekać za tą, która jest aktualnie kopana. Każdy postęp resetuje odliczanie i dotyczy to
+każdego rodzaju kampanii (Drops, plakietki, zadania). Jeśli Twitch zamiast tego zaliczy
+inną kampanię z tej samej kategorii i ta kampania zostanie ukończona lub odebrana,
+odłożenie jest znoszone od razu, zamiast czekać pełne 6 godzin. Restart aplikacji lub serwera kasuje
+wszystkie odłożone kampanie: zablokowana kampania po prostu dostaje nowe 30 minut.
 
 Lista kampanii pochodzi z projektu [Twitch Drops API](https://drops.sunkwi.com) (odświeżana
 co 10 minut), bo Twitch ukrywa ją przed klientem TV.
@@ -449,6 +459,9 @@ dyskretniejsze.
 **Kampania nie jest kopana albo drop nie robi postępów.**\
 Otwórz stronę **Drops** danego konta. W sekcji „Kolejność kopania” każda oczekująca
 kampania podaje powód: „Brak kanału na żywo” lub „Oczekiwanie (jedna kampania naraz)”.
+„Twitch tego nie liczy — kolejna próba …” oznacza, że 30 minut rzeczywistego oglądania nie
+przyniosło żadnego postępu po stronie Twitcha: kampania zostaje odłożona na bok i ponawiana
+automatycznie po wskazanym czasie, albo wcześniej, jeśli postęp pojawi się ponownie.
 Kampania, której nie ma na tej liście, została pominięta: przez „Co kopać, w jakiej
 kolejności”, przez ustawienie „Które kampanie”, przez regułę na karcie **Wykluczenia**
 albo dlatego, że nie da się jej ukończyć na czas. Nagroda wymagająca subskrypcji czeka,
@@ -458,12 +471,12 @@ zostanie ukończony. W trybie **Tylko punkty** miner nie wybiera żadnej kampani
 „Kop najpierw” w szczegółach kampanii przenosi ją na górę; ignorowana kampania może
 wrócić dzięki „Kop ponownie” na karcie **Wykluczenia**.
 
-**Czy muszę połączyć konto gry?**\
+**Czy muszę połączyć konto wydawcy?**\
 Żeby odebrać nagrodę, tak: od października 2026 r. Twitch pozwala odebrać drop tylko
-wtedy, gdy konto gry jest połączone. Domyślnie niepołączona kampania i tak robi postępy,
-a odbiór czeka na połączenie. Sygnalizuje to plakietka „Niepołączone”, a „Połącz konto gry”
-w szczegółach kampanii otwiera stronę łączenia. Aby kopać tylko połączone gry, wybierz
-„Tylko gry z połączonym kontem”.
+wtedy, gdy konto wydawcy jest połączone. Domyślnie niepołączona kampania i tak robi postępy,
+a odbiór czeka na połączenie. Sygnalizuje to plakietka „Niepołączone”, a „Połącz konto wydawcy”
+w szczegółach kampanii otwiera stronę łączenia. Aby kopać tylko połączone kategorie, wybierz
+„Tylko kategorie, których konto wydawcy jest połączone”.
 
 ### Instalacja i dane
 

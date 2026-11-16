@@ -125,15 +125,23 @@ impl<T: TwitchApi> AccountMiner<T> {
                                 "Bet not placed on {login}: the prediction closed first ({code})"
                             ),
                         )
-                        .context(EventContext::channel(&login));
+                        .context(EventContext {
+                            miner: Some(MinerKind::Points),
+                            ..EventContext::channel(&login)
+                        });
 
                     self.publish(miner_event);
                 }
                 Err(error) => {
-                    let miner_event = self.emit(
-                        EventKind::Error,
-                        format!("Prediction on {login} failed: {error}"),
-                    );
+                    let miner_event = self
+                        .emit(
+                            EventKind::Error,
+                            format!("Prediction on {login} failed: {error}"),
+                        )
+                        .context(EventContext {
+                            miner: Some(MinerKind::Points),
+                            ..EventContext::channel(&login)
+                        });
 
                     self.publish(miner_event);
                 }

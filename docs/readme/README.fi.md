@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Louhii Twitch Drops -palkintoja ja kanavapisteitä usealla tilillä ilman selainta ja ilman avointa Twitch-välilehteä.</strong>
+  <strong>Louhii Twitch Dropseja, merkkejä ja kanavapisteitä, ilman selainta ja ilman avointa Twitch-välilehteä.</strong>
 </p>
 
 <p align="center">
@@ -146,7 +146,7 @@ ominaisuuden käytössä.
 ### Drops
 
 - **Kaikki käynnissä olevat Drops-kampanjat.** Jokaisella kampanjalla on omat tietonsa:
-  palkinnot, pelitilin linkitys, ”Louhi ensin”. Lista tulee
+  palkinnot, julkaisijatilin linkitys, ”Louhi ensin”. Lista tulee
   [Twitch Drops API](https://drops.sunkwi.com) -projektista ja päivittyy 10 minuutin
   välein.
 
@@ -155,19 +155,19 @@ ominaisuuden käytössä.
   </details>
 
 - **Oma louhintajärjestyksesi.** Vedä kampanjat haluamaasi järjestykseen. Uudet löytävät
-  paikkansa itse: ensin prioriteettipelisi, sitten lähimpänä päättyvät tai ne, joissa on
-  vähiten minuutteja jäljellä. Sulje pois pelejä, sanoja, kampanja tai yksittäinen
+  paikkansa itse: ensin prioriteettikategoriasi, sitten lähimpänä päättyvät tai ne, joissa on
+  vähiten minuutteja jäljellä. Sulje pois kategorioita, sanoja, kampanja tai yksittäinen
   palkinto, ja ohita kampanjat, jotka eivät ehdi valmistua ajoissa. ”Louhi ensin”
   kampanjan tiedoissa nostaa sen kärkeen.
 
   <details open><summary>Katso toiminnassa</summary>
-  <img src="../media/fi/drops-order.avif" alt="Louhintajärjestys, prioriteettipelit ja ohitukset">
+  <img src="../media/fi/drops-order.avif" alt="Louhintajärjestys, prioriteettikategoriat ja ohitukset">
   </details>
 
 - **Varasto ja ”Lunasta kaikki”.** Varasto-sivu jakaa palkinnot ryhmiin
   ”Lunastettavissa”, ”Kesken” ja ”Lunastetut”. Lunasta ne yksi kerrallaan tai kaikki
   kerralla, tai ota käyttöön ”Lunasta dropsit automaattisesti”.
-  Kun olet valinnut ”Linkitä pelitili”, tili luetaan uudelleen heti, kun palaat
+  Kun olet valinnut ”Linkitä julkaisijatili”, tili luetaan uudelleen heti, kun palaat
   sovellukseen, joten linkitys näkyy saman tien.
 
   <details open><summary>Katso toiminnassa</summary>
@@ -190,7 +190,7 @@ ominaisuuden käytössä.
   päivässä, 3 päivää”), ja mikä tahansa kanava kampanjan kategorioista kelpaa. Arkku
   antaa ”1 satunnainen merkki, vaihtoehtoja N”. Tilausta vaativa merkki louhitaan, kun
   olet itse tehnyt tilauksen ja Twitch laskee sen. Mitään ei louhita ennen kampanjan
-  alkua. Vedä kohdassa ”Mitä louhitaan, järjestyksessä” prioriteettipelit, merkit ja muut
+  alkua. Vedä kohdassa ”Mitä louhitaan, järjestyksessä” prioriteettikategoriat, merkit ja muut
   Drops-kampanjat haluamaasi järjestykseen tai kytke jokin niistä pois. Twitchin quest
   louhitaan vain kanavalla, jolla Twitch tarjoaa sitä Drops-paneelissaan. Kehitys (Pichu →
   Pikachu) louhitaan heti, kun tilillä on merkki, josta se kehittyy: louhija ottaa sen
@@ -332,7 +332,7 @@ lokitiedoston.\
 ⁷ Pelkkää tekstiä ilman kuvia. Siinä on myös Matrix, Pushover ja Gotify, joita tässä
 projektissa ei ole.\
 ⁸ Kampanjalista suodattimilla, ilman kalenteria ja hakua.\
-⁹ Siinä on prioriteettipelit ja ohitetut pelit, jotka valitaan pelin nimen mukaan.\
+⁹ Siinä on prioriteettikategoriat ja ohitetut kategoriat, jotka valitaan kategorian nimen mukaan.\
 ¹⁰ Oletuksena se katsoo ensin niitä listansa streamaajia, joiden lähetyksessä on Dropseja
 (sen prioriteetti `DROPS`), mutta ei koskaan muuta kanavaa.\
 ¹¹ Ei mitattu.\
@@ -429,8 +429,16 @@ kärjessä olevalle kampanjalle ja sitten pistelistansa streamaajat.
 
 Twitch hyvittää tiliä kohden kerrallaan **yhden Drops-kampanjan** ja
 **kaksi kanavaa pisteille**. Lokakuusta 2026 lähtien dropin voi lunastaa vain, kun
-pelitili on linkitetty. Linkittämättömät kampanjat edistyvät silti, ja hallintapaneeli
+julkaisijatili on linkitetty. Linkittämättömät kampanjat edistyvät silti, ja hallintapaneeli
 näyttää linkin.
+
+Jos Twitch ei edistä ykköskampanjaa 30 minuutin aidon katselun jälkeen, se ei hyvitä sitä:
+tili siirtää kampanjan syrjään, seuraavaksi sijoittunut kampanja saa paikan, ja uusi yritys
+tapahtuu automaattisesti 6 tunnin kuluttua — aiemmin, jos edistystä ilmenee ensin, vaikka
+uudelleen yritetty kampanja saattaa yhä odottaa parhaillaan louhittavan kampanjan takana.
+Mikä tahansa edistyminen nollaa odotuksen, ja tämä koskee jokaista kampanjatyyppiä (Drops,
+merkit, tehtävät). Jos Twitch hyvittää sen sijaan toisen saman kategorian kampanjan ja se valmistuu tai lunastetaan, syrjäänsiirto puretaan heti sen sijaan, että odotettaisiin koko 6 tuntia. Sovelluksen tai palvelimen uudelleenkäynnistys unohtaa kaikki syrjään
+siirretyt kampanjat: jumissa oleva kampanja saa yksinkertaisesti uudet 30 minuuttia.
 
 Kampanjaluettelo tulee [Twitch Drops API](https://drops.sunkwi.com) -projektista
 (päivittyy 10 minuutin välein), koska Twitch piilottaa sen TV-asiakkaalta.
@@ -461,22 +469,24 @@ kanava palvelee kampanjaa ja toinen streamaajiasi. ”Yksi kanava” -asetus koh
 
 **Kampanjaa ei louhita, tai drop ei edisty.**\
 Avaa tilin **Drops**-sivu. Kohdassa ”Louhintajärjestys” jokainen odottava kampanja kertoo
-syyn: ”Ei kanavaa livenä” tai ”Odottaa (yksi kampanja kerrallaan)”. Kampanja, joka ei
-näy tässä listassa, on jätetty pois: kohdan ”Mitä louhitaan, järjestyksessä” vuoksi,
-”Mitkä kampanjat” -asetuksella, **Ohitukset**-välilehden säännöllä tai siksi, ettei se
-ehdi valmistua ajoissa. Tilausta vaativa palkinto odottaa, kunnes olet itse tehnyt
-tilauksen, joka päivä katsottava merkki odottaa seuraavaa päivää, mitään ei louhita
-ennen kampanjan alkua, ja toista seuraava drop odottaa, kunnes ensimmäinen on valmis.
-**Vain pisteet** -tilassa louhija ei valitse kampanjaa. ”Louhi ensin” kampanjan
-tiedoissa nostaa sen kärkeen; ohitetun kampanjan saa takaisin valinnalla ”Louhi taas”
+syyn: ”Ei kanavaa livenä” tai ”Odottaa (yksi kampanja kerrallaan)”. ”Twitch ei laske sitä — uusi yritys …” tarkoittaa, että 30 minuuttia aitoa katselua ei tuonut edistystä Twitchin
+puolella: kampanja siirretään syrjään ja sitä yritetään uudelleen automaattisesti
+näytettynä aikana, tai aiemmin, jos edistystä ilmenee ensin. Kampanja, joka ei näy tässä
+listassa, on jätetty pois: kohdan ”Mitä louhitaan, järjestyksessä” vuoksi, ”Mitkä
+kampanjat” -asetuksella, **Ohitukset**-välilehden säännöllä tai siksi, ettei se ehdi
+valmistua ajoissa. Tilausta vaativa palkinto odottaa, kunnes olet itse tehnyt tilauksen,
+joka päivä katsottava merkki odottaa seuraavaa päivää, mitään ei louhita ennen kampanjan
+alkua, ja toista seuraava drop odottaa, kunnes ensimmäinen on valmis. **Vain pisteet**
+-tilassa louhija ei valitse kampanjaa. ”Louhi ensin” kampanjan tiedoissa nostaa sen
+kärkeen; ohitetun kampanjan saa takaisin valinnalla ”Louhi taas”
 **Ohitukset**-välilehdellä.
 
-**Pitääkö pelitili linkittää?**\
+**Pitääkö julkaisijatili linkittää?**\
 Lunastamista varten kyllä: lokakuusta 2026 lähtien Twitch antaa lunastaa dropin vain, kun
-pelitili on linkitetty. Oletuksena linkittämätön kampanja edistyy silti, ja lunastus
-odottaa linkitystä. ”Ei linkitetty” -merkki kertoo tästä, ja ”Linkitä pelitili”
+julkaisijatili on linkitetty. Oletuksena linkittämätön kampanja edistyy silti, ja lunastus
+odottaa linkitystä. ”Ei linkitetty” -merkki kertoo tästä, ja ”Linkitä julkaisijatili”
 kampanjan tiedoissa avaa linkityssivun. Jos haluat louhia vain linkitettyjä pelejä,
-valitse ”Vain pelit, joiden tili on linkitetty”.
+valitse ”Vain kategoriat, joiden julkaisijatili on linkitetty”.
 
 ### Asennus ja tiedot
 

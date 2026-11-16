@@ -54,7 +54,10 @@
     }
 
     const about =
-      event.kind === EventKind.DROP_PROGRESS || event.kind === EventKind.CAMPAIGN_FINISHED;
+      event.kind === EventKind.DROP_PROGRESS ||
+      event.kind === EventKind.CAMPAIGN_FINISHED ||
+      event.kind === EventKind.CAMPAIGN_SET_ASIDE ||
+      event.kind === EventKind.CAMPAIGN_RETRIED;
 
     if (art && about) {
       return { src: boxArt(art, BoxArtSize.ACTIVITY), round: false, contain: false };

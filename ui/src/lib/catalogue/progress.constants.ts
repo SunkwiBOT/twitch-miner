@@ -3,6 +3,7 @@ import type { AccountSnapshotType } from "../bindings/AccountSnapshotType";
 export enum ProgressState {
   CLAIMABLE = "CLAIMABLE",
   MINING = "MINING",
+  SET_ASIDE = "SET_ASIDE",
   IN_PROGRESS = "IN_PROGRESS",
   NOT_STARTED = "NOT_STARTED",
   SUB_ONLY = "SUB_ONLY",
@@ -26,4 +27,5 @@ export type AccountProgressType = {
   current: number;
   required: number;
   minable: boolean;
+  setAsideUntil: string | null;
 };

@@ -275,6 +275,7 @@ impl Quest {
             linked: None,
             link_url: None,
             image_url: self.image_url.clone(),
+            web_url: None,
             starts_at: self.starts_at,
             ends_at: self.ends_at,
             allowed_channels: Vec::new(),

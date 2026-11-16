@@ -74,7 +74,7 @@ impl<T: TwitchApi> AccountMiner<T> {
                             .emit(
                                 EventKind::Error,
                                 format!(
-                                    "Twitch refused the claim of {drop_name} ({status}): link the game account"
+                                    "Twitch refused the claim of {drop_name} ({status}): link the publisher account"
                                 ),
                             )
                             .context(EventContext {
@@ -194,7 +194,7 @@ impl<T: TwitchApi> AccountMiner<T> {
 
         if unlinked {
             return Err(Error::ClaimRefused(
-                "the game account is not linked".to_owned(),
+                "the publisher account is not linked".to_owned(),
             ));
         }
 

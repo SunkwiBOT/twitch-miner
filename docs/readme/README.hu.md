@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Twitch Drops-ot és csatornapontokat bányászik több fiókon, böngésző és nyitott Twitch-lap nélkül.</strong>
+  <strong>Twitch Drops-ot, jelvényeket és csatornapontokat bányászik, böngésző és nyitott Twitch-lap nélkül.</strong>
 </p>
 
 <p align="center">
@@ -147,7 +147,7 @@ láthatod, hogyan működnek.
 ### Drops
 
 - **Minden futó Drops-kampány.** Minden kampánynak saját adatlapja van: jutalmak,
-  játékfiók összekapcsolása, „Bányászás elsőként”. A lista a
+  kiadói fiók összekapcsolása, „Bányászás elsőként”. A lista a
   [Twitch Drops API](https://drops.sunkwi.com) projektből származik, és 10 percenként
   frissül.
 
@@ -156,19 +156,19 @@ láthatod, hogyan működnek.
   </details>
 
 - **A saját bányászási sorrended.** Húzd a kampányokat a kívánt sorrendbe. Az újak maguktól
-  a helyükre kerülnek: előbb a prioritást élvező játékaid, aztán a leghamarabb záruló vagy
-  a legkevesebb hátralévő percet igénylő kampány. Zárj ki játékokat, szavakat, egy kampányt
+  a helyükre kerülnek: előbb a prioritást élvező kategóriáid, aztán a leghamarabb záruló vagy
+  a legkevesebb hátralévő percet igénylő kampány. Zárj ki kategóriákat, szavakat, egy kampányt
   vagy egyetlen jutalmat, és hagyd ki azokat a kampányokat, amelyek nem fejezhetők be
   időben. A kampány adatlapján a „Bányászás elsőként” a lista élére teszi.
 
   <details open><summary>Működés közben</summary>
-  <img src="../media/hu/drops-order.avif" alt="A bányászási sorrend, a prioritás játékok és a kizárások">
+  <img src="../media/hu/drops-order.avif" alt="A bányászási sorrend, a prioritás kategóriák és a kizárások">
   </details>
 
 - **Leltár és „Összes begyűjtése”.** A Leltár oldal a jutalmakat a „Begyűjthető”,
   a „Folyamatban” és a „Begyűjtve” csoportba sorolja. Gyűjtsd be őket egyenként, egyszerre
   mindet, vagy kapcsold be a „Drops automatikus begyűjtése” beállítást.
-  A „Játékfiók összekapcsolása” után a fiókot újra beolvassa, amint visszatérsz az
+  A „Kiadói fiók összekapcsolása” után a fiókot újra beolvassa, amint visszatérsz az
   alkalmazásba, így az összekapcsolás azonnal látszik.
 
   <details open><summary>Működés közben</summary>
@@ -193,7 +193,7 @@ láthatod, hogyan működnek.
   kategóriájának csatornája számít. Egy láda „1 véletlen jelvény N közül” jutalmat ad. Az
   előfizetést igénylő jelvényt akkor bányássza, amikor már te magad előfizettél, és a Twitch
   beszámította. A kampány kezdete előtt semmit sem bányászik. A „Mit bányásszon,
-  sorrendben” részben húzd a kívánt sorrendbe a prioritás játékokat, a jelvényeket és a
+  sorrendben” részben húzd a kívánt sorrendbe a prioritás kategóriákat, a jelvényeket és a
   többi Drops-kampányt, vagy kapcsolj ki közülük egyet. Egy Twitch-küldetést csak olyan
   csatornán bányászik, ahol a Twitch a Drops-paneljén felkínálja. Egy fejlődést (Pichu →
   Pikachu) akkor bányászik, amikor a fióknak már megvan a jelvény, amelyből fejlődik: a
@@ -329,7 +329,7 @@ böngészőben megnyílik.\
 ⁷ Csak szöveg, képek nélkül. Van benne Matrix, Pushover és Gotify is, amelyek ebben
 a projektben nincsenek.\
 ⁸ Kampánylista szűrőkkel, naptár és keresés nélkül.\
-⁹ Vannak prioritás és kizárt játékai, játéknév alapján kiválasztva.\
+⁹ Vannak prioritás és kizárt kategóriái, kategórianév alapján kiválasztva.\
 ¹⁰ Alapértelmezés szerint először a listáján szereplő azon streamereket nézi, akiknek az
 adásában van Drops (a `DROPS` prioritása), de más csatornát soha.\
 ¹¹ Nem mértük.\
@@ -426,9 +426,17 @@ helyett.
 a sora élén álló kampányhoz, utána a pontlistája streamereit.
 
 A Twitch fiókonként egyszerre **egy Drops-kampányt** és **két csatornát a pontokért** ír
-jóvá. 2026 októbere óta egy drop csak akkor gyűjthető be, ha a játékfiók össze van
+jóvá. 2026 októbere óta egy drop csak akkor gyűjthető be, ha a kiadói fiók össze van
 kapcsolva. A nem összekapcsolt kampányok így is haladnak, és az irányítópult mutatja az
 összekapcsolás linkjét.
+
+Ha a Twitch 30 perc valódi nézés után sem lépteti előre az első helyen álló kampányt, akkor
+nem írja jóvá: a fiók félreteszi, a sorban következő kampány veszi át a helyét, és
+automatikusan újrapróbálja 6 óra múlva — hamarabb, ha előbb halad valamennyit, bár az
+újrapróbált kampány még mindig várakozhat az éppen bányászott kampány mögött. Bármilyen
+előrehaladás nullázza a várakozást, és ez minden kampánytípusra vonatkozik (Drops, jelvények,
+küldetések). Ha a Twitch helyette egy másik, ugyanabba a kategóriába tartozó kampányt ír jóvá, és az befejeződik vagy be lesz gyűjtve, a félretétel azonnal feloldódik, ahelyett hogy a teljes 6 órát kivárná. Az alkalmazás vagy a szerver újraindítása elfelejti az összes félretett
+kampányt: egy beragadt kampány egyszerűen új 30 percet kap.
 
 A kampánylista a [Twitch Drops API](https://drops.sunkwi.com) projektből jön (10 percenként
 frissül), mert a Twitch elrejti a TV-s kliens elől.
@@ -459,23 +467,24 @@ feltűnésmentesebb.
 
 **Egy kampányt nem bányászik, vagy egy drop nem halad.**\
 Nyisd meg a fiók **Drops** oldalát. A „Bányászási sorrend” részben minden várakozó kampány
-megmondja, miért vár: „Nincs élő csatorna” vagy „Várakozik (egyszerre egy kampány)”. Az a
-kampány, amely nem szerepel ebben a listában, kimaradt: a „Mit bányásszon, sorrendben”
-miatt, a „Mely kampányok” beállítás miatt, a **Kizárások** lap egy szabálya miatt, vagy
-mert nem fejezhető be időben. Az előfizetést igénylő jutalom megvárja, amíg te magad
-előfizetsz, a minden nap nézendő jelvény a következő napot várja, a kampány kezdete előtt
-semmit sem bányászik, a másikat követő drop pedig megvárja, amíg az első elkészül.
-**Csak pontok** módban a bányász nem választ kampányt. A kampány adatlapján a „Bányászás
-elsőként” a lista élére teszi; egy mellőzött kampány az „Újbóli bányászás” gombbal térhet
-vissza, a **Kizárások** lapon.
+megmondja, miért vár: „Nincs élő csatorna” vagy „Várakozik (egyszerre egy kampány)”. „A Twitch nem számolja el — újra …” azt jelenti, hogy 30 perc valódi nézés sem
+hozott előrehaladást a Twitch oldalán: a kampány félretevésre kerül, és a megjelenített időn
+belül automatikusan újrapróbálja, vagy hamarabb, ha előbb halad valamennyit. Az a kampány,
+amely nem szerepel ebben a listában, kimaradt: a „Mit bányásszon, sorrendben” miatt, a „Mely
+kampányok” beállítás miatt, a **Kizárások** lap egy szabálya miatt, vagy mert nem fejezhető
+be időben. Az előfizetést igénylő jutalom megvárja, amíg te magad előfizetsz, a minden nap
+nézendő jelvény a következő napot várja, a kampány kezdete előtt semmit sem bányászik, a
+másikat követő drop pedig megvárja, amíg az első elkészül. **Csak pontok** módban a bányász
+nem választ kampányt. A kampány adatlapján a „Bányászás elsőként” a lista élére teszi; egy
+mellőzött kampány az „Újbóli bányászás” gombbal térhet vissza, a **Kizárások** lapon.
 
-**Össze kell kapcsolnom a játékfiókot?**\
+**Össze kell kapcsolnom a kiadói fiókot?**\
 A begyűjtéshez igen: 2026 októbere óta a Twitch csak akkor enged begyűjteni egy dropot, ha
-a játékfiók össze van kapcsolva. Alapértelmezés szerint a nem összekapcsolt kampány így is
+a kiadói fiók össze van kapcsolva. Alapértelmezés szerint a nem összekapcsolt kampány így is
 halad, a begyűjtés pedig megvárja az összekapcsolást. A „Nincs összekapcsolva” jelvény
-jelzi ezt, a kampány adatlapján pedig a „Játékfiók összekapcsolása” megnyitja az
-összekapcsolási oldalt. Ha csak összekapcsolt játékokat szeretnél bányászni, válaszd
-a „Csak összekapcsolt fiókú játékok” lehetőséget.
+jelzi ezt, a kampány adatlapján pedig a „Kiadói fiók összekapcsolása” megnyitja az
+összekapcsolási oldalt. Ha csak összekapcsolt kategóriákat szeretnél bányászni, válaszd
+a „Csak összekapcsolt kiadói fiókú kategóriák” lehetőséget.
 
 ### Telepítés és adatok
 

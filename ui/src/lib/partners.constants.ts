@@ -31,6 +31,7 @@ export const DISCORD_URL = "https://discord.gg/support-bots-891685895781113886";
 export const DISCORD_NAME = "Discord";
 export const GITHUB_NAME = "GitHub";
 export const DROPS_WEB_URL = "https://drops.sunkwi.com";
+export const DROPS_WEB_HOST = new URL(DROPS_WEB_URL).hostname;
 export const TWITCH_CATEGORY_URL = "https://www.twitch.tv/directory/category";
 export const TWITCH_SEARCH_URL = "https://www.twitch.tv/search";
 export const TWITCH_CONNECTIONS_URL = "https://www.twitch.tv/settings/connections";

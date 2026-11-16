@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { QUEUE_BLOCK_HINTS, QUEUE_BLOCK_LABELS } from "../../../lib/accounts/accounts.utils";
+  import { queueBlockHint, queueBlockLabel } from "../../../lib/accounts/accounts.utils";
   import { miningOrder } from "../../../lib/accounts/changes.utils";
   import {
     reorderWithin,
@@ -96,10 +96,10 @@
                 dot={true}
                 hint={t.badge_hint_queue_mining()}
               />{:else if item?.blocked}<Badge
-                text={QUEUE_BLOCK_LABELS[item.blocked]()}
+                text={queueBlockLabel(item, ticker.now)}
                 tone={BadgeTone.WARNING}
                 dot={false}
-                hint={QUEUE_BLOCK_HINTS[item.blocked]()}
+                hint={queueBlockHint(item, ticker.now)}
               />{:else if account.settings.badges.selection_only && !chosen(row.campaignId)}<Badge
                 text={t.selection_not_selected()}
                 tone={BadgeTone.MUTED}

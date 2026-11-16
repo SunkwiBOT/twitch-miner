@@ -115,6 +115,7 @@ pub enum QueueReason {
 pub enum QueueBlock {
     NoLiveChannel,
     OneCampaignAtATime,
+    SetAside,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
@@ -129,6 +130,12 @@ pub struct QueueItem {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
     pub blocked: Option<QueueBlock>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub set_aside_until: Option<DateTime<Utc>>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub set_aside_stall_minutes: Option<u32>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]
@@ -437,6 +444,13 @@ pub struct CurrentDrop<'a> {
     pub channel_id: &'a str,
 }
 
+// ! Shared with the account's stall tracking (`slots.rs`): a channel only
+// credits a campaign if Twitch marked it drops-enabled, or the campaign
+// names its channels directly.
+pub fn credits_drops(channel: &Channel, campaign: &Campaign) -> bool {
+    channel.drops_enabled || !campaign.allowed_channels.is_empty()
+}
+
 fn pick_channel<'a>(
     settings: &AccountSettings,
     campaign: &Campaign,
@@ -446,7 +460,7 @@ fn pick_channel<'a>(
 ) -> Option<&'a Channel> {
     let preferred = |channel: &Channel| {
         settings.drops.streamers_first
-            && (channel.drops_enabled || !campaign.allowed_channels.is_empty())
+            && credits_drops(channel, campaign)
             && settings
                 .points
                 .streamers
@@ -531,6 +545,7 @@ pub fn rank_streamers<'a>(
 pub fn plan(
     settings: &AccountSettings,
     campaigns: &[Campaign],
+    aside: &HashMap<String, DateTime<Utc>>,
     live_by_campaign: &HashMap<String, Vec<Channel>>,
     streamers: &[StreamerState<'_>],
     current: Option<CurrentDrop<'_>>,
@@ -559,9 +574,10 @@ pub fn plan(
                 .map(Vec::as_slice)
                 .unwrap_or(&[]);
 
-            campaign
-                .next_drop(now, &settings.drops.exclude_drop_ids)
-                .is_some()
+            !aside.contains_key(&campaign.id)
+                && campaign
+                    .next_drop(now, &settings.drops.exclude_drop_ids)
+                    .is_some()
                 && pick_channel(settings, campaign, live, None, &subscribed).is_some()
         };
 
@@ -581,8 +597,9 @@ pub fn plan(
                         .map(|(_, _, t)| *t)
                         .collect();
 
-                    pick_channel(settings, campaign, live, watching(campaign), &subscribed)
-                        .is_some()
+                    !aside.contains_key(current.campaign_id)
+                        && pick_channel(settings, campaign, live, watching(campaign), &subscribed)
+                            .is_some()
                         && !above.iter().any(|t| *t == 0 || t < tier)
                 });
 
@@ -599,7 +616,6 @@ pub fn plan(
                 .get(&campaign.id)
                 .map(Vec::as_slice)
                 .unwrap_or(&[]);
-            let chosen = pick_channel(settings, campaign, live, watching(campaign), &subscribed);
             let mut item = QueueItem {
                 campaign_id: campaign.id.clone(),
                 reason,
@@ -609,7 +625,19 @@ pub fn plan(
                 ends_at: campaign.ends_at,
                 linked: campaign.linked,
                 blocked: None,
+                set_aside_until: None,
+                set_aside_stall_minutes: None,
             };
+
+            if let Some(retry_at) = aside.get(&campaign.id).copied() {
+                item.blocked = Some(QueueBlock::SetAside);
+                item.set_aside_until = Some(retry_at);
+                plan.queue.push(item);
+
+                continue;
+            }
+
+            let chosen = pick_channel(settings, campaign, live, watching(campaign), &subscribed);
 
             match (
                 mining,

@@ -15,6 +15,7 @@ export type CampaignType = {
   linked?: boolean;
   link_url?: string;
   image_url?: string;
+  web_url?: string;
   starts_at: string;
   ends_at: string;
   allowed_channels: Array<ChannelRefType>;

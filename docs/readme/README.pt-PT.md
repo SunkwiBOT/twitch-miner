@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Minera Drops da Twitch e pontos do canal em várias contas, sem navegador nem separador da Twitch aberto.</strong>
+  <strong>Minera Drops, emblemas e pontos de canal da Twitch, sem navegador nem separador da Twitch aberto.</strong>
 </p>
 
 <p align="center">
@@ -144,7 +144,7 @@ funcionar.
 ### Drops
 
 - **Todas as campanhas de Drops em curso.** Cada campanha tem a sua ficha: recompensas,
-  associação da conta do jogo, «Minerar primeiro». A lista vem do projeto
+  associação da conta da editora, «Minerar primeiro». A lista vem do projeto
   [Twitch Drops API](https://drops.sunkwi.com) e é atualizada a cada 10 minutos.
 
   <details open><summary>Ver em ação</summary>
@@ -152,19 +152,19 @@ funcionar.
   </details>
 
 - **A sua ordem de mineração.** Arraste as campanhas para a ordem que quiser. As novas
-  encontram o seu lugar sozinhas: primeiro os seus jogos prioritários, depois as que
-  terminam mais cedo ou as que têm menos minutos em falta. Exclua jogos, palavras, uma
+  encontram o seu lugar sozinhas: primeiro as suas categorias prioritárias, depois as que
+  terminam mais cedo ou as que têm menos minutos em falta. Exclua categorias, palavras, uma
   campanha ou uma única recompensa, e ignore as campanhas que não conseguem terminar a
   tempo. «Minerar primeiro», na ficha de uma campanha, coloca-a no topo.
 
   <details open><summary>Ver em ação</summary>
-  <img src="../media/pt-PT/drops-order.avif" alt="A ordem de mineração, os jogos prioritários e as exclusões">
+  <img src="../media/pt-PT/drops-order.avif" alt="A ordem de mineração, as categorias prioritárias e as exclusões">
   </details>
 
 - **Inventário e «Reclamar tudo».** A página Inventário organiza as recompensas em
   «Por reclamar», «Em curso» e «Reclamadas». Reclame-as uma a uma, todas de uma vez, ou
   ative «Reclamar drops automaticamente».
-  Depois de «Associar a conta do jogo», a conta é lida de novo assim que regressa à app,
+  Depois de «Associar a conta da editora», a conta é lida de novo assim que regressa à app,
   pelo que a associação aparece logo.
 
   <details open><summary>Ver em ação</summary>
@@ -188,7 +188,7 @@ funcionar.
   dia, 3 dias»), e conta um canal de qualquer uma das categorias da campanha. Um baú dá
   «1 emblema aleatório entre N». Um emblema que exige uma subscrição é minerado depois de
   se ter subscrito e de a Twitch a contar. Nada é minerado antes do início da sua campanha.
-  Em «O que minerar, por ordem», arraste os jogos prioritários, os emblemas e as outras
+  Em «O que minerar, por ordem», arraste as categorias prioritárias, os emblemas e as outras
   campanhas Drops para a ordem pretendida ou desative um deles. Uma missão da Twitch só é
   minerada num canal em que a Twitch a oferece no seu painel de Drops. Uma evolução (Pichu
   → Pikachu) é minerada assim que a conta tem o emblema a partir do qual evolui: o
@@ -326,7 +326,7 @@ de registo.\
 ⁶ Pode seguir os canais que a conta segue.\
 ⁷ Só texto, sem imagens. Também tem Matrix, Pushover e Gotify, que este projeto não tem.\
 ⁸ Uma lista de campanhas com filtros, sem calendário nem pesquisa.\
-⁹ Tem jogos prioritários e jogos excluídos, escolhidos pelo nome do jogo.\
+⁹ Tem categorias prioritárias e categorias excluídas, escolhidas pelo nome da categoria.\
 ¹⁰ Por predefinição, vê primeiro os streamers da sua lista cujo direto tem Drops (a sua
 prioridade `DROPS`), mas nunca outro canal.\
 ¹¹ Não medido.\
@@ -423,9 +423,20 @@ A cada 20 segundos, cada conta escolhe os seus dois canais: o melhor canal em di
 a primeira campanha da sua fila e, depois, os streamers da sua lista de pontos.
 
 A Twitch credita **uma campanha de Drops** e **dois canais para pontos** em simultâneo por
-conta. Desde outubro de 2026, um drop só pode ser reclamado se a conta do jogo estiver
+conta. Desde outubro de 2026, um drop só pode ser reclamado se a conta da editora estiver
 associada. As campanhas não associadas continuam a progredir, e o painel mostra a ligação
 para a associar.
+
+Se o progresso da Twitch na campanha de topo não avançar ao fim de 30 minutos de
+visionamento real, não a está a creditar: a conta põe-na de parte, a campanha seguinte na
+classificação ocupa o lugar, e uma nova tentativa acontece automaticamente 6 horas depois —
+antes, se o progresso reaparecer primeiro, ainda que a campanha retomada possa continuar à
+espera atrás da que está a ser minerada. Qualquer progresso reinicia a espera, e isto aplica-
+se a todo o tipo de campanha (Drops, emblemas, missões). Se a Twitch creditar outra
+campanha da mesma categoria em vez disso, e essa campanha terminar ou for resgatada, a
+espera é terminada de imediato, em vez de aguardar as 6 horas completas. Reiniciar a aplicação ou o servidor
+esquece todas as campanhas postas de parte: uma campanha bloqueada recebe simplesmente mais
+30 minutos.
 
 A lista de campanhas vem do projeto [Twitch Drops API](https://drops.sunkwi.com)
 (atualizada a cada 10 minutos), porque a Twitch a esconde do cliente de TV.
@@ -455,7 +466,10 @@ discreta.
 
 **Uma campanha não está a ser minerada, ou um drop não avança.**\
 Abra a página **Drops** da conta. Em «Ordem de mineração», cada campanha em espera diz
-porquê: «Nenhum canal em direto» ou «Em espera (uma campanha de cada vez)». Uma campanha
+porquê: «Nenhum canal em direto» ou «Em espera (uma campanha de cada vez)». «O Twitch não contabiliza isso — nova tentativa …» significa que 30 minutos de visionamento real não
+trouxeram qualquer progresso do lado da Twitch: a campanha é posta de parte e tentada de
+novo automaticamente no tempo indicado, ou antes, se o progresso reaparecer primeiro. Uma
+campanha
 que não aparece nessa lista foi posta de parte: por «O que minerar, por ordem», pela
 definição «Que campanhas», por uma regra do separador **Exclusões**, ou porque não
 consegue terminar a tempo. Uma recompensa que exige uma subscrição espera que se
@@ -465,12 +479,12 @@ termine. No modo **Só pontos**, o minerador não escolhe nenhuma campanha. «Mi
 primeiro», na ficha de uma campanha, coloca-a no topo; uma campanha ignorada pode voltar
 com «Voltar a minerar», no separador **Exclusões**.
 
-**Tenho de associar a conta do jogo?**\
+**Tenho de associar a conta da editora?**\
 Para reclamar, sim: desde outubro de 2026, a Twitch só deixa reclamar um drop se a conta
-do jogo estiver associada. Por predefinição, uma campanha não associada continua a
+da editora estiver associada. Por predefinição, uma campanha não associada continua a
 progredir e a reclamação fica à espera da associação. O emblema «Não associada»
-assinala-o, e «Associar a conta do jogo», na ficha da campanha, abre a página de
-associação. Para minerar só jogos associados, escolha «Só jogos com a conta associada».
+assinala-o, e «Associar a conta da editora», na ficha da campanha, abre a página de
+associação. Para minerar só categorias associadas, escolha «Só categorias com a conta da editora associada».
 
 ### Instalação e dados
 

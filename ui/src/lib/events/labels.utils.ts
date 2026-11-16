@@ -13,6 +13,8 @@ export const EVENT_KIND_LABELS: Record<EventKind, () => string> = {
   [EventKind.DROP_PROGRESS]: () => t.event_kind_drop_progress(),
   [EventKind.DROP_CLAIMED]: () => t.event_kind_drop_claimed(),
   [EventKind.CAMPAIGN_FINISHED]: () => t.event_kind_campaign_finished(),
+  [EventKind.CAMPAIGN_SET_ASIDE]: () => t.event_kind_campaign_set_aside(),
+  [EventKind.CAMPAIGN_RETRIED]: () => t.event_kind_campaign_retried(),
   [EventKind.POINTS_EARNED]: () => t.event_kind_points_earned(),
   [EventKind.POINTS_SPENT]: () => t.event_kind_points_spent(),
   [EventKind.REWARD_REDEEMED]: () => t.event_kind_reward_redeemed(),
@@ -29,6 +31,7 @@ export const EVENT_KIND_LABELS: Record<EventKind, () => string> = {
   [EventKind.SESSION_EXPIRED]: () => t.event_kind_session_expired(),
   [EventKind.LOGIN_COMPLETED]: () => t.event_kind_login_completed(),
   [EventKind.UPDATE_AVAILABLE]: () => t.event_kind_update_available(),
+  [EventKind.VERSION_UPDATED]: () => t.event_kind_version_updated(),
 };
 
 export const MINER_LABELS: Record<MinerKind, () => string> = {
@@ -69,5 +72,6 @@ export const KIND_GROUP_LABELS: Record<KindGroup, () => string> = {
   [KindGroup.DROPS]: () => t.journal_filter_drops(),
   [KindGroup.POINTS]: () => t.journal_filter_points(),
   [KindGroup.WATCH]: () => t.journal_group_watch(),
+  [KindGroup.GENERIC]: () => t.journal_filter_other(),
   [KindGroup.OTHER]: () => t.journal_filter_other(),
 };

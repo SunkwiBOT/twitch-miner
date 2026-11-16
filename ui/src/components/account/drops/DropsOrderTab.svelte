@@ -2,8 +2,8 @@
   import { cn } from "$lib/utils";
   import { DropsList } from "../../../lib/accounts/accounts.constants";
   import {
-    QUEUE_BLOCK_HINTS,
-    QUEUE_BLOCK_LABELS,
+    queueBlockHint,
+    queueBlockLabel,
     QUEUE_REASON_HINTS,
     QUEUE_REASON_LABELS,
   } from "../../../lib/accounts/accounts.utils";
@@ -175,10 +175,10 @@
                   dot={true}
                   hint={t.badge_hint_queue_mining()}
                 />{:else if item.blocked}<Badge
-                  text={QUEUE_BLOCK_LABELS[item.blocked]()}
+                  text={queueBlockLabel(item, ticker.now)}
                   tone={BadgeTone.WARNING}
                   dot={false}
-                  hint={QUEUE_BLOCK_HINTS[item.blocked]()}
+                  hint={queueBlockHint(item, ticker.now)}
                 />{:else}<Badge
                   text={QUEUE_REASON_LABELS[item.reason]()}
                   tone={BadgeTone.MUTED}

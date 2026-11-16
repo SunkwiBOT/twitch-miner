@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Minar Twitch Drops och kanalpoäng på flera konton, utan webbläsare och utan någon öppen Twitch-flik.</strong>
+  <strong>Minar Twitch Drops, märken och kanalpoäng, utan webbläsare och utan någon öppen Twitch-flik.</strong>
 </p>
 
 <p align="center">
@@ -145,7 +145,7 @@ arbete.
 ### Drops
 
 - **Alla pågående Drops-kampanjer.** Varje kampanj har sina egna detaljer: belöningar,
-  länkning av spelkontot, ”Mina först”. Listan kommer från projektet
+  länkning av utgivarkontot, ”Mina först”. Listan kommer från projektet
   [Twitch Drops API](https://drops.sunkwi.com) och uppdateras var 10:e minut.
 
   <details open><summary>Se det i aktion</summary>
@@ -153,19 +153,19 @@ arbete.
   </details>
 
 - **Din miningordning.** Dra kampanjerna i den ordning du vill. Nya hittar sin plats
-  själva: dina prioriterade spel först, sedan det närmaste slutet eller minst återstående
-  minuter. Uteslut spel, ord, en kampanj eller en enskild belöning, och hoppa över
+  själva: dina prioriterade kategorier först, sedan det närmaste slutet eller minst återstående
+  minuter. Uteslut kategorier, ord, en kampanj eller en enskild belöning, och hoppa över
   kampanjer som inte hinner bli klara i tid. ”Mina först”, i en kampanjs detaljer, sätter
   den överst.
 
   <details open><summary>Se det i aktion</summary>
-  <img src="../media/sv/drops-order.avif" alt="Miningordningen, de prioriterade spelen och undantagen">
+  <img src="../media/sv/drops-order.avif" alt="Miningordningen, de prioriterade kategorierna och undantagen">
   </details>
 
 - **Inventarie och ”Hämta alla”.** Sidan Inventarie sorterar belöningarna i ”Att hämta”,
   ”Pågår” och ”Hämtade”. Hämta dem en i taget eller alla på en gång, eller slå på
   ”Hämta drops automatiskt”.
-  Efter ”Länka spelkontot” läses kontot in igen så snart du kommer tillbaka till appen, så
+  Efter ”Länka utgivarkontot” läses kontot in igen så snart du kommer tillbaka till appen, så
   länken syns direkt.
 
   <details open><summary>Se det i aktion</summary>
@@ -188,7 +188,7 @@ arbete.
   dagar”), och en kanal i någon av kampanjens kategorier räknas. En kista ger ”1
   slumpmässigt märke av N”. Ett märke som kräver en prenumeration minas när du själv har
   prenumererat och Twitch räknar den. Inget minas innan kampanjen har börjat. I ”Vad som
-  ska minas, i ordning” drar du prioriterade spel, märken och andra Drops-kampanjer i den
+  ska minas, i ordning” drar du prioriterade kategorier, märken och andra Drops-kampanjer i den
   ordning du vill, eller stänger av en av dem. En Twitch-quest minas bara på en kanal där
   Twitch erbjuder den i sin Drops-panel. En utveckling (Pichu → Pikachu) minas så snart
   kontot äger märket den utvecklas från: minern sätter själv på det märket strax innan och
@@ -327,7 +327,7 @@ webbläsare.\
 ⁷ Bara text, utan bilder. Den har också Matrix, Pushover och Gotify, som det här projektet
 saknar.\
 ⁸ En lista över kampanjer med filter, utan kalender eller sökning.\
-⁹ Den har prioriterade spel och uteslutna spel, valda efter spelnamn.\
+⁹ Den har prioriterade kategorier och uteslutna kategorier, valda efter kategorinamn.\
 ¹⁰ Som standard tittar den först på streamers på sin lista vars sändning har Drops (dess
 prioritet `DROPS`), men aldrig på en annan kanal.\
 ¹¹ Inte uppmätt.\
@@ -421,8 +421,18 @@ Var 20:e sekund väljer varje konto sina två kanaler: den bästa livekanalen f�
 kampanjen i sin kö, sedan streamers på sin poänglista.
 
 Twitch krediterar **en Drops-kampanj** och **två kanaler för poäng** åt gången per konto.
-Sedan oktober 2026 kan en drop bara hämtas när spelkontot är länkat. Olänkade kampanjer
+Sedan oktober 2026 kan en drop bara hämtas när utgivarkontot är länkat. Olänkade kampanjer
 ger fortfarande framsteg, och översikten visar länken.
+
+Om Twitch inte har fört den översta kampanjens framsteg framåt efter 30 minuters verkligt
+tittande krediterar den inte den kampanjen: kontot lägger den åt sidan, nästa kampanj i
+kön tar platsen, och ett nytt försök görs automatiskt 6 timmar senare — tidigare om
+framsteg dyker upp innan dess, även om den återförsökta kampanjen ändå kan få vänta bakom
+den som för tillfället minas. Varje framsteg återställer väntetiden, och det gäller alla
+typer av kampanjer (Drops, märken, uppdrag). Om Twitch i stället krediterar en annan
+kampanj i samma kategori, och den kampanjen avslutas eller hämtas ut, hävs
+åtsidosättningen direkt i stället för att vänta de fulla 6 timmarna. Att starta om appen eller servern glömmer
+alla åtsidosättningar: en fastnad kampanj får helt enkelt 30 nya minuter.
 
 Kampanjlistan kommer från projektet [Twitch Drops API](https://drops.sunkwi.com)
 (uppdateras var 10:e minut), eftersom Twitch döljer den för tv-klienten.
@@ -453,9 +463,11 @@ kampanjen och den andra för dina streamers. Inställningen ”En kanal”, i
 
 **En kampanj minas inte, eller en drop gör inga framsteg.**\
 Öppna kontots sida **Drops**. Under ”Miningordning” anger varje väntande kampanj varför:
-”Ingen kanal live” eller ”Väntar (en kampanj i taget)”. En kampanj som inte syns i listan
-har sorterats bort: av ”Vad som ska minas, i ordning”, av inställningen ”Vilka
-kampanjer”, av en regel på fliken **Undantag**, eller för att den inte hinner bli klar i
+”Ingen kanal live” eller ”Väntar (en kampanj i taget)”. ”Twitch räknar inte det — nytt försök …” betyder att 30 minuters verkligt tittande inte gav några framsteg på Twitchs
+sida: kampanjen läggs åt sidan och försöks igen automatiskt inom den visade tiden, eller
+tidigare om framsteg dyker upp innan dess. En kampanj som inte syns i listan har sorterats
+bort: av ”Vad som ska minas, i ordning”, av inställningen ”Vilka kampanjer”, av en regel
+på fliken **Undantag**, eller för att den inte hinner bli klar i
 tid. En belöning som kräver en prenumeration väntar tills du själv har prenumererat, ett
 märke som ska tittas på varje dag väntar på nästa dag, inget minas innan kampanjen har
 börjat, och en drop som följer efter en annan väntar tills den första är klar. I läget
@@ -463,12 +475,12 @@ börjat, och en drop som följer efter en annan väntar tills den första är kl
 sätter den överst; en ignorerad kampanj kan komma tillbaka med ”Mina igen”, på fliken
 **Undantag**.
 
-**Måste jag länka spelkontot?**\
-För att hämta, ja: sedan oktober 2026 låter Twitch dig bara hämta en drop när spelkontot
+**Måste jag länka utgivarkontot?**\
+För att hämta, ja: sedan oktober 2026 låter Twitch dig bara hämta en drop när utgivarkontot
 är länkat. Som standard ger en olänkad kampanj ändå framsteg, och hämtningen väntar på
-länkningen. Märket ”Inte länkat” visar det, och ”Länka spelkontot”, i kampanjens
-detaljer, öppnar länkningssidan. Vill du bara mina länkade spel väljer du
-”Bara spel med länkat konto”.
+länkningen. Märket ”Inte länkat” visar det, och ”Länka utgivarkontot”, i kampanjens
+detaljer, öppnar länkningssidan. Vill du bara mina länkade kategorier väljer du
+”Bara kategorier vars utgivarkonto är länkat”.
 
 ### Installation och data
 

@@ -148,6 +148,8 @@ pub(super) fn progress_over(catalog: &Campaign, account: &Campaign) -> Option<Ca
         linked,
         link_url,
         image_url,
+        // ! Catalogue-merged campaigns carry it too: skipped here because the catalogue's own copy is what gets shown.
+        web_url: _,
         starts_at,
         ends_at,
         allowed_channels,

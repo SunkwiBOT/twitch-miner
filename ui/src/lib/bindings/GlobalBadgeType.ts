@@ -8,6 +8,7 @@ export type GlobalBadgeType = {
   description: string;
   image_url?: string;
   click_url?: string;
+  web_url?: string;
   first_seen_at?: string;
   requirement?: BadgeRequirementType;
 };

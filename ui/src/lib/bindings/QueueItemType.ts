@@ -10,4 +10,6 @@ export type QueueItemType = {
   ends_at: string;
   linked: boolean | null;
   blocked?: QueueBlock;
+  set_aside_until?: string;
+  set_aside_stall_minutes?: number;
 };

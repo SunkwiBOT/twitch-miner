@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Đào Twitch Drops và điểm kênh trên nhiều tài khoản, không cần trình duyệt và không cần mở tab Twitch nào.</strong>
+  <strong>Đào Twitch Drops, huy hiệu và điểm kênh Twitch, không cần trình duyệt và không cần mở tab Twitch nào.</strong>
 </p>
 
 <p align="center">
@@ -122,19 +122,19 @@ Những gì làm nên khác biệt so với các trình đào khác. “Xem minh
 
 ### Drops
 
-- **Mọi chiến dịch Drops đang diễn ra.** Mỗi chiến dịch có phần chi tiết riêng: phần thưởng, liên kết tài khoản game, “Đào trước”. Danh sách lấy từ dự án [Twitch Drops API](https://drops.sunkwi.com) và được làm mới mỗi 10 phút.
+- **Mọi chiến dịch Drops đang diễn ra.** Mỗi chiến dịch có phần chi tiết riêng: phần thưởng, liên kết tài khoản nhà phát hành, “Đào trước”. Danh sách lấy từ dự án [Twitch Drops API](https://drops.sunkwi.com) và được làm mới mỗi 10 phút.
 
   <details open><summary>Xem minh họa</summary>
   <img src="../media/vi/drops-catalogue.avif" alt="Danh mục dạng lịch, ô tìm kiếm và chi tiết một chiến dịch">
   </details>
 
-- **Thứ tự đào của riêng bạn.** Kéo các chiến dịch theo thứ tự bạn muốn. Chiến dịch mới tự tìm chỗ của mình: game ưu tiên của bạn trước, rồi đến chiến dịch kết thúc sớm nhất hoặc còn ít phút nhất. Loại trừ game, từ khóa, một chiến dịch hoặc chỉ một phần thưởng, và bỏ qua những chiến dịch không thể hoàn thành kịp. “Đào trước”, trong chi tiết của một chiến dịch, đưa chiến dịch đó lên đầu.
+- **Thứ tự đào của riêng bạn.** Kéo các chiến dịch theo thứ tự bạn muốn. Chiến dịch mới tự tìm chỗ của mình: danh mục ưu tiên của bạn trước, rồi đến chiến dịch kết thúc sớm nhất hoặc còn ít phút nhất. Loại trừ danh mục, từ khóa, một chiến dịch hoặc chỉ một phần thưởng, và bỏ qua những chiến dịch không thể hoàn thành kịp. “Đào trước”, trong chi tiết của một chiến dịch, đưa chiến dịch đó lên đầu.
 
   <details open><summary>Xem minh họa</summary>
-  <img src="../media/vi/drops-order.avif" alt="Thứ tự đào, game ưu tiên và các quy tắc loại trừ">
+  <img src="../media/vi/drops-order.avif" alt="Thứ tự đào, danh mục ưu tiên và các quy tắc loại trừ">
   </details>
 
-- **Kho đồ và “Nhận tất cả”.** Trang Kho đồ chia phần thưởng thành “Có thể nhận”, “Đang tiến hành” và “Đã nhận”. Nhận từng cái, nhận tất cả một lần, hoặc bật “Tự động nhận drop”. Sau khi bấm “Liên kết tài khoản game”, tài khoản được đọc lại ngay khi bạn quay lại ứng dụng, nên liên kết hiện ra ngay.
+- **Kho đồ và “Nhận tất cả”.** Trang Kho đồ chia phần thưởng thành “Có thể nhận”, “Đang tiến hành” và “Đã nhận”. Nhận từng cái, nhận tất cả một lần, hoặc bật “Tự động nhận drop”. Sau khi bấm “Liên kết tài khoản nhà phát hành”, tài khoản được đọc lại ngay khi bạn quay lại ứng dụng, nên liên kết hiện ra ngay.
 
   <details open><summary>Xem minh họa</summary>
   <img src="../media/vi/drops-inventory.avif" alt="Kho đồ và nút “Nhận tất cả”">
@@ -146,7 +146,7 @@ Những gì làm nên khác biệt so với các trình đào khác. “Xem minh
   <img src="../media/vi/drops-streamers-first.avif" alt="Một streamer trong danh sách, được xem để lấy Drops và điểm kênh">
   </details>
 
-- **Huy hiệu (beta).** Trang Huy hiệu liệt kê mọi huy hiệu chat toàn cầu của Twitch và cách nhận chúng. Mỗi tài khoản có trang Huy hiệu riêng: các huy hiệu đang tiến hành kèm tiến độ, những huy hiệu còn có thể nhận và những huy hiệu đã có. Trình đào nhắm đến huy hiệu của các chiến dịch Drops và nhiệm vụ Twitch, và bỏ qua những huy hiệu tài khoản đã có. Một huy hiệu cần xem mỗi ngày sẽ được đào lại mỗi ngày cho đến ngày cuối (“20 phút mỗi ngày, 3 ngày”), và kênh thuộc bất kỳ danh mục nào của chiến dịch đều được tính. Một rương cho “1 huy hiệu ngẫu nhiên trong N”. Huy hiệu yêu cầu đăng ký kênh sẽ được đào sau khi chính bạn đã đăng ký và Twitch đã tính lượt đăng ký đó. Không có gì được đào trước khi chiến dịch bắt đầu. Trong “Đào gì, theo thứ tự”, kéo game ưu tiên, huy hiệu và các chiến dịch Drops khác vào thứ tự bạn muốn, hoặc tắt một mục. Một nhiệm vụ Twitch chỉ được đào trên kênh mà Twitch đề xuất nó trong bảng Drops của kênh. Một tiến hóa (Pichu → Pikachu) được đào ngay khi tài khoản có huy hiệu mà nó tiến hóa từ đó: trình đào tự gắn huy hiệu đó ngay trước và không gắn lại huy hiệu cũ; “Đào các tiến hóa huy hiệu”, trong cài đặt huy hiệu của tài khoản, tắt điều này. Bấm vào một huy hiệu sẽ mở chi tiết của nó: toàn bộ yêu cầu, mọi danh mục và kênh, bộ sưu tập, tiến hóa và tiến độ của từng tài khoản. Tính năng này đang ở giai đoạn beta.
+- **Huy hiệu (beta).** Trang Huy hiệu liệt kê mọi huy hiệu chat toàn cầu của Twitch và cách nhận chúng. Mỗi tài khoản có trang Huy hiệu riêng: các huy hiệu đang tiến hành kèm tiến độ, những huy hiệu còn có thể nhận và những huy hiệu đã có. Trình đào nhắm đến huy hiệu của các chiến dịch Drops và nhiệm vụ Twitch, và bỏ qua những huy hiệu tài khoản đã có. Một huy hiệu cần xem mỗi ngày sẽ được đào lại mỗi ngày cho đến ngày cuối (“20 phút mỗi ngày, 3 ngày”), và kênh thuộc bất kỳ danh mục nào của chiến dịch đều được tính. Một rương cho “1 huy hiệu ngẫu nhiên trong N”. Huy hiệu yêu cầu đăng ký kênh sẽ được đào sau khi chính bạn đã đăng ký và Twitch đã tính lượt đăng ký đó. Không có gì được đào trước khi chiến dịch bắt đầu. Trong “Đào gì, theo thứ tự”, kéo danh mục ưu tiên, huy hiệu và các chiến dịch Drops khác vào thứ tự bạn muốn, hoặc tắt một mục. Một nhiệm vụ Twitch chỉ được đào trên kênh mà Twitch đề xuất nó trong bảng Drops của kênh. Một tiến hóa (Pichu → Pikachu) được đào ngay khi tài khoản có huy hiệu mà nó tiến hóa từ đó: trình đào tự gắn huy hiệu đó ngay trước và không gắn lại huy hiệu cũ; “Đào các tiến hóa huy hiệu”, trong cài đặt huy hiệu của tài khoản, tắt điều này. Bấm vào một huy hiệu sẽ mở chi tiết của nó: toàn bộ yêu cầu, mọi danh mục và kênh, bộ sưu tập, tiến hóa và tiến độ của từng tài khoản. Tính năng này đang ở giai đoạn beta.
 
   <details open><summary>Xem minh họa</summary>
   <img src="../media/vi/badges.avif" alt="Trang Huy hiệu, huy hiệu của một tài khoản, rồi “Đào gì, theo thứ tự” với Huy hiệu được kéo lên đầu">
@@ -240,7 +240,7 @@ So sánh [Twitch Miner](https://github.com/SunkwiBOT/twitch-miner) với [Twitch
 ⁶ Nó có thể theo dõi các kênh mà tài khoản đang theo dõi.\
 ⁷ Chỉ có văn bản, không có hình ảnh. Nó còn có Matrix, Pushover và Gotify, những thứ dự án này không có.\
 ⁸ Một danh sách chiến dịch có bộ lọc, không có lịch hay tìm kiếm.\
-⁹ Nó có game ưu tiên và game bị loại trừ, chọn theo tên game.\
+⁹ Nó có danh mục ưu tiên và danh mục bị loại trừ, chọn theo tên danh mục.\
 ¹⁰ Theo mặc định, nó xem trước các streamer trong danh sách có buổi phát mang Drops (mức ưu tiên `DROPS` của nó), nhưng không bao giờ xem kênh khác.\
 ¹¹ Chưa đo.\
 ¹² Một tùy chọn để đào hoặc bỏ qua các chiến dịch Drops có phần thưởng là huy hiệu hoặc biểu tượng cảm xúc; không có nhiệm vụ Twitch và không có danh sách huy hiệu.
@@ -316,7 +316,9 @@ Phía sau một reverse proxy, hãy đặt `MINER_PUBLIC_URL`: nếu không, yê
 
 Cứ mỗi 20 giây, mỗi tài khoản chọn hai kênh của mình: kênh đang phát tốt nhất cho chiến dịch đứng đầu hàng đợi, rồi đến các streamer trong danh sách điểm.
 
-Twitch chỉ tính **một chiến dịch Drops** và **hai kênh cho điểm** cùng lúc trên mỗi tài khoản. Từ tháng 10 năm 2026, một drop chỉ nhận được khi tài khoản game đã được liên kết. Các chiến dịch chưa liên kết vẫn tăng tiến độ, và bảng điều khiển hiển thị đường dẫn để liên kết.
+Twitch chỉ tính **một chiến dịch Drops** và **hai kênh cho điểm** cùng lúc trên mỗi tài khoản. Từ tháng 10 năm 2026, một drop chỉ nhận được khi tài khoản nhà phát hành đã được liên kết. Các chiến dịch chưa liên kết vẫn tăng tiến độ, và bảng điều khiển hiển thị đường dẫn để liên kết.
+
+Nếu tiến độ của Twitch đối với chiến dịch đứng đầu không nhúc nhích sau 30 phút xem thực sự, nghĩa là nó không tính chiến dịch đó: tài khoản gạt chiến dịch đó sang một bên, chiến dịch xếp hạng kế tiếp chiếm chỗ, và việc thử lại diễn ra tự động 6 giờ sau — sớm hơn nếu tiến độ xuất hiện trở lại trước đó, dù chiến dịch được thử lại vẫn có thể phải chờ sau chiến dịch đang được đào. Bất kỳ tiến độ nào cũng đặt lại thời gian chờ, và điều này áp dụng cho mọi loại chiến dịch (Drops, huy hiệu, nhiệm vụ). Nếu Twitch tính một chiến dịch khác cùng thể loại thay vào đó, và chiến dịch đó hoàn tất hoặc được nhận, việc gạt sang một bên sẽ được gỡ ngay lập tức thay vì chờ đủ 6 giờ. Khởi động lại ứng dụng hoặc máy chủ sẽ quên mọi lần gạt sang một bên: một chiến dịch bị kẹt đơn giản sẽ có 30 phút mới.
 
 Danh sách chiến dịch lấy từ dự án [Twitch Drops API](https://drops.sunkwi.com) (làm mới mỗi 10 phút), vì Twitch ẩn danh sách này khỏi client TV.
 
@@ -336,10 +338,10 @@ Không, không có video nào được tải về. Với Drops, cứ mỗi 15 gi
 ### Drops
 
 **Một chiến dịch không được đào, hoặc một drop không tăng tiến độ.**\
-Mở trang **Drops** của tài khoản. Trong “Thứ tự đào”, mỗi chiến dịch đang chờ đều ghi lý do: “Không có kênh đang phát” hoặc “Đang chờ (mỗi lần một chiến dịch)”. Chiến dịch không xuất hiện trong danh sách đó đã bị gạt ra: do “Đào gì, theo thứ tự”, do cài đặt “Chiến dịch nào”, do một quy tắc trong tab **Loại trừ**, hoặc vì không thể hoàn thành kịp. Phần thưởng yêu cầu đăng ký kênh sẽ chờ đến khi chính bạn đăng ký, huy hiệu cần xem mỗi ngày sẽ chờ ngày hôm sau, không có gì được đào trước khi chiến dịch bắt đầu, và một drop nối tiếp drop khác sẽ chờ drop đầu tiên xong. Ở chế độ **Chỉ điểm**, trình đào không chọn chiến dịch nào. “Đào trước”, trong chi tiết của một chiến dịch, đưa chiến dịch đó lên đầu; chiến dịch đã bỏ qua có thể quay lại bằng “Đào lại”, trong tab **Loại trừ**.
+Mở trang **Drops** của tài khoản. Trong “Thứ tự đào”, mỗi chiến dịch đang chờ đều ghi lý do: “Không có kênh đang phát” hoặc “Đang chờ (mỗi lần một chiến dịch)”. “Twitch không tính — thử lại sau …” nghĩa là 30 phút xem thực sự không mang lại tiến độ nào về phía Twitch: chiến dịch bị gạt sang một bên và được thử lại tự động trong khoảng thời gian hiển thị, hoặc sớm hơn nếu tiến độ xuất hiện trở lại trước đó. Chiến dịch không xuất hiện trong danh sách đó đã bị gạt ra: do “Đào gì, theo thứ tự”, do cài đặt “Chiến dịch nào”, do một quy tắc trong tab **Loại trừ**, hoặc vì không thể hoàn thành kịp. Phần thưởng yêu cầu đăng ký kênh sẽ chờ đến khi chính bạn đăng ký, huy hiệu cần xem mỗi ngày sẽ chờ ngày hôm sau, không có gì được đào trước khi chiến dịch bắt đầu, và một drop nối tiếp drop khác sẽ chờ drop đầu tiên xong. Ở chế độ **Chỉ điểm**, trình đào không chọn chiến dịch nào. “Đào trước”, trong chi tiết của một chiến dịch, đưa chiến dịch đó lên đầu; chiến dịch đã bỏ qua có thể quay lại bằng “Đào lại”, trong tab **Loại trừ**.
 
-**Tôi có cần liên kết tài khoản game không?**\
-Để nhận thì có: từ tháng 10 năm 2026, Twitch chỉ cho nhận drop khi tài khoản game đã được liên kết. Theo mặc định, chiến dịch chưa liên kết vẫn tăng tiến độ và việc nhận sẽ chờ đến khi liên kết. Huy hiệu “Chưa liên kết” đánh dấu điều đó, và “Liên kết tài khoản game”, trong chi tiết chiến dịch, mở trang liên kết. Để chỉ đào game đã liên kết, hãy chọn “Chỉ game đã liên kết tài khoản”.
+**Tôi có cần liên kết tài khoản nhà phát hành không?**\
+Để nhận thì có: từ tháng 10 năm 2026, Twitch chỉ cho nhận drop khi tài khoản nhà phát hành đã được liên kết. Theo mặc định, chiến dịch chưa liên kết vẫn tăng tiến độ và việc nhận sẽ chờ đến khi liên kết. Huy hiệu “Chưa liên kết” đánh dấu điều đó, và “Liên kết tài khoản nhà phát hành”, trong chi tiết chiến dịch, mở trang liên kết. Để chỉ đào danh mục đã liên kết, hãy chọn “Chỉ danh mục đã liên kết tài khoản nhà phát hành”.
 
 ### Cài đặt và dữ liệu
 

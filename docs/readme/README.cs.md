@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Těží Twitch Drops a body kanálu na více účtech, bez prohlížeče a bez otevřené karty Twitche.</strong>
+  <strong>Těží Twitch Drops, odznaky a body kanálu, bez prohlížeče a bez otevřené karty Twitche.</strong>
 </p>
 
 <p align="center">
@@ -143,7 +143,7 @@
 ### Drops
 
 - **Všechny probíhající kampaně Drops.** Každá kampaň má vlastní kartu s podrobnostmi:
-  odměny, propojení herního účtu, „Těžit přednostně“. Seznam pochází z projektu
+  odměny, propojení účtu vydavatele, „Těžit přednostně“. Seznam pochází z projektu
   [Twitch Drops API](https://drops.sunkwi.com) a obnovuje se každých 10 minut.
 
   <details open><summary>Ukázka v akci</summary>
@@ -151,18 +151,18 @@
   </details>
 
 - **Vaše pořadí těžby.** Přetáhněte kampaně v požadovaném pořadí. Nové si své místo najdou
-  samy: nejdřív vaše prioritní hry, pak nejbližší konec nebo nejméně zbývajících minut.
-  Vylučte hry, slova, kampaň nebo jedinou odměnu a přeskakujte kampaně, které nejde
+  samy: nejdřív vaše prioritní kategorie, pak nejbližší konec nebo nejméně zbývajících minut.
+  Vylučte kategorie, slova, kampaň nebo jedinou odměnu a přeskakujte kampaně, které nejde
   dokončit včas. „Těžit přednostně“ v podrobnostech kampaně ji přesune na začátek.
 
   <details open><summary>Ukázka v akci</summary>
-  <img src="../media/cs/drops-order.avif" alt="Pořadí těžby, prioritní hry a vyloučení">
+  <img src="../media/cs/drops-order.avif" alt="Pořadí těžby, prioritní kategorie a vyloučení">
   </details>
 
 - **Inventář a „Vyzvednout vše“.** Stránka Inventář řadí odměny do skupin „K vyzvednutí“,
   „Probíhá“ a „Vyzvednuto“. Vyzvedávejte je jednu po druhé, všechny najednou, nebo zapněte
   „Vyzvedávat drops automaticky“.
-  Po „Propojit herní účet“ se účet znovu načte, jakmile se vrátíte do aplikace, takže se
+  Po „Propojit účet vydavatele“ se účet znovu načte, jakmile se vrátíte do aplikace, takže se
   propojení ukáže hned.
 
   <details open><summary>Ukázka v akci</summary>
@@ -185,7 +185,7 @@
   3“), a počítá se kanál z kterékoli kategorie kampaně. Truhla dává „1 náhodný odznak
   z N“. Odznak, který vyžaduje předplatné, se těží, jakmile si ho sami předplatíte a Twitch
   ho započítá. Před začátkem kampaně se nic netěží. V „Co těžit a v jakém pořadí“
-  přetáhněte prioritní hry, odznaky a ostatní kampaně Drops do požadovaného pořadí, nebo
+  přetáhněte prioritní kategorie, odznaky a ostatní kampaně Drops do požadovaného pořadí, nebo
   některou z nich vypněte. Quest Twitche se těží jen na kanálu, kde ho Twitch nabízí ve
   svém panelu Drops. Vývoj (Pichu → Pikachu) se těží, jakmile účet vlastní odznak, ze
   kterého se vyvíjí: miner si ten odznak těsně předtím sám nasadí a starý už nevrátí;
@@ -317,7 +317,7 @@ s protokolem.\
 ⁶ Umí sledovat kanály, které sleduje účet.\
 ⁷ Jen text, bez obrázků. Má také Matrix, Pushover a Gotify, které tento projekt nemá.\
 ⁸ Seznam kampaní s filtry, bez kalendáře a vyhledávání.\
-⁹ Má prioritní a vyloučené hry, vybírané podle názvu hry.\
+⁹ Má prioritní a vyloučené kategorie, vybírané podle názvu kategorie.\
 ¹⁰ Ve výchozím stavu nejdřív sleduje streamery ze svého seznamu, jejichž stream nese Drops
 (jeho priorita `DROPS`), ale nikdy jiný kanál.\
 ¹¹ Neměřeno.\
@@ -412,8 +412,18 @@ Každých 20 sekund si každý účet vybere své dva kanály: nejlepší živý
 kampaň ve své frontě, pak streamery ze svého seznamu pro body.
 
 Twitch na jeden účet současně započítává **jednu kampaň Drops** a **dva kanály pro body**.
-Od října 2026 lze drop vyzvednout, jen když je herní účet propojený. Nepropojené kampaně
+Od října 2026 lze drop vyzvednout, jen když je účet vydavatele propojený. Nepropojené kampaně
 přesto postupují a panel zobrazuje odkaz pro propojení.
+
+Pokud se vlastní postup Twitche u první kampaně nehne ani po 30 minutách reálného
+sledování, Twitch ji nezapočítává: účet ji odloží stranou, její místo zaujme další
+kampaň v pořadí a automatický nový pokus proběhne o 6 hodin později — dříve, pokud se
+postup objeví znovu dřív, byť odložená kampaň může přesto čekat za tou, která se právě
+těží. Jakýkoli postup toto čekání vynuluje a platí to pro každý druh kampaně (Drops,
+odznaky, úkoly). Pokud Twitch místo toho započítá jinou kampaň ze stejné kategorie a ta
+skončí nebo je vyzvednuta, odložení se zruší okamžitě, místo aby čekalo celých 6 hodin.
+Restart aplikace nebo serveru zapomene všechny odložené kampaně:
+uvízlá kampaň prostě dostane nových 30 minut.
 
 Seznam kampaní pochází z projektu [Twitch Drops API](https://drops.sunkwi.com) (obnovuje
 se každých 10 minut), protože ho Twitch před klientem pro TV skrývá.
@@ -442,7 +452,9 @@ streamerům. Nastavení „Jeden kanál“ v **Nastavení účtu** je nenápadn�
 
 **Kampaň se netěží nebo drop nepostupuje.**\
 Otevřete stránku **Drops** daného účtu. V části „Pořadí těžby“ každá čekající kampaň uvádí
-důvod: „Žádný kanál nevysílá“ nebo „Čeká (jedna kampaň najednou)“. Kampaň, která se
+důvod: „Žádný kanál nevysílá“ nebo „Čeká (jedna kampaň najednou)“. „Twitch nezapočítává — další pokus …“ znamená, že 30 minut reálného sledování nepřineslo
+žádný postup na straně Twitche: kampaň je odložena stranou a automaticky zkoušena
+znovu po uvedené době, nebo dříve, pokud se postup objeví znovu dřív. Kampaň, která se
 v tomto seznamu neobjevuje, byla vynechána: přes „Co těžit a v jakém pořadí“, nastavením
 „Které kampaně“, pravidlem na kartě **Vyloučení**, nebo proto, že ji nejde dokončit včas.
 Odměna, která vyžaduje předplatné, čeká, dokud si ho sami nepředplatíte, odznak, který je
@@ -451,12 +463,12 @@ který navazuje na jiný, čeká, dokud není ten první hotový. V režimu **Je
 nevybírá žádnou kampaň. „Těžit přednostně“ v podrobnostech kampaně ji přesune na začátek;
 ignorovaná kampaň se může vrátit přes „Znovu těžit“ na kartě **Vyloučení**.
 
-**Musím propojit herní účet?**\
-Kvůli vyzvednutí ano: od října 2026 Twitch dovolí vyzvednout drop, jen když je herní účet
+**Musím propojit účet vydavatele?**\
+Kvůli vyzvednutí ano: od října 2026 Twitch dovolí vyzvednout drop, jen když je účet vydavatele
 propojený. Ve výchozím stavu nepropojená kampaň přesto postupuje a vyzvednutí počká na
-propojení. Upozorní na to odznak „Nepropojeno“ a „Propojit herní účet“ v podrobnostech
-kampaně otevře stránku pro propojení. Chcete-li těžit jen propojené hry, zvolte
-„Jen hry s propojeným účtem“.
+propojení. Upozorní na to odznak „Nepropojeno“ a „Propojit účet vydavatele“ v podrobnostech
+kampaně otevře stránku pro propojení. Chcete-li těžit jen propojené kategorie, zvolte
+„Jen kategorie s propojeným účtem vydavatele“.
 
 ### Instalace a data
 

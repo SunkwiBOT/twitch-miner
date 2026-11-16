@@ -14,6 +14,8 @@ export const EVENT_TONES: Record<EventKind, BadgeTone> = {
   [EventKind.DROP_PROGRESS]: BadgeTone.NEUTRAL,
   [EventKind.DROP_CLAIMED]: BadgeTone.ACCENT,
   [EventKind.CAMPAIGN_FINISHED]: BadgeTone.ACCENT,
+  [EventKind.CAMPAIGN_SET_ASIDE]: BadgeTone.WARNING,
+  [EventKind.CAMPAIGN_RETRIED]: BadgeTone.NEUTRAL,
   [EventKind.POINTS_EARNED]: BadgeTone.SUCCESS,
   [EventKind.POINTS_SPENT]: BadgeTone.NEUTRAL,
   [EventKind.REWARD_REDEEMED]: BadgeTone.NEUTRAL,
@@ -30,6 +32,7 @@ export const EVENT_TONES: Record<EventKind, BadgeTone> = {
   [EventKind.SESSION_EXPIRED]: BadgeTone.DANGER,
   [EventKind.LOGIN_COMPLETED]: BadgeTone.NEUTRAL,
   [EventKind.UPDATE_AVAILABLE]: BadgeTone.INFO,
+  [EventKind.VERSION_UPDATED]: BadgeTone.INFO,
 };
 
 export const EVENT_ICONS: Record<EventKind, IconName> = {
@@ -40,6 +43,8 @@ export const EVENT_ICONS: Record<EventKind, IconName> = {
   [EventKind.DROP_PROGRESS]: IconName.CLOCK,
   [EventKind.DROP_CLAIMED]: IconName.GIFT,
   [EventKind.CAMPAIGN_FINISHED]: IconName.CHECK,
+  [EventKind.CAMPAIGN_SET_ASIDE]: IconName.CLOCK,
+  [EventKind.CAMPAIGN_RETRIED]: IconName.REFRESH,
   [EventKind.POINTS_EARNED]: IconName.CHANNEL_POINTS,
   [EventKind.POINTS_SPENT]: IconName.CHANNEL_POINTS,
   [EventKind.REWARD_REDEEMED]: IconName.ZAP,
@@ -56,6 +61,7 @@ export const EVENT_ICONS: Record<EventKind, IconName> = {
   [EventKind.SESSION_EXPIRED]: IconName.LOGOUT,
   [EventKind.LOGIN_COMPLETED]: IconName.LOG_IN,
   [EventKind.UPDATE_AVAILABLE]: IconName.IMPORT,
+  [EventKind.VERSION_UPDATED]: IconName.CHECK,
 };
 
 export const MINER_TONES: Record<MinerKind, BadgeTone> = {
@@ -86,6 +92,7 @@ export enum KindGroup {
   DROPS = "DROPS",
   POINTS = "POINTS",
   WATCH = "WATCH",
+  GENERIC = "GENERIC",
   OTHER = "OTHER",
 }
 
@@ -93,7 +100,13 @@ export const KIND_GROUPS: { group: KindGroup; kinds: EventKind[]; categories: Ev
   [
     {
       group: KindGroup.DROPS,
-      kinds: [EventKind.DROP_PROGRESS, EventKind.DROP_CLAIMED, EventKind.CAMPAIGN_FINISHED],
+      kinds: [
+        EventKind.DROP_PROGRESS,
+        EventKind.DROP_CLAIMED,
+        EventKind.CAMPAIGN_FINISHED,
+        EventKind.CAMPAIGN_SET_ASIDE,
+        EventKind.CAMPAIGN_RETRIED,
+      ],
       categories: [EventCategory.DROPS, EventCategory.BADGES],
     },
     {
@@ -121,13 +134,22 @@ export const KIND_GROUPS: { group: KindGroup; kinds: EventKind[]; categories: Ev
       categories: [EventCategory.DROPS, EventCategory.BADGES, EventCategory.POINTS],
     },
     {
+      group: KindGroup.GENERIC,
+      kinds: [EventKind.INFO, EventKind.ERROR],
+      categories: [
+        EventCategory.DROPS,
+        EventCategory.BADGES,
+        EventCategory.POINTS,
+        EventCategory.OTHER,
+      ],
+    },
+    {
       group: KindGroup.OTHER,
       kinds: [
-        EventKind.INFO,
-        EventKind.ERROR,
         EventKind.SESSION_EXPIRED,
         EventKind.LOGIN_COMPLETED,
         EventKind.UPDATE_AVAILABLE,
+        EventKind.VERSION_UPDATED,
       ],
       categories: [EventCategory.OTHER],
     },

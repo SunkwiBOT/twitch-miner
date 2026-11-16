@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Mina Drops de Twitch y puntos del canal en varias cuentas, sin navegador y sin ninguna pestaña de Twitch abierta.</strong>
+  <strong>Mina Drops, insignias y puntos de canal de Twitch, sin navegador y sin ninguna pestaña de Twitch abierta.</strong>
 </p>
 
 <p align="center">
@@ -145,7 +145,7 @@ funcionando.
 ### Drops
 
 - **Todas las campañas de Drops en curso.** Cada campaña tiene su ficha: recompensas,
-  vinculación de la cuenta del juego, «Minar primero». La lista viene del proyecto
+  vinculación de la cuenta del editor, «Minar primero». La lista viene del proyecto
   [Twitch Drops API](https://drops.sunkwi.com) y se actualiza cada 10 minutos.
 
   <details open><summary>Verlo en acción</summary>
@@ -153,19 +153,19 @@ funcionando.
   </details>
 
 - **Tu orden de minado.** Arrastra las campañas al orden que quieras. Las nuevas encuentran
-  su sitio solas: primero tus juegos prioritarios y después las que terminan antes o a las
-  que les quedan menos minutos. Excluye juegos, palabras, una campaña o una sola
+  su sitio solas: primero tus categorías prioritarias y después las que terminan antes o a las
+  que les quedan menos minutos. Excluye categorías, palabras, una campaña o una sola
   recompensa, y omite las campañas que no pueden terminar a tiempo. «Minar primero», en la
   ficha de una campaña, la pone en cabeza.
 
   <details open><summary>Verlo en acción</summary>
-  <img src="../media/es-ES/drops-order.avif" alt="El orden de minado, los juegos prioritarios y las exclusiones">
+  <img src="../media/es-ES/drops-order.avif" alt="El orden de minado, las categorías prioritarias y las exclusiones">
   </details>
 
 - **Inventario y «Reclamar todo».** La página Inventario clasifica las recompensas en
   «Por reclamar», «En curso» y «Reclamadas». Reclámalas una a una, todas a la vez, o
   activa «Reclamar drops automáticamente».
-  Después de «Vincular la cuenta del juego», la cuenta se vuelve a leer en cuanto vuelves
+  Después de «Vincular la cuenta del editor», la cuenta se vuelve a leer en cuanto vuelves
   a la app, así que la vinculación aparece al momento.
 
   <details open><summary>Verlo en acción</summary>
@@ -188,8 +188,8 @@ funcionando.
   cada día hasta el último («20 min al día, 3 días»), y cuenta un canal de cualquiera de las
   categorías de la campaña. Un cofre da «1 insignia al azar entre N». Una insignia que
   requiere una suscripción se mina cuando te has suscrito tú mismo y Twitch la cuenta. No se
-  mina nada antes de que empiece su campaña. En «Qué minar, en orden», arrastra los juegos
-  prioritarios, las insignias y las demás campañas de Drops al orden que quieras, o
+  mina nada antes de que empiece su campaña. En «Qué minar, en orden», arrastra las categorías
+  prioritarias, las insignias y las demás campañas de Drops al orden que quieras, o
   desactiva alguno. Una misión de Twitch solo se mina en un canal donde Twitch la ofrece en
   su panel de Drops. Una evolución (Pichu → Pikachu) se mina en cuanto la cuenta tiene la
   insignia de la que evoluciona: el minero se pone él mismo esa insignia justo antes y no
@@ -326,7 +326,7 @@ archivo de registro.\
 ⁷ Solo texto, sin imágenes. También tiene Matrix, Pushover y Gotify, que este proyecto no
 tiene.\
 ⁸ Una lista de campañas con filtros, sin calendario ni búsqueda.\
-⁹ Tiene juegos prioritarios y juegos excluidos, elegidos por el nombre del juego.\
+⁹ Tiene categorías prioritarias y categorías excluidas, elegidas por el nombre de la categoría.\
 ¹⁰ Por defecto, primero ve los streamers de su lista cuyo directo tiene Drops (su
 prioridad `DROPS`), pero nunca otro canal.\
 ¹¹ No medido.\
@@ -425,9 +425,19 @@ Cada 20 segundos, cada cuenta elige sus dos canales: el mejor canal en directo p
 primera campaña de su cola y, después, los streamers de su lista de puntos.
 
 Twitch acredita **una campaña de Drops** y **dos canales para puntos** a la vez por
-cuenta. Desde octubre de 2026, un drop solo se puede reclamar si la cuenta del juego está
+cuenta. Desde octubre de 2026, un drop solo se puede reclamar si la cuenta del editor está
 vinculada. Las campañas sin vincular siguen avanzando, y el panel muestra el enlace para
 vincularla.
+
+Si Twitch no hace avanzar la campaña principal tras 30 minutos de visionado real, no la está
+acreditando: la cuenta la deja de lado, la siguiente campaña de la cola ocupa su lugar, y se
+reintenta automáticamente 6 horas después — antes si la progresión reaparece primero, aunque
+la campaña reintentada puede seguir esperando detrás de la que se está minando. Cualquier
+progreso reinicia la espera, y esto se aplica a todo tipo de campaña (Drops, insignias,
+misiones). Si Twitch acredita otra campaña de la misma categoría en su lugar y esa
+campaña termina o se reclama, el aplazamiento se levanta de inmediato en vez de esperar
+las 6 horas completas. Reiniciar la aplicación o el servidor olvida todas las campañas dejadas de lado:
+una campaña bloqueada simplemente empieza de nuevo con 30 minutos.
 
 La lista de campañas viene del proyecto [Twitch Drops API](https://drops.sunkwi.com)
 (se actualiza cada 10 minutos), porque Twitch la oculta al cliente de TV.
@@ -456,22 +466,24 @@ otro a tus streamers. El ajuste «Un canal», en **Ajustes de la cuenta**, es m�
 
 **Una campaña no se mina, o un drop no avanza.**\
 Abre la página **Drops** de la cuenta. En «Orden de minado», cada campaña en espera indica
-por qué: «Ningún canal en directo» o «En espera (una campaña a la vez)». Una campaña que no
-aparece en esa lista se ha descartado: por «Qué minar, en orden», por el ajuste «Qué
-campañas», por una regla de la pestaña **Exclusiones** o porque no puede terminar a
-tiempo. Una recompensa que requiere una suscripción espera a que te suscribas tú mismo,
-una insignia que hay que ver cada día espera al día siguiente, no se mina nada antes de
-que empiece su campaña, y un drop que va después de otro espera a que el primero termine.
-En el modo **Solo puntos**, el minero no elige ninguna campaña. «Minar primero», en la
-ficha de una campaña, la pone en cabeza; una campaña ignorada puede volver con «Volver a
-minar», en la pestaña **Exclusiones**.
+por qué: «Ningún canal en directo» o «En espera (una campaña a la vez)». «Twitch no lo cuenta — próximo intento …» significa que 30 minutos de visionado real no han traído
+progreso por parte de Twitch: la campaña se deja de lado y se reintenta automáticamente en
+el tiempo indicado, o antes si la progresión reaparece primero. Una campaña que no aparece
+en esa lista se ha descartado: por «Qué minar, en orden», por el ajuste «Qué campañas», por
+una regla de la pestaña **Exclusiones** o porque no puede terminar a tiempo. Una recompensa
+que requiere una suscripción espera a que te suscribas tú mismo, una insignia que hay que
+ver cada día espera al día siguiente, no se mina nada antes de que empiece su campaña, y un
+drop que va después de otro espera a que el primero termine. En el modo **Solo puntos**, el
+minero no elige ninguna campaña. «Minar primero», en la ficha de una campaña, la pone en
+cabeza; una campaña ignorada puede volver con «Volver a minar», en la pestaña
+**Exclusiones**.
 
-**¿Tengo que vincular la cuenta del juego?**\
+**¿Tengo que vincular la cuenta del editor?**\
 Para reclamar, sí: desde octubre de 2026, Twitch solo deja reclamar un drop si la cuenta
-del juego está vinculada. Por defecto, una campaña sin vincular sigue avanzando y la
+del editor está vinculada. Por defecto, una campaña sin vincular sigue avanzando y la
 reclamación espera a la vinculación. La insignia «No vinculada» lo indica, y «Vincular la
-cuenta del juego», en la ficha de la campaña, abre la página de vinculación. Para minar
-solo los juegos vinculados, elige «Solo juegos con la cuenta vinculada».
+cuenta del editor», en la ficha de la campaña, abre la página de vinculación. Para minar
+solo las categorías vinculadas, elige «Solo categorías con la cuenta del editor vinculada».
 
 ### Instalación y datos
 
