@@ -17,8 +17,6 @@ use crate::twitch::drops::{parse_category, parse_repeat};
 use crate::twitch::quests::{Quest, QuestGroup};
 use crate::twitch::{count, note_left_out, parse_time, text, values};
 
-const BADGES_URL: &str = "https://drops.sunkwi.com/api/twitch/badges";
-
 const MAX_BADGES: usize = 5000;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default, TS)]
@@ -194,7 +192,11 @@ pub type BadgeCatalogClient = FeedClient<BadgeCatalog>;
 
 impl BadgeCatalogClient {
     pub fn new(requests: RequestLog, shell: Shell) -> Result<Self> {
-        Self::with_url(BADGES_URL, requests, &crate::user_agent(shell))
+        Self::with_url(
+            &crate::drops_api::badges_url(),
+            requests,
+            &crate::user_agent(shell),
+        )
     }
 }
 

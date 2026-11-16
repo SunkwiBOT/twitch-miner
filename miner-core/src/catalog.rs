@@ -16,8 +16,6 @@ use crate::requests::RequestLog;
 use crate::twitch::drops::parse_campaign;
 use crate::twitch::note_left_out;
 
-const CATALOG_URL: &str = "https://drops.sunkwi.com/api/twitch/drops";
-
 const MAX_CAMPAIGNS: usize = 3000;
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
@@ -62,7 +60,11 @@ pub type CatalogClient = FeedClient<Catalog>;
 
 impl CatalogClient {
     pub fn new(requests: RequestLog, shell: Shell) -> Result<Self> {
-        Self::with_url(CATALOG_URL, requests, &crate::user_agent(shell))
+        Self::with_url(
+            &crate::drops_api::catalog_url(),
+            requests,
+            &crate::user_agent(shell),
+        )
     }
 }
 

@@ -3,6 +3,7 @@ pub mod badges;
 pub mod catalog;
 pub mod config;
 pub mod domain;
+pub(crate) mod drops_api;
 pub mod error;
 pub mod events;
 pub mod feed;
