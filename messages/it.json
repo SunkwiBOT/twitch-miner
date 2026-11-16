@@ -63,10 +63,14 @@
   "dashboard_linked": "Collegato",
   "dashboard_not_linked": "Non collegato",
   "dashboard_updated": "La dashboard è stata aggiornata alla versione {version}: ricarica la pagina per usarla.",
+  "dashboard_updated_title": "Dashboard aggiornata",
   "dashboard_reload": "Ricarica",
   "dashboard_ends_in": "termina {time}",
   "dashboard_remaining": "{minutes} min rimanenti",
   "accounts_add": "Aggiungi un account",
+  "common_accounts_all": "Tutti gli account",
+  "common_accounts_count": "Account: {count}",
+  "common_accounts_none": "Nessun account",
   "accounts_remove_title": "Rimuovere questo account?",
   "accounts_remove_text": "La sessione di {name} viene revocata su Twitch ed eliminata qui. I drop già riscattati restano nel suo inventario Twitch.",
   "accounts_login_again": "Accedi di nuovo",
@@ -126,7 +130,6 @@
   "campaigns_filter_in_progress": "In corso",
   "campaigns_empty": "Nessuna campagna corrisponde.",
   "history_title": "Registro",
-  "history_filter_all": "Tutti gli account",
   "history_empty": "Ancora niente.",
   "history_load_failed": "Impossibile leggere il Registro.",
   "event_kind_info": "Info",
@@ -167,8 +170,11 @@
   "settings_webhook_auth": "Intestazione Authorization (facoltativa)",
   "settings_system_notifications": "Notifiche desktop",
   "settings_test_notifications": "Invia un test",
+  "settings_test_sending": "Invio…",
   "settings_test_ok": "{target}: inviato",
+  "settings_test_ok_title": "Test inviato",
   "settings_test_failed": "{target}: {error}",
+  "settings_test_failed_title": "Test non riuscito",
   "notify_drop_claimed": "Drop riscattato",
   "notify_drop_progress": "Progresso dei drop",
   "notify_bonus_claimed": "Forziere bonus riscattato",
@@ -311,9 +317,9 @@
   "campaign_progress": "{current}/{required} min",
   "campaign_link_game": "Collega l'account di gioco",
   "campaign_open_twitch": "Apri su Twitch",
+  "campaign_view_category": "Visualizza la categoria",
   "logs_title": "Log tecnici",
   "logs_subtitle": "Log del miner, senza token né segreti. Si può incollare senza rischi in una segnalazione di bug.",
-  "logs_filter_all": "Tutti gli account",
   "logs_copy": "Copia per una segnalazione di bug",
   "logs_copied": "Log copiati",
   "logs_open_folder": "Apri la cartella dei log",
@@ -328,6 +334,7 @@
   "settings_proxy_hint": "socks5://user:pass@host:port, socks5h://, http:// o https://. Lascia vuoto per una connessione diretta.",
   "settings_proxy_test": "Prova",
   "settings_proxy_ok": "Il proxy raggiunge Twitch ({ms} ms)",
+  "settings_proxy_ok_title": "Proxy OK",
   "settings_feedback": "Feedback",
   "settings_feedback_text": "Per un bug, allega i log dalla pagina Log tecnici: non contengono segreti.",
   "feedback_discord_text": "Apri un ticket o chiacchiera con la community",
@@ -413,7 +420,9 @@
   "security_confirm": "Conferma",
   "security_rules": "Almeno 4 caratteri. Non può essere recuperata: se la perdi, dovrai aggiungere di nuovo gli account.",
   "security_enable": "Imposta la password",
+  "security_enabling": "Impostazione della password…",
   "security_change": "Cambia la password",
+  "security_changing": "Modifica della password…",
   "security_disable": "Rimuovi la password",
   "security_access_local": "Su HTTP semplice: tieni questa dashboard nella tua rete, oppure mettila dietro un reverse proxy HTTPS con MINER_PUBLIC_URL.",
   "security_access_public": "Dietro un reverse proxy HTTPS, all'indirizzo {host}.",
@@ -429,15 +438,22 @@
   "streamer_predictions_stealth_hint": "Non punta mai più del miglior scommettitore del momento.",
   "streamer_watch_streak_hint": "Conta per la priorità alle serie: una nuova live, una serie che sta per scadere o una da recuperare mette questo streamer per primo.",
   "ev_watch_drop": "Guarda {channel} per {campaign}",
+  "ev_watch_drop_short": "Guarda per {campaign}",
   "ev_watch_points_streak_bonus": "Guarda {channel} per i punti canale (bonus serie)",
+  "ev_watch_points_streak_bonus_short": "Guarda per i punti canale (bonus serie)",
   "ev_watch_points_streak_at_risk": "Guarda {channel} per i punti canale (serie a rischio)",
+  "ev_watch_points_streak_at_risk_short": "Guarda per i punti canale (serie a rischio)",
   "ev_watch_points_subscribed": "Guarda {channel} per i punti canale (abbonato)",
+  "ev_watch_points_subscribed_short": "Guarda per i punti canale (abbonato)",
   "ev_watch_points_list_order": "Guarda {channel} per i punti canale (ordine della lista)",
+  "ev_watch_points_list_order_short": "Guarda per i punti canale (ordine della lista)",
   "ev_watch_stopped": "Non guarda più {channel}",
+  "ev_watch_stopped_short": "Non guarda più",
   "ev_drop_claimed": "{drop} riscattato · {campaign}",
   "ev_campaign_finished": "Campagna completata: {campaign}",
   "ev_drop_progress": "{drop}: {current}/{required} min",
   "ev_bonus": "Forziere bonus riscattato su {channel}",
+  "ev_bonus_short": "Forziere bonus riscattato",
   "ev_points": [
     {
       "declarations": [
@@ -455,10 +471,30 @@
       }
     }
   ],
+  "ev_points_short": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "+{points} punto",
+        "countPlural=*": "+{points} punti"
+      }
+    }
+  ],
   "ev_online": "{channel} è in diretta",
+  "ev_online_short": "In diretta",
   "ev_offline": "{channel} è offline",
+  "ev_offline_short": "È offline",
   "ev_raid": "Raid di {channel} seguito",
+  "ev_raid_short": "Raid seguito",
   "ev_moment": "Momento riscattato su {channel}",
+  "ev_moment_short": "Momento riscattato",
   "ev_bet_placed": [
     {
       "declarations": [
@@ -474,6 +510,23 @@
       "match": {
         "countPlural=one": "Scommesso {points} punto su «{outcome}» ({channel})",
         "countPlural=*": "Scommessi {points} punti su «{outcome}» ({channel})"
+      }
+    }
+  ],
+  "ev_bet_placed_short": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input outcome",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Scommesso {points} punto su «{outcome}»",
+        "countPlural=*": "Scommessi {points} punti su «{outcome}»"
       }
     }
   ],
@@ -520,11 +573,12 @@
   "common_removing": "Rimozione…",
   "action_pausing": "Messa in pausa…",
   "action_resuming": "Ripresa…",
+  "action_failed": "Azione non riuscita",
   "lock_locking": "Blocco…",
   "unlock_unlocking": "Sblocco…",
   "auth_signing_in": "Accesso…",
   "close_closing": "Chiusura…",
-  "login_starting": "Avvio…",
+  "close_quitting": "Uscita dall'app…",
   "campaign_claiming": "Riscatto…",
   "catalogue_view_timeline": "Calendario",
   "catalogue_view_cards": "Schede",
@@ -551,18 +605,16 @@
         "countPlural"
       ],
       "match": {
-        "countPlural=one": "Catalogo aggiornato: {shown} campagna",
-        "countPlural=*": "Catalogo aggiornato: {shown} campagne"
+        "countPlural=one": "{shown} campagna",
+        "countPlural=*": "{shown} campagne"
       }
     }
   ],
+  "catalogue_refreshed_title": "Catalogo aggiornato",
   "catalogue_refresh_wait": "Disponibile tra {time}",
   "campaign_prioritized": "Messa in cima all'ordine di mining",
   "campaign_ignored": "Campagna ignorata",
   "campaign_unignored": "Campagna di nuovo minata",
-  "accounts_all": "Tutti gli account",
-  "accounts_count": "{count} account",
-  "accounts_none": "Nessun account",
   "reward_watch": "Guarda {time}",
   "reward_watch_daily": "{time} al giorno, {days} giorni",
   "reward_watch_every": "{time} ogni {hours} h, {count} volte",
@@ -590,6 +642,7 @@
   "ignored_hint": "Campagne e oggetti che questo account non mina mai.",
   "ignored_empty": "Niente di ignorato.",
   "ignored_restore": "Mina di nuovo",
+  "ignored_restoring": "Minando di nuovo…",
   "history_load_more": "Carica eventi meno recenti",
   "settings_time": "Data e ora",
   "settings_time_zone": "Fuso orario",
@@ -616,14 +669,16 @@
   "login_setup_copy_from": "Impostazioni di {name}",
   "login_setup_copy_hint": "Copia così come sono le impostazioni dell'account scelto (ordine di mining delle campagne Drops, esclusioni, elenco degli streamer), tranne il proxy.",
   "login_setup_finish": "Inizia il mining",
+  "login_setup_starting": "Avvio del mining…",
   "login_setup_later": "Salva e avvia più tardi",
   "error_not_supported": "Non disponibile in questa versione dell'app.",
   "common_copy_named": "Copia {name}",
   "bulk_accounts": "Account",
-  "bulk_applied": "Account aggiornati: {count}",
+  "bulk_applying": "Applicazione…",
+  "bulk_applied_title": "Account aggiornati",
   "bulk_apply": "Applica ({count})",
   "bulk_apply_others": "Applica ad altri account",
-  "bulk_changes": "{count} modifiche su {name}",
+  "bulk_changes": "{shown} modifiche",
   "bulk_hint": "Le modifiche fatte su {name} ({count}) vengono ripetute sugli account spuntati. Ogni account mantiene il resto delle sue impostazioni.",
   "bulk_no_accounts": "Nessun altro account.",
   "bulk_title": "Applica ad altri account",
@@ -703,9 +758,10 @@
   "settings_data_folder_hint": "Account, impostazioni, cronologia e log sono salvati qui.",
   "settings_open_data": "Apri la cartella dei dati",
   "updates_check_now": "Controlla ora",
-  "updates_checking": "Ricerca…",
+  "updates_checking": "Controllo in corso…",
   "updates_current": "Hai l'ultima versione.",
   "updates_available": "La versione {version} è disponibile.",
+  "updates_available_title": "Aggiornamento disponibile",
   "updates_available_locked": "La versione {version} è disponibile. Sblocca l'app per installarla.",
   "updates_badge": "Aggiornamento {version}",
   "updates_pull_image": "Per aggiornare, scarica la nuova immagine e riavvia il container:",
@@ -724,6 +780,7 @@
   "updates_restarting": "Installazione della versione {version}. L'app si riavvia da sola.",
   "updates_install_failed": "Impossibile installare l'aggiornamento. Riprova più tardi.",
   "updates_failed_restarted": "Impossibile installare la versione {version}: l'app è stata riavviata alla versione attuale.",
+  "updates_failed_restarted_title": "Aggiornamento non riuscito",
   "updates_download_failed": "Il download si è interrotto. Controlla la connessione e riprova.",
   "updates_interval": "Cerca aggiornamenti",
   "updates_interval_hint": "L'app controlla anche all'avvio. Non installa mai nulla da sola: una nuova versione viene proposta qui.",
@@ -759,6 +816,7 @@
       }
     }
   ],
+  "updates_interval_hour": "Ogni ora",
   "accounts_stats_bets": "Scommesse vinte / perse: {won} / {lost}",
   "accounts_stats_bonuses": "Forzieri bonus: {count}",
   "catalogue_fetched": "recuperato {time}, poi ogni {minutes} min",
@@ -782,7 +840,25 @@
       }
     }
   ],
+  "ev_goal_contributed_short": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input goal",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{points} punto dato a «{goal}»",
+        "countPlural=*": "{points} punti dati a «{goal}»"
+      }
+    }
+  ],
   "ev_streak_recovered": "Serie di visione recuperata su {channel}",
+  "ev_streak_recovered_short": "Serie di visione recuperata",
   "filter_by_odds": "Quota della scelta",
   "filter_by_odds_percentage": "Quota della scelta (%)",
   "filter_by_percentage_users": "Spettatori sulla scelta (%)",
@@ -805,6 +881,7 @@
   "account_state_running_hint": "L'account mina con le sue impostazioni. La pausa ferma tutto: Drops, punti canale e chat.",
   "account_state_paused_hint": "L'account è in pausa: non guarda nulla e non guadagna nulla. Le sue impostazioni vengono mantenute.",
   "login_code": "codice di accesso",
+  "login_getting_code": "Richiesta di un nuovo codice…",
   "catalogue_sort": "Ordina",
   "catalogue_view": "Vista",
   "import_source": "Importa da",
@@ -827,9 +904,12 @@
   "login_setup_drops_hint": "Quali campagne mina questo account e se riscatta da solo le ricompense.",
   "event_kind_chat_mention": "Menzione",
   "ev_chat_mention": "{chatter} ti ha menzionato nella chat di {channel}",
+  "ev_chat_mention_short": "{chatter} ti ha menzionato",
   "notify_chat_mention": "Menzione in una chat",
   "campaign_prioritize": "Mina per prima",
+  "campaign_prioritizing": "Minando per prima…",
   "campaign_ignore": "Ignora",
+  "campaign_ignoring": "Ignorando…",
   "common_label": "{label}:",
   "nav_account_inventory": "Inventario",
   "inventory_hint": "Le ricompense delle tue campagne Drops, lette dal tuo inventario Twitch. Riscattale qui quando il riscatto automatico è disattivato.",
@@ -838,10 +918,13 @@
   "inventory_claim_all": "Riscatta tutto",
   "inventory_in_progress": "In corso",
   "inventory_claimed": "Riscattate",
+  "inventory_claimed_title": "Ricompense riscattate",
   "inventory_empty_claimable": "Niente da riscattare per ora.",
   "inventory_empty_progress": "Nessuna ricompensa in corso.",
+  "inventory_empty_waiting_link": "Nessuna ricompensa in attesa del collegamento dell'account di gioco.",
   "inventory_empty_claimed": "Ancora nessuna ricompensa riscattata.",
   "inventory_paused": "L'account è in pausa: il suo inventario Twitch viene letto mentre è attivo.",
+  "inventory_tabs_label": "Sezioni della pagina Inventario",
   "inventory_claimed_all": "Ricompense riscattate: {count}",
   "reward_state_claimed": "Riscattato",
   "reward_state_ready": "Da riscattare",
@@ -892,6 +975,7 @@
   "badge_hint_in_progress": "Twitch conta i tuoi minuti per questa campagna",
   "import_into": "Importa in",
   "confirm_remove": "Rimuovi",
+  "confirm_removing": "Rimozione…",
   "confirm_remove_streamer_title": "Rimuovere questo streamer?",
   "confirm_remove_streamer_text": "Questo account non guarderà più {name} per i punti canale e le sue opzioni andranno perse.",
   "confirm_remove_game_title": "Rimuovere questo gioco prioritario?",
@@ -931,6 +1015,7 @@
   ],
   "login_link": "link di attivazione",
   "link_opened": "{site} aperto nel browser",
+  "link_opened_title": "Link aperto",
   "secret_show": "Mostra",
   "secret_hide": "Nascondi",
   "notify_kind": "Tipo",
@@ -966,21 +1051,7 @@
   "points_reason_subscribed_hint": "Guardato per primo: l'account è abbonato e qui Twitch dà più punti",
   "points_reason_list_order_hint": "Guardato nell'ordine della lista degli streamer",
   "points_streamer_defaults_hint": "Uno streamer aggiunto (a mano, con l'importazione o durante la configurazione) parte con queste opzioni.",
-  "points_edit_selected": [
-    {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
-      "match": {
-        "countPlural=one": "Modifica {count} streamer selezionato",
-        "countPlural=*": "Modifica i {count} streamer selezionati"
-      }
-    }
-  ],
+  "points_edit_selected": "Modifica ({count})",
   "points_group_title": "Modifica {count} streamer",
   "points_group_hint": "Solo le opzioni che cambi si applicano a questi streamer; un'opzione segnata «Misto» mantiene il valore di ciascuno finché non la cambi.",
   "streamer_option_mixed": "Misto",
@@ -1034,7 +1105,24 @@
       }
     }
   ],
+  "ev_points_spent_short": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "−{points} punto",
+        "countPlural=*": "−{points} punti"
+      }
+    }
+  ],
   "ev_points_spent_balance": "Punti spesi su {channel} (saldo {balance})",
+  "ev_points_spent_balance_short": "Punti spesi (saldo {balance})",
   "ev_drop_progress_unknown": "Avanzamento di un drop: {current}/{required} min",
   "journal_types": "Tipi di evento",
   "journal_types_all": "Tutti i tipi",
@@ -1118,6 +1206,7 @@
   "spam_in_history": "Già nella tua cronologia",
   "spam_remove_history": "Rimuovi dalla cronologia",
   "spam_removed": "{channel} rimosso dalla cronologia",
+  "spam_removed_title": "Rimosso dalla cronologia",
   "spam_pick_title": "Scegli un canale",
   "spam_pick_text": "Qui compaiono i suoi premi personalizzati, con il saldo di questo account sul canale.",
   "spam_balance": "Saldo punti canale: {points}",
@@ -1175,6 +1264,8 @@
     }
   ],
   "spam_sent_partial": "{sent}/{count} inviati — {reason}",
+  "spam_send_failed_title": "Invio non riuscito",
+  "spam_sent_title": "Punti inviati",
   "spam_sent_none": "Non riuscito — {reason}",
   "spam_toast": "{count} × {reward} su {channel}: {result}",
   "spam_cancelled": [
@@ -1225,7 +1316,27 @@
       }
     }
   ],
+  "ev_rewards_redeemed_short": [
+    {
+      "declarations": [
+        "input sent",
+        "input shown",
+        "input count",
+        "input reward",
+        "input points",
+        "local sentPlural = sent: plural"
+      ],
+      "selectors": [
+        "sentPlural"
+      ],
+      "match": {
+        "sentPlural=one": "{count} × {reward} — {shown} inviato, {points} punti",
+        "sentPlural=*": "{count} × {reward} — {shown} inviati, {points} punti"
+      }
+    }
+  ],
   "ev_rewards_redeemed_partial": "{count} × {reward} su {channel} — {sent}/{total} inviati, {points} punti",
+  "ev_rewards_redeemed_partial_short": "{count} × {reward} — {sent}/{total} inviati, {points} punti",
   "ev_rewards_refused": [
     {
       "declarations": [
@@ -1243,6 +1354,7 @@
     }
   ],
   "spam_result_lost": "Nessun risultato ricevuto per {reward}: il Registro mostra cosa è stato inviato.",
+  "spam_result_unknown_title": "Risultato sconosciuto",
   "nav_badges": "Badge",
   "nav_account_badges": "Badge",
   "badges_title": "Badge",
@@ -1342,7 +1454,9 @@
   "badge_dialog_evolves_from": "Twitch conta questo badge solo mentre {badge} è equipaggiato: il miner lo equipaggia subito prima di minare e non rimette il badge precedente.",
   "badge_dialog_accounts": "Avanzamento degli account",
   "campaign_select": "Aggiungi alla mia selezione",
+  "campaign_selecting": "Aggiunta…",
   "campaign_unselect": "Togli dalla mia selezione",
+  "campaign_unselecting": "Togliendo…",
   "campaign_selected": "Aggiunta alla tua selezione",
   "campaign_unselected": "Tolta dalla tua selezione",
   "change_selected": "Aggiunto alla selezione: {item}",

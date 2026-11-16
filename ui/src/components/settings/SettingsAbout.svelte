@@ -26,7 +26,7 @@
   const intervals = $derived([
     { value: UpdateInterval.AT_START, label: t.updates_interval_start() },
     { value: UpdateInterval.MINUTES30, label: t.updates_interval_minutes({ count: 30 }) },
-    { value: UpdateInterval.HOURS1, label: t.updates_interval_hours({ count: 1 }) },
+    { value: UpdateInterval.HOURS1, label: t.updates_interval_hour() },
     { value: UpdateInterval.HOURS3, label: t.updates_interval_hours({ count: 3 }) },
     { value: UpdateInterval.HOURS6, label: t.updates_interval_hours({ count: 6 }) },
     { value: UpdateInterval.HOURS12, label: t.updates_interval_hours({ count: 12 }) },

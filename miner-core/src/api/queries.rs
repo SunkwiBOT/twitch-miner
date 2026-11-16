@@ -81,9 +81,13 @@ where
 #[serde(deny_unknown_fields)]
 #[ts(rename = "HistoryQueryType")]
 pub struct HistoryQuery {
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        deserialize_with = "listed",
+        skip_serializing_if = "Option::is_none"
+    )]
     #[ts(optional)]
-    pub account_id: Option<String>,
+    pub account_ids: Option<Vec<String>>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
     pub category: Option<EventCategory>,
@@ -106,9 +110,13 @@ pub struct HistoryQuery {
 #[serde(deny_unknown_fields)]
 #[ts(rename = "LogsQueryType")]
 pub struct LogsQuery {
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        deserialize_with = "listed",
+        skip_serializing_if = "Option::is_none"
+    )]
     #[ts(optional)]
-    pub account_id: Option<String>,
+    pub account_ids: Option<Vec<String>>,
     #[serde(
         default,
         deserialize_with = "listed",
@@ -129,9 +137,13 @@ pub struct LogsQuery {
 #[serde(deny_unknown_fields)]
 #[ts(rename = "RequestsQueryType")]
 pub struct RequestsQuery {
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        deserialize_with = "listed",
+        skip_serializing_if = "Option::is_none"
+    )]
     #[ts(optional)]
-    pub account_id: Option<String>,
+    pub account_ids: Option<Vec<String>>,
     #[serde(
         default,
         deserialize_with = "listed",

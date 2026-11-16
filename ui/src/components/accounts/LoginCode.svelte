@@ -52,7 +52,6 @@
           mark={LinkMark.END}
           look={LinkLook.ALWAYS}
           size={LinkSize.LG}
-          twin={false}
         />
         <CopyButton
           text={() => flow.verification_uri}

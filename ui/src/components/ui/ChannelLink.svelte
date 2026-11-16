@@ -21,5 +21,4 @@
   look={LinkLook.SENTENCE}
   size={LinkSize.MD}
   lead={photo}
-  twin={false}
 />

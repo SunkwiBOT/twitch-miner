@@ -1,17 +1,17 @@
 use chrono::{DateTime, Utc};
 use rusqlite::params;
 
-use super::{foreign_data, json_error, Store};
+use super::{foreign_data, json_error, AccountIdsParam, Store};
 use crate::error::{Error, Result};
 use crate::events::{EventCategory, EventContext, EventKind, MinerEvent};
 
 // ! Only the conditions a page sets, so SQLite picks an index for them: a
 // condition written `(?1 IS NULL OR ...)` makes it read the table row by row.
-fn page_conditions(filter: &HistoryFilter, before: bool, table: &str) -> String {
+fn page_conditions(account_ids: Option<&AccountIdsParam>, before: bool, table: &str) -> String {
     let mut conditions = Vec::new();
 
-    if filter.account_id.is_some() {
-        conditions.push(format!("{table}account_id = :account"));
+    if let Some(param) = account_ids {
+        conditions.push(param.condition(table));
     }
 
     if before {
@@ -27,12 +27,16 @@ fn page_conditions(filter: &HistoryFilter, before: bool, table: &str) -> String 
 // ! One read per kind through the kind index, each cut at the page size: a
 // plain `kind IN (...)` sorts every matching row. Kinds are fixed names,
 // never user input: they are written into the SQL.
-fn kinds_condition(filter: &HistoryFilter, before: bool) -> String {
+fn kinds_condition(
+    filter: &HistoryFilter,
+    account_ids: Option<&AccountIdsParam>,
+    before: bool,
+) -> String {
     if filter.category.is_none() && filter.kinds.is_none() {
         return "1".to_owned();
     }
 
-    let conditions = page_conditions(filter, before, "");
+    let conditions = page_conditions(account_ids, before, "");
     let branches: Vec<String> = EventKind::ALL
         .into_iter()
         .filter(|kind| filter.kinds.is_none_or(|kinds| kinds.contains(kind)))
@@ -76,9 +80,13 @@ fn kinds_condition(filter: &HistoryFilter, before: bool) -> String {
     format!("h.id IN ({})", branches.join(" UNION ALL "))
 }
 
-pub(super) fn history_sql(filter: &HistoryFilter, before: bool) -> String {
-    let kinds = kinds_condition(filter, before);
-    let conditions = page_conditions(filter, before, "h.");
+pub(super) fn history_sql(
+    filter: &HistoryFilter,
+    account_ids: Option<&AccountIdsParam>,
+    before: bool,
+) -> String {
+    let kinds = kinds_condition(filter, account_ids, before);
+    let conditions = page_conditions(account_ids, before, "h.");
 
     format!(
         "SELECT h.id, h.account_id, h.at, h.kind, h.title, h.detail, h.context,
@@ -91,7 +99,7 @@ pub(super) fn history_sql(filter: &HistoryFilter, before: bool) -> String {
 
 #[derive(Debug, Clone, Copy, Default)]
 pub struct HistoryFilter<'a> {
-    pub account_id: Option<&'a str>,
+    pub account_ids: Option<&'a [String]>,
     pub category: Option<EventCategory>,
     pub kinds: Option<&'a [EventKind]>,
 }
@@ -189,14 +197,19 @@ impl Store {
     ) -> Result<(Vec<MinerEvent>, Option<u64>)> {
         let connection = self.lock();
         let before = before_id.map(|id| i64::try_from(id).unwrap_or(i64::MAX));
+        let account_param = filter.account_ids.map(AccountIdsParam::new);
         let mut statement = connection
-            .prepare(&history_sql(filter, before.is_some()))
+            .prepare(&history_sql(
+                filter,
+                account_param.as_ref(),
+                before.is_some(),
+            ))
             .map_err(|error| foreign_data("the history table", error))?;
         let fetched = (limit + 1) as i64;
         let mut named: Vec<(&str, &dyn rusqlite::ToSql)> = vec![(":limit", &fetched)];
 
-        if let Some(account_id) = &filter.account_id {
-            named.push((":account", account_id));
+        if let Some(param) = &account_param {
+            param.bind(&mut named);
         }
 
         if let Some(before) = &before {

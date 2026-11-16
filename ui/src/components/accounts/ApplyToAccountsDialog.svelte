@@ -91,7 +91,7 @@
     <ActionButton
       icon={IconName.CHECK}
       label={t.bulk_apply({ count: selected.length })}
-      busyLabel={t.common_saving()}
+      busyLabel={t.bulk_applying()}
       busy={applying}
       disabled={selected.length === 0}
       variant={ButtonVariant.PRIMARY}

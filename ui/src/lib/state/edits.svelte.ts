@@ -95,7 +95,7 @@ export const saveAccountEdits = async (account: AccountSnapshotType): Promise<bo
     return true;
   }
 
-  changed(account.id, t.change_settings(), (settings) => {
+  changed(account.id, undefined, (settings) => {
     for (const [, change] of shared) {
       change(settings);
     }

@@ -121,7 +121,9 @@
       selected = null;
     }
 
-    toast(ToastKind.SUCCESS, t.spam_removed({ channel: strong(name) }));
+    toast(ToastKind.SUCCESS, t.spam_removed_title(), {
+      description: t.spam_removed({ channel: strong(name) }),
+    });
 
     return true;
   };
@@ -132,7 +134,10 @@
 <PageBody>
   <div class="@container">
     <div class="grid items-start gap-5 @4xl:grid-cols-[minmax(0,21rem)_minmax(0,1fr)]">
-      <div bind:this={list} class="@4xl:sticky @4xl:top-0">
+      <div
+        bind:this={list}
+        class="flex max-h-[70cqh] min-h-0 flex-col @4xl:sticky @4xl:top-0 @4xl:h-[100cqh] @4xl:max-h-none"
+      >
         <SpamChannelList {entries} {selected} onselect={show} onpick={pick} onremove={remove} />
       </div>
       <div bind:this={panel} class="min-w-0 scroll-mt-3">

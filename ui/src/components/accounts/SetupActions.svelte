@@ -78,7 +78,7 @@
   <ActionButton
     icon={IconName.PLAY}
     label={t.login_setup_finish()}
-    busyLabel={t.common_saving()}
+    busyLabel={t.login_setup_starting()}
     busy={ending === SetupEnd.START}
     disabled={finishing}
     variant={ButtonVariant.PRIMARY}

@@ -2,7 +2,7 @@
 import type { LogLevel } from "./LogLevel";
 
 export type LogsQueryType = {
-  account_id?: string;
+  account_ids?: Array<string>;
   levels?: Array<LogLevel>;
   before_id?: number;
   limit?: number;

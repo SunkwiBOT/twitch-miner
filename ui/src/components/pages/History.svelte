@@ -1,40 +1,31 @@
 <script lang="ts">
   import type { SnapshotType } from "../../lib/bindings/SnapshotType";
-  import { t } from "../../lib/i18n/i18n.svelte";
+  import { queryAccountIds, visibleAccountIds } from "../../lib/accounts/account-filter.utils";
   import { Card } from "$lib/components/ui/card";
+  import AccountFilter from "../ui/AccountFilter.svelte";
   import HistoryList from "../HistoryList.svelte";
   import PageBody from "../ui/PageBody.svelte";
-  import Select from "../ui/Select.svelte";
-  import { MenuAlign } from "../ui/menu.constants";
 
   type HistoryPropsType = { snapshot: SnapshotType };
 
   let { snapshot }: HistoryPropsType = $props();
 
-  let accountId = $state("");
+  let hiddenAccounts = $state<string[]>([]);
 
-  const options = $derived([
-    { value: "", label: t.history_filter_all() },
-    ...snapshot.accounts.map((a) => ({ value: a.id, label: a.display_name, image: a.avatar_url })),
-  ]);
+  const accountIds = $derived(visibleAccountIds(snapshot.accounts, hiddenAccounts));
+  const queryIds = $derived(queryAccountIds(accountIds, snapshot.accounts.length));
 </script>
 
 <PageBody>
   <Card class="px-5 py-4">
-    {#key accountId}
-      <HistoryList accountId={accountId || null} showAccount={accountId === ""}>
-        {#snippet lead()}
-          <div class="w-56">
-            <Select
-              value={accountId}
-              {options}
-              label={t.common_account()}
-              align={MenuAlign.LEFT}
-              onchange={(id) => (accountId = id)}
-            />
-          </div>
-        {/snippet}
-      </HistoryList>
-    {/key}
+    <HistoryList accountIds={queryIds} showAccount={accountIds.length !== 1}>
+      {#snippet lead()}
+        <AccountFilter
+          accounts={snapshot.accounts}
+          hidden={hiddenAccounts}
+          onchange={(next) => (hiddenAccounts = next)}
+        />
+      {/snippet}
+    </HistoryList>
   </Card>
 </PageBody>

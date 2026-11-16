@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Snippet } from "svelte";
+  import { type Snippet, untrack } from "svelte";
 
   import EmptyState from "./ui/EmptyState.svelte";
   import { Skeleton } from "$lib/components/ui/skeleton";
@@ -42,12 +42,12 @@
   import { MenuAlign } from "./ui/menu.constants";
 
   type HistoryListPropsType = {
-    accountId: string | null;
+    accountIds: string[] | undefined;
     showAccount: boolean;
     lead?: Snippet;
   };
 
-  let { accountId, showAccount, lead }: HistoryListPropsType = $props();
+  let { accountIds, showAccount, lead }: HistoryListPropsType = $props();
 
   const filter = $derived(
     openTab(
@@ -75,7 +75,7 @@
   );
 
   const query = (): HistoryQueryType => ({
-    account_id: accountId ?? undefined,
+    account_ids: accountIds,
     category: filter === JOURNAL_ALL ? undefined : filter,
     kinds: ticked.length === offered.length ? undefined : ticked,
   });
@@ -102,9 +102,12 @@
     ];
   };
 
+  const serializedQuery = $derived(JSON.stringify(query()));
+
   $effect(() => {
+    void serializedQuery;
     void app.liveEvents.length;
-    void feed.show(query());
+    void feed.show(untrack(query));
   });
 
   $effect(() => {

@@ -53,10 +53,7 @@
 {/snippet}
 
 <div
-  class={[
-    "group/twin flex min-w-0 flex-1 items-center gap-3 transition",
-    !streamer.enabled && "grayscale",
-  ]}
+  class={["flex min-w-0 flex-1 items-center gap-3 transition", !streamer.enabled && "grayscale"]}
 >
   <span class={["inline-flex transition", !streamer.enabled && "opacity-50"]}>
     <LinkTwin url={channelUrl(streamer.login)} live={isLive(streamer.login)}>
@@ -74,9 +71,8 @@
         url={channelUrl(streamer.login)}
         text={channel?.display_name ?? streamer.login}
         mark={LinkMark.END}
-        look={LinkLook.HOVER}
+        look={LinkLook.ALWAYS}
         size={LinkSize.MD}
-        twin={true}
       />
       {#if view?.watching}<Badge
           text={t.streamer_watching()}

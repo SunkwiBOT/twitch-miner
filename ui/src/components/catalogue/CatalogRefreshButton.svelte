@@ -12,6 +12,9 @@
 
   let { label }: CatalogRefreshButtonPropsType = $props();
 
+  const uid = $props.id();
+  const waitId = `${uid}-wait`;
+
   let busy = $state(false);
 
   const next = $derived(new Date(app.snapshot?.catalog.next_refresh_at ?? 0).getTime());
@@ -26,14 +29,22 @@
   };
 </script>
 
-<ActionButton
-  icon={IconName.REFRESH}
-  label={wait > 0 ? t.catalogue_refresh_wait({ time: mmss(wait) }) : label}
-  busyLabel={t.common_refreshing()}
-  {busy}
-  disabled={wait > 0}
-  variant={ButtonVariant.DEFAULT}
-  size={ButtonSize.MD}
-  type={ButtonType.BUTTON}
-  onclick={refresh}
-/>
+<span class="inline-flex items-center gap-2">
+  <ActionButton
+    icon={IconName.REFRESH}
+    {label}
+    busyLabel={t.common_refreshing()}
+    {busy}
+    disabled={wait > 0}
+    describedby={wait > 0 ? waitId : undefined}
+    variant={ButtonVariant.DEFAULT}
+    size={ButtonSize.MD}
+    type={ButtonType.BUTTON}
+    onclick={refresh}
+  />
+  {#if wait > 0}
+    <span id={waitId} class="text-hint text-muted-foreground"
+      >{t.catalogue_refresh_wait({ time: mmss(wait) })}</span
+    >
+  {/if}
+</span>

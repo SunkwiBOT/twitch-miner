@@ -24,6 +24,7 @@ import { matchesSearch } from "../search/search.utils";
 import { t } from "../i18n/i18n.svelte";
 import type { BadgeRequirementType } from "../bindings/BadgeRequirementType";
 import type { IgnoredType } from "../accounts/drops.utils";
+import { badgeUrl } from "./badge-slug.utils";
 import { BadgeFilter, HIDDEN_BADGE_SETS, NEW_BADGE_MS } from "./badges.constants";
 
 const time = (iso: string | undefined): number => (iso ? new Date(iso).getTime() : Number.NaN);
@@ -449,7 +450,7 @@ export const badgeRows = (items: AccountBadgeType[], order: string[]): BadgeRowT
   return [...rows.values()].sort((a, b) => rank(a) - rank(b));
 };
 
-export type OwnedBadgeType = { key: string; title: string; image: string | undefined };
+export type OwnedBadgeType = { key: string; title: string; image: string | undefined; url: string };
 
 export const ownedBadges = (
   account: AccountSnapshotType,
@@ -467,6 +468,7 @@ export const ownedBadges = (
       key: badgeKey(owned.set_id, owned.version),
       title: known?.title ?? owned.title,
       image: known?.image_url ?? owned.image_url,
+      url: badgeUrl(owned.set_id, owned.version),
     }))
     .sort((a, b) => a.title.localeCompare(b.title));
 };

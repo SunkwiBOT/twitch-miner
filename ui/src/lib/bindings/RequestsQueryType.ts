@@ -2,7 +2,7 @@
 import type { RequestKind } from "./RequestKind";
 
 export type RequestsQueryType = {
-  account_id?: string;
+  account_ids?: Array<string>;
   kinds?: Array<RequestKind>;
   errors_only?: boolean;
   before_live_id?: number;

@@ -23,7 +23,7 @@
       await closeWindow(choice);
       app.closeDialog = false;
     } catch (e: any) {
-      toast(ToastKind.ERROR, describeError(e));
+      toast(ToastKind.ERROR, t.action_failed(), { description: describeError(e) });
     } finally {
       closing = false;
     }
@@ -63,7 +63,7 @@
     <ActionButton
       icon={choice === CloseAction.QUIT ? IconName.X : IconName.DOWN}
       label={choice === CloseAction.QUIT ? t.close_quit_title() : t.close_tray_title()}
-      busyLabel={t.close_closing()}
+      busyLabel={choice === CloseAction.QUIT ? t.close_quitting() : t.close_closing()}
       busy={closing}
       disabled={false}
       variant={ButtonVariant.PRIMARY}

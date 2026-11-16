@@ -82,7 +82,9 @@
     testing = true;
 
     try {
-      toast(ToastKind.SUCCESS, t.settings_proxy_ok({ ms: strong(await testProxy(shown.proxy)) }));
+      toast(ToastKind.SUCCESS, t.settings_proxy_ok_title(), {
+        description: t.settings_proxy_ok({ ms: strong(await testProxy(shown.proxy)) }),
+      });
     } catch (e: any) {
       reportFailure(e);
     } finally {

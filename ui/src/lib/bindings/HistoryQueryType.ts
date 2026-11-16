@@ -3,7 +3,7 @@ import type { EventCategory } from "./EventCategory";
 import type { EventKind } from "./EventKind";
 
 export type HistoryQueryType = {
-  account_id?: string;
+  account_ids?: Array<string>;
   category?: EventCategory;
   kinds?: Array<EventKind>;
   before_id?: number;

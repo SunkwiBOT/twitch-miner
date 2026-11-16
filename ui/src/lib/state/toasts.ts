@@ -14,22 +14,22 @@ import {
   ToastKind,
 } from "./state.constants";
 
-export type ToastImageType = { url: string | undefined; name: string; channel: string | null };
+export type ToastSubjectType = { url: string | undefined; name: string; channel: string | null };
 
 export type ToastActionType = { label: string; run: () => void };
 
 export type ToastCardPropsType = {
   kind: ToastKind;
-  text: string;
-  image: ToastImageType | null;
-  title: string | null;
+  title: string;
+  description: string | null;
+  account: ToastSubjectType | null;
   action: ToastActionType | null;
   onclose: () => void;
 };
 
 type ToastOptionsType = {
-  image?: ToastImageType;
-  title?: string;
+  description?: string;
+  account?: ToastSubjectType;
   action?: ToastActionType;
   key?: string;
   onend?: () => void;
@@ -51,7 +51,7 @@ export const dismissToasts = (): void => {
   sonner.dismiss();
 };
 
-export const toast = (kind: ToastKind, text: string, options: ToastOptionsType = {}): void => {
+export const toast = (kind: ToastKind, title: string, options: ToastOptionsType = {}): void => {
   toastId += 1;
 
   const id = options.key ?? `toast-${toastId}`;
@@ -62,9 +62,9 @@ export const toast = (kind: ToastKind, text: string, options: ToastOptionsType =
     duration: options.action ? TOAST_ACTION_DURATION_MS : TOAST_DURATION_MS[kind],
     componentProps: {
       kind,
-      text,
-      image: options.image ?? null,
-      title: options.title ?? null,
+      title,
+      description: options.description ?? null,
+      account: options.account ?? null,
       action: options.action ?? null,
       onclose: () => dismissToast(id),
     },
@@ -77,7 +77,7 @@ export const openLink = async (url: string): Promise<void> => {
   try {
     await openUrl(url);
   } catch (e: any) {
-    toast(ToastKind.ERROR, describeError(e));
+    toast(ToastKind.ERROR, t.action_failed(), { description: describeError(e) });
 
     return;
   }
@@ -85,11 +85,14 @@ export const openLink = async (url: string): Promise<void> => {
   if (isTauri()) {
     const site = new URL(url).host.replace(/^www\./, "");
 
-    toast(ToastKind.INFO, t.link_opened({ site: strong(site) }), { key: LINK_TOAST_KEY });
+    toast(ToastKind.INFO, t.link_opened_title(), {
+      description: t.link_opened({ site: strong(site) }),
+      key: LINK_TOAST_KEY,
+    });
   }
 };
 
-export const accountImage = (accountId: string, fallback: string): ToastImageType => {
+export const accountImage = (accountId: string, fallback: string): ToastSubjectType => {
   const found = app.snapshot?.accounts.find((a) => a.id === accountId);
 
   return { url: found?.avatar_url, name: found?.display_name ?? fallback, channel: null };

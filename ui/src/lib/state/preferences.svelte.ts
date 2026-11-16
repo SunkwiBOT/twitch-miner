@@ -67,7 +67,7 @@ const pickViewer = (settings: GlobalSettingsType): ViewerPreferencesType => ({
 const switchLanguage = (preference: string): void => {
   void applyLanguage(preference).then((shown) => {
     if (!shown) {
-      toast(ToastKind.ERROR, t.language_load_failed());
+      toast(ToastKind.ERROR, t.action_failed(), { description: t.language_load_failed() });
     }
   });
 };

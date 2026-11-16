@@ -45,10 +45,10 @@
         copied = true;
         setTimeout(() => (copied = false), COPIED_FEEDBACK_MS);
       } else {
-        toast(ToastKind.ERROR, t.copy_failed());
+        toast(ToastKind.ERROR, t.action_failed(), { description: t.copy_failed() });
       }
     } catch (e: any) {
-      toast(ToastKind.ERROR, describeError(e));
+      toast(ToastKind.ERROR, t.action_failed(), { description: describeError(e) });
     } finally {
       busy = false;
     }
@@ -69,7 +69,7 @@
         {...props}
         variant={BUTTON_VARIANTS[ButtonVariant.GHOST]}
         size={ICON_BUTTON_SIZES[size]}
-        class={BUTTON_VARIANT_CLASSES[ButtonVariant.GHOST]}
+        class={cn(BUTTON_VARIANT_CLASSES[ButtonVariant.GHOST], "not-aria-busy:cursor-copy")}
         type={ButtonType.BUTTON}
         aria-label={name ?? label}
         disabled={busy}
@@ -83,6 +83,7 @@
     variant={BUTTON_VARIANTS[ButtonVariant.OUTLINE]}
     size={BUTTON_SIZES[size]}
     type={ButtonType.BUTTON}
+    class="not-aria-busy:cursor-copy"
     disabled={busy}
     aria-busy={busy}
     onclick={copy}>{@render mark()}{copied ? copiedLabel : label}</Button

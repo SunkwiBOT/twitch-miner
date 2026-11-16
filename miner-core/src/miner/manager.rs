@@ -424,9 +424,9 @@ impl Manager {
             .limit
             .unwrap_or(LOGS_LIMIT_DEFAULT)
             .clamp(1, LOGS_LIMIT_MAX) as usize;
-        let login = self.log_login(query.account_id.as_deref());
+        let logins = self.log_logins(query.account_ids.as_deref());
         let filter = LogFilter {
-            account: login.as_deref(),
+            accounts: logins.as_deref(),
             levels: query.levels.as_deref(),
         };
         let page = self.logs.page(&filter, query.before_id, limit);
@@ -453,7 +453,7 @@ impl Manager {
             .unwrap_or(HISTORY_LIMIT_DEFAULT)
             .clamp(1, HISTORY_LIMIT_MAX) as usize;
         let filter = HistoryFilter {
-            account_id: query.account_id.as_deref(),
+            account_ids: query.account_ids.as_deref(),
             category: query.category,
             kinds: query.kinds.as_deref(),
         };
@@ -1376,16 +1376,18 @@ impl Manager {
         Ok(())
     }
 
-    fn log_login(&self, account_id: Option<&str>) -> Option<String> {
-        account_id
-            .and_then(|id| self.store.account(id).ok().flatten())
-            .map(|a| a.login)
+    fn log_logins(&self, account_ids: Option<&[String]>) -> Option<Vec<String>> {
+        account_ids.map(|ids| {
+            ids.iter()
+                .filter_map(|id| self.store.account(id).ok().flatten().map(|a| a.login))
+                .collect()
+        })
     }
 
     fn logs_export(&self, query: &LogsQuery, limit: usize) -> String {
-        let login = self.log_login(query.account_id.as_deref());
+        let logins = self.log_logins(query.account_ids.as_deref());
         let filter = LogFilter {
-            account: login.as_deref(),
+            accounts: logins.as_deref(),
             levels: query.levels.as_deref(),
         };
 
@@ -1805,7 +1807,7 @@ async fn blocking<T: Send + 'static>(
 
 fn request_filter(query: &RequestsQuery) -> RequestFilter<'_> {
     RequestFilter {
-        account_id: query.account_id.as_deref(),
+        account_ids: query.account_ids.as_deref(),
         kinds: query.kinds.as_deref(),
         errors_only: query.errors_only.unwrap_or(false),
     }

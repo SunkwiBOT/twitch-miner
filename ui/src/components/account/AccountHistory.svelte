@@ -19,7 +19,7 @@
 <PageBody>
   <Card class="px-5 py-4">
     {#key account.id}
-      <HistoryList accountId={account.id} showAccount={false}>
+      <HistoryList accountIds={[account.id]} showAccount={false}>
         {#snippet lead()}
           <TextButton
             label={t.nav_logs()}

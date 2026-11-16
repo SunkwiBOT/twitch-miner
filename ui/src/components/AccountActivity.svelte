@@ -95,7 +95,7 @@
 {/snippet}
 
 {#snippet streamer(slot: SlotViewType)}
-  <span class="group/twin flex max-w-36 shrink-0 flex-col items-end gap-1.5 text-right">
+  <span class="flex max-w-36 shrink-0 flex-col items-end gap-1.5 text-right">
     <LinkTwin url={channelUrl(slot.channel.login)} live={slot.channel.live}>
       <ChannelAvatar
         url={slot.channel.avatar_url}
@@ -109,9 +109,8 @@
         url={channelUrl(slot.channel.login)}
         text={slot.channel.display_name}
         mark={LinkMark.START}
-        look={LinkLook.HOVER}
+        look={LinkLook.ALWAYS}
         size={LinkSize.MD}
-        twin={true}
       />
       {#if slot.channel.viewers !== undefined}<ViewerCount count={slot.channel.viewers} />{/if}
     </span>
@@ -216,7 +215,7 @@
     </div>
   {:else}
     <div
-      class="group/twin grid grid-cols-[auto_minmax(0,1fr)_auto] items-start gap-x-3.5 gap-y-1.5 border-b px-5 py-4 last:border-b-0"
+      class="grid grid-cols-[auto_minmax(0,1fr)_auto] items-start gap-x-3.5 gap-y-1.5 border-b px-5 py-4 last:border-b-0"
     >
       <LinkTwin url={channelUrl(slot.channel.login)} live={slot.channel.live}>
         <ChannelAvatar
@@ -232,9 +231,8 @@
           url={channelUrl(slot.channel.login)}
           text={slot.channel.display_name}
           mark={LinkMark.END}
-          look={LinkLook.HOVER}
+          look={LinkLook.ALWAYS}
           size={LinkSize.MD}
-          twin={true}
         />
         <span class="flex min-w-0 items-center gap-2 text-hint text-muted-foreground">
           {#if slot.channel.game}<GameName

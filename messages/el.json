@@ -63,10 +63,14 @@
   "dashboard_linked": "Συνδεδεμένο",
   "dashboard_not_linked": "Μη συνδεδεμένο",
   "dashboard_updated": "Ο πίνακας ελέγχου ενημερώθηκε στην έκδοση {version}: φορτώστε ξανά τη σελίδα για να τη χρησιμοποιήσετε.",
+  "dashboard_updated_title": "Ο πίνακας ελέγχου ενημερώθηκε",
   "dashboard_reload": "Επαναφόρτωση",
   "dashboard_ends_in": "λήγει {time}",
   "dashboard_remaining": "{minutes} λεπ. απομένουν",
   "accounts_add": "Προσθήκη λογαριασμού",
+  "common_accounts_all": "Όλοι οι λογαριασμοί",
+  "common_accounts_count": "Λογαριασμοί: {count}",
+  "common_accounts_none": "Κανένας λογαριασμός",
   "accounts_remove_title": "Αφαίρεση αυτού του λογαριασμού;",
   "accounts_remove_text": "Η συνεδρία του {name} ανακαλείται στο Twitch και διαγράφεται εδώ. Τα εξαργυρωμένα drops μένουν στο απόθεμα Twitch.",
   "accounts_login_again": "Σύνδεση ξανά",
@@ -126,7 +130,6 @@
   "campaigns_filter_in_progress": "Σε εξέλιξη",
   "campaigns_empty": "Καμία καμπάνια δεν ταιριάζει.",
   "history_title": "Χρονικό",
-  "history_filter_all": "Όλοι οι λογαριασμοί",
   "history_empty": "Τίποτα ακόμα.",
   "history_load_failed": "Δεν ήταν δυνατή η ανάγνωση του Χρονικού.",
   "event_kind_info": "Πληροφορία",
@@ -167,8 +170,11 @@
   "settings_webhook_auth": "Κεφαλίδα Authorization (προαιρετικό)",
   "settings_system_notifications": "Ειδοποιήσεις επιφάνειας εργασίας",
   "settings_test_notifications": "Αποστολή δοκιμής",
+  "settings_test_sending": "Αποστολή…",
   "settings_test_ok": "{target}: εστάλη",
+  "settings_test_ok_title": "Η δοκιμή στάλθηκε",
   "settings_test_failed": "{target}: {error}",
+  "settings_test_failed_title": "Η δοκιμή απέτυχε",
   "notify_drop_claimed": "Drop παραλήφθηκε",
   "notify_drop_progress": "Πρόοδος drop",
   "notify_bonus_claimed": "Μπόνους σεντούκι παραλήφθηκε",
@@ -311,9 +317,9 @@
   "campaign_progress": "{current}/{required} λεπτά",
   "campaign_link_game": "Σύνδεση λογαριασμού παιχνιδιού",
   "campaign_open_twitch": "Άνοιγμα στο Twitch",
+  "campaign_view_category": "Προβολή κατηγορίας",
   "logs_title": "Αρχεία καταγραφής",
   "logs_subtitle": "Αρχεία καταγραφής του miner, χωρίς token ή μυστικά. Ασφαλές για επικόλληση σε αναφορά σφάλματος.",
-  "logs_filter_all": "Όλοι οι λογαριασμοί",
   "logs_copy": "Αντιγραφή για αναφορά σφάλματος",
   "logs_copied": "Τα αρχεία καταγραφής αντιγράφηκαν",
   "logs_open_folder": "Άνοιγμα φακέλου καταγραφής",
@@ -328,6 +334,7 @@
   "settings_proxy_hint": "socks5://user:pass@host:port, socks5h://, http:// ή https://. Αφήστε κενό για απευθείας σύνδεση.",
   "settings_proxy_test": "Δοκιμή",
   "settings_proxy_ok": "Ο proxy φτάνει στο Twitch ({ms} ms)",
+  "settings_proxy_ok_title": "Το proxy λειτουργεί",
   "settings_feedback": "Σχόλια",
   "settings_feedback_text": "Για ένα σφάλμα, επισυνάψτε τα αρχεία καταγραφής από τη σελίδα Αρχεία καταγραφής: δεν περιέχουν μυστικά.",
   "feedback_discord_text": "Ανοίξτε ένα ticket ή συζητήστε με την κοινότητα",
@@ -413,7 +420,9 @@
   "security_confirm": "Επιβεβαίωση",
   "security_rules": "Τουλάχιστον 4 χαρακτήρες. Δεν ανακτάται: αν τον χάσετε, προσθέστε ξανά τους λογαριασμούς.",
   "security_enable": "Ορισμός κωδικού",
+  "security_enabling": "Ορισμός κωδικού…",
   "security_change": "Αλλαγή κωδικού",
+  "security_changing": "Αλλαγή κωδικού…",
   "security_disable": "Κατάργηση κωδικού",
   "security_access_local": "Μέσω απλού HTTP: κρατήστε αυτόν τον πίνακα στο δίκτυό σας ή βάλτε τον πίσω από έναν HTTPS reverse proxy με το MINER_PUBLIC_URL.",
   "security_access_public": "Πίσω από HTTPS reverse proxy, στη διεύθυνση {host}.",
@@ -429,15 +438,22 @@
   "streamer_predictions_stealth_hint": "Δεν ποντάρει ποτέ περισσότερα από το τρέχον μεγαλύτερο στοίχημα.",
   "streamer_watch_streak_hint": "Μετράει για την προτεραιότητα στα σερί: ένα νέο live, ένα σερί που πρόκειται να λήξει ή ένα σερί προς ανάκτηση βάζει αυτόν τον streamer πρώτο.",
   "ev_watch_drop": "Παρακολουθεί το {channel} για {campaign}",
+  "ev_watch_drop_short": "Παρακολουθεί για {campaign}",
   "ev_watch_points_streak_bonus": "Παρακολουθεί το {channel} για πόντους καναλιού (μπόνους σερί)",
+  "ev_watch_points_streak_bonus_short": "Παρακολουθεί για πόντους καναλιού (μπόνους σερί)",
   "ev_watch_points_streak_at_risk": "Παρακολουθεί το {channel} για πόντους καναλιού (το σερί κινδυνεύει)",
+  "ev_watch_points_streak_at_risk_short": "Παρακολουθεί για πόντους καναλιού (το σερί κινδυνεύει)",
   "ev_watch_points_subscribed": "Παρακολουθεί το {channel} για πόντους καναλιού (συνδρομή)",
+  "ev_watch_points_subscribed_short": "Παρακολουθεί για πόντους καναλιού (συνδρομή)",
   "ev_watch_points_list_order": "Παρακολουθεί το {channel} για πόντους καναλιού (σειρά λίστας)",
+  "ev_watch_points_list_order_short": "Παρακολουθεί για πόντους καναλιού (σειρά λίστας)",
   "ev_watch_stopped": "Σταμάτησε η παρακολούθηση του {channel}",
+  "ev_watch_stopped_short": "Σταμάτησε η παρακολούθηση",
   "ev_drop_claimed": "{drop} παραλήφθηκε · {campaign}",
   "ev_campaign_finished": "Καμπάνια ολοκληρώθηκε: {campaign}",
   "ev_drop_progress": "{drop}: {current}/{required} λεπ.",
   "ev_bonus": "Μπόνους σεντούκι παραλήφθηκε στο {channel}",
+  "ev_bonus_short": "Μπόνους σεντούκι παραλήφθηκε",
   "ev_points": [
     {
       "declarations": [
@@ -455,10 +471,30 @@
       }
     }
   ],
+  "ev_points_short": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "+{points} πόντος",
+        "countPlural=*": "+{points} πόντοι"
+      }
+    }
+  ],
   "ev_online": "Το {channel} είναι live",
+  "ev_online_short": "Είναι live",
   "ev_offline": "Το {channel} βγήκε offline",
+  "ev_offline_short": "Βγήκε offline",
   "ev_raid": "Ακολούθησε το raid του {channel}",
+  "ev_raid_short": "Ακολούθησε το raid",
   "ev_moment": "Στιγμή παραλήφθηκε στο {channel}",
+  "ev_moment_short": "Στιγμή παραλήφθηκε",
   "ev_bet_placed": [
     {
       "declarations": [
@@ -474,6 +510,23 @@
       "match": {
         "countPlural=one": "Στοίχημα {points} πόντου στο «{outcome}» ({channel})",
         "countPlural=*": "Στοίχημα {points} πόντων στο «{outcome}» ({channel})"
+      }
+    }
+  ],
+  "ev_bet_placed_short": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input outcome",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Στοίχημα {points} πόντου στο «{outcome}»",
+        "countPlural=*": "Στοίχημα {points} πόντων στο «{outcome}»"
       }
     }
   ],
@@ -520,11 +573,12 @@
   "common_removing": "Αφαίρεση…",
   "action_pausing": "Παύση…",
   "action_resuming": "Συνέχιση…",
+  "action_failed": "Η ενέργεια απέτυχε",
   "lock_locking": "Κλείδωμα…",
   "unlock_unlocking": "Ξεκλείδωμα…",
   "auth_signing_in": "Σύνδεση…",
   "close_closing": "Κλείσιμο…",
-  "login_starting": "Εκκίνηση…",
+  "close_quitting": "Έξοδος από την εφαρμογή…",
   "campaign_claiming": "Παραλαβή…",
   "catalogue_view_timeline": "Ημερολόγιο",
   "catalogue_view_cards": "Κάρτες",
@@ -551,18 +605,16 @@
         "countPlural"
       ],
       "match": {
-        "countPlural=one": "Ο κατάλογος ανανεώθηκε: {shown} καμπάνια",
-        "countPlural=*": "Ο κατάλογος ανανεώθηκε: {shown} καμπάνιες"
+        "countPlural=one": "{shown} καμπάνια",
+        "countPlural=*": "{shown} καμπάνιες"
       }
     }
   ],
+  "catalogue_refreshed_title": "Ο κατάλογος ανανεώθηκε",
   "catalogue_refresh_wait": "Διαθέσιμο σε {time}",
   "campaign_prioritized": "Τοποθετήθηκε στην κορυφή της σειράς εξόρυξης",
   "campaign_ignored": "Η καμπάνια παραβλέπεται",
   "campaign_unignored": "Η καμπάνια εξορύσσεται ξανά",
-  "accounts_all": "Όλοι οι λογαριασμοί",
-  "accounts_count": "{count} λογαριασμοί",
-  "accounts_none": "Κανένας λογαριασμός",
   "reward_watch": "Παρακολούθηση {time}",
   "reward_watch_daily": "{time} την ημέρα, {days} ημέρες",
   "reward_watch_every": "{time} κάθε {hours} ώρες, {count} φορές",
@@ -590,6 +642,7 @@
   "ignored_hint": "Καμπάνιες και αντικείμενα που αυτός ο λογαριασμός δεν εξορύσσει ποτέ.",
   "ignored_empty": "Τίποτα δεν παραβλέπεται.",
   "ignored_restore": "Εξόρυξη ξανά",
+  "ignored_restoring": "Εξόρυξη ξανά…",
   "history_load_more": "Φόρτωση παλαιότερων συμβάντων",
   "settings_time": "Ημερομηνία και ώρα",
   "settings_time_zone": "Ζώνη ώρας",
@@ -616,14 +669,16 @@
   "login_setup_copy_from": "Ρυθμίσεις του {name}",
   "login_setup_copy_hint": "Αντιγράφει αυτούσιες τις ρυθμίσεις του επιλεγμένου λογαριασμού (σειρά εξόρυξης των καμπανιών Drops, εξαιρέσεις, λίστα streamers), εκτός από τον proxy.",
   "login_setup_finish": "Έναρξη εξόρυξης",
+  "login_setup_starting": "Έναρξη εξόρυξης…",
   "login_setup_later": "Αποθήκευση και έναρξη αργότερα",
   "error_not_supported": "Δεν είναι διαθέσιμο σε αυτή την έκδοση της εφαρμογής.",
   "common_copy_named": "Αντιγραφή: {name}",
   "bulk_accounts": "Λογαριασμοί",
-  "bulk_applied": "Λογαριασμοί που ενημερώθηκαν: {count}",
+  "bulk_applying": "Εφαρμογή…",
+  "bulk_applied_title": "Οι λογαριασμοί ενημερώθηκαν",
   "bulk_apply": "Εφαρμογή ({count})",
   "bulk_apply_others": "Εφαρμογή σε άλλους λογαριασμούς",
-  "bulk_changes": "{name}: {count} αλλαγές",
+  "bulk_changes": "{shown} αλλαγές",
   "bulk_hint": "Οι αλλαγές του {name} ({count}) επαναλαμβάνονται στους επιλεγμένους λογαριασμούς. Κάθε λογαριασμός κρατά τις υπόλοιπες ρυθμίσεις του.",
   "bulk_no_accounts": "Κανένας άλλος λογαριασμός.",
   "bulk_title": "Εφαρμογή σε άλλους λογαριασμούς",
@@ -706,6 +761,7 @@
   "updates_checking": "Έλεγχος…",
   "updates_current": "Έχετε την πιο πρόσφατη έκδοση.",
   "updates_available": "Η έκδοση {version} είναι διαθέσιμη.",
+  "updates_available_title": "Διαθέσιμη ενημέρωση",
   "updates_available_locked": "Η έκδοση {version} είναι διαθέσιμη. Ξεκλειδώστε την εφαρμογή για να την εγκαταστήσετε.",
   "updates_badge": "Ενημέρωση {version}",
   "updates_pull_image": "Για ενημέρωση, κατεβάστε τη νέα εικόνα και επανεκκινήστε το κοντέινερ:",
@@ -724,6 +780,7 @@
   "updates_restarting": "Εγκατάσταση της έκδοσης {version}. Η εφαρμογή επανεκκινείται μόνη της.",
   "updates_install_failed": "Δεν ήταν δυνατή η εγκατάσταση της ενημέρωσης. Δοκιμάστε ξανά αργότερα.",
   "updates_failed_restarted": "Δεν ήταν δυνατή η εγκατάσταση της έκδοσης {version}: η εφαρμογή επανεκκινήθηκε στην τρέχουσα έκδοσή της.",
+  "updates_failed_restarted_title": "Η ενημέρωση απέτυχε",
   "updates_download_failed": "Η λήψη διακόπηκε. Ελέγξτε τη σύνδεσή σας και δοκιμάστε ξανά.",
   "updates_interval": "Έλεγχος για ενημερώσεις",
   "updates_interval_hint": "Η εφαρμογή ελέγχει και κατά την εκκίνηση. Δεν εγκαθιστά ποτέ τίποτα μόνη της: μια νέα έκδοση προτείνεται εδώ.",
@@ -759,6 +816,7 @@
       }
     }
   ],
+  "updates_interval_hour": "Κάθε ώρα",
   "accounts_stats_bets": "Στοιχήματα κερδισμένα / χαμένα: {won} / {lost}",
   "accounts_stats_bonuses": "Μπόνους σεντούκια: {count}",
   "catalogue_fetched": "λήψη {time}, ξανά κάθε {minutes} λεπ.",
@@ -782,7 +840,25 @@
       }
     }
   ],
+  "ev_goal_contributed_short": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input goal",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{points} πόντος δόθηκε στο «{goal}»",
+        "countPlural=*": "{points} πόντοι δόθηκαν στο «{goal}»"
+      }
+    }
+  ],
   "ev_streak_recovered": "Το σερί παρακολούθησης ανακτήθηκε στο {channel}",
+  "ev_streak_recovered_short": "Το σερί παρακολούθησης ανακτήθηκε",
   "filter_by_odds": "Απόδοση της επιλογής",
   "filter_by_odds_percentage": "Απόδοση της επιλογής (%)",
   "filter_by_percentage_users": "Θεατές στην επιλογή (%)",
@@ -805,6 +881,7 @@
   "account_state_running_hint": "Ο λογαριασμός κάνει εξόρυξη με τις ρυθμίσεις του. Η παύση σταματά τα πάντα: Drops, πόντους καναλιού και συνομιλία.",
   "account_state_paused_hint": "Ο λογαριασμός είναι σε παύση: δεν παρακολουθεί τίποτα και δεν κερδίζει τίποτα. Οι ρυθμίσεις του διατηρούνται.",
   "login_code": "κωδικός σύνδεσης",
+  "login_getting_code": "Λήψη νέου κωδικού…",
   "catalogue_sort": "Ταξινόμηση",
   "catalogue_view": "Προβολή",
   "import_source": "Εισαγωγή από",
@@ -827,9 +904,12 @@
   "login_setup_drops_hint": "Ποιες καμπάνιες εξορύσσει αυτός ο λογαριασμός και αν παραλαμβάνει ο ίδιος τις ανταμοιβές.",
   "event_kind_chat_mention": "Αναφορά",
   "ev_chat_mention": "{chatter} σας ανέφερε στη συνομιλία του {channel}",
+  "ev_chat_mention_short": "{chatter} σας ανέφερε",
   "notify_chat_mention": "Αναφορά σε συνομιλία",
   "campaign_prioritize": "Εξόρυξη με προτεραιότητα",
+  "campaign_prioritizing": "Εξόρυξη με προτεραιότητα…",
   "campaign_ignore": "Παράβλεψη",
+  "campaign_ignoring": "Παράβλεψη…",
   "common_label": "{label}:",
   "nav_account_inventory": "Απόθεμα",
   "inventory_hint": "Οι ανταμοιβές των καμπανιών Drops σας, όπως διαβάζονται από το απόθεμά σας στο Twitch. Παραλάβετέ τες εδώ όταν η αυτόματη παραλαβή είναι απενεργοποιημένη.",
@@ -838,10 +918,13 @@
   "inventory_claim_all": "Παραλαβή όλων",
   "inventory_in_progress": "Σε εξέλιξη",
   "inventory_claimed": "Παραλήφθηκαν",
+  "inventory_claimed_title": "Ανταμοιβές που παραλήφθηκαν",
   "inventory_empty_claimable": "Τίποτα προς παραλαβή αυτή τη στιγμή.",
   "inventory_empty_progress": "Καμία ανταμοιβή σε εξέλιξη.",
+  "inventory_empty_waiting_link": "Καμία ανταμοιβή δεν περιμένει τη σύνδεση του λογαριασμού παιχνιδιού.",
   "inventory_empty_claimed": "Καμία ανταμοιβή δεν έχει παραληφθεί ακόμα.",
   "inventory_paused": "Ο λογαριασμός είναι σε παύση: το απόθεμά του στο Twitch διαβάζεται όσο λειτουργεί.",
+  "inventory_tabs_label": "Ενότητες της σελίδας Απόθεμα",
   "inventory_claimed_all": "Ανταμοιβές που παραλήφθηκαν: {count}",
   "reward_state_claimed": "Εξαργυρώθηκε",
   "reward_state_ready": "Για εξαργύρωση",
@@ -892,6 +975,7 @@
   "badge_hint_in_progress": "Το Twitch μετρά τα λεπτά σας για αυτήν την καμπάνια",
   "import_into": "Εισαγωγή σε",
   "confirm_remove": "Αφαίρεση",
+  "confirm_removing": "Αφαίρεση…",
   "confirm_remove_streamer_title": "Αφαίρεση αυτού του streamer;",
   "confirm_remove_streamer_text": "Αυτός ο λογαριασμός δεν θα παρακολουθεί πλέον το {name} για πόντους καναλιού, και οι ρυθμίσεις του θα χαθούν.",
   "confirm_remove_game_title": "Αφαίρεση αυτού του παιχνιδιού προτεραιότητας;",
@@ -931,6 +1015,7 @@
   ],
   "login_link": "σύνδεσμο ενεργοποίησης",
   "link_opened": "Άνοιξε στο πρόγραμμα περιήγησης: {site}",
+  "link_opened_title": "Ο σύνδεσμος άνοιξε",
   "secret_show": "Εμφάνιση",
   "secret_hide": "Απόκρυψη",
   "notify_kind": "Τύπος",
@@ -966,21 +1051,7 @@
   "points_reason_subscribed_hint": "Παρακολουθείται πρώτο: ο λογαριασμός έχει συνδρομή και το Twitch δίνει εδώ περισσότερους πόντους",
   "points_reason_list_order_hint": "Παρακολουθείται με τη σειρά της λίστας streamers",
   "points_streamer_defaults_hint": "Ένας streamer που προστίθεται (χειροκίνητα, με εισαγωγή ή κατά τη ρύθμιση) ξεκινά με αυτές τις επιλογές.",
-  "points_edit_selected": [
-    {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
-      "match": {
-        "countPlural=one": "Επεξεργασία {count} επιλεγμένου streamer",
-        "countPlural=*": "Επεξεργασία των {count} επιλεγμένων streamers"
-      }
-    }
-  ],
+  "points_edit_selected": "Επεξεργασία ({count})",
   "points_group_title": [
     {
       "declarations": [
@@ -1048,7 +1119,24 @@
       }
     }
   ],
+  "ev_points_spent_short": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "−{points} πόντος",
+        "countPlural=*": "−{points} πόντοι"
+      }
+    }
+  ],
   "ev_points_spent_balance": "Πόντοι ξοδεύτηκαν στο {channel} (υπόλοιπο {balance})",
+  "ev_points_spent_balance_short": "Πόντοι ξοδεύτηκαν (υπόλοιπο {balance})",
   "ev_drop_progress_unknown": "Πρόοδος drop: {current}/{required} λεπ.",
   "journal_types": "Τύποι συμβάντων",
   "journal_types_all": "Όλοι οι τύποι",
@@ -1132,6 +1220,7 @@
   "spam_in_history": "Ήδη στο ιστορικό σας",
   "spam_remove_history": "Αφαίρεση από το ιστορικό",
   "spam_removed": "Το {channel} αφαιρέθηκε από το ιστορικό",
+  "spam_removed_title": "Αφαιρέθηκε από το ιστορικό",
   "spam_pick_title": "Επιλέξτε κανάλι",
   "spam_pick_text": "Εδώ εμφανίζονται οι δικές του ανταμοιβές, με το υπόλοιπο αυτού του λογαριασμού στο κανάλι.",
   "spam_balance": "Υπόλοιπο πόντων καναλιού: {points}",
@@ -1189,6 +1278,8 @@
     }
   ],
   "spam_sent_partial": "Στάλθηκαν {sent}/{count} — {reason}",
+  "spam_send_failed_title": "Η αποστολή απέτυχε",
+  "spam_sent_title": "Οι πόντοι στάλθηκαν",
   "spam_sent_none": "Απέτυχε — {reason}",
   "spam_toast": "{count} × {reward} στο {channel}: {result}",
   "spam_cancelled": [
@@ -1239,7 +1330,27 @@
       }
     }
   ],
+  "ev_rewards_redeemed_short": [
+    {
+      "declarations": [
+        "input sent",
+        "input shown",
+        "input count",
+        "input reward",
+        "input points",
+        "local sentPlural = sent: plural"
+      ],
+      "selectors": [
+        "sentPlural"
+      ],
+      "match": {
+        "sentPlural=one": "{count} × {reward} — στάλθηκε {shown}, {points} πόντοι",
+        "sentPlural=*": "{count} × {reward} — στάλθηκαν {shown}, {points} πόντοι"
+      }
+    }
+  ],
   "ev_rewards_redeemed_partial": "{count} × {reward} στο {channel} — στάλθηκαν {sent}/{total}, {points} πόντοι",
+  "ev_rewards_redeemed_partial_short": "{count} × {reward} — στάλθηκαν {sent}/{total}, {points} πόντοι",
   "ev_rewards_refused": [
     {
       "declarations": [
@@ -1257,6 +1368,7 @@
     }
   ],
   "spam_result_lost": "Δεν ήρθε αποτέλεσμα για {reward}: το Χρονικό δείχνει τι στάλθηκε.",
+  "spam_result_unknown_title": "Άγνωστο αποτέλεσμα",
   "nav_badges": "Σήματα",
   "nav_account_badges": "Σήματα",
   "badges_title": "Σήματα",
@@ -1356,7 +1468,9 @@
   "badge_dialog_evolves_from": "Το Twitch μετράει αυτό το σήμα μόνο όσο είναι φορεμένο το {badge}: ο miner το φοράει λίγο πριν την εξόρυξη και δεν ξαναβάζει το παλιό σήμα.",
   "badge_dialog_accounts": "Πρόοδος των λογαριασμών",
   "campaign_select": "Προσθήκη στην επιλογή μου",
+  "campaign_selecting": "Προσθήκη…",
   "campaign_unselect": "Αφαίρεση από την επιλογή μου",
+  "campaign_unselecting": "Αφαίρεση…",
   "campaign_selected": "Προστέθηκε στην επιλογή σας",
   "campaign_unselected": "Αφαιρέθηκε από την επιλογή σας",
   "change_selected": "Προστέθηκε στην επιλογή: {item}",

@@ -187,7 +187,7 @@
             <ActionButton
               icon={IconName.LOCK}
               label={hasPassword ? t.security_change() : t.security_enable()}
-              busyLabel={t.common_saving()}
+              busyLabel={hasPassword ? t.security_changing() : t.security_enabling()}
               busy={savingPassword}
               disabled={!canSave}
               variant={ButtonVariant.PRIMARY}

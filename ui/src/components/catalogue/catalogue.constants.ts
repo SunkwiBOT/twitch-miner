@@ -13,6 +13,8 @@ export const NEW_MS = DAY_MS;
 
 export enum CampaignAction {
   IGNORE = "IGNORE",
+  RESTORE = "RESTORE",
   SELECT = "SELECT",
+  UNSELECT = "UNSELECT",
   FIRST = "FIRST",
 }

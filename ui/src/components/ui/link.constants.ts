@@ -1,5 +1,4 @@
 export enum LinkLook {
-  HOVER = "HOVER",
   ALWAYS = "ALWAYS",
   SENTENCE = "SENTENCE",
 }

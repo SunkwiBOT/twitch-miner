@@ -2,6 +2,7 @@
   import { Card } from "$lib/components/ui/card";
   import { fetchRequests, fetchRequestsReport } from "../../lib/api/client";
   import { isTauri } from "../../lib/api/tauri";
+  import { queryAccountIds, visibleAccountIds } from "../../lib/accounts/account-filter.utils";
   import type { RequestEntryType } from "../../lib/bindings/RequestEntryType";
   import type { RequestKind } from "../../lib/bindings/RequestKind";
   import type { RequestsQueryType } from "../../lib/bindings/RequestsQueryType";
@@ -22,15 +23,14 @@
     requestKey,
     type RequestCursorType,
   } from "../../lib/requests/requests.utils";
+  import AccountFilter from "../ui/AccountFilter.svelte";
   import MultiSelect from "../ui/MultiSelect.svelte";
   import PageHeader from "../ui/PageHeader.svelte";
-  import Select from "../ui/Select.svelte";
   import Toggle from "../ui/Toggle.svelte";
   import { MenuAlign } from "../ui/menu.constants";
   import LogsActions from "./LogsActions.svelte";
   import LogsFeed from "./LogsFeed.svelte";
   import { LOGS_REFRESH_MS } from "./logs.constants";
-  import { accountOptions } from "./logs.utils";
   import RequestRow from "./RequestRow.svelte";
 
   type RequestListPropsType = { snapshot: SnapshotType };
@@ -43,13 +43,13 @@
   }));
   const offered = groups.flatMap((entry) => entry.kinds);
 
-  let accountId = $state("");
+  let hiddenAccounts = $state<string[]>([]);
   let hidden = $state<RequestKind[]>([]);
   let errorsOnly = $state(false);
 
   const ticked = $derived(offered.filter((kind) => !hidden.includes(kind)));
 
-  const options = $derived(accountOptions(snapshot.accounts));
+  const accountIds = $derived(visibleAccountIds(snapshot.accounts, hiddenAccounts));
 
   const kindOptions = $derived(
     groups.flatMap((entry) =>
@@ -65,7 +65,7 @@
     id === undefined ? undefined : snapshot.accounts.find((a) => a.id === id);
 
   const filters = (): RequestsQueryType => ({
-    account_id: accountId || undefined,
+    account_ids: queryAccountIds(accountIds, snapshot.accounts.length),
     kinds: ticked.length === offered.length ? undefined : ticked,
     errors_only: errorsOnly || undefined,
   });
@@ -88,15 +88,11 @@
   {#snippet actions()}
     <LogsActions {report} copiedLabel={t.requests_copied()} />
   {/snippet}
-  <div class="w-56">
-    <Select
-      value={accountId}
-      {options}
-      label={t.common_account()}
-      align={MenuAlign.LEFT}
-      onchange={(next) => (accountId = next)}
-    />
-  </div>
+  <AccountFilter
+    accounts={snapshot.accounts}
+    hidden={hiddenAccounts}
+    onchange={(next) => (hiddenAccounts = next)}
+  />
   <div class="w-56">
     <MultiSelect
       values={ticked}

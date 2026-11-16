@@ -56,7 +56,7 @@
         <button
           type="button"
           class={cn(
-            "h-8 px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:pointer-events-none [&+&]:border-l [&+&]:border-input",
+            "h-8 px-3 text-sm font-medium text-muted-foreground transition-colors not-disabled:hover:bg-muted not-disabled:hover:text-foreground [&+&]:border-l [&+&]:border-input",
             FOCUS_INSIDE_CLASSES,
           )}
           {disabled}

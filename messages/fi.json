@@ -63,10 +63,14 @@
   "dashboard_linked": "Linkitetty",
   "dashboard_not_linked": "Ei linkitetty",
   "dashboard_updated": "Hallintapaneeli päivitettiin versioon {version}: lataa sivu uudelleen käyttääksesi sitä.",
+  "dashboard_updated_title": "Hallintapaneeli päivitetty",
   "dashboard_reload": "Lataa uudelleen",
   "dashboard_ends_in": "päättyy {time}",
   "dashboard_remaining": "{minutes} min jäljellä",
   "accounts_add": "Lisää tili",
+  "common_accounts_all": "Kaikki tilit",
+  "common_accounts_count": "Tilit: {count}",
+  "common_accounts_none": "Ei tiliä",
   "accounts_remove_title": "Poistetaanko tämä tili?",
   "accounts_remove_text": "Tilin {name} istunto perutaan Twitchissä ja poistetaan täältä. Lunastetut dropit jäävät Twitch-inventaarioon.",
   "accounts_login_again": "Kirjaudu uudelleen",
@@ -126,7 +130,6 @@
   "campaigns_filter_in_progress": "Kesken",
   "campaigns_empty": "Ei vastaavia kampanjoita.",
   "history_title": "Päiväkirja",
-  "history_filter_all": "Kaikki tilit",
   "history_empty": "Ei vielä mitään.",
   "history_load_failed": "Päiväkirjaa ei voitu lukea.",
   "event_kind_info": "Info",
@@ -167,8 +170,11 @@
   "settings_webhook_auth": "Authorization-otsake (valinnainen)",
   "settings_system_notifications": "Työpöytäilmoitukset",
   "settings_test_notifications": "Lähetä testi",
+  "settings_test_sending": "Lähetetään…",
   "settings_test_ok": "{target}: lähetetty",
+  "settings_test_ok_title": "Testi lähetetty",
   "settings_test_failed": "{target}: {error}",
+  "settings_test_failed_title": "Testi epäonnistui",
   "notify_drop_claimed": "Drop lunastettu",
   "notify_drop_progress": "Dropin edistyminen",
   "notify_bonus_claimed": "Bonusarkku lunastettu",
@@ -311,9 +317,9 @@
   "campaign_progress": "{current}/{required} min",
   "campaign_link_game": "Linkitä pelitili",
   "campaign_open_twitch": "Avaa Twitchissä",
+  "campaign_view_category": "Näytä kategoria",
   "logs_title": "Tekniset lokit",
   "logs_subtitle": "Louhijan lokit ilman tokeneita tai salaisuuksia. Turvallista liittää bugiraporttiin.",
-  "logs_filter_all": "Kaikki tilit",
   "logs_copy": "Kopioi bugiraporttia varten",
   "logs_copied": "Lokit kopioitu",
   "logs_open_folder": "Avaa lokikansio",
@@ -328,6 +334,7 @@
   "settings_proxy_hint": "socks5://user:pass@host:port, socks5h://, http:// tai https://. Jätä tyhjäksi suoraa yhteyttä varten.",
   "settings_proxy_test": "Testaa",
   "settings_proxy_ok": "Proxy tavoittaa Twitchin ({ms} ms)",
+  "settings_proxy_ok_title": "Proxy kunnossa",
   "settings_feedback": "Palaute",
   "settings_feedback_text": "Liitä bugin mukaan lokit Tekniset lokit -sivulta: ne eivät sisällä salaisuuksia.",
   "feedback_discord_text": "Avaa tiketti tai juttele yhteisön kanssa",
@@ -413,7 +420,9 @@
   "security_confirm": "Vahvista",
   "security_rules": "Vähintään 4 merkkiä. Sitä ei voi palauttaa: jos unohdat sen, lisää tilit uudelleen.",
   "security_enable": "Aseta salasana",
+  "security_enabling": "Asetetaan salasanaa…",
   "security_change": "Vaihda salasana",
+  "security_changing": "Vaihdetaan salasanaa…",
   "security_disable": "Poista salasana",
   "security_access_local": "Pelkän HTTP:n kautta: pidä tämä hallintapaneeli omassa verkossasi tai sijoita se HTTPS-käänteisvälityspalvelimen taakse MINER_PUBLIC_URL-asetuksella.",
   "security_access_public": "HTTPS-käänteisvälityspalvelimen takana osoitteessa {host}.",
@@ -429,15 +438,22 @@
   "streamer_predictions_stealth_hint": "Ei koskaan panosta enempää kuin tämänhetkinen suurin panostaja.",
   "streamer_watch_streak_hint": "Lasketaan katseluputkien priorisointiin: uusi livelähetys, pian vanheneva putki tai palautettava putki nostaa tämän streamaajan ensimmäiseksi.",
   "ev_watch_drop": "Katsotaan kanavaa {channel} kampanjaa {campaign} varten",
+  "ev_watch_drop_short": "Katsotaan kampanjaa {campaign} varten",
   "ev_watch_points_streak_bonus": "Katsotaan kanavaa {channel} kanavapisteiden vuoksi (putkibonus)",
+  "ev_watch_points_streak_bonus_short": "Katsotaan kanavapisteiden vuoksi (putkibonus)",
   "ev_watch_points_streak_at_risk": "Katsotaan kanavaa {channel} kanavapisteiden vuoksi (putki vaarassa)",
+  "ev_watch_points_streak_at_risk_short": "Katsotaan kanavapisteiden vuoksi (putki vaarassa)",
   "ev_watch_points_subscribed": "Katsotaan kanavaa {channel} kanavapisteiden vuoksi (tilattu)",
+  "ev_watch_points_subscribed_short": "Katsotaan kanavapisteiden vuoksi (tilattu)",
   "ev_watch_points_list_order": "Katsotaan kanavaa {channel} kanavapisteiden vuoksi (listan järjestys)",
+  "ev_watch_points_list_order_short": "Katsotaan kanavapisteiden vuoksi (listan järjestys)",
   "ev_watch_stopped": "Kanavan {channel} katselu lopetettu",
+  "ev_watch_stopped_short": "Katselu lopetettu",
   "ev_drop_claimed": "{drop} lunastettu · {campaign}",
   "ev_campaign_finished": "Kampanja valmis: {campaign}",
   "ev_drop_progress": "{drop}: {current}/{required} min",
   "ev_bonus": "Bonusarkku lunastettu kanavalla {channel}",
+  "ev_bonus_short": "Bonusarkku lunastettu",
   "ev_points": [
     {
       "declarations": [
@@ -455,10 +471,30 @@
       }
     }
   ],
+  "ev_points_short": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "+{points} piste",
+        "countPlural=*": "+{points} pistettä"
+      }
+    }
+  ],
   "ev_online": "{channel} on livenä",
+  "ev_online_short": "On livenä",
   "ev_offline": "{channel} siirtyi offline-tilaan",
+  "ev_offline_short": "Siirtyi offline-tilaan",
   "ev_raid": "Seurattiin kanavan {channel} raidia",
+  "ev_raid_short": "Seurattiin raidia",
   "ev_moment": "Hetki lunastettu kanavalla {channel}",
+  "ev_moment_short": "Hetki lunastettu",
   "ev_bet_placed": [
     {
       "declarations": [
@@ -474,6 +510,23 @@
       "match": {
         "countPlural=one": "Panos {points} piste vaihtoehdolle ”{outcome}” ({channel})",
         "countPlural=*": "Panos {points} pistettä vaihtoehdolle ”{outcome}” ({channel})"
+      }
+    }
+  ],
+  "ev_bet_placed_short": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input outcome",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Panos {points} piste vaihtoehdolle ”{outcome}”",
+        "countPlural=*": "Panos {points} pistettä vaihtoehdolle ”{outcome}”"
       }
     }
   ],
@@ -520,11 +573,12 @@
   "common_removing": "Poistetaan…",
   "action_pausing": "Keskeytetään…",
   "action_resuming": "Jatketaan…",
+  "action_failed": "Toiminto epäonnistui",
   "lock_locking": "Lukitaan…",
   "unlock_unlocking": "Avataan…",
   "auth_signing_in": "Kirjaudutaan…",
   "close_closing": "Suljetaan…",
-  "login_starting": "Käynnistetään…",
+  "close_quitting": "Lopetetaan sovellusta…",
   "campaign_claiming": "Lunastetaan…",
   "catalogue_view_timeline": "Kalenteri",
   "catalogue_view_cards": "Kortit",
@@ -551,18 +605,16 @@
         "countPlural"
       ],
       "match": {
-        "countPlural=one": "Luettelo päivitetty: {shown} kampanja",
-        "countPlural=*": "Luettelo päivitetty: {shown} kampanjaa"
+        "countPlural=one": "{shown} kampanja",
+        "countPlural=*": "{shown} kampanjaa"
       }
     }
   ],
+  "catalogue_refreshed_title": "Luettelo päivitetty",
   "catalogue_refresh_wait": "Käytettävissä {time} kuluttua",
   "campaign_prioritized": "Siirretty louhintajärjestyksen kärkeen",
   "campaign_ignored": "Kampanja ohitetaan",
   "campaign_unignored": "Kampanjaa louhitaan taas",
-  "accounts_all": "Kaikki tilit",
-  "accounts_count": "{count} tiliä",
-  "accounts_none": "Ei tiliä",
   "reward_watch": "Katso {time}",
   "reward_watch_daily": "{time} päivässä, {days} päivää",
   "reward_watch_every": "{time} {hours} tunnin välein, {count} kertaa",
@@ -590,6 +642,7 @@
   "ignored_hint": "Kampanjat ja esineet, joita tämä tili ei koskaan louhi.",
   "ignored_empty": "Mitään ei ohiteta.",
   "ignored_restore": "Louhi taas",
+  "ignored_restoring": "Louhitaan taas…",
   "history_load_more": "Lataa vanhempia tapahtumia",
   "settings_time": "Päivämäärä ja aika",
   "settings_time_zone": "Aikavyöhyke",
@@ -616,14 +669,16 @@
   "login_setup_copy_from": "Tilin {name} asetukset",
   "login_setup_copy_hint": "Kopioi valitun tilin asetukset sellaisinaan (Drops-kampanjoiden louhintajärjestys, poissulkemiset, streamaajalista) proxya lukuun ottamatta.",
   "login_setup_finish": "Aloita louhinta",
+  "login_setup_starting": "Aloitetaan louhintaa…",
   "login_setup_later": "Tallenna ja aloita myöhemmin",
   "error_not_supported": "Ei käytettävissä tässä sovelluksen versiossa.",
   "common_copy_named": "Kopioi {name}",
   "bulk_accounts": "Tilit",
-  "bulk_applied": "Tilejä päivitetty: {count}",
+  "bulk_applying": "Käytetään…",
+  "bulk_applied_title": "Tilit päivitetty",
   "bulk_apply": "Käytä ({count})",
   "bulk_apply_others": "Käytä muihin tileihin",
-  "bulk_changes": "{count} muutosta tilillä {name}",
+  "bulk_changes": "{shown} muutosta",
   "bulk_hint": "Tilillä {name} tehdyt muutokset ({count}) tehdään uudelleen valituille tileille. Kukin tili säilyttää muut asetuksensa.",
   "bulk_no_accounts": "Ei muita tilejä.",
   "bulk_title": "Käytä muihin tileihin",
@@ -706,6 +761,7 @@
   "updates_checking": "Tarkistetaan…",
   "updates_current": "Sinulla on uusin versio.",
   "updates_available": "Versio {version} on saatavilla.",
+  "updates_available_title": "Päivitys saatavilla",
   "updates_available_locked": "Versio {version} on saatavilla. Avaa sovelluksen lukitus asentaaksesi sen.",
   "updates_badge": "Päivitys {version}",
   "updates_pull_image": "Päivitä lataamalla uusi image ja käynnistämällä kontti uudelleen:",
@@ -724,6 +780,7 @@
   "updates_restarting": "Asennetaan versiota {version}. Sovellus käynnistyy uudelleen itsestään.",
   "updates_install_failed": "Päivitystä ei voitu asentaa. Yritä myöhemmin uudelleen.",
   "updates_failed_restarted": "Versiota {version} ei voitu asentaa: sovellus käynnistyi uudelleen nykyisellä versiollaan.",
+  "updates_failed_restarted_title": "Päivitys epäonnistui",
   "updates_download_failed": "Lataus keskeytyi. Tarkista yhteys ja yritä uudelleen.",
   "updates_interval": "Tarkista päivitykset",
   "updates_interval_hint": "Sovellus tarkistaa myös käynnistyessään. Se ei koskaan asenna mitään itse: uusi versio tarjotaan täällä.",
@@ -759,6 +816,7 @@
       }
     }
   ],
+  "updates_interval_hour": "Tunnin välein",
   "accounts_stats_bets": "Vedot voitetut / hävityt: {won} / {lost}",
   "accounts_stats_bonuses": "Bonusarkut: {count}",
   "catalogue_fetched": "haettu {time}, uudelleen {minutes} min välein",
@@ -782,7 +840,25 @@
       }
     }
   ],
+  "ev_goal_contributed_short": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input goal",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{points} piste annettu tavoitteelle ”{goal}”",
+        "countPlural=*": "{points} pistettä annettu tavoitteelle ”{goal}”"
+      }
+    }
+  ],
   "ev_streak_recovered": "Katseluputki palautettu kanavalla {channel}",
+  "ev_streak_recovered_short": "Katseluputki palautettu",
   "filter_by_odds": "Valinnan kerroin",
   "filter_by_odds_percentage": "Valinnan kerroin (%)",
   "filter_by_percentage_users": "Valinnan katsojat (%)",
@@ -805,6 +881,7 @@
   "account_state_running_hint": "Tili louhii omilla asetuksillaan. Keskeytys pysäyttää kaiken: Drops-kampanjat, kanavapisteet ja chatin.",
   "account_state_paused_hint": "Tili on tauolla: se ei katso mitään eikä ansaitse mitään. Sen asetukset säilyvät.",
   "login_code": "kirjautumiskoodi",
+  "login_getting_code": "Haetaan uutta koodia…",
   "catalogue_sort": "Lajittelu",
   "catalogue_view": "Näkymä",
   "import_source": "Tuo lähteestä",
@@ -827,9 +904,12 @@
   "login_setup_drops_hint": "Mitä kampanjoita tämä tili louhii ja lunastaako se palkinnot itse.",
   "event_kind_chat_mention": "Maininta",
   "ev_chat_mention": "{chatter} mainitsi sinut kanavan {channel} chatissa",
+  "ev_chat_mention_short": "{chatter} mainitsi sinut",
   "notify_chat_mention": "Maininta chatissa",
   "campaign_prioritize": "Louhi ensin",
+  "campaign_prioritizing": "Louhitaan ensin…",
   "campaign_ignore": "Ohita",
+  "campaign_ignoring": "Ohitetaan…",
   "common_label": "{label}:",
   "nav_account_inventory": "Varasto",
   "inventory_hint": "Drops-kampanjoidesi palkinnot, luettuna Twitch-varastostasi. Lunasta ne täällä, kun automaattinen lunastus on pois päältä.",
@@ -838,10 +918,13 @@
   "inventory_claim_all": "Lunasta kaikki",
   "inventory_in_progress": "Kesken",
   "inventory_claimed": "Lunastetut",
+  "inventory_claimed_title": "Lunastetut palkinnot",
   "inventory_empty_claimable": "Ei lunastettavaa juuri nyt.",
   "inventory_empty_progress": "Ei keskeneräisiä palkintoja.",
+  "inventory_empty_waiting_link": "Yksikään palkinto ei odota pelitilin linkitystä.",
   "inventory_empty_claimed": "Ei vielä lunastettuja palkintoja.",
   "inventory_paused": "Tili on tauolla: sen Twitch-varasto luetaan, kun tili on käynnissä.",
+  "inventory_tabs_label": "Varasto-sivun osiot",
   "inventory_claimed_all": "Lunastetut palkinnot: {count}",
   "reward_state_claimed": "Lunastettu",
   "reward_state_ready": "Lunastettavissa",
@@ -892,6 +975,7 @@
   "badge_hint_in_progress": "Twitch laskee minuuttisi tälle kampanjalle",
   "import_into": "Tuo tiliin",
   "confirm_remove": "Poista",
+  "confirm_removing": "Poistetaan…",
   "confirm_remove_streamer_title": "Poistetaanko tämä striimaaja?",
   "confirm_remove_streamer_text": "Tämä tili ei enää katso kanavaa {name} kanavapisteiden vuoksi, ja sen asetukset menetetään.",
   "confirm_remove_game_title": "Poistetaanko tämä prioriteettipeli?",
@@ -931,6 +1015,7 @@
   ],
   "login_link": "aktivointilinkki",
   "link_opened": "{site} avattiin selaimessa",
+  "link_opened_title": "Linkki avattu",
   "secret_show": "Näytä",
   "secret_hide": "Piilota",
   "notify_kind": "Tyyppi",
@@ -966,7 +1051,7 @@
   "points_reason_subscribed_hint": "Katsotaan ensin: tili on tilannut kanavan ja Twitch antaa siellä enemmän pisteitä",
   "points_reason_list_order_hint": "Katsotaan streamaajalistan järjestyksessä",
   "points_streamer_defaults_hint": "Lisätty streamaaja (käsin, tuomalla tai käyttöönotossa) aloittaa näillä valinnoilla.",
-  "points_edit_selected": "Muokkaa {count} valittua streamaajaa",
+  "points_edit_selected": "Muokkaa ({count})",
   "points_group_title": "Muokkaa {count} streamaajaa",
   "points_group_hint": "Vain muuttamasi valinnat koskevat näitä streamaajia; valinta, jossa lukee ”Vaihtelee”, säilyttää kunkin oman arvon, kunnes muutat sitä.",
   "streamer_option_mixed": "Vaihtelee",
@@ -1020,7 +1105,24 @@
       }
     }
   ],
+  "ev_points_spent_short": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "−{points} piste",
+        "countPlural=*": "−{points} pistettä"
+      }
+    }
+  ],
   "ev_points_spent_balance": "Pisteitä käytetty kanavalla {channel} (saldo {balance})",
+  "ev_points_spent_balance_short": "Pisteitä käytetty (saldo {balance})",
   "ev_drop_progress_unknown": "Dropin edistyminen: {current}/{required} min",
   "journal_types": "Tapahtumatyypit",
   "journal_types_all": "Kaikki tyypit",
@@ -1104,6 +1206,7 @@
   "spam_in_history": "Jo historiassasi",
   "spam_remove_history": "Poista historiasta",
   "spam_removed": "{channel} poistettiin historiasta",
+  "spam_removed_title": "Poistettu historiasta",
   "spam_pick_title": "Valitse kanava",
   "spam_pick_text": "Kanavan omat palkinnot näkyvät tässä, ja niiden kanssa tämän tilin saldo kanavalla.",
   "spam_balance": "Kanavapisteiden saldo: {points}",
@@ -1161,6 +1264,8 @@
     }
   ],
   "spam_sent_partial": "{sent}/{count} lähetetty — {reason}",
+  "spam_send_failed_title": "Lähetys epäonnistui",
+  "spam_sent_title": "Pisteet lähetetty",
   "spam_sent_none": "Epäonnistui — {reason}",
   "spam_toast": "{count} × {reward} kanavalla {channel}: {result}",
   "spam_cancelled": [
@@ -1211,7 +1316,27 @@
       }
     }
   ],
+  "ev_rewards_redeemed_short": [
+    {
+      "declarations": [
+        "input sent",
+        "input shown",
+        "input count",
+        "input reward",
+        "input points",
+        "local sentPlural = sent: plural"
+      ],
+      "selectors": [
+        "sentPlural"
+      ],
+      "match": {
+        "sentPlural=one": "{count} × {reward} — {shown} lähetetty, {points} pistettä",
+        "sentPlural=*": "{count} × {reward} — {shown} lähetetty, {points} pistettä"
+      }
+    }
+  ],
   "ev_rewards_redeemed_partial": "{count} × {reward} kanavalla {channel} — {sent}/{total} lähetetty, {points} pistettä",
+  "ev_rewards_redeemed_partial_short": "{count} × {reward} — {sent}/{total} lähetetty, {points} pistettä",
   "ev_rewards_refused": [
     {
       "declarations": [
@@ -1229,6 +1354,7 @@
     }
   ],
   "spam_result_lost": "Palkinnolle {reward} ei tullut tulosta: Päiväkirja näyttää, mitä lähetettiin.",
+  "spam_result_unknown_title": "Tulos tuntematon",
   "nav_badges": "Merkit",
   "nav_account_badges": "Merkit",
   "badges_title": "Merkit",
@@ -1328,7 +1454,9 @@
   "badge_dialog_evolves_from": "Twitch laskee tämän merkin vain, kun {badge} on käytössä: louhija ottaa sen käyttöön juuri ennen louhintaa eikä palauta vanhaa merkkiä.",
   "badge_dialog_accounts": "Tilien edistyminen",
   "campaign_select": "Lisää valintaani",
+  "campaign_selecting": "Lisätään…",
   "campaign_unselect": "Poista valinnastani",
+  "campaign_unselecting": "Poistetaan…",
   "campaign_selected": "Lisätty valintaasi",
   "campaign_unselected": "Poistettu valinnastasi",
   "change_selected": "Lisätty valintaan: {item}",

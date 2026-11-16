@@ -47,19 +47,20 @@
         const target = TARGET_NAMES[result.target]();
 
         if (result.problem) {
-          toast(
-            ToastKind.ERROR,
-            t.settings_test_failed({
+          toast(ToastKind.ERROR, t.settings_test_failed_title(), {
+            description: t.settings_test_failed({
               target: strong(target),
               error: escapeEmphasis(describeCode(result.problem)),
             }),
-          );
+          });
         } else {
-          toast(ToastKind.SUCCESS, t.settings_test_ok({ target: strong(target) }));
+          toast(ToastKind.SUCCESS, t.settings_test_ok_title(), {
+            description: t.settings_test_ok({ target: strong(target) }),
+          });
         }
       }
     } catch (e: any) {
-      toast(ToastKind.ERROR, describeError(e));
+      toast(ToastKind.ERROR, t.action_failed(), { description: describeError(e) });
     } finally {
       testingTargets = false;
     }
@@ -87,7 +88,7 @@
     <ActionButton
       icon={IconName.BELL}
       label={t.settings_test_notifications()}
-      busyLabel={t.common_testing()}
+      busyLabel={t.settings_test_sending()}
       busy={testingTargets}
       disabled={dirty}
       variant={ButtonVariant.DEFAULT}

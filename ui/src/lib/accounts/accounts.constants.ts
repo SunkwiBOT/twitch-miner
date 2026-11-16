@@ -119,3 +119,17 @@ export const BADGES_TAB_SLUGS: Record<BadgesTab, string> = {
   [BadgesTab.EXCLUSIONS]: "exclusions",
   [BadgesTab.OWNED]: "owned",
 };
+
+export enum InventoryTab {
+  CLAIMABLE = "CLAIMABLE",
+  WAITING_LINK = "WAITING_LINK",
+  IN_PROGRESS = "IN_PROGRESS",
+  CLAIMED = "CLAIMED",
+}
+
+export const INVENTORY_TAB_SLUGS: Record<InventoryTab, string> = {
+  [InventoryTab.CLAIMABLE]: "claimable",
+  [InventoryTab.WAITING_LINK]: "waiting-link",
+  [InventoryTab.IN_PROGRESS]: "in-progress",
+  [InventoryTab.CLAIMED]: "claimed",
+};

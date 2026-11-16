@@ -64,10 +64,14 @@
   "dashboard_linked": "Прив'язано",
   "dashboard_not_linked": "Не прив'язано",
   "dashboard_updated": "Панель оновлено до версії {version}: перезавантажте сторінку, щоб нею користуватися.",
+  "dashboard_updated_title": "Панель оновлено",
   "dashboard_reload": "Перезавантажити",
   "dashboard_ends_in": "завершується {time}",
   "dashboard_remaining": "залишилось {minutes} хв",
   "accounts_add": "Додати обліковий запис",
+  "common_accounts_all": "Усі облікові записи",
+  "common_accounts_count": "Облікові записи: {count}",
+  "common_accounts_none": "Без облікового запису",
   "accounts_remove_title": "Вилучити цей акаунт?",
   "accounts_remove_text": "Сесію {name} відкликано в Twitch і видалено тут. Отримані дропи лишаються в інвентарі Twitch.",
   "accounts_login_again": "Увійти знову",
@@ -127,7 +131,6 @@
   "campaigns_filter_in_progress": "У процесі",
   "campaigns_empty": "Немає відповідних кампаній.",
   "history_title": "Журнал",
-  "history_filter_all": "Усі облікові записи",
   "history_empty": "Поки порожньо.",
   "history_load_failed": "Не вдалося прочитати журнал.",
   "event_kind_info": "Інфо",
@@ -168,8 +171,11 @@
   "settings_webhook_auth": "Заголовок Authorization (необов'язково)",
   "settings_system_notifications": "Сповіщення на робочому столі",
   "settings_test_notifications": "Надіслати тест",
+  "settings_test_sending": "Надсилання…",
   "settings_test_ok": "{target}: надіслано",
+  "settings_test_ok_title": "Тест надіслано",
   "settings_test_failed": "{target}: {error}",
+  "settings_test_failed_title": "Тест не пройдено",
   "notify_drop_claimed": "Drop отримано",
   "notify_drop_progress": "Прогрес drop",
   "notify_bonus_claimed": "Бонусну скриню отримано",
@@ -314,9 +320,9 @@
   "campaign_progress": "{current}/{required} хв",
   "campaign_link_game": "Прив'язати ігровий обліковий запис",
   "campaign_open_twitch": "Відкрити на Twitch",
+  "campaign_view_category": "Переглянути категорію",
   "logs_title": "Технічні логи",
   "logs_subtitle": "Логи майнера, без токенів і секретів. Можна сміливо вставляти в баг-репорт.",
-  "logs_filter_all": "Усі облікові записи",
   "logs_copy": "Скопіювати для баг-репорту",
   "logs_copied": "Логи скопійовано",
   "logs_open_folder": "Відкрити теку логів",
@@ -331,6 +337,7 @@
   "settings_proxy_hint": "socks5://user:pass@host:port, socks5h://, http:// або https://. Залиште порожнім для прямого з'єднання.",
   "settings_proxy_test": "Перевірити",
   "settings_proxy_ok": "Proxy досягає Twitch ({ms} мс)",
+  "settings_proxy_ok_title": "Proxy в порядку",
   "settings_feedback": "Зворотний зв'язок",
   "settings_feedback_text": "Для бага додайте логи зі сторінки «Технічні логи»: у них немає секретів.",
   "feedback_discord_text": "Створіть тікет або поспілкуйтеся зі спільнотою",
@@ -416,7 +423,9 @@
   "security_confirm": "Підтвердження",
   "security_rules": "Щонайменше 4 символи. Відновити його неможливо: якщо ви його втратите, додайте облікові записи знову.",
   "security_enable": "Задати пароль",
+  "security_enabling": "Встановлення пароля…",
   "security_change": "Змінити пароль",
+  "security_changing": "Зміна пароля…",
   "security_disable": "Видалити пароль",
   "security_access_local": "Через звичайний HTTP: тримайте цю панель у своїй мережі або поставте її за зворотний HTTPS-проксі з MINER_PUBLIC_URL.",
   "security_access_public": "За зворотним HTTPS-проксі, за адресою {host}.",
@@ -432,21 +441,34 @@
   "streamer_predictions_stealth_hint": "Ніколи не ставить більше за поточну найбільшу ставку.",
   "streamer_watch_streak_hint": "Враховується пріоритетом серій переглядів: новий ефір, серія, що скоро спливе, або серія, яку можна відновити, ставлять цього стримера першим.",
   "ev_watch_drop": "Дивиться {channel} для {campaign}",
+  "ev_watch_drop_short": "Дивиться для {campaign}",
   "ev_watch_points_streak_bonus": "Дивиться {channel} заради балів каналу (бонус за серію)",
+  "ev_watch_points_streak_bonus_short": "Дивиться заради балів каналу (бонус за серію)",
   "ev_watch_points_streak_at_risk": "Дивиться {channel} заради балів каналу (серія під загрозою)",
+  "ev_watch_points_streak_at_risk_short": "Дивиться заради балів каналу (серія під загрозою)",
   "ev_watch_points_subscribed": "Дивиться {channel} заради балів каналу (підписка)",
+  "ev_watch_points_subscribed_short": "Дивиться заради балів каналу (підписка)",
   "ev_watch_points_list_order": "Дивиться {channel} заради балів каналу (порядок списку)",
+  "ev_watch_points_list_order_short": "Дивиться заради балів каналу (порядок списку)",
   "ev_watch_stopped": "Більше не дивиться {channel}",
+  "ev_watch_stopped_short": "Більше не дивиться",
   "ev_drop_claimed": "Отримано: {drop} · {campaign}",
   "ev_campaign_finished": "Кампанію завершено: {campaign}",
   "ev_drop_progress": "{drop}: {current}/{required} хв",
   "ev_bonus": "Бонусну скриню отримано на {channel}",
+  "ev_bonus_short": "Бонусну скриню отримано",
   "ev_points": "Бали: +{points} на {channel}",
+  "ev_points_short": "Бали: +{points}",
   "ev_online": "{channel} в ефірі",
+  "ev_online_short": "В ефірі",
   "ev_offline": "{channel}: ефір завершено",
+  "ev_offline_short": "Ефір завершено",
   "ev_raid": "Приєднано до рейду {channel}",
+  "ev_raid_short": "Приєднано до рейду",
   "ev_moment": "Момент отримано на {channel}",
+  "ev_moment_short": "Момент отримано",
   "ev_bet_placed": "Ставка {points} на «{outcome}» ({channel})",
+  "ev_bet_placed_short": "Ставка {points} на «{outcome}»",
   "ev_bet_won": "Прогноз виграно: +{points}",
   "ev_bet_lost": "Прогноз програно: −{points}",
   "ev_bet_refund": "Прогноз: ставку повернуто",
@@ -460,11 +482,12 @@
   "common_removing": "Видалення…",
   "action_pausing": "Призупинення…",
   "action_resuming": "Відновлення…",
+  "action_failed": "Дію не виконано",
   "lock_locking": "Блокування…",
   "unlock_unlocking": "Розблокування…",
   "auth_signing_in": "Вхід…",
   "close_closing": "Закриття…",
-  "login_starting": "Запуск…",
+  "close_quitting": "Вихід із застосунку…",
   "campaign_claiming": "Отримання…",
   "catalogue_view_timeline": "Календар",
   "catalogue_view_cards": "Картки",
@@ -491,19 +514,17 @@
         "countPlural"
       ],
       "match": {
-        "countPlural=one": "Каталог оновлено: {shown} кампанія",
-        "countPlural=few": "Каталог оновлено: {shown} кампанії",
-        "countPlural=*": "Каталог оновлено: {shown} кампаній"
+        "countPlural=one": "{shown} кампанія",
+        "countPlural=few": "{shown} кампанії",
+        "countPlural=*": "{shown} кампаній"
       }
     }
   ],
+  "catalogue_refreshed_title": "Каталог оновлено",
   "catalogue_refresh_wait": "Доступно через {time}",
   "campaign_prioritized": "Переміщено на початок порядку майнінгу",
   "campaign_ignored": "Кампанія ігнорується",
   "campaign_unignored": "Кампанія знову майниться",
-  "accounts_all": "Усі облікові записи",
-  "accounts_count": "Облікові записи: {count}",
-  "accounts_none": "Жодного облікового запису",
   "reward_watch": "Дивитися {time}",
   "reward_watch_daily": "{time} на день, днів: {days}",
   "reward_watch_every": "{time} кожні {hours} год, разів: {count}",
@@ -531,6 +552,7 @@
   "ignored_hint": "Кампанії та предмети, які цей обліковий запис ніколи не майнить.",
   "ignored_empty": "Нічого не ігнорується.",
   "ignored_restore": "Знову майнити",
+  "ignored_restoring": "Повторний майнінг…",
   "history_load_more": "Завантажити давніші події",
   "settings_time": "Дата й час",
   "settings_time_zone": "Часовий пояс",
@@ -557,14 +579,32 @@
   "login_setup_copy_from": "Налаштування {name}",
   "login_setup_copy_hint": "Копіює налаштування вибраного облікового запису без змін (порядок майнінгу кампаній Drops, винятки, список стримерів), крім proxy.",
   "login_setup_finish": "Почати майнінг",
+  "login_setup_starting": "Запуск майнінгу…",
   "login_setup_later": "Зберегти й запустити пізніше",
   "error_not_supported": "Недоступно в цій версії застосунку.",
   "common_copy_named": "Копіювати {name}",
   "bulk_accounts": "Облікові записи",
-  "bulk_applied": "Облікові записи оновлено: {count}",
+  "bulk_applying": "Застосування…",
+  "bulk_applied_title": "Облікові записи оновлено",
   "bulk_apply": "Застосувати ({count})",
   "bulk_apply_others": "Застосувати до інших облікових записів",
-  "bulk_changes": "Зміни в {name}: {count}",
+  "bulk_changes": [
+    {
+      "declarations": [
+        "input count",
+        "input shown",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{shown} зміна",
+        "countPlural=few": "{shown} зміни",
+        "countPlural=*": "{shown} змін"
+      }
+    }
+  ],
   "bulk_hint": "Зміни, зроблені в {name} ({count}), повторюються в позначених облікових записах. Решта налаштувань кожного облікового запису не змінюється.",
   "bulk_no_accounts": "Інших облікових записів немає.",
   "bulk_title": "Застосувати до інших облікових записів",
@@ -647,6 +687,7 @@
   "updates_checking": "Перевірка…",
   "updates_current": "У вас найновіша версія.",
   "updates_available": "Доступна версія {version}.",
+  "updates_available_title": "Доступне оновлення",
   "updates_available_locked": "Доступна версія {version}. Розблокуйте застосунок, щоб її встановити.",
   "updates_badge": "Оновлення {version}",
   "updates_pull_image": "Щоб оновити, завантажте новий образ і перезапустіть контейнер:",
@@ -665,6 +706,7 @@
   "updates_restarting": "Встановлення версії {version}. Застосунок перезапуститься сам.",
   "updates_install_failed": "Не вдалося встановити оновлення. Спробуйте пізніше.",
   "updates_failed_restarted": "Не вдалося встановити версію {version}: застосунок перезапустився на поточній версії.",
+  "updates_failed_restarted_title": "Помилка оновлення",
   "updates_download_failed": "Завантаження перервалося. Перевірте з'єднання й спробуйте ще раз.",
   "updates_interval": "Перевіряти оновлення",
   "updates_interval_hint": "Застосунок також перевіряє під час запуску. Він ніколи нічого не встановлює сам: нову версію пропонують тут.",
@@ -680,7 +722,7 @@
         "countPlural"
       ],
       "match": {
-        "countPlural=one": "Щохвилини",
+        "countPlural=one": "Кожні {count} хвилину",
         "countPlural=few": "Кожні {count} хвилини",
         "countPlural=*": "Кожні {count} хвилин"
       }
@@ -696,19 +738,22 @@
         "countPlural"
       ],
       "match": {
-        "countPlural=one": "Щогодини",
+        "countPlural=one": "Кожні {count} годину",
         "countPlural=few": "Кожні {count} години",
         "countPlural=*": "Кожні {count} годин"
       }
     }
   ],
+  "updates_interval_hour": "Щогодини",
   "accounts_stats_bets": "Ставки виграно / програно: {won} / {lost}",
   "accounts_stats_bonuses": "Бонусні скрині: {count}",
   "catalogue_fetched": "отримано {time}, далі кожні {minutes} хв",
   "change_order_reset": "Автоматичний порядок успішно відновлено",
   "event_kind_goal_contributed": "Ціль спільноти",
   "ev_goal_contributed": "Внесок {points} у «{goal}» на {channel}",
+  "ev_goal_contributed_short": "Внесок {points} у «{goal}»",
   "ev_streak_recovered": "Серію переглядів відновлено на {channel}",
+  "ev_streak_recovered_short": "Серію переглядів відновлено",
   "filter_by_odds": "Коефіцієнт вибору",
   "filter_by_odds_percentage": "Коефіцієнт вибору (%)",
   "filter_by_percentage_users": "Глядачі за вибір (%)",
@@ -731,6 +776,7 @@
   "account_state_running_hint": "Обліковий запис майнить за своїми налаштуваннями. Пауза зупиняє все: Drops, бали каналу та чат.",
   "account_state_paused_hint": "Обліковий запис на паузі: нічого не дивиться й нічого не отримує. Його налаштування зберігаються.",
   "login_code": "код входу",
+  "login_getting_code": "Отримання нового коду…",
   "catalogue_sort": "Сортування",
   "catalogue_view": "Вигляд",
   "import_source": "Імпорт з",
@@ -753,9 +799,12 @@
   "login_setup_drops_hint": "Які кампанії майнить цей обліковий запис і чи забирає він нагороди сам.",
   "event_kind_chat_mention": "Згадка",
   "ev_chat_mention": "Згадка від {chatter} у чаті {channel}",
+  "ev_chat_mention_short": "Згадка від {chatter}",
   "notify_chat_mention": "Згадка в чаті",
   "campaign_prioritize": "Майнити в першу чергу",
+  "campaign_prioritizing": "Майнінг у першу чергу…",
   "campaign_ignore": "Ігнорувати",
+  "campaign_ignoring": "Ігнорування…",
   "common_label": "{label}:",
   "nav_account_inventory": "Інвентар",
   "inventory_hint": "Нагороди ваших кампаній Drops, прочитані з вашого інвентаря Twitch. Отримуйте їх тут, коли автоматичне отримання вимкнено.",
@@ -764,10 +813,13 @@
   "inventory_claim_all": "Отримати все",
   "inventory_in_progress": "У процесі",
   "inventory_claimed": "Отримано",
+  "inventory_claimed_title": "Отримано нагород",
   "inventory_empty_claimable": "Зараз нічого отримувати.",
   "inventory_empty_progress": "Немає нагород у процесі.",
+  "inventory_empty_waiting_link": "Немає нагород, що очікують прив’язки ігрового акаунта.",
   "inventory_empty_claimed": "Ще немає отриманих нагород.",
   "inventory_paused": "Обліковий запис на паузі: його інвентар Twitch читається, поки він працює.",
+  "inventory_tabs_label": "Розділи сторінки «Інвентар»",
   "inventory_claimed_all": "Отримано нагород: {count}",
   "reward_state_claimed": "Отримано",
   "reward_state_ready": "Можна отримати",
@@ -818,6 +870,7 @@
   "badge_hint_in_progress": "Twitch рахує ваші хвилини для цієї кампанії",
   "import_into": "Імпортувати до",
   "confirm_remove": "Вилучити",
+  "confirm_removing": "Вилучення…",
   "confirm_remove_streamer_title": "Вилучити цього стримера?",
   "confirm_remove_streamer_text": "Цей акаунт більше не дивитиметься {name} заради балів каналу, а його налаштування буде втрачено.",
   "confirm_remove_game_title": "Вилучити цю пріоритетну гру?",
@@ -858,6 +911,7 @@
   ],
   "login_link": "посилання активації",
   "link_opened": "Відкрито в браузері: {site}",
+  "link_opened_title": "Посилання відкрито",
   "secret_show": "Показати",
   "secret_hide": "Приховати",
   "notify_kind": "Тип",
@@ -893,21 +947,7 @@
   "points_reason_subscribed_hint": "Переглядається першим: обліковий запис має підписку, і Twitch дає тут більше балів",
   "points_reason_list_order_hint": "Переглядається в порядку списку стримерів",
   "points_streamer_defaults_hint": "Доданий стример (вручну, імпортом або під час налаштування) починає з цими параметрами.",
-  "points_edit_selected": [
-    {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
-      "match": {
-        "countPlural=one": "Редагувати {count} вибраного стримера",
-        "countPlural=*": "Редагувати {count} вибраних стримерів"
-      }
-    }
-  ],
+  "points_edit_selected": "Редагувати ({count})",
   "points_group_title": [
     {
       "declarations": [
@@ -960,7 +1000,9 @@
   ],
   "event_kind_points_spent": "Бали витрачено",
   "ev_points_spent": "Бали: −{points} на {channel}",
+  "ev_points_spent_short": "Бали: −{points}",
   "ev_points_spent_balance": "Бали витрачено на {channel} (баланс {balance})",
+  "ev_points_spent_balance_short": "Бали витрачено (баланс {balance})",
   "ev_drop_progress_unknown": "Прогрес дропу: {current}/{required} хв",
   "journal_types": "Типи подій",
   "journal_types_all": "Усі типи",
@@ -1045,6 +1087,7 @@
   "spam_in_history": "Уже у вашій історії",
   "spam_remove_history": "Прибрати з історії",
   "spam_removed": "{channel} прибрано з історії",
+  "spam_removed_title": "Прибрано з історії",
   "spam_pick_title": "Виберіть канал",
   "spam_pick_text": "Тут з’являться його власні нагороди та баланс цього облікового запису на каналі.",
   "spam_balance": "Баланс балів каналу: {points}",
@@ -1096,12 +1139,14 @@
         "countExact"
       ],
       "match": {
-        "countExact=1": "Обміняно!",
-        "countExact=*": "Надіслано: {shown}!"
+        "countExact=1": "Обміняно нагород: {shown}!",
+        "countExact=*": "Надіслано нагород: {shown}!"
       }
     }
   ],
   "spam_sent_partial": "Надіслано {sent}/{count} — {reason}",
+  "spam_send_failed_title": "Помилка надсилання",
+  "spam_sent_title": "Бали надіслано",
   "spam_sent_none": "Не вдалося — {reason}",
   "spam_toast": "{count} × {reward} на каналі {channel}: {result}",
   "spam_cancelled": [
@@ -1154,7 +1199,28 @@
       }
     }
   ],
+  "ev_rewards_redeemed_short": [
+    {
+      "declarations": [
+        "input sent",
+        "input shown",
+        "input count",
+        "input reward",
+        "input points",
+        "local sentPlural = sent: plural"
+      ],
+      "selectors": [
+        "sentPlural"
+      ],
+      "match": {
+        "sentPlural=one": "{count} × {reward} — надіслано {shown}, балів: {points}",
+        "sentPlural=few": "{count} × {reward} — надіслано {shown}, балів: {points}",
+        "sentPlural=*": "{count} × {reward} — надіслано {shown}, балів: {points}"
+      }
+    }
+  ],
   "ev_rewards_redeemed_partial": "{count} × {reward} на каналі {channel} — надіслано {sent}/{total}, балів: {points}",
+  "ev_rewards_redeemed_partial_short": "{count} × {reward} — надіслано {sent}/{total}, балів: {points}",
   "ev_rewards_refused": [
     {
       "declarations": [
@@ -1173,6 +1239,7 @@
     }
   ],
   "spam_result_lost": "Результат для «{reward}» не надійшов: у журналі видно, що було надіслано.",
+  "spam_result_unknown_title": "Результат невідомий",
   "nav_badges": "Значки",
   "nav_account_badges": "Значки",
   "badges_title": "Значки",
@@ -1274,7 +1341,9 @@
   "badge_dialog_evolves_from": "Twitch зараховує цей значок, лише поки надягнуто {badge}: майнер надягає його просто перед майнінгом і не повертає попередній значок.",
   "badge_dialog_accounts": "Прогрес акаунтів",
   "campaign_select": "Додати до мого вибору",
+  "campaign_selecting": "Додавання…",
   "campaign_unselect": "Прибрати з мого вибору",
+  "campaign_unselecting": "Прибирання…",
   "campaign_selected": "Додано до вашого вибору",
   "campaign_unselected": "Прибрано з вашого вибору",
   "change_selected": "Додано до вибору: {item}",

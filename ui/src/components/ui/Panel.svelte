@@ -1,6 +1,8 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
 
+  import { cn } from "$lib/utils";
+
   import {
     Card,
     CardAction,
@@ -18,14 +20,20 @@
     title: string;
     count?: number;
     description?: string;
+    class?: string;
     actions?: Snippet;
     children?: Snippet;
   };
 
-  let { title, count, description, actions, children }: PanelPropsType = $props();
+  let { title, count, description, class: className, actions, children }: PanelPropsType = $props();
 </script>
 
-<Card class="gap-4 [--card-spacing:--spacing(5)] max-md:[--card-spacing:--spacing(3.5)]">
+<Card
+  class={cn(
+    "gap-4 [--card-spacing:--spacing(5)] max-md:[--card-spacing:--spacing(3.5)]",
+    className,
+  )}
+>
   <CardHeader class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
     <CardTitle class="flex items-center gap-2 text-base font-semibold">
       {title}
@@ -46,5 +54,7 @@
       >
     {/if}
   </CardHeader>
-  {#if children}<CardContent class="flex flex-col gap-3">{@render children()}</CardContent>{/if}
+  {#if children}<CardContent class="flex min-h-0 flex-1 flex-col gap-3"
+      >{@render children()}</CardContent
+    >{/if}
 </Card>

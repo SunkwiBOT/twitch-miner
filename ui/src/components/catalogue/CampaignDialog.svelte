@@ -202,7 +202,7 @@
             {@const slug = view.game.slug}
             <ExternalButton
               url={`${TWITCH_CATEGORY_URL}/${slug}`}
-              label={view.game.name}
+              label={t.campaign_view_category()}
               variant={onDropsPage(view) ? ButtonVariant.OUTLINE : ButtonVariant.PRIMARY}
               size={ButtonSize.SM}
               icon={IconName.TV}

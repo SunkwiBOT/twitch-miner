@@ -29,7 +29,7 @@
   import { changedWhenSaved } from "../../lib/state/bulk.svelte";
   import { updateAccountSettings } from "../../lib/state/account-settings.svelte";
   import { app } from "../../lib/state/app.svelte";
-  import type { ToastImageType } from "../../lib/state/toasts";
+  import type { ToastSubjectType } from "../../lib/state/toasts";
   import IconButton from "../ui/IconButton.svelte";
   import PageBody from "../ui/PageBody.svelte";
   import Panel from "../ui/Panel.svelte";
@@ -57,7 +57,7 @@
     ensureChannels(streamers.map((s) => s.login).filter((login) => !channelOf(login)));
   });
 
-  const subjectOf = (login: string): ToastImageType => {
+  const subjectOf = (login: string): ToastSubjectType => {
     const channel = channelOf(login);
 
     return { url: channel?.avatar_url, name: channel?.display_name ?? login, channel: login };
@@ -66,7 +66,7 @@
   const saveChange = (
     text: string,
     apply: (settings: AccountSettingsType) => void,
-    subject?: ToastImageType,
+    subject?: ToastSubjectType,
   ): void => {
     void changedWhenSaved(
       updateAccountSettings(account.id, apply),
@@ -288,7 +288,7 @@
     },
   ]}
   confirmLabel={t.confirm_remove()}
-  busyLabel={t.common_removing()}
+  busyLabel={t.confirm_removing()}
   busy={false}
   onconfirm={() => {
     if (removing) {

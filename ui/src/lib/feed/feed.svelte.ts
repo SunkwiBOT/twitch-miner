@@ -1,6 +1,7 @@
 import { untrack } from "svelte";
 
 import { describeError } from "../errors/errors.utils";
+import { t } from "../i18n/i18n.svelte";
 import { ToastKind } from "../state/state.constants";
 import { toast } from "../state/toasts";
 import type { FeedSourceType } from "./feed.types";
@@ -29,8 +30,11 @@ export class PagedFeed<QueryType, ItemType, CursorType> {
   }
 
   poll(query: () => QueryType, everyMs: number): void {
+    const serialized = $derived(JSON.stringify(query()));
+
     $effect(() => {
-      void this.show(query());
+      void serialized;
+      void this.show(untrack(query));
       const timer = setInterval(() => void this.refresh(), everyMs);
 
       return () => clearInterval(timer);
@@ -147,7 +151,7 @@ export class PagedFeed<QueryType, ItemType, CursorType> {
       this.#cursor = page.next;
     } catch (e: any) {
       if (asked === this.#generation) {
-        toast(ToastKind.ERROR, describeError(e));
+        toast(ToastKind.ERROR, t.action_failed(), { description: describeError(e) });
       }
     } finally {
       if (asked === this.#generation) {

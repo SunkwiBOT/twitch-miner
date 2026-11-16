@@ -15,17 +15,17 @@
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import { IconName } from "../../lib/icons.constants";
 
-  let { kind, text, image, title, action, onclose }: ToastCardPropsType = $props();
+  let { kind, title, description, account, action, onclose }: ToastCardPropsType = $props();
 </script>
 
 <div
   class="relative flex w-toast max-w-[calc(100vw-2rem)] items-start gap-3 rounded-lg border bg-popover p-3 pr-10 text-sm text-popover-foreground shadow-lg"
   role={kind === ToastKind.ERROR ? "alert" : "status"}
 >
-  {#if image?.channel}
-    <ChannelAvatar url={image.url} name={image.name} size={AvatarSize.SM} live={false} />
-  {:else if image}
-    <Avatar url={image.url} name={image.name} size={AvatarSize.SM} />
+  {#if account?.channel}
+    <ChannelAvatar url={account.url} name={account.name} size={AvatarSize.SM} live={false} />
+  {:else if account}
+    <Avatar url={account.url} name={account.name} size={AvatarSize.SM} />
   {:else if kind === ToastKind.ERROR}
     <OctagonXIcon class="mt-0.5 size-4 shrink-0 text-destructive" />
   {:else if kind === ToastKind.SUCCESS}
@@ -35,8 +35,9 @@
   {/if}
   <div class="flex min-w-0 flex-1 flex-col gap-2">
     <p class="m-0 flex flex-col leading-snug break-words">
-      {#if title}<span class="font-semibold">{title}</span>{/if}
-      <span><RichText {text} /></span>
+      <span class="font-semibold">{title}</span>
+      {#if account}<span class="font-semibold">{account.name}</span>{/if}
+      {#if description}<span><RichText text={description} /></span>{/if}
     </p>
     {#if action}
       <TextButton

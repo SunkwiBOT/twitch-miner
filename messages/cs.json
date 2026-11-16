@@ -64,10 +64,14 @@
   "dashboard_linked": "Propojeno",
   "dashboard_not_linked": "Nepropojeno",
   "dashboard_updated": "Panel byl aktualizován na verzi {version}: obnovte stránku, abyste ji mohli používat.",
+  "dashboard_updated_title": "Panel aktualizován",
   "dashboard_reload": "Obnovit",
   "dashboard_ends_in": "končí {time}",
   "dashboard_remaining": "zbývá {minutes} min",
   "accounts_add": "Přidat účet",
+  "common_accounts_all": "Všechny účty",
+  "common_accounts_count": "Účty: {count}",
+  "common_accounts_none": "Žádný účet",
   "accounts_remove_title": "Odebrat tento účet?",
   "accounts_remove_text": "Relace {name} se na Twitchi zruší a tady smaže. Vyzvednuté dropy zůstanou v inventáři Twitch.",
   "accounts_login_again": "Přihlásit se znovu",
@@ -127,7 +131,6 @@
   "campaigns_filter_in_progress": "Probíhající",
   "campaigns_empty": "Žádná kampaň neodpovídá.",
   "history_title": "Deník",
-  "history_filter_all": "Všechny účty",
   "history_empty": "Zatím nic.",
   "history_load_failed": "Deník se nepodařilo načíst.",
   "event_kind_info": "Info",
@@ -168,8 +171,11 @@
   "settings_webhook_auth": "Hlavička Authorization (volitelné)",
   "settings_system_notifications": "Oznámení na ploše",
   "settings_test_notifications": "Odeslat test",
+  "settings_test_sending": "Odesílá se…",
   "settings_test_ok": "{target}: odesláno",
+  "settings_test_ok_title": "Test odeslán",
   "settings_test_failed": "{target}: {error}",
+  "settings_test_failed_title": "Test se nezdařil",
   "notify_drop_claimed": "Drop vyzvednut",
   "notify_drop_progress": "Postup drop",
   "notify_bonus_claimed": "Bonusová truhla vyzvednuta",
@@ -314,9 +320,9 @@
   "campaign_progress": "{current}/{required} min",
   "campaign_link_game": "Propojit herní účet",
   "campaign_open_twitch": "Otevřít na Twitchi",
+  "campaign_view_category": "Zobrazit kategorii",
   "logs_title": "Technické protokoly",
   "logs_subtitle": "Logy mineru, bez tokenů a tajných údajů. Lze bezpečně vložit do hlášení chyby.",
-  "logs_filter_all": "Všechny účty",
   "logs_copy": "Kopírovat pro hlášení chyby",
   "logs_copied": "Protokoly zkopírovány",
   "logs_open_folder": "Otevřít složku protokolů",
@@ -331,6 +337,7 @@
   "settings_proxy_hint": "socks5://user:pass@host:port, socks5h://, http:// nebo https://. Ponechte prázdné pro přímé připojení.",
   "settings_proxy_test": "Otestovat",
   "settings_proxy_ok": "Proxy dosáhne na Twitch ({ms} ms)",
+  "settings_proxy_ok_title": "Proxy v pořádku",
   "settings_feedback": "Zpětná vazba",
   "settings_feedback_text": "U chyby přiložte protokoly ze stránky Technické protokoly: neobsahují žádné tajné údaje.",
   "feedback_discord_text": "Otevřít tiket nebo si popovídat s komunitou",
@@ -416,7 +423,9 @@
   "security_confirm": "Potvrzení",
   "security_rules": "Alespoň 4 znaky. Nelze ho obnovit: pokud ho ztratíte, přidejte účty znovu.",
   "security_enable": "Nastavit heslo",
+  "security_enabling": "Nastavuje se heslo…",
   "security_change": "Změnit heslo",
+  "security_changing": "Mění se heslo…",
   "security_disable": "Odebrat heslo",
   "security_access_local": "Přes prosté HTTP: nechte tento panel ve své síti, nebo ho umístěte za reverzní proxy HTTPS s MINER_PUBLIC_URL.",
   "security_access_public": "Za reverzní proxy HTTPS, na adrese {host}.",
@@ -432,15 +441,22 @@
   "streamer_predictions_stealth_hint": "Nikdy nevsadí víc než aktuální největší sázející.",
   "streamer_watch_streak_hint": "Počítá se do upřednostnění sérií sledování: nové živé vysílání, série, která brzy vyprší, nebo série k obnovení posune tohoto streamera na první místo.",
   "ev_watch_drop": "Sleduje {channel} kvůli {campaign}",
+  "ev_watch_drop_short": "Sleduje kvůli {campaign}",
   "ev_watch_points_streak_bonus": "Sleduje {channel} kvůli bodům kanálu (bonus za sérii)",
+  "ev_watch_points_streak_bonus_short": "Sleduje kvůli bodům kanálu (bonus za sérii)",
   "ev_watch_points_streak_at_risk": "Sleduje {channel} kvůli bodům kanálu (série ohrožena)",
+  "ev_watch_points_streak_at_risk_short": "Sleduje kvůli bodům kanálu (série ohrožena)",
   "ev_watch_points_subscribed": "Sleduje {channel} kvůli bodům kanálu (předplaceno)",
+  "ev_watch_points_subscribed_short": "Sleduje kvůli bodům kanálu (předplaceno)",
   "ev_watch_points_list_order": "Sleduje {channel} kvůli bodům kanálu (pořadí seznamu)",
+  "ev_watch_points_list_order_short": "Sleduje kvůli bodům kanálu (pořadí seznamu)",
   "ev_watch_stopped": "Sledování {channel} ukončeno",
+  "ev_watch_stopped_short": "Sledování ukončeno",
   "ev_drop_claimed": "Vyzvednuto: {drop} · {campaign}",
   "ev_campaign_finished": "Kampaň dokončena: {campaign}",
   "ev_drop_progress": "{drop}: {current}/{required} min",
   "ev_bonus": "Bonusová truhla vyzvednuta na {channel}",
+  "ev_bonus_short": "Bonusová truhla vyzvednuta",
   "ev_points": [
     {
       "declarations": [
@@ -459,10 +475,31 @@
       }
     }
   ],
+  "ev_points_short": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "+{points} bod",
+        "countPlural=few": "+{points} body",
+        "countPlural=*": "+{points} bodů"
+      }
+    }
+  ],
   "ev_online": "{channel} vysílá živě",
+  "ev_online_short": "Vysílá živě",
   "ev_offline": "{channel} je offline",
+  "ev_offline_short": "Je offline",
   "ev_raid": "Připojeno k raidu {channel}",
+  "ev_raid_short": "Připojeno k raidu",
   "ev_moment": "Moment vyzvednut na {channel}",
+  "ev_moment_short": "Moment vyzvednut",
   "ev_bet_placed": [
     {
       "declarations": [
@@ -479,6 +516,24 @@
         "countPlural=one": "Vsazen {points} bod na „{outcome}“ ({channel})",
         "countPlural=few": "Vsazeny {points} body na „{outcome}“ ({channel})",
         "countPlural=*": "Vsazeno {points} bodů na „{outcome}“ ({channel})"
+      }
+    }
+  ],
+  "ev_bet_placed_short": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input outcome",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Vsazen {points} bod na „{outcome}“",
+        "countPlural=few": "Vsazeny {points} body na „{outcome}“",
+        "countPlural=*": "Vsazeno {points} bodů na „{outcome}“"
       }
     }
   ],
@@ -527,11 +582,12 @@
   "common_removing": "Odebírá se…",
   "action_pausing": "Pozastavuje se…",
   "action_resuming": "Znovu se spouští…",
+  "action_failed": "Akce se nezdařila",
   "lock_locking": "Zamyká se…",
   "unlock_unlocking": "Odemyká se…",
   "auth_signing_in": "Přihlašuje se…",
   "close_closing": "Zavírá se…",
-  "login_starting": "Spouští se…",
+  "close_quitting": "Ukončuje se aplikace…",
   "campaign_claiming": "Vyzvedává se…",
   "catalogue_view_timeline": "Kalendář",
   "catalogue_view_cards": "Karty",
@@ -558,19 +614,17 @@
         "countPlural"
       ],
       "match": {
-        "countPlural=one": "Katalog obnoven: {shown} kampaň",
-        "countPlural=few": "Katalog obnoven: {shown} kampaně",
-        "countPlural=*": "Katalog obnoven: {shown} kampaní"
+        "countPlural=one": "{shown} kampaň",
+        "countPlural=few": "{shown} kampaně",
+        "countPlural=*": "{shown} kampaní"
       }
     }
   ],
+  "catalogue_refreshed_title": "Katalog obnoven",
   "catalogue_refresh_wait": "Dostupné za {time}",
   "campaign_prioritized": "Umístěno na začátek pořadí těžby",
   "campaign_ignored": "Kampaň ignorována",
   "campaign_unignored": "Kampaň se opět těží",
-  "accounts_all": "Všechny účty",
-  "accounts_count": "Účty: {count}",
-  "accounts_none": "Žádný účet",
   "reward_watch": "Sledovat {time}",
   "reward_watch_daily": "{time} denně, počet dní: {days}",
   "reward_watch_every": "{time} každých {hours} h, {count}×",
@@ -598,6 +652,7 @@
   "ignored_hint": "Kampaně a předměty, které tento účet nikdy netěží.",
   "ignored_empty": "Nic není ignorováno.",
   "ignored_restore": "Znovu těžit",
+  "ignored_restoring": "Znovu se těží…",
   "history_load_more": "Načíst starší události",
   "settings_time": "Datum a čas",
   "settings_time_zone": "Časové pásmo",
@@ -624,14 +679,32 @@
   "login_setup_copy_from": "Nastavení účtu {name}",
   "login_setup_copy_hint": "Zkopíruje nastavení zvoleného účtu beze změny (pořadí těžby kampaní Drops, vyloučení, seznam streamerů), kromě proxy.",
   "login_setup_finish": "Začít těžit",
+  "login_setup_starting": "Spouští se těžba…",
   "login_setup_later": "Uložit a spustit později",
   "error_not_supported": "V této verzi aplikace není k dispozici.",
   "common_copy_named": "Kopírovat {name}",
   "bulk_accounts": "Účty",
-  "bulk_applied": "Aktualizované účty: {count}",
+  "bulk_applying": "Používá se…",
+  "bulk_applied_title": "Účty aktualizovány",
   "bulk_apply": "Použít ({count})",
   "bulk_apply_others": "Použít na další účty",
-  "bulk_changes": "Změny na účtu {name}: {count}",
+  "bulk_changes": [
+    {
+      "declarations": [
+        "input count",
+        "input shown",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{shown} změna",
+        "countPlural=few": "{shown} změny",
+        "countPlural=*": "{shown} změn"
+      }
+    }
+  ],
   "bulk_hint": "Změny provedené na účtu {name} ({count}) se zopakují na zaškrtnutých účtech. Každý účet si ponechá zbytek svého nastavení.",
   "bulk_no_accounts": "Žádný jiný účet.",
   "bulk_title": "Použít na další účty",
@@ -714,6 +787,7 @@
   "updates_checking": "Probíhá kontrola…",
   "updates_current": "Máte nejnovější verzi.",
   "updates_available": "Je k dispozici verze {version}.",
+  "updates_available_title": "Dostupná aktualizace",
   "updates_available_locked": "Je k dispozici verze {version}. Odemkněte aplikaci a nainstalujte ji.",
   "updates_badge": "Aktualizace {version}",
   "updates_pull_image": "Chcete-li aktualizovat, stáhněte nový obraz a restartujte kontejner:",
@@ -732,6 +806,7 @@
   "updates_restarting": "Instaluje se verze {version}. Aplikace se sama restartuje.",
   "updates_install_failed": "Aktualizaci nelze nainstalovat. Zkuste to později.",
   "updates_failed_restarted": "Verzi {version} nelze nainstalovat: aplikace se restartovala na současné verzi.",
+  "updates_failed_restarted_title": "Aktualizace se nezdařila",
   "updates_download_failed": "Stahování se přerušilo. Zkontrolujte připojení a zkuste to znovu.",
   "updates_interval": "Kontrolovat aktualizace",
   "updates_interval_hint": "Aplikace kontroluje také při spuštění. Nikdy nic neinstaluje sama: nová verze se nabídne zde.",
@@ -769,6 +844,7 @@
       }
     }
   ],
+  "updates_interval_hour": "Každou hodinu",
   "accounts_stats_bets": "Sázky vyhrané / prohrané: {won} / {lost}",
   "accounts_stats_bonuses": "Bonusové truhly: {count}",
   "catalogue_fetched": "staženo {time}, znovu každých {minutes} min",
@@ -793,7 +869,26 @@
       }
     }
   ],
+  "ev_goal_contributed_short": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input goal",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Vložen {points} bod do „{goal}“",
+        "countPlural=few": "Vloženy {points} body do „{goal}“",
+        "countPlural=*": "Vloženo {points} bodů do „{goal}“"
+      }
+    }
+  ],
   "ev_streak_recovered": "Série sledování obnovena na {channel}",
+  "ev_streak_recovered_short": "Série sledování obnovena",
   "filter_by_odds": "Kurz volby",
   "filter_by_odds_percentage": "Kurz volby (%)",
   "filter_by_percentage_users": "Diváci u volby (%)",
@@ -816,6 +911,7 @@
   "account_state_running_hint": "Účet těží se svým nastavením. Pozastavení zastaví vše: Drops, body kanálu i chat.",
   "account_state_paused_hint": "Účet je pozastavený: nic nesleduje a nic nezískává. Jeho nastavení zůstává zachováno.",
   "login_code": "přihlašovací kód",
+  "login_getting_code": "Získává se nový kód…",
   "catalogue_sort": "Řazení",
   "catalogue_view": "Zobrazení",
   "import_source": "Importovat z",
@@ -838,9 +934,12 @@
   "login_setup_drops_hint": "Které kampaně tento účet těží a zda si odměny vyzvedává sám.",
   "event_kind_chat_mention": "Zmínka",
   "ev_chat_mention": "Zmínka od {chatter} v chatu kanálu {channel}",
+  "ev_chat_mention_short": "Zmínka od {chatter}",
   "notify_chat_mention": "Zmínka v chatu",
   "campaign_prioritize": "Těžit přednostně",
+  "campaign_prioritizing": "Přednostně se těží…",
   "campaign_ignore": "Ignorovat",
+  "campaign_ignoring": "Ignoruje se…",
   "common_label": "{label}:",
   "nav_account_inventory": "Inventář",
   "inventory_hint": "Odměny z vašich kampaní Drops, načtené z vašeho inventáře Twitch. Vyzvedněte si je zde, když je automatické vyzvedávání vypnuté.",
@@ -849,10 +948,13 @@
   "inventory_claim_all": "Vyzvednout vše",
   "inventory_in_progress": "Probíhá",
   "inventory_claimed": "Vyzvednuto",
+  "inventory_claimed_title": "Vyzvednuté odměny",
   "inventory_empty_claimable": "Momentálně není nic k vyzvednutí.",
   "inventory_empty_progress": "Žádná rozpracovaná odměna.",
+  "inventory_empty_waiting_link": "Žádná odměna nečeká na propojení herního účtu.",
   "inventory_empty_claimed": "Zatím žádná vyzvednutá odměna.",
   "inventory_paused": "Účet je pozastavený: jeho inventář Twitch se načítá, když běží.",
+  "inventory_tabs_label": "Části stránky Inventář",
   "inventory_claimed_all": "Vyzvednuté odměny: {count}",
   "reward_state_claimed": "Vyzvednuto",
   "reward_state_ready": "K vyzvednutí",
@@ -903,6 +1005,7 @@
   "badge_hint_in_progress": "Twitch počítá vaše minuty pro tuto kampaň",
   "import_into": "Importovat do",
   "confirm_remove": "Odebrat",
+  "confirm_removing": "Odebírá se…",
   "confirm_remove_streamer_title": "Odebrat tohoto streamera?",
   "confirm_remove_streamer_text": "Tento účet už nebude sledovat {name} kvůli bodům kanálu a jeho možnosti se ztratí.",
   "confirm_remove_game_title": "Odebrat tuto prioritní hru?",
@@ -943,6 +1046,7 @@
   ],
   "login_link": "aktivační odkaz",
   "link_opened": "Otevřeno v prohlížeči: {site}",
+  "link_opened_title": "Odkaz otevřen",
   "secret_show": "Zobrazit",
   "secret_hide": "Skrýt",
   "notify_kind": "Typ",
@@ -978,22 +1082,7 @@
   "points_reason_subscribed_hint": "Sledován přednostně: účet má předplatné a Twitch zde dává více bodů",
   "points_reason_list_order_hint": "Sledován v pořadí seznamu streamerů",
   "points_streamer_defaults_hint": "Přidaný streamer (ručně, importem nebo při nastavení) začne s těmito možnostmi.",
-  "points_edit_selected": [
-    {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
-      "match": {
-        "countPlural=one": "Upravit {count} vybraného streamera",
-        "countPlural=few": "Upravit {count} vybrané streamery",
-        "countPlural=*": "Upravit {count} vybraných streamerů"
-      }
-    }
-  ],
+  "points_edit_selected": "Upravit ({count})",
   "points_group_title": [
     {
       "declarations": [
@@ -1064,7 +1153,25 @@
       }
     }
   ],
+  "ev_points_spent_short": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "−{points} bod",
+        "countPlural=few": "−{points} body",
+        "countPlural=*": "−{points} bodů"
+      }
+    }
+  ],
   "ev_points_spent_balance": "Body utraceny na {channel} (zůstatek {balance})",
+  "ev_points_spent_balance_short": "Body utraceny (zůstatek {balance})",
   "ev_drop_progress_unknown": "Postup dropu: {current}/{required} min",
   "journal_types": "Typy událostí",
   "journal_types_all": "Všechny typy",
@@ -1149,6 +1256,7 @@
   "spam_in_history": "Už je ve vaší historii",
   "spam_remove_history": "Odebrat z historie",
   "spam_removed": "{channel} odebrán z historie",
+  "spam_removed_title": "Odebráno z historie",
   "spam_pick_title": "Vyberte kanál",
   "spam_pick_text": "Zde se zobrazí jeho vlastní odměny spolu se zůstatkem tohoto účtu na kanálu.",
   "spam_balance": "Zůstatek bodů kanálu: {points}",
@@ -1207,6 +1315,8 @@
     }
   ],
   "spam_sent_partial": "Odesláno {sent}/{count} — {reason}",
+  "spam_send_failed_title": "Odeslání se nezdařilo",
+  "spam_sent_title": "Body odeslány",
   "spam_sent_none": "Nezdařilo se — {reason}",
   "spam_toast": "{count} × {reward} na kanálu {channel}: {result}",
   "spam_cancelled": [
@@ -1259,7 +1369,28 @@
       }
     }
   ],
+  "ev_rewards_redeemed_short": [
+    {
+      "declarations": [
+        "input sent",
+        "input shown",
+        "input count",
+        "input reward",
+        "input points",
+        "local sentPlural = sent: plural"
+      ],
+      "selectors": [
+        "sentPlural"
+      ],
+      "match": {
+        "sentPlural=one": "{count} × {reward} — odesláno {shown}, {points} bodů",
+        "sentPlural=few": "{count} × {reward} — odeslány {shown}, {points} bodů",
+        "sentPlural=*": "{count} × {reward} — odesláno {shown}, {points} bodů"
+      }
+    }
+  ],
   "ev_rewards_redeemed_partial": "{count} × {reward} na kanálu {channel} — odesláno {sent}/{total}, {points} bodů",
+  "ev_rewards_redeemed_partial_short": "{count} × {reward} — odesláno {sent}/{total}, {points} bodů",
   "ev_rewards_refused": [
     {
       "declarations": [
@@ -1278,6 +1409,7 @@
     }
   ],
   "spam_result_lost": "Pro {reward} nepřišel žádný výsledek: Deník ukazuje, co bylo odesláno.",
+  "spam_result_unknown_title": "Výsledek neznámý",
   "nav_badges": "Odznaky",
   "nav_account_badges": "Odznaky",
   "badges_title": "Odznaky",
@@ -1379,7 +1511,9 @@
   "badge_dialog_evolves_from": "Twitch tento odznak počítá, jen když je nasazen {badge}: miner ho nasadí těsně před těžbou a starý odznak už nevrátí.",
   "badge_dialog_accounts": "Postup účtů",
   "campaign_select": "Přidat do mého výběru",
+  "campaign_selecting": "Přidává se…",
   "campaign_unselect": "Odebrat z mého výběru",
+  "campaign_unselecting": "Odebírá se…",
   "campaign_selected": "Přidáno do vašeho výběru",
   "campaign_unselected": "Odebráno z vašeho výběru",
   "change_selected": "Přidáno do výběru: {item}",

@@ -14,11 +14,9 @@
     look: LinkLook;
     size: LinkSize;
     lead?: Snippet;
-    // ! Inside a `group/twin` that also holds a LinkTwin: hovering the twin lights this link up too.
-    twin: boolean;
   };
 
-  let { url, text, mark, look, size, lead, twin }: ExternalLinkPropsType = $props();
+  let { url, text, mark, look, size, lead }: ExternalLinkPropsType = $props();
 
   const marked = $derived(mark !== LinkMark.NONE);
   const always = $derived(look === LinkLook.ALWAYS);
@@ -32,7 +30,6 @@
       always
         ? "opacity-100"
         : "opacity-0 group-hover/link:opacity-100 group-focus-visible/link:opacity-100",
-      twin && "group-has-[[data-link-twin]:hover]/twin:opacity-100",
     )}><Icon name={IconName.EXTERNAL} size={LINK_SIZES[size].icon} /></span
   >
 {/snippet}
@@ -41,7 +38,6 @@
   class={cn(
     "group/link min-w-0 font-semibold no-underline transition-colors hover:text-link focus-visible:text-link",
     always ? "text-link" : "text-foreground",
-    twin && "group-has-[[data-link-twin]:hover]/twin:text-link",
     LINK_SIZES[size].text,
     lead || marked ? "inline-flex max-w-full items-center gap-1.5 align-bottom" : "inline",
   )}
@@ -53,7 +49,6 @@
       "underline-offset-3 group-hover/link:underline group-focus-visible/link:underline",
       (always || sentence) && "underline",
       sentence && "decoration-link",
-      twin && "group-has-[[data-link-twin]:hover]/twin:underline",
       (lead || marked) && LINK_SIZES[size].fit,
     )}>{text}</span
   >{#if mark === LinkMark.END}{@render arrow()}{/if}</a

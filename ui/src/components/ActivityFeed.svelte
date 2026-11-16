@@ -84,7 +84,7 @@
       {@const p = picture(e)}
       {@const reward = redeemedReward(e)}
       {@const acc = accountOf(e.account_id)}
-      {@const sentence = eventText(e, true)}
+      {@const sentence = eventText(e, { channelShown: false, linked: true })}
       {@const detail = eventDetail(e)}
       <li
         class={cn(

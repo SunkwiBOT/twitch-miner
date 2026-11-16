@@ -102,6 +102,35 @@ fn foreign_data(what: &str, detail: impl fmt::Display) -> Error {
     Error::Storage(format!("{what} unreadable ({detail}): {FOREIGN_DATA}"))
 }
 
+// ! Account ids are client-supplied: never inlined into the SQL text, each
+// gets its own numbered placeholder bound by `bind()`.
+pub(super) struct AccountIdsParam<'a> {
+    ids: &'a [String],
+    keys: Vec<String>,
+}
+
+impl<'a> AccountIdsParam<'a> {
+    pub(super) fn new(ids: &'a [String]) -> Self {
+        let keys = (0..ids.len()).map(|i| format!(":account{i}")).collect();
+
+        Self { ids, keys }
+    }
+
+    pub(super) fn condition(&self, table: &str) -> String {
+        if self.ids.is_empty() {
+            return "0".to_owned();
+        }
+
+        format!("{table}account_id IN ({})", self.keys.join(", "))
+    }
+
+    pub(super) fn bind<'b>(&'b self, named: &mut Vec<(&'b str, &'b dyn rusqlite::ToSql)>) {
+        for (key, id) in self.keys.iter().zip(self.ids) {
+            named.push((key.as_str(), id));
+        }
+    }
+}
+
 fn json_error(error: &serde_json::Error) -> String {
     format!(
         "{:?} error at line {}, column {}",

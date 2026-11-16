@@ -202,7 +202,7 @@
   title={confirmTitle}
   text={confirmText(removing ?? "")}
   confirmLabel={t.confirm_remove()}
-  busyLabel={t.common_removing()}
+  busyLabel={t.confirm_removing()}
   busy={false}
   onconfirm={remove}
   oncancel={() => (removing = null)}

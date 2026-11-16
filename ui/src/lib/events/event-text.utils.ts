@@ -9,11 +9,19 @@ import { t } from "../i18n/i18n.svelte";
 import { campaignUrl, channelUrl } from "../links/twitch.utils";
 import { escapeEmphasis, linkMarker, strong, type TextLinkType } from "../text.utils";
 
-const WATCH_POINTS_TEXTS: Record<PointsReason, (args: { channel: string }) => string> = {
-  [PointsReason.STREAK_BONUS]: (args) => t.ev_watch_points_streak_bonus(args),
-  [PointsReason.STREAK_AT_RISK]: (args) => t.ev_watch_points_streak_at_risk(args),
-  [PointsReason.SUBSCRIBED]: (args) => t.ev_watch_points_subscribed(args),
-  [PointsReason.LIST_ORDER]: (args) => t.ev_watch_points_list_order(args),
+type ShortLongTextType = [short: () => string, long: (args: { channel: string }) => string];
+
+const WATCH_POINTS_TEXTS: Record<PointsReason, ShortLongTextType> = {
+  [PointsReason.STREAK_BONUS]: [
+    t.ev_watch_points_streak_bonus_short,
+    t.ev_watch_points_streak_bonus,
+  ],
+  [PointsReason.STREAK_AT_RISK]: [
+    t.ev_watch_points_streak_at_risk_short,
+    t.ev_watch_points_streak_at_risk,
+  ],
+  [PointsReason.SUBSCRIBED]: [t.ev_watch_points_subscribed_short, t.ev_watch_points_subscribed],
+  [PointsReason.LIST_ORDER]: [t.ev_watch_points_list_order_short, t.ev_watch_points_list_order],
 };
 
 const dropsPageUrl = (campaignId: string | undefined): string | null => {
@@ -24,7 +32,15 @@ const dropsPageUrl = (campaignId: string | undefined): string | null => {
 
 export type EventTextType = { text: string; links: TextLinkType[] };
 
-export const eventText = (event: MinerEventType, linked: boolean): EventTextType => {
+export type EventTextOptionsType = {
+  channelShown: boolean;
+  linked: boolean;
+};
+
+export const eventText = (
+  event: MinerEventType,
+  { channelShown, linked }: EventTextOptionsType,
+): EventTextType => {
   const context = event.context;
   const links: TextLinkType[] = [];
 
@@ -54,18 +70,28 @@ export const eventText = (event: MinerEventType, linked: boolean): EventTextType
   const campaign = drop ? bold(context.campaign_name) : named(context.campaign_name, campaignLink);
   const fallback = escapeEmphasis(event.title);
 
+  const channelOnly = ([short, long]: ShortLongTextType): string =>
+    channel ? (channelShown ? short() : long({ channel })) : fallback;
+
+  const pick = <A extends object>(
+    [short, long]: [(args: A) => string, (args: A & { channel: string }) => string],
+    args: A,
+  ): string => (channel ? (channelShown ? short(args) : long({ ...args, channel })) : fallback);
+
   const text = ((): string => {
     switch (event.kind) {
       case EventKind.WATCH_STARTED:
-        if (channel && campaign) {
-          return t.ev_watch_drop({ channel, campaign });
+        if (campaign) {
+          return pick([t.ev_watch_drop_short, t.ev_watch_drop], { campaign });
         }
 
-        return channel && context.watch_reason
-          ? WATCH_POINTS_TEXTS[context.watch_reason]({ channel })
-          : fallback;
+        if (!context.watch_reason) {
+          return fallback;
+        }
+
+        return channelOnly(WATCH_POINTS_TEXTS[context.watch_reason]);
       case EventKind.WATCH_STOPPED:
-        return channel ? t.ev_watch_stopped({ channel }) : fallback;
+        return channelOnly([t.ev_watch_stopped_short, t.ev_watch_stopped]);
       case EventKind.DROP_CLAIMED:
         return drop && campaign ? t.ev_drop_claimed({ drop, campaign }) : fallback;
       case EventKind.CAMPAIGN_FINISHED:
@@ -94,25 +120,35 @@ export const eventText = (event: MinerEventType, linked: boolean): EventTextType
           ? t.ev_claim_refused({ drop, status: strong(context.status) })
           : fallback;
       case EventKind.BONUS_CLAIMED:
-        return channel ? t.ev_bonus({ channel }) : fallback;
-      case EventKind.POINTS_EARNED:
-        return channel && context.earned !== undefined
-          ? t.ev_points({ channel, count: context.earned, points: bold(context.earned) ?? "" })
-          : fallback;
-      case EventKind.POINTS_SPENT:
-        if (channel && context.spent !== undefined) {
-          return t.ev_points_spent({
-            channel,
+        return channelOnly([t.ev_bonus_short, t.ev_bonus]);
+      case EventKind.POINTS_EARNED: {
+        if (context.earned === undefined) {
+          return fallback;
+        }
+
+        return pick([t.ev_points_short, t.ev_points], {
+          count: context.earned,
+          points: bold(context.earned) ?? "",
+        });
+      }
+      case EventKind.POINTS_SPENT: {
+        if (context.spent !== undefined) {
+          return pick([t.ev_points_spent_short, t.ev_points_spent], {
             count: context.spent,
             points: bold(context.spent) ?? "",
           });
         }
 
-        return channel && context.balance !== undefined
-          ? t.ev_points_spent_balance({ channel, balance: bold(context.balance) ?? "" })
-          : fallback;
+        if (context.balance === undefined) {
+          return fallback;
+        }
+
+        return pick([t.ev_points_spent_balance_short, t.ev_points_spent_balance], {
+          balance: bold(context.balance) ?? "",
+        });
+      }
       case EventKind.REWARD_REDEEMED: {
-        if (!channel || !context.reward_title || context.count === undefined) {
+        if (!context.reward_title || context.count === undefined) {
           return fallback;
         }
 
@@ -120,35 +156,40 @@ export const eventText = (event: MinerEventType, linked: boolean): EventTextType
         const parts = {
           count: bold(context.count) ?? "",
           reward: strong(context.reward_title),
-          channel,
           points: bold(context.spent ?? 0) ?? "",
         };
 
         return sent === context.count
-          ? t.ev_rewards_redeemed({ ...parts, sent, shown: number(sent) })
-          : t.ev_rewards_redeemed_partial({
+          ? pick([t.ev_rewards_redeemed_short, t.ev_rewards_redeemed], {
+              ...parts,
+              sent,
+              shown: number(sent),
+            })
+          : pick([t.ev_rewards_redeemed_partial_short, t.ev_rewards_redeemed_partial], {
               ...parts,
               sent: number(sent),
               total: number(context.count),
             });
       }
       case EventKind.STREAM_ONLINE:
-        return channel ? t.ev_online({ channel }) : fallback;
+        return channelOnly([t.ev_online_short, t.ev_online]);
       case EventKind.STREAM_OFFLINE:
-        return channel ? t.ev_offline({ channel }) : fallback;
+        return channelOnly([t.ev_offline_short, t.ev_offline]);
       case EventKind.RAID_JOINED:
-        return channel ? t.ev_raid({ channel }) : fallback;
+        return channelOnly([t.ev_raid_short, t.ev_raid]);
       case EventKind.MOMENT_CLAIMED:
-        return channel ? t.ev_moment({ channel }) : fallback;
-      case EventKind.PREDICTION_PLACED:
-        return channel && context.points !== undefined
-          ? t.ev_bet_placed({
-              channel,
-              count: context.points,
-              points: bold(context.points) ?? "",
-              outcome: bold(context.outcome) ?? "",
-            })
-          : fallback;
+        return channelOnly([t.ev_moment_short, t.ev_moment]);
+      case EventKind.PREDICTION_PLACED: {
+        if (context.points === undefined) {
+          return fallback;
+        }
+
+        return pick([t.ev_bet_placed_short, t.ev_bet_placed], {
+          count: context.points,
+          points: bold(context.points) ?? "",
+          outcome: bold(context.outcome) ?? "",
+        });
+      }
       case EventKind.PREDICTION_RESULT: {
         if (context.bet_result === BetResult.WIN) {
           const won = context.points_won ?? 0;
@@ -173,20 +214,26 @@ export const eventText = (event: MinerEventType, linked: boolean): EventTextType
           ? t.ev_update_available({ version: strong(context.version) })
           : fallback;
       case EventKind.STREAK_RECOVERED:
-        return channel ? t.ev_streak_recovered({ channel }) : fallback;
-      case EventKind.GOAL_CONTRIBUTED:
-        return channel && context.points !== undefined
-          ? t.ev_goal_contributed({
-              count: context.points,
-              points: bold(context.points) ?? "",
-              goal: bold(context.goal) ?? "",
-              channel,
-            })
-          : fallback;
+        return channelOnly([t.ev_streak_recovered_short, t.ev_streak_recovered]);
+      case EventKind.GOAL_CONTRIBUTED: {
+        if (context.points === undefined) {
+          return fallback;
+        }
+
+        return pick([t.ev_goal_contributed_short, t.ev_goal_contributed], {
+          count: context.points,
+          points: bold(context.points) ?? "",
+          goal: bold(context.goal) ?? "",
+        });
+      }
       case EventKind.CHAT_MENTION:
-        return channel && context.chatter
-          ? t.ev_chat_mention({ chatter: strong(context.chatter), channel })
-          : fallback;
+        if (!context.chatter) {
+          return fallback;
+        }
+
+        return pick([t.ev_chat_mention_short, t.ev_chat_mention], {
+          chatter: strong(context.chatter),
+        });
       case EventKind.INFO:
         return context.badge && drop
           ? t.ev_badge_equipped({ badge: strong(context.badge), drop })

@@ -1,24 +1,26 @@
 <script lang="ts" module>
-  // ! Edited after generation: sizes, destructive and outline variants, semibold labels, the app's 2 px focus outline.
+  // ! Edited after generation: sizes, destructive and outline variants, semibold labels, the
+  // app's 2 px focus outline, hover kept off a disabled control (`not-disabled:hover:` since
+  // `disabled:pointer-events-none` was dropped for the `not-allowed` cursor).
 
   import { type VariantProps, tv } from "tailwind-variants";
   import { cn, type WithElementRef } from "$lib/utils.js";
   import type { HTMLAnchorAttributes, HTMLButtonAttributes } from "svelte/elements";
 
   export const buttonVariants = tv({
-    base: "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 rounded-lg border border-transparent text-sm font-semibold aria-invalid:ring-3 [&_svg:not([class*='size-'])]:size-4 group/button inline-flex shrink-0 items-center justify-center whitespace-nowrap transition-all outline-hidden focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring select-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+    base: "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 rounded-lg border border-transparent text-sm font-semibold aria-invalid:ring-3 [&_svg:not([class*='size-'])]:size-4 group/button inline-flex shrink-0 items-center justify-center whitespace-nowrap transition-all outline-hidden focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring select-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/80",
+        default: "bg-primary text-primary-foreground not-disabled:hover:bg-primary/80",
         outline:
-          "bg-clip-padding border-border bg-background hover:bg-muted hover:text-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 aria-expanded:bg-muted aria-expanded:text-foreground",
+          "bg-clip-padding border-border bg-background not-disabled:hover:bg-muted not-disabled:hover:text-foreground dark:bg-input/30 dark:border-input dark:not-disabled:hover:bg-input/50 aria-expanded:bg-muted aria-expanded:text-foreground",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
+          "bg-secondary text-secondary-foreground not-disabled:hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
         ghost:
-          "hover:bg-muted hover:text-foreground dark:hover:bg-muted/50 aria-expanded:bg-muted aria-expanded:text-foreground",
+          "not-disabled:hover:bg-muted not-disabled:hover:text-foreground dark:not-disabled:hover:bg-muted/50 aria-expanded:bg-muted aria-expanded:text-foreground",
         destructive:
-          "bg-destructive/10 hover:bg-destructive/20 dark:bg-destructive/20 text-destructive dark:text-destructive-foreground dark:hover:bg-destructive/30",
-        link: "text-primary underline-offset-4 hover:underline",
+          "bg-destructive/10 not-disabled:hover:bg-destructive/20 dark:bg-destructive/20 text-destructive dark:text-destructive-foreground dark:not-disabled:hover:bg-destructive/30",
+        link: "text-primary underline-offset-4 not-disabled:hover:underline",
       },
       size: {
         default:

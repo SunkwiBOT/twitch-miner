@@ -101,7 +101,7 @@
           <button
             {...props}
             type="button"
-            class="grid size-6 place-items-center rounded-md bg-background/85 text-muted-foreground transition-colors hover:bg-background hover:text-foreground"
+            class="grid size-6 cursor-help place-items-center rounded-md bg-background/85 text-muted-foreground transition-colors hover:bg-background hover:text-foreground"
             aria-label={t.spam_description({ text: prompt })}
             ><Icon name={IconName.INFO} size={14} /></button
           >

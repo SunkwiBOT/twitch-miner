@@ -61,9 +61,8 @@
     url={channelUrl(channel)}
     text={channelName}
     mark={LinkMark.END}
-    look={LinkLook.HOVER}
+    look={LinkLook.ALWAYS}
     size={LinkSize.MD}
-    twin={false}
   >
     {#snippet lead()}
       <ChannelAvatar url={event.context.avatar} name={channelName} {size} live={false} />

@@ -24,6 +24,7 @@
     size: ButtonSize;
     type: ButtonType;
     class?: string;
+    describedby?: string;
     onclick?: () => unknown;
   };
 
@@ -37,6 +38,7 @@
     size,
     type,
     class: className,
+    describedby,
     onclick,
   }: ActionButtonPropsType = $props();
 
@@ -50,6 +52,7 @@
   {type}
   disabled={disabled || busy}
   aria-busy={busy}
+  aria-describedby={describedby}
   {onclick}
 >
   {#if busy}<Spinner size={iconSize} />{:else}<Icon name={icon} size={iconSize} />{/if}

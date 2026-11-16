@@ -1,22 +1,26 @@
 use chrono::{DateTime, Utc};
 use rusqlite::params;
 
-use super::{foreign_data, Store};
+use super::{foreign_data, AccountIdsParam, Store};
 use crate::error::Result;
 use crate::requests::{
     bucket_end, RequestEntry, RequestFilter, RequestGroup, RequestKind, RequestOutcome,
     RequestSource, SocketEvent,
 };
 
-fn requests_sql(filter: &RequestFilter, before: bool) -> String {
+fn requests_sql(
+    filter: &RequestFilter,
+    account_ids: Option<&AccountIdsParam>,
+    before: bool,
+) -> String {
     let mut conditions = vec!["(at < :until OR id <= :earlier_run)".to_owned()];
 
     if before {
         conditions.push("id < :before".to_owned());
     }
 
-    if filter.account_id.is_some() {
-        conditions.push("account_id = :account".to_owned());
+    if let Some(param) = account_ids {
+        conditions.push(param.condition(""));
     }
 
     if let Some(kinds) = filter.kinds {
@@ -169,8 +173,13 @@ impl Store {
     ) -> Result<(Vec<RequestEntry>, Option<u64>)> {
         let connection = self.lock();
         let before = before_id.map(|id| i64::try_from(id).unwrap_or(i64::MAX));
+        let account_param = filter.account_ids.map(AccountIdsParam::new);
         let mut statement = connection
-            .prepare(&requests_sql(filter, before.is_some()))
+            .prepare(&requests_sql(
+                filter,
+                account_param.as_ref(),
+                before.is_some(),
+            ))
             .map_err(|error| foreign_data("the request table", error))?;
         let fetched = (limit + 1) as i64;
         let until = until.timestamp_millis();
@@ -181,8 +190,8 @@ impl Store {
             (":earlier_run", &earlier_run),
         ];
 
-        if let Some(account_id) = &filter.account_id {
-            named.push((":account", account_id));
+        if let Some(param) = &account_param {
+            param.bind(&mut named);
         }
 
         if let Some(before) = &before {

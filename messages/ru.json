@@ -64,10 +64,14 @@
   "dashboard_linked": "Привязан",
   "dashboard_not_linked": "Не привязан",
   "dashboard_updated": "Панель обновлена до версии {version}: перезагрузите страницу, чтобы пользоваться ей.",
+  "dashboard_updated_title": "Панель обновлена",
   "dashboard_reload": "Перезагрузить",
   "dashboard_ends_in": "заканчивается {time}",
   "dashboard_remaining": "осталось {minutes} мин",
   "accounts_add": "Добавить аккаунт",
+  "common_accounts_all": "Все аккаунты",
+  "common_accounts_count": "Аккаунты: {count}",
+  "common_accounts_none": "Нет аккаунта",
   "accounts_remove_title": "Удалить этот аккаунт?",
   "accounts_remove_text": "Сессия {name} отзывается на Twitch и удаляется здесь. Полученные дропы остаются в инвентаре Twitch.",
   "accounts_login_again": "Войти снова",
@@ -127,7 +131,6 @@
   "campaigns_filter_in_progress": "В процессе",
   "campaigns_empty": "Нет подходящих кампаний.",
   "history_title": "Журнал",
-  "history_filter_all": "Все аккаунты",
   "history_empty": "Пока пусто.",
   "history_load_failed": "Не удалось прочитать журнал.",
   "event_kind_info": "Инфо",
@@ -168,8 +171,11 @@
   "settings_webhook_auth": "Заголовок Authorization (необязательно)",
   "settings_system_notifications": "Уведомления на рабочем столе",
   "settings_test_notifications": "Отправить тест",
+  "settings_test_sending": "Отправка…",
   "settings_test_ok": "{target}: отправлено",
+  "settings_test_ok_title": "Тест отправлен",
   "settings_test_failed": "{target}: {error}",
+  "settings_test_failed_title": "Тест не пройден",
   "notify_drop_claimed": "Drop получен",
   "notify_drop_progress": "Прогресс drop",
   "notify_bonus_claimed": "Бонусный сундук получен",
@@ -314,9 +320,9 @@
   "campaign_progress": "{current}/{required} мин",
   "campaign_link_game": "Привязать игровой аккаунт",
   "campaign_open_twitch": "Открыть на Twitch",
+  "campaign_view_category": "Посмотреть категорию",
   "logs_title": "Технические логи",
   "logs_subtitle": "Логи майнера, без токенов и секретов. Можно смело вставлять в баг-репорт.",
-  "logs_filter_all": "Все аккаунты",
   "logs_copy": "Скопировать для баг-репорта",
   "logs_copied": "Логи скопированы",
   "logs_open_folder": "Открыть папку логов",
@@ -331,6 +337,7 @@
   "settings_proxy_hint": "socks5://user:pass@host:port, socks5h://, http:// или https://. Оставьте пустым для прямого подключения.",
   "settings_proxy_test": "Проверить",
   "settings_proxy_ok": "Proxy достигает Twitch ({ms} мс)",
+  "settings_proxy_ok_title": "Proxy в порядке",
   "settings_feedback": "Обратная связь",
   "settings_feedback_text": "Для бага приложите логи со страницы «Технические логи»: в них нет секретов.",
   "feedback_discord_text": "Создайте тикет или пообщайтесь с сообществом",
@@ -416,7 +423,9 @@
   "security_confirm": "Подтверждение",
   "security_rules": "Не менее 4 символов. Восстановить его нельзя: если вы его потеряете, добавьте аккаунты заново.",
   "security_enable": "Задать пароль",
+  "security_enabling": "Установка пароля…",
   "security_change": "Изменить пароль",
+  "security_changing": "Изменение пароля…",
   "security_disable": "Удалить пароль",
   "security_access_local": "По обычному HTTP: держите эту панель в своей сети или поставьте её за обратный HTTPS-прокси с MINER_PUBLIC_URL.",
   "security_access_public": "За обратным HTTPS-прокси, по адресу {host}.",
@@ -432,21 +441,34 @@
   "streamer_predictions_stealth_hint": "Никогда не ставит больше текущей крупнейшей ставки.",
   "streamer_watch_streak_hint": "Учитывается приоритетом серий просмотров: новый эфир, серия, которая скоро истечёт, или серия, которую можно восстановить, ставят этого стримера первым.",
   "ev_watch_drop": "Смотрит {channel} для {campaign}",
+  "ev_watch_drop_short": "Смотрит для {campaign}",
   "ev_watch_points_streak_bonus": "Смотрит {channel} ради баллов канала (бонус за серию)",
+  "ev_watch_points_streak_bonus_short": "Смотрит ради баллов канала (бонус за серию)",
   "ev_watch_points_streak_at_risk": "Смотрит {channel} ради баллов канала (серия под угрозой)",
+  "ev_watch_points_streak_at_risk_short": "Смотрит ради баллов канала (серия под угрозой)",
   "ev_watch_points_subscribed": "Смотрит {channel} ради баллов канала (подписка)",
+  "ev_watch_points_subscribed_short": "Смотрит ради баллов канала (подписка)",
   "ev_watch_points_list_order": "Смотрит {channel} ради баллов канала (порядок списка)",
+  "ev_watch_points_list_order_short": "Смотрит ради баллов канала (порядок списка)",
   "ev_watch_stopped": "Больше не смотрит {channel}",
+  "ev_watch_stopped_short": "Больше не смотрит",
   "ev_drop_claimed": "Получено: {drop} · {campaign}",
   "ev_campaign_finished": "Кампания завершена: {campaign}",
   "ev_drop_progress": "{drop}: {current}/{required} мин",
   "ev_bonus": "Бонусный сундук получен на {channel}",
+  "ev_bonus_short": "Бонусный сундук получен",
   "ev_points": "Баллы: +{points} на {channel}",
+  "ev_points_short": "Баллы: +{points}",
   "ev_online": "{channel} в эфире",
+  "ev_online_short": "В эфире",
   "ev_offline": "{channel}: эфир завершён",
+  "ev_offline_short": "Эфир завершён",
   "ev_raid": "Присоединились к рейду {channel}",
+  "ev_raid_short": "Присоединились к рейду",
   "ev_moment": "Момент получен на {channel}",
+  "ev_moment_short": "Момент получен",
   "ev_bet_placed": "Ставка {points} на «{outcome}» ({channel})",
+  "ev_bet_placed_short": "Ставка {points} на «{outcome}»",
   "ev_bet_won": "Прогноз выигран: +{points}",
   "ev_bet_lost": "Прогноз проигран: −{points}",
   "ev_bet_refund": "Прогноз: ставка возвращена",
@@ -460,11 +482,12 @@
   "common_removing": "Удаление…",
   "action_pausing": "Приостановка…",
   "action_resuming": "Возобновление…",
+  "action_failed": "Действие не выполнено",
   "lock_locking": "Блокировка…",
   "unlock_unlocking": "Разблокировка…",
   "auth_signing_in": "Вход…",
   "close_closing": "Закрытие…",
-  "login_starting": "Запуск…",
+  "close_quitting": "Выход из приложения…",
   "campaign_claiming": "Получение…",
   "catalogue_view_timeline": "Календарь",
   "catalogue_view_cards": "Карточки",
@@ -491,19 +514,17 @@
         "countPlural"
       ],
       "match": {
-        "countPlural=one": "Каталог обновлён: {shown} кампания",
-        "countPlural=few": "Каталог обновлён: {shown} кампании",
-        "countPlural=*": "Каталог обновлён: {shown} кампаний"
+        "countPlural=one": "{shown} кампания",
+        "countPlural=few": "{shown} кампании",
+        "countPlural=*": "{shown} кампаний"
       }
     }
   ],
+  "catalogue_refreshed_title": "Каталог обновлён",
   "catalogue_refresh_wait": "Доступно через {time}",
   "campaign_prioritized": "Перемещено в начало порядка майнинга",
   "campaign_ignored": "Кампания игнорируется",
   "campaign_unignored": "Кампания снова майнится",
-  "accounts_all": "Все аккаунты",
-  "accounts_count": "Аккаунты: {count}",
-  "accounts_none": "Нет аккаунтов",
   "reward_watch": "Смотреть {time}",
   "reward_watch_daily": "{time} в день, дней: {days}",
   "reward_watch_every": "{time} каждые {hours} ч, раз: {count}",
@@ -531,6 +552,7 @@
   "ignored_hint": "Кампании и предметы, которые этот аккаунт никогда не майнит.",
   "ignored_empty": "Ничего не игнорируется.",
   "ignored_restore": "Снова майнить",
+  "ignored_restoring": "Повторный майнинг…",
   "history_load_more": "Загрузить более ранние события",
   "settings_time": "Дата и время",
   "settings_time_zone": "Часовой пояс",
@@ -557,14 +579,32 @@
   "login_setup_copy_from": "Настройки {name}",
   "login_setup_copy_hint": "Копирует настройки выбранного аккаунта как есть (порядок майнинга кампаний Drops, исключения, список стримеров), кроме proxy.",
   "login_setup_finish": "Начать майнинг",
+  "login_setup_starting": "Запуск майнинга…",
   "login_setup_later": "Сохранить и запустить позже",
   "error_not_supported": "Недоступно в этой версии приложения.",
   "common_copy_named": "Копировать {name}",
   "bulk_accounts": "Аккаунты",
-  "bulk_applied": "Аккаунты обновлены: {count}",
+  "bulk_applying": "Применение…",
+  "bulk_applied_title": "Аккаунты обновлены",
   "bulk_apply": "Применить ({count})",
   "bulk_apply_others": "Применить к другим аккаунтам",
-  "bulk_changes": "Изменения в аккаунте {name}: {count}",
+  "bulk_changes": [
+    {
+      "declarations": [
+        "input count",
+        "input shown",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{shown} изменение",
+        "countPlural=few": "{shown} изменения",
+        "countPlural=*": "{shown} изменений"
+      }
+    }
+  ],
   "bulk_hint": "Изменения, сделанные в аккаунте {name} ({count}), повторяются в отмеченных аккаунтах. Остальные настройки каждого аккаунта не меняются.",
   "bulk_no_accounts": "Других аккаунтов нет.",
   "bulk_title": "Применить к другим аккаунтам",
@@ -647,6 +687,7 @@
   "updates_checking": "Проверка…",
   "updates_current": "У вас последняя версия.",
   "updates_available": "Доступна версия {version}.",
+  "updates_available_title": "Доступно обновление",
   "updates_available_locked": "Доступна версия {version}. Разблокируйте приложение, чтобы её установить.",
   "updates_badge": "Обновление {version}",
   "updates_pull_image": "Чтобы обновить, скачайте новый образ и перезапустите контейнер:",
@@ -665,6 +706,7 @@
   "updates_restarting": "Установка версии {version}. Приложение перезапустится само.",
   "updates_install_failed": "Не удалось установить обновление. Попробуйте позже.",
   "updates_failed_restarted": "Не удалось установить версию {version}: приложение перезапустилось на текущей версии.",
+  "updates_failed_restarted_title": "Ошибка обновления",
   "updates_download_failed": "Загрузка прервалась. Проверьте подключение и попробуйте снова.",
   "updates_interval": "Проверять обновления",
   "updates_interval_hint": "Приложение также проверяет при запуске. Оно никогда ничего не устанавливает само: новая версия предлагается здесь.",
@@ -680,7 +722,7 @@
         "countPlural"
       ],
       "match": {
-        "countPlural=one": "Каждую минуту",
+        "countPlural=one": "Каждые {count} минуту",
         "countPlural=few": "Каждые {count} минуты",
         "countPlural=*": "Каждые {count} минут"
       }
@@ -696,19 +738,22 @@
         "countPlural"
       ],
       "match": {
-        "countPlural=one": "Каждый час",
+        "countPlural=one": "Каждые {count} час",
         "countPlural=few": "Каждые {count} часа",
         "countPlural=*": "Каждые {count} часов"
       }
     }
   ],
+  "updates_interval_hour": "Каждый час",
   "accounts_stats_bets": "Ставки выиграно / проиграно: {won} / {lost}",
   "accounts_stats_bonuses": "Бонусные сундуки: {count}",
   "catalogue_fetched": "получено {time}, затем каждые {minutes} мин",
   "change_order_reset": "Автоматический порядок успешно восстановлен",
   "event_kind_goal_contributed": "Цель сообщества",
   "ev_goal_contributed": "Вклад {points} в «{goal}» на {channel}",
+  "ev_goal_contributed_short": "Вклад {points} в «{goal}»",
   "ev_streak_recovered": "Серия просмотров восстановлена на {channel}",
+  "ev_streak_recovered_short": "Серия просмотров восстановлена",
   "filter_by_odds": "Коэффициент выбора",
   "filter_by_odds_percentage": "Коэффициент выбора (%)",
   "filter_by_percentage_users": "Зрители за выбор (%)",
@@ -731,6 +776,7 @@
   "account_state_running_hint": "Аккаунт майнит по своим настройкам. Пауза останавливает всё: Drops, баллы канала и чат.",
   "account_state_paused_hint": "Аккаунт на паузе: ничего не смотрит и ничего не получает. Его настройки сохраняются.",
   "login_code": "код входа",
+  "login_getting_code": "Получение нового кода…",
   "catalogue_sort": "Сортировка",
   "catalogue_view": "Вид",
   "import_source": "Импорт из",
@@ -753,9 +799,12 @@
   "login_setup_drops_hint": "Какие кампании майнит этот аккаунт и забирает ли он награды сам.",
   "event_kind_chat_mention": "Упоминание",
   "ev_chat_mention": "Упоминание от {chatter} в чате {channel}",
+  "ev_chat_mention_short": "Упоминание от {chatter}",
   "notify_chat_mention": "Упоминание в чате",
   "campaign_prioritize": "Майнить в первую очередь",
+  "campaign_prioritizing": "Майнинг в первую очередь…",
   "campaign_ignore": "Игнорировать",
+  "campaign_ignoring": "Игнорирование…",
   "common_label": "{label}:",
   "nav_account_inventory": "Инвентарь",
   "inventory_hint": "Награды ваших кампаний Drops, прочитанные из вашего инвентаря Twitch. Получайте их здесь, когда автоматическое получение выключено.",
@@ -764,10 +813,13 @@
   "inventory_claim_all": "Получить все",
   "inventory_in_progress": "В процессе",
   "inventory_claimed": "Получено",
+  "inventory_claimed_title": "Получено наград",
   "inventory_empty_claimable": "Сейчас нечего получать.",
   "inventory_empty_progress": "Нет наград в процессе.",
+  "inventory_empty_waiting_link": "Нет наград, ожидающих привязки игрового аккаунта.",
   "inventory_empty_claimed": "Пока нет полученных наград.",
   "inventory_paused": "Аккаунт на паузе: его инвентарь Twitch читается, пока он работает.",
+  "inventory_tabs_label": "Разделы страницы «Инвентарь»",
   "inventory_claimed_all": "Получено наград: {count}",
   "reward_state_claimed": "Получено",
   "reward_state_ready": "Можно получить",
@@ -818,6 +870,7 @@
   "badge_hint_in_progress": "Twitch считает ваши минуты для этой кампании",
   "import_into": "Импортировать в",
   "confirm_remove": "Удалить",
+  "confirm_removing": "Удаление…",
   "confirm_remove_streamer_title": "Удалить этого стримера?",
   "confirm_remove_streamer_text": "Этот аккаунт больше не будет смотреть {name} ради баллов канала, а его настройки будут потеряны.",
   "confirm_remove_game_title": "Удалить эту приоритетную игру?",
@@ -858,6 +911,7 @@
   ],
   "login_link": "ссылку активации",
   "link_opened": "Открыто в браузере: {site}",
+  "link_opened_title": "Ссылка открыта",
   "secret_show": "Показать",
   "secret_hide": "Скрыть",
   "notify_kind": "Тип",
@@ -893,21 +947,7 @@
   "points_reason_subscribed_hint": "Смотрится первым: аккаунт подписан, и Twitch даёт здесь больше баллов",
   "points_reason_list_order_hint": "Смотрится в порядке списка стримеров",
   "points_streamer_defaults_hint": "Добавленный стример (вручную, импортом или при настройке) начинает с этими параметрами.",
-  "points_edit_selected": [
-    {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
-      "match": {
-        "countPlural=one": "Изменить {count} выбранного стримера",
-        "countPlural=*": "Изменить {count} выбранных стримеров"
-      }
-    }
-  ],
+  "points_edit_selected": "Изменить ({count})",
   "points_group_title": [
     {
       "declarations": [
@@ -960,7 +1000,9 @@
   ],
   "event_kind_points_spent": "Баллы потрачены",
   "ev_points_spent": "Баллы: −{points} на {channel}",
+  "ev_points_spent_short": "Баллы: −{points}",
   "ev_points_spent_balance": "Баллы потрачены на {channel} (баланс {balance})",
+  "ev_points_spent_balance_short": "Баллы потрачены (баланс {balance})",
   "ev_drop_progress_unknown": "Прогресс дропа: {current}/{required} мин",
   "journal_types": "Типы событий",
   "journal_types_all": "Все типы",
@@ -1045,6 +1087,7 @@
   "spam_in_history": "Уже в вашей истории",
   "spam_remove_history": "Убрать из истории",
   "spam_removed": "{channel} убран из истории",
+  "spam_removed_title": "Убрано из истории",
   "spam_pick_title": "Выберите канал",
   "spam_pick_text": "Здесь появятся его собственные награды и баланс этого аккаунта на канале.",
   "spam_balance": "Баланс баллов канала: {points}",
@@ -1096,12 +1139,14 @@
         "countExact"
       ],
       "match": {
-        "countExact=1": "Обменяно!",
-        "countExact=*": "Отправлено: {shown}!"
+        "countExact=1": "Обменяно наград: {shown}!",
+        "countExact=*": "Отправлено наград: {shown}!"
       }
     }
   ],
   "spam_sent_partial": "Отправлено {sent}/{count} — {reason}",
+  "spam_send_failed_title": "Ошибка отправки",
+  "spam_sent_title": "Баллы отправлены",
   "spam_sent_none": "Не удалось — {reason}",
   "spam_toast": "{count} × {reward} на канале {channel}: {result}",
   "spam_cancelled": [
@@ -1154,7 +1199,28 @@
       }
     }
   ],
+  "ev_rewards_redeemed_short": [
+    {
+      "declarations": [
+        "input sent",
+        "input shown",
+        "input count",
+        "input reward",
+        "input points",
+        "local sentPlural = sent: plural"
+      ],
+      "selectors": [
+        "sentPlural"
+      ],
+      "match": {
+        "sentPlural=one": "{count} × {reward} — отправлено {shown}, баллов: {points}",
+        "sentPlural=few": "{count} × {reward} — отправлено {shown}, баллов: {points}",
+        "sentPlural=*": "{count} × {reward} — отправлено {shown}, баллов: {points}"
+      }
+    }
+  ],
   "ev_rewards_redeemed_partial": "{count} × {reward} на канале {channel} — отправлено {sent}/{total}, баллов: {points}",
+  "ev_rewards_redeemed_partial_short": "{count} × {reward} — отправлено {sent}/{total}, баллов: {points}",
   "ev_rewards_refused": [
     {
       "declarations": [
@@ -1173,6 +1239,7 @@
     }
   ],
   "spam_result_lost": "Результат для «{reward}» не пришёл: в журнале видно, что было отправлено.",
+  "spam_result_unknown_title": "Результат неизвестен",
   "nav_badges": "Значки",
   "nav_account_badges": "Значки",
   "badges_title": "Значки",
@@ -1274,7 +1341,9 @@
   "badge_dialog_evolves_from": "Twitch засчитывает этот значок, только пока надет {badge}: майнер надевает его прямо перед майнингом и не возвращает прежний значок.",
   "badge_dialog_accounts": "Прогресс аккаунтов",
   "campaign_select": "Добавить в мой выбор",
+  "campaign_selecting": "Добавление…",
   "campaign_unselect": "Убрать из моего выбора",
+  "campaign_unselecting": "Удаление…",
   "campaign_selected": "Добавлено в ваш выбор",
   "campaign_unselected": "Убрано из вашего выбора",
   "change_selected": "Добавлено в выбор: {item}",

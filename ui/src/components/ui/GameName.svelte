@@ -38,9 +38,8 @@
       {url}
       text={name}
       mark={inSentence ? LinkMark.NONE : LinkMark.END}
-      look={inSentence ? LinkLook.SENTENCE : LinkLook.HOVER}
+      look={inSentence ? LinkLook.SENTENCE : LinkLook.ALWAYS}
       size={LinkSize.MD}
-      twin={false}
     />
   {:else}
     <span class="truncate">{name}</span>

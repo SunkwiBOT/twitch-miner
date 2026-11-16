@@ -244,16 +244,19 @@ impl RequestEntry {
 
 #[derive(Debug, Clone, Copy, Default)]
 pub struct RequestFilter<'a> {
-    pub account_id: Option<&'a str>,
+    pub account_ids: Option<&'a [String]>,
     pub kinds: Option<&'a [RequestKind]>,
     pub errors_only: bool,
 }
 
 impl RequestFilter<'_> {
     pub fn keeps(&self, entry: &RequestEntry) -> bool {
-        self.account_id
-            .is_none_or(|account| entry.account_id.as_deref() == Some(account))
-            && self.kinds.is_none_or(|kinds| kinds.contains(&entry.kind))
+        self.account_ids.is_none_or(|accounts| {
+            entry
+                .account_id
+                .as_deref()
+                .is_some_and(|account| accounts.iter().any(|id| id == account))
+        }) && self.kinds.is_none_or(|kinds| kinds.contains(&entry.kind))
             && (!self.errors_only || entry.failed())
     }
 }

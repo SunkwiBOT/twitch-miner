@@ -151,7 +151,10 @@ export const installUpdate = async (): Promise<void> => {
     console.warn("the update could not be installed", e);
     updates.stage = UpdateStage.IDLE;
     updates.confirming = false;
-    toast(ToastKind.ERROR, installFailure(toApiError(e).code), { key: UPDATE_TOAST_KEY });
+    toast(ToastKind.ERROR, t.updates_failed_restarted_title(), {
+      description: installFailure(toApiError(e).code),
+      key: UPDATE_TOAST_KEY,
+    });
   } finally {
     stopProgress?.();
   }
@@ -177,14 +180,16 @@ const offer = (found: UpdateInfoType): void => {
   offered = found.version;
 
   if (isVaultLocked()) {
-    toast(ToastKind.INFO, t.updates_available_locked({ version: found.version }), {
+    toast(ToastKind.INFO, t.updates_available_title(), {
+      description: t.updates_available_locked({ version: strong(found.version) }),
       key: UPDATE_TOAST_KEY,
     });
 
     return;
   }
 
-  toast(ToastKind.INFO, t.updates_available({ version: found.version }), {
+  toast(ToastKind.INFO, t.updates_available_title(), {
+    description: t.updates_available({ version: strong(found.version) }),
     key: UPDATE_TOAST_KEY,
     action: { label: installLabel(), run: askInstall },
   });
@@ -195,7 +200,9 @@ const sayFailedUpdate = async (): Promise<void> => {
     const failed = await takeFailedUpdate();
 
     if (failed) {
-      toast(ToastKind.ERROR, t.updates_failed_restarted({ version: strong(failed.version) }));
+      toast(ToastKind.ERROR, t.updates_failed_restarted_title(), {
+        description: t.updates_failed_restarted({ version: strong(failed.version) }),
+      });
     }
   } catch (e: any) {
     console.warn("the failed update was not read", e);

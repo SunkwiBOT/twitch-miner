@@ -68,7 +68,7 @@
     },
   ]}
   confirmLabel={t.confirm_remove()}
-  busyLabel={t.common_removing()}
+  busyLabel={t.confirm_removing()}
   busy={false}
   onconfirm={confirmRemove}
   oncancel={() => (removing = null)}

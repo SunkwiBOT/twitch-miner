@@ -95,7 +95,7 @@
           toast(ToastKind.SUCCESS, t.common_saved());
         }
       } catch (e: any) {
-        toast(ToastKind.ERROR, describeError(e));
+        toast(ToastKind.ERROR, t.action_failed(), { description: describeError(e) });
       }
     }
 

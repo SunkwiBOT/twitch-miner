@@ -57,7 +57,7 @@
       await signOut();
     } catch (e: any) {
       if (toApiError(e).code !== ErrorApiMessage.UNAUTHORIZED) {
-        toast(ToastKind.ERROR, describeError(e));
+        toast(ToastKind.ERROR, t.action_failed(), { description: describeError(e) });
         locking = false;
 
         return;

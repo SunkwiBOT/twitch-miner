@@ -17,6 +17,7 @@
   import { ticker } from "../../lib/state/ticker.svelte";
   import CampaignDialog from "../catalogue/CampaignDialog.svelte";
   import EmptyState from "../ui/EmptyState.svelte";
+  import ExternalLink from "../ui/ExternalLink.svelte";
   import Notice from "../ui/Notice.svelte";
   import PageBody from "../ui/PageBody.svelte";
   import Panel from "../ui/Panel.svelte";
@@ -27,6 +28,7 @@
   import { IconName } from "../../lib/icons.constants";
   import { NoticeTone, PanelWidth } from "../ui/ui.constants";
   import { ThumbShape, ThumbSize } from "../ui/picture.constants";
+  import { LinkLook, LinkMark, LinkSize } from "../ui/link.constants";
   import AccountSaveBar from "./AccountSaveBar.svelte";
   import BadgesExclusionsTab from "./badges/BadgesExclusionsTab.svelte";
   import BadgesOrderTab from "./badges/BadgesOrderTab.svelte";
@@ -154,17 +156,28 @@
         {:else}
           <ul class="grid grid-cols-[repeat(auto-fill,minmax(min(170px,100%),1fr))] gap-2.5">
             {#each ownedShown as badge (badge.key)}
-              <li class="flex min-w-0 items-center gap-2.5 rounded-lg border p-2">
-                <Thumb
-                  src={badge.image}
-                  round={false}
-                  contain={true}
-                  size={ThumbSize.MD}
-                  shape={ThumbShape.SQUARE}
-                  fallback={IconName.AWARD}
-                />
-                <span class="truncate text-xs font-semibold" title={badge.title}>{badge.title}</span
+              <li
+                class="flex min-w-0 items-center gap-2.5 rounded-lg border p-2"
+                title={badge.title}
+              >
+                <ExternalLink
+                  url={badge.url}
+                  text={badge.title}
+                  mark={LinkMark.END}
+                  look={LinkLook.ALWAYS}
+                  size={LinkSize.MD}
                 >
+                  {#snippet lead()}
+                    <Thumb
+                      src={badge.image}
+                      round={false}
+                      contain={true}
+                      size={ThumbSize.MD}
+                      shape={ThumbShape.SQUARE}
+                      fallback={IconName.AWARD}
+                    />
+                  {/snippet}
+                </ExternalLink>
               </li>
             {/each}
           </ul>

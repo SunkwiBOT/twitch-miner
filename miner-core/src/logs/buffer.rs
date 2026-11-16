@@ -13,17 +13,19 @@ struct Ring {
 
 #[derive(Debug, Clone, Copy, Default)]
 pub struct LogFilter<'a> {
-    pub account: Option<&'a str>,
+    pub accounts: Option<&'a [String]>,
     pub levels: Option<&'a [LogLevel]>,
 }
 
 impl LogFilter<'_> {
     fn keeps(&self, line: &LogLine) -> bool {
-        self.account
-            .is_none_or(|account| line.account.as_deref() == Some(account))
-            && self
-                .levels
-                .is_none_or(|levels| levels.contains(&line.level))
+        self.accounts.is_none_or(|accounts| {
+            line.account
+                .as_deref()
+                .is_some_and(|account| accounts.iter().any(|a| a == account))
+        }) && self
+            .levels
+            .is_none_or(|levels| levels.contains(&line.level))
     }
 }
 

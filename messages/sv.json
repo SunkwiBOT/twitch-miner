@@ -63,10 +63,14 @@
   "dashboard_linked": "Länkat",
   "dashboard_not_linked": "Inte länkat",
   "dashboard_updated": "Instrumentpanelen har uppdaterats till version {version}: ladda om sidan för att använda den.",
+  "dashboard_updated_title": "Instrumentpanelen uppdaterad",
   "dashboard_reload": "Ladda om",
   "dashboard_ends_in": "slutar {time}",
   "dashboard_remaining": "{minutes} min kvar",
   "accounts_add": "Lägg till konto",
+  "common_accounts_all": "Alla konton",
+  "common_accounts_count": "Konton: {count}",
+  "common_accounts_none": "Inget konto",
   "accounts_remove_title": "Ta bort det här kontot?",
   "accounts_remove_text": "Sessionen för {name} återkallas på Twitch och raderas här. Hämtade drops finns kvar i Twitch-förrådet.",
   "accounts_login_again": "Logga in igen",
@@ -126,7 +130,6 @@
   "campaigns_filter_in_progress": "Pågående",
   "campaigns_empty": "Ingen kampanj matchar.",
   "history_title": "Journal",
-  "history_filter_all": "Alla konton",
   "history_empty": "Inget än.",
   "history_load_failed": "Journalen kunde inte läsas.",
   "event_kind_info": "Info",
@@ -167,8 +170,11 @@
   "settings_webhook_auth": "Authorization-header (valfritt)",
   "settings_system_notifications": "Skrivbordsaviseringar",
   "settings_test_notifications": "Skicka ett test",
+  "settings_test_sending": "Skickar…",
   "settings_test_ok": "{target}: skickat",
+  "settings_test_ok_title": "Test skickat",
   "settings_test_failed": "{target}: {error}",
+  "settings_test_failed_title": "Testet misslyckades",
   "notify_drop_claimed": "Drop hämtad",
   "notify_drop_progress": "Drop-framsteg",
   "notify_bonus_claimed": "Bonuskista hämtad",
@@ -311,9 +317,9 @@
   "campaign_progress": "{current}/{required} min",
   "campaign_link_game": "Länka spelkontot",
   "campaign_open_twitch": "Öppna på Twitch",
+  "campaign_view_category": "Visa kategorin",
   "logs_title": "Tekniska loggar",
   "logs_subtitle": "Loggar från minern, utan token eller hemligheter. Säkert att klistra in i en buggrapport.",
-  "logs_filter_all": "Alla konton",
   "logs_copy": "Kopiera för buggrapport",
   "logs_copied": "Loggar kopierade",
   "logs_open_folder": "Öppna loggmappen",
@@ -328,6 +334,7 @@
   "settings_proxy_hint": "socks5://user:pass@host:port, socks5h://, http:// eller https://. Lämna tomt för direktanslutning.",
   "settings_proxy_test": "Testa",
   "settings_proxy_ok": "Proxy når Twitch ({ms} ms)",
+  "settings_proxy_ok_title": "Proxy OK",
   "settings_feedback": "Feedback",
   "settings_feedback_text": "Vid en bugg bifogar du loggarna från sidan Tekniska loggar: de innehåller inga hemligheter.",
   "feedback_discord_text": "Öppna en ticket eller chatta med communityn",
@@ -413,7 +420,9 @@
   "security_confirm": "Bekräfta",
   "security_rules": "Minst 4 tecken. Det kan inte återställas: om du tappar bort det får du lägga till kontona igen.",
   "security_enable": "Ange lösenordet",
+  "security_enabling": "Anger lösenordet…",
   "security_change": "Ändra lösenordet",
+  "security_changing": "Ändrar lösenordet…",
   "security_disable": "Ta bort lösenordet",
   "security_access_local": "Över vanlig HTTP: håll den här instrumentpanelen i ditt eget nätverk, eller placera den bakom en omvänd HTTPS-proxy med MINER_PUBLIC_URL.",
   "security_access_public": "Bakom en omvänd HTTPS-proxy, på {host}.",
@@ -429,21 +438,34 @@
   "streamer_predictions_stealth_hint": "Satsar aldrig mer än den nuvarande största spelaren.",
   "streamer_watch_streak_hint": "Räknas för förturen för tittarsviter: en ny livesändning, en svit som snart går ut eller en som kan återställas sätter den här streamern först.",
   "ev_watch_drop": "Tittar på {channel} för {campaign}",
+  "ev_watch_drop_short": "Tittar för {campaign}",
   "ev_watch_points_streak_bonus": "Tittar på {channel} för kanalpoäng (svitbonus)",
+  "ev_watch_points_streak_bonus_short": "Tittar för kanalpoäng (svitbonus)",
   "ev_watch_points_streak_at_risk": "Tittar på {channel} för kanalpoäng (svit i fara)",
+  "ev_watch_points_streak_at_risk_short": "Tittar för kanalpoäng (svit i fara)",
   "ev_watch_points_subscribed": "Tittar på {channel} för kanalpoäng (prenumererad)",
+  "ev_watch_points_subscribed_short": "Tittar för kanalpoäng (prenumererad)",
   "ev_watch_points_list_order": "Tittar på {channel} för kanalpoäng (listordning)",
+  "ev_watch_points_list_order_short": "Tittar för kanalpoäng (listordning)",
   "ev_watch_stopped": "Slutade titta på {channel}",
+  "ev_watch_stopped_short": "Slutade titta",
   "ev_drop_claimed": "{drop} hämtad · {campaign}",
   "ev_campaign_finished": "Kampanj klar: {campaign}",
   "ev_drop_progress": "{drop}: {current}/{required} min",
   "ev_bonus": "Bonuskista hämtad på {channel}",
+  "ev_bonus_short": "Bonuskista hämtad",
   "ev_points": "+{points} poäng på {channel}",
+  "ev_points_short": "+{points} poäng",
   "ev_online": "{channel} är live",
+  "ev_online_short": "Är live",
   "ev_offline": "{channel} gick offline",
+  "ev_offline_short": "Gick offline",
   "ev_raid": "Följde raiden från {channel}",
+  "ev_raid_short": "Följde raiden",
   "ev_moment": "Moment hämtat på {channel}",
+  "ev_moment_short": "Moment hämtat",
   "ev_bet_placed": "Satsade {points} poäng på ”{outcome}” ({channel})",
+  "ev_bet_placed_short": "Satsade {points} poäng på ”{outcome}”",
   "ev_bet_won": "Förutsägelse vunnen: +{points} poäng",
   "ev_bet_lost": "Förutsägelse förlorad: −{points} poäng",
   "ev_bet_refund": "Förutsägelse återbetald",
@@ -457,11 +479,12 @@
   "common_removing": "Tar bort…",
   "action_pausing": "Pausar…",
   "action_resuming": "Återupptar…",
+  "action_failed": "Åtgärden misslyckades",
   "lock_locking": "Låser…",
   "unlock_unlocking": "Låser upp…",
   "auth_signing_in": "Loggar in…",
   "close_closing": "Stänger…",
-  "login_starting": "Startar…",
+  "close_quitting": "Avslutar appen…",
   "campaign_claiming": "Hämtar…",
   "catalogue_view_timeline": "Kalender",
   "catalogue_view_cards": "Kort",
@@ -488,18 +511,16 @@
         "countPlural"
       ],
       "match": {
-        "countPlural=one": "Katalogen uppdaterad: {shown} kampanj",
-        "countPlural=*": "Katalogen uppdaterad: {shown} kampanjer"
+        "countPlural=one": "{shown} kampanj",
+        "countPlural=*": "{shown} kampanjer"
       }
     }
   ],
+  "catalogue_refreshed_title": "Katalogen uppdaterad",
   "catalogue_refresh_wait": "Tillgänglig om {time}",
   "campaign_prioritized": "Placerad överst i miningordningen",
   "campaign_ignored": "Kampanjen ignoreras",
   "campaign_unignored": "Kampanjen minas igen",
-  "accounts_all": "Alla konton",
-  "accounts_count": "{count} konton",
-  "accounts_none": "Inget konto",
   "reward_watch": "Titta {time}",
   "reward_watch_daily": "{time} per dag, {days} dagar",
   "reward_watch_every": "{time} var {hours}:e timme, {count} gånger",
@@ -527,6 +548,7 @@
   "ignored_hint": "Kampanjer och föremål som det här kontot aldrig minar.",
   "ignored_empty": "Inget ignoreras.",
   "ignored_restore": "Mina igen",
+  "ignored_restoring": "Minar igen…",
   "history_load_more": "Läs in äldre händelser",
   "settings_time": "Datum och tid",
   "settings_time_zone": "Tidszon",
@@ -553,14 +575,16 @@
   "login_setup_copy_from": "Inställningar från {name}",
   "login_setup_copy_hint": "Kopierar det valda kontots inställningar som de är (miningordningen för Drops-kampanjer, undantag, streamerlistan), utom proxyn.",
   "login_setup_finish": "Börja mina",
+  "login_setup_starting": "Börjar mina…",
   "login_setup_later": "Spara och starta senare",
   "error_not_supported": "Inte tillgängligt i den här versionen av appen.",
   "common_copy_named": "Kopiera {name}",
   "bulk_accounts": "Konton",
-  "bulk_applied": "Konton uppdaterade: {count}",
+  "bulk_applying": "Tillämpar…",
+  "bulk_applied_title": "Konton uppdaterade",
   "bulk_apply": "Tillämpa ({count})",
   "bulk_apply_others": "Tillämpa på andra konton",
-  "bulk_changes": "{count} ändringar på {name}",
+  "bulk_changes": "{shown} ändringar",
   "bulk_hint": "Ändringarna på {name} ({count}) görs om på de markerade kontona. Varje konto behåller resten av sina inställningar.",
   "bulk_no_accounts": "Inget annat konto.",
   "bulk_title": "Tillämpa på andra konton",
@@ -643,6 +667,7 @@
   "updates_checking": "Söker…",
   "updates_current": "Du har den senaste versionen.",
   "updates_available": "Version {version} är tillgänglig.",
+  "updates_available_title": "Uppdatering tillgänglig",
   "updates_available_locked": "Version {version} är tillgänglig. Lås upp appen för att installera den.",
   "updates_badge": "Uppdatering {version}",
   "updates_pull_image": "Uppdatera genom att hämta den nya avbildningen och sedan starta om containern:",
@@ -661,6 +686,7 @@
   "updates_restarting": "Installerar version {version}. Appen startar om av sig själv.",
   "updates_install_failed": "Uppdateringen kunde inte installeras. Försök igen senare.",
   "updates_failed_restarted": "Version {version} kunde inte installeras: appen startade om på sin nuvarande version.",
+  "updates_failed_restarted_title": "Uppdateringen misslyckades",
   "updates_download_failed": "Nedladdningen avbröts. Kontrollera anslutningen och försök igen.",
   "updates_interval": "Sök efter uppdateringar",
   "updates_interval_hint": "Appen söker också när den startar. Den installerar aldrig något själv: en ny version erbjuds här.",
@@ -696,6 +722,7 @@
       }
     }
   ],
+  "updates_interval_hour": "Varje timme",
   "accounts_stats_bets": "Vadslagningar vunna / förlorade: {won} / {lost}",
   "accounts_stats_bonuses": "Bonuskistor: {count}",
   "catalogue_fetched": "hämtad {time}, sedan med {minutes} min mellanrum",
@@ -719,7 +746,25 @@
       }
     }
   ],
+  "ev_goal_contributed_short": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input goal",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{points} poäng given till ”{goal}”",
+        "countPlural=*": "{points} poäng givna till ”{goal}”"
+      }
+    }
+  ],
   "ev_streak_recovered": "Tittarsvit återställd på {channel}",
+  "ev_streak_recovered_short": "Tittarsvit återställd",
   "filter_by_odds": "Odds för valet",
   "filter_by_odds_percentage": "Odds för valet (%)",
   "filter_by_percentage_users": "Tittare på valet (%)",
@@ -742,6 +787,7 @@
   "account_state_running_hint": "Kontot minar med sina inställningar. Paus stoppar allt: Drops, kanalpoäng och chatt.",
   "account_state_paused_hint": "Kontot är pausat: det tittar inte på något och tjänar ingenting. Dess inställningar behålls.",
   "login_code": "inloggningskod",
+  "login_getting_code": "Hämtar en ny kod…",
   "catalogue_sort": "Sortering",
   "catalogue_view": "Visning",
   "import_source": "Importera från",
@@ -764,9 +810,12 @@
   "login_setup_drops_hint": "Vilka kampanjer det här kontot minar och om det hämtar belöningarna självt.",
   "event_kind_chat_mention": "Omnämnande",
   "ev_chat_mention": "{chatter} nämnde dig i chatten hos {channel}",
+  "ev_chat_mention_short": "{chatter} nämnde dig",
   "notify_chat_mention": "Omnämnande i en chatt",
   "campaign_prioritize": "Mina först",
+  "campaign_prioritizing": "Minar först…",
   "campaign_ignore": "Ignorera",
+  "campaign_ignoring": "Ignorerar…",
   "common_label": "{label}:",
   "nav_account_inventory": "Inventarie",
   "inventory_hint": "Belöningarna från dina Drops-kampanjer, lästa från ditt Twitch-inventarie. Hämta dem här när automatisk hämtning är avstängd.",
@@ -775,10 +824,13 @@
   "inventory_claim_all": "Hämta alla",
   "inventory_in_progress": "Pågår",
   "inventory_claimed": "Hämtade",
+  "inventory_claimed_title": "Belöningar hämtade",
   "inventory_empty_claimable": "Inget att hämta just nu.",
   "inventory_empty_progress": "Ingen belöning pågår.",
+  "inventory_empty_waiting_link": "Ingen belöning väntar på spelkontots koppling.",
   "inventory_empty_claimed": "Ingen belöning hämtad än.",
   "inventory_paused": "Kontot är pausat: dess Twitch-inventarie läses medan det körs.",
+  "inventory_tabs_label": "Delar av sidan Inventarie",
   "inventory_claimed_all": "Belöningar hämtade: {count}",
   "reward_state_claimed": "Hämtad",
   "reward_state_ready": "Att hämta",
@@ -829,6 +881,7 @@
   "badge_hint_in_progress": "Twitch räknar dina minuter för den här kampanjen",
   "import_into": "Importera till",
   "confirm_remove": "Ta bort",
+  "confirm_removing": "Tar bort…",
   "confirm_remove_streamer_title": "Ta bort den här streamern?",
   "confirm_remove_streamer_text": "Det här kontot tittar inte längre på {name} för kanalpoäng, och inställningarna försvinner.",
   "confirm_remove_game_title": "Ta bort det här prioriterade spelet?",
@@ -868,6 +921,7 @@
   ],
   "login_link": "aktiveringslänken",
   "link_opened": "{site} öppnades i webbläsaren",
+  "link_opened_title": "Länk öppnad",
   "secret_show": "Visa",
   "secret_hide": "Dölj",
   "notify_kind": "Typ",
@@ -903,21 +957,7 @@
   "points_reason_subscribed_hint": "Ses först: kontot prenumererar och Twitch ger fler poäng här",
   "points_reason_list_order_hint": "Ses i streamerlistans ordning",
   "points_streamer_defaults_hint": "En tillagd streamer (manuellt, via import eller under konfigurationen) börjar med de här alternativen.",
-  "points_edit_selected": [
-    {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
-      "match": {
-        "countPlural=one": "Redigera {count} vald streamer",
-        "countPlural=*": "Redigera {count} valda streamers"
-      }
-    }
-  ],
+  "points_edit_selected": "Redigera ({count})",
   "points_group_title": [
     {
       "declarations": [
@@ -969,7 +1009,9 @@
   ],
   "event_kind_points_spent": "Poäng spenderade",
   "ev_points_spent": "−{points} poäng på {channel}",
+  "ev_points_spent_short": "−{points} poäng",
   "ev_points_spent_balance": "Poäng spenderade på {channel} (saldo {balance})",
+  "ev_points_spent_balance_short": "Poäng spenderade (saldo {balance})",
   "ev_drop_progress_unknown": "Drop-framsteg: {current}/{required} min",
   "journal_types": "Händelsetyper",
   "journal_types_all": "Alla typer",
@@ -1053,6 +1095,7 @@
   "spam_in_history": "Redan i din historik",
   "spam_remove_history": "Ta bort från historiken",
   "spam_removed": "{channel} togs bort från historiken",
+  "spam_removed_title": "Borttagen från historiken",
   "spam_pick_title": "Välj en kanal",
   "spam_pick_text": "Här visas kanalens egna belöningar, med kontots saldo på kanalen.",
   "spam_balance": "Saldo av kanalpoäng: {points}",
@@ -1110,6 +1153,8 @@
     }
   ],
   "spam_sent_partial": "{sent}/{count} skickade — {reason}",
+  "spam_send_failed_title": "Det gick inte att skicka",
+  "spam_sent_title": "Poäng skickade",
   "spam_sent_none": "Misslyckades — {reason}",
   "spam_toast": "{count} × {reward} på {channel}: {result}",
   "spam_cancelled": [
@@ -1160,7 +1205,27 @@
       }
     }
   ],
+  "ev_rewards_redeemed_short": [
+    {
+      "declarations": [
+        "input sent",
+        "input shown",
+        "input count",
+        "input reward",
+        "input points",
+        "local sentPlural = sent: plural"
+      ],
+      "selectors": [
+        "sentPlural"
+      ],
+      "match": {
+        "sentPlural=one": "{count} × {reward} — {shown} skickad, {points} poäng",
+        "sentPlural=*": "{count} × {reward} — {shown} skickade, {points} poäng"
+      }
+    }
+  ],
   "ev_rewards_redeemed_partial": "{count} × {reward} på {channel} — {sent}/{total} skickade, {points} poäng",
+  "ev_rewards_redeemed_partial_short": "{count} × {reward} — {sent}/{total} skickade, {points} poäng",
   "ev_rewards_refused": [
     {
       "declarations": [
@@ -1178,6 +1243,7 @@
     }
   ],
   "spam_result_lost": "Inget resultat kom tillbaka för {reward}: Journalen visar vad som skickades.",
+  "spam_result_unknown_title": "Okänt resultat",
   "nav_badges": "Märken",
   "nav_account_badges": "Märken",
   "badges_title": "Märken",
@@ -1277,7 +1343,9 @@
   "badge_dialog_evolves_from": "Twitch räknar bara det här märket medan {badge} är påsatt: minern sätter på det strax innan mining och sätter inte tillbaka det gamla märket.",
   "badge_dialog_accounts": "Kontonas framsteg",
   "campaign_select": "Lägg till i mitt urval",
+  "campaign_selecting": "Lägger till…",
   "campaign_unselect": "Ta bort från mitt urval",
+  "campaign_unselecting": "Tar bort…",
   "campaign_selected": "Tillagd i ditt urval",
   "campaign_unselected": "Borttagen från ditt urval",
   "change_selected": "Tillagt i urvalet: {item}",

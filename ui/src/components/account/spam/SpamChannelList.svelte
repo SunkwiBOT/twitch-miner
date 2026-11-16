@@ -84,7 +84,7 @@
   });
 </script>
 
-<Panel title={t.spam_channels()} count={entries.length}>
+<Panel title={t.spam_channels()} count={entries.length} class="h-full min-h-0">
   <SearchField
     id={searchId}
     placeholder={t.spam_search_placeholder()}
@@ -101,7 +101,10 @@
 
   {#if searching}
     {#if found.length > 0}
-      <div class="flex flex-col overflow-hidden rounded-lg border" role="list">
+      <div
+        class="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain rounded-lg border"
+        role="list"
+      >
         {#each found as c (c.login)}
           {@const known = entries.find((entry) => entry.login === c.login)}
           <div class={cn(SPAM_ROW_CLASS, "hover:bg-accent")} role="listitem">
@@ -144,7 +147,7 @@
   {:else}
     <div
       bind:this={list}
-      class="flex max-h-[min(26rem,55dvh)] flex-col overflow-y-auto overscroll-contain rounded-lg border"
+      class="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain rounded-lg border"
       role="list"
     >
       {#each entries as e, index (e.login)}

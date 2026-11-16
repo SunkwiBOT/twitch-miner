@@ -26,12 +26,13 @@
     testingProxy = true;
 
     try {
-      toast(
-        ToastKind.SUCCESS,
-        t.settings_proxy_ok({ ms: strong(await testProxy(draft.default_proxy.trim())) }),
-      );
+      toast(ToastKind.SUCCESS, t.settings_proxy_ok_title(), {
+        description: t.settings_proxy_ok({
+          ms: strong(await testProxy(draft.default_proxy.trim())),
+        }),
+      });
     } catch (e: any) {
-      toast(ToastKind.ERROR, describeError(e));
+      toast(ToastKind.ERROR, t.action_failed(), { description: describeError(e) });
     } finally {
       testingProxy = false;
     }

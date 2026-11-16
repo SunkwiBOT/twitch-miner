@@ -71,7 +71,6 @@
         mark={LinkMark.NONE}
         look={LinkLook.SENTENCE}
         size={LinkSize.MD}
-        twin={false}
       /></span
     >{:else if part.person}<span class="inline-flex items-center gap-1 align-[-0.3em]"
       ><Avatar url={part.person.avatar} name={part.person.name} size={AvatarSize.XS} /><strong
@@ -83,7 +82,6 @@
       mark={LinkMark.NONE}
       look={LinkLook.SENTENCE}
       size={LinkSize.MD}
-      twin={false}
     />{:else if part.strong}<strong
       class="font-semibold in-[.text-muted-foreground]:text-foreground">{part.text}</strong
     >{:else}{part.text}{/if}{/each}

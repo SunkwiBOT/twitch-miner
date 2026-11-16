@@ -118,7 +118,7 @@
     <ActionButton
       icon={IconName.REFRESH}
       label={t.login_restart()}
-      busyLabel={t.login_starting()}
+      busyLabel={t.login_getting_code()}
       busy={starting}
       disabled={false}
       variant={ButtonVariant.PRIMARY}

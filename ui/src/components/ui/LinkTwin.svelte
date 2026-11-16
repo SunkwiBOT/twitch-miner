@@ -9,13 +9,12 @@
   let { url, live, children }: LinkTwinPropsType = $props();
 </script>
 
-<!-- ! The name's own link is the one tabbed to and read: this one only widens the target and lights the name. -->
+<!-- ! The name's own link is the one tabbed to and read: this one only widens the picture into the same target. -->
 <a
   class="inline-flex shrink-0"
   href={url}
   rel="noreferrer"
   tabindex="-1"
   aria-hidden="true"
-  data-link-twin
   onclick={(event) => followLink(event, url)}>{@render children()}</a
 >{#if live}<span class="sr-only">{t.common_live()}</span>{/if}

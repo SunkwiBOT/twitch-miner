@@ -1,6 +1,8 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import { fetchLogs, fetchLogsReport, openLogsDirectory } from "../../lib/api/client";
   import { isTauri } from "../../lib/api/tauri";
+  import { queryAccountIds, visibleAccountIds } from "../../lib/accounts/account-filter.utils";
   import type { LogLevel } from "../../lib/bindings/LogLevel";
   import type { LogLineType } from "../../lib/bindings/LogLineType";
   import type { LogsQueryType } from "../../lib/bindings/LogsQueryType";
@@ -15,10 +17,10 @@
   import TextButton from "../ui/TextButton.svelte";
   import { Card } from "$lib/components/ui/card";
   import { cn } from "$lib/utils";
+  import AccountFilter from "../ui/AccountFilter.svelte";
   import Avatar from "../ui/Avatar.svelte";
   import MultiSelect from "../ui/MultiSelect.svelte";
   import PageHeader from "../ui/PageHeader.svelte";
-  import Select from "../ui/Select.svelte";
   import { AvatarSize } from "../ui/picture.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import { IconName } from "../../lib/icons.constants";
@@ -34,7 +36,7 @@
     LOGS_PAGE_SIZE,
     LOGS_REFRESH_MS,
   } from "./logs.constants";
-  import { accountOptions, LOG_LEVEL_LABELS } from "./logs.utils";
+  import { LOG_LEVEL_LABELS } from "./logs.utils";
 
   type LogLinesPropsType = { snapshot: SnapshotType };
 
@@ -43,15 +45,19 @@
   const accountOfLogin = (login: string) =>
     app.snapshot?.accounts.find((a) => a.login === login.toLowerCase());
 
-  let filter = $state(app.logsAccount ?? "");
+  let hiddenAccounts = $state<string[]>(
+    app.logsAccount
+      ? untrack(() => snapshot.accounts.map((a) => a.id).filter((id) => id !== app.logsAccount))
+      : [],
+  );
   app.logsAccount = null;
 
   let levels = $state<LogLevel[]>([...LOG_LEVELS_KEPT]);
 
-  const options = $derived(accountOptions(snapshot.accounts));
+  const accountIds = $derived(visibleAccountIds(snapshot.accounts, hiddenAccounts));
 
   const filters = (): LogsQueryType => ({
-    account_id: filter || undefined,
+    account_ids: queryAccountIds(accountIds, snapshot.accounts.length),
     levels: levels.length === LOG_LEVELS_KEPT.length ? undefined : levels,
   });
 
@@ -80,7 +86,7 @@
     try {
       await openLogsDirectory();
     } catch (e: any) {
-      toast(ToastKind.ERROR, describeError(e));
+      toast(ToastKind.ERROR, t.action_failed(), { description: describeError(e) });
     }
   };
 </script>
@@ -101,15 +107,11 @@
       {/if}
     </LogsActions>
   {/snippet}
-  <div class="w-56">
-    <Select
-      value={filter}
-      {options}
-      label={t.common_account()}
-      align={MenuAlign.LEFT}
-      onchange={(next) => (filter = next)}
-    />
-  </div>
+  <AccountFilter
+    accounts={snapshot.accounts}
+    hidden={hiddenAccounts}
+    onchange={(next) => (hiddenAccounts = next)}
+  />
   <div class="w-56">
     <MultiSelect
       values={levels}

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { t } from "../../lib/i18n/i18n.svelte";
   import { IconName } from "../../lib/icons.constants";
+  import { accountOptions } from "../../lib/accounts/account-filter.utils";
   import {
     prioritizeCampaign,
     setCampaignIgnored,
@@ -12,6 +13,7 @@
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import { MenuAlign } from "../ui/menu.constants";
   import { CampaignAction } from "./catalogue.constants";
+  import { busyLabel } from "./catalogue.utils";
 
   type CampaignActionsPropsType = {
     campaignId: string;
@@ -52,11 +54,11 @@
 <div class="w-full sm:mr-auto sm:w-56">
   <MultiSelect
     values={selected}
-    options={accounts.map((a) => ({ value: a.id, label: a.display_name, image: a.avatar_url }))}
+    options={accountOptions(accounts)}
     label={t.common_account()}
-    allLabel={t.accounts_all()}
-    noneLabel={t.accounts_none()}
-    countLabel={(count) => t.accounts_count({ count })}
+    allLabel={t.common_accounts_all()}
+    noneLabel={t.common_accounts_none()}
+    countLabel={(count) => t.common_accounts_count({ count })}
     align={MenuAlign.LEFT}
     onchange={onselect}
   />
@@ -64,32 +66,36 @@
 <ActionButton
   icon={allIgnore ? IconName.EYE : IconName.EYE_OFF}
   label={allIgnore ? t.ignored_restore() : t.campaign_ignore()}
-  busyLabel={t.common_saving()}
-  busy={busy === CampaignAction.IGNORE}
+  busyLabel={busy ? busyLabel(busy) : ""}
+  busy={busy === CampaignAction.IGNORE || busy === CampaignAction.RESTORE}
   disabled={busy !== null || selected.length === 0}
   variant={ButtonVariant.DEFAULT}
   size={ButtonSize.MD}
   type={ButtonType.BUTTON}
   onclick={() =>
-    act(CampaignAction.IGNORE, () => setCampaignIgnored(selected, campaignId, !allIgnore))}
+    act(allIgnore ? CampaignAction.RESTORE : CampaignAction.IGNORE, () =>
+      setCampaignIgnored(selected, campaignId, !allIgnore),
+    )}
 />
 {#if minable}
   <ActionButton
     icon={allSelected ? IconName.STAR_FILLED : IconName.STAR}
     label={allSelected ? t.campaign_unselect() : t.campaign_select()}
-    busyLabel={t.common_saving()}
-    busy={busy === CampaignAction.SELECT}
+    busyLabel={busy ? busyLabel(busy) : ""}
+    busy={busy === CampaignAction.SELECT || busy === CampaignAction.UNSELECT}
     disabled={busy !== null || selected.length === 0}
     variant={ButtonVariant.DEFAULT}
     size={ButtonSize.MD}
     type={ButtonType.BUTTON}
     onclick={() =>
-      act(CampaignAction.SELECT, () => setCampaignSelected(selected, campaignId, !allSelected))}
+      act(allSelected ? CampaignAction.UNSELECT : CampaignAction.SELECT, () =>
+        setCampaignSelected(selected, campaignId, !allSelected),
+      )}
   />
   <ActionButton
     icon={IconName.ARROW_UP}
     label={t.campaign_prioritize()}
-    busyLabel={t.common_saving()}
+    busyLabel={busy ? busyLabel(busy) : ""}
     busy={busy === CampaignAction.FIRST}
     disabled={busy !== null || selected.length === 0}
     variant={ButtonVariant.PRIMARY}

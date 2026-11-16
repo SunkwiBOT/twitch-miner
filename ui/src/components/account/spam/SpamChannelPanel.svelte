@@ -107,11 +107,11 @@
   );
 
   // ! The toast follows the user anywhere but over a lock screen: it names the account.
-  const report = (kind: ToastKind, text: string): void => {
+  const report = (kind: ToastKind, title: string, text: string): void => {
     if (!isLocked()) {
-      toast(kind, text, {
-        image: accountImage(account.id, account.login),
-        title: account.display_name,
+      toast(kind, title, {
+        description: text,
+        account: accountImage(account.id, account.login),
       });
     }
   };
@@ -135,6 +135,7 @@
         sent = burst.sent;
         report(
           burst.sent === count ? ToastKind.SUCCESS : ToastKind.ERROR,
+          burst.sent === count ? t.spam_sent_title() : t.spam_send_failed_title(),
           t.spam_toast({
             count: number(count),
             reward: strong(reward.title),
@@ -143,11 +144,15 @@
           }),
         );
       } else {
-        report(ToastKind.INFO, t.spam_result_lost({ reward: strong(reward.title) }));
+        report(
+          ToastKind.INFO,
+          t.spam_result_unknown_title(),
+          t.spam_result_lost({ reward: strong(reward.title) }),
+        );
       }
     } catch (e: any) {
       if (!sessionEndedBy(e)) {
-        report(ToastKind.ERROR, describeError(e));
+        report(ToastKind.ERROR, t.spam_send_failed_title(), describeError(e));
       }
     }
 
@@ -198,7 +203,7 @@
 <Card class="gap-0 overflow-visible py-0">
   <!-- ! -top-6 / max-md:-top-3 undo PageBody's padding: stuck, the header sits on the very top edge. -->
   <header
-    class="group/twin sticky -top-6 z-10 isolate flex flex-wrap items-center gap-x-4 gap-y-3 overflow-hidden rounded-t-xl border-b bg-card px-5 py-4 max-md:-top-3 max-md:px-3.5"
+    class="sticky -top-6 z-10 isolate flex flex-wrap items-center gap-x-4 gap-y-3 overflow-hidden rounded-t-xl border-b bg-card px-5 py-4 max-md:-top-3 max-md:px-3.5"
   >
     {#if knownBanners[channel.login]}
       <span
@@ -221,9 +226,8 @@
           url={channelUrl(channel.login)}
           text={channel.name}
           mark={LinkMark.END}
-          look={LinkLook.HOVER}
+          look={LinkLook.ALWAYS}
           size={LinkSize.LG}
-          twin={true}
         />
       </h2>
       <span class="flex min-w-0 flex-wrap items-center gap-x-2 text-xs text-muted-foreground">

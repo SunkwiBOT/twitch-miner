@@ -64,10 +64,14 @@
   "dashboard_linked": "Conectat",
   "dashboard_not_linked": "Neconectat",
   "dashboard_updated": "Panoul a fost actualizat la versiunea {version}: reîncarcă pagina pentru a o folosi.",
+  "dashboard_updated_title": "Panou actualizat",
   "dashboard_reload": "Reîncarcă",
   "dashboard_ends_in": "se încheie {time}",
   "dashboard_remaining": "{minutes} min rămase",
   "accounts_add": "Adaugă un cont",
+  "common_accounts_all": "Toate conturile",
+  "common_accounts_count": "Conturi: {count}",
+  "common_accounts_none": "Niciun cont",
   "accounts_remove_title": "Elimini acest cont?",
   "accounts_remove_text": "Sesiunea {name} este revocată pe Twitch și ștearsă aici. Drop-urile revendicate rămân în inventarul Twitch.",
   "accounts_login_again": "Autentifică-te din nou",
@@ -127,7 +131,6 @@
   "campaigns_filter_in_progress": "În curs",
   "campaigns_empty": "Nicio campanie nu se potrivește.",
   "history_title": "Jurnal",
-  "history_filter_all": "Toate conturile",
   "history_empty": "Nimic încă.",
   "history_load_failed": "Jurnalul nu a putut fi citit.",
   "event_kind_info": "Info",
@@ -168,8 +171,11 @@
   "settings_webhook_auth": "Antet Authorization (opțional)",
   "settings_system_notifications": "Notificări desktop",
   "settings_test_notifications": "Trimite un test",
+  "settings_test_sending": "Se trimite…",
   "settings_test_ok": "{target}: trimis",
+  "settings_test_ok_title": "Test trimis",
   "settings_test_failed": "{target}: {error}",
+  "settings_test_failed_title": "Test eșuat",
   "notify_drop_claimed": "Drop revendicat",
   "notify_drop_progress": "Progres drop",
   "notify_bonus_claimed": "Cufăr bonus revendicat",
@@ -314,9 +320,9 @@
   "campaign_progress": "{current}/{required} min",
   "campaign_link_game": "Conectează contul de joc",
   "campaign_open_twitch": "Deschide pe Twitch",
+  "campaign_view_category": "Vezi categoria",
   "logs_title": "Loguri tehnice",
   "logs_subtitle": "Logurile minerului, fără niciun token sau secret. Sigur de lipit într-un raport de eroare.",
-  "logs_filter_all": "Toate conturile",
   "logs_copy": "Copiază pentru un raport de eroare",
   "logs_copied": "Loguri copiate",
   "logs_open_folder": "Deschide dosarul de loguri",
@@ -331,6 +337,7 @@
   "settings_proxy_hint": "socks5://user:pass@host:port, socks5h://, http:// sau https://. Lasă gol pentru conexiune directă.",
   "settings_proxy_test": "Testează",
   "settings_proxy_ok": "Proxy-ul ajunge la Twitch ({ms} ms)",
+  "settings_proxy_ok_title": "Proxy OK",
   "settings_feedback": "Feedback",
   "settings_feedback_text": "Pentru o eroare, atașează logurile din pagina Loguri tehnice: nu conțin niciun secret.",
   "feedback_discord_text": "Deschide un tichet sau discută cu comunitatea",
@@ -416,7 +423,9 @@
   "security_confirm": "Confirmare",
   "security_rules": "Cel puțin 4 caractere. Nu poate fi recuperată: dacă o pierzi, adaugă din nou conturile.",
   "security_enable": "Setează parola",
+  "security_enabling": "Se setează parola…",
   "security_change": "Schimbă parola",
+  "security_changing": "Se schimbă parola…",
   "security_disable": "Elimină parola",
   "security_access_local": "Prin HTTP simplu: păstrează acest panou în rețeaua ta sau pune-l în spatele unui reverse proxy HTTPS cu MINER_PUBLIC_URL.",
   "security_access_public": "În spatele unui reverse proxy HTTPS, la {host}.",
@@ -432,15 +441,22 @@
   "streamer_predictions_stealth_hint": "Nu pariază niciodată mai mult decât cel mai mare pariu actual.",
   "streamer_watch_streak_hint": "Contează pentru prioritatea seriilor de vizionare: un live nou, o serie pe cale să expire sau una de recuperat pune acest streamer primul.",
   "ev_watch_drop": "Urmărește {channel} pentru {campaign}",
+  "ev_watch_drop_short": "Urmărește pentru {campaign}",
   "ev_watch_points_streak_bonus": "Urmărește {channel} pentru puncte de canal (bonus de serie)",
+  "ev_watch_points_streak_bonus_short": "Urmărește pentru puncte de canal (bonus de serie)",
   "ev_watch_points_streak_at_risk": "Urmărește {channel} pentru puncte de canal (serie în pericol)",
+  "ev_watch_points_streak_at_risk_short": "Urmărește pentru puncte de canal (serie în pericol)",
   "ev_watch_points_subscribed": "Urmărește {channel} pentru puncte de canal (abonat)",
+  "ev_watch_points_subscribed_short": "Urmărește pentru puncte de canal (abonat)",
   "ev_watch_points_list_order": "Urmărește {channel} pentru puncte de canal (ordinea listei)",
+  "ev_watch_points_list_order_short": "Urmărește pentru puncte de canal (ordinea listei)",
   "ev_watch_stopped": "Nu mai urmărește {channel}",
+  "ev_watch_stopped_short": "Nu mai urmărește",
   "ev_drop_claimed": "{drop} revendicat · {campaign}",
   "ev_campaign_finished": "Campanie terminată: {campaign}",
   "ev_drop_progress": "{drop}: {current}/{required} min",
   "ev_bonus": "Cufăr bonus revendicat pe {channel}",
+  "ev_bonus_short": "Cufăr bonus revendicat",
   "ev_points": [
     {
       "declarations": [
@@ -459,10 +475,31 @@
       }
     }
   ],
+  "ev_points_short": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "+{points} punct",
+        "countPlural=few": "+{points} puncte",
+        "countPlural=*": "+{points} de puncte"
+      }
+    }
+  ],
   "ev_online": "{channel} e live",
+  "ev_online_short": "E live",
   "ev_offline": "{channel} a ieșit offline",
+  "ev_offline_short": "A ieșit offline",
   "ev_raid": "Raid urmat de la {channel}",
+  "ev_raid_short": "Raid urmat",
   "ev_moment": "Moment revendicat pe {channel}",
+  "ev_moment_short": "Moment revendicat",
   "ev_bet_placed": [
     {
       "declarations": [
@@ -479,6 +516,24 @@
         "countPlural=one": "Pariu de {points} punct pe „{outcome}” ({channel})",
         "countPlural=few": "Pariu de {points} puncte pe „{outcome}” ({channel})",
         "countPlural=*": "Pariu de {points} de puncte pe „{outcome}” ({channel})"
+      }
+    }
+  ],
+  "ev_bet_placed_short": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input outcome",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Pariu de {points} punct pe „{outcome}”",
+        "countPlural=few": "Pariu de {points} puncte pe „{outcome}”",
+        "countPlural=*": "Pariu de {points} de puncte pe „{outcome}”"
       }
     }
   ],
@@ -527,11 +582,12 @@
   "common_removing": "Se elimină…",
   "action_pausing": "Se pune pe pauză…",
   "action_resuming": "Se reia…",
+  "action_failed": "Acțiune eșuată",
   "lock_locking": "Se blochează…",
   "unlock_unlocking": "Se deblochează…",
   "auth_signing_in": "Se autentifică…",
   "close_closing": "Se închide…",
-  "login_starting": "Se pornește…",
+  "close_quitting": "Se închide aplicația…",
   "campaign_claiming": "Se revendică…",
   "catalogue_view_timeline": "Calendar",
   "catalogue_view_cards": "Carduri",
@@ -558,19 +614,17 @@
         "countPlural"
       ],
       "match": {
-        "countPlural=one": "Catalog reîmprospătat: {shown} campanie",
-        "countPlural=few": "Catalog reîmprospătat: {shown} campanii",
-        "countPlural=*": "Catalog reîmprospătat: {shown} de campanii"
+        "countPlural=one": "{shown} campanie",
+        "countPlural=few": "{shown} campanii",
+        "countPlural=*": "{shown} de campanii"
       }
     }
   ],
+  "catalogue_refreshed_title": "Catalog reîmprospătat",
   "catalogue_refresh_wait": "Disponibil în {time}",
   "campaign_prioritized": "Plasată în fruntea ordinii de minare",
   "campaign_ignored": "Campanie ignorată",
   "campaign_unignored": "Campania este minată din nou",
-  "accounts_all": "Toate conturile",
-  "accounts_count": "{count} conturi",
-  "accounts_none": "Niciun cont",
   "reward_watch": "Urmărește {time}",
   "reward_watch_daily": "{time} pe zi, {days} zile",
   "reward_watch_every": "{time} la fiecare {hours} h, de {count} ori",
@@ -598,6 +652,7 @@
   "ignored_hint": "Campanii și obiecte pe care acest cont nu le minează niciodată.",
   "ignored_empty": "Nimic nu este ignorat.",
   "ignored_restore": "Minează din nou",
+  "ignored_restoring": "Se minează din nou…",
   "history_load_more": "Încarcă evenimente mai vechi",
   "settings_time": "Data și ora",
   "settings_time_zone": "Fus orar",
@@ -624,14 +679,16 @@
   "login_setup_copy_from": "Setările lui {name}",
   "login_setup_copy_hint": "Copiază întocmai setările contului ales (ordinea de minare a campaniilor Drops, excluderile, lista de streameri), fără proxy.",
   "login_setup_finish": "Începe minarea",
+  "login_setup_starting": "Se începe minarea…",
   "login_setup_later": "Salvează și pornește mai târziu",
   "error_not_supported": "Indisponibil în această versiune a aplicației.",
   "common_copy_named": "Copiază {name}",
   "bulk_accounts": "Conturi",
-  "bulk_applied": "Conturi actualizate: {count}",
+  "bulk_applying": "Se aplică…",
+  "bulk_applied_title": "Conturi actualizate",
   "bulk_apply": "Aplică ({count})",
   "bulk_apply_others": "Aplică la alte conturi",
-  "bulk_changes": "Modificări pe {name}: {count}",
+  "bulk_changes": "{shown} modificări",
   "bulk_hint": "Modificările făcute pe {name} ({count}) sunt refăcute pe conturile bifate. Fiecare cont își păstrează restul setărilor.",
   "bulk_no_accounts": "Niciun alt cont.",
   "bulk_title": "Aplică la alte conturi",
@@ -714,6 +771,7 @@
   "updates_checking": "Se caută…",
   "updates_current": "Ai cea mai nouă versiune.",
   "updates_available": "Versiunea {version} este disponibilă.",
+  "updates_available_title": "Actualizare disponibilă",
   "updates_available_locked": "Versiunea {version} este disponibilă. Deblochează aplicația ca s-o instalezi.",
   "updates_badge": "Actualizare {version}",
   "updates_pull_image": "Pentru actualizare, descarcă noua imagine, apoi repornește containerul:",
@@ -732,6 +790,7 @@
   "updates_restarting": "Se instalează versiunea {version}. Aplicația repornește singură.",
   "updates_install_failed": "Actualizarea nu a putut fi instalată. Încearcă din nou mai târziu.",
   "updates_failed_restarted": "Versiunea {version} nu a putut fi instalată: aplicația a repornit cu versiunea actuală.",
+  "updates_failed_restarted_title": "Actualizare eșuată",
   "updates_download_failed": "Descărcarea s-a întrerupt. Verifică-ți conexiunea și încearcă din nou.",
   "updates_interval": "Caută actualizări",
   "updates_interval_hint": "Aplicația verifică și la pornire. Nu instalează niciodată singură: o versiune nouă este propusă aici.",
@@ -769,6 +828,7 @@
       }
     }
   ],
+  "updates_interval_hour": "În fiecare oră",
   "accounts_stats_bets": "Pariuri câștigate / pierdute: {won} / {lost}",
   "accounts_stats_bonuses": "Cufere bonus: {count}",
   "catalogue_fetched": "preluat {time}, apoi la fiecare {minutes} min",
@@ -793,7 +853,26 @@
       }
     }
   ],
+  "ev_goal_contributed_short": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input goal",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{points} punct dat pentru „{goal}”",
+        "countPlural=few": "{points} puncte date pentru „{goal}”",
+        "countPlural=*": "{points} de puncte date pentru „{goal}”"
+      }
+    }
+  ],
   "ev_streak_recovered": "Seria de vizionare recuperată pe {channel}",
+  "ev_streak_recovered_short": "Seria de vizionare recuperată",
   "filter_by_odds": "Cota alegerii",
   "filter_by_odds_percentage": "Cota alegerii (%)",
   "filter_by_percentage_users": "Spectatori pe alegere (%)",
@@ -816,6 +895,7 @@
   "account_state_running_hint": "Contul minează cu setările sale. Pauza oprește tot: Drops, punctele de canal și chatul.",
   "account_state_paused_hint": "Contul e în pauză: nu urmărește nimic și nu câștigă nimic. Setările sale sunt păstrate.",
   "login_code": "codul de autentificare",
+  "login_getting_code": "Se obține un cod nou…",
   "catalogue_sort": "Sortare",
   "catalogue_view": "Vizualizare",
   "import_source": "Importă din",
@@ -838,9 +918,12 @@
   "login_setup_drops_hint": "Ce campanii minează acest cont și dacă revendică singur recompensele.",
   "event_kind_chat_mention": "Mențiune",
   "ev_chat_mention": "{chatter} te-a menționat în chatul canalului {channel}",
+  "ev_chat_mention_short": "{chatter} te-a menționat",
   "notify_chat_mention": "Mențiune într-un chat",
   "campaign_prioritize": "Minează cu prioritate",
+  "campaign_prioritizing": "Se minează cu prioritate…",
   "campaign_ignore": "Ignoră",
+  "campaign_ignoring": "Se ignoră…",
   "common_label": "{label}:",
   "nav_account_inventory": "Inventar",
   "inventory_hint": "Recompensele campaniilor tale Drops, citite din inventarul tău Twitch. Revendică-le aici când revendicarea automată e dezactivată.",
@@ -849,10 +932,13 @@
   "inventory_claim_all": "Revendică tot",
   "inventory_in_progress": "În desfășurare",
   "inventory_claimed": "Revendicate",
+  "inventory_claimed_title": "Recompense revendicate",
   "inventory_empty_claimable": "Nimic de revendicat deocamdată.",
   "inventory_empty_progress": "Nicio recompensă în desfășurare.",
+  "inventory_empty_waiting_link": "Nicio recompensă nu așteaptă legarea contului de joc.",
   "inventory_empty_claimed": "Nicio recompensă revendicată încă.",
   "inventory_paused": "Contul e în pauză: inventarul său Twitch e citit cât timp rulează.",
+  "inventory_tabs_label": "Secțiunile paginii Inventar",
   "inventory_claimed_all": "Recompense revendicate: {count}",
   "reward_state_claimed": "Revendicat",
   "reward_state_ready": "De revendicat",
@@ -903,6 +989,7 @@
   "badge_hint_in_progress": "Twitch îți numără minutele pentru această campanie",
   "import_into": "Importă în",
   "confirm_remove": "Elimină",
+  "confirm_removing": "Se elimină…",
   "confirm_remove_streamer_title": "Elimini acest streamer?",
   "confirm_remove_streamer_text": "Acest cont nu va mai urmări {name} pentru puncte de canal, iar opțiunile lui se pierd.",
   "confirm_remove_game_title": "Elimini acest joc prioritar?",
@@ -943,6 +1030,7 @@
   ],
   "login_link": "linkul de activare",
   "link_opened": "Deschis în browser: {site}",
+  "link_opened_title": "Link deschis",
   "secret_show": "Afișează",
   "secret_hide": "Ascunde",
   "notify_kind": "Tip",
@@ -978,22 +1066,7 @@
   "points_reason_subscribed_hint": "Urmărit primul: contul e abonat și Twitch dă aici mai multe puncte",
   "points_reason_list_order_hint": "Urmărit în ordinea listei de streameri",
   "points_streamer_defaults_hint": "Un streamer adăugat (manual, prin import sau în timpul configurării) pornește cu aceste opțiuni.",
-  "points_edit_selected": [
-    {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
-      "match": {
-        "countPlural=one": "Editează {count} streamer selectat",
-        "countPlural=few": "Editează cei {count} streameri selectați",
-        "countPlural=*": "Editează cei {count} de streameri selectați"
-      }
-    }
-  ],
+  "points_edit_selected": "Editează ({count})",
   "points_group_title": [
     {
       "declarations": [
@@ -1064,7 +1137,25 @@
       }
     }
   ],
+  "ev_points_spent_short": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "−{points} punct",
+        "countPlural=few": "−{points} puncte",
+        "countPlural=*": "−{points} de puncte"
+      }
+    }
+  ],
   "ev_points_spent_balance": "Puncte cheltuite pe {channel} (sold {balance})",
+  "ev_points_spent_balance_short": "Puncte cheltuite (sold {balance})",
   "ev_drop_progress_unknown": "Progresul unui drop: {current}/{required} min",
   "journal_types": "Tipuri de evenimente",
   "journal_types_all": "Toate tipurile",
@@ -1149,6 +1240,7 @@
   "spam_in_history": "Deja în istoricul tău",
   "spam_remove_history": "Elimină din istoric",
   "spam_removed": "{channel} a fost eliminat din istoric",
+  "spam_removed_title": "Eliminat din istoric",
   "spam_pick_title": "Alege un canal",
   "spam_pick_text": "Aici apar recompensele lui personalizate, cu soldul acestui cont pe canal.",
   "spam_balance": "Soldul punctelor de canal: {points}",
@@ -1207,6 +1299,8 @@
     }
   ],
   "spam_sent_partial": "{sent}/{count} trimise — {reason}",
+  "spam_send_failed_title": "Trimitere eșuată",
+  "spam_sent_title": "Puncte trimise",
   "spam_sent_none": "Eșec — {reason}",
   "spam_toast": "{count} × {reward} pe {channel}: {result}",
   "spam_cancelled": [
@@ -1259,7 +1353,28 @@
       }
     }
   ],
+  "ev_rewards_redeemed_short": [
+    {
+      "declarations": [
+        "input sent",
+        "input shown",
+        "input count",
+        "input reward",
+        "input points",
+        "local sentPlural = sent: plural"
+      ],
+      "selectors": [
+        "sentPlural"
+      ],
+      "match": {
+        "sentPlural=one": "{count} × {reward} — {shown} trimisă, {points} puncte",
+        "sentPlural=few": "{count} × {reward} — {shown} trimise, {points} puncte",
+        "sentPlural=*": "{count} × {reward} — {shown} de trimise, {points} puncte"
+      }
+    }
+  ],
   "ev_rewards_redeemed_partial": "{count} × {reward} pe {channel} — {sent}/{total} trimise, {points} puncte",
+  "ev_rewards_redeemed_partial_short": "{count} × {reward} — {sent}/{total} trimise, {points} puncte",
   "ev_rewards_refused": [
     {
       "declarations": [
@@ -1278,6 +1393,7 @@
     }
   ],
   "spam_result_lost": "Nu a sosit niciun rezultat pentru {reward}: Jurnalul arată ce s-a trimis.",
+  "spam_result_unknown_title": "Rezultat necunoscut",
   "nav_badges": "Insigne",
   "nav_account_badges": "Insigne",
   "badges_title": "Insigne",
@@ -1379,7 +1495,9 @@
   "badge_dialog_evolves_from": "Twitch numără această insignă doar cât timp {badge} e purtată: minerul o pune chiar înainte de minare și nu o mai pune la loc pe cea veche.",
   "badge_dialog_accounts": "Progresul conturilor",
   "campaign_select": "Adaugă în selecția mea",
+  "campaign_selecting": "Se adaugă…",
   "campaign_unselect": "Scoate din selecția mea",
+  "campaign_unselecting": "Se scoate…",
   "campaign_selected": "Adăugată în selecția ta",
   "campaign_unselected": "Scoasă din selecția ta",
   "change_selected": "Adăugat în selecție: {item}",

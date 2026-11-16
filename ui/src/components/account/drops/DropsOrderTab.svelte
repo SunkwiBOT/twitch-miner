@@ -241,7 +241,7 @@
   title={t.confirm_remove_game_title()}
   text={t.confirm_remove_game_text({ name: strong(removing ?? "") })}
   confirmLabel={t.confirm_remove()}
-  busyLabel={t.common_removing()}
+  busyLabel={t.confirm_removing()}
   busy={false}
   onconfirm={() => {
     const game = removing;

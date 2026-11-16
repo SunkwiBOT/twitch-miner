@@ -11,6 +11,8 @@ import { strong } from "../text.utils";
 import { DAY_HOURS } from "../time/time.constants";
 import { relativeTime } from "../time/time.utils";
 
+export type RewardType = { campaign: CampaignType; drop: TimedDropType };
+
 // ! Only Twitch's own count says a subscription was made: until then the reward waits.
 export const subsMissing = (item: { required_subs: number; current_subs: number }): boolean =>
   item.current_subs < item.required_subs;

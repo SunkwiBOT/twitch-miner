@@ -16,6 +16,7 @@ import { EventKind } from "../bindings/EventKind";
 import type { SnapshotType } from "../bindings/SnapshotType";
 import { describeError, toApiError } from "../errors/errors.utils";
 import { eventText } from "../events/event-text.utils";
+import { EVENT_KIND_LABELS } from "../events/labels.utils";
 import { number } from "../format.utils";
 import { t } from "../i18n/i18n.svelte";
 import { noteBurstProgress } from "../spam/spam.svelte";
@@ -71,7 +72,8 @@ const followServerBuild = (snapshot: SnapshotType): void => {
     return;
   }
 
-  toast(ToastKind.INFO, t.dashboard_updated({ version: snapshot.version }), {
+  toast(ToastKind.INFO, t.dashboard_updated_title(), {
+    description: t.dashboard_updated({ version: strong(snapshot.version) }),
     key: "dashboard-updated",
     action: { label: t.dashboard_reload(), run: () => location.reload() },
   });
@@ -131,7 +133,7 @@ export const reportFailure = (e: unknown): boolean => {
     return false;
   }
 
-  toast(ToastKind.ERROR, describeError(e));
+  toast(ToastKind.ERROR, t.action_failed(), { description: describeError(e) });
 
   return true;
 };
@@ -167,7 +169,9 @@ export const refreshCatalog = async (): Promise<void> => {
 
     const count = refreshed.campaign_count;
 
-    toast(ToastKind.SUCCESS, t.catalogue_refreshed({ count, shown: strong(number(count)) }));
+    toast(ToastKind.SUCCESS, t.catalogue_refreshed_title(), {
+      description: t.catalogue_refreshed({ count, shown: strong(number(count)) }),
+    });
   } catch (e: any) {
     if (!reportFailure(e)) {
       return;
@@ -191,6 +195,13 @@ export const checkSession = async (): Promise<boolean> => {
   }
 };
 
+const TOAST_EVENT_KINDS: Partial<Record<EventKind, ToastKind>> = {
+  [EventKind.DROP_CLAIMED]: ToastKind.SUCCESS,
+  [EventKind.LOGIN_COMPLETED]: ToastKind.SUCCESS,
+  [EventKind.SESSION_EXPIRED]: ToastKind.ERROR,
+  [EventKind.CHAT_MENTION]: ToastKind.INFO,
+};
+
 export const connect = async (): Promise<void> => {
   await refresh();
   unsubscribe?.();
@@ -199,29 +210,26 @@ export const connect = async (): Promise<void> => {
     onEvent: (event) => {
       app.liveEvents = [event, ...app.liveEvents].slice(0, LIVE_EVENTS_MAX);
 
+      const kind = TOAST_EVENT_KINDS[event.kind];
+
+      if (kind === undefined) {
+        return;
+      }
+
       const known = accountImage(event.account_id, event.account_login);
-      const image = {
+      const account = {
         url: event.context.account_avatar ?? known.url,
         name: event.context.account_name ?? known.name,
         channel: null,
       };
-      const title = image.name;
 
-      if (event.kind === EventKind.DROP_CLAIMED) {
-        toast(ToastKind.SUCCESS, eventText(event, false).text, { image, title });
-      }
-
-      if (event.kind === EventKind.LOGIN_COMPLETED) {
-        toast(ToastKind.SUCCESS, eventText(event, false).text, { image });
-      }
-
-      if (event.kind === EventKind.SESSION_EXPIRED) {
-        toast(ToastKind.ERROR, eventText(event, false).text, { image, title });
-      }
-
-      if (event.kind === EventKind.CHAT_MENTION) {
-        toast(ToastKind.INFO, eventText(event, false).text, { image, title });
-      }
+      toast(kind, EVENT_KIND_LABELS[event.kind](), {
+        description:
+          event.kind === EventKind.LOGIN_COMPLETED
+            ? undefined
+            : eventText(event, { channelShown: false, linked: false }).text,
+        account,
+      });
     },
     onBurst: noteBurstProgress,
     onConnection: (connected) => {
@@ -260,7 +268,7 @@ export const start = async (): Promise<void> => {
     app.auth = { ...status, checked: true };
   } catch (e: any) {
     app.auth = { ...app.auth, checked: true };
-    toast(ToastKind.ERROR, describeError(e));
+    toast(ToastKind.ERROR, t.action_failed(), { description: describeError(e) });
   }
 
   if (app.auth.authorized) {

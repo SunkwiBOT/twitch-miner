@@ -63,10 +63,14 @@
   "dashboard_linked": "Tilknyttet",
   "dashboard_not_linked": "Ikke tilknyttet",
   "dashboard_updated": "Dashboardet er opdateret til version {version}: genindlæs siden for at bruge den.",
+  "dashboard_updated_title": "Dashboard opdateret",
   "dashboard_reload": "Genindlæs",
   "dashboard_ends_in": "slutter {time}",
   "dashboard_remaining": "{minutes} min tilbage",
   "accounts_add": "Tilføj en konto",
+  "common_accounts_all": "Alle konti",
+  "common_accounts_count": "Konti: {count}",
+  "common_accounts_none": "Ingen konto",
   "accounts_remove_title": "Fjern denne konto?",
   "accounts_remove_text": "Sessionen for {name} tilbagekaldes på Twitch og slettes her. Indløste drops bliver i Twitch-beholdningen.",
   "accounts_login_again": "Log ind igen",
@@ -126,7 +130,6 @@
   "campaigns_filter_in_progress": "I gang",
   "campaigns_empty": "Ingen kampagne matcher.",
   "history_title": "Journal",
-  "history_filter_all": "Alle konti",
   "history_empty": "Intet endnu.",
   "history_load_failed": "Journalen kunne ikke læses.",
   "event_kind_info": "Info",
@@ -167,8 +170,11 @@
   "settings_webhook_auth": "Authorization-header (valgfrit)",
   "settings_system_notifications": "Skrivebordsnotifikationer",
   "settings_test_notifications": "Send en test",
+  "settings_test_sending": "Sender…",
   "settings_test_ok": "{target}: sendt",
+  "settings_test_ok_title": "Test sendt",
   "settings_test_failed": "{target}: {error}",
+  "settings_test_failed_title": "Test mislykkedes",
   "notify_drop_claimed": "Drop hentet",
   "notify_drop_progress": "Drop-fremskridt",
   "notify_bonus_claimed": "Bonuskiste hentet",
@@ -311,9 +317,9 @@
   "campaign_progress": "{current}/{required} min.",
   "campaign_link_game": "Tilknyt spilkontoen",
   "campaign_open_twitch": "Åbn på Twitch",
+  "campaign_view_category": "Vis kategorien",
   "logs_title": "Tekniske logfiler",
   "logs_subtitle": "Logs fra mineren, uden tokens eller hemmeligheder. Sikkert at indsætte i en fejlrapport.",
-  "logs_filter_all": "Alle konti",
   "logs_copy": "Kopiér til fejlrapport",
   "logs_copied": "Logfiler kopieret",
   "logs_open_folder": "Åbn logmappen",
@@ -328,6 +334,7 @@
   "settings_proxy_hint": "socks5://user:pass@host:port, socks5h://, http:// eller https://. Lad feltet stå tomt for direkte forbindelse.",
   "settings_proxy_test": "Test",
   "settings_proxy_ok": "Proxy når Twitch ({ms} ms)",
+  "settings_proxy_ok_title": "Proxy OK",
   "settings_feedback": "Feedback",
   "settings_feedback_text": "Ved en fejl skal du vedhæfte logfilerne fra siden Tekniske logfiler: de indeholder ingen hemmeligheder.",
   "feedback_discord_text": "Åbn en ticket eller snak med fællesskabet",
@@ -413,7 +420,9 @@
   "security_confirm": "Bekræft",
   "security_rules": "Mindst 4 tegn. Den kan ikke gendannes: hvis du mister den, skal du tilføje kontiene igen.",
   "security_enable": "Angiv adgangskoden",
+  "security_enabling": "Angiver adgangskoden…",
   "security_change": "Skift adgangskoden",
+  "security_changing": "Skifter adgangskoden…",
   "security_disable": "Fjern adgangskoden",
   "security_access_local": "Over almindelig HTTP: hold dette dashboard på dit eget netværk, eller placer det bag en omvendt HTTPS-proxy med MINER_PUBLIC_URL.",
   "security_access_public": "Bag en omvendt HTTPS-proxy, på {host}.",
@@ -429,21 +438,34 @@
   "streamer_predictions_stealth_hint": "Satser aldrig mere end den nuværende største spiller.",
   "streamer_watch_streak_hint": "Tæller med i prioriteten for seerstimer: en ny livestream, en stime, der snart udløber, eller en, der kan genoprettes, sætter denne streamer først.",
   "ev_watch_drop": "Ser {channel} for {campaign}",
+  "ev_watch_drop_short": "Ser for {campaign}",
   "ev_watch_points_streak_bonus": "Ser {channel} for kanalpoint (stimebonus)",
+  "ev_watch_points_streak_bonus_short": "Ser for kanalpoint (stimebonus)",
   "ev_watch_points_streak_at_risk": "Ser {channel} for kanalpoint (stime i fare)",
+  "ev_watch_points_streak_at_risk_short": "Ser for kanalpoint (stime i fare)",
   "ev_watch_points_subscribed": "Ser {channel} for kanalpoint (abonneret)",
+  "ev_watch_points_subscribed_short": "Ser for kanalpoint (abonneret)",
   "ev_watch_points_list_order": "Ser {channel} for kanalpoint (listerækkefølge)",
+  "ev_watch_points_list_order_short": "Ser for kanalpoint (listerækkefølge)",
   "ev_watch_stopped": "Stoppede med at se {channel}",
+  "ev_watch_stopped_short": "Stoppede med at se",
   "ev_drop_claimed": "{drop} hentet · {campaign}",
   "ev_campaign_finished": "Kampagne færdig: {campaign}",
   "ev_drop_progress": "{drop}: {current}/{required} min",
   "ev_bonus": "Bonuskiste hentet på {channel}",
+  "ev_bonus_short": "Bonuskiste hentet",
   "ev_points": "+{points} point på {channel}",
+  "ev_points_short": "+{points} point",
   "ev_online": "{channel} er live",
+  "ev_online_short": "Er live",
   "ev_offline": "{channel} gik offline",
+  "ev_offline_short": "Gik offline",
   "ev_raid": "Fulgte raidet fra {channel}",
+  "ev_raid_short": "Fulgte raidet",
   "ev_moment": "Moment hentet på {channel}",
+  "ev_moment_short": "Moment hentet",
   "ev_bet_placed": "Satsede {points} point på »{outcome}« ({channel})",
+  "ev_bet_placed_short": "Satsede {points} point på »{outcome}«",
   "ev_bet_won": "Forudsigelse vundet: +{points} point",
   "ev_bet_lost": "Forudsigelse tabt: −{points} point",
   "ev_bet_refund": "Forudsigelse refunderet",
@@ -457,11 +479,12 @@
   "common_removing": "Fjerner…",
   "action_pausing": "Sætter på pause…",
   "action_resuming": "Genoptager…",
+  "action_failed": "Handlingen mislykkedes",
   "lock_locking": "Låser…",
   "unlock_unlocking": "Låser op…",
   "auth_signing_in": "Logger ind…",
   "close_closing": "Lukker…",
-  "login_starting": "Starter…",
+  "close_quitting": "Afslutter appen…",
   "campaign_claiming": "Indløser…",
   "catalogue_view_timeline": "Kalender",
   "catalogue_view_cards": "Kort",
@@ -488,18 +511,16 @@
         "countPlural"
       ],
       "match": {
-        "countPlural=one": "Katalog opdateret: {shown} kampagne",
-        "countPlural=*": "Katalog opdateret: {shown} kampagner"
+        "countPlural=one": "{shown} kampagne",
+        "countPlural=*": "{shown} kampagner"
       }
     }
   ],
+  "catalogue_refreshed_title": "Katalog opdateret",
   "catalogue_refresh_wait": "Tilgængelig om {time}",
   "campaign_prioritized": "Placeret øverst i mining-rækkefølgen",
   "campaign_ignored": "Kampagne ignoreret",
   "campaign_unignored": "Kampagnen mines igen",
-  "accounts_all": "Alle konti",
-  "accounts_count": "{count} konti",
-  "accounts_none": "Ingen konto",
   "reward_watch": "Se {time}",
   "reward_watch_daily": "{time} pr. dag, {days} dage",
   "reward_watch_every": "{time} hver {hours}. time, {count} gange",
@@ -527,6 +548,7 @@
   "ignored_hint": "Kampagner og genstande, som denne konto aldrig miner.",
   "ignored_empty": "Intet ignoreres.",
   "ignored_restore": "Medtag i mining igen",
+  "ignored_restoring": "Medtager i mining igen…",
   "history_load_more": "Indlæs ældre hændelser",
   "settings_time": "Dato og klokkeslæt",
   "settings_time_zone": "Tidszone",
@@ -553,14 +575,16 @@
   "login_setup_copy_from": "Indstillinger fra {name}",
   "login_setup_copy_hint": "Kopierer den valgte kontos indstillinger, som de er (mining-rækkefølgen for Drops-kampagner, udelukkelser, streamerlisten), undtagen proxyen.",
   "login_setup_finish": "Begynd at mine",
+  "login_setup_starting": "Begynder at mine…",
   "login_setup_later": "Gem og start senere",
   "error_not_supported": "Ikke tilgængelig i denne version af appen.",
   "common_copy_named": "Kopiér {name}",
   "bulk_accounts": "Konti",
-  "bulk_applied": "Konti opdateret: {count}",
+  "bulk_applying": "Anvender…",
+  "bulk_applied_title": "Konti opdateret",
   "bulk_apply": "Anvend ({count})",
   "bulk_apply_others": "Anvend på andre konti",
-  "bulk_changes": "{count} ændringer på {name}",
+  "bulk_changes": "{shown} ændringer",
   "bulk_hint": "Ændringerne på {name} ({count}) gentages på de afkrydsede konti. Hver konto beholder resten af sine indstillinger.",
   "bulk_no_accounts": "Ingen anden konto.",
   "bulk_title": "Anvend på andre konti",
@@ -643,6 +667,7 @@
   "updates_checking": "Søger…",
   "updates_current": "Du har den nyeste version.",
   "updates_available": "Version {version} er tilgængelig.",
+  "updates_available_title": "Opdatering tilgængelig",
   "updates_available_locked": "Version {version} er tilgængelig. Lås appen op for at installere den.",
   "updates_badge": "Opdatering {version}",
   "updates_pull_image": "Opdater ved at hente det nye image og derefter genstarte containeren:",
@@ -661,6 +686,7 @@
   "updates_restarting": "Installerer version {version}. Appen genstarter af sig selv.",
   "updates_install_failed": "Opdateringen kunne ikke installeres. Prøv igen senere.",
   "updates_failed_restarted": "Version {version} kunne ikke installeres: appen genstartede på sin nuværende version.",
+  "updates_failed_restarted_title": "Opdatering mislykkedes",
   "updates_download_failed": "Downloaden blev afbrudt. Tjek din forbindelse, og prøv igen.",
   "updates_interval": "Søg efter opdateringer",
   "updates_interval_hint": "Appen søger også, når den starter. Den installerer aldrig noget selv: en ny version tilbydes her.",
@@ -676,7 +702,7 @@
         "countPlural"
       ],
       "match": {
-        "countPlural=one": "Hvert minut",
+        "countPlural=one": "Hvert {count}. minut",
         "countPlural=*": "Hvert {count}. minut"
       }
     }
@@ -691,18 +717,21 @@
         "countPlural"
       ],
       "match": {
-        "countPlural=one": "Hver time",
+        "countPlural=one": "Hver {count}. time",
         "countPlural=*": "Hver {count}. time"
       }
     }
   ],
+  "updates_interval_hour": "Hver time",
   "accounts_stats_bets": "Væddemål vundet / tabt: {won} / {lost}",
   "accounts_stats_bonuses": "Bonuskister: {count}",
   "catalogue_fetched": "hentet {time}, igen hvert {minutes}. minut",
   "change_order_reset": "Automatisk rækkefølge gendannet med succes",
   "event_kind_goal_contributed": "Fællesskabsmål",
   "ev_goal_contributed": "{points} point givet til »{goal}« på {channel}",
+  "ev_goal_contributed_short": "{points} point givet til »{goal}«",
   "ev_streak_recovered": "Seerstime genoprettet på {channel}",
+  "ev_streak_recovered_short": "Seerstime genoprettet",
   "filter_by_odds": "Odds for valget",
   "filter_by_odds_percentage": "Odds for valget (%)",
   "filter_by_percentage_users": "Seere på valget (%)",
@@ -725,6 +754,7 @@
   "account_state_running_hint": "Kontoen miner med sine indstillinger. Pause stopper alt: Drops, kanalpoint og chat.",
   "account_state_paused_hint": "Kontoen er sat på pause: den ser intet og optjener intet. Dens indstillinger bevares.",
   "login_code": "loginkode",
+  "login_getting_code": "Henter ny kode…",
   "catalogue_sort": "Sortering",
   "catalogue_view": "Visning",
   "import_source": "Importér fra",
@@ -747,9 +777,12 @@
   "login_setup_drops_hint": "Hvilke kampagner denne konto miner, og om den selv henter belønningerne.",
   "event_kind_chat_mention": "Omtale",
   "ev_chat_mention": "{chatter} nævnte dig i chatten hos {channel}",
+  "ev_chat_mention_short": "{chatter} nævnte dig",
   "notify_chat_mention": "Omtale i en chat",
   "campaign_prioritize": "Sæt først i mining-rækkefølgen",
+  "campaign_prioritizing": "Sætter først i mining-rækkefølgen…",
   "campaign_ignore": "Ignorér",
+  "campaign_ignoring": "Ignorerer…",
   "common_label": "{label}:",
   "nav_account_inventory": "Inventar",
   "inventory_hint": "Belønningerne fra dine Drops-kampagner, læst fra dit Twitch-inventar. Hent dem her, når automatisk hentning er slået fra.",
@@ -758,10 +791,13 @@
   "inventory_claim_all": "Hent alle",
   "inventory_in_progress": "I gang",
   "inventory_claimed": "Hentet",
+  "inventory_claimed_title": "Belønninger hentet",
   "inventory_empty_claimable": "Intet at hente lige nu.",
   "inventory_empty_progress": "Ingen belønning i gang.",
+  "inventory_empty_waiting_link": "Ingen belønning venter på tilknytning af spilkontoen.",
   "inventory_empty_claimed": "Ingen belønning hentet endnu.",
   "inventory_paused": "Kontoen er sat på pause: dens Twitch-inventar læses, mens den kører.",
+  "inventory_tabs_label": "Sektioner på siden Inventar",
   "inventory_claimed_all": "Belønninger hentet: {count}",
   "reward_state_claimed": "Indløst",
   "reward_state_ready": "Klar til indløsning",
@@ -812,6 +848,7 @@
   "badge_hint_in_progress": "Twitch tæller dine minutter for denne kampagne",
   "import_into": "Importér til",
   "confirm_remove": "Fjern",
+  "confirm_removing": "Fjerner…",
   "confirm_remove_streamer_title": "Fjern denne streamer?",
   "confirm_remove_streamer_text": "Denne konto ser ikke længere {name} for kanalpoint, og indstillingerne går tabt.",
   "confirm_remove_game_title": "Fjern dette prioritetsspil?",
@@ -851,6 +888,7 @@
   ],
   "login_link": "aktiveringslinket",
   "link_opened": "{site} åbnet i browseren",
+  "link_opened_title": "Link åbnet",
   "secret_show": "Vis",
   "secret_hide": "Skjul",
   "notify_kind": "Type",
@@ -886,21 +924,7 @@
   "points_reason_subscribed_hint": "Ses først: kontoen abonnerer, og Twitch giver flere point her",
   "points_reason_list_order_hint": "Ses i streamerlistens rækkefølge",
   "points_streamer_defaults_hint": "En tilføjet streamer (manuelt, ved import eller under opsætningen) starter med disse indstillinger.",
-  "points_edit_selected": [
-    {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
-      "match": {
-        "countPlural=one": "Redigér {count} valgt streamer",
-        "countPlural=*": "Redigér de {count} valgte streamere"
-      }
-    }
-  ],
+  "points_edit_selected": "Redigér ({count})",
   "points_group_title": [
     {
       "declarations": [
@@ -952,7 +976,9 @@
   ],
   "event_kind_points_spent": "Point brugt",
   "ev_points_spent": "−{points} point på {channel}",
+  "ev_points_spent_short": "−{points} point",
   "ev_points_spent_balance": "Point brugt på {channel} (saldo {balance})",
+  "ev_points_spent_balance_short": "Point brugt (saldo {balance})",
   "ev_drop_progress_unknown": "Drop-fremskridt: {current}/{required} min",
   "journal_types": "Hændelsestyper",
   "journal_types_all": "Alle typer",
@@ -1036,6 +1062,7 @@
   "spam_in_history": "Allerede i din historik",
   "spam_remove_history": "Fjern fra historikken",
   "spam_removed": "{channel} fjernet fra historikken",
+  "spam_removed_title": "Fjernet fra historikken",
   "spam_pick_title": "Vælg en kanal",
   "spam_pick_text": "Her vises kanalens egne belønninger med kontoens saldo på kanalen.",
   "spam_balance": "Saldo af kanalpoint: {points}",
@@ -1093,6 +1120,8 @@
     }
   ],
   "spam_sent_partial": "{sent}/{count} sendt — {reason}",
+  "spam_send_failed_title": "Afsendelse mislykkedes",
+  "spam_sent_title": "Point sendt",
   "spam_sent_none": "Mislykkedes — {reason}",
   "spam_toast": "{count} × {reward} på {channel}: {result}",
   "spam_cancelled": [
@@ -1143,7 +1172,27 @@
       }
     }
   ],
+  "ev_rewards_redeemed_short": [
+    {
+      "declarations": [
+        "input sent",
+        "input shown",
+        "input count",
+        "input reward",
+        "input points",
+        "local sentPlural = sent: plural"
+      ],
+      "selectors": [
+        "sentPlural"
+      ],
+      "match": {
+        "sentPlural=one": "{count} × {reward} — {shown} sendt, {points} point",
+        "sentPlural=*": "{count} × {reward} — {shown} sendt, {points} point"
+      }
+    }
+  ],
   "ev_rewards_redeemed_partial": "{count} × {reward} på {channel} — {sent}/{total} sendt, {points} point",
+  "ev_rewards_redeemed_partial_short": "{count} × {reward} — {sent}/{total} sendt, {points} point",
   "ev_rewards_refused": [
     {
       "declarations": [
@@ -1161,6 +1210,7 @@
     }
   ],
   "spam_result_lost": "Der kom intet resultat for {reward}: Journalen viser, hvad der blev sendt.",
+  "spam_result_unknown_title": "Ukendt resultat",
   "nav_badges": "Badges",
   "nav_account_badges": "Badges",
   "badges_title": "Badges",
@@ -1260,7 +1310,9 @@
   "badge_dialog_evolves_from": "Twitch tæller kun dette badge, mens {badge} er taget på: mineren tager det på lige før mining og sætter ikke det gamle badge tilbage.",
   "badge_dialog_accounts": "Kontoernes fremskridt",
   "campaign_select": "Føj til mit valg",
+  "campaign_selecting": "Føjer til…",
   "campaign_unselect": "Fjern fra mit valg",
+  "campaign_unselecting": "Fjerner…",
   "campaign_selected": "Føjet til dit valg",
   "campaign_unselected": "Fjernet fra dit valg",
   "change_selected": "Føjet til valget: {item}",

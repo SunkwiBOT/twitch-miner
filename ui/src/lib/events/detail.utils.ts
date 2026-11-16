@@ -52,7 +52,7 @@ export const historyView = (
     accountName: owner?.display_name ?? event.account_login,
     login: event.context.channel,
     miner: event.context.miner,
-    sentence: eventText(event, true),
+    sentence: eventText(event, { channelShown: true, linked: true }),
     reward: redeemedReward(event),
     detail: eventDetail(event),
     picture: event.context.reward ?? boxArt(event.context.art, BoxArtSize.ACTIVITY) ?? undefined,

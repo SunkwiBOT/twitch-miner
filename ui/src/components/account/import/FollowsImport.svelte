@@ -59,7 +59,7 @@
     <ActionButton
       icon={IconName.REFRESH}
       label={t.common_refresh()}
-      busyLabel={t.common_loading()}
+      busyLabel={t.common_refreshing()}
       busy={loading}
       disabled={false}
       variant={ButtonVariant.DEFAULT}

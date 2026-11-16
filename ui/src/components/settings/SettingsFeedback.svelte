@@ -16,7 +16,7 @@
     try {
       await openLogsDirectory();
     } catch (e: any) {
-      toast(ToastKind.ERROR, describeError(e));
+      toast(ToastKind.ERROR, t.action_failed(), { description: describeError(e) });
     }
   };
 </script>

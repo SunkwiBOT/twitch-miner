@@ -55,7 +55,7 @@
       } else if (error.code === ErrorApiMessage.UNAUTHORIZED) {
         sessionEnded();
       } else {
-        toast(ToastKind.ERROR, describeError(error));
+        toast(ToastKind.ERROR, t.action_failed(), { description: describeError(error) });
       }
     } finally {
       busy = false;
