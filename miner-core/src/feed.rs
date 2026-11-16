@@ -85,6 +85,7 @@ impl<T: FeedAnswer> FeedClient<T> {
             let response = self
                 .requests
                 .start(RequestKind::Catalog, address_target(&self.url))
+                .expecting(&[reqwest::StatusCode::NOT_MODIFIED])
                 .send(request)
                 .await?;
 
