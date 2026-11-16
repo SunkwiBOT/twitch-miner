@@ -14,11 +14,11 @@ use tokio_util::sync::CancellationToken;
 const MAX_SESSIONS: usize = 50;
 const SESSION_BYTES: usize = 32;
 
-pub const SESSION_COOKIE: &str = "tdpm_session";
+pub const SESSION_COOKIE: &str = "tm_session";
 // ! `__Host-` makes the browser refuse the cookie unless it is `Secure`, on
 // `Path=/` and without `Domain`: a page served over plain HTTP on the same
 // host can neither read, plant nor overwrite it.
-pub const PUBLIC_SESSION_COOKIE: &str = "__Host-tdpm_session";
+pub const PUBLIC_SESSION_COOKIE: &str = "__Host-tm_session";
 // ! The cookie's `Max-Age`, enforced here too: a stolen cookie dies with it.
 pub const SESSION_MAX_AGE: Duration = Duration::from_secs(30 * 24 * 60 * 60);
 

@@ -9,7 +9,7 @@ const recall = (key) => {
 };
 
 const language = (() => {
-  const shown = recall("tdpm.language");
+  const shown = recall("tm.language");
 
   if (shown && TEXTS[shown]) {
     return shown;
@@ -42,7 +42,7 @@ if (title) {
 }
 
 try {
-  const { theme } = JSON.parse(recall("tdpm.preferences") ?? "{}");
+  const { theme } = JSON.parse(recall("tm.preferences") ?? "{}");
 
   if (theme === "DARK" || theme === "LIGHT") {
     document.documentElement.dataset.theme = theme;
