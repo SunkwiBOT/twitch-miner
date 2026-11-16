@@ -112,7 +112,7 @@ async fn main() -> anyhow::Result<()> {
 
     if env.short_password() {
         tracing::warn!(
-            "MINER_PASSWORD has fewer than {} characters: choose a longer one, the sign-in lockout only slows a guess down",
+            "MINER_PASSWORD has fewer than {} characters: choose a longer one",
             PASSWORD_MIN_CHARS
         );
     }
