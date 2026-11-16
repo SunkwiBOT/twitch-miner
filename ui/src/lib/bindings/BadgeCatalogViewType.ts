@@ -8,4 +8,5 @@ export type BadgeCatalogViewType = {
   problem?: ErrorApiMessage;
   interval_seconds: number;
   next_refresh_at?: string;
+  next_manual_refresh_at: string;
 };

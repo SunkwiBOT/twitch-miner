@@ -15,10 +15,10 @@ use std::sync::Arc;
 
 use miner_core::api::{
     AccountStatus, AppInfo, AppInfoResponse, AutostartResponse, BadgeCatalogView, BadgesResponse,
-    CatalogRefreshResponse, CatalogResponse, CatalogView, ChannelBannersResponse, ChannelResponse,
-    ChannelsLookupResponse, Command, CommandName, DesktopEvent, FollowsResponse, HistoryQuery,
-    HistoryResponse, LoginFlowResponse, LogsQuery, LogsReportResponse, LogsResponse,
-    NotificationTestResponse, ProxyTestResponse, RedeemRequest, RedeemResponse, RequestsQuery,
+    CatalogResponse, CatalogView, ChannelBannersResponse, ChannelResponse, ChannelsLookupResponse,
+    Command, CommandName, DesktopEvent, FollowsResponse, HistoryQuery, HistoryResponse,
+    LoginFlowResponse, LogsQuery, LogsReportResponse, LogsResponse, NotificationTestResponse,
+    ProxyTestResponse, RedeemRequest, RedeemResponse, RefreshResponse, RequestsQuery,
     RequestsResponse, SearchResponse, Shell, Snapshot, SnapshotResponse, SpamBalanceResponse,
     SpamChannelResponse, StartupProblem, StartupProblemResponse,
 };
@@ -140,6 +140,7 @@ fn main() {
             test_proxy,
             history,
             badges,
+            refresh_badges,
             logs,
             logs_report,
             requests,

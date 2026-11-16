@@ -12,7 +12,7 @@ use crate::domain::Campaign;
 use crate::error::{Error, ErrorCode, Result};
 use crate::feed::{FeedAnswer, FeedClient};
 use crate::http::too_large;
-use crate::requests::RequestLog;
+use crate::requests::{RequestKind, RequestLog};
 use crate::twitch::drops::parse_campaign;
 use crate::twitch::note_left_out;
 
@@ -34,6 +34,7 @@ pub struct Catalog {
 impl FeedAnswer for Catalog {
     const NAME: &'static str = "catalogue";
     const CACHE_KEY: &'static str = "catalog_cache";
+    const KIND: RequestKind = RequestKind::Catalog;
 
     fn parse(payload: &Value) -> Result<Self> {
         parse_catalog(payload)

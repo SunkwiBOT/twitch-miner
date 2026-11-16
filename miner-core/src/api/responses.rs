@@ -1,4 +1,3 @@
-use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
@@ -61,16 +60,15 @@ pub struct RequestsResponse {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, TS)]
-#[ts(rename = "CatalogRefreshType")]
-pub struct CatalogRefresh {
-    pub campaign_count: u32,
-    pub next_refresh_at: DateTime<Utc>,
+#[ts(rename = "RefreshCountType")]
+pub struct RefreshCount {
+    pub count: u32,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, TS)]
-#[ts(rename = "CatalogRefreshResponseType")]
-pub struct CatalogRefreshResponse {
-    pub refresh: CatalogRefresh,
+#[ts(rename = "RefreshResponseType")]
+pub struct RefreshResponse {
+    pub refresh: RefreshCount,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]

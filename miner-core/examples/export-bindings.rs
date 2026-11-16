@@ -1,13 +1,13 @@
 use std::path::{Path, PathBuf};
 
 use miner_core::api::{
-    ApiRoute, AppInfoResponse, AuthResponse, AutostartResponse, BadgesResponse,
-    CatalogRefreshResponse, CatalogResponse, ChannelBannersRequest, ChannelBannersResponse,
-    ChannelQuery, ChannelResponse, ChannelsLookupRequest, ChannelsLookupResponse, Command,
-    CommandName, DashboardLoginRequest, DesktopEvent, FollowsQuery, FollowsResponse, HistoryQuery,
-    HistoryResponse, LoginFlowResponse, LogsQuery, LogsReportResponse, LogsResponse,
-    NotificationTestResponse, ProxyTestRequest, ProxyTestResponse, RedeemRequest, RedeemResponse,
-    RequestsQuery, RequestsResponse, SearchQuery, SearchResponse, ServerMessage, ServerMessageKind,
+    ApiRoute, AppInfoResponse, AuthResponse, AutostartResponse, BadgesResponse, CatalogResponse,
+    ChannelBannersRequest, ChannelBannersResponse, ChannelQuery, ChannelResponse,
+    ChannelsLookupRequest, ChannelsLookupResponse, Command, CommandName, DashboardLoginRequest,
+    DesktopEvent, FollowsQuery, FollowsResponse, HistoryQuery, HistoryResponse, LoginFlowResponse,
+    LogsQuery, LogsReportResponse, LogsResponse, NotificationTestResponse, ProxyTestRequest,
+    ProxyTestResponse, RedeemRequest, RedeemResponse, RefreshResponse, RequestsQuery,
+    RequestsResponse, SearchQuery, SearchResponse, ServerMessage, ServerMessageKind,
     SnapshotResponse, SpamBalanceResponse, SpamChannelQuery, SpamChannelResponse,
     StartupProblemResponse, UpdateCheckResponse,
 };
@@ -75,7 +75,7 @@ fn main() {
     let cfg = config(&dir);
 
     export::<SnapshotResponse>(&cfg);
-    export::<CatalogRefreshResponse>(&cfg);
+    export::<RefreshResponse>(&cfg);
     export::<UpdateCheckResponse>(&cfg);
     export::<Command>(&cfg);
     export::<HistoryResponse>(&cfg);

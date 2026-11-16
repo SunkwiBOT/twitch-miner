@@ -10,6 +10,7 @@ export enum RequestKind {
   PUBSUB = "PUBSUB",
   CHAT = "CHAT",
   CATALOG = "CATALOG",
+  BADGES = "BADGES",
   DISCORD = "DISCORD",
   TELEGRAM = "TELEGRAM",
   WEBHOOK = "WEBHOOK",

@@ -13,12 +13,12 @@ use super::banners::Banners;
 use super::record_event;
 use super::spam_points::{spam_channels, SpamAccess, SpamPoints};
 use crate::api::{
-    AccountSnapshot, AccountStats, AccountStatus, BadgeCatalogView, BadgesResponse, CatalogRefresh,
+    AccountSnapshot, AccountStats, AccountStatus, BadgeCatalogView, BadgesResponse,
     CatalogResponse, CatalogView, ChannelsLookupResponse, Command, HistoryQuery, HistoryResponse,
     LoginFlowStatus, LoginFlowView, LogsQuery, LogsReportResponse, LogsResponse, NotificationTest,
-    ProxyTestResponse, RedeemRequest, RequestsQuery, RequestsResponse, Shell, Snapshot,
-    CHANNELS_LOOKUP_MAX, FOLLOWS_MAX, HISTORY_LIMIT_DEFAULT, HISTORY_LIMIT_MAX, LOGS_LIMIT_DEFAULT,
-    LOGS_LIMIT_MAX, REQUESTS_LIMIT_DEFAULT, REQUESTS_LIMIT_MAX,
+    ProxyTestResponse, RedeemRequest, RefreshCount, RequestsQuery, RequestsResponse, Shell,
+    Snapshot, CHANNELS_LOOKUP_MAX, FOLLOWS_MAX, HISTORY_LIMIT_DEFAULT, HISTORY_LIMIT_MAX,
+    LOGS_LIMIT_DEFAULT, LOGS_LIMIT_MAX, REQUESTS_LIMIT_DEFAULT, REQUESTS_LIMIT_MAX,
 };
 use crate::badges::{BadgeCatalog, BadgeCatalogClient};
 use crate::catalog::{Catalog, CatalogClient};
@@ -26,7 +26,7 @@ use crate::config::{AccountSettings, GlobalSettings};
 use crate::domain::Channel;
 use crate::error::{Error, ErrorCode, Result};
 use crate::events::{EventContext, EventKind, MinerEvent};
-use crate::feed::{Feed, Refresh, REFRESH_INTERVAL};
+use crate::feed::{Feed, REFRESH_INTERVAL};
 use crate::logs::LogFilter;
 use crate::notifications::Notifier;
 use crate::requests::{RequestCursor, RequestFilter, RequestLog, REPORT_MAX};
@@ -63,7 +63,6 @@ const SEARCH_MAX_CHARS: usize = 60;
 // fragment, not worth reading apart.
 const LOGIN_MIN_CHARS: usize = 4;
 
-const MANUAL_REFRESH_GAP: Duration = Duration::from_secs(300);
 const HISTORY_PRUNE_EVERY: Duration = Duration::from_secs(3600);
 const REQUESTS_MAX_AGE: chrono::Duration = chrono::Duration::days(365);
 const REQUESTS_TICK: Duration = Duration::from_secs(60);
@@ -117,9 +116,6 @@ pub struct Manager {
     http: std::sync::RwLock<Arc<TwitchHttp>>,
     device_id: String,
     catalog: Feed<Catalog>,
-    catalog_refresh: Notify,
-    catalog_fetching: Mutex<()>,
-    catalog_next_manual: std::sync::Mutex<chrono::DateTime<Utc>>,
     badges: Feed<BadgeCatalog>,
     shell: Shell,
     settings: RwLock<GlobalSettings>,
@@ -167,9 +163,6 @@ impl Manager {
         let vault = store.open_default_vault()?;
         let catalog: Catalog = crate::feed::cached(&store);
         let badges: BadgeCatalog = crate::feed::cached(&store);
-        let next_manual = catalog.fetched_at.map_or_else(Utc::now, |at| {
-            at + chrono::Duration::from_std(MANUAL_REFRESH_GAP).unwrap_or_default()
-        });
         let recent = read_recent(&store)?;
         let (events, _) = broadcast::channel(512);
         let changed = Arc::new(Notify::new());
@@ -194,11 +187,16 @@ impl Manager {
             vault: RwLock::new(vault),
             http: std::sync::RwLock::new(Arc::new(http)),
             device_id,
-            catalog: Feed::new(catalog, CatalogClient::new(requests.clone(), shell)?),
-            catalog_refresh: Notify::new(),
-            catalog_fetching: Mutex::new(()),
-            catalog_next_manual: std::sync::Mutex::new(next_manual),
-            badges: Feed::new(badges, BadgeCatalogClient::new(requests.clone(), shell)?),
+            catalog: Feed::new(
+                catalog,
+                CatalogClient::new(requests.clone(), shell)?,
+                changed.clone(),
+            ),
+            badges: Feed::new(
+                badges,
+                BadgeCatalogClient::new(requests.clone(), shell)?,
+                changed.clone(),
+            ),
             shell,
             settings: RwLock::new(settings),
             accounts: Mutex::new(HashMap::new()),
@@ -335,8 +333,8 @@ impl Manager {
             tokio::select! {
                 _ = self.cancel.cancelled() => return,
                 _ = tokio::time::sleep(wait) => {}
-                _ = self.catalog_refresh.notified() => {
-                    wait = REFRESH_INTERVAL;
+                next = self.catalog.resynced() => {
+                    wait = next;
 
                     continue;
                 }
@@ -346,6 +344,18 @@ impl Manager {
         }
     }
 
+    async fn fetch_catalog(&self) -> Duration {
+        let (wait, refresh) = self.catalog.tick(&self.store).await;
+
+        if let Some(refresh) = refresh {
+            if matches!(refresh.result, Ok((_, true))) {
+                self.refresh_all().await;
+            }
+        }
+
+        wait
+    }
+
     async fn badges_loop(self: Arc<Self>) {
         let mut wait = self.badges.first_wait().await;
 
@@ -353,62 +363,46 @@ impl Manager {
             tokio::select! {
                 _ = self.cancel.cancelled() => return,
                 _ = tokio::time::sleep(wait) => {}
+                next = self.badges.resynced() => {
+                    wait = next;
+
+                    continue;
+                }
             }
 
-            wait = self.badges.refresh(&self.store).await.wait();
-            self.badges.state.write().await.next_refresh_at = chrono::Duration::from_std(wait)
-                .ok()
-                .map(|left| Utc::now() + left);
-            self.changed.notify_waiters();
+            wait = self.fetch_badges().await;
         }
     }
 
-    async fn fetch_catalog(&self) -> Duration {
-        let _one_at_a_time = self.catalog_fetching.lock().await;
-
-        if Utc::now() < self.next_manual_refresh() {
-            return REFRESH_INTERVAL;
-        }
-
-        self.fetch_catalog_locked().await.wait()
+    async fn fetch_badges(&self) -> Duration {
+        self.badges.tick(&self.store).await.0
     }
 
-    async fn fetch_catalog_locked(&self) -> Refresh {
-        let refresh = self.catalog.refresh(&self.store).await;
-        let gap = match &refresh.result {
-            Ok(_) | Err(Error::CatalogRateLimited) => MANUAL_REFRESH_GAP.max(refresh.retry_after),
-            Err(_) => Duration::ZERO,
-        };
-
-        *locked(&self.catalog_next_manual) =
-            Utc::now() + chrono::Duration::from_std(gap).unwrap_or_default();
-        self.changed.notify_waiters();
-
-        if matches!(refresh.result, Ok((_, true))) {
-            self.refresh_all().await;
-        }
-
-        refresh
+    fn next_badges_manual_refresh(&self) -> chrono::DateTime<Utc> {
+        self.badges.next_manual_refresh()
     }
 
     fn next_manual_refresh(&self) -> chrono::DateTime<Utc> {
-        *locked(&self.catalog_next_manual)
+        self.catalog.next_manual_refresh()
     }
 
-    pub async fn refresh_catalog(&self) -> Result<CatalogRefresh> {
-        let _one_at_a_time = self.catalog_fetching.lock().await;
+    pub async fn refresh_catalog(&self) -> Result<RefreshCount> {
+        let (count, changed) = self.catalog.refresh_manual(&self.store).await?;
 
-        if Utc::now() < self.next_manual_refresh() {
-            return Err(Error::CatalogRateLimited);
+        if changed {
+            self.refresh_all().await;
         }
 
-        let refresh = self.fetch_catalog_locked().await;
+        Ok(RefreshCount {
+            count: u32::try_from(count).unwrap_or(u32::MAX),
+        })
+    }
 
-        self.catalog_refresh.notify_one();
+    pub async fn refresh_badges(&self) -> Result<RefreshCount> {
+        let (count, _) = self.badges.refresh_manual(&self.store).await?;
 
-        Ok(CatalogRefresh {
-            campaign_count: u32::try_from(refresh.result?.0).unwrap_or(u32::MAX),
-            next_refresh_at: self.next_manual_refresh(),
+        Ok(RefreshCount {
+            count: u32::try_from(count).unwrap_or(u32::MAX),
         })
     }
 
@@ -1529,7 +1523,7 @@ impl Manager {
                 fetched_at: catalog.fetched_at,
                 problem: catalog.problem,
                 interval_seconds: interval,
-                next_refresh_at: self.next_manual_refresh(),
+                next_manual_refresh_at: self.next_manual_refresh(),
             },
             badges: BadgeCatalogView {
                 read_at: badges.read_at,
@@ -1538,6 +1532,7 @@ impl Manager {
                 problem: badges.problem,
                 interval_seconds: interval,
                 next_refresh_at: badges.next_refresh_at,
+                next_manual_refresh_at: self.next_badges_manual_refresh(),
             },
             settings,
             vault,

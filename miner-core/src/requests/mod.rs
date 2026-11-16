@@ -27,6 +27,7 @@ pub enum RequestKind {
     Pubsub,
     Chat,
     Catalog,
+    Badges,
     Discord,
     Telegram,
     Webhook,
@@ -37,7 +38,7 @@ pub enum RequestKind {
 }
 
 impl RequestKind {
-    pub const ALL: [Self; 16] = [
+    pub const ALL: [Self; 17] = [
         Self::Gql,
         Self::Auth,
         Self::Playlist,
@@ -47,6 +48,7 @@ impl RequestKind {
         Self::Pubsub,
         Self::Chat,
         Self::Catalog,
+        Self::Badges,
         Self::Discord,
         Self::Telegram,
         Self::Webhook,
@@ -67,6 +69,7 @@ impl RequestKind {
             Self::Pubsub => "PUBSUB",
             Self::Chat => "CHAT",
             Self::Catalog => "CATALOG",
+            Self::Badges => "BADGES",
             Self::Discord => "DISCORD",
             Self::Telegram => "TELEGRAM",
             Self::Webhook => "WEBHOOK",

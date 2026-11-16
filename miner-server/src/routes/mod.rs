@@ -17,14 +17,14 @@ use axum::response::{IntoResponse, Response};
 use axum::routing::{get, post};
 use axum::{Extension, Json, Router};
 use miner_core::api::{
-    ApiRoute, AuthResponse, AuthStatus, BadgesResponse, CatalogRefreshResponse, CatalogResponse,
-    ChannelBannersRequest, ChannelBannersResponse, ChannelQuery, ChannelResponse,
-    ChannelsLookupRequest, ChannelsLookupResponse, Command, DashboardLoginRequest, FollowsQuery,
-    FollowsResponse, HistoryQuery, HistoryResponse, LoginFlowResponse, LogsQuery,
-    LogsReportResponse, LogsResponse, NotificationTestResponse, ProxyTestRequest,
-    ProxyTestResponse, RedeemRequest, RedeemResponse, RequestsQuery, RequestsResponse, SearchQuery,
-    SearchResponse, ServerMessage, SnapshotResponse, SpamBalanceResponse, SpamChannelQuery,
-    SpamChannelResponse, UpdateCheck, UpdateCheckResponse,
+    ApiRoute, AuthResponse, AuthStatus, BadgesResponse, CatalogResponse, ChannelBannersRequest,
+    ChannelBannersResponse, ChannelQuery, ChannelResponse, ChannelsLookupRequest,
+    ChannelsLookupResponse, Command, DashboardLoginRequest, FollowsQuery, FollowsResponse,
+    HistoryQuery, HistoryResponse, LoginFlowResponse, LogsQuery, LogsReportResponse, LogsResponse,
+    NotificationTestResponse, ProxyTestRequest, ProxyTestResponse, RedeemRequest, RedeemResponse,
+    RefreshResponse, RequestsQuery, RequestsResponse, SearchQuery, SearchResponse, ServerMessage,
+    SnapshotResponse, SpamBalanceResponse, SpamChannelQuery, SpamChannelResponse, UpdateCheck,
+    UpdateCheckResponse,
 };
 use miner_core::error::{ApiError, ErrorCode};
 use miner_core::Manager;
@@ -113,6 +113,7 @@ pub fn router(state: Shared) -> Router {
         .route(ApiRoute::Command.path(), post(command))
         .route(ApiRoute::Catalog.path(), get(catalog))
         .route(ApiRoute::CatalogRefresh.path(), post(refresh_catalog))
+        .route(ApiRoute::BadgesRefresh.path(), post(refresh_badges))
         .route(ApiRoute::UpdatesCheck.path(), post(check_for_update))
         .route(ApiRoute::LoginFlow.path(), post(start_login))
         .route(ApiRoute::Channel.path(), get(lookup_channel))
@@ -312,11 +313,15 @@ async fn history(
     Ok(Json(state.manager.history_page(&query)?))
 }
 
-async fn refresh_catalog(
-    State(state): State<Shared>,
-) -> Result<Json<CatalogRefreshResponse>, Failure> {
-    Ok(Json(CatalogRefreshResponse {
+async fn refresh_catalog(State(state): State<Shared>) -> Result<Json<RefreshResponse>, Failure> {
+    Ok(Json(RefreshResponse {
         refresh: state.manager.refresh_catalog().await?,
+    }))
+}
+
+async fn refresh_badges(State(state): State<Shared>) -> Result<Json<RefreshResponse>, Failure> {
+    Ok(Json(RefreshResponse {
+        refresh: state.manager.refresh_badges().await?,
     }))
 }
 

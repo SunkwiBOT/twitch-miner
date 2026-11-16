@@ -13,10 +13,10 @@ pub use queries::{
 };
 pub use responses::{
     AppInfo, AppInfoResponse, AuthResponse, AuthStatus, AutostartResponse, BadgesResponse,
-    CatalogRefresh, CatalogRefreshResponse, CatalogResponse, ChannelBannersResponse,
-    ChannelResponse, ChannelsLookupResponse, FollowsResponse, HistoryResponse, LoginFlowResponse,
-    LogsReportResponse, LogsResponse, NotificationTarget, NotificationTest,
-    NotificationTestResponse, ProxyTestResponse, RedeemResponse, RequestsResponse, SearchResponse,
+    CatalogResponse, ChannelBannersResponse, ChannelResponse, ChannelsLookupResponse,
+    FollowsResponse, HistoryResponse, LoginFlowResponse, LogsReportResponse, LogsResponse,
+    NotificationTarget, NotificationTest, NotificationTestResponse, ProxyTestResponse,
+    RedeemResponse, RefreshCount, RefreshResponse, RequestsResponse, SearchResponse,
     SnapshotResponse, SpamBalanceResponse, SpamChannelResponse, StartupProblem,
     StartupProblemResponse, UpdateCheck, UpdateCheckResponse,
 };
@@ -88,6 +88,8 @@ pub enum ApiRoute {
     History,
     #[serde(rename = "/api/badges")]
     Badges,
+    #[serde(rename = "/api/badges/refresh")]
+    BadgesRefresh,
     #[serde(rename = "/api/logs")]
     Logs,
     #[serde(rename = "/api/logs/report")]
@@ -127,6 +129,7 @@ impl ApiRoute {
             Self::ProxyTest => "/api/proxy/test",
             Self::History => "/api/history",
             Self::Badges => "/api/badges",
+            Self::BadgesRefresh => "/api/badges/refresh",
             Self::Logs => "/api/logs",
             Self::LogsReport => "/api/logs/report",
             Self::Requests => "/api/requests",

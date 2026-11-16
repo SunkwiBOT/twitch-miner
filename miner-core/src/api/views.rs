@@ -168,7 +168,7 @@ pub struct CatalogView {
     #[ts(optional)]
     pub problem: Option<ErrorCode>,
     pub interval_seconds: u64,
-    pub next_refresh_at: DateTime<Utc>,
+    pub next_manual_refresh_at: DateTime<Utc>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default, TS)]
@@ -190,6 +190,9 @@ pub struct BadgeCatalogView {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
     pub next_refresh_at: Option<DateTime<Utc>>,
+    // ! The manual refresh button's own cooldown, always set: unlike `next_refresh_at`,
+    // which only carries the auto-retry schedule shown while a problem is active.
+    pub next_manual_refresh_at: DateTime<Utc>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, TS)]

@@ -6,7 +6,7 @@ use chrono::{DateTime, Utc};
 use serde::de::DeserializeOwned;
 use serde::Serialize;
 use serde_json::Value;
-use tokio::sync::RwLock;
+use tokio::sync::{Notify, RwLock};
 
 use crate::error::{Error, ErrorCode, Result};
 use crate::http::read_bounded;
@@ -16,6 +16,7 @@ use crate::util::locked;
 
 // ! Each list takes one anonymous request every 5 minutes: an automatic read every 10 leaves room for a manual one.
 pub const REFRESH_INTERVAL: Duration = Duration::from_secs(600);
+pub const MANUAL_REFRESH_GAP: Duration = Duration::from_secs(300);
 
 const CACHE_MAX_AGE: chrono::Duration = chrono::Duration::days(7);
 
@@ -24,12 +25,14 @@ const MAX_BYTES: usize = 16 * 1024 * 1024;
 pub trait FeedAnswer: Default + Serialize + DeserializeOwned + Send + Sync + 'static {
     const NAME: &'static str;
     const CACHE_KEY: &'static str;
+    const KIND: RequestKind;
 
     fn parse(payload: &Value) -> Result<Self>;
     fn count(&self) -> usize;
     fn fetched_at(&self) -> Option<DateTime<Utc>>;
     fn mark_fetched(&mut self, at: DateTime<Utc>);
     fn set_problem(&mut self, problem: Option<ErrorCode>);
+    fn mark_next_refresh(&mut self, _at: Option<DateTime<Utc>>) {}
 }
 
 pub struct FeedClient<T> {
@@ -84,7 +87,7 @@ impl<T: FeedAnswer> FeedClient<T> {
 
             let response = self
                 .requests
-                .start(RequestKind::Catalog, address_target(&self.url))
+                .start(T::KIND, address_target(&self.url))
                 .expecting(&[reqwest::StatusCode::NOT_MODIFIED])
                 .send(request)
                 .await?;
@@ -139,17 +142,30 @@ impl<T: FeedAnswer> FeedClient<T> {
         *locked(&self.tag) = None;
     }
 }
-
 pub struct Refresh {
     pub result: Result<(usize, bool)>,
     pub retry_after: Duration,
 }
 
 impl Refresh {
+    // ! The automatic loop's next try: honours `retry-after` (even on a non-429 error, as
+    // a floor under the regular interval), else the regular interval.
     pub fn wait(&self) -> Duration {
         match self.result {
             Err(Error::CatalogRateLimited) if !self.retry_after.is_zero() => self.retry_after,
             _ => REFRESH_INTERVAL.max(self.retry_after),
+        }
+    }
+
+    // ! The manual button's own cooldown: honours `retry-after` when the API gives one,
+    // otherwise floors at the regular manual gap (v1.11.0's unconditional 300 s) rather
+    // than the longer automatic interval.
+    fn manual_wait(&self) -> Duration {
+        match self.result {
+            Err(Error::CatalogRateLimited) if !self.retry_after.is_zero() => self.retry_after,
+            Err(Error::CatalogRateLimited) => MANUAL_REFRESH_GAP,
+            Ok(_) => MANUAL_REFRESH_GAP.max(self.retry_after),
+            Err(_) => Duration::ZERO,
         }
     }
 }
@@ -157,13 +173,35 @@ impl Refresh {
 pub struct Feed<T> {
     pub state: Arc<RwLock<T>>,
     pub(crate) client: FeedClient<T>,
+    fetching: tokio::sync::Mutex<()>,
+    // ! A monotonic deadline: wall time never advances under a paused test clock, which
+    // would make the background loop spin on `tick` forever once the wall clock itself
+    // is frozen.
+    next_manual: Mutex<tokio::time::Instant>,
+    resync: Mutex<Duration>,
+    notify: Notify,
+    changed: Arc<Notify>,
 }
 
 impl<T: FeedAnswer> Feed<T> {
-    pub fn new(kept: T, client: FeedClient<T>) -> Self {
+    pub fn new(kept: T, client: FeedClient<T>, changed: Arc<Notify>) -> Self {
+        let next_manual = kept
+            .fetched_at()
+            .map_or_else(tokio::time::Instant::now, |at| {
+                let due = at + chrono::Duration::from_std(MANUAL_REFRESH_GAP).unwrap_or_default();
+                let left = (due - Utc::now()).to_std().unwrap_or(Duration::ZERO);
+
+                tokio::time::Instant::now() + left
+            });
+
         Self {
             state: Arc::new(RwLock::new(kept)),
             client,
+            fetching: tokio::sync::Mutex::new(()),
+            next_manual: Mutex::new(next_manual),
+            resync: Mutex::new(REFRESH_INTERVAL),
+            notify: Notify::new(),
+            changed,
         }
     }
 
@@ -179,7 +217,24 @@ impl<T: FeedAnswer> Feed<T> {
             })
     }
 
-    pub async fn refresh(&self, store: &Store) -> Refresh {
+    // ! One clock read: the duration left on the manual deadline, zero once it is due.
+    fn time_left(&self) -> Duration {
+        locked(&self.next_manual).saturating_duration_since(tokio::time::Instant::now())
+    }
+
+    pub fn next_manual_refresh(&self) -> DateTime<Utc> {
+        Utc::now() + chrono::Duration::from_std(self.time_left()).unwrap_or_default()
+    }
+
+    // ! Woken by a manual refresh elsewhere: the wait it yields is the automatic
+    // schedule's own, so the background loop resyncs to it instead of the manual gap.
+    pub async fn resynced(&self) -> Duration {
+        self.notify.notified().await;
+
+        *locked(&self.resync)
+    }
+
+    async fn refresh(&self, store: &Store) -> Refresh {
         let fetch = self.client.fetch().await;
         let refresh = Refresh {
             result: self.apply(fetch.result, store).await,
@@ -202,6 +257,56 @@ impl<T: FeedAnswer> Feed<T> {
         refresh
     }
 
+    // One fetch under the lock: the manual cooldown and a 429's retry-after share this
+    // deadline, so the background loop never skips the retry the API asked for.
+    async fn fetch_locked(&self, store: &Store) -> Refresh {
+        let refresh = self.refresh(store).await;
+
+        *locked(&self.next_manual) = tokio::time::Instant::now() + refresh.manual_wait();
+
+        self.state.write().await.mark_next_refresh(
+            chrono::Duration::from_std(refresh.wait())
+                .ok()
+                .map(|left| Utc::now() + left),
+        );
+
+        self.changed.notify_waiters();
+
+        refresh
+    }
+
+    // The background loop's tick: skipped while the deadline above still holds, whether
+    // a manual refresh or a rate limit set it.
+    pub async fn tick(&self, store: &Store) -> (Duration, Option<Refresh>) {
+        let _one_at_a_time = self.fetching.lock().await;
+        let left = self.time_left();
+
+        if !left.is_zero() {
+            return (left, None);
+        }
+
+        let refresh = self.fetch_locked(store).await;
+        let wait = refresh.wait();
+
+        (wait, Some(refresh))
+    }
+
+    // The manual refresh button or command: refused under the same deadline, and
+    // resyncs the background loop to the automatic schedule this refresh set.
+    pub async fn refresh_manual(&self, store: &Store) -> Result<(usize, bool)> {
+        let _one_at_a_time = self.fetching.lock().await;
+
+        if !self.time_left().is_zero() {
+            return Err(Error::CatalogRateLimited);
+        }
+
+        let refresh = self.fetch_locked(store).await;
+
+        *locked(&self.resync) = refresh.wait();
+        self.notify.notify_one();
+
+        refresh.result
+    }
     async fn apply(&self, fetched: Result<Fetched<T>>, store: &Store) -> Result<(usize, bool)> {
         let mut state = self.state.write().await;
 

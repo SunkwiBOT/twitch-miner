@@ -12,7 +12,7 @@ use crate::domain::{
 use crate::error::{Error, ErrorCode, Result};
 use crate::feed::{FeedAnswer, FeedClient};
 use crate::http::too_large;
-use crate::requests::RequestLog;
+use crate::requests::{RequestKind, RequestLog};
 use crate::twitch::drops::{parse_category, parse_repeat};
 use crate::twitch::quests::{Quest, QuestGroup};
 use crate::twitch::{count, note_left_out, parse_time, text, values};
@@ -170,6 +170,7 @@ pub struct BadgeCatalog {
 impl FeedAnswer for BadgeCatalog {
     const NAME: &'static str = "badge list";
     const CACHE_KEY: &'static str = "badges_cache";
+    const KIND: RequestKind = RequestKind::Badges;
 
     fn parse(payload: &Value) -> Result<Self> {
         parse_badges(payload)
@@ -189,6 +190,10 @@ impl FeedAnswer for BadgeCatalog {
 
     fn set_problem(&mut self, problem: Option<ErrorCode>) {
         self.problem = problem;
+    }
+
+    fn mark_next_refresh(&mut self, at: Option<DateTime<Utc>>) {
+        self.next_refresh_at = at;
     }
 }
 
