@@ -589,7 +589,7 @@ Kódellenőrzések:
 ```bash
 cargo fmt --all --check
 cargo clippy --workspace --all-targets --locked -- -D warnings
-npm run verify         # prettier, oxlint (típusérzékeny) és svelte-check
+npm run verify         # prettier, oxlint (típusérzékeny), svelte-check és az inlang i18n-ellenőrzést
 ```
 
 A felület TypeScript-típusait a Rust-típusokból generálja a

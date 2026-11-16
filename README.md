@@ -570,7 +570,7 @@ Code checks:
 ```bash
 cargo fmt --all --check
 cargo clippy --workspace --all-targets --locked -- -D warnings
-npm run verify         # prettier, oxlint (type-aware) and svelte-check
+npm run verify         # prettier, oxlint (type-aware), svelte-check and the inlang i18n check
 ```
 
 The TypeScript types of the interface are generated from the Rust types with

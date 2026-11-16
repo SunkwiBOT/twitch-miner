@@ -399,7 +399,7 @@ Pemeriksaan kode:
 ```bash
 cargo fmt --all --check
 cargo clippy --workspace --all-targets --locked -- -D warnings
-npm run verify         # prettier, oxlint (sadar tipe), dan svelte-check
+npm run verify         # prettier, oxlint (sadar tipe), svelte-check, dan pemeriksaan i18n inlang
 ```
 
 Tipe TypeScript antarmuka dibuat dari tipe Rust dengan [ts-rs](https://github.com/Aleph-Alpha/ts-rs) ke dalam `ui/src/lib/bindings`. Setelah mengubah tipe yang dipakai antarmuka, jalankan `npm run bindings`.

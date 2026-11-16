@@ -398,7 +398,7 @@ npm run bundle:linux   # 桌面版安裝套件（需要 Tauri 的 Linux 相依�
 ```bash
 cargo fmt --all --check
 cargo clippy --workspace --all-targets --locked -- -D warnings
-npm run verify         # prettier、oxlint（型別感知）和 svelte-check
+npm run verify         # prettier、oxlint（型別感知）、svelte-check 和 inlang 的 i18n 檢查
 ```
 
 介面的 TypeScript 型別是用 [ts-rs](https://github.com/Aleph-Alpha/ts-rs) 從 Rust 型別產生到 `ui/src/lib/bindings` 的。變更介面會用到的型別後，請執行 `npm run bindings`。

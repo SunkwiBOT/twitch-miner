@@ -399,7 +399,7 @@ npm run bundle:linux   # แพ็กเกจเดสก์ท็อป (ต�
 ```bash
 cargo fmt --all --check
 cargo clippy --workspace --all-targets --locked -- -D warnings
-npm run verify         # prettier, oxlint (แบบรู้ชนิดข้อมูล) และ svelte-check
+npm run verify         # prettier, oxlint (แบบรู้ชนิดข้อมูล), svelte-check และการตรวจสอบ i18n ของ inlang
 ```
 
 ชนิดข้อมูล TypeScript ของอินเทอร์เฟซสร้างจากชนิดข้อมูล Rust ด้วย [ts-rs](https://github.com/Aleph-Alpha/ts-rs) ลงใน `ui/src/lib/bindings` หลังเปลี่ยนชนิดข้อมูลที่อินเทอร์เฟซใช้ ให้รัน `npm run bindings`

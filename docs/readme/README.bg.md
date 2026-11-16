@@ -577,7 +577,7 @@ npm run bundle:linux   # настолни пакети (изискват Linux �
 ```bash
 cargo fmt --all --check
 cargo clippy --workspace --all-targets --locked -- -D warnings
-npm run verify         # prettier, oxlint (с проверка на типовете) и svelte-check
+npm run verify         # prettier, oxlint (с проверка на типовете), svelte-check и проверката за i18n на inlang
 ```
 
 TypeScript типовете на интерфейса се генерират от Rust типовете с

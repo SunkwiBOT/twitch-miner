@@ -597,7 +597,7 @@ Code-Prüfungen:
 ```bash
 cargo fmt --all --check
 cargo clippy --workspace --all-targets --locked -- -D warnings
-npm run verify         # prettier, oxlint (typbewusst) und svelte-check
+npm run verify         # prettier, oxlint (typbewusst), svelte-check und die inlang-i18n-Prüfung
 ```
 
 Die TypeScript-Typen der Oberfläche werden mit

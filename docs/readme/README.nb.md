@@ -579,7 +579,7 @@ Kodesjekker:
 ```bash
 cargo fmt --all --check
 cargo clippy --workspace --all-targets --locked -- -D warnings
-npm run verify         # prettier, oxlint (typebevisst) og svelte-check
+npm run verify         # prettier, oxlint (typebevisst), svelte-check og inlang i18n-sjekken
 ```
 
 TypeScript-typene til grensesnittet genereres fra Rust-typene med

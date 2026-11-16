@@ -399,7 +399,7 @@ npm run bundle:linux   # πακέτα επιφάνειας εργασίας (α�
 ```bash
 cargo fmt --all --check
 cargo clippy --workspace --all-targets --locked -- -D warnings
-npm run verify         # prettier, oxlint (με επίγνωση τύπων) και svelte-check
+npm run verify         # prettier, oxlint (με επίγνωση τύπων), svelte-check και τον έλεγχο i18n του inlang
 ```
 
 Οι τύποι TypeScript του περιβάλλοντος παράγονται από τους τύπους Rust με το [ts-rs](https://github.com/Aleph-Alpha/ts-rs) στο `ui/src/lib/bindings`. Μετά από αλλαγή σε τύπο που βλέπει το περιβάλλον, εκτελέστε `npm run bindings`.

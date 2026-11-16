@@ -573,7 +573,7 @@ Kontrola kodu:
 ```bash
 cargo fmt --all --check
 cargo clippy --workspace --all-targets --locked -- -D warnings
-npm run verify         # prettier, oxlint (z analizą typów) i svelte-check
+npm run verify         # prettier, oxlint (z analizą typów), svelte-check i kontrolę i18n inlang
 ```
 
 Typy TypeScript interfejsu są generowane z typów Rusta za pomocą

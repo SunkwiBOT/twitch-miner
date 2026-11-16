@@ -582,7 +582,7 @@ npm run bundle:linux   # десктопні пакети (потрібні Linux
 ```bash
 cargo fmt --all --check
 cargo clippy --workspace --all-targets --locked -- -D warnings
-npm run verify         # prettier, oxlint (з урахуванням типів) і svelte-check
+npm run verify         # prettier, oxlint (з урахуванням типів), svelte-check і перевірку i18n inlang
 ```
 
 Типи TypeScript для інтерфейсу генеруються з типів Rust за допомогою

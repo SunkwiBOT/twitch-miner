@@ -581,7 +581,7 @@ Verificări ale codului:
 ```bash
 cargo fmt --all --check
 cargo clippy --workspace --all-targets --locked -- -D warnings
-npm run verify         # prettier, oxlint (cu analiză de tipuri) și svelte-check
+npm run verify         # prettier, oxlint (cu analiză de tipuri), svelte-check și verificarea i18n inlang
 ```
 
 Tipurile TypeScript ale interfeței sunt generate din tipurile Rust cu

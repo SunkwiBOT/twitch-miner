@@ -578,7 +578,7 @@ Kodkontroller:
 ```bash
 cargo fmt --all --check
 cargo clippy --workspace --all-targets --locked -- -D warnings
-npm run verify         # prettier, oxlint (typmedveten) och svelte-check
+npm run verify         # prettier, oxlint (typmedveten), svelte-check och inlang i18n-kontrollen
 ```
 
 Gränssnittets TypeScript-typer genereras från Rust-typerna med

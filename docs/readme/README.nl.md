@@ -584,7 +584,7 @@ Codecontroles:
 ```bash
 cargo fmt --all --check
 cargo clippy --workspace --all-targets --locked -- -D warnings
-npm run verify         # prettier, oxlint (met typecontrole) en svelte-check
+npm run verify         # prettier, oxlint (met typecontrole), svelte-check en de inlang i18n-controle
 ```
 
 De TypeScript-typen van de interface worden met

@@ -399,7 +399,7 @@ npm run bundle:linux   # 데스크톱 번들(Tauri Linux 의존성 필요)
 ```bash
 cargo fmt --all --check
 cargo clippy --workspace --all-targets --locked -- -D warnings
-npm run verify         # prettier, oxlint(타입 인식), svelte-check
+npm run verify         # prettier, oxlint(타입 인식), svelte-check, inlang i18n 검사
 ```
 
 인터페이스의 TypeScript 타입은 [ts-rs](https://github.com/Aleph-Alpha/ts-rs)로 Rust 타입에서 `ui/src/lib/bindings`에 생성돼요. 인터페이스가 쓰는 타입을 바꾼 뒤에는 `npm run bindings`를 실행하세요.

@@ -399,7 +399,7 @@ Kod denetimleri:
 ```bash
 cargo fmt --all --check
 cargo clippy --workspace --all-targets --locked -- -D warnings
-npm run verify         # prettier, oxlint (tür bilgisiyle) ve svelte-check
+npm run verify         # prettier, oxlint (tür bilgisiyle), svelte-check ve inlang i18n kontrolünü
 ```
 
 Arayüzün TypeScript türleri, Rust türlerinden [ts-rs](https://github.com/Aleph-Alpha/ts-rs) ile `ui/src/lib/bindings` içine üretilir. Arayüzün gördüğü bir türü değiştirdikten sonra `npm run bindings` komutunu çalıştırın.

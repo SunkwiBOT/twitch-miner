@@ -579,7 +579,7 @@ Kodetjek:
 ```bash
 cargo fmt --all --check
 cargo clippy --workspace --all-targets --locked -- -D warnings
-npm run verify         # prettier, oxlint (typebevidst) og svelte-check
+npm run verify         # prettier, oxlint (typebevidst), svelte-check og inlang i18n-tjekket
 ```
 
 Brugerfladens TypeScript-typer genereres ud fra Rust-typerne med

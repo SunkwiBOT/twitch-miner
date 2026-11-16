@@ -399,7 +399,7 @@ Kiểm tra mã:
 ```bash
 cargo fmt --all --check
 cargo clippy --workspace --all-targets --locked -- -D warnings
-npm run verify         # prettier, oxlint (có nhận biết kiểu) và svelte-check
+npm run verify         # prettier, oxlint (có nhận biết kiểu), svelte-check và kiểm tra i18n của inlang
 ```
 
 Các kiểu TypeScript của giao diện được sinh từ các kiểu Rust bằng [ts-rs](https://github.com/Aleph-Alpha/ts-rs) vào `ui/src/lib/bindings`. Sau khi thay đổi một kiểu mà giao diện dùng tới, hãy chạy `npm run bindings`.

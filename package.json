@@ -17,7 +17,8 @@
     "format": "prettier --write \"ui/src/**/*.{ts,svelte,css}\" vite.config.js",
     "format:check": "prettier --check \"ui/src/**/*.{ts,svelte,css}\" vite.config.js",
     "bindings": "cargo run --quiet -p miner-core --example export-bindings -- ui/src/lib/bindings && prettier --write ui/src/lib/bindings",
-    "verify": "npm run format:check && npm run lint && npm run check",
+    "i18n:check": "inlang check --project ./project.inlang --missing-translations --missing-variables --unknown-variables",
+    "verify": "npm run format:check && npm run lint && npm run check && npm run i18n:check",
     "tauri": "tauri",
     "dev:app": "tauri dev",
     "build:app": "tauri build --no-bundle -- --locked",
@@ -27,6 +28,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@inlang/cli": "^3.6.0",
     "@inlang/paraglide-js": "^2.26.0",
     "@inlang/plugin-message-format": "^4.4.5",
     "@lucide/svelte": "^1.52.0",

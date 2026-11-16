@@ -584,7 +584,7 @@ Controlli del codice:
 ```bash
 cargo fmt --all --check
 cargo clippy --workspace --all-targets --locked -- -D warnings
-npm run verify         # prettier, oxlint (con i tipi) e svelte-check
+npm run verify         # prettier, oxlint (con i tipi), svelte-check e il controllo i18n di inlang
 ```
 
 I tipi TypeScript dell'interfaccia sono generati dai tipi Rust con

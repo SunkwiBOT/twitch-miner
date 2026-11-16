@@ -398,7 +398,7 @@ npm run bundle:linux   # デスクトップ用バンドル（Tauri の Linux 依
 ```bash
 cargo fmt --all --check
 cargo clippy --workspace --all-targets --locked -- -D warnings
-npm run verify         # prettier、oxlint（型情報を利用）、svelte-check
+npm run verify         # prettier、oxlint（型情報を利用）、svelte-check、inlang の i18n チェック
 ```
 
 インターフェースの TypeScript 型は、[ts-rs](https://github.com/Aleph-Alpha/ts-rs) によって Rust の型から `ui/src/lib/bindings` に生成されます。インターフェースが参照する型を変更したら、`npm run bindings` を実行してください。

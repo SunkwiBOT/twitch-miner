@@ -562,7 +562,7 @@ Kontroly kódu:
 ```bash
 cargo fmt --all --check
 cargo clippy --workspace --all-targets --locked -- -D warnings
-npm run verify         # prettier, oxlint (s ohledem na typy) a svelte-check
+npm run verify         # prettier, oxlint (s ohledem na typy), svelte-check a kontrolu i18n přes inlang
 ```
 
 Typy TypeScriptu pro rozhraní se generují z typů Rustu pomocí
