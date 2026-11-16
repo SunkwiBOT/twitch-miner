@@ -56,8 +56,8 @@
       "icons/icon.ico"
     ],
     "category": "Utility",
-    "shortDescription": "Mine Twitch Drops and channel points on several accounts",
-    "longDescription": "Watches Twitch streams without video for you: mines timed Drops and channel points on several accounts, with priorities per game and per streamer, auto-claim, predictions, Discord and Telegram notifications. No browser needed: sign in with a code on twitch.tv/activate.",
+    "shortDescription": "Mine Twitch Drops, badges and channel points",
+    "longDescription": "Watches Twitch streams without video for you: mines timed Drops, badges and channel points, with priorities per category and per streamer, auto-claim, predictions, Discord and Telegram notifications. No browser needed: sign in with a code on twitch.tv/activate.",
     "linux": {
       "appimage": { "bundleMediaFramework": false },
       "deb": {

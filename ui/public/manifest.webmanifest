@@ -2,7 +2,7 @@
   "id": "/",
   "name": "Twitch Miner",
   "short_name": "Twitch Miner",
-  "description": "Mines Twitch Drops and channel points on several accounts.",
+  "description": "Mine Twitch Drops, badges and channel points.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

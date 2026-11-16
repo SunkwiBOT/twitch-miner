@@ -2,7 +2,7 @@
   "name": "twitch-miner",
   "private": true,
   "version": "0.1.0",
-  "description": "Mines Twitch Drops and channel points on several accounts, with no browser and no Twitch tab open.",
+  "description": "Mine Twitch Drops, badges and channel points, with no browser and no Twitch tab open.",
   "license": "MIT",
   "repository": {
     "type": "git",
