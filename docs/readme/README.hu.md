@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Twitch Drops-ot, jelvényeket és csatornapontokat bányászik, böngésző és nyitott Twitch-lap nélkül.</strong>
+  <strong>Twitch Drops-ot, jelvényeket és csatornapontokat bányászik annyi fiókon, amennyit csak akarsz, böngésző és nyitott Twitch-lap nélkül.</strong>
 </p>
 
 <p align="center">
@@ -73,7 +73,7 @@ láthatod, hogyan működnek.
 
 ### Fiókok és streamerek
 
-- **Több fiók egy alkalmazásban.** Minden fiók önállóan bányászik, a saját módjában:
+- **Annyi fiók egy alkalmazásban, amennyit csak akarsz.** Minden fiók önállóan bányászik, a saját módjában:
   **Drops és pontok** (egy csatorna a legjobb kampányért, a másik a streamereidért),
   **Csak Drops** vagy **Csak pontok**.
 
@@ -299,7 +299,7 @@ mellett. A kódjuk és a README-jük alapján ellenőrizve, 2026 novemberében.
 | Csatornapontok: ládák, raidek, pillanatok, előrejelzések | ✅ | ✅ | ❌ |
 | Spam Points: egy csatorna egyedi jutalma többször egymás után beváltva | ✅ | ❌ | ❌ |
 | Drops és csatornapontok egyszerre egy fiókon | ✅ | részben ¹ | ❌ |
-| Több fiók egy alkalmazásban | ✅ | ❌ ² | ❌ |
+| Annyi fiók egy alkalmazásban, amennyit csak akarsz | ✅ | ❌ ² | ❌ |
 | Több fiók beállításainak módosítása egyszerre | ✅ | ❌ | ❌ |
 | Grafikus felület | ✅ asztali és webes ³ | ❌ ⁴ | ✅ asztali |
 | Webes irányítópult otthoni szerverre (Docker), jelszóval védve, HTTPS-en elérhető | ✅ | ❌ ⁴ | ❌ |

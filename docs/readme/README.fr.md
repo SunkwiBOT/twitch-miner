@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Mine les Drops, badges et points de chaîne Twitch, sans navigateur ni onglet Twitch ouvert.</strong>
+  <strong>Mine les Drops, badges et points de chaîne Twitch sur autant de comptes que vous voulez, sans navigateur ni onglet Twitch ouvert.</strong>
 </p>
 
 <p align="center">
@@ -72,7 +72,7 @@ Ce qui le distingue des autres mineurs. « Voir en image » montre chaque poin
 
 ### Comptes et streamers
 
-- **Plusieurs comptes dans une seule application.** Chaque compte mine de son côté, dans
+- **Autant de comptes que vous voulez dans une seule application.** Chaque compte mine de son côté, dans
   son mode : **Drops et points** (une chaîne pour la meilleure campagne, l'autre pour vos
   streamers), **Drops uniquement** ou **Points uniquement**.
 
@@ -299,7 +299,7 @@ Vérifié dans leur code et leur README en novembre 2026.
 | Points de chaîne : coffres, raids, moments, prédictions | ✅ | ✅ | ❌ |
 | Spam Points : une récompense personnalisée d'une chaîne échangée plusieurs fois d'affilée | ✅ | ❌ | ❌ |
 | Drops et points de chaîne en même temps sur un seul compte | ✅ | en partie ¹ | ❌ |
-| Plusieurs comptes dans une seule application | ✅ | ❌ ² | ❌ |
+| Autant de comptes que vous voulez dans une seule application | ✅ | ❌ ² | ❌ |
 | Modifier les réglages de plusieurs comptes d'un coup | ✅ | ❌ | ❌ |
 | Interface graphique | ✅ bureau et web ³ | ❌ ⁴ | ✅ bureau |
 | Tableau de bord web pour un serveur à la maison (Docker), avec mot de passe, accessible en HTTPS | ✅ | ❌ ⁴ | ❌ |

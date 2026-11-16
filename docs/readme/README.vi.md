@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Đào Twitch Drops, huy hiệu và điểm kênh Twitch, không cần trình duyệt và không cần mở tab Twitch nào.</strong>
+  <strong>Đào Twitch Drops, huy hiệu và điểm kênh Twitch trên bao nhiêu tài khoản tùy bạn, không cần trình duyệt và không cần mở tab Twitch nào.</strong>
 </p>
 
 <p align="center">
@@ -72,7 +72,7 @@ Những gì làm nên khác biệt so với các trình đào khác. “Xem minh
 
 ### Tài khoản và streamer
 
-- **Nhiều tài khoản trong một ứng dụng.** Mỗi tài khoản đào độc lập, theo chế độ riêng: **Drops và điểm** (một kênh cho chiến dịch tốt nhất, kênh còn lại cho các streamer của bạn), **Chỉ Drops** hoặc **Chỉ điểm**.
+- **Bao nhiêu tài khoản tùy bạn trong một ứng dụng.** Mỗi tài khoản đào độc lập, theo chế độ riêng: **Drops và điểm** (một kênh cho chiến dịch tốt nhất, kênh còn lại cho các streamer của bạn), **Chỉ Drops** hoặc **Chỉ điểm**.
 
   <details open><summary>Xem minh họa</summary>
   <img src="../media/vi/accounts-mining.avif" alt="Nhiều tài khoản cùng đào một lúc, trên Trang chủ">
@@ -214,7 +214,7 @@ So sánh [Twitch Miner](https://github.com/SunkwiBOT/twitch-miner) với [Twitch
 | Điểm kênh: rương, raid, khoảnh khắc, dự đoán | ✅ | ✅ | ❌ |
 | Spam Points: đổi một phần thưởng tùy chỉnh của kênh nhiều lần liên tiếp | ✅ | ❌ | ❌ |
 | Drops và điểm kênh cùng lúc trên một tài khoản | ✅ | một phần ¹ | ❌ |
-| Nhiều tài khoản trong một ứng dụng | ✅ | ❌ ² | ❌ |
+| Bao nhiêu tài khoản tùy bạn trong một ứng dụng | ✅ | ❌ ² | ❌ |
 | Đổi cài đặt của nhiều tài khoản cùng lúc | ✅ | ❌ | ❌ |
 | Giao diện đồ họa | ✅ máy tính và web ³ | ❌ ⁴ | ✅ máy tính |
 | Bảng điều khiển web cho máy chủ tại nhà (Docker), có mật khẩu, truy cập được qua HTTPS | ✅ | ❌ ⁴ | ❌ |

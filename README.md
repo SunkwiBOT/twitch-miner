@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Mine Twitch Drops, badges and channel points, with no browser and no Twitch tab open.</strong>
+  <strong>Mine Twitch Drops, badges and channel points on as many accounts as you want, with no browser and no Twitch tab open.</strong>
 </p>
 
 <p align="center">
@@ -72,7 +72,7 @@ What sets it apart from other miners. “See it in action” under a point shows
 
 ### Accounts and streamers
 
-- **Several accounts in one app.** Each account mines on its own, in its own mode:
+- **As many accounts as you want in one app.** Each account mines on its own, in its own mode:
   **Drops and points** (one channel for the best campaign, the other for your streamers),
   **Drops only** or **Points only**.
 
@@ -290,7 +290,7 @@ Checked against their code and READMEs in November 2026.
 | Channel points: chests, raids, moments, predictions | ✅ | ✅ | ❌ |
 | Spam Points: a channel's custom reward redeemed several times in a row | ✅ | ❌ | ❌ |
 | Drops and channel points at the same time on one account | ✅ | partly ¹ | ❌ |
-| Several accounts in one app | ✅ | ❌ ² | ❌ |
+| As many accounts as you want in one app | ✅ | ❌ ² | ❌ |
 | Change the settings of several accounts at once | ✅ | ❌ | ❌ |
 | Graphical interface | ✅ desktop and web ³ | ❌ ⁴ | ✅ desktop |
 | Web dashboard for a home server (Docker), with a password, reachable over HTTPS | ✅ | ❌ ⁴ | ❌ |

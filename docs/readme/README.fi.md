@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Louhii Twitch Dropseja, merkkejä ja kanavapisteitä, ilman selainta ja ilman avointa Twitch-välilehteä.</strong>
+  <strong>Louhii Twitch Dropseja, merkkejä ja kanavapisteitä niin monella tilillä kuin haluat, ilman selainta ja ilman avointa Twitch-välilehteä.</strong>
 </p>
 
 <p align="center">
@@ -73,7 +73,7 @@ ominaisuuden käytössä.
 
 ### Tilit ja streamaajat
 
-- **Useita tilejä yhdessä sovelluksessa.** Jokainen tili louhii omillaan, omassa
+- **Niin monta tiliä kuin haluat yhdessä sovelluksessa.** Jokainen tili louhii omillaan, omassa
   louhintatilassaan: **Drops ja pisteet** (yksi kanava parhaalle kampanjalle, toinen
   streamaajillesi), **Vain Drops** tai **Vain pisteet**.
 
@@ -301,7 +301,7 @@ Tarkistettu niiden koodista ja README-tiedostoista marraskuussa 2026.
 | Kanavapisteet: arkut, raidit, hetket, ennustukset | ✅ | ✅ | ❌ |
 | Spam Points: kanavan oma palkinto lunastettuna useita kertoja peräkkäin | ✅ | ❌ | ❌ |
 | Drops ja kanavapisteet samanaikaisesti yhdellä tilillä | ✅ | osittain ¹ | ❌ |
-| Useita tilejä yhdessä sovelluksessa | ✅ | ❌ ² | ❌ |
+| Niin monta tiliä kuin haluat yhdessä sovelluksessa | ✅ | ❌ ² | ❌ |
 | Usean tilin asetusten muuttaminen kerralla | ✅ | ❌ | ❌ |
 | Graafinen käyttöliittymä | ✅ työpöytä ja verkko ³ | ❌ ⁴ | ✅ työpöytä |
 | Verkkohallintapaneeli kotipalvelimelle (Docker), salasanalla suojattu, käytettävissä HTTPS:n kautta | ✅ | ❌ ⁴ | ❌ |

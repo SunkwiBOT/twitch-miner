@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Mint Twitch-Drops, Abzeichen und Kanalpunkte, ohne Browser und ohne offenen Twitch-Tab.</strong>
+  <strong>Mint Twitch-Drops, Abzeichen und Kanalpunkte mit so vielen Konten, wie Sie möchten, ohne Browser und ohne offenen Twitch-Tab.</strong>
 </p>
 
 <p align="center">
@@ -73,7 +73,7 @@ im Einsatz.
 
 ### Konten und Streamer
 
-- **Mehrere Konten in einer App.** Jedes Konto mint für sich, in seinem eigenen Modus:
+- **So viele Konten, wie Sie möchten, in einer App.** Jedes Konto mint für sich, in seinem eigenen Modus:
   **Drops und Punkte** (ein Kanal für die beste Kampagne, der andere für Ihre Streamer),
   **Nur Drops** oder **Nur Punkte**.
 
@@ -304,7 +304,7 @@ im Vergleich zu
 | Kanalpunkte: Truhen, Raids, Momente, Vorhersagen | ✅ | ✅ | ❌ |
 | Spam Points: eine benutzerdefinierte Belohnung eines Kanals mehrmals hintereinander eingelöst | ✅ | ❌ | ❌ |
 | Drops und Kanalpunkte gleichzeitig auf einem Konto | ✅ | teilweise ¹ | ❌ |
-| Mehrere Konten in einer App | ✅ | ❌ ² | ❌ |
+| So viele Konten, wie Sie möchten, in einer App | ✅ | ❌ ² | ❌ |
 | Einstellungen mehrerer Konten auf einmal ändern | ✅ | ❌ | ❌ |
 | Grafische Oberfläche | ✅ Desktop und Web ³ | ❌ ⁴ | ✅ Desktop |
 | Web-Dashboard für einen Heimserver (Docker), mit Passwort, über HTTPS erreichbar | ✅ | ❌ ⁴ | ❌ |

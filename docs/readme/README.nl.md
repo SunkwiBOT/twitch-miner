@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Mint Twitch Drops, badges en kanaalpunten, zonder browser en zonder open Twitch-tabblad.</strong>
+  <strong>Mint Twitch Drops, badges en kanaalpunten met zoveel accounts als je wilt, zonder browser en zonder open Twitch-tabblad.</strong>
 </p>
 
 <p align="center">
@@ -73,7 +73,7 @@ het werkt.
 
 ### Accounts en streamers
 
-- **Meerdere accounts in één app.** Elk account mint zelfstandig, in zijn eigen modus:
+- **Zoveel accounts als je wilt in één app.** Elk account mint zelfstandig, in zijn eigen modus:
   **Drops en punten** (één kanaal voor de beste campagne, het andere voor je streamers),
   **Alleen Drops** of **Alleen punten**.
 
@@ -299,7 +299,7 @@ Gecontroleerd aan de hand van hun code en README's in november 2026.
 | Kanaalpunten: kisten, raids, momenten, voorspellingen | ✅ | ✅ | ❌ |
 | Spam Points: een aangepaste beloning van een kanaal meerdere keren achter elkaar ingewisseld | ✅ | ❌ | ❌ |
 | Drops en kanaalpunten tegelijk op één account | ✅ | deels ¹ | ❌ |
-| Meerdere accounts in één app | ✅ | ❌ ² | ❌ |
+| Zoveel accounts als je wilt in één app | ✅ | ❌ ² | ❌ |
 | Instellingen van meerdere accounts tegelijk wijzigen | ✅ | ❌ | ❌ |
 | Grafische interface | ✅ desktop en web ³ | ❌ ⁴ | ✅ desktop |
 | Webdashboard voor een thuisserver (Docker), met wachtwoord, bereikbaar via HTTPS | ✅ | ❌ ⁴ | ❌ |

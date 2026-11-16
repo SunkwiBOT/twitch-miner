@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Kopie Twitch Drops, odznaki i punkty kanału, bez przeglądarki i bez otwartej karty Twitcha.</strong>
+  <strong>Kopie Twitch Drops, odznaki i punkty kanału na tylu kontach, ile chcesz, bez przeglądarki i bez otwartej karty Twitcha.</strong>
 </p>
 
 <p align="center">
@@ -73,7 +73,7 @@ działa.
 
 ### Konta i streamerzy
 
-- **Wiele kont w jednej aplikacji.** Każde konto kopie samodzielnie, we własnym trybie:
+- **Tyle kont, ile chcesz, w jednej aplikacji.** Każde konto kopie samodzielnie, we własnym trybie:
   **Drops i punkty** (jeden kanał dla najlepszej kampanii, drugi dla Twoich streamerów),
   **Tylko Drops** lub **Tylko punkty**.
 
@@ -292,7 +292,7 @@ Sprawdzone w ich kodzie i plikach README w listopadzie 2026 r.
 | Punkty kanału: skrzynki, rajdy, momenty, prognozy | ✅ | ✅ | ❌ |
 | Spam Points: niestandardowa nagroda kanału odebrana kilka razy z rzędu | ✅ | ❌ | ❌ |
 | Drops i punkty kanału jednocześnie na jednym koncie | ✅ | częściowo ¹ | ❌ |
-| Wiele kont w jednej aplikacji | ✅ | ❌ ² | ❌ |
+| Tyle kont, ile chcesz, w jednej aplikacji | ✅ | ❌ ² | ❌ |
 | Zmiana ustawień wielu kont naraz | ✅ | ❌ | ❌ |
 | Interfejs graficzny | ✅ desktopowy i webowy ³ | ❌ ⁴ | ✅ desktopowy |
 | Panel WWW dla domowego serwera (Docker), chroniony hasłem, dostępny przez HTTPS | ✅ | ❌ ⁴ | ❌ |

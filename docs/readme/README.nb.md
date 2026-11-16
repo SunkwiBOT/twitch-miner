@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Miner Twitch Drops, merker og kanalpoeng, uten nettleser og uten noen åpen Twitch-fane.</strong>
+  <strong>Miner Twitch Drops, merker og kanalpoeng på så mange kontoer du vil, uten nettleser og uten noen åpen Twitch-fane.</strong>
 </p>
 
 <p align="center">
@@ -73,7 +73,7 @@ bruk.
 
 ### Kontoer og streamere
 
-- **Flere kontoer i én app.** Hver konto miner på egen hånd, i sin egen modus:
+- **Så mange kontoer du vil i én app.** Hver konto miner på egen hånd, i sin egen modus:
   **Drops og poeng** (én kanal for den beste kampanjen, den andre for streamerne dine),
   **Bare Drops** eller **Bare poeng**.
 
@@ -298,7 +298,7 @@ Kontrollert mot koden og README-filene deres i november 2026.
 | Kanalpoeng: kister, raids, øyeblikk, spådommer | ✅ | ✅ | ❌ |
 | Spam Points: en kanals tilpassede belønning løst inn flere ganger på rad | ✅ | ❌ | ❌ |
 | Drops og kanalpoeng samtidig på én konto | ✅ | delvis ¹ | ❌ |
-| Flere kontoer i én app | ✅ | ❌ ² | ❌ |
+| Så mange kontoer du vil i én app | ✅ | ❌ ² | ❌ |
 | Endre innstillinger på flere kontoer samtidig | ✅ | ❌ | ❌ |
 | Grafisk grensesnitt | ✅ skrivebord og web ³ | ❌ ⁴ | ✅ skrivebord |
 | Weboversikt for en hjemmeserver (Docker), med passord, tilgjengelig over HTTPS | ✅ | ❌ ⁴ | ❌ |

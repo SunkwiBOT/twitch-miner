@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Twitch Drops, rozet ve kanal puanlarını, tarayıcı ve açık bir Twitch sekmesi olmadan kazar.</strong>
+  <strong>Twitch Drops, rozet ve kanal puanlarını istediğiniz kadar hesapta, tarayıcı ve açık bir Twitch sekmesi olmadan kazar.</strong>
 </p>
 
 <p align="center">
@@ -72,7 +72,7 @@ Onu diğer madencilerden ayıran şeyler. Bir maddenin altındaki “Çalışır
 
 ### Hesaplar ve yayıncılar
 
-- **Tek uygulamada birden fazla hesap.** Her hesap kendi başına, kendi modunda kazar: **Drops ve puan** (bir kanal en iyi kampanya için, diğeri yayıncılarınız için), **Yalnızca Drops** veya **Yalnızca puan**.
+- **Tek uygulamada istediğiniz kadar hesap.** Her hesap kendi başına, kendi modunda kazar: **Drops ve puan** (bir kanal en iyi kampanya için, diğeri yayıncılarınız için), **Yalnızca Drops** veya **Yalnızca puan**.
 
   <details open><summary>Çalışırken görün</summary>
   <img src="../media/tr/accounts-mining.avif" alt="Ana sayfada aynı anda madencilik yapan birkaç hesap">
@@ -214,7 +214,7 @@ Onu diğer madencilerden ayıran şeyler. Bir maddenin altındaki “Çalışır
 | Kanal puanları: sandıklar, baskınlar, anlar, tahminler | ✅ | ✅ | ❌ |
 | Spam Points: bir kanalın özel ödülü art arda birkaç kez kullanılır | ✅ | ❌ | ❌ |
 | Tek hesapta aynı anda Drops ve kanal puanları | ✅ | kısmen ¹ | ❌ |
-| Tek uygulamada birden fazla hesap | ✅ | ❌ ² | ❌ |
+| Tek uygulamada istediğiniz kadar hesap | ✅ | ❌ ² | ❌ |
 | Birden fazla hesabın ayarlarını aynı anda değiştirme | ✅ | ❌ | ❌ |
 | Grafik arayüz | ✅ masaüstü ve web ³ | ❌ ⁴ | ✅ masaüstü |
 | Ev sunucusu için web paneli (Docker), şifreli ve HTTPS üzerinden erişilebilir | ✅ | ❌ ⁴ | ❌ |

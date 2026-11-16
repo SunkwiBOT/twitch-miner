@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Menambang Twitch Drops, lencana, dan poin channel, tanpa browser dan tanpa tab Twitch yang terbuka.</strong>
+  <strong>Menambang Twitch Drops, lencana, dan poin channel di sebanyak apa pun akun yang Anda mau, tanpa browser dan tanpa tab Twitch yang terbuka.</strong>
 </p>
 
 <p align="center">
@@ -72,7 +72,7 @@ Hal-hal yang membedakannya dari penambang lain. “Lihat langsung” di bawah se
 
 ### Akun dan streamer
 
-- **Banyak akun dalam satu aplikasi.** Setiap akun menambang sendiri-sendiri, dengan modenya masing-masing: **Drops dan poin** (satu channel untuk kampanye terbaik, satu lagi untuk streamer Anda), **Hanya Drops**, atau **Hanya poin**.
+- **Sebanyak apa pun akun yang Anda mau dalam satu aplikasi.** Setiap akun menambang sendiri-sendiri, dengan modenya masing-masing: **Drops dan poin** (satu channel untuk kampanye terbaik, satu lagi untuk streamer Anda), **Hanya Drops**, atau **Hanya poin**.
 
   <details open><summary>Lihat langsung</summary>
   <img src="../media/id/accounts-mining.avif" alt="Beberapa akun menambang bersamaan, di halaman Beranda">
@@ -214,7 +214,7 @@ Posisi [Twitch Miner](https://github.com/SunkwiBOT/twitch-miner) dibandingkan de
 | Poin channel: peti, raid, momen, prediksi | ✅ | ✅ | ❌ |
 | Spam Points: hadiah kustom sebuah channel ditukarkan beberapa kali berturut-turut | ✅ | ❌ | ❌ |
 | Drops dan poin channel sekaligus di satu akun | ✅ | sebagian ¹ | ❌ |
-| Banyak akun dalam satu aplikasi | ✅ | ❌ ² | ❌ |
+| Sebanyak apa pun akun yang Anda mau dalam satu aplikasi | ✅ | ❌ ² | ❌ |
 | Ubah pengaturan beberapa akun sekaligus | ✅ | ❌ | ❌ |
 | Antarmuka grafis | ✅ desktop dan web ³ | ❌ ⁴ | ✅ desktop |
 | Dasbor web untuk server rumahan (Docker), dengan kata sandi, bisa diakses lewat HTTPS | ✅ | ❌ ⁴ | ❌ |

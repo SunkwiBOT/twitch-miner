@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Mina i Drops, i badge e i punti canale di Twitch, senza browser e senza schede di Twitch aperte.</strong>
+  <strong>Mina i Drops, i badge e i punti canale di Twitch su quanti account vuoi, senza browser e senza schede di Twitch aperte.</strong>
 </p>
 
 <p align="center">
@@ -73,7 +73,7 @@ all'opera.
 
 ### Account e streamer
 
-- **Più account in un'unica app.** Ogni account mina per conto suo, nella sua modalità:
+- **Tutti gli account che vuoi in un'unica app.** Ogni account mina per conto suo, nella sua modalità:
   **Drops e punti** (un canale per la campagna migliore, l'altro per i tuoi streamer),
   **Solo Drops** o **Solo punti**.
 
@@ -296,7 +296,7 @@ Verificato sul loro codice e sui loro README a novembre 2026.
 | Punti canale: forzieri, raid, momenti, previsioni | ✅ | ✅ | ❌ |
 | Spam Points: un premio personalizzato di un canale riscattato più volte di fila | ✅ | ❌ | ❌ |
 | Drops e punti canale contemporaneamente su un solo account | ✅ | in parte ¹ | ❌ |
-| Più account in un'unica app | ✅ | ❌ ² | ❌ |
+| Tutti gli account che vuoi in un'unica app | ✅ | ❌ ² | ❌ |
 | Modificare le impostazioni di più account in una volta | ✅ | ❌ | ❌ |
 | Interfaccia grafica | ✅ desktop e web ³ | ❌ ⁴ | ✅ desktop |
 | Dashboard web per un server domestico (Docker), con password e raggiungibile in HTTPS | ✅ | ❌ ⁴ | ❌ |

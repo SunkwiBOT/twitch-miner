@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Minează Twitch Drops, insigne și puncte de canal, fără browser și fără vreo filă Twitch deschisă.</strong>
+  <strong>Minează Twitch Drops, insigne și puncte de canal pe câte conturi vrei, fără browser și fără vreo filă Twitch deschisă.</strong>
 </p>
 
 <p align="center">
@@ -73,7 +73,7 @@ la lucru.
 
 ### Conturi și streameri
 
-- **Mai multe conturi într-o singură aplicație.** Fiecare cont minează independent, în
+- **Oricâte conturi într-o singură aplicație.** Fiecare cont minează independent, în
   propriul mod: **Drops și puncte** (un canal pentru cea mai bună campanie, celălalt pentru
   streamerii tăi), **Doar Drops** sau **Doar puncte**.
 
@@ -295,7 +295,7 @@ Verificat în codul și în README-urile lor în noiembrie 2026.
 | Puncte de canal: cufere, raiduri, momente, predicții | ✅ | ✅ | ❌ |
 | Spam Points: o recompensă personalizată a unui canal revendicată de mai multe ori la rând | ✅ | ❌ | ❌ |
 | Drops și puncte de canal simultan pe același cont | ✅ | parțial ¹ | ❌ |
-| Mai multe conturi într-o singură aplicație | ✅ | ❌ ² | ❌ |
+| Oricâte conturi într-o singură aplicație | ✅ | ❌ ² | ❌ |
 | Modificarea setărilor mai multor conturi deodată | ✅ | ❌ | ❌ |
 | Interfață grafică | ✅ desktop și web ³ | ❌ ⁴ | ✅ desktop |
 | Panou web pentru un server de acasă (Docker), cu parolă și accesibil prin HTTPS | ✅ | ❌ ⁴ | ❌ |

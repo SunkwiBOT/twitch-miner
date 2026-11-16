@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Těží Twitch Drops, odznaky a body kanálu, bez prohlížeče a bez otevřené karty Twitche.</strong>
+  <strong>Těží Twitch Drops, odznaky a body kanálu na kolika účtech chcete, bez prohlížeče a bez otevřené karty Twitche.</strong>
 </p>
 
 <p align="center">
@@ -72,7 +72,7 @@
 
 ### Účty a streameři
 
-- **Více účtů v jedné aplikaci.** Každý účet těží samostatně, ve vlastním režimu:
+- **Libovolný počet účtů v jedné aplikaci.** Každý účet těží samostatně, ve vlastním režimu:
   **Drops a body** (jeden kanál pro nejlepší kampaň, druhý pro vaše streamery),
   **Jen Drops** nebo **Jen body**.
 
@@ -287,7 +287,7 @@ Ověřeno v jejich kódu a souborech README v listopadu 2026.
 | Body kanálu: truhly, raidy, momenty, předpovědi | ✅ | ✅ | ❌ |
 | Spam Points: vlastní odměna kanálu uplatněná několikrát za sebou | ✅ | ❌ | ❌ |
 | Drops a body kanálu současně na jednom účtu | ✅ | částečně ¹ | ❌ |
-| Více účtů v jedné aplikaci | ✅ | ❌ ² | ❌ |
+| Libovolný počet účtů v jedné aplikaci | ✅ | ❌ ² | ❌ |
 | Změna nastavení více účtů najednou | ✅ | ❌ | ❌ |
 | Grafické rozhraní | ✅ desktopové i webové ³ | ❌ ⁴ | ✅ desktopové |
 | Webový panel pro domácí server (Docker), chráněný heslem, dostupný přes HTTPS | ✅ | ❌ ⁴ | ❌ |

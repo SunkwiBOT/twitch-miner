@@ -5,7 +5,7 @@
 <h1 align="center">Twitch Miner</h1>
 
 <p align="center">
-  <strong>Minera Drops, emblemas e pontos de canal da Twitch, sem navegador nem separador da Twitch aberto.</strong>
+  <strong>Minera Drops, emblemas e pontos de canal da Twitch em quantas contas quiser, sem navegador nem separador da Twitch aberto.</strong>
 </p>
 
 <p align="center">
@@ -73,7 +73,7 @@ funcionar.
 
 ### Contas e streamers
 
-- **Várias contas numa só app.** Cada conta minera de forma independente, no seu próprio
+- **Quantas contas quiser numa só app.** Cada conta minera de forma independente, no seu próprio
   modo: **Drops e pontos** (um canal para a melhor campanha, o outro para os seus
   streamers), **Só Drops** ou **Só pontos**.
 
@@ -296,7 +296,7 @@ Verificado no código e nos README de cada um em novembro de 2026.
 | Pontos do canal: baús, raids, momentos, previsões | ✅ | ✅ | ❌ |
 | Spam Points: uma recompensa personalizada de um canal resgatada várias vezes seguidas | ✅ | ❌ | ❌ |
 | Drops e pontos do canal em simultâneo numa só conta | ✅ | em parte ¹ | ❌ |
-| Várias contas numa só app | ✅ | ❌ ² | ❌ |
+| Quantas contas quiser numa só app | ✅ | ❌ ² | ❌ |
 | Alterar as definições de várias contas de uma vez | ✅ | ❌ | ❌ |
 | Interface gráfica | ✅ computador e web ³ | ❌ ⁴ | ✅ computador |
 | Painel web para um servidor doméstico (Docker), com palavra-passe e acessível por HTTPS | ✅ | ❌ ⁴ | ❌ |
