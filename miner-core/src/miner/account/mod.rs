@@ -40,7 +40,7 @@ use crate::predictions;
 use crate::scheduler::{self, QueueItem, QueueReason, SlotPurpose, StreakBonus, StreamerState};
 use crate::spam::BurstSpends;
 use crate::store::vault::Vault;
-use crate::store::{AccountRecord, Credential, Store};
+use crate::store::{AccountRecord, AccountSource, Credential, Store};
 use crate::twitch::chat::{self, Chat, ChatMention};
 use crate::twitch::drops::{Award, ClaimOutcome};
 use crate::twitch::playback::{self, Playback};
@@ -230,6 +230,7 @@ struct AccountMiner<T> {
     login: String,
     display_name: String,
     avatar_url: Option<String>,
+    source: AccountSource,
     settings: AccountSettings,
     context: AccountContext,
     client: T,
@@ -354,6 +355,7 @@ impl<T: TwitchApi> AccountMiner<T> {
             login: record.login,
             display_name: record.display_name,
             avatar_url: record.avatar_url,
+            source: record.source,
             settings: record.settings,
             context,
             client,

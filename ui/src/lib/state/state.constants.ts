@@ -124,7 +124,8 @@ export const LOCK_CHECK_DELAY_MS = 2_000;
 
 export const LOCK_CHECK_TIMEOUT_MS = 5_000;
 
-// ! 60 s is plenty of time to notice and move; never more than the timeout itself.
+// ! An upper bound only: `warningLeadMs` clamps it to half the active
+// auto-lock duration, so a short one still gets a warning before it fires.
 export const LOCK_WARNING_LEAD_MS = 60_000;
 
 // ! Tailwind's `md`: the sidebar and the phone drawer switch where the `max-md:` rules do.

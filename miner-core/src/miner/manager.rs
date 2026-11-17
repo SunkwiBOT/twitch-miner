@@ -5,7 +5,7 @@ use std::time::Duration;
 
 use chrono::{DateTime, Utc};
 use futures_util::future::join_all;
-use tokio::sync::{broadcast, mpsc, oneshot, Mutex, Notify, RwLock};
+use tokio::sync::{broadcast, mpsc, oneshot, watch, Mutex, Notify, RwLock};
 use tokio_util::sync::CancellationToken;
 
 use super::account::{self, AccountCommand, AccountContext, AccountHandle};
@@ -96,10 +96,12 @@ struct LoginFlow {
 struct ImportFlow {
     view: ImportTokensFlowView,
     cancel: CancellationToken,
-    // ! Awaited in `cancel_import_tokens`, after the lock that guards this
-    // struct is released: a cancel must not return before the job has
-    // actually stopped touching the store or spawning a task.
-    job: Option<tokio::task::JoinHandle<()>>,
+    // ! A `watch`, not a one-shot: every concurrent `cancel_import_tokens`
+    // call clones its own receiver off this one and observes the job's
+    // own completion, not just whichever caller happened to see the flow
+    // first (a `watch` replays its current value to a receiver created
+    // after the job already sent it).
+    done: watch::Receiver<bool>,
 }
 
 // ! Bundled so `finish_login` stays under clippy's argument limit:
@@ -792,7 +794,7 @@ impl Manager {
         self.cancel_import_tokens().await;
         // ! No result screen survives a lock: drop it outright rather
         // than leave a `Cancelled` view with nothing open to show it.
-        *self.import.lock().await = None;
+        self.dismiss_import_tokens().await;
         self.spam.cancel_bursts(None);
         self.stop_all_accounts().await;
         *self.vault.write().await = None;
@@ -1018,11 +1020,7 @@ impl Manager {
 
         let mut settings = settings;
 
-        settings.proxy = settings.proxy.trim().to_owned();
-
-        if !settings.proxy.is_empty() {
-            crate::twitch::parse_proxy(&settings.proxy)?;
-        }
+        settings.proxy = crate::twitch::trim_and_validate_proxy(&settings.proxy)?;
 
         settings
             .points
@@ -1306,11 +1304,7 @@ impl Manager {
 
         let mut settings = settings;
 
-        settings.proxy = settings.proxy.trim().to_owned();
-
-        if !settings.proxy.is_empty() {
-            crate::twitch::parse_proxy(&settings.proxy)?;
-        }
+        settings.proxy = crate::twitch::trim_and_validate_proxy(&settings.proxy)?;
 
         self.cancel_import_tokens().await;
 
@@ -1328,17 +1322,18 @@ impl Manager {
             status: ImportTokensFlowStatus::Running,
         };
         let cancel = CancellationToken::new();
+        let (done_tx, done_rx) = watch::channel(false);
 
         *self.import.lock().await = Some(ImportFlow {
             view: view.clone(),
             cancel: cancel.clone(),
-            job: None,
+            done: done_rx,
         });
 
         let this = self.clone();
         let flow_id_for_task = flow_id.clone();
 
-        let job = tokio::spawn(async move {
+        tokio::spawn(async move {
             this.run_import(ImportJob {
                 flow_id: flow_id_for_task,
                 tokens,
@@ -1349,17 +1344,9 @@ impl Manager {
                 cancel,
             })
             .await;
-        });
 
-        if let Some(flow) = self
-            .import
-            .lock()
-            .await
-            .as_mut()
-            .filter(|flow| flow.view.flow_id == flow_id)
-        {
-            flow.job = Some(job);
-        }
+            let _ = done_tx.send(true);
+        });
 
         self.changed.notify_waiters();
 
@@ -1559,30 +1546,37 @@ impl Manager {
 
     // ! A running flow is cancelled in place, not removed: the result
     // screen still has imported/failed lines to show once the job settles
-    // it to `Cancelled` (see `run_import`). Called again on an already
-    // settled flow, this is a dismiss instead, clearing it for good; a
-    // caller that wants it gone unconditionally (`lock()`) drops it itself.
+    // it to `Cancelled` (see `run_import`). A no-op on an already settled
+    // or absent flow; `dismiss_import_tokens` is the only way to clear a
+    // settled one, so a cancel landing just after completion cannot drop
+    // outcomes the UI has not seen yet.
     pub async fn cancel_import_tokens(&self) {
-        let job = {
+        let done = {
             let mut import = self.import.lock().await;
 
-            match import.as_mut() {
-                Some(flow) if flow.view.status == ImportTokensFlowStatus::Running => {
+            import.as_mut().and_then(|flow| {
+                if flow.view.status == ImportTokensFlowStatus::Running {
                     flow.cancel.cancel();
-                    flow.job.take()
-                }
-                Some(_) => {
-                    *import = None;
 
+                    Some(flow.done.clone())
+                } else {
                     None
                 }
-                None => None,
-            }
+            })
         };
 
-        if let Some(job) = job {
-            let _ = job.await;
+        if let Some(mut done) = done {
+            let _ = done.wait_for(|done| *done).await;
         }
+
+        self.changed.notify_waiters();
+    }
+
+    // ! Clears the flow outright, running or settled: closing the dialog
+    // on a finished result, or a caller that wants it gone unconditionally
+    // (`lock()`), goes through this instead of `cancel_import_tokens`.
+    pub async fn dismiss_import_tokens(&self) {
+        *self.import.lock().await = None;
 
         self.changed.notify_waiters();
     }
@@ -1603,10 +1597,10 @@ impl Manager {
     }
 
     // ! Shared by the device-code flow and a pasted token: both end in the
-    // same account record, credential and "signed in" event. `LoginOutcome`
-    // only matters when no account exists yet (`source`/`new_account`); an
-    // existing one keeps its own settings unless `existing_patch` asks to
-    // apply a patch over them.
+    // same account record, credential and "signed in" event. `source`
+    // always applies (see the field's own comment); `new_account` only
+    // matters when no account exists yet, `existing_patch` only when one
+    // does and asks to apply a patch over it.
     async fn finish_login(
         self: &Arc<Self>,
         http: &Arc<TwitchHttp>,
@@ -1814,11 +1808,7 @@ impl Manager {
 
         let mut settings = settings;
 
-        settings.default_proxy = settings.default_proxy.trim().to_owned();
-
-        if !settings.default_proxy.is_empty() {
-            crate::twitch::parse_proxy(&settings.default_proxy)?;
-        }
+        settings.default_proxy = crate::twitch::trim_and_validate_proxy(&settings.default_proxy)?;
 
         let proxy_changed = self.settings.read().await.default_proxy != settings.default_proxy;
         let http = if proxy_changed {
@@ -2020,6 +2010,7 @@ impl Manager {
         match command {
             Command::CancelLogin {} => self.cancel_login().await,
             Command::CancelImportTokens {} => self.cancel_import_tokens().await,
+            Command::DismissImportTokens {} => self.dismiss_import_tokens().await,
             Command::DismissStarPrompt {} => self.dismiss_star_prompt()?,
             Command::RemoveAccount {
                 account_id,

@@ -25,18 +25,18 @@ pub enum AccountSource {
 }
 
 impl AccountSource {
-    fn as_str(self) -> &'static str {
-        match self {
-            Self::DeviceCode => "DEVICE_CODE",
-            Self::ImportedToken => "IMPORTED_TOKEN",
+    // ! Round-tripped through serde (the same `SCREAMING_SNAKE_CASE`
+    // rename as the type derives), so the stored string can never drift
+    // from the variant names declared on the enum.
+    fn as_str(self) -> String {
+        match serde_json::to_value(self) {
+            Ok(serde_json::Value::String(value)) => value,
+            _ => unreachable!("AccountSource serializes to a string"),
         }
     }
 
     fn parse(value: &str) -> Self {
-        match value {
-            "IMPORTED_TOKEN" => Self::ImportedToken,
-            _ => Self::DeviceCode,
-        }
+        serde_json::from_value(serde_json::Value::String(value.to_owned())).unwrap_or_default()
     }
 }
 
@@ -280,8 +280,8 @@ impl Store {
             "DELETE FROM request WHERE id IN (SELECT id FROM request WHERE account_id = ?1 LIMIT ?2)",
             &id,
         )?;
-        // ! `account_source` and `credential` cascade on `account`'s own
-        // delete: nothing left to clean up by hand here.
+        // ! `account_source` and `credential` are declared `ON DELETE
+        // CASCADE` on `account.id`, so this delete removes them too.
         Ok(())
     }
 

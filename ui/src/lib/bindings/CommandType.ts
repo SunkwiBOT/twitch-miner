@@ -5,6 +5,7 @@ import type { GlobalSettingsType } from "./GlobalSettingsType";
 export type CommandType =
   | { command: "CANCEL_LOGIN" }
   | { command: "CANCEL_IMPORT_TOKENS" }
+  | { command: "DISMISS_IMPORT_TOKENS" }
   | { command: "REMOVE_ACCOUNT"; account_id: string; revoke_token: boolean }
   | { command: "SET_ACCOUNT_SETTINGS"; account_id: string; settings: AccountSettingsType }
   | { command: "REORDER_ACCOUNTS"; account_ids: Array<string> }

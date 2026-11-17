@@ -29,26 +29,16 @@ export const parseTokenLines = (value: string): string[] =>
     .map((line) => line.trim())
     .filter((line) => line !== "");
 
-// ! Mirrors `parse_pasted_token` in miner-core/src/twitch/auth.rs: the
-// backend accepts the same `oauth:`/`OAuth ` prefixes.
-export const normalizeOauthToken = (token: string): string => {
-  const trimmed = token.trimStart();
-  const lower = trimmed.toLowerCase();
-
-  const rest = lower.startsWith("oauth:")
-    ? trimmed.slice("oauth:".length)
-    : lower.startsWith("oauth ")
-      ? trimmed.slice("oauth ".length)
-      : trimmed;
-
-  return rest.trim();
-};
-
 export const buildTokenLines = (tokens: string[]): ParsedTokenLineType[] => {
   const seen = new Set<string>();
 
+  // ! Only an exact duplicate paste is caught here, before any check
+  // request: two tokens that only differ by an `oauth:`/`OAuth ` prefix
+  // or casing still each get checked, and `dedupeByAccount` below catches
+  // them once the backend's own `parse_pasted_token` has resolved both to
+  // the same account — no hand-mirrored copy of that parser here.
   return tokens.map((token) => {
-    const key = normalizeOauthToken(token);
+    const key = token.trim();
 
     if (seen.has(key)) {
       return { token, status: ImportLineStatus.DUPLICATE };

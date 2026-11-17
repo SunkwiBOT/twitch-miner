@@ -92,16 +92,16 @@
 
   const PENDING_OUTCOME: ImportTokenOutcomeType = { status: OUTCOME_PENDING };
 
-  // ! Placeholder only: the vault-locked branch in `LoginDialog` renders in
-  // place of this component until `app.snapshot` exists, so the real
-  // `import_default_patch` from the backend is always there by the time
-  // this initializer runs.
-  const UNREACHABLE_PATCH = {
-    mode: "AUTO",
-    mining_order: [],
-    slots: 1,
-    proxy: "",
-  } as AccountSettingsPatchType;
+  // ! The vault-locked branch in `LoginDialog` renders in place of this
+  // component until `app.snapshot` exists, so this throws only if that
+  // invariant is ever broken, never in normal use.
+  const requireDefaultPatch = (): AccountSettingsPatchType => {
+    if (!app.snapshot) {
+      throw new Error("ImportTokensDialog mounted before app.snapshot exists");
+    }
+
+    return app.snapshot.import_default_patch;
+  };
 
   const STATUS_CLASSES: Record<ImportLineStatus, string> = {
     [ImportLineStatus.PENDING]: "border-dashed border-input text-muted-foreground",
@@ -139,11 +139,10 @@
   let cancelRequested = false;
   let inflight: AbortController | null = null;
 
-  // ! Mirrors `AccountSettings::default()` through the snapshot, built
-  // server-side by `AccountSettingsPatch::defaults()`: never hand-copied.
-  let patch = $state<AccountSettingsPatchType>(
-    structuredClone(app.snapshot?.import_default_patch ?? UNREACHABLE_PATCH),
-  );
+  // ! Defaults from the backend's own `AccountSettings::default()`, see
+  // `AccountSettingsPatch::defaults()`. `$state.snapshot` takes the deep
+  // plain copy: `structuredClone` chokes on the reactive proxy itself.
+  let patch = $state<AccountSettingsPatchType>($state.snapshot(requireDefaultPatch()));
   let overwriteExisting = $state(false);
   let committing = $state(false);
   let commitError = $state<string | null>(null);
@@ -475,19 +474,23 @@
     onclose();
   };
 
-  // ! Stops the validation loop and drops whatever check is in flight,
-  // and cancels the backend job if this dialog still owns a running one:
-  // switching to the sign-in-code step mid-import must not leave it
-  // behind uncancelled (closing the dialog outright goes through
-  // `onclose`/`LoginDialog`'s own cancel-or-dismiss instead).
+  // ! The dialog closing outright goes through `onclose`/`LoginDialog`'s
+  // own cancel-or-dismiss; switching to the sign-in-code step instead
+  // unmounts this component without going through `onclose`, so it
+  // cancels a running import itself before handing off.
+  const useCode = (): void => {
+    if (importRunning) {
+      void cancelImport();
+    }
+
+    onusecode();
+  };
+
+  // ! Stops the validation loop and drops whatever check is in flight on unmount.
   $effect(() => {
     return () => {
       cancelRequested = true;
       inflight?.abort();
-
-      if (importRunning) {
-        void cancelImport();
-      }
     };
   });
 </script>
@@ -549,7 +552,7 @@
           spellcheck={false}
           autocomplete="off"
           autocapitalize="off"
-          {...{ autocorrect: "off" }}
+          autocorrect="off"
           class={cn("pr-9", !pasteShown && "[-webkit-text-security:disc]")}
           bind:value={pasted}
           oninput={() => (pasteError = null)}
@@ -576,7 +579,7 @@
           size={ButtonSize.SM}
           type={ButtonType.BUTTON}
           disabled={false}
-          onclick={onusecode}
+          onclick={useCode}
         />
       </div>
     </div>

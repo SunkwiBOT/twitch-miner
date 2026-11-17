@@ -233,9 +233,8 @@ pub struct Snapshot {
     // desktop and the dashboard shell.
     pub token_import_max: u32,
     pub token_line_max_chars: u32,
-    // ! Built from `AccountSettings::default()`, the same way the caps
-    // above travel, so the bulk-import settings step never hand-copies
-    // defaults that could drift from the backend.
+    // ! Built from `AccountSettings::default()`, see
+    // `AccountSettingsPatch::defaults()`.
     pub import_default_patch: AccountSettingsPatch,
 }
 

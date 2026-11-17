@@ -15,6 +15,7 @@ use crate::config::{AccountSettings, GlobalSettings};
 pub enum Command {
     CancelLogin {},
     CancelImportTokens {},
+    DismissImportTokens {},
     RemoveAccount {
         account_id: String,
         // ! See `Manager::remove_account`.
@@ -83,6 +84,7 @@ pub enum Command {
 pub enum CommandName {
     CancelLogin,
     CancelImportTokens,
+    DismissImportTokens,
     RemoveAccount,
     SetAccountSettings,
     ReorderAccounts,
@@ -107,6 +109,7 @@ impl std::fmt::Debug for Command {
         match self {
             Self::CancelLogin {} => f.write_str("CancelLogin"),
             Self::CancelImportTokens {} => f.write_str("CancelImportTokens"),
+            Self::DismissImportTokens {} => f.write_str("DismissImportTokens"),
             Self::RemoveAccount {
                 account_id,
                 revoke_token,
@@ -184,6 +187,7 @@ impl Command {
         match self {
             Self::CancelLogin {} => CommandName::CancelLogin,
             Self::CancelImportTokens {} => CommandName::CancelImportTokens,
+            Self::DismissImportTokens {} => CommandName::DismissImportTokens,
             Self::RemoveAccount { .. } => CommandName::RemoveAccount,
             Self::SetAccountSettings { .. } => CommandName::SetAccountSettings,
             Self::ReorderAccounts { .. } => CommandName::ReorderAccounts,

@@ -450,6 +450,19 @@ pub fn parse_proxy(url: &str) -> Result<reqwest::Proxy> {
         .map_err(|_| Error::InvalidProxy("the HTTP client refused the proxy".into()))
 }
 
+// ! Shared by every settings path that stores a proxy (account settings,
+// global settings, a token import's batch proxy): trims it and validates
+// it once, as the one place that decides what a stored proxy string looks like.
+pub fn trim_and_validate_proxy(proxy: &str) -> Result<String> {
+    let proxy = proxy.trim().to_owned();
+
+    if !proxy.is_empty() {
+        parse_proxy(&proxy)?;
+    }
+
+    Ok(proxy)
+}
+
 pub async fn test_proxy(proxy: &str, requests: RequestLog) -> Result<Duration> {
     let http = TwitchHttp::new(crate::util::random_device_id(), Some(proxy), requests)?;
     let address = format!("{OAUTH_URL}/validate");

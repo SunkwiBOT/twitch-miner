@@ -3,6 +3,7 @@
   import { untrack, type Snippet } from "svelte";
 
   import { startLogin } from "../../lib/api/client";
+  import { ImportTokensFlowStatus } from "../../lib/bindings/ImportTokensFlowStatus";
   import { LoginFlowStatus } from "../../lib/bindings/LoginFlowStatus";
   import { describeCode, describeError } from "../../lib/errors/errors.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
@@ -97,10 +98,15 @@
       void run({ command: CommandName.CANCEL_LOGIN });
     }
 
-    // ! Whatever state it is in: a running flow is cancelled, a settled
-    // one is dismissed from the snapshot, same as the login flow above.
+    // ! A running flow is cancelled, a settled one dismissed: one command
+    // per close, never both for the same flow.
     if (importFlowId !== null && app.snapshot?.import?.flow_id === importFlowId) {
-      void run({ command: CommandName.CANCEL_IMPORT_TOKENS });
+      const command =
+        app.snapshot.import.status === ImportTokensFlowStatus.RUNNING
+          ? CommandName.CANCEL_IMPORT_TOKENS
+          : CommandName.DISMISS_IMPORT_TOKENS;
+
+      void run({ command });
     }
   };
 
