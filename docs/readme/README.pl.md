@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Aplikacja desktopowa na Linuksa, Windows i macOS albo obraz Dockera z tym samym panelem WWW, do uruchomienia na domowym serwerze lub na Raspberry Pi. Przy 4 kontach serwer zużywa około 30 MB pamięci i prawie nie obciąża procesora.
+  Aplikacja desktopowa na Linuksa, Windows i macOS albo obraz Dockera z tym samym panelem WWW, do uruchomienia na domowym serwerze lub na Raspberry Pi. Serwer zużywa około 3 MB pamięci na konto i prawie nie obciąża procesora.
 </p>
 
 <p align="center">
@@ -221,7 +221,7 @@ działa.
   Dockera pokazują ten sam panel. Docker działa na VPS-ie, NAS-ie lub Raspberry Pi, bez
   ekranu i przeglądarki na tej maszynie: panel otwiera się w dowolnej przeglądarce.
   Na telefonie panel dopasowuje się do ekranu, a przez HTTPS można go zainstalować jak aplikację.
-- **Lekki.** Około 30 MB pamięci przy 4 kontach, prawie zerowe użycie procesora i obraz
+- **Lekki.** Około 3 MB pamięci na konto, prawie zerowe użycie procesora i obraz
   Dockera o rozmiarze około 12 MB.
 
 ### Bezpieczeństwo i aktualizacje
@@ -308,7 +308,7 @@ Sprawdzone w ich kodzie i plikach README w listopadzie 2026 r.
 | Streamerzy z Twojej listy oglądani w pierwszej kolejności dla Drops z kampanii | ✅ | częściowo ¹⁰ | ❌ |
 | Odznaki Twitcha: lista wszystkich odznak, odznaki każdego konta, Drops z odznakami i zadania Twitcha kopane w Twojej kolejności (beta) | ✅ | ❌ | częściowo ¹² |
 | Filtrowany dziennik zdarzeń i lista wszystkich żądań, w interfejsie | ✅ | ❌ ⁴ | ❌ |
-| Około 30 MB pamięci (serwer Docker, 4 konta) | ✅ | — ¹¹ | — ¹¹ |
+| Około 3 MB pamięci na konto (serwer Docker) | ✅ | — ¹¹ | — ¹¹ |
 
 ¹ Ogląda tylko streamerów ze swojej listy: posuwa naprzód i odbiera Drops z ich transmisji,
 nie wybierając kampanii.\

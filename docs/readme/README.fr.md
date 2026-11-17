@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Une application de bureau pour Linux, Windows et macOS, ou une image Docker avec le même tableau de bord web, à lancer sur un serveur à la maison ou sur un Raspberry Pi. Avec 4 comptes, le serveur utilise environ 30 Mo de mémoire et presque pas de processeur.
+  Une application de bureau pour Linux, Windows et macOS, ou une image Docker avec le même tableau de bord web, à lancer sur un serveur à la maison ou sur un Raspberry Pi. Le serveur utilise environ 3 Mo de mémoire par compte et presque pas de processeur.
 </p>
 
 <p align="center">
@@ -226,7 +226,7 @@ Ce qui le distingue des autres mineurs. « Voir en image » montre chaque poin
   Raspberry Pi, sans écran ni navigateur sur cette machine : le tableau de bord s'ouvre
   dans n'importe quel navigateur.
   Sur un téléphone, le tableau de bord s'adapte à l'écran et, en HTTPS, s'installe comme une application.
-- **Léger.** Environ 30 Mo de mémoire pour 4 comptes, presque pas de processeur, et une
+- **Léger.** Environ 3 Mo de mémoire par compte, presque pas de processeur, et une
   image Docker d'environ 12 Mo.
 
 ### Sécurité et mises à jour
@@ -315,7 +315,7 @@ Vérifié dans leur code et leur README en novembre 2026.
 | Vos streamers listés regardés en premier pour les Drops d'une campagne | ✅ | en partie ¹⁰ | ❌ |
 | Badges Twitch : la liste de tous les badges, ceux de chaque compte, Drops de badges et quêtes Twitch minés dans votre ordre (bêta) | ✅ | ❌ | en partie ¹² |
 | Journal des événements filtrable et liste de chaque requête, dans l'interface | ✅ | ❌ ⁴ | ❌ |
-| Environ 30 Mo de mémoire (serveur Docker, 4 comptes) | ✅ | — ¹¹ | — ¹¹ |
+| Environ 3 Mo de mémoire par compte (serveur Docker) | ✅ | — ¹¹ | — ¹¹ |
 
 ¹ Il ne regarde que les streamers de sa liste : il fait progresser et réclame les Drops de
 leurs streams, sans choisir de campagne.\

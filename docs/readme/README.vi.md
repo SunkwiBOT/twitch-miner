@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Ứng dụng máy tính cho Linux, Windows và macOS, hoặc image Docker có cùng bảng điều khiển web, để chạy trên máy chủ tại nhà hay trên Raspberry Pi. Với 4 tài khoản, máy chủ dùng khoảng 30 MB bộ nhớ và gần như không tốn CPU.
+  Ứng dụng máy tính cho Linux, Windows và macOS, hoặc image Docker có cùng bảng điều khiển web, để chạy trên máy chủ tại nhà hay trên Raspberry Pi. Máy chủ dùng khoảng 3 MB bộ nhớ cho mỗi tài khoản và gần như không tốn CPU.
 </p>
 
 <p align="center">
@@ -164,7 +164,7 @@ Những gì làm nên khác biệt so với các trình đào khác. “Xem minh
 
 - **Cùng một giao diện ở mọi nơi.** Ứng dụng máy tính (Linux, Windows, macOS) và image Docker hiển thị cùng một bảng điều khiển. Docker chạy trên VPS, NAS hoặc Raspberry Pi, máy đó không cần màn hình hay trình duyệt: bảng điều khiển mở được trong bất kỳ trình duyệt nào.
   Trên điện thoại, bảng điều khiển tự vừa với màn hình, và qua HTTPS có thể cài như một ứng dụng.
-- **Nhẹ.** Khoảng 30 MB bộ nhớ cho 4 tài khoản, gần như không tốn CPU, và image Docker chỉ khoảng 12 MB.
+- **Nhẹ.** Khoảng 3 MB bộ nhớ cho mỗi tài khoản, gần như không tốn CPU, và image Docker chỉ khoảng 12 MB.
 
 ### Bảo mật và cập nhật
 
@@ -230,7 +230,7 @@ So sánh [Twitch Miner](https://github.com/SunkwiBOT/twitch-miner) với [Twitch
 | Ưu tiên xem các streamer trong danh sách của bạn để lấy Drops của một chiến dịch | ✅ | một phần ¹⁰ | ❌ |
 | Huy hiệu Twitch: danh sách mọi huy hiệu, huy hiệu của từng tài khoản, Drops huy hiệu và nhiệm vụ Twitch được đào theo thứ tự của bạn (beta) | ✅ | ❌ | một phần ¹² |
 | Nhật ký sự kiện có bộ lọc và danh sách mọi yêu cầu, ngay trong giao diện | ✅ | ❌ ⁴ | ❌ |
-| Khoảng 30 MB bộ nhớ (máy chủ Docker, 4 tài khoản) | ✅ | — ¹¹ | — ¹¹ |
+| Khoảng 3 MB bộ nhớ mỗi tài khoản (máy chủ Docker) | ✅ | — ¹¹ | — ¹¹ |
 
 ¹ Nó chỉ xem các streamer trong danh sách của mình: nó đẩy tiến độ và nhận Drops từ các buổi phát của họ, nhưng không chọn chiến dịch.\
 ² Mỗi tài khoản một tiến trình.\

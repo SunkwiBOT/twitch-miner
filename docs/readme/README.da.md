@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  En skrivebordsapp til Linux, Windows og macOS eller et Docker-image med den samme weboversigt, der kan køre på en hjemmeserver eller på en Raspberry Pi. Med 4 konti bruger serveren omkring 30 MB hukommelse og næsten ingen CPU.
+  En skrivebordsapp til Linux, Windows og macOS eller et Docker-image med den samme weboversigt, der kan køre på en hjemmeserver eller på en Raspberry Pi. Serveren bruger omkring 3 MB hukommelse pr. konto og næsten ingen CPU.
 </p>
 
 <p align="center">
@@ -224,7 +224,7 @@ brug.
   Docker-imaget viser den samme oversigt. Docker kører på en VPS, en NAS eller en Raspberry
   Pi uden skærm eller browser på den maskine: oversigten åbner i enhver browser.
   På en telefon tilpasser oversigten sig skærmen, og via HTTPS kan den installeres som en app.
-- **Let.** Omkring 30 MB hukommelse til 4 konti, næsten ingen CPU og et Docker-image på
+- **Let.** Omkring 3 MB hukommelse pr. konto, næsten ingen CPU og et Docker-image på
   omkring 12 MB.
 
 ### Sikkerhed og opdateringer
@@ -315,7 +315,7 @@ Kontrolleret ud fra deres kode og README-filer i november 2026.
 | Streamerne på din liste ses først for en kampagnes Drops | ✅ | delvist ¹⁰ | ❌ |
 | Twitch-badges: listen over alle badges, hver kontos badges, badge-Drops og Twitch-quests mines i din rækkefølge (beta) | ✅ | ❌ | delvist ¹² |
 | Filtrérbar hændelsesjournal og en liste over hver forespørgsel, i brugerfladen | ✅ | ❌ ⁴ | ❌ |
-| Omkring 30 MB hukommelse (Docker-server, 4 konti) | ✅ | — ¹¹ | — ¹¹ |
+| Omkring 3 MB hukommelse pr. konto (Docker-server) | ✅ | — ¹¹ | — ¹¹ |
 
 ¹ Den ser kun streamerne på sin liste: den bringer Drops i deres streams videre og henter
 dem uden at vælge en kampagne.\

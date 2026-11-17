@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Työpöytäsovellus Linuxille, Windowsille ja macOS:lle tai Docker-image, jossa on sama verkkohallintapaneeli ja jota voi ajaa kotipalvelimella tai Raspberry Pi:llä. 4 tilillä palvelin käyttää noin 30 Mt muistia eikä juuri lainkaan suoritinta.
+  Työpöytäsovellus Linuxille, Windowsille ja macOS:lle tai Docker-image, jossa on sama verkkohallintapaneeli ja jota voi ajaa kotipalvelimella tai Raspberry Pi:llä. Palvelin käyttää noin 3 Mt muistia per tili eikä juuri lainkaan suoritinta.
 </p>
 
 <p align="center">
@@ -226,7 +226,7 @@ ominaisuuden käytössä.
   Raspberry Pi:llä ilman näyttöä tai selainta kyseisellä koneella: hallintapaneeli
   avautuu missä tahansa selaimessa.
   Puhelimessa hallintapaneeli mukautuu näyttöön, ja HTTPS:n kautta sen voi asentaa kuin sovelluksen.
-- **Kevyt.** Noin 30 Mt muistia 4 tilille, tuskin lainkaan suoritinta ja noin 12 Mt:n
+- **Kevyt.** Noin 3 Mt muistia per tili, tuskin lainkaan suoritinta ja noin 12 Mt:n
   Docker-image.
 
 ### Tietoturva ja päivitykset
@@ -317,7 +317,7 @@ Tarkistettu niiden koodista ja README-tiedostoista marraskuussa 2026.
 | Listasi streamaajia katsotaan ensin kampanjan Dropseja varten | ✅ | osittain ¹⁰ | ❌ |
 | Twitch-merkit: kaikkien merkkien lista, kunkin tilin merkit, merkki-Dropsit ja Twitchin questit louhitaan haluamassasi järjestyksessä (beta) | ✅ | ❌ | osittain ¹² |
 | Suodatettava tapahtumapäiväkirja ja lista jokaisesta pyynnöstä käyttöliittymässä | ✅ | ❌ ⁴ | ❌ |
-| Noin 30 Mt muistia (Docker-palvelin, 4 tiliä) | ✅ | — ¹¹ | — ¹¹ |
+| Noin 3 Mt muistia per tili (Docker-palvelin) | ✅ | — ¹¹ | — ¹¹ |
 
 ¹ Se katsoo vain listansa streamaajia: se edistää heidän lähetystensä Dropseja ja
 lunastaa ne valitsematta kampanjaa.\

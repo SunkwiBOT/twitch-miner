@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  En skrivebordsapp for Linux, Windows og macOS, eller et Docker-image med den samme weboversikten, til å kjøre på en hjemmeserver eller på en Raspberry Pi. Med 4 kontoer bruker serveren rundt 30 MB minne og nesten ingen CPU.
+  En skrivebordsapp for Linux, Windows og macOS, eller et Docker-image med den samme weboversikten, til å kjøre på en hjemmeserver eller på en Raspberry Pi. Serveren bruker rundt 3 MB minne per konto og nesten ingen CPU.
 </p>
 
 <p align="center">
@@ -224,7 +224,7 @@ bruk.
   Raspberry Pi, uten skjerm eller nettleser på den maskinen: oversikten åpnes i hvilken som
   helst nettleser.
   På en telefon tilpasser oversikten seg skjermen, og over HTTPS kan den installeres som en app.
-- **Lett.** Rundt 30 MB minne for 4 kontoer, nesten ingen CPU og et Docker-image på rundt
+- **Lett.** Rundt 3 MB minne per konto, nesten ingen CPU og et Docker-image på rundt
   12 MB.
 
 ### Sikkerhet og oppdateringer
@@ -314,7 +314,7 @@ Kontrollert mot koden og README-filene deres i november 2026.
 | Streamerne på listen din ses først for en kampanjes Drops | ✅ | delvis ¹⁰ | ❌ |
 | Twitch-merker: listen over alle merker, merkene til hver konto, merke-Drops og Twitch-quests mines i din rekkefølge (beta) | ✅ | ❌ | delvis ¹² |
 | Filtrerbar hendelsesjournal og en liste over hver forespørsel, i grensesnittet | ✅ | ❌ ⁴ | ❌ |
-| Rundt 30 MB minne (Docker-server, 4 kontoer) | ✅ | — ¹¹ | — ¹¹ |
+| Rundt 3 MB minne per konto (Docker-server) | ✅ | — ¹¹ | — ¹¹ |
 
 ¹ Den ser bare på streamerne på listen sin: den gir fremgang på Drops i sendingene deres og
 henter dem, uten å velge kampanje.\

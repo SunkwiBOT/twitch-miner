@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Aplikasi desktop untuk Linux, Windows, dan macOS, atau image Docker dengan dasbor web yang sama, untuk dijalankan di server rumahan atau di Raspberry Pi. Dengan 4 akun, server memakai sekitar 30 MB memori dan hampir tidak memakai CPU.
+  Aplikasi desktop untuk Linux, Windows, dan macOS, atau image Docker dengan dasbor web yang sama, untuk dijalankan di server rumahan atau di Raspberry Pi. Server memakai sekitar 3 MB memori per akun dan hampir tidak memakai CPU.
 </p>
 
 <p align="center">
@@ -164,7 +164,7 @@ Hal-hal yang membedakannya dari penambang lain. “Lihat langsung” di bawah se
 
 - **Antarmuka yang sama di mana saja.** Aplikasi desktop (Linux, Windows, macOS) dan image Docker menampilkan dasbor yang sama. Docker berjalan di VPS, NAS, atau Raspberry Pi, tanpa layar atau browser di mesin itu: dasbor bisa dibuka di browser mana pun.
   Di ponsel, dasbor menyesuaikan diri dengan layar, dan lewat HTTPS bisa dipasang seperti aplikasi.
-- **Ringan.** Sekitar 30 MB memori untuk 4 akun, hampir tanpa CPU, dan image Docker sekitar 12 MB.
+- **Ringan.** Sekitar 3 MB memori per akun, hampir tanpa CPU, dan image Docker sekitar 12 MB.
 
 ### Keamanan dan pembaruan
 
@@ -230,7 +230,7 @@ Posisi [Twitch Miner](https://github.com/SunkwiBOT/twitch-miner) dibandingkan de
 | Streamer di daftar Anda ditonton lebih dulu untuk Drops sebuah kampanye | ✅ | sebagian ¹⁰ | ❌ |
 | Lencana Twitch: daftar semua lencana, lencana tiap akun, Drops lencana dan quest Twitch ditambang sesuai urutan Anda (beta) | ✅ | ❌ | sebagian ¹² |
 | Jurnal peristiwa yang bisa disaring dan daftar setiap permintaan, di antarmuka | ✅ | ❌ ⁴ | ❌ |
-| Sekitar 30 MB memori (server Docker, 4 akun) | ✅ | — ¹¹ | — ¹¹ |
+| Sekitar 3 MB memori per akun (server Docker) | ✅ | — ¹¹ | — ¹¹ |
 
 ¹ Ia hanya menonton streamer di daftarnya: ia memajukan dan mengklaim Drops dari stream mereka, tanpa memilih kampanye.\
 ² Satu proses per akun.\

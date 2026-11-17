@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Un'app desktop per Linux, Windows e macOS, oppure un'immagine Docker con la stessa dashboard web, da eseguire su un server domestico o su un Raspberry Pi. Con 4 account, il server usa circa 30 MB di memoria e quasi niente CPU.
+  Un'app desktop per Linux, Windows e macOS, oppure un'immagine Docker con la stessa dashboard web, da eseguire su un server domestico o su un Raspberry Pi. Il server usa circa 3 MB di memoria per account e quasi niente CPU.
 </p>
 
 <p align="center">
@@ -224,7 +224,7 @@ all'opera.
   Docker mostrano la stessa dashboard. Docker gira su un VPS, un NAS o un Raspberry Pi,
   senza schermo né browser su quella macchina: la dashboard si apre in qualsiasi browser.
   Sul telefono la dashboard si adatta allo schermo e, in HTTPS, si installa come un'app.
-- **Leggero.** Circa 30 MB di memoria per 4 account, quasi niente CPU e un'immagine Docker
+- **Leggero.** Circa 3 MB di memoria per account, quasi niente CPU e un'immagine Docker
   di circa 12 MB.
 
 ### Sicurezza e aggiornamenti
@@ -312,7 +312,7 @@ Verificato sul loro codice e sui loro README a novembre 2026.
 | Gli streamer della tua lista guardati per primi per i Drops di una campagna | ✅ | in parte ¹⁰ | ❌ |
 | Badge di Twitch: l'elenco di tutti i badge, i badge di ogni account, Drops di badge e missioni Twitch minati nel tuo ordine (beta) | ✅ | ❌ | in parte ¹² |
 | Registro degli eventi filtrabile ed elenco di ogni richiesta, nell'interfaccia | ✅ | ❌ ⁴ | ❌ |
-| Circa 30 MB di memoria (server Docker, 4 account) | ✅ | — ¹¹ | — ¹¹ |
+| Circa 3 MB di memoria per account (server Docker) | ✅ | — ¹¹ | — ¹¹ |
 
 ¹ Guarda solo gli streamer della sua lista: fa avanzare i Drops dei loro stream e li
 riscatta, senza scegliere una campagna.\

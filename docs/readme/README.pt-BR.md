@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Um app para desktop no Linux, Windows e macOS, ou uma imagem Docker com o mesmo painel web, para rodar em um servidor caseiro ou em um Raspberry Pi. Com 4 contas, o servidor usa cerca de 30 MB de memória e quase nada de CPU.
+  Um app para desktop no Linux, Windows e macOS, ou uma imagem Docker com o mesmo painel web, para rodar em um servidor caseiro ou em um Raspberry Pi. O servidor usa cerca de 3 MB de memória por conta e quase nada de CPU.
 </p>
 
 <p align="center">
@@ -222,7 +222,7 @@ recurso funcionando.
   imagem Docker mostram o mesmo painel. O Docker roda em um VPS, um NAS ou um
   Raspberry Pi, sem tela nem navegador nessa máquina: o painel abre em qualquer navegador.
   No celular, o painel se ajusta à tela e, via HTTPS, pode ser instalado como um app.
-- **Leve.** Cerca de 30 MB de memória para 4 contas, quase nada de CPU e uma imagem Docker
+- **Leve.** Cerca de 3 MB de memória por conta, quase nada de CPU e uma imagem Docker
   de cerca de 12 MB.
 
 ### Segurança e atualizações
@@ -310,7 +310,7 @@ Verificado no código e nos READMEs deles em novembro de 2026.
 | Os streamers da sua lista assistidos primeiro para os Drops de uma campanha | ✅ | em parte ¹⁰ | ❌ |
 | Emblemas da Twitch: a lista de todos os emblemas, os emblemas de cada conta, Drops de emblemas e missões da Twitch minerados na sua ordem (beta) | ✅ | ❌ | em parte ¹² |
 | Diário de eventos filtrável e lista de cada requisição, na interface | ✅ | ❌ ⁴ | ❌ |
-| Cerca de 30 MB de memória (servidor Docker, 4 contas) | ✅ | — ¹¹ | — ¹¹ |
+| Cerca de 3 MB de memória por conta (servidor Docker) | ✅ | — ¹¹ | — ¹¹ |
 
 ¹ Ele só assiste aos streamers da lista dele: faz avançar os Drops das lives deles e os
 resgata, sem escolher campanha.\

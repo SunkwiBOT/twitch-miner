@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Desktopová aplikace pro Linux, Windows a macOS, nebo obraz pro Docker se stejným webovým panelem, který spustíte na domácím serveru nebo na Raspberry Pi. Se 4 účty zabere server asi 30 MB paměti a procesor téměř nezatěžuje.
+  Desktopová aplikace pro Linux, Windows a macOS, nebo obraz pro Docker se stejným webovým panelem, který spustíte na domácím serveru nebo na Raspberry Pi. Server zabere asi 3 MB paměti na účet a procesor téměř nezatěžuje.
 </p>
 
 <p align="center">
@@ -218,7 +218,7 @@
   zobrazují stejný panel. Docker běží na VPS, NAS nebo Raspberry Pi, bez obrazovky
   a prohlížeče na tom stroji: panel se otevře v jakémkoli prohlížeči.
   Na telefonu se panel přizpůsobí obrazovce a přes HTTPS ho lze nainstalovat jako aplikaci.
-- **Nenáročný.** Asi 30 MB paměti pro 4 účty, téměř žádná zátěž procesoru a obraz pro
+- **Nenáročný.** Asi 3 MB paměti na účet, téměř žádná zátěž procesoru a obraz pro
   Docker o velikosti asi 12 MB.
 
 ### Zabezpečení a aktualizace
@@ -303,7 +303,7 @@ Ověřeno v jejich kódu a souborech README v listopadu 2026.
 | Streameři z vašeho seznamu sledovaní přednostně pro Drops kampaně | ✅ | částečně ¹⁰ | ❌ |
 | Odznaky Twitche: seznam všech odznaků, odznaky každého účtu, Drops s odznaky a questy Twitche těžené ve vašem pořadí (beta) | ✅ | ❌ | částečně ¹² |
 | Filtrovatelný deník událostí a seznam všech požadavků v rozhraní | ✅ | ❌ ⁴ | ❌ |
-| Asi 30 MB paměti (server Docker, 4 účty) | ✅ | — ¹¹ | — ¹¹ |
+| Asi 3 MB paměti na účet (server Docker) | ✅ | — ¹¹ | — ¹¹ |
 
 ¹ Sleduje jen streamery ze svého seznamu: posouvá a vyzvedává Drops z jejich streamů, ale
 kampaň nevybírá.\

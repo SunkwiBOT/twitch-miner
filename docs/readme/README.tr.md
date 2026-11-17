@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Linux, Windows ve macOS için bir masaüstü uygulaması ya da ev sunucusunda veya Raspberry Pi üzerinde çalıştırmak için aynı web paneline sahip bir Docker imajı. 4 hesapla sunucu yaklaşık 30 MB bellek kullanır ve işlemciyi neredeyse hiç yormaz.
+  Linux, Windows ve macOS için bir masaüstü uygulaması ya da ev sunucusunda veya Raspberry Pi üzerinde çalıştırmak için aynı web paneline sahip bir Docker imajı. Sunucu hesap başına yaklaşık 3 MB bellek kullanır ve işlemciyi neredeyse hiç yormaz.
 </p>
 
 <p align="center">
@@ -164,7 +164,7 @@ Onu diğer madencilerden ayıran şeyler. Bir maddenin altındaki “Çalışır
 
 - **Her yerde aynı arayüz.** Masaüstü uygulaması (Linux, Windows, macOS) ve Docker imajı aynı paneli gösterir. Docker bir VPS, NAS veya Raspberry Pi üzerinde, o makinede ekran ya da tarayıcı olmadan çalışır: panel herhangi bir tarayıcıda açılır.
   Telefonda panel ekrana uyum sağlar; HTTPS üzerinden bir uygulama gibi yüklenebilir.
-- **Hafif.** 4 hesap için yaklaşık 30 MB bellek, neredeyse hiç işlemci kullanımı ve yaklaşık 12 MB'lık bir Docker imajı.
+- **Hafif.** Hesap başına yaklaşık 3 MB bellek, neredeyse hiç işlemci kullanımı ve yaklaşık 12 MB'lık bir Docker imajı.
 
 ### Güvenlik ve güncellemeler
 
@@ -230,7 +230,7 @@ Onu diğer madencilerden ayıran şeyler. Bir maddenin altındaki “Çalışır
 | Bir kampanyanın Drops'ları için önce listenizdeki yayıncılar izlenir | ✅ | kısmen ¹⁰ | ❌ |
 | Twitch rozetleri: tüm rozetlerin listesi, her hesabın rozetleri, rozet Drops'ları ve Twitch görevleri sizin sıranızla kazılır (beta) | ✅ | ❌ | kısmen ¹² |
 | Arayüzde filtrelenebilir olay günlüğü ve her isteğin listesi | ✅ | ❌ ⁴ | ❌ |
-| Yaklaşık 30 MB bellek (Docker sunucusu, 4 hesap) | ✅ | — ¹¹ | — ¹¹ |
+| Hesap başına yaklaşık 3 MB bellek (Docker sunucusu) | ✅ | — ¹¹ | — ¹¹ |
 
 ¹ Yalnızca listesindeki yayıncıları izler: kampanya seçmeden, onların yayınlarındaki Drops'ları ilerletir ve alır.\
 ² Hesap başına bir süreç.\

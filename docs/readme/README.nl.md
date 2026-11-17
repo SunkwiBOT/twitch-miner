@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Een desktop-app voor Linux, Windows en macOS, of een Docker-image met hetzelfde webdashboard, om te draaien op een thuisserver of op een Raspberry Pi. Met 4 accounts gebruikt de server ongeveer 30 MB geheugen en bijna geen CPU.
+  Een desktop-app voor Linux, Windows en macOS, of een Docker-image met hetzelfde webdashboard, om te draaien op een thuisserver of op een Raspberry Pi. De server gebruikt ongeveer 3 MB geheugen per account en bijna geen CPU.
 </p>
 
 <p align="center">
@@ -227,7 +227,7 @@ het werkt.
   tonen hetzelfde dashboard. Docker draait op een VPS, een NAS of een Raspberry Pi, zonder
   scherm of browser op die machine: het dashboard opent in elke browser.
   Op een telefoon past het dashboard zich aan het scherm aan, en via HTTPS installeer je het als een app.
-- **Licht.** Ongeveer 30 MB geheugen voor 4 accounts, bijna geen CPU, en een Docker-image
+- **Licht.** Ongeveer 3 MB geheugen per account, bijna geen CPU, en een Docker-image
   van ongeveer 12 MB.
 
 ### Beveiliging en updates
@@ -315,7 +315,7 @@ Gecontroleerd aan de hand van hun code en README's in november 2026.
 | Streamers uit je lijst eerst bekeken voor de Drops van een campagne | ✅ | deels ¹⁰ | ❌ |
 | Twitch-badges: de lijst van alle badges, de badges van elk account, badge-Drops en Twitch-quests gemined in jouw volgorde (bèta) | ✅ | ❌ | deels ¹² |
 | Filterbaar gebeurtenissenjournaal en een lijst van elk verzoek, in de interface | ✅ | ❌ ⁴ | ❌ |
-| Ongeveer 30 MB geheugen (Docker-server, 4 accounts) | ✅ | — ¹¹ | — ¹¹ |
+| Ongeveer 3 MB geheugen per account (Docker-server) | ✅ | — ¹¹ | — ¹¹ |
 
 ¹ Het kijkt alleen naar de streamers op zijn lijst: het brengt de Drops van hun streams
 verder en claimt ze, zonder een campagne te kiezen.\

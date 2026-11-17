@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Eine Desktop-App für Linux, Windows und macOS oder ein Docker-Image mit demselben Web-Dashboard, für den Betrieb auf einem Heimserver oder auf einem Raspberry Pi. Mit 4 Konten braucht der Server etwa 30 MB Arbeitsspeicher und kaum CPU.
+  Eine Desktop-App für Linux, Windows und macOS oder ein Docker-Image mit demselben Web-Dashboard, für den Betrieb auf einem Heimserver oder auf einem Raspberry Pi. Der Server braucht etwa 3 MB Arbeitsspeicher pro Konto und kaum CPU.
 </p>
 
 <p align="center">
@@ -229,7 +229,7 @@ im Einsatz.
   Raspberry Pi, ohne Bildschirm und ohne Browser auf diesem Rechner: Das Dashboard öffnet
   sich in jedem beliebigen Browser.
   Auf dem Handy passt sich das Dashboard dem Bildschirm an und lässt sich über HTTPS wie eine App installieren.
-- **Sparsam.** Etwa 30 MB Arbeitsspeicher für 4 Konten, kaum CPU und ein Docker-Image von
+- **Sparsam.** Etwa 3 MB Arbeitsspeicher pro Konto, kaum CPU und ein Docker-Image von
   etwa 12 MB.
 
 ### Sicherheit und Updates
@@ -320,7 +320,7 @@ im Vergleich zu
 | Ihre gelisteten Streamer werden für die Drops einer Kampagne zuerst geschaut | ✅ | teilweise ¹⁰ | ❌ |
 | Twitch-Abzeichen: die Liste aller Abzeichen, die Abzeichen jedes Kontos, Abzeichen-Drops und Twitch-Quests, gemint in Ihrer Reihenfolge (Beta) | ✅ | ❌ | teilweise ¹² |
 | Filterbares Ereignisjournal und eine Liste aller Anfragen, in der Oberfläche | ✅ | ❌ ⁴ | ❌ |
-| Etwa 30 MB Arbeitsspeicher (Docker-Server, 4 Konten) | ✅ | — ¹¹ | — ¹¹ |
+| Etwa 3 MB Arbeitsspeicher pro Konto (Docker-Server) | ✅ | — ¹¹ | — ¹¹ |
 
 ¹ Es schaut nur die Streamer auf seiner Liste: Es bringt die Drops ihrer Streams voran und
 holt sie ab, ohne eine Kampagne auszuwählen.\

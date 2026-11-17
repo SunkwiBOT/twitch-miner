@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Una app de escritorio para Linux, Windows y macOS, o una imagen de Docker con el mismo panel web, para correr en un servidor casero o en una Raspberry Pi. Con 4 cuentas, el servidor usa unos 30 MB de memoria y casi nada de CPU.
+  Una app de escritorio para Linux, Windows y macOS, o una imagen de Docker con el mismo panel web, para correr en un servidor casero o en una Raspberry Pi. El servidor usa unos 3 MB de memoria por cuenta y casi nada de CPU.
 </p>
 
 <p align="center">
@@ -228,7 +228,7 @@ funcionando.
   Raspberry Pi, sin pantalla ni navegador en esa máquina: el panel se abre en cualquier
   navegador.
   En el celular, el panel se adapta a la pantalla y, por HTTPS, se instala como una app.
-- **Ligero.** Unos 30 MB de memoria para 4 cuentas, casi nada de CPU y una imagen de
+- **Ligero.** Unos 3 MB de memoria por cuenta, casi nada de CPU y una imagen de
   Docker de unos 12 MB.
 
 ### Seguridad y actualizaciones
@@ -318,7 +318,7 @@ Verificado en su código y sus README en noviembre de 2026.
 | Los streamers de tu lista, mirados primero para los Drops de una campaña | ✅ | en parte ¹⁰ | ❌ |
 | Insignias de Twitch: la lista de todas las insignias, las de cada cuenta, Drops de insignias y misiones de Twitch minados en tu orden (beta) | ✅ | ❌ | en parte ¹² |
 | Bitácora de eventos filtrable y lista de cada solicitud, en la interfaz | ✅ | ❌ ⁴ | ❌ |
-| Unos 30 MB de memoria (servidor Docker, 4 cuentas) | ✅ | — ¹¹ | — ¹¹ |
+| Unos 3 MB de memoria por cuenta (servidor Docker) | ✅ | — ¹¹ | — ¹¹ |
 
 ¹ Solo mira a los streamers de su lista: hace avanzar los Drops de sus transmisiones y los
 reclama, sin elegir campaña.\

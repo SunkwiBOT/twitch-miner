@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Uma app para computador com Linux, Windows e macOS, ou uma imagem Docker com o mesmo painel web, para executar num servidor doméstico ou num Raspberry Pi. Com 4 contas, o servidor usa cerca de 30 MB de memória e quase nada de CPU.
+  Uma app para computador com Linux, Windows e macOS, ou uma imagem Docker com o mesmo painel web, para executar num servidor doméstico ou num Raspberry Pi. O servidor usa cerca de 3 MB de memória por conta e quase nada de CPU.
 </p>
 
 <p align="center">
@@ -224,7 +224,7 @@ funcionar.
   Raspberry Pi, sem ecrã nem navegador nessa máquina: o painel abre-se em qualquer
   navegador.
   No telemóvel, o painel adapta-se ao ecrã e, por HTTPS, instala-se como uma app.
-- **Leve.** Cerca de 30 MB de memória para 4 contas, quase nada de CPU e uma imagem Docker
+- **Leve.** Cerca de 3 MB de memória por conta, quase nada de CPU e uma imagem Docker
   de cerca de 12 MB.
 
 ### Segurança e atualizações
@@ -312,7 +312,7 @@ Verificado no código e nos README de cada um em novembro de 2026.
 | Os streamers da sua lista vistos primeiro para os Drops de uma campanha | ✅ | em parte ¹⁰ | ❌ |
 | Emblemas da Twitch: a lista de todos os emblemas, os emblemas de cada conta, Drops de emblemas e missões da Twitch minerados pela sua ordem (beta) | ✅ | ❌ | em parte ¹² |
 | Diário de eventos filtrável e lista de cada pedido, na interface | ✅ | ❌ ⁴ | ❌ |
-| Cerca de 30 MB de memória (servidor Docker, 4 contas) | ✅ | — ¹¹ | — ¹¹ |
+| Cerca de 3 MB de memória por conta (servidor Docker) | ✅ | — ¹¹ | — ¹¹ |
 
 ¹ Só vê os streamers da sua lista: faz avançar os Drops dos diretos deles e reclama-os,
 sem escolher campanha.\

@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  A desktop app for Linux, Windows and macOS, or a Docker image with the same web dashboard, to run on a home server or on a Raspberry Pi. With 4 accounts, the server uses about 30 MB of memory and almost no CPU.
+  A desktop app for Linux, Windows and macOS, or a Docker image with the same web dashboard, to run on a home server or on a Raspberry Pi. The server uses about 3 MB of memory per account and almost no CPU.
 </p>
 
 <p align="center">
@@ -219,7 +219,7 @@ What sets it apart from other miners. “See it in action” under a point shows
   Docker image show the same dashboard. Docker runs on a VPS, a NAS or a Raspberry Pi,
   with no screen or browser on that machine: the dashboard opens in any browser.
   On a phone, the dashboard fits the screen, and over HTTPS it installs like an app.
-- **Light.** About 30 MB of memory for 4 accounts, almost no CPU, and a Docker image of
+- **Light.** About 3 MB of memory per account, almost no CPU, and a Docker image of
   about 12 MB.
 
 ### Security and updates
@@ -306,7 +306,7 @@ Checked against their code and READMEs in November 2026.
 | Your listed streamers watched first for a campaign's Drops | ✅ | partly ¹⁰ | ❌ |
 | Twitch badges: the list of every badge, each account's badges, badge Drops and Twitch quests mined in your order (beta) | ✅ | ❌ | partly ¹² |
 | Filterable event journal and a list of every request, in the interface | ✅ | ❌ ⁴ | ❌ |
-| About 30 MB of memory (Docker server, 4 accounts) | ✅ | — ¹¹ | — ¹¹ |
+| About 3 MB of memory per account (Docker server) | ✅ | — ¹¹ | — ¹¹ |
 
 ¹ It only watches the streamers on its list: it makes progress on the Drops of their
 streams and claims them, without choosing a campaign.\

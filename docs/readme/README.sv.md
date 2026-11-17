@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  En skrivbordsapp för Linux, Windows och macOS, eller en Docker-avbild med samma webböversikt, att köra på en hemserver eller på en Raspberry Pi. Med 4 konton använder servern cirka 30 MB minne och nästan ingen CPU.
+  En skrivbordsapp för Linux, Windows och macOS, eller en Docker-avbild med samma webböversikt, att köra på en hemserver eller på en Raspberry Pi. Servern använder cirka 3 MB minne per konto och nästan ingen CPU.
 </p>
 
 <p align="center">
@@ -223,7 +223,7 @@ arbete.
   Docker-avbilden visar samma översikt. Docker körs på en VPS, en NAS eller en Raspberry
   Pi, utan skärm eller webbläsare på den maskinen: översikten öppnas i valfri webbläsare.
   På en telefon anpassar sig översikten efter skärmen, och via HTTPS kan den installeras som en app.
-- **Lätt.** Cirka 30 MB minne för 4 konton, nästan ingen CPU och en Docker-avbild på
+- **Lätt.** Cirka 3 MB minne per konto, nästan ingen CPU och en Docker-avbild på
   cirka 12 MB.
 
 ### Säkerhet och uppdateringar
@@ -313,7 +313,7 @@ Kontrollerat mot deras kod och README-filer i november 2026.
 | Streamers från din lista tittas på först för en kampanjs Drops | ✅ | delvis ¹⁰ | ❌ |
 | Twitch-märken: listan över alla märken, varje kontos märken, märkes-Drops och Twitch-quests minade i din ordning (beta) | ✅ | ❌ | delvis ¹² |
 | Filtrerbar händelsejournal och en lista över varje förfrågan, i gränssnittet | ✅ | ❌ ⁴ | ❌ |
-| Cirka 30 MB minne (Docker-server, 4 konton) | ✅ | — ¹¹ | — ¹¹ |
+| Cirka 3 MB minne per konto (Docker-server) | ✅ | — ¹¹ | — ¹¹ |
 
 ¹ Den tittar bara på streamers på sin lista: den ger framsteg på Drops i deras sändningar
 och hämtar dem, utan att välja kampanj.\

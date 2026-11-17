@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Asztali alkalmazás Linuxra, Windowsra és macOS-re, vagy Docker-image ugyanazzal a webes irányítópulttal, otthoni szerveren vagy Raspberry Pi-on való futtatásra. 4 fiókkal a szerver nagyjából 30 MB memóriát használ, és alig terheli a processzort.
+  Asztali alkalmazás Linuxra, Windowsra és macOS-re, vagy Docker-image ugyanazzal a webes irányítópulttal, otthoni szerveren vagy Raspberry Pi-on való futtatásra. A szerver fiókonként nagyjából 3 MB memóriát használ, és alig terheli a processzort.
 </p>
 
 <p align="center">
@@ -228,7 +228,7 @@ láthatod, hogyan működnek.
   Raspberry Pi-on fut, azon a gépen képernyő és böngésző nélkül: az irányítópult bármely
   böngészőben megnyílik.
   Telefonon az irányítópult igazodik a képernyőhöz, HTTPS-en pedig alkalmazásként telepíthető.
-- **Könnyű.** Nagyjából 30 MB memória 4 fiókhoz, szinte semmi processzorhasználat, és egy
+- **Könnyű.** Fiókonként nagyjából 3 MB memória, szinte semmi processzorhasználat, és egy
   nagyjából 12 MB-os Docker-image.
 
 ### Biztonság és frissítések
@@ -315,7 +315,7 @@ mellett. A kódjuk és a README-jük alapján ellenőrizve, 2026 novemberében.
 | A listádon szereplő streamerek elsőként nézve egy kampány Dropsaiért | ✅ | részben ¹⁰ | ❌ |
 | Twitch-jelvények: az összes jelvény listája, minden fiók jelvényei, jelvényes Drops és Twitch-küldetések bányászata a te sorrendedben (béta) | ✅ | ❌ | részben ¹² |
 | Szűrhető eseménynapló és az összes kérés listája a felületen | ✅ | ❌ ⁴ | ❌ |
-| Nagyjából 30 MB memória (Docker-szerver, 4 fiók) | ✅ | — ¹¹ | — ¹¹ |
+| Fiókonként nagyjából 3 MB memória (Docker-szerver) | ✅ | — ¹¹ | — ¹¹ |
 
 ¹ Csak a listáján szereplő streamereket nézi: az ő adásaik Dropsait viszi előre és gyűjti
 be, kampányt nem választ.\

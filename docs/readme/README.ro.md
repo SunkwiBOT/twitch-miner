@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  O aplicație desktop pentru Linux, Windows și macOS sau o imagine Docker cu același panou web, de rulat pe un server de acasă sau pe un Raspberry Pi. Cu 4 conturi, serverul folosește în jur de 30 MB de memorie și aproape deloc procesor.
+  O aplicație desktop pentru Linux, Windows și macOS sau o imagine Docker cu același panou web, de rulat pe un server de acasă sau pe un Raspberry Pi. Serverul folosește în jur de 3 MB de memorie pe cont și aproape deloc procesor.
 </p>
 
 <p align="center">
@@ -223,7 +223,7 @@ la lucru.
   Docker afișează același panou. Docker rulează pe un VPS, un NAS sau un Raspberry Pi, fără
   ecran și fără browser pe acea mașină: panoul se deschide în orice browser.
   Pe telefon, panoul se adaptează la ecran și, prin HTTPS, se instalează ca o aplicație.
-- **Consum redus.** În jur de 30 MB de memorie pentru 4 conturi, aproape deloc procesor și
+- **Consum redus.** În jur de 3 MB de memorie pe cont, aproape deloc procesor și
   o imagine Docker de circa 12 MB.
 
 ### Securitate și actualizări
@@ -311,7 +311,7 @@ Verificat în codul și în README-urile lor în noiembrie 2026.
 | Streamerii din lista ta, urmăriți primii pentru Drops-urile unei campanii | ✅ | parțial ¹⁰ | ❌ |
 | Insigne Twitch: lista tuturor insignelor, insignele fiecărui cont, Drops cu insigne și misiuni Twitch minate în ordinea ta (beta) | ✅ | ❌ | parțial ¹² |
 | Jurnal de evenimente filtrabil și lista fiecărei cereri, în interfață | ✅ | ❌ ⁴ | ❌ |
-| În jur de 30 MB de memorie (server Docker, 4 conturi) | ✅ | — ¹¹ | — ¹¹ |
+| În jur de 3 MB de memorie pe cont (server Docker) | ✅ | — ¹¹ | — ¹¹ |
 
 ¹ Urmărește doar streamerii din lista lui: avansează Drops-urile din streamurile lor și le
 revendică, fără să aleagă o campanie.\
