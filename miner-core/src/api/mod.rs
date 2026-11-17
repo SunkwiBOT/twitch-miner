@@ -7,22 +7,24 @@ mod views;
 pub use command::{Command, CommandName};
 pub use push::{DesktopEvent, ServerMessage, ServerMessageKind};
 pub use queries::{
-    ChannelBannersRequest, ChannelQuery, ChannelsLookupRequest, DashboardLoginRequest,
-    FollowsQuery, HistoryExportQuery, HistoryQuery, LogsQuery, NotificationTestRequest,
-    ProxyTestRequest, RedeemRequest, RequestsQuery, SearchQuery, SpamChannelQuery,
+    ChannelBannersRequest, ChannelQuery, ChannelsLookupRequest, CheckPastedTokenRequest,
+    DashboardLoginRequest, FollowsQuery, HistoryExportQuery, HistoryQuery, ImportTokensRequest,
+    LogsQuery, NotificationTestRequest, ProxyTestRequest, RedeemRequest, RequestsQuery,
+    SearchQuery, SpamChannelQuery,
 };
 pub use responses::{
     AppInfo, AppInfoResponse, AuthResponse, AuthStatus, AutostartResponse, BadgesResponse,
     CatalogResponse, CategoryCount, ChannelBannersResponse, ChannelResponse,
-    ChannelsLookupResponse, FollowsResponse, HistoryExportResponse, HistoryResponse,
-    LoginFlowResponse, LogsReportResponse, LogsResponse, NotificationTarget, NotificationTest,
-    ProxyTestResponse, RedeemResponse, RefreshCount, RefreshResponse, RequestsResponse,
-    SearchResponse, SnapshotResponse, SpamBalanceResponse, SpamChannelResponse, StartupProblem,
-    StartupProblemResponse, UpdateCheck, UpdateCheckResponse,
+    ChannelsLookupResponse, CheckPastedTokenResponse, FollowsResponse, HistoryExportResponse,
+    HistoryResponse, ImportTokensResponse, LoginFlowResponse, LogsReportResponse, LogsResponse,
+    NotificationTarget, NotificationTest, ProxyTestResponse, RedeemResponse, RefreshCount,
+    RefreshResponse, RequestsResponse, SearchResponse, SnapshotResponse, SpamBalanceResponse,
+    SpamChannelResponse, StartupProblem, StartupProblemResponse, UpdateCheck, UpdateCheckResponse,
 };
 pub use views::{
     AccountSnapshot, AccountStats, AccountStatus, BadgeCatalogView, CampaignProgress, CatalogView,
-    DropProgressView, DropState, LoginFlowStatus, LoginFlowView, SlotView, Snapshot, StreamerView,
+    DropProgressView, DropState, ImportTokenOutcome, ImportTokensFlowStatus, ImportTokensFlowView,
+    LoginFlowStatus, LoginFlowView, SlotView, Snapshot, StreamerView, TokenCheck,
 };
 
 use serde::{Deserialize, Serialize};
@@ -39,6 +41,14 @@ pub const SNAPSHOT_PUSH_DEBOUNCE_MS: u64 = 700;
 pub const CHANNELS_LOOKUP_MAX: usize = 500;
 
 pub const FOLLOWS_MAX: usize = 1_000;
+
+// ! Each line is checked one at a time against Twitch's own rate limit: a
+// short list stays quick, a long one would make the sequential check feel stuck.
+pub const TOKENS_IMPORT_MAX: usize = 50;
+
+// ! Comfortably past any real token (the `oauth:`/`OAuth ` prefix included):
+// a longer line is pasted garbage, refused before it ever reaches Twitch.
+pub const TOKEN_LINE_MAX_CHARS: usize = 256;
 
 pub const HISTORY_LIMIT_MAX: u32 = 500;
 pub const HISTORY_LIMIT_DEFAULT: u32 = 100;
@@ -71,6 +81,10 @@ pub enum ApiRoute {
     UpdatesCheck,
     #[serde(rename = "/api/login-flow")]
     LoginFlow,
+    #[serde(rename = "/api/login-flow/check-token")]
+    CheckPastedToken,
+    #[serde(rename = "/api/login-flow/import-tokens")]
+    ImportTokens,
     #[serde(rename = "/api/channel")]
     Channel,
     #[serde(rename = "/api/channels/lookup")]
@@ -123,6 +137,8 @@ impl ApiRoute {
             Self::CatalogRefresh => "/api/catalog/refresh",
             Self::UpdatesCheck => "/api/updates/check",
             Self::LoginFlow => "/api/login-flow",
+            Self::CheckPastedToken => "/api/login-flow/check-token",
+            Self::ImportTokens => "/api/login-flow/import-tokens",
             Self::Channel => "/api/channel",
             Self::ChannelsLookup => "/api/channels/lookup",
             Self::Search => "/api/search",

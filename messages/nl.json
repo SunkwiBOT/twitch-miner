@@ -74,6 +74,7 @@
   "common_accounts_none": "Geen account",
   "accounts_remove_title": "Dit account verwijderen?",
   "accounts_remove_text": "De sessie van {name} wordt op Twitch ingetrokken en hier verwijderd. Al geclaimde drops blijven in de Twitch-inventaris.",
+  "accounts_remove_text_imported_token": "De sessie van {name} wordt hier verwijderd. Al geclaimde drops blijven in de Twitch-inventaris; gebruik de schakelaar hieronder om deze ook op Twitch in te trekken.",
   "accounts_login_again": "Opnieuw inloggen",
   "accounts_stats_drops": "Geclaimde drops: {count}",
   "accounts_stats_points": "Verdiende punten: {count}",
@@ -87,6 +88,85 @@
   "login_note": "Er wordt geen wachtwoord opgeslagen. De sessie is versleuteld op dit apparaat en kan via {settings} worden ingetrokken.",
   "login_note_settings": "je Twitch-instellingen",
   "login_vault_locked": "Ontgrendel de app voordat je een account toevoegt.",
+  "login_use_tokens": "Plak in plaats daarvan tokens",
+  "login_use_code": "Gebruik in plaats daarvan de inlogcode",
+  "login_tokens_label": "Toegangstokens",
+  "login_tokens_hint": "Plak één token per regel. Elk token wordt gecontroleerd voordat het kan worden geïmporteerd.",
+  "login_tokens_submit": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Importeer het token",
+        "countPlural=*": "Importeer de tokens"
+      }
+    }
+  ],
+  "login_tokens_checking": "Tokens worden gecontroleerd…",
+  "import_tokens_title": "Tokens importeren",
+  "import_tokens_placeholder": "Plak tokens, één per regel…",
+  "import_tokens_too_many": "Maximaal {max} tokens tegelijk.",
+  "import_tokens_line_too_long": "Een regel is te lang (maximaal {max} tekens).",
+  "import_tokens_status_pending": "Wordt gecontroleerd…",
+  "import_tokens_status_valid": "Geldig",
+  "import_tokens_status_unusable_client": "Dit token kan niet worden gebruikt om te minen.",
+  "import_tokens_status_invalid": "Dit token is ongeldig of verlopen.",
+  "import_tokens_status_already_added": "Al toegevoegd",
+  "import_tokens_status_duplicate": "Duplicaat van een andere regel",
+  "import_tokens_status_not_imported": "Niet geïmporteerd",
+  "import_tokens_settings_step_title": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Instellingen voor dit account",
+        "countPlural=*": "Instellingen voor deze accounts"
+      }
+    }
+  ],
+  "import_tokens_settings_step_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Deze instellingen gelden voor het geïmporteerde account.",
+        "countPlural=*": "Deze instellingen gelden voor alle geïmporteerde accounts."
+      }
+    }
+  ],
+  "import_tokens_overwrite_existing_label": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Ook instellingen van het al bestaande account overschrijven",
+        "countPlural=*": "Ook instellingen van al bestaande accounts overschrijven"
+      }
+    }
+  ],
+  "import_tokens_result_count": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{count} token geïmporteerd",
+        "countPlural=*": "{count} tokens geïmporteerd"
+      }
+    }
+  ],
+  "import_tokens_result_cancelled": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Import geannuleerd — {count} token geïmporteerd",
+        "countPlural=*": "Import geannuleerd — {count} tokens geïmporteerd"
+      }
+    }
+  ],
+  "import_tokens_importing_progress": "Importeren: {done}/{total}",
+  "import_tokens_cancel": "Import annuleren",
+  "import_tokens_retry_failed": "Opnieuw proberen",
   "account_slots_hint": "Twitch telt per account maximaal twee kanalen tegelijk mee.",
   "account_drops_priority_hint": "Hun campagnes worden gemind waar “Prioriteitscategorieën” staat in “Wat te minen, op volgorde”, het belangrijkste eerst.",
   "account_drops_priority_placeholder": "Categorie toevoegen…",
@@ -203,6 +283,8 @@
   "settings_auto_lock": "Vergrendelen na inactiviteit",
   "settings_auto_lock_hint": "Vraagt opnieuw om het wachtwoord na deze tijd zonder gebruik van het dashboard, ook in een tabblad dat open is gebleven. Het minen gaat door.",
   "settings_auto_lock_never": "Nooit",
+  "lock_warning_message": "Vergrendelt over {time} — beweeg of klik om ontgrendeld te blijven",
+  "lock_warning_message_a11y": "Er komt binnenkort een vergrendeling.",
   "unlock_title": "App ontgrendelen",
   "unlock_text": "Voer het app-wachtwoord in.",
   "unlock_passphrase": "Wachtwoord",
@@ -345,13 +427,42 @@
   "feedback_discord_text": "Open een ticket of praat met de community",
   "feedback_github_text": "Open een issue: een bug of een idee",
   "settings_catalog_text": "De campagnelijst komt van drops.sunkwi.com en wordt elke 10 minuten ververst.",
-  "account_proxy": "Proxy voor dit account",
-  "account_proxy_hint": "Leeg: de standaardproxy van de app. Wijzigen herstart de verbindingen van het account.",
+  "account_proxy": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Proxy voor dit account",
+        "countPlural=*": "Proxy voor deze accounts"
+      }
+    }
+  ],
+  "account_proxy_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Leeg: de standaardproxy van de app. Wijzigen herstart de verbindingen van het account.",
+        "countPlural=*": "Leeg: de standaardproxy van de app. Wijzigen herstart de verbindingen van deze accounts."
+      }
+    }
+  ],
   "account_remove": "Dit account verwijderen",
+  "account_remove_revoke_label": "Ook dit token op Twitch intrekken",
   "account_mode_title": "Miningmodus",
-  "account_mode_desc": "Waar dit account zijn kijktijd aan besteedt.",
+  "account_mode_desc": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Waar dit account zijn kijktijd aan besteedt.",
+        "countPlural=*": "Waar deze accounts hun kijktijd aan besteden."
+      }
+    }
+  ],
   "account_slots_title": "Tegelijk bekeken kanalen",
   "account_twitch_hint": "Log opnieuw in als Twitch de sessie heeft beëindigd. Als je het account verwijdert, wordt de sessie bij Twitch ingetrokken.",
+  "account_twitch_hint_imported_token": "Log opnieuw in als Twitch de sessie heeft beëindigd. Bij het verwijderen van het account kun je kiezen of de sessie bij Twitch ook wordt ingetrokken.",
   "account_twitch_id": "Twitch-ID",
   "account_twitch_login": "Login",
   "account_twitch_name": "Naam",
@@ -1517,6 +1628,9 @@
   "account_badges_not_mined": "Niet gemind",
   "account_badges_not_mined_hint": "Wel getoond, niet gemind: eerst is een abonnement nodig dat je zelf neemt, of een andere badge, of Twitch noemt geen kanaal dat de miner kan bekijken.",
   "error_action_rate_limited": "Te veel pogingen: wacht even en probeer het opnieuw.",
+  "error_invalid_token": "Dit token is ongeldig of verlopen. Plak een nieuw token.",
+  "error_unsupported_client": "Dit token kan niet worden gebruikt om te minen. Log in plaats daarvan in met de code.",
+  "error_missing_scope": "Dit token mist een recht dat deze app nodig heeft. Log in plaats daarvan in met de code.",
   "ev_paused": "Gepauzeerd",
   "ev_paused_quiet_window": "Gepauzeerd (dagelijkse pauze)",
   "ev_paused_scheduled": "Gepauzeerd, hervat {time}",

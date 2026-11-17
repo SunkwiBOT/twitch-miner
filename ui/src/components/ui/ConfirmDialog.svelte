@@ -19,6 +19,7 @@
     busyLabel: string;
     busy: boolean;
     lead?: Snippet;
+    extra?: Snippet;
     onconfirm: () => unknown;
     oncancel: () => void;
   };
@@ -32,6 +33,7 @@
     busyLabel,
     busy,
     lead,
+    extra,
     onconfirm,
     oncancel,
   }: ConfirmDialogPropsType = $props();
@@ -47,7 +49,7 @@
   {lead}
 >
   <p class="text-hint text-muted-foreground"><RichText {text} {people} /></p>
-
+  {#if extra}{@render extra()}{/if}
   {#snippet footer()}
     <TextButton
       label={t.common_cancel()}

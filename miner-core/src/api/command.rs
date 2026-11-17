@@ -14,8 +14,11 @@ use crate::config::{AccountSettings, GlobalSettings};
 // ! Variants without fields are `{}`: serde ignores unknown keys on unit variants of a tagged enum.
 pub enum Command {
     CancelLogin {},
+    CancelImportTokens {},
     RemoveAccount {
         account_id: String,
+        // ! See `Manager::remove_account`.
+        revoke_token: bool,
     },
     SetAccountSettings {
         account_id: String,
@@ -79,6 +82,7 @@ pub enum Command {
 #[ts(repr(enum = name))]
 pub enum CommandName {
     CancelLogin,
+    CancelImportTokens,
     RemoveAccount,
     SetAccountSettings,
     ReorderAccounts,
@@ -102,9 +106,14 @@ impl std::fmt::Debug for Command {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::CancelLogin {} => f.write_str("CancelLogin"),
-            Self::RemoveAccount { account_id } => f
+            Self::CancelImportTokens {} => f.write_str("CancelImportTokens"),
+            Self::RemoveAccount {
+                account_id,
+                revoke_token,
+            } => f
                 .debug_struct("RemoveAccount")
                 .field("account_id", account_id)
+                .field("revoke_token", revoke_token)
                 .finish(),
             Self::SetAccountSettings { account_id, .. } => f
                 .debug_struct("SetAccountSettings")
@@ -174,6 +183,7 @@ impl Command {
     pub fn name(&self) -> CommandName {
         match self {
             Self::CancelLogin {} => CommandName::CancelLogin,
+            Self::CancelImportTokens {} => CommandName::CancelImportTokens,
             Self::RemoveAccount { .. } => CommandName::RemoveAccount,
             Self::SetAccountSettings { .. } => CommandName::SetAccountSettings,
             Self::ReorderAccounts { .. } => CommandName::ReorderAccounts,

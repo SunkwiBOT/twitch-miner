@@ -9,6 +9,7 @@ import { strong } from "../text.utils";
 import { app } from "./app.svelte";
 import {
   LINK_TOAST_KEY,
+  LOCK_WARNING_TOAST_KEY,
   TOAST_ACTION_DURATION_MS,
   TOAST_DURATION_MS,
   ToastKind,
@@ -27,6 +28,8 @@ export type ToastCardPropsType = {
   onclose: () => void;
 };
 
+export type LockWarningToastPropsType = { deadline: number; onclose: () => void };
+
 type ToastOptionsType = {
   description?: string;
   account?: ToastSubjectType;
@@ -38,9 +41,14 @@ type ToastOptionsType = {
 let toastId = 0;
 
 let card: Component<ToastCardPropsType>;
+let lockWarningCard: Component<LockWarningToastPropsType>;
 
 export const setToastCard = (component: Component<ToastCardPropsType>): void => {
   card = component;
+};
+
+export const setLockWarningCard = (component: Component<LockWarningToastPropsType>): void => {
+  lockWarningCard = component;
 };
 
 export const dismissToast = (id: string): void => {
@@ -71,6 +79,23 @@ export const toast = (kind: ToastKind, title: string, options: ToastOptionsType 
     onAutoClose: onend,
     onDismiss: onend,
   });
+};
+
+// ! Infinite duration, no auto-dismiss: only an interaction or the lock
+// itself (which clears every toast) ends it.
+export const showLockWarning = (deadline: number): void => {
+  sonner.custom(lockWarningCard, {
+    id: LOCK_WARNING_TOAST_KEY,
+    duration: Number.POSITIVE_INFINITY,
+    componentProps: {
+      deadline,
+      onclose: dismissLockWarning,
+    },
+  });
+};
+
+export const dismissLockWarning = (): void => {
+  dismissToast(LOCK_WARNING_TOAST_KEY);
 };
 
 export const openLink = async (url: string): Promise<void> => {

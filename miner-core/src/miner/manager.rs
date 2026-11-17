@@ -15,16 +15,18 @@ use super::spam_points::{spam_channels, SpamAccess, SpamPoints};
 use crate::api::{
     AccountSnapshot, AccountStats, AccountStatus, BadgeCatalogView, BadgesResponse,
     CatalogResponse, CatalogView, CategoryCount, ChannelsLookupResponse, Command,
-    HistoryExportQuery, HistoryExportResponse, HistoryQuery, HistoryResponse, LoginFlowStatus,
-    LoginFlowView, LogsQuery, LogsReportResponse, LogsResponse, NotificationTarget,
-    NotificationTest, NotificationTestRequest, ProxyTestResponse, RedeemRequest, RefreshCount,
-    RequestsQuery, RequestsResponse, Shell, Snapshot, CHANNELS_LOOKUP_MAX, FOLLOWS_MAX,
+    HistoryExportQuery, HistoryExportResponse, HistoryQuery, HistoryResponse, ImportTokenOutcome,
+    ImportTokensFlowStatus, ImportTokensFlowView, LoginFlowStatus, LoginFlowView, LogsQuery,
+    LogsReportResponse, LogsResponse, NotificationTarget, NotificationTest,
+    NotificationTestRequest, ProxyTestResponse, RedeemRequest, RefreshCount, RequestsQuery,
+    RequestsResponse, Shell, Snapshot, TokenCheck, CHANNELS_LOOKUP_MAX, FOLLOWS_MAX,
     HISTORY_EXPORT_MAX, HISTORY_LIMIT_DEFAULT, HISTORY_LIMIT_MAX, LOGS_LIMIT_DEFAULT,
-    LOGS_LIMIT_MAX, REQUESTS_LIMIT_DEFAULT, REQUESTS_LIMIT_MAX,
+    LOGS_LIMIT_MAX, REQUESTS_LIMIT_DEFAULT, REQUESTS_LIMIT_MAX, TOKENS_IMPORT_MAX,
+    TOKEN_LINE_MAX_CHARS,
 };
 use crate::badges::{BadgeCatalog, BadgeCatalogClient};
 use crate::catalog::{Catalog, CatalogClient};
-use crate::config::{AccountSettings, GlobalSettings};
+use crate::config::{AccountSettings, AccountSettingsPatch, GlobalSettings};
 use crate::domain::Channel;
 use crate::error::{Error, ErrorCode, Result};
 use crate::events::{EventContext, EventKind, MinerEvent, PauseReason};
@@ -35,10 +37,11 @@ use crate::requests::{RequestCursor, RequestFilter, RequestLog, REPORT_MAX};
 use crate::spam::{BurstProgress, SpamBalance, SpamChannelView};
 use crate::store::vault::{random_salt, Vault, VaultMode};
 use crate::store::{
-    AccountRecord, Credential, HistoryExportFilter, HistoryFilter, Store, VaultStatus,
+    AccountRecord, AccountSource, Credential, HistoryExportFilter, HistoryFilter, Store,
+    VaultStatus,
 };
 use crate::twitch::auth::{self, DeviceCode, Poll};
-use crate::twitch::{TwitchClient, TwitchHttp};
+use crate::twitch::TwitchHttp;
 use crate::util::{locked, read_locked, write_locked};
 use zeroize::Zeroizing;
 
@@ -90,6 +93,55 @@ struct LoginFlow {
     cancel: CancellationToken,
 }
 
+struct ImportFlow {
+    view: ImportTokensFlowView,
+    cancel: CancellationToken,
+    // ! Awaited in `cancel_import_tokens`, after the lock that guards this
+    // struct is released: a cancel must not return before the job has
+    // actually stopped touching the store or spawning a task.
+    job: Option<tokio::task::JoinHandle<()>>,
+}
+
+// ! Bundled so `finish_login` stays under clippy's argument limit:
+// `new_account` only matters for a brand-new account, `existing_patch`
+// only when applying a patch over an existing one; `source` always
+// applies, see `finish_login`.
+struct LoginOutcome<'a> {
+    source: AccountSource,
+    new_account: AccountSettings,
+    existing_patch: Option<&'a AccountSettingsPatch>,
+}
+
+// ! Bundled so `run_import` stays under clippy's argument limit.
+struct ImportJob {
+    flow_id: String,
+    tokens: Vec<String>,
+    http: Arc<TwitchHttp>,
+    vault: Vault,
+    settings: AccountSettingsPatch,
+    apply_existing_settings: bool,
+    cancel: CancellationToken,
+}
+
+// ! What a single line in an import settles to, as distinct from a
+// cancellation: the latter must not be recorded as a failed outcome, the
+// line goes back to pending instead (see `run_import`).
+enum LineOutcome {
+    Settled(ImportTokenOutcome),
+    Cancelled,
+}
+
+enum ImportLineError {
+    Cancelled,
+    Failed(Error),
+}
+
+impl From<Error> for ImportLineError {
+    fn from(error: Error) -> Self {
+        Self::Failed(error)
+    }
+}
+
 #[derive(Default)]
 pub(crate) struct WrongPassphrases {
     count: u32,
@@ -132,6 +184,7 @@ pub struct Manager {
     events: broadcast::Sender<MinerEvent>,
     notifier: Notifier,
     login: Mutex<Option<LoginFlow>>,
+    import: Mutex<Option<ImportFlow>>,
     pub changed: Arc<Notify>,
     pub logs: crate::logs::LogBuffer,
     pub requests: RequestLog,
@@ -155,6 +208,8 @@ pub struct Manager {
     proxy_test_at: std::sync::Mutex<Option<tokio::time::Instant>>,
     // ! One gate per target: testing Discord does not block Telegram.
     notification_test_at: std::sync::Mutex<HashMap<NotificationTarget, tokio::time::Instant>>,
+    // ! See `single_flight`.
+    check_token_busy: std::sync::Mutex<bool>,
     spam: Arc<SpamPoints>,
 }
 
@@ -217,6 +272,7 @@ impl Manager {
             carried_stats: std::sync::Mutex::new(HashMap::new()),
             events,
             login: Mutex::new(None),
+            import: Mutex::new(None),
             changed,
             logs,
             requests,
@@ -235,6 +291,7 @@ impl Manager {
             quiet_window: std::sync::Mutex::new(false),
             proxy_test_at: std::sync::Mutex::new(None),
             notification_test_at: std::sync::Mutex::new(HashMap::new()),
+            check_token_busy: std::sync::Mutex::new(false),
             spam: Arc::new(spam),
         }))
     }
@@ -732,6 +789,10 @@ impl Manager {
         }
 
         self.cancel_login().await;
+        self.cancel_import_tokens().await;
+        // ! No result screen survives a lock: drop it outright rather
+        // than leave a `Cancelled` view with nothing open to show it.
+        *self.import.lock().await = None;
         self.spam.cancel_bursts(None);
         self.stop_all_accounts().await;
         *self.vault.write().await = None;
@@ -807,16 +868,7 @@ impl Manager {
         let proxy = self.effective_proxy(&record.settings.proxy).await;
         // ! Never without the proxy: the account would reach Twitch from the
         // real address.
-        let http = TwitchHttp::new(
-            self.device_id.clone(),
-            proxy.as_deref(),
-            self.requests.clone(),
-        )
-        .map_err(|error| match (error, &proxy) {
-            (Error::InvalidProxy(why), _) => Error::InvalidProxy(why),
-            (other, Some(_)) => Error::InvalidProxy(other.to_string()),
-            (other, None) => other,
-        })?;
+        let http = proxied_http(&self.device_id, proxy.as_deref(), &self.requests)?;
         let stats = locked(&self.carried_stats)
             .remove(&record.id)
             .unwrap_or_default();
@@ -1033,7 +1085,7 @@ impl Manager {
         Ok(())
     }
 
-    pub async fn remove_account(&self, account_id: &str) -> Result<()> {
+    pub async fn remove_account(&self, account_id: &str, revoke_token: bool) -> Result<()> {
         let restart = self.restart_lock(account_id);
         let _one_at_a_time = restart.lock().await;
         let running = self.accounts.lock().await.remove(account_id);
@@ -1044,14 +1096,26 @@ impl Manager {
             stop_task(handle).await;
         }
 
-        if let Ok(vault) = self.vault().await {
-            if let Ok(Some(credential)) = self.store.load_credential(account_id, &vault) {
-                auth::revoke(
-                    &self.http(),
-                    Some(account_id),
-                    &credential.tokens.access_token,
-                )
-                .await;
+        // ! A device-code account is always revoked: only an imported
+        // token's owner can tell the miner apart from whatever else that
+        // same token signs in, so that choice is theirs.
+        let source = self
+            .store
+            .account(account_id)?
+            .map(|record| record.source)
+            .unwrap_or_default();
+        let should_revoke = revoke_token || source != AccountSource::ImportedToken;
+
+        if should_revoke {
+            if let Ok(vault) = self.vault().await {
+                if let Ok(Some(credential)) = self.store.load_credential(account_id, &vault) {
+                    auth::revoke(
+                        &self.http(),
+                        Some(account_id),
+                        &credential.tokens.access_token,
+                    )
+                    .await;
+                }
             }
         }
 
@@ -1179,83 +1243,447 @@ impl Manager {
                     let validation = auth::validate(&http, None, &tokens.access_token)
                         .await?
                         .ok_or(Error::Unauthorized)?;
-                    let existing = self.store.account(&validation.user_id)?;
-                    let (display_name, avatar_url) = {
-                        let client = TwitchClient::new(
-                            http.clone(),
-                            validation.user_id.clone(),
-                            validation.login.clone(),
-                            tokens.access_token.clone(),
-                        );
 
-                        match client.channel(&validation.login).await {
-                            Ok(Some(channel)) => (channel.display_name, channel.avatar_url),
-                            _ => (validation.login.clone(), None),
-                        }
-                    };
-                    let position = self.store.accounts()?.len() as i64;
-                    let record = AccountRecord {
-                        id: validation.user_id.clone(),
-                        login: validation.login.clone(),
-                        display_name,
-                        avatar_url,
-                        settings: existing.as_ref().map(|e| e.settings.clone()).unwrap_or(
-                            AccountSettings {
-                                enabled: false,
-                                ..AccountSettings::default()
+                    return self
+                        .finish_login(
+                            &http,
+                            vault,
+                            validation,
+                            tokens,
+                            LoginOutcome {
+                                source: AccountSource::DeviceCode,
+                                new_account: AccountSettings {
+                                    enabled: false,
+                                    ..AccountSettings::default()
+                                },
+                                existing_patch: None,
                             },
-                        ),
-                        position: existing.as_ref().map(|e| e.position).unwrap_or(position),
-                        created_at: existing
-                            .as_ref()
-                            .map(|e| e.created_at)
-                            .unwrap_or_else(Utc::now),
-                    };
-
-                    self.store.upsert_account(&record)?;
-
-                    let restart = self.restart_lock(&record.id);
-                    let _one_at_a_time = restart.lock().await;
-
-                    // ! A re-login replaces the running task, stopped first: a
-                    // session it renews now would overwrite the new credential.
-                    let running = self.accounts.lock().await.remove(&record.id);
-
-                    if let Some(handle) = running {
-                        self.keep_stats(&handle);
-                        stop_task(handle).await;
-                    }
-
-                    let credential = Credential {
-                        tokens,
-                        device_id: self.device_id.clone(),
-                    };
-
-                    self.store.save_credential(&record.id, &credential, vault)?;
-
-                    let id = record.id.clone();
-                    let context = EventContext {
-                        account_name: Some(record.display_name.clone()),
-                        account_avatar: record.avatar_url.clone(),
-                        ..EventContext::default()
-                    };
-
-                    self.spawn_account(record, vault).await?;
-
-                    let event = MinerEvent::new(
-                        &id,
-                        &validation.login,
-                        EventKind::LoginCompleted,
-                        format!("{} signed in", validation.login),
-                    )
-                    .context(context);
-
-                    record_event(&self.store, &self.events, event);
-
-                    return Ok(id);
+                        )
+                        .await;
                 }
             }
         }
+    }
+
+    // ! Read-only: a line the user is still editing is checked without
+    // touching any account or credential.
+    pub async fn check_pasted_token(self: &Arc<Self>, token: &str) -> Result<TokenCheck> {
+        let _single_flight = single_flight(&self.check_token_busy)?;
+
+        within_token_line_max(token)?;
+
+        let token = auth::parse_pasted_token(token)?;
+        let http = self.http();
+        let validation = auth::validate_pasted_token(&http, &token).await?;
+        let (display_name, avatar_url) = self.describe_token(&http, &validation).await;
+        let already_added = self.store.account(&validation.user_id)?.is_some();
+
+        Ok(TokenCheck {
+            login: validation.login,
+            display_name,
+            avatar_url,
+            already_added,
+        })
+    }
+
+    // ! Runs as a cancellable background job, followed through the snapshot
+    // like a login flow: a long list or a lock mid-import must not leave the
+    // caller holding one open request with no way to know where it stopped.
+    pub async fn start_import_tokens(
+        self: &Arc<Self>,
+        tokens: Vec<String>,
+        settings: AccountSettingsPatch,
+        apply_existing_settings: bool,
+    ) -> Result<ImportTokensFlowView> {
+        if tokens.len() > TOKENS_IMPORT_MAX {
+            return Err(Error::InvalidRequest(format!(
+                "{} tokens, at most {TOKENS_IMPORT_MAX}",
+                tokens.len()
+            )));
+        }
+
+        settings.validate()?;
+
+        let mut settings = settings;
+
+        settings.proxy = settings.proxy.trim().to_owned();
+
+        if !settings.proxy.is_empty() {
+            crate::twitch::parse_proxy(&settings.proxy)?;
+        }
+
+        self.cancel_import_tokens().await;
+
+        let vault = self.vault().await?;
+        let proxy = self.effective_proxy(&settings.proxy).await;
+        let http = Arc::new(proxied_http(
+            &self.device_id,
+            proxy.as_deref(),
+            &self.requests,
+        )?);
+        let flow_id = crate::util::random_hex(8);
+        let view = ImportTokensFlowView {
+            flow_id: flow_id.clone(),
+            lines: tokens.iter().map(|_| ImportTokenOutcome::Pending).collect(),
+            status: ImportTokensFlowStatus::Running,
+        };
+        let cancel = CancellationToken::new();
+
+        *self.import.lock().await = Some(ImportFlow {
+            view: view.clone(),
+            cancel: cancel.clone(),
+            job: None,
+        });
+
+        let this = self.clone();
+        let flow_id_for_task = flow_id.clone();
+
+        let job = tokio::spawn(async move {
+            this.run_import(ImportJob {
+                flow_id: flow_id_for_task,
+                tokens,
+                http,
+                vault,
+                settings,
+                apply_existing_settings,
+                cancel,
+            })
+            .await;
+        });
+
+        if let Some(flow) = self
+            .import
+            .lock()
+            .await
+            .as_mut()
+            .filter(|flow| flow.view.flow_id == flow_id)
+        {
+            flow.job = Some(job);
+        }
+
+        self.changed.notify_waiters();
+
+        Ok(view)
+    }
+
+    // ! Each line keeps going after a failure: the other accounts in the
+    // batch still import, and the caller sees exactly which line stopped
+    // and why instead of a single error for the whole list. Cancellation
+    // is checked between lines and around the one network call that
+    // identifies a token, never mid-commit: once a line starts writing to
+    // the store, it runs to completion rather than being dropped partway
+    // between `upsert_account`, `stop_task`, `save_credential` and
+    // `spawn_account`.
+    async fn run_import(self: Arc<Self>, job: ImportJob) {
+        let ImportJob {
+            flow_id,
+            tokens,
+            http,
+            vault,
+            settings,
+            apply_existing_settings,
+            cancel,
+        } = job;
+
+        for (index, token) in tokens.into_iter().enumerate() {
+            if cancel.is_cancelled() {
+                break;
+            }
+
+            self.set_import_line(&flow_id, index, ImportTokenOutcome::Checking)
+                .await;
+
+            match self
+                .import_one(
+                    &http,
+                    &vault,
+                    &token,
+                    &settings,
+                    apply_existing_settings,
+                    &cancel,
+                )
+                .await
+            {
+                LineOutcome::Settled(outcome) => {
+                    self.set_import_line(&flow_id, index, outcome).await;
+                }
+                LineOutcome::Cancelled => {
+                    self.set_import_line(&flow_id, index, ImportTokenOutcome::Pending)
+                        .await;
+                    break;
+                }
+            }
+        }
+
+        let status = if cancel.is_cancelled() {
+            ImportTokensFlowStatus::Cancelled
+        } else {
+            ImportTokensFlowStatus::Completed
+        };
+
+        self.set_import_status(&flow_id, status).await;
+    }
+
+    async fn import_one(
+        self: &Arc<Self>,
+        http: &Arc<TwitchHttp>,
+        vault: &Vault,
+        token: &str,
+        settings: &AccountSettingsPatch,
+        apply_existing_settings: bool,
+        cancel: &CancellationToken,
+    ) -> LineOutcome {
+        match self
+            .import_one_inner(
+                http,
+                vault,
+                token,
+                settings,
+                apply_existing_settings,
+                cancel,
+            )
+            .await
+        {
+            Ok(account_id) => LineOutcome::Settled(ImportTokenOutcome::Imported { account_id }),
+            Err(ImportLineError::Cancelled) => LineOutcome::Cancelled,
+            Err(ImportLineError::Failed(error)) => {
+                tracing::warn!(%error, "a line in a token import failed");
+
+                LineOutcome::Settled(ImportTokenOutcome::Failed {
+                    problem: error.code(),
+                })
+            }
+        }
+    }
+
+    async fn import_one_inner(
+        self: &Arc<Self>,
+        default_http: &Arc<TwitchHttp>,
+        vault: &Vault,
+        token: &str,
+        settings: &AccountSettingsPatch,
+        apply_existing_settings: bool,
+        cancel: &CancellationToken,
+    ) -> std::result::Result<String, ImportLineError> {
+        within_token_line_max(token)?;
+
+        let token = auth::parse_pasted_token(token)?;
+
+        let validation = tokio::select! {
+            _ = cancel.cancelled() => return Err(ImportLineError::Cancelled),
+            result = auth::validate_pasted_token(default_http, &token) => result?,
+        };
+
+        let http = self
+            .import_line_http(&validation.user_id, apply_existing_settings, default_http)
+            .await?;
+
+        let token_set = auth::TokenSet {
+            access_token: token,
+            refresh_token: None,
+        };
+
+        self.finish_login(
+            &http,
+            vault,
+            validation,
+            token_set,
+            LoginOutcome {
+                source: AccountSource::ImportedToken,
+                new_account: settings.clone().apply(AccountSettings::default()),
+                existing_patch: apply_existing_settings.then_some(settings),
+            },
+        )
+        .await
+        .map_err(ImportLineError::from)
+    }
+
+    // ! The batch's own proxy for a new account or one being overwritten;
+    // an existing account kept as is uses its own stored proxy instead,
+    // so the import never reaches Twitch from an address that account has
+    // never used.
+    async fn import_line_http(
+        &self,
+        user_id: &str,
+        apply_existing_settings: bool,
+        default_http: &Arc<TwitchHttp>,
+    ) -> Result<Arc<TwitchHttp>> {
+        if apply_existing_settings {
+            return Ok(default_http.clone());
+        }
+
+        let Some(existing) = self.store.account(user_id)? else {
+            return Ok(default_http.clone());
+        };
+
+        let proxy = self.effective_proxy(&existing.settings.proxy).await;
+
+        Ok(Arc::new(proxied_http(
+            &self.device_id,
+            proxy.as_deref(),
+            &self.requests,
+        )?))
+    }
+
+    async fn set_import_line(&self, flow_id: &str, index: usize, outcome: ImportTokenOutcome) {
+        let mut import = self.import.lock().await;
+
+        if let Some(flow) = import.as_mut().filter(|flow| flow.view.flow_id == flow_id) {
+            if let Some(line) = flow.view.lines.get_mut(index) {
+                *line = outcome;
+            }
+        }
+
+        drop(import);
+        self.changed.notify_waiters();
+    }
+
+    async fn set_import_status(&self, flow_id: &str, status: ImportTokensFlowStatus) {
+        let mut import = self.import.lock().await;
+
+        if let Some(flow) = import.as_mut().filter(|flow| flow.view.flow_id == flow_id) {
+            flow.view.status = status;
+        }
+
+        drop(import);
+        self.changed.notify_waiters();
+    }
+
+    pub async fn import_status(&self) -> Option<ImportTokensFlowView> {
+        self.import
+            .lock()
+            .await
+            .as_ref()
+            .map(|flow| flow.view.clone())
+    }
+
+    // ! A running flow is cancelled in place, not removed: the result
+    // screen still has imported/failed lines to show once the job settles
+    // it to `Cancelled` (see `run_import`). Called again on an already
+    // settled flow, this is a dismiss instead, clearing it for good; a
+    // caller that wants it gone unconditionally (`lock()`) drops it itself.
+    pub async fn cancel_import_tokens(&self) {
+        let job = {
+            let mut import = self.import.lock().await;
+
+            match import.as_mut() {
+                Some(flow) if flow.view.status == ImportTokensFlowStatus::Running => {
+                    flow.cancel.cancel();
+                    flow.job.take()
+                }
+                Some(_) => {
+                    *import = None;
+
+                    None
+                }
+                None => None,
+            }
+        };
+
+        if let Some(job) = job {
+            let _ = job.await;
+        }
+
+        self.changed.notify_waiters();
+    }
+
+    // ! A public, unauthenticated lookup: the login is enough to show a name
+    // and an avatar, without an authenticated request logged under an
+    // account id that may not exist yet, and without needing a proxy
+    // decision before one has been made (the check step, before settings).
+    async fn describe_token(
+        &self,
+        http: &Arc<TwitchHttp>,
+        validation: &auth::Validation,
+    ) -> (String, Option<String>) {
+        match crate::twitch::channels::lookup_public(http, &validation.login).await {
+            Ok(Some(channel)) => (channel.display_name, channel.avatar_url),
+            _ => (validation.login.clone(), None),
+        }
+    }
+
+    // ! Shared by the device-code flow and a pasted token: both end in the
+    // same account record, credential and "signed in" event. `LoginOutcome`
+    // only matters when no account exists yet (`source`/`new_account`); an
+    // existing one keeps its own settings unless `existing_patch` asks to
+    // apply a patch over them.
+    async fn finish_login(
+        self: &Arc<Self>,
+        http: &Arc<TwitchHttp>,
+        vault: &Vault,
+        validation: auth::Validation,
+        tokens: auth::TokenSet,
+        outcome: LoginOutcome<'_>,
+    ) -> Result<String> {
+        let existing = self.store.account(&validation.user_id)?;
+        let (display_name, avatar_url) = self.describe_token(http, &validation).await;
+        let position = self.store.accounts()?.len() as i64;
+        let record = AccountRecord {
+            id: validation.user_id.clone(),
+            login: validation.login.clone(),
+            display_name,
+            avatar_url,
+            settings: match existing.as_ref() {
+                Some(existing) => match outcome.existing_patch {
+                    Some(patch) => patch.clone().apply(existing.settings.clone()),
+                    None => existing.settings.clone(),
+                },
+                None => outcome.new_account,
+            },
+            position: existing.as_ref().map(|e| e.position).unwrap_or(position),
+            created_at: existing
+                .as_ref()
+                .map(|e| e.created_at)
+                .unwrap_or_else(Utc::now),
+            // ! Always the method that just produced this credential: an
+            // account re-authenticated through a different flow must not
+            // keep the old source, or `remove_account` would decide whether
+            // to auto-revoke based on how it was first added instead of
+            // how its current session was actually obtained.
+            source: outcome.source,
+        };
+
+        self.store.upsert_account(&record)?;
+
+        let restart = self.restart_lock(&record.id);
+        let _one_at_a_time = restart.lock().await;
+
+        // ! A re-login replaces the running task, stopped first: a
+        // session it renews now would overwrite the new credential.
+        let running = self.accounts.lock().await.remove(&record.id);
+
+        if let Some(handle) = running {
+            self.keep_stats(&handle);
+            stop_task(handle).await;
+        }
+
+        let credential = Credential {
+            tokens,
+            device_id: self.device_id.clone(),
+        };
+
+        self.store.save_credential(&record.id, &credential, vault)?;
+
+        let id = record.id.clone();
+        let context = EventContext {
+            account_name: Some(record.display_name.clone()),
+            account_avatar: record.avatar_url.clone(),
+            ..EventContext::default()
+        };
+
+        self.spawn_account(record, vault).await?;
+
+        let event = MinerEvent::new(
+            &id,
+            &validation.login,
+            EventKind::LoginCompleted,
+            format!("{} signed in", validation.login),
+        )
+        .context(context);
+
+        record_event(&self.store, &self.events, event);
+
+        Ok(id)
     }
 
     fn note_version(&self, version: &str) -> Result<()> {
@@ -1479,6 +1907,7 @@ impl Manager {
                     let mut account = handle.snapshot.borrow().clone();
 
                     account.settings = record.settings.clone();
+                    account.source = record.source;
 
                     let paused = !account.settings.enabled
                         || quiet_window_active
@@ -1504,6 +1933,7 @@ impl Manager {
                         id: record.id.clone(),
                         login: record.login.clone(),
                         display_name: record.display_name.clone(),
+                        source: record.source,
                         avatar_url: record.avatar_url.clone(),
                         settings: record.settings.clone(),
                         status,
@@ -1579,14 +2009,22 @@ impl Manager {
             vault,
             recent_events,
             login: self.login_status().await,
+            import: self.import_status().await,
+            token_import_max: TOKENS_IMPORT_MAX as u32,
+            token_line_max_chars: TOKEN_LINE_MAX_CHARS as u32,
+            import_default_patch: AccountSettingsPatch::defaults(),
         })
     }
 
     pub async fn execute(self: &Arc<Self>, command: Command) -> Result<()> {
         match command {
             Command::CancelLogin {} => self.cancel_login().await,
+            Command::CancelImportTokens {} => self.cancel_import_tokens().await,
             Command::DismissStarPrompt {} => self.dismiss_star_prompt()?,
-            Command::RemoveAccount { account_id } => self.remove_account(&account_id).await?,
+            Command::RemoveAccount {
+                account_id,
+                revoke_token,
+            } => self.remove_account(&account_id, revoke_token).await?,
             Command::SetAccountSettings {
                 account_id,
                 settings,
@@ -2108,6 +2546,29 @@ fn check_test_rate_limit(gate: &std::sync::Mutex<Option<tokio::time::Instant>>) 
     Ok(())
 }
 
+// ! One check in flight at a time: a second one (another tab, a race) is
+// refused instead of paced behind a fixed delay — the caller already walks
+// a whole list one line at a time on its own.
+fn single_flight(gate: &std::sync::Mutex<bool>) -> Result<SingleFlightGuard<'_>> {
+    let mut busy = locked(gate);
+
+    if *busy {
+        return Err(Error::ActionRateLimited);
+    }
+
+    *busy = true;
+
+    Ok(SingleFlightGuard(gate))
+}
+
+struct SingleFlightGuard<'a>(&'a std::sync::Mutex<bool>);
+
+impl Drop for SingleFlightGuard<'_> {
+    fn drop(&mut self) {
+        *locked(self.0) = false;
+    }
+}
+
 // ! One slot per `NotificationTarget`: testing Discord does not block
 // Telegram or the webhook.
 fn check_notification_test_rate_limit(
@@ -2208,6 +2669,18 @@ fn shared_http(device_id: &str, proxy: &str, requests: &RequestLog) -> Result<Tw
     })
 }
 
+// ! A refused proxy is reported as invalid, not swallowed into a different
+// error: the setting that caused it is what the user must fix.
+fn proxied_http(device_id: &str, proxy: Option<&str>, requests: &RequestLog) -> Result<TwitchHttp> {
+    TwitchHttp::new(device_id.to_owned(), proxy, requests.clone()).map_err(|error| {
+        match (error, proxy) {
+            (Error::InvalidProxy(why), _) => Error::InvalidProxy(why),
+            (other, Some(_)) => Error::InvalidProxy(other.to_string()),
+            (other, None) => other,
+        }
+    })
+}
+
 // ! Only a credential the task could not use asks for a new sign-in: a
 // refused proxy is fixed in the settings.
 fn failed_start_status(code: ErrorCode) -> AccountStatus {
@@ -2248,6 +2721,14 @@ fn within_lookup_max(count: usize) -> Result<()> {
         return Err(Error::InvalidRequest(format!(
             "{count} channels, at most {CHANNELS_LOOKUP_MAX}"
         )));
+    }
+
+    Ok(())
+}
+
+fn within_token_line_max(line: &str) -> Result<()> {
+    if line.len() > TOKEN_LINE_MAX_CHARS {
+        return Err(Error::InvalidToken);
     }
 
     Ok(())

@@ -74,6 +74,7 @@
   "common_accounts_none": "Nenhuma conta",
   "accounts_remove_title": "Remover esta conta?",
   "accounts_remove_text": "A sessão de {name} é revogada na Twitch e apagada aqui. Os drops já resgatados ficam no inventário da Twitch.",
+  "accounts_remove_text_imported_token": "A sessão de {name} é apagada aqui. Os drops já resgatados ficam no inventário da Twitch; use a opção abaixo para também a revogar na Twitch.",
   "accounts_login_again": "Iniciar sessão novamente",
   "accounts_stats_drops": "Drops reclamados: {count}",
   "accounts_stats_points": "Pontos ganhos: {count}",
@@ -87,6 +88,85 @@
   "login_note": "Nenhuma palavra-passe é guardada. A sessão é cifrada neste dispositivo e pode ser revogada nas {settings}.",
   "login_note_settings": "definições da Twitch",
   "login_vault_locked": "Desbloqueie a app antes de adicionar uma conta.",
+  "login_use_tokens": "Colar tokens em vez disso",
+  "login_use_code": "Usar o código de início de sessão em vez disso",
+  "login_tokens_label": "Tokens de acesso",
+  "login_tokens_hint": "Cole um token por linha. Cada um é verificado antes de poder ser importado.",
+  "login_tokens_submit": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Importar o token",
+        "countPlural=*": "Importar os tokens"
+      }
+    }
+  ],
+  "login_tokens_checking": "A verificar os tokens…",
+  "import_tokens_title": "Importar tokens",
+  "import_tokens_placeholder": "Cole os tokens, um por linha…",
+  "import_tokens_too_many": "No máximo {max} tokens de cada vez.",
+  "import_tokens_line_too_long": "Uma linha é demasiado longa (no máximo {max} caracteres).",
+  "import_tokens_status_pending": "A verificar…",
+  "import_tokens_status_valid": "Válido",
+  "import_tokens_status_unusable_client": "Este token não pode ser usado para minerar.",
+  "import_tokens_status_invalid": "Este token é inválido ou expirou.",
+  "import_tokens_status_already_added": "Já adicionada",
+  "import_tokens_status_duplicate": "Duplicado de outra linha",
+  "import_tokens_status_not_imported": "Não importado",
+  "import_tokens_settings_step_title": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Definições desta conta",
+        "countPlural=*": "Definições destas contas"
+      }
+    }
+  ],
+  "import_tokens_settings_step_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Estas definições aplicam-se à conta que está a ser importada.",
+        "countPlural=*": "Estas definições aplicam-se a todas as contas importadas."
+      }
+    }
+  ],
+  "import_tokens_overwrite_existing_label": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Substituir também as definições da conta que já existe",
+        "countPlural=*": "Substituir também as definições das contas já existentes"
+      }
+    }
+  ],
+  "import_tokens_result_count": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{count} token importado",
+        "countPlural=*": "{count} tokens importados"
+      }
+    }
+  ],
+  "import_tokens_result_cancelled": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Importação cancelada — {count} token importado",
+        "countPlural=*": "Importação cancelada — {count} tokens importados"
+      }
+    }
+  ],
+  "import_tokens_importing_progress": "A importar: {done}/{total}",
+  "import_tokens_cancel": "Cancelar a importação",
+  "import_tokens_retry_failed": "Tentar novamente",
   "account_slots_hint": "A Twitch credita no máximo dois canais por conta em simultâneo.",
   "account_drops_priority_hint": "As campanhas deles são mineradas onde “Categorias prioritárias” aparece em “O que minerar, por ordem”, as mais importantes primeiro.",
   "account_drops_priority_placeholder": "Adicionar uma categoria…",
@@ -203,6 +283,8 @@
   "settings_auto_lock": "Bloquear após inatividade",
   "settings_auto_lock_hint": "Volta a pedir a palavra-passe após este tempo sem usar o painel, também num separador deixado aberto. A app continua a minerar.",
   "settings_auto_lock_never": "Nunca",
+  "lock_warning_message": "Bloqueio em {time} — mexa-se ou clique para continuar desbloqueado",
+  "lock_warning_message_a11y": "Um bloqueio vai acontecer em breve.",
   "unlock_title": "Desbloquear a app",
   "unlock_text": "Introduza a palavra-passe da app.",
   "unlock_passphrase": "Palavra-passe",
@@ -345,13 +427,42 @@
   "feedback_discord_text": "Abra um ticket ou converse com a comunidade",
   "feedback_github_text": "Abra uma issue: um erro ou uma ideia",
   "settings_catalog_text": "A lista de campanhas vem de drops.sunkwi.com, atualizada a cada 10 minutos.",
-  "account_proxy": "Proxy para esta conta",
-  "account_proxy_hint": "Vazio: o proxy predefinido da app. Alterá-lo reinicia as ligações da conta.",
+  "account_proxy": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Proxy para esta conta",
+        "countPlural=*": "Proxy para estas contas"
+      }
+    }
+  ],
+  "account_proxy_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Vazio: o proxy predefinido da app. Alterá-lo reinicia as ligações da conta.",
+        "countPlural=*": "Vazio: o proxy predefinido da app. Alterá-lo reinicia as ligações destas contas."
+      }
+    }
+  ],
   "account_remove": "Remover esta conta",
+  "account_remove_revoke_label": "Revogar também este token na Twitch",
   "account_mode_title": "Modo de mineração",
-  "account_mode_desc": "Em que esta conta gasta o tempo de visualização.",
+  "account_mode_desc": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Em que esta conta gasta o tempo de visualização.",
+        "countPlural=*": "Em que estas contas gastam o tempo de visualização."
+      }
+    }
+  ],
   "account_slots_title": "Canais vistos em simultâneo",
   "account_twitch_hint": "Inicie sessão novamente se a Twitch terminou a sessão. Remover a conta revoga a sessão na Twitch.",
+  "account_twitch_hint_imported_token": "Inicie sessão novamente se a Twitch terminou a sessão. Ao remover a conta, pode escolher se a sessão na Twitch também é revogada.",
   "account_twitch_id": "ID Twitch",
   "account_twitch_login": "Utilizador",
   "account_twitch_name": "Nome",
@@ -1517,6 +1628,9 @@
   "account_badges_not_mined": "Não minerados",
   "account_badges_not_mined_hint": "Apresentados, não minerados: primeiro é necessária uma subscrição feita por si ou outro emblema, ou a Twitch não indica nenhum canal que o minerador possa ver.",
   "error_action_rate_limited": "Demasiadas tentativas: espera um momento e tenta novamente.",
+  "error_invalid_token": "Este token é inválido ou expirou. Cole um novo.",
+  "error_unsupported_client": "Este token não pode ser usado para minerar. Inicie sessão com o código em vez disso.",
+  "error_missing_scope": "Este token não tem uma permissão que esta app exige. Inicie sessão com o código em vez disso.",
   "ev_paused": "Em pausa",
   "ev_paused_quiet_window": "Em pausa (pausa diária)",
   "ev_paused_scheduled": "Em pausa, retoma {time}",

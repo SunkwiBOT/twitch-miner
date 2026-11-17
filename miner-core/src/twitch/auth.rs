@@ -204,11 +204,17 @@ fn parse_tokens(body: &Value) -> Result<TokenSet> {
     })
 }
 
-pub async fn validate(
+enum ValidationOutcome {
+    Invalid,
+    WrongClient,
+    Valid(Validation, Vec<String>),
+}
+
+async fn validate_raw(
     http: &TwitchHttp,
     account_id: Option<&str>,
     access_token: &str,
-) -> Result<Option<Validation>> {
+) -> Result<ValidationOutcome> {
     let address = format!("{OAUTH_URL}/validate");
     let response = http
         .requests
@@ -222,7 +228,7 @@ pub async fn validate(
     let status = response.status();
 
     if status == StatusCode::UNAUTHORIZED {
-        return Ok(None);
+        return Ok(ValidationOutcome::Invalid);
     }
 
     if status != StatusCode::OK {
@@ -232,16 +238,87 @@ pub async fn validate(
     let body: Value = response.json().await?;
 
     if body["client_id"].as_str() != Some(CLIENT_ID) {
-        return Err(Error::Unauthorized);
+        return Ok(ValidationOutcome::WrongClient);
     }
 
-    Ok(Some(Validation {
-        user_id: body["user_id"]
-            .as_str()
-            .ok_or_else(|| Error::InvalidResponse("user_id missing".into()))?
-            .to_owned(),
-        login: body["login"].as_str().unwrap_or_default().to_owned(),
-    }))
+    let scopes = body["scopes"]
+        .as_array()
+        .map(|values| {
+            values
+                .iter()
+                .filter_map(|value| value.as_str().map(str::to_owned))
+                .collect()
+        })
+        .unwrap_or_default();
+
+    Ok(ValidationOutcome::Valid(
+        Validation {
+            user_id: body["user_id"]
+                .as_str()
+                .ok_or_else(|| Error::InvalidResponse("user_id missing".into()))?
+                .to_owned(),
+            login: body["login"].as_str().unwrap_or_default().to_owned(),
+        },
+        scopes,
+    ))
+}
+
+pub async fn validate(
+    http: &TwitchHttp,
+    account_id: Option<&str>,
+    access_token: &str,
+) -> Result<Option<Validation>> {
+    match validate_raw(http, account_id, access_token).await? {
+        ValidationOutcome::Invalid => Ok(None),
+        // ! A token issued for another client is not a usable session here:
+        // same refusal as an expired one at the API boundary.
+        ValidationOutcome::WrongClient => Err(Error::Unauthorized),
+        ValidationOutcome::Valid(validation, _) => Ok(Some(validation)),
+    }
+}
+
+// ! A pasted token tells the import flow apart from a dead session: the user
+// gets to know whether to retype it or sign in with the device code instead.
+// Scope checked here, unlike `validate()`: the device flow always requests
+// `SCOPES` itself, but a pasted token could come from anywhere.
+pub async fn validate_pasted_token(http: &TwitchHttp, access_token: &str) -> Result<Validation> {
+    match validate_raw(http, None, access_token).await? {
+        ValidationOutcome::Invalid => Err(Error::InvalidToken),
+        ValidationOutcome::WrongClient => Err(Error::UnsupportedClient),
+        ValidationOutcome::Valid(_, scopes) if !has_required_scopes(&scopes) => {
+            Err(Error::MissingScope)
+        }
+        ValidationOutcome::Valid(validation, _) => Ok(validation),
+    }
+}
+
+fn has_required_scopes(scopes: &[String]) -> bool {
+    SCOPES
+        .split_whitespace()
+        .all(|required| scopes.iter().any(|scope| scope == required))
+}
+
+// ! Accepts what people actually paste: IRC-style `oauth:`, the `OAuth `
+// scheme from an Authorization header, or the bare token.
+pub fn parse_pasted_token(input: &str) -> Result<String> {
+    // ! Only the start is trimmed before the prefix check: trimming both ends
+    // first would erase a lone trailing `OAuth ` separator with nothing after it.
+    let trimmed = input.trim_start();
+    let lower = trimmed.to_ascii_lowercase();
+    let token = if let Some(rest) = lower.strip_prefix("oauth:") {
+        &trimmed[trimmed.len() - rest.len()..]
+    } else if let Some(rest) = lower.strip_prefix("oauth ") {
+        &trimmed[trimmed.len() - rest.len()..]
+    } else {
+        trimmed
+    }
+    .trim();
+
+    if token.is_empty() {
+        return Err(Error::InvalidRequest("paste a token".into()));
+    }
+
+    Ok(token.to_owned())
 }
 
 pub async fn refresh(

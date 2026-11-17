@@ -74,6 +74,7 @@
   "common_accounts_none": "Kein Konto",
   "accounts_remove_title": "Dieses Konto entfernen?",
   "accounts_remove_text": "Die Sitzung von {name} wird auf Twitch widerrufen und hier gelöscht. Bereits eingelöste Drops bleiben im Twitch-Inventar.",
+  "accounts_remove_text_imported_token": "Die Sitzung von {name} wird hier gelöscht. Bereits eingelöste Drops bleiben im Twitch-Inventar; mit dem Schalter unten kann sie auch bei Twitch widerrufen werden.",
   "accounts_login_again": "Erneut anmelden",
   "accounts_stats_drops": "Abgeholte Drops: {count}",
   "accounts_stats_points": "Verdiente Punkte: {count}",
@@ -87,6 +88,85 @@
   "login_note": "Kein Passwort wird gespeichert. Die Sitzung wird auf diesem Gerät verschlüsselt und kann in {settings} widerrufen werden.",
   "login_note_settings": "Ihren Twitch-Einstellungen",
   "login_vault_locked": "Entsperren Sie die App, bevor Sie ein Konto hinzufügen.",
+  "login_use_tokens": "Stattdessen Token einfügen",
+  "login_use_code": "Stattdessen den Anmeldecode verwenden",
+  "login_tokens_label": "Zugriffstoken",
+  "login_tokens_hint": "Fügen Sie einen Token pro Zeile ein. Jeder wird geprüft, bevor er importiert werden kann.",
+  "login_tokens_submit": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Den Token importieren",
+        "countPlural=*": "Die Tokens importieren"
+      }
+    }
+  ],
+  "login_tokens_checking": "Token werden geprüft…",
+  "import_tokens_title": "Token importieren",
+  "import_tokens_placeholder": "Token einfügen, einen pro Zeile…",
+  "import_tokens_too_many": "Höchstens {max} Token auf einmal.",
+  "import_tokens_line_too_long": "Eine Zeile ist zu lang (höchstens {max} Zeichen).",
+  "import_tokens_status_pending": "Wird geprüft…",
+  "import_tokens_status_valid": "Gültig",
+  "import_tokens_status_unusable_client": "Dieser Token kann nicht zum Minen verwendet werden.",
+  "import_tokens_status_invalid": "Dieser Token ist ungültig oder abgelaufen.",
+  "import_tokens_status_already_added": "Bereits hinzugefügt",
+  "import_tokens_status_duplicate": "Duplikat einer anderen Zeile",
+  "import_tokens_status_not_imported": "Nicht importiert",
+  "import_tokens_settings_step_title": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Einstellungen für dieses Konto",
+        "countPlural=*": "Einstellungen für diese Konten"
+      }
+    }
+  ],
+  "import_tokens_settings_step_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Diese Einstellungen gelten für das Konto, das importiert wird.",
+        "countPlural=*": "Diese Einstellungen gelten für alle importierten Konten."
+      }
+    }
+  ],
+  "import_tokens_overwrite_existing_label": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Auch die Einstellungen des bereits bestehenden Kontos überschreiben",
+        "countPlural=*": "Auch die Einstellungen bereits bestehender Konten überschreiben"
+      }
+    }
+  ],
+  "import_tokens_result_count": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{count} Token importiert",
+        "countPlural=*": "{count} Token importiert"
+      }
+    }
+  ],
+  "import_tokens_result_cancelled": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Import abgebrochen — {count} Token importiert",
+        "countPlural=*": "Import abgebrochen — {count} Token importiert"
+      }
+    }
+  ],
+  "import_tokens_importing_progress": "Wird importiert: {done}/{total}",
+  "import_tokens_cancel": "Den Import abbrechen",
+  "import_tokens_retry_failed": "Erneut versuchen",
   "account_slots_hint": "Twitch rechnet pro Konto höchstens zwei Kanäle gleichzeitig an.",
   "account_drops_priority_hint": "Deren Kampagnen werden dort gemint, wo „Prioritätskategorien“ in „Was gemint wird, der Reihe nach“ steht, die wichtigsten zuerst.",
   "account_drops_priority_placeholder": "Kategorie hinzufügen…",
@@ -203,6 +283,8 @@
   "settings_auto_lock": "Nach Inaktivität sperren",
   "settings_auto_lock_hint": "Fragt nach dieser Zeit ohne Nutzung des Dashboards erneut nach dem Passwort, auch in einem offen gelassenen Tab. Das Mining läuft weiter.",
   "settings_auto_lock_never": "Nie",
+  "lock_warning_message": "Sperrung in {time} — bewegen oder klicken, um entsperrt zu bleiben",
+  "lock_warning_message_a11y": "Eine Sperrung steht bevor.",
   "unlock_title": "App entsperren",
   "unlock_text": "Geben Sie das App-Passwort ein.",
   "unlock_passphrase": "Passwort",
@@ -345,13 +427,42 @@
   "feedback_discord_text": "Ein Ticket eröffnen oder mit der Community chatten",
   "feedback_github_text": "Ein Issue eröffnen: ein Fehler oder eine Idee",
   "settings_catalog_text": "Die Kampagnenliste stammt von drops.sunkwi.com und wird alle 10 Minuten aktualisiert.",
-  "account_proxy": "Proxy für dieses Konto",
-  "account_proxy_hint": "Leer: der Standard-Proxy der App. Eine Änderung startet die Verbindungen des Kontos neu.",
+  "account_proxy": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Proxy für dieses Konto",
+        "countPlural=*": "Proxy für diese Konten"
+      }
+    }
+  ],
+  "account_proxy_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Leer: der Standard-Proxy der App. Eine Änderung startet die Verbindungen des Kontos neu.",
+        "countPlural=*": "Leer: der Standard-Proxy der App. Eine Änderung startet die Verbindungen dieser Konten neu."
+      }
+    }
+  ],
   "account_remove": "Dieses Konto entfernen",
+  "account_remove_revoke_label": "Auch diesen Token bei Twitch widerrufen",
   "account_mode_title": "Mining-Modus",
-  "account_mode_desc": "Wofür dieses Konto seine Zuschauzeit nutzt.",
+  "account_mode_desc": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Wofür dieses Konto seine Zuschauzeit nutzt.",
+        "countPlural=*": "Wofür diese Konten ihre Zuschauzeit nutzen."
+      }
+    }
+  ],
   "account_slots_title": "Gleichzeitig angesehene Kanäle",
   "account_twitch_hint": "Melden Sie sich erneut an, wenn Twitch die Sitzung beendet hat. Beim Entfernen des Kontos wird seine Sitzung bei Twitch widerrufen.",
+  "account_twitch_hint_imported_token": "Melden Sie sich erneut an, wenn Twitch die Sitzung beendet hat. Beim Entfernen des Kontos können Sie wählen, ob seine Sitzung bei Twitch ebenfalls widerrufen wird.",
   "account_twitch_id": "Twitch-ID",
   "account_twitch_login": "Login",
   "account_twitch_name": "Name",
@@ -1503,6 +1614,9 @@
   "account_badges_not_mined": "Nicht gemint",
   "account_badges_not_mined_hint": "Wird angezeigt, aber nicht gemint: Zuerst ist ein Abo nötig, das Sie selbst abschließen, oder ein anderes Abzeichen, oder Twitch nennt keinen Kanal, den der Miner ansehen kann.",
   "error_action_rate_limited": "Zu viele Versuche: einen Moment warten und erneut versuchen.",
+  "error_invalid_token": "Dieser Token ist ungültig oder abgelaufen. Fügen Sie einen neuen ein.",
+  "error_unsupported_client": "Dieser Token kann nicht zum Minen verwendet werden. Melden Sie sich stattdessen mit dem Code an.",
+  "error_missing_scope": "Diesem Token fehlt eine Berechtigung, die diese App benötigt. Melden Sie sich stattdessen mit dem Code an.",
   "ev_paused": "Pausiert",
   "ev_paused_quiet_window": "Pausiert (tägliche Pause)",
   "ev_paused_scheduled": "Pausiert, Fortsetzung {time}",

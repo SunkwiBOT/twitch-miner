@@ -364,21 +364,24 @@ impl AccountSettings {
         self.slots.clamp(*SLOTS.start(), *SLOTS.end()) as usize
     }
 
+    // ! The inverse of `AccountSettingsPatch::apply`: the fields a patch
+    // covers, taken out of a full settings value.
+    pub fn into_patch(self) -> AccountSettingsPatch {
+        AccountSettingsPatch {
+            mode: self.mode,
+            mining_order: self.drops.mining_order,
+            slots: self.slots,
+            proxy: self.proxy,
+        }
+    }
+
     pub fn validate(&self) -> Result<()> {
         within("slots", self.slots, &SLOTS)?;
         short("proxy", &self.proxy)?;
 
         let drops = &self.drops;
 
-        if drops.mining_order.len() != MiningLaneKind::ALL.len()
-            || MiningLaneKind::ALL
-                .iter()
-                .any(|kind| !drops.mining_order.iter().any(|lane| lane.kind == *kind))
-        {
-            return Err(Error::InvalidRequest(
-                "mining_order must hold each lane once".into(),
-            ));
-        }
+        validate_mining_order(&drops.mining_order)?;
 
         if drops.reward_priority.len() != BenefitKind::ALL.len()
             || BenefitKind::ALL
@@ -412,6 +415,58 @@ impl AccountSettings {
                 short("login", &streamer.login)?;
                 streamer.predictions.validate()
             })
+    }
+}
+
+// ! Shared with `AccountSettingsPatch`: the bulk-import settings step edits
+// the same mining order and must hold it to the same rule.
+fn validate_mining_order(mining_order: &[MiningLane]) -> Result<()> {
+    if mining_order.len() != MiningLaneKind::ALL.len()
+        || MiningLaneKind::ALL
+            .iter()
+            .any(|kind| !mining_order.iter().any(|lane| lane.kind == *kind))
+    {
+        return Err(Error::InvalidRequest(
+            "mining_order must hold each lane once".into(),
+        ));
+    }
+
+    Ok(())
+}
+
+// ! What the bulk token-import settings step edits, applied over
+// `AccountSettings::default()` for a new account or over an existing one's
+// stored settings when the import is asked to overwrite them: every other
+// field (streamers, drop filters, badges…) is never touched by a batch.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, TS)]
+#[serde(deny_unknown_fields)]
+#[ts(rename = "AccountSettingsPatchType")]
+pub struct AccountSettingsPatch {
+    pub mode: Mode,
+    pub mining_order: Vec<MiningLane>,
+    pub slots: u8,
+    pub proxy: String,
+}
+
+impl AccountSettingsPatch {
+    pub fn validate(&self) -> Result<()> {
+        within("slots", self.slots, &SLOTS)?;
+        short("proxy", &self.proxy)?;
+        validate_mining_order(&self.mining_order)
+    }
+
+    // ! Lets the bulk-import settings step start from the backend's own
+    // defaults instead of a hand-copied mirror that could drift from them.
+    pub fn defaults() -> Self {
+        AccountSettings::default().into_patch()
+    }
+
+    pub fn apply(self, mut base: AccountSettings) -> AccountSettings {
+        base.mode = self.mode;
+        base.drops.mining_order = self.mining_order;
+        base.slots = self.slots;
+        base.proxy = self.proxy;
+        base
     }
 }
 

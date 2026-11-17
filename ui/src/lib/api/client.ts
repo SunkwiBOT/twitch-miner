@@ -18,6 +18,11 @@ import { DesktopEvent } from "../bindings/DesktopEvent";
 import type { FollowsQueryType } from "../bindings/FollowsQueryType";
 import type { HistoryQueryType } from "../bindings/HistoryQueryType";
 import type { HistoryResponseType } from "../bindings/HistoryResponseType";
+import type { AccountSettingsPatchType } from "../bindings/AccountSettingsPatchType";
+import type { CheckPastedTokenRequestType } from "../bindings/CheckPastedTokenRequestType";
+import type { ImportTokensFlowViewType } from "../bindings/ImportTokensFlowViewType";
+import type { ImportTokensRequestType } from "../bindings/ImportTokensRequestType";
+import type { TokenCheckType } from "../bindings/TokenCheckType";
 import type { LoginFlowViewType } from "../bindings/LoginFlowViewType";
 import type { LogsQueryType } from "../bindings/LogsQueryType";
 import type { BadgesResponseType } from "../bindings/BadgesResponseType";
@@ -71,7 +76,7 @@ type ListenersType = {
 
 type HttpRouteType = { route: RoutesApi; method: HttpMethod };
 
-type HttpBodyType = { params?: object; data?: unknown };
+type HttpBodyType = { params?: object; data?: unknown; signal?: AbortSignal };
 
 const ROUTES = {
   [TauriCommand.SNAPSHOT]: { route: RoutesApi.SNAPSHOT, method: HttpMethod.GET },
@@ -79,6 +84,14 @@ const ROUTES = {
   [TauriCommand.REFRESH_CATALOG]: { route: RoutesApi.CATALOG_REFRESH, method: HttpMethod.POST },
   [TauriCommand.REFRESH_BADGES]: { route: RoutesApi.BADGES_REFRESH, method: HttpMethod.POST },
   [TauriCommand.START_LOGIN]: { route: RoutesApi.LOGIN_FLOW, method: HttpMethod.POST },
+  [TauriCommand.CHECK_PASTED_TOKEN]: {
+    route: RoutesApi.LOGIN_FLOW_CHECK_TOKEN,
+    method: HttpMethod.POST,
+  },
+  [TauriCommand.IMPORT_TOKENS]: {
+    route: RoutesApi.LOGIN_FLOW_IMPORT_TOKENS,
+    method: HttpMethod.POST,
+  },
   [TauriCommand.LOOKUP_CHANNEL]: { route: RoutesApi.CHANNEL, method: HttpMethod.GET },
   [TauriCommand.CHANNEL_BANNERS]: { route: RoutesApi.CHANNELS_BANNERS, method: HttpMethod.POST },
   [TauriCommand.SEARCH]: { route: RoutesApi.SEARCH, method: HttpMethod.GET },
@@ -134,6 +147,37 @@ export const requestBadgesRefresh = async (): Promise<RefreshCountType> =>
 
 export const startLogin = async (): Promise<LoginFlowViewType> =>
   (await transport(TauriCommand.START_LOGIN, {})).login;
+
+export const checkPastedToken = async (
+  token: string,
+  signal?: AbortSignal,
+): Promise<TokenCheckType> =>
+  (
+    await transport(
+      TauriCommand.CHECK_PASTED_TOKEN,
+      { data: { token } satisfies CheckPastedTokenRequestType, signal },
+      { token },
+    )
+  ).check;
+
+export const startImportTokens = async (
+  tokens: string[],
+  settings: AccountSettingsPatchType,
+  applyExistingSettings: boolean,
+): Promise<ImportTokensFlowViewType> =>
+  (
+    await transport(
+      TauriCommand.IMPORT_TOKENS,
+      {
+        data: {
+          tokens,
+          settings,
+          apply_existing_settings: applyExistingSettings,
+        } satisfies ImportTokensRequestType,
+      },
+      { tokens, settings, applyExistingSettings },
+    )
+  ).import;
 
 export const lookupChannel = async (login: string): Promise<ChannelType> =>
   (

@@ -59,6 +59,7 @@
   "common_accounts_none": "ไม่มีบัญชี",
   "accounts_remove_title": "ลบบัญชีนี้ไหม",
   "accounts_remove_text": "เซสชันของ {name} จะถูกเพิกถอนบน Twitch และลบที่นี่ Drop ที่รับแล้วยังอยู่ในคลัง Twitch",
+  "accounts_remove_text_imported_token": "เซสชันของ {name} จะถูกลบที่นี่ Drop ที่รับแล้วยังอยู่ในคลัง Twitch ใช้สวิตช์ด้านล่างเพื่อเพิกถอนบน Twitch ด้วย",
   "accounts_login_again": "เข้าสู่ระบบอีกครั้ง",
   "accounts_stats_drops": "ดรอปที่รับแล้ว: {count}",
   "accounts_stats_points": "พอยต์ที่ได้รับ: {count}",
@@ -72,6 +73,67 @@
   "login_note": "ไม่มีการเก็บรหัสผ่าน เซสชันถูกเข้ารหัสบนอุปกรณ์นี้ และเพิกถอนได้จาก{settings}",
   "login_note_settings": "การตั้งค่า Twitch ของคุณ",
   "login_vault_locked": "ปลดล็อกแอปก่อนเพิ่มบัญชี",
+  "login_use_tokens": "วางโทเค็นแทน",
+  "login_use_code": "ใช้รหัสเข้าสู่ระบบแทน",
+  "login_tokens_label": "โทเค็นเข้าถึง",
+  "login_tokens_hint": "วางโทเค็นบรรทัดละหนึ่งรายการ แต่ละรายการจะถูกตรวจสอบก่อนนำเข้า",
+  "login_tokens_submit": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "นำเข้าโทเค็นนี้",
+        "countPluralExact=*": "นำเข้าโทเค็นทั้งหมด"
+      }
+    }
+  ],
+  "login_tokens_checking": "กำลังตรวจสอบโทเค็น…",
+  "import_tokens_title": "นำเข้าโทเค็น",
+  "import_tokens_placeholder": "วางโทเค็น บรรทัดละหนึ่งรายการ…",
+  "import_tokens_too_many": "โทเค็นมากเกินไป: สูงสุด {max} รายการต่อครั้ง",
+  "import_tokens_line_too_long": "มีบรรทัดที่ยาวเกินไป: สูงสุด {max} ตัวอักษร",
+  "import_tokens_status_pending": "กำลังตรวจสอบ…",
+  "import_tokens_status_valid": "ใช้ได้",
+  "import_tokens_status_unusable_client": "ไม่สามารถใช้โทเค็นนี้ในการขุดได้",
+  "import_tokens_status_invalid": "โทเค็นนี้ไม่ถูกต้องหรือหมดอายุแล้ว",
+  "import_tokens_status_already_added": "เพิ่มไปแล้ว",
+  "import_tokens_status_duplicate": "ซ้ำกับบรรทัดอื่น",
+  "import_tokens_status_not_imported": "ไม่ได้นำเข้า",
+  "import_tokens_settings_step_title": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "การตั้งค่าของบัญชีนี้",
+        "countPluralExact=*": "การตั้งค่าของบัญชีเหล่านี้"
+      }
+    }
+  ],
+  "import_tokens_settings_step_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "การตั้งค่านี้จะใช้กับบัญชีที่นำเข้า",
+        "countPluralExact=*": "การตั้งค่านี้จะใช้กับบัญชีที่นำเข้าทั้งหมด"
+      }
+    }
+  ],
+  "import_tokens_overwrite_existing_label": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "เขียนทับการตั้งค่าของบัญชีที่มีอยู่แล้วด้วย",
+        "countPluralExact=*": "เขียนทับการตั้งค่าของบัญชีที่มีอยู่แล้วทั้งหมดด้วย"
+      }
+    }
+  ],
+  "import_tokens_result_count": "นำเข้าโทเค็นแล้ว {count} รายการ",
+  "import_tokens_result_cancelled": "ยกเลิกการนำเข้า — นำเข้าโทเค็นแล้ว {count} รายการ",
+  "import_tokens_importing_progress": "กำลังนำเข้า: {done}/{total}",
+  "import_tokens_cancel": "ยกเลิกการนำเข้า",
+  "import_tokens_retry_failed": "ลองอีกครั้ง",
   "account_slots_hint": "Twitch นับได้สูงสุดสองช่องต่อบัญชีในเวลาเดียวกัน",
   "account_drops_priority_hint": "แคมเปญของหมวดหมู่เหล่านี้จะถูกขุดตามลำดับที่ “หมวดหมู่ที่ให้ความสำคัญ” อยู่ใน “ขุดอะไรบ้าง ตามลำดับ” โดยสำคัญที่สุดมาก่อน",
   "account_drops_priority_placeholder": "เพิ่มหมวดหมู่…",
@@ -302,13 +364,14 @@
   "feedback_discord_text": "เปิดทิกเก็ตหรือพูดคุยกับคอมมูนิตี้",
   "feedback_github_text": "เปิด issue: บั๊กหรือไอเดีย",
   "settings_catalog_text": "รายการแคมเปญมาจาก drops.sunkwi.com อัปเดตทุก 10 นาที",
-  "account_proxy": "Proxy ของบัญชีนี้",
+  "account_proxy": "Proxy ของบัญชี",
   "account_proxy_hint": "ว่าง: ใช้ proxy เริ่มต้นของแอป การเปลี่ยนจะรีสตาร์ตการเชื่อมต่อของบัญชี",
   "account_remove": "ลบบัญชีนี้",
   "account_mode_title": "โหมดการขุด",
-  "account_mode_desc": "บัญชีนี้ใช้เวลาดูไปกับอะไร",
+  "account_mode_desc": "บัญชีใช้เวลาดูไปกับอะไร",
   "account_slots_title": "ช่องที่ดูพร้อมกัน",
   "account_twitch_hint": "เข้าสู่ระบบอีกครั้งหาก Twitch สิ้นสุดเซสชัน การลบบัญชีจะเพิกถอนเซสชันบน Twitch ด้วย",
+  "account_twitch_hint_imported_token": "เข้าสู่ระบบอีกครั้งหาก Twitch สิ้นสุดเซสชัน เมื่อคุณลบบัญชี คุณสามารถเลือกได้ว่าจะเพิกถอนเซสชันบน Twitch ด้วยหรือไม่",
   "account_twitch_id": "Twitch ID",
   "account_twitch_login": "ชื่อล็อกอิน",
   "account_twitch_name": "ชื่อ",
@@ -1122,5 +1185,11 @@
   "settings_discord_test": "ทดสอบ",
   "settings_telegram_test": "ทดสอบ",
   "settings_webhook_test": "ทดสอบ",
-  "export_counts_count_one": "ได้รับแล้ว {count} รายการ"
+  "export_counts_count_one": "ได้รับแล้ว {count} รายการ",
+  "lock_warning_message": "จะล็อกใน {time} — ขยับหรือคลิกเพื่อไม่ให้ล็อก",
+  "lock_warning_message_a11y": "กำลังจะล็อกในไม่ช้า",
+  "account_remove_revoke_label": "เพิกถอนโทเค็นนี้บน Twitch ด้วย",
+  "error_invalid_token": "โทเค็นนี้ไม่ถูกต้องหรือหมดอายุแล้ว วางโทเค็นใหม่",
+  "error_unsupported_client": "ไม่สามารถใช้โทเค็นนี้ในการขุดได้ กรุณาเข้าสู่ระบบด้วยรหัสแทน",
+  "error_missing_scope": "โทเค็นนี้ขาดสิทธิ์ที่แอปนี้ต้องการ กรุณาเข้าสู่ระบบด้วยรหัสแทน"
 }

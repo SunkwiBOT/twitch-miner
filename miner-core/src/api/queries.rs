@@ -6,6 +6,7 @@ use serde::{Deserialize, Deserializer, Serialize};
 use ts_rs::TS;
 
 use super::NotificationTarget;
+use crate::config::AccountSettingsPatch;
 use crate::error::Error;
 use crate::events::{EventCategory, EventKind};
 use crate::logs::LogLevel;
@@ -267,6 +268,38 @@ pub struct DashboardLoginRequest {
 impl std::fmt::Debug for DashboardLoginRequest {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.write_str("DashboardLoginRequest { .. }")
+    }
+}
+
+#[derive(Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[serde(deny_unknown_fields)]
+#[ts(rename = "CheckPastedTokenRequestType")]
+pub struct CheckPastedTokenRequest {
+    pub token: String,
+}
+
+impl std::fmt::Debug for CheckPastedTokenRequest {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str("CheckPastedTokenRequest { .. }")
+    }
+}
+
+#[derive(Clone, PartialEq, Serialize, Deserialize, TS)]
+#[serde(deny_unknown_fields)]
+#[ts(rename = "ImportTokensRequestType")]
+pub struct ImportTokensRequest {
+    pub tokens: Vec<String>,
+    pub settings: AccountSettingsPatch,
+    pub apply_existing_settings: bool,
+}
+
+impl std::fmt::Debug for ImportTokensRequest {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("ImportTokensRequest")
+            .field("tokens", &format_args!("[redacted; {}]", self.tokens.len()))
+            .field("settings", &self.settings)
+            .field("apply_existing_settings", &self.apply_existing_settings)
+            .finish()
     }
 }
 

@@ -283,6 +283,8 @@ láthatod, hogyan működnek.
   <img src="../media/hu/basics.avif" alt="Nyelvek, világos és sötét téma, egy asztali értesítés és a tálcaikon">
   </details>
 
+- **Fiókok hozzáadása tokenek beillesztésével.** Már bejelentkeztél máshol? Illessz be egy listát hozzáférési tokenekből, soronként egyet (legfeljebb 50); mindegyiket élőben ellenőrizzük, „Ellenőrizve: n/N” számlálóval, a sikertelen sorokhoz pedig újrapróbálási lehetőséggel, majd egyetlen beállítási lépés vonatkozik az egész listára. Az importálás a háttérben fut, fiókonként élő előrehaladással, félúton megszakítható, a későbbi újrapróbálás pedig csak a sikertelen fiókokat küldi újra. Az így importált fiók eltávolításakor felajánljuk a token visszavonását a Twitchen is.
+
 > [!WARNING]
 > Ez a projekt nem áll kapcsolatban a Twitchcsel. Egy fiók automatizálása sértheti
 > a Twitch felhasználási feltételeit vagy egy kampány szabályait.

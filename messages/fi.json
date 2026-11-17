@@ -74,6 +74,7 @@
   "common_accounts_none": "Ei tiliä",
   "accounts_remove_title": "Poistetaanko tämä tili?",
   "accounts_remove_text": "Tilin {name} istunto perutaan Twitchissä ja poistetaan täältä. Lunastetut dropit jäävät Twitch-inventaarioon.",
+  "accounts_remove_text_imported_token": "Tilin {name} istunto poistetaan täältä. Lunastetut dropit jäävät Twitch-inventaarioon; peruuta se myös Twitchissä alla olevalla kytkimellä.",
   "accounts_login_again": "Kirjaudu uudelleen",
   "accounts_stats_drops": "Lunastetut dropsit: {count}",
   "accounts_stats_points": "Ansaitut pisteet: {count}",
@@ -87,6 +88,85 @@
   "login_note": "Salasanaa ei tallenneta. Istunto salataan tällä laitteella, ja sen voi peruuttaa {settings}.",
   "login_note_settings": "Twitch-asetuksista",
   "login_vault_locked": "Avaa sovelluksen lukitus ennen tilin lisäämistä.",
+  "login_use_tokens": "Liitä tokenit sen sijaan",
+  "login_use_code": "Käytä kirjautumiskoodia sen sijaan",
+  "login_tokens_label": "Käyttötokenit",
+  "login_tokens_hint": "Liitä yksi token riviä kohden. Jokainen tarkistetaan ennen kuin se voidaan tuoda.",
+  "login_tokens_submit": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Tuo token",
+        "countPlural=*": "Tuo tokenit"
+      }
+    }
+  ],
+  "login_tokens_checking": "Tarkistetaan tokeneita…",
+  "import_tokens_title": "Tuo tokenit",
+  "import_tokens_placeholder": "Liitä tokenit, yksi riviä kohden…",
+  "import_tokens_too_many": "Liikaa tokeneita: enintään {max} kerralla.",
+  "import_tokens_line_too_long": "Liian pitkä rivi: enintään {max} merkkiä.",
+  "import_tokens_status_pending": "Tarkistetaan…",
+  "import_tokens_status_valid": "Kelvollinen",
+  "import_tokens_status_unusable_client": "Tätä tokenia ei voi käyttää louhintaan.",
+  "import_tokens_status_invalid": "Tämä token on virheellinen tai vanhentunut.",
+  "import_tokens_status_already_added": "Lisätty jo",
+  "import_tokens_status_duplicate": "Kaksoiskappale toisesta rivistä",
+  "import_tokens_status_not_imported": "Ei tuotu",
+  "import_tokens_settings_step_title": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Tämän tilin asetukset",
+        "countPlural=*": "Näiden tilien asetukset"
+      }
+    }
+  ],
+  "import_tokens_settings_step_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Nämä asetukset koskevat tuotavaa tiliä.",
+        "countPlural=*": "Nämä asetukset koskevat kaikkia tuotuja tilejä."
+      }
+    }
+  ],
+  "import_tokens_overwrite_existing_label": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Korvaa myös jo olemassa olevan tilin asetukset",
+        "countPlural=*": "Korvaa myös jo olemassa olevien tilien asetukset"
+      }
+    }
+  ],
+  "import_tokens_result_count": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{count} token tuotu",
+        "countPlural=*": "{count} tokenia tuotu"
+      }
+    }
+  ],
+  "import_tokens_result_cancelled": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Tuonti peruutettu — {count} token tuotu",
+        "countPlural=*": "Tuonti peruutettu — {count} tokenia tuotu"
+      }
+    }
+  ],
+  "import_tokens_importing_progress": "Tuodaan: {done}/{total}",
+  "import_tokens_cancel": "Peruuta tuonti",
+  "import_tokens_retry_failed": "Yritä uudelleen",
   "account_slots_hint": "Twitch hyvittää enintään kaksi kanavaa tiliä kohden samanaikaisesti.",
   "account_drops_priority_hint": "Niiden kampanjat louhitaan siellä, missä ”Prioriteettikategoriat” on kohdassa ”Mitä louhitaan, järjestyksessä”, tärkein ensin.",
   "account_drops_priority_placeholder": "Lisää kategoria…",
@@ -203,6 +283,8 @@
   "settings_auto_lock": "Lukitse käyttämättömyyden jälkeen",
   "settings_auto_lock_hint": "Kysyy salasanaa uudelleen, kun hallintapaneelia ei ole käytetty näin pitkään, myös auki jätetyssä välilehdessä. Louhinta jatkuu.",
   "settings_auto_lock_never": "Ei koskaan",
+  "lock_warning_message": "Lukittuu {time} kuluttua — liikuta hiirtä tai napsauta pysyäksesi avattuna",
+  "lock_warning_message_a11y": "Lukitus tulee pian.",
   "unlock_title": "Avaa sovelluksen lukitus",
   "unlock_text": "Kirjoita sovelluksen salasana.",
   "unlock_passphrase": "Salasana",
@@ -345,13 +427,42 @@
   "feedback_discord_text": "Avaa tiketti tai juttele yhteisön kanssa",
   "feedback_github_text": "Avaa issue: bugi tai idea",
   "settings_catalog_text": "Kampanjaluettelo tulee osoitteesta drops.sunkwi.com, päivitetään 10 minuutin välein.",
-  "account_proxy": "Tämän tilin proxy",
-  "account_proxy_hint": "Tyhjä: sovelluksen oletus-proxy. Muutos käynnistää tilin yhteydet uudelleen.",
+  "account_proxy": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Tämän tilin proxy",
+        "countPlural=*": "Näiden tilien proxy"
+      }
+    }
+  ],
+  "account_proxy_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Tyhjä: sovelluksen oletus-proxy. Muutos käynnistää tilin yhteydet uudelleen.",
+        "countPlural=*": "Tyhjä: sovelluksen oletus-proxy. Muutos käynnistää näiden tilien yhteydet uudelleen."
+      }
+    }
+  ],
   "account_remove": "Poista tämä tili",
+  "account_remove_revoke_label": "Kumoa myös tämä token Twitchissä",
   "account_mode_title": "Louhintatila",
-  "account_mode_desc": "Mihin tämä tili käyttää katseluaikansa.",
+  "account_mode_desc": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Mihin tämä tili käyttää katseluaikansa.",
+        "countPlural=*": "Mihin nämä tilit käyttävät katseluaikaansa."
+      }
+    }
+  ],
   "account_slots_title": "Yhtä aikaa katsotut kanavat",
   "account_twitch_hint": "Kirjaudu uudelleen, jos Twitch päätti istunnon. Tilin poistaminen peruuttaa sen istunnon Twitchissä.",
+  "account_twitch_hint_imported_token": "Kirjaudu uudelleen, jos Twitch päätti istunnon. Tiliä poistaessasi voit valita, perutaanko myös sen istunto Twitchissä.",
   "account_twitch_id": "Twitch-ID",
   "account_twitch_login": "Käyttäjänimi",
   "account_twitch_name": "Nimi",
@@ -1503,6 +1614,9 @@
   "account_badges_not_mined": "Ei louhita",
   "account_badges_not_mined_hint": "Näytetään, mutta ei louhita: ensin tarvitaan itse tehty tilaus tai toinen merkki, tai Twitch ei nimeä kanavaa, jota louhija voisi katsoa.",
   "error_action_rate_limited": "Liian monta yritystä: odota hetki ja yritä uudelleen.",
+  "error_invalid_token": "Tämä token on virheellinen tai vanhentunut. Liitä uusi.",
+  "error_unsupported_client": "Tätä tokenia ei voi käyttää louhintaan. Kirjaudu sen sijaan koodilla.",
+  "error_missing_scope": "Tästä tokenista puuttuu sovelluksen vaatima oikeus. Kirjaudu sen sijaan koodilla.",
   "ev_paused": "Keskeytetty",
   "ev_paused_quiet_window": "Tauolla (päivittäinen tauko)",
   "ev_paused_scheduled": "Keskeytetty, jatkuu {time}",

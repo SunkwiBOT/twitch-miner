@@ -75,6 +75,7 @@
   "common_accounts_none": "Без облікового запису",
   "accounts_remove_title": "Вилучити цей акаунт?",
   "accounts_remove_text": "Сесію {name} відкликано в Twitch і видалено тут. Отримані дропи лишаються в інвентарі Twitch.",
+  "accounts_remove_text_imported_token": "Сесію {name} видалено тут. Отримані дропи лишаються в інвентарі Twitch; використайте перемикач нижче, щоб відкликати її і на Twitch.",
   "accounts_login_again": "Увійти знову",
   "accounts_stats_drops": "Отримано drops: {count}",
   "accounts_stats_points": "Зароблено балів: {count}",
@@ -88,6 +89,107 @@
   "login_note": "Пароль не зберігається. Сесія зашифрована на цьому пристрої, її можна відкликати в {settings}.",
   "login_note_settings": "налаштуваннях Twitch",
   "login_vault_locked": "Розблокуйте застосунок перед додаванням облікового запису.",
+  "login_use_tokens": "Натомість вставити токени",
+  "login_use_code": "Натомість використати код входу",
+  "login_tokens_label": "Токени доступу",
+  "login_tokens_hint": "Вставте по одному токену на рядок. Кожен перевіряється перед імпортом.",
+  "login_tokens_submit": [
+    {
+      "declarations": [
+        "input count",
+        "local countPluralExact = count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPluralExact", "countPlural"],
+      "match": {
+        "countPlural=*, countPluralExact=1": "Імпортувати токен",
+        "countPlural=few, countPluralExact=*": "Імпортувати токени",
+        "countPlural=*, countPluralExact=*": "Імпортувати токени"
+      }
+    }
+  ],
+  "login_tokens_checking": "Перевірка токенів…",
+  "import_tokens_title": "Імпортувати токени",
+  "import_tokens_placeholder": "Вставте токени, по одному на рядок…",
+  "import_tokens_too_many": "Забагато токенів. Максимум за раз: {max}.",
+  "import_tokens_line_too_long": "Занадто довгий рядок. Максимум символів: {max}.",
+  "import_tokens_status_pending": "Перевірка…",
+  "import_tokens_status_valid": "Дійсний",
+  "import_tokens_status_unusable_client": "Цей токен не можна використати для майнінгу.",
+  "import_tokens_status_invalid": "Цей токен недійсний або прострочений.",
+  "import_tokens_status_already_added": "Вже додано",
+  "import_tokens_status_duplicate": "Дублікат іншого рядка",
+  "import_tokens_status_not_imported": "Не імпортовано",
+  "import_tokens_settings_step_title": [
+    {
+      "declarations": [
+        "input count",
+        "local countPluralExact = count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPluralExact", "countPlural"],
+      "match": {
+        "countPlural=*, countPluralExact=1": "Налаштування цього облікового запису",
+        "countPlural=few, countPluralExact=*": "Налаштування цих облікових записів",
+        "countPlural=*, countPluralExact=*": "Налаштування цих облікових записів"
+      }
+    }
+  ],
+  "import_tokens_settings_step_hint": [
+    {
+      "declarations": [
+        "input count",
+        "local countPluralExact = count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPluralExact", "countPlural"],
+      "match": {
+        "countPlural=*, countPluralExact=1": "Ці налаштування застосовуються до імпортованого облікового запису.",
+        "countPlural=few, countPluralExact=*": "Ці налаштування застосовуються до всіх імпортованих облікових записів.",
+        "countPlural=*, countPluralExact=*": "Ці налаштування застосовуються до всіх імпортованих облікових записів."
+      }
+    }
+  ],
+  "import_tokens_overwrite_existing_label": [
+    {
+      "declarations": [
+        "input count",
+        "local countPluralExact = count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPluralExact", "countPlural"],
+      "match": {
+        "countPlural=*, countPluralExact=1": "Також перезаписати налаштування вже наявного облікового запису",
+        "countPlural=few, countPluralExact=*": "Також перезаписати налаштування вже наявних облікових записів",
+        "countPlural=*, countPluralExact=*": "Також перезаписати налаштування вже наявних облікових записів"
+      }
+    }
+  ],
+  "import_tokens_result_count": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{count} токен імпортовано",
+        "countPlural=few": "{count} токени імпортовано",
+        "countPlural=*": "{count} токенів імпортовано"
+      }
+    }
+  ],
+  "import_tokens_result_cancelled": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Імпорт скасовано — {count} токен імпортовано",
+        "countPlural=few": "Імпорт скасовано — {count} токени імпортовано",
+        "countPlural=*": "Імпорт скасовано — {count} токенів імпортовано"
+      }
+    }
+  ],
+  "import_tokens_importing_progress": "Імпорт: {done}/{total}",
+  "import_tokens_cancel": "Скасувати імпорт",
+  "import_tokens_retry_failed": "Спробувати ще раз",
   "account_slots_hint": "Twitch зараховує не більше двох каналів на обліковий запис одночасно.",
   "account_drops_priority_hint": "Їхні кампанії майняться там, де «Пріоритетні категорії» стоять у «Що майнити і в якому порядку», найважливіші першими.",
   "account_drops_priority_placeholder": "Додати категорію…",
@@ -204,6 +306,8 @@
   "settings_auto_lock": "Блокувати після бездіяльності",
   "settings_auto_lock_hint": "Знову запитує пароль після цього часу без використання панелі, навіть у вкладці, залишеній відкритою. Майнінг триває.",
   "settings_auto_lock_never": "Ніколи",
+  "lock_warning_message": "Блокування через {time} — поворухніть або натисніть, щоб лишитися розблокованим",
+  "lock_warning_message_a11y": "Незабаром відбудеться блокування.",
   "unlock_title": "Розблокувати застосунок",
   "unlock_text": "Введіть пароль застосунку.",
   "unlock_passphrase": "Пароль",
@@ -348,13 +452,57 @@
   "feedback_discord_text": "Створіть тікет або поспілкуйтеся зі спільнотою",
   "feedback_github_text": "Відкрийте issue: баг або ідея",
   "settings_catalog_text": "Список кампаній береться з drops.sunkwi.com і оновлюється кожні 10 хвилин.",
-  "account_proxy": "Proxy для цього облікового запису",
-  "account_proxy_hint": "Порожньо: proxy застосунку за замовчуванням. Зміна перезапускає з'єднання облікового запису.",
+  "account_proxy": [
+    {
+      "declarations": [
+        "input count",
+        "local countPluralExact = count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPluralExact", "countPlural"],
+      "match": {
+        "countPlural=*, countPluralExact=1": "Proxy для цього облікового запису",
+        "countPlural=few, countPluralExact=*": "Proxy для цих облікових записів",
+        "countPlural=*, countPluralExact=*": "Proxy для цих облікових записів"
+      }
+    }
+  ],
+  "account_proxy_hint": [
+    {
+      "declarations": [
+        "input count",
+        "local countPluralExact = count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPluralExact", "countPlural"],
+      "match": {
+        "countPlural=*, countPluralExact=1": "Порожньо: proxy застосунку за замовчуванням. Зміна перезапускає з'єднання облікового запису.",
+        "countPlural=few, countPluralExact=*": "Порожньо: proxy застосунку за замовчуванням. Зміна перезапускає з'єднання цих облікових записів.",
+        "countPlural=*, countPluralExact=*": "Порожньо: proxy застосунку за замовчуванням. Зміна перезапускає з'єднання цих облікових записів."
+      }
+    }
+  ],
   "account_remove": "Видалити цей обліковий запис",
+  "account_remove_revoke_label": "Також відкликати цей токен на Twitch",
   "account_mode_title": "Режим майнінгу",
-  "account_mode_desc": "На що цей обліковий запис витрачає час перегляду.",
+  "account_mode_desc": [
+    {
+      "declarations": [
+        "input count",
+        "local countPluralExact = count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPluralExact", "countPlural"],
+      "match": {
+        "countPlural=*, countPluralExact=1": "На що цей обліковий запис витрачає час перегляду.",
+        "countPlural=few, countPluralExact=*": "На що ці облікові записи витрачають час перегляду.",
+        "countPlural=*, countPluralExact=*": "На що ці облікові записи витрачають час перегляду."
+      }
+    }
+  ],
   "account_slots_title": "Канали, що переглядаються одночасно",
   "account_twitch_hint": "Увійдіть знову, якщо Twitch завершив сесію. Видалення облікового запису відкликає його сесію на Twitch.",
+  "account_twitch_hint_imported_token": "Увійдіть знову, якщо Twitch завершив сесію. Під час видалення облікового запису можна вибрати, чи відкликати також його сесію на Twitch.",
   "account_twitch_id": "ID Twitch",
   "account_twitch_login": "Логін",
   "account_twitch_name": "Ім'я",
@@ -1391,6 +1539,9 @@
   "account_badges_not_mined": "Не майняться",
   "account_badges_not_mined_hint": "Показані, але не майняться: спершу потрібна підписка, яку ви оформлюєте самі, або інший значок, або Twitch не вказує канал, який майнер міг би дивитися.",
   "error_action_rate_limited": "Забагато спроб: зачекайте трохи і спробуйте ще раз.",
+  "error_invalid_token": "Цей токен недійсний або прострочений. Вставте новий.",
+  "error_unsupported_client": "Цей токен не можна використати для майнінгу. Увійдіть за допомогою коду натомість.",
+  "error_missing_scope": "Цей токен не має дозволу, потрібного застосунку. Увійдіть за допомогою коду натомість.",
   "ev_paused": "Призупинено",
   "ev_paused_quiet_window": "Призупинено (щоденна пауза)",
   "ev_paused_scheduled": "Призупинено, відновлення {time}",

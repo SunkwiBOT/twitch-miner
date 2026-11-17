@@ -59,6 +59,7 @@
   "common_accounts_none": "Nincs fiók",
   "accounts_remove_title": "Eltávolítod ezt a fiókot?",
   "accounts_remove_text": "{name} munkamenete visszavonásra kerül a Twitchen, és itt törlődik. A beváltott dropok a Twitch-készletben maradnak.",
+  "accounts_remove_text_imported_token": "{name} munkamenete itt törlődik. A beváltott dropok a Twitch-készletben maradnak; az alábbi kapcsolóval vonhatod vissza a Twitchen is.",
   "accounts_login_again": "Újra bejelentkezés",
   "accounts_stats_drops": "Begyűjtött drops: {count}",
   "accounts_stats_points": "Szerzett pontok: {count}",
@@ -72,6 +73,67 @@
   "login_note": "Jelszó nem kerül tárolásra. A munkamenet ezen az eszközön titkosítva van, és {settings} visszavonható.",
   "login_note_settings": "a Twitch beállításaiban",
   "login_vault_locked": "Fiók hozzáadása előtt oldd fel az alkalmazást.",
+  "login_use_tokens": "Inkább tokenek beillesztése",
+  "login_use_code": "Inkább a bejelentkezési kód használata",
+  "login_tokens_label": "Hozzáférési tokenek",
+  "login_tokens_hint": "Illessz be soronként egy tokent. Mindegyiket ellenőrizzük importálás előtt.",
+  "login_tokens_submit": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Token importálása",
+        "countPlural=*": "Tokenek importálása"
+      }
+    }
+  ],
+  "login_tokens_checking": "Tokenek ellenőrzése…",
+  "import_tokens_title": "Tokenek importálása",
+  "import_tokens_placeholder": "Illeszd be a tokeneket, soronként egyet…",
+  "import_tokens_too_many": "Túl sok token: egyszerre legfeljebb {max}.",
+  "import_tokens_line_too_long": "Túl hosszú egy sor: legfeljebb {max} karakter.",
+  "import_tokens_status_pending": "Ellenőrzés…",
+  "import_tokens_status_valid": "Érvényes",
+  "import_tokens_status_unusable_client": "Ez a token nem használható bányászatra.",
+  "import_tokens_status_invalid": "Ez a token érvénytelen vagy lejárt.",
+  "import_tokens_status_already_added": "Már hozzáadva",
+  "import_tokens_status_duplicate": "Másik sor duplikátuma",
+  "import_tokens_status_not_imported": "Nincs importálva",
+  "import_tokens_settings_step_title": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Ennek a fióknak a beállításai",
+        "countPlural=*": "E fiókok beállításai"
+      }
+    }
+  ],
+  "import_tokens_settings_step_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Ezek a beállítások az importált fiókra vonatkoznak.",
+        "countPlural=*": "Ezek a beállítások minden importált fiókra vonatkoznak."
+      }
+    }
+  ],
+  "import_tokens_overwrite_existing_label": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "A már létező fiók beállításainak felülírása is",
+        "countPlural=*": "A már létező fiókok beállításainak felülírása is"
+      }
+    }
+  ],
+  "import_tokens_result_count": "{count} token importálva",
+  "import_tokens_result_cancelled": "Importálás megszakítva — {count} token importálva",
+  "import_tokens_importing_progress": "Importálás: {done}/{total}",
+  "import_tokens_cancel": "Az importálás megszakítása",
+  "import_tokens_retry_failed": "Újrapróbálás",
   "account_slots_hint": "A Twitch fiókonként egyszerre legfeljebb két csatornát ír jóvá.",
   "account_drops_priority_hint": "Kampányaik ott kerülnek bányászatra, ahol a „Prioritás kategóriák” áll a(z) „Mit bányásszon, sorrendben” beállításban, a legfontosabbal kezdve.",
   "account_drops_priority_placeholder": "Kategória hozzáadása…",
@@ -188,6 +250,8 @@
   "settings_auto_lock": "Zárolás inaktivitás után",
   "settings_auto_lock_hint": "Ennyi idő után, ha nem használod az áttekintést, újra kéri a jelszót, a nyitva hagyott lapon is. A bányászás folytatódik.",
   "settings_auto_lock_never": "Soha",
+  "lock_warning_message": "Zárolás {time} múlva — mozgasd az egeret vagy kattints, hogy feloldva maradjon",
+  "lock_warning_message_a11y": "Hamarosan zárolás következik.",
   "unlock_title": "Alkalmazás feloldása",
   "unlock_text": "Írd be az alkalmazásjelszót.",
   "unlock_passphrase": "Jelszó",
@@ -302,13 +366,15 @@
   "feedback_discord_text": "Nyiss egy ticketet, vagy beszélgess a közösséggel",
   "feedback_github_text": "Nyiss egy issue-t: hiba vagy ötlet",
   "settings_catalog_text": "A kampánylista a drops.sunkwi.com oldalról jön, 10 percenként frissítve.",
-  "account_proxy": "Proxy ehhez a fiókhoz",
+  "account_proxy": "Proxy a fiókhoz",
   "account_proxy_hint": "Üres: az alkalmazás alapértelmezett proxyja. Módosítása újraindítja a fiók kapcsolatait.",
   "account_remove": "Fiók eltávolítása",
+  "account_remove_revoke_label": "Ezt a tokent a Twitchen is visszavonom",
   "account_mode_title": "Bányászási mód",
-  "account_mode_desc": "Mire fordítja ez a fiók a nézési idejét.",
+  "account_mode_desc": "Mire fordítja a fiók a nézési idejét.",
   "account_slots_title": "Egyszerre nézett csatornák",
   "account_twitch_hint": "Jelentkezz be újra, ha a Twitch lezárta a munkamenetet. A fiók eltávolítása visszavonja a Twitch-munkamenetét.",
+  "account_twitch_hint_imported_token": "Jelentkezz be újra, ha a Twitch lezárta a munkamenetet. A fiók eltávolításakor választhatod, hogy a Twitch-munkamenetét is visszavonod-e.",
   "account_twitch_id": "Twitch-azonosító",
   "account_twitch_login": "Felhasználónév",
   "account_twitch_name": "Név",
@@ -1116,6 +1182,9 @@
   "account_badges_not_mined": "Nem bányászott",
   "account_badges_not_mined_hint": "Megjelennek, de nem bányássza őket: előbb egy magad által kötött előfizetés vagy egy másik jelvény kell, vagy a Twitch nem nevez meg olyan csatornát, amelyet a bányász nézhetne.",
   "error_action_rate_limited": "Túl sok próbálkozás: várj egy kicsit, és próbáld újra.",
+  "error_invalid_token": "Ez a token érvénytelen vagy lejárt. Illessz be egy újat.",
+  "error_unsupported_client": "Ez a token nem használható bányászatra. Jelentkezz be inkább a kóddal.",
+  "error_missing_scope": "Ebből a tokenből hiányzik egy engedély, amelyre az alkalmazásnak szüksége van. Jelentkezz be inkább a kóddal.",
   "ev_paused": "Szüneteltetve",
   "ev_paused_quiet_window": "Szüneteltetve (napi szünet)",
   "ev_paused_scheduled": "Szüneteltetve, folytatás {time}",

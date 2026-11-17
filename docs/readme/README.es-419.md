@@ -288,6 +288,8 @@ funcionando.
   <img src="../media/es-419/basics.avif" alt="Idiomas, temas claro y oscuro, una notificación de escritorio y el ícono de la bandeja">
   </details>
 
+- **Agregar cuentas pegando una lista de tokens.** ¿Ya iniciaste sesión en otro lugar? Pega una lista de tokens de acceso, uno por línea (hasta 50); cada uno se revisa en vivo, con un contador “Revisados: n/N” y un reintento para cualquier línea que haya fallado, y luego un solo paso de ajustes se aplica a todo el lote. La importación en sí corre en segundo plano, con el progreso en vivo por cuenta, se puede cancelar a mitad de camino, y un reintento solo reenvía las cuentas que fallaron. Al eliminar una cuenta importada así, se ofrece revocar también su token en Twitch.
+
 > [!WARNING]
 > Este proyecto no está afiliado a Twitch. Automatizar una cuenta puede violar los
 > términos de Twitch o las reglas de una campaña.

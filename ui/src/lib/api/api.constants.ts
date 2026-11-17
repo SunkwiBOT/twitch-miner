@@ -10,6 +10,8 @@ export enum TauriCommand {
   REFRESH_CATALOG = "refresh_catalog",
   REFRESH_BADGES = "refresh_badges",
   START_LOGIN = "start_login",
+  CHECK_PASTED_TOKEN = "check_pasted_token",
+  IMPORT_TOKENS = "import_tokens",
   LOOKUP_CHANNEL = "lookup_channel",
   LOOKUP_CHANNELS = "lookup_channels",
   SEARCH = "search",

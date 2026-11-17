@@ -75,6 +75,7 @@
   "common_accounts_none": "Niciun cont",
   "accounts_remove_title": "Elimini acest cont?",
   "accounts_remove_text": "Sesiunea {name} este revocată pe Twitch și ștearsă aici. Drop-urile revendicate rămân în inventarul Twitch.",
+  "accounts_remove_text_imported_token": "Sesiunea {name} este ștearsă aici. Drop-urile revendicate rămân în inventarul Twitch; folosește comutatorul de mai jos pentru a o revoca și pe Twitch.",
   "accounts_login_again": "Autentifică-te din nou",
   "accounts_stats_drops": "Drops revendicate: {count}",
   "accounts_stats_points": "Puncte câștigate: {count}",
@@ -88,6 +89,91 @@
   "login_note": "Nu se stochează nicio parolă. Sesiunea este criptată pe acest dispozitiv și poate fi revocată din {settings}.",
   "login_note_settings": "setările Twitch",
   "login_vault_locked": "Deblochează aplicația înainte de a adăuga un cont.",
+  "login_use_tokens": "Lipește tokenuri în schimb",
+  "login_use_code": "Folosește codul de conectare în schimb",
+  "login_tokens_label": "Tokenuri de acces",
+  "login_tokens_hint": "Lipește câte un token pe linie. Fiecare este verificat înainte de a putea fi importat.",
+  "login_tokens_submit": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Importă tokenul",
+        "countPlural=few": "Importă tokenurile",
+        "countPlural=*": "Importă tokenurile"
+      }
+    }
+  ],
+  "login_tokens_checking": "Se verifică tokenurile…",
+  "import_tokens_title": "Importă tokenuri",
+  "import_tokens_placeholder": "Lipește tokenurile, câte unul pe linie…",
+  "import_tokens_too_many": "Prea multe tokenuri. Maximum odată: {max}.",
+  "import_tokens_line_too_long": "O linie este prea lungă. Maximum caractere: {max}.",
+  "import_tokens_status_pending": "Se verifică…",
+  "import_tokens_status_valid": "Valid",
+  "import_tokens_status_unusable_client": "Acest token nu poate fi folosit pentru minare.",
+  "import_tokens_status_invalid": "Acest token este invalid sau a expirat.",
+  "import_tokens_status_already_added": "Deja adăugat",
+  "import_tokens_status_duplicate": "Duplicat al altei linii",
+  "import_tokens_status_not_imported": "Neimportat",
+  "import_tokens_settings_step_title": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Setările acestui cont",
+        "countPlural=few": "Setările acestor conturi",
+        "countPlural=*": "Setările acestor conturi"
+      }
+    }
+  ],
+  "import_tokens_settings_step_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Aceste setări se aplică contului importat.",
+        "countPlural=few": "Aceste setări se aplică tuturor conturilor importate.",
+        "countPlural=*": "Aceste setări se aplică tuturor conturilor importate."
+      }
+    }
+  ],
+  "import_tokens_overwrite_existing_label": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Suprascrie și setările contului deja existent",
+        "countPlural=few": "Suprascrie și setările conturilor deja existente",
+        "countPlural=*": "Suprascrie și setările conturilor deja existente"
+      }
+    }
+  ],
+  "import_tokens_result_count": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{count} token importat",
+        "countPlural=few": "{count} tokenuri importate",
+        "countPlural=*": "{count} de tokenuri importate"
+      }
+    }
+  ],
+  "import_tokens_result_cancelled": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Import anulat — {count} token importat",
+        "countPlural=few": "Import anulat — {count} tokenuri importate",
+        "countPlural=*": "Import anulat — {count} de tokenuri importate"
+      }
+    }
+  ],
+  "import_tokens_importing_progress": "Se importă: {done}/{total}",
+  "import_tokens_cancel": "Anulează importul",
+  "import_tokens_retry_failed": "Încearcă din nou",
   "account_slots_hint": "Twitch creditează cel mult două canale per cont în același timp.",
   "account_drops_priority_hint": "Campaniile lor sunt minate unde se află „Categorii prioritare” în „Ce să se mineze, în ordine”, cele mai importante primele.",
   "account_drops_priority_placeholder": "Adaugă o categorie…",
@@ -204,6 +290,8 @@
   "settings_auto_lock": "Blochează după inactivitate",
   "settings_auto_lock_hint": "Cere din nou parola după acest timp fără folosirea panoului, inclusiv într-o filă lăsată deschisă. Minarea continuă.",
   "settings_auto_lock_never": "Niciodată",
+  "lock_warning_message": "Blocare în {time} — mișcă sau dă clic pentru a rămâne deblocat",
+  "lock_warning_message_a11y": "Urmează în curând o blocare.",
   "unlock_title": "Deblochează aplicația",
   "unlock_text": "Introdu parola aplicației.",
   "unlock_passphrase": "Parolă",
@@ -348,13 +436,45 @@
   "feedback_discord_text": "Deschide un tichet sau discută cu comunitatea",
   "feedback_github_text": "Deschide un issue: o eroare sau o idee",
   "settings_catalog_text": "Lista campaniilor vine de pe drops.sunkwi.com, reîmprospătată la fiecare 10 minute.",
-  "account_proxy": "Proxy pentru acest cont",
-  "account_proxy_hint": "Gol: proxy-ul implicit al aplicației. Schimbarea lui repornește conexiunile contului.",
+  "account_proxy": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Proxy pentru acest cont",
+        "countPlural=few": "Proxy pentru aceste conturi",
+        "countPlural=*": "Proxy pentru aceste conturi"
+      }
+    }
+  ],
+  "account_proxy_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Gol: proxy-ul implicit al aplicației. Schimbarea lui repornește conexiunile contului.",
+        "countPlural=few": "Gol: proxy-ul implicit al aplicației. Schimbarea lui repornește conexiunile acestor conturi.",
+        "countPlural=*": "Gol: proxy-ul implicit al aplicației. Schimbarea lui repornește conexiunile acestor conturi."
+      }
+    }
+  ],
   "account_remove": "Elimină acest cont",
+  "account_remove_revoke_label": "Revocă și acest token pe Twitch",
   "account_mode_title": "Mod de minare",
-  "account_mode_desc": "Pe ce își folosește acest cont timpul de vizionare.",
+  "account_mode_desc": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Pe ce își folosește acest cont timpul de vizionare.",
+        "countPlural=few": "Pe ce își folosesc aceste conturi timpul de vizionare.",
+        "countPlural=*": "Pe ce își folosesc aceste conturi timpul de vizionare."
+      }
+    }
+  ],
   "account_slots_title": "Canale urmărite simultan",
   "account_twitch_hint": "Conectează-te din nou dacă Twitch a încheiat sesiunea. Eliminarea contului îi revocă sesiunea pe Twitch.",
+  "account_twitch_hint_imported_token": "Conectează-te din nou dacă Twitch a încheiat sesiunea. La eliminarea contului poți alege dacă să revoci și sesiunea pe Twitch.",
   "account_twitch_id": "ID Twitch",
   "account_twitch_login": "Nume de utilizator",
   "account_twitch_name": "Nume",
@@ -1545,6 +1665,9 @@
   "account_badges_not_mined": "Nu se minează",
   "account_badges_not_mined_hint": "Afișate, dar neminate: mai întâi e nevoie de un abonament făcut de tine sau de altă insignă, ori Twitch nu indică niciun canal pe care minerul să-l poată urmări.",
   "error_action_rate_limited": "Prea multe încercări: așteaptă puțin și încearcă din nou.",
+  "error_invalid_token": "Acest token este invalid sau a expirat. Lipește unul nou.",
+  "error_unsupported_client": "Acest token nu poate fi folosit pentru minare. Conectează-te cu codul în schimb.",
+  "error_missing_scope": "Acest token nu are o permisiune pe care aplicația o cere. Conectează-te cu codul în schimb.",
   "ev_paused": "În pauză",
   "ev_paused_quiet_window": "În pauză (pauză zilnică)",
   "ev_paused_scheduled": "În pauză, reia {time}",

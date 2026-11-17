@@ -275,6 +275,14 @@ What sets it apart from other miners. “See it in action” under a point shows
   <img src="docs/media/en/basics.avif" alt="Languages, light and dark themes, a desktop notification and the tray icon">
   </details>
 
+- **Import a list of tokens.** Already signed in elsewhere? Paste a list of access
+  tokens, one per line (up to 50); each is checked live, with a “Checked: n/N”
+  counter and a retry for any line that failed, then one settings step applies to the
+  whole batch. The import itself runs in the background with live per-account
+  progress, can be cancelled mid-way, and a later retry only resends the accounts
+  that failed. Removing an account imported this way offers to revoke its token on
+  Twitch too.
+
 > [!WARNING]
 > This project is not affiliated with Twitch. Automating an account may break Twitch's
 > terms or a campaign's rules.

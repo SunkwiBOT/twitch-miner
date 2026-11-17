@@ -283,6 +283,8 @@ bruk.
   <img src="../media/nb/basics.avif" alt="Språk, lyst og mørkt tema, et skrivebordsvarsel og ikonet i systemstatusfeltet">
   </details>
 
+- **Legge til kontoer ved å lime inn tokens.** Allerede logget inn et annet sted? Lim inn en liste med tilgangstokens, én per linje (opptil 50); hver token sjekkes fortløpende, med en teller «Sjekket: n/N» og et nytt forsøk for linjer som feilet, og deretter gjelder ett innstillingstrinn for hele batchen. Importen kjører i bakgrunnen med fremdrift per konto i sanntid, kan avbrytes underveis, og et senere nytt forsøk sender bare på nytt kontoene som feilet. Når du fjerner en konto som er importert på denne måten, kan du også tilbakekalle tokenet på Twitch.
+
 > [!WARNING]
 > Dette prosjektet er ikke tilknyttet Twitch. Å automatisere en konto kan bryte Twitchs
 > vilkår eller reglene for en kampanje.

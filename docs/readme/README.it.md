@@ -284,6 +284,8 @@ all'opera.
   <img src="../media/it/basics.avif" alt="Lingue, tema chiaro e scuro, una notifica desktop e l'icona nell'area di notifica">
   </details>
 
+- **Aggiungere account incollando un elenco di token.** Hai già effettuato l'accesso altrove? Incolla un elenco di token di accesso, uno per riga (massimo 50); ciascuno viene verificato in tempo reale, con un contatore «Verificati: n/N» e un nuovo tentativo per ogni riga non riuscita, poi un unico passaggio di impostazioni si applica a tutto il lotto. L'importazione avviene in background, con avanzamento in tempo reale per ogni account, può essere annullata a metà, e un nuovo tentativo successivo reinvia solo gli account non riusciti. Rimuovendo un account importato in questo modo, viene proposto anche di revocarne il token su Twitch.
+
 > [!WARNING]
 > Questo progetto non è affiliato a Twitch. Automatizzare un account può violare i termini
 > di Twitch o le regole di una campagna.

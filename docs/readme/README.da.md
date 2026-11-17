@@ -283,6 +283,8 @@ brug.
   <img src="../media/da/basics.avif" alt="Sprog, lyst og mørkt tema, en skrivebordsnotifikation og ikonet i proceslinjen">
   </details>
 
+- **Tilføje konti ved at indsætte tokens.** Allerede logget ind et andet sted? Indsæt en liste med adgangstokens, én pr. linje (op til 50); hver enkelt tjekkes løbende med en tæller »Tjekket: n/N« og et nyt forsøg for linjer, der fejlede, og derefter anvendes ét indstillingstrin på hele batchen. Importen kører i baggrunden med fremskridt pr. konto i realtid, kan annulleres undervejs, og et senere nyt forsøg sender kun de konti igen, der fejlede. Når du fjerner en konto, der er importeret på denne måde, kan du også tilbagekalde dens token på Twitch.
+
 > [!WARNING]
 > Dette projekt er ikke tilknyttet Twitch. Automatisering af en konto kan bryde Twitchs
 > vilkår eller en kampagnes regler.

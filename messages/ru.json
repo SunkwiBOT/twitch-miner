@@ -75,6 +75,7 @@
   "common_accounts_none": "Нет аккаунта",
   "accounts_remove_title": "Удалить этот аккаунт?",
   "accounts_remove_text": "Сессия {name} отзывается на Twitch и удаляется здесь. Полученные дропы остаются в инвентаре Twitch.",
+  "accounts_remove_text_imported_token": "Сессия {name} удаляется здесь. Полученные дропы остаются в инвентаре Twitch; используйте переключатель ниже, чтобы отозвать её и на Twitch.",
   "accounts_login_again": "Войти снова",
   "accounts_stats_drops": "Получено drops: {count}",
   "accounts_stats_points": "Заработано баллов: {count}",
@@ -88,6 +89,107 @@
   "login_note": "Пароль не сохраняется. Сессия зашифрована на этом устройстве, её можно отозвать в {settings}.",
   "login_note_settings": "настройках Twitch",
   "login_vault_locked": "Разблокируйте приложение перед добавлением аккаунта.",
+  "login_use_tokens": "Вставить токены вместо этого",
+  "login_use_code": "Использовать код входа вместо этого",
+  "login_tokens_label": "Токены доступа",
+  "login_tokens_hint": "Вставьте по одному токену на строку. Каждый проверяется перед импортом.",
+  "login_tokens_submit": [
+    {
+      "declarations": [
+        "input count",
+        "local countPluralExact = count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPluralExact", "countPlural"],
+      "match": {
+        "countPlural=*, countPluralExact=1": "Импортировать токен",
+        "countPlural=few, countPluralExact=*": "Импортировать токены",
+        "countPlural=*, countPluralExact=*": "Импортировать токены"
+      }
+    }
+  ],
+  "login_tokens_checking": "Проверка токенов…",
+  "import_tokens_title": "Импортировать токены",
+  "import_tokens_placeholder": "Вставьте токены, по одному на строку…",
+  "import_tokens_too_many": "Слишком много токенов. Максимум за раз: {max}.",
+  "import_tokens_line_too_long": "Слишком длинная строка. Максимум символов: {max}.",
+  "import_tokens_status_pending": "Проверка…",
+  "import_tokens_status_valid": "Действителен",
+  "import_tokens_status_unusable_client": "Этот токен нельзя использовать для майнинга.",
+  "import_tokens_status_invalid": "Этот токен недействителен или истёк.",
+  "import_tokens_status_already_added": "Уже добавлен",
+  "import_tokens_status_duplicate": "Дубликат другой строки",
+  "import_tokens_status_not_imported": "Не импортирован",
+  "import_tokens_settings_step_title": [
+    {
+      "declarations": [
+        "input count",
+        "local countPluralExact = count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPluralExact", "countPlural"],
+      "match": {
+        "countPlural=*, countPluralExact=1": "Настройки этого аккаунта",
+        "countPlural=few, countPluralExact=*": "Настройки этих аккаунтов",
+        "countPlural=*, countPluralExact=*": "Настройки этих аккаунтов"
+      }
+    }
+  ],
+  "import_tokens_settings_step_hint": [
+    {
+      "declarations": [
+        "input count",
+        "local countPluralExact = count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPluralExact", "countPlural"],
+      "match": {
+        "countPlural=*, countPluralExact=1": "Эти настройки применяются к импортируемому аккаунту.",
+        "countPlural=few, countPluralExact=*": "Эти настройки применяются ко всем импортируемым аккаунтам.",
+        "countPlural=*, countPluralExact=*": "Эти настройки применяются ко всем импортируемым аккаунтам."
+      }
+    }
+  ],
+  "import_tokens_overwrite_existing_label": [
+    {
+      "declarations": [
+        "input count",
+        "local countPluralExact = count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPluralExact", "countPlural"],
+      "match": {
+        "countPlural=*, countPluralExact=1": "Также перезаписать настройки уже существующего аккаунта",
+        "countPlural=few, countPluralExact=*": "Также перезаписать настройки уже существующих аккаунтов",
+        "countPlural=*, countPluralExact=*": "Также перезаписать настройки уже существующих аккаунтов"
+      }
+    }
+  ],
+  "import_tokens_result_count": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{count} токен импортирован",
+        "countPlural=few": "{count} токена импортировано",
+        "countPlural=*": "{count} токенов импортировано"
+      }
+    }
+  ],
+  "import_tokens_result_cancelled": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Импорт отменён — {count} токен импортирован",
+        "countPlural=few": "Импорт отменён — {count} токена импортировано",
+        "countPlural=*": "Импорт отменён — {count} токенов импортировано"
+      }
+    }
+  ],
+  "import_tokens_importing_progress": "Импорт: {done}/{total}",
+  "import_tokens_cancel": "Отменить импорт",
+  "import_tokens_retry_failed": "Повторить",
   "account_slots_hint": "Twitch засчитывает не более двух каналов на аккаунт одновременно.",
   "account_drops_priority_hint": "Их кампании майнятся там, где «Приоритетные категории» стоят в «Что майнить и в каком порядке», самые важные первыми.",
   "account_drops_priority_placeholder": "Добавить категорию…",
@@ -204,6 +306,8 @@
   "settings_auto_lock": "Блокировать после бездействия",
   "settings_auto_lock_hint": "Снова запрашивает пароль после этого времени без использования панели, даже во вкладке, оставленной открытой. Майнинг продолжается.",
   "settings_auto_lock_never": "Никогда",
+  "lock_warning_message": "Блокировка через {time} — подвигайте мышью или нажмите, чтобы остаться разблокированным",
+  "lock_warning_message_a11y": "Скоро произойдёт блокировка.",
   "unlock_title": "Разблокировать приложение",
   "unlock_text": "Введите пароль приложения.",
   "unlock_passphrase": "Пароль",
@@ -348,13 +452,57 @@
   "feedback_discord_text": "Создайте тикет или пообщайтесь с сообществом",
   "feedback_github_text": "Откройте issue: баг или идея",
   "settings_catalog_text": "Список кампаний берётся с drops.sunkwi.com и обновляется каждые 10 минут.",
-  "account_proxy": "Proxy для этого аккаунта",
-  "account_proxy_hint": "Пусто: proxy приложения по умолчанию. Изменение перезапускает подключения аккаунта.",
+  "account_proxy": [
+    {
+      "declarations": [
+        "input count",
+        "local countPluralExact = count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPluralExact", "countPlural"],
+      "match": {
+        "countPlural=*, countPluralExact=1": "Proxy для этого аккаунта",
+        "countPlural=few, countPluralExact=*": "Proxy для этих аккаунтов",
+        "countPlural=*, countPluralExact=*": "Proxy для этих аккаунтов"
+      }
+    }
+  ],
+  "account_proxy_hint": [
+    {
+      "declarations": [
+        "input count",
+        "local countPluralExact = count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPluralExact", "countPlural"],
+      "match": {
+        "countPlural=*, countPluralExact=1": "Пусто: proxy приложения по умолчанию. Изменение перезапускает подключения аккаунта.",
+        "countPlural=few, countPluralExact=*": "Пусто: proxy приложения по умолчанию. Изменение перезапускает подключения этих аккаунтов.",
+        "countPlural=*, countPluralExact=*": "Пусто: proxy приложения по умолчанию. Изменение перезапускает подключения этих аккаунтов."
+      }
+    }
+  ],
   "account_remove": "Удалить этот аккаунт",
+  "account_remove_revoke_label": "Также отозвать этот токен на Twitch",
   "account_mode_title": "Режим майнинга",
-  "account_mode_desc": "На что этот аккаунт тратит время просмотра.",
+  "account_mode_desc": [
+    {
+      "declarations": [
+        "input count",
+        "local countPluralExact = count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPluralExact", "countPlural"],
+      "match": {
+        "countPlural=*, countPluralExact=1": "На что этот аккаунт тратит время просмотра.",
+        "countPlural=few, countPluralExact=*": "На что эти аккаунты тратят время просмотра.",
+        "countPlural=*, countPluralExact=*": "На что эти аккаунты тратят время просмотра."
+      }
+    }
+  ],
   "account_slots_title": "Одновременно просматриваемые каналы",
   "account_twitch_hint": "Войдите снова, если Twitch завершил сессию. Удаление аккаунта отзывает его сессию на Twitch.",
+  "account_twitch_hint_imported_token": "Войдите снова, если Twitch завершил сессию. При удалении аккаунта вы можете выбрать, отзывать ли также его сессию на Twitch.",
   "account_twitch_id": "ID Twitch",
   "account_twitch_login": "Логин",
   "account_twitch_name": "Имя",
@@ -1391,6 +1539,9 @@
   "account_badges_not_mined": "Не майнятся",
   "account_badges_not_mined_hint": "Показаны, но не майнятся: сначала нужна подписка, которую вы оформляете сами, или другой значок, либо Twitch не указывает канал, который майнер мог бы смотреть.",
   "error_action_rate_limited": "Слишком много попыток: подождите немного и повторите попытку.",
+  "error_invalid_token": "Этот токен недействителен или истёк. Вставьте новый.",
+  "error_unsupported_client": "Этот токен нельзя использовать для майнинга. Войдите с помощью кода вместо этого.",
+  "error_missing_scope": "У этого токена нет разрешения, необходимого приложению. Войдите с помощью кода вместо этого.",
   "ev_paused": "Приостановлено",
   "ev_paused_quiet_window": "Приостановлено (ежедневная пауза)",
   "ev_paused_scheduled": "Приостановлено, возобновление {time}",

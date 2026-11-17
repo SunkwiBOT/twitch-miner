@@ -19,12 +19,14 @@ use axum::{Extension, Json, Router};
 use miner_core::api::{
     ApiRoute, AuthResponse, AuthStatus, BadgesResponse, CatalogResponse, ChannelBannersRequest,
     ChannelBannersResponse, ChannelQuery, ChannelResponse, ChannelsLookupRequest,
-    ChannelsLookupResponse, Command, DashboardLoginRequest, FollowsQuery, FollowsResponse,
-    HistoryExportQuery, HistoryExportResponse, HistoryQuery, HistoryResponse, LoginFlowResponse,
-    LogsQuery, LogsReportResponse, LogsResponse, NotificationTest, NotificationTestRequest,
-    ProxyTestRequest, ProxyTestResponse, RedeemRequest, RedeemResponse, RefreshResponse,
-    RequestsQuery, RequestsResponse, SearchQuery, SearchResponse, ServerMessage, SnapshotResponse,
-    SpamBalanceResponse, SpamChannelQuery, SpamChannelResponse, UpdateCheck, UpdateCheckResponse,
+    ChannelsLookupResponse, CheckPastedTokenRequest, CheckPastedTokenResponse, Command,
+    DashboardLoginRequest, FollowsQuery, FollowsResponse, HistoryExportQuery,
+    HistoryExportResponse, HistoryQuery, HistoryResponse, ImportTokensRequest,
+    ImportTokensResponse, LoginFlowResponse, LogsQuery, LogsReportResponse, LogsResponse,
+    NotificationTest, NotificationTestRequest, ProxyTestRequest, ProxyTestResponse, RedeemRequest,
+    RedeemResponse, RefreshResponse, RequestsQuery, RequestsResponse, SearchQuery, SearchResponse,
+    ServerMessage, SnapshotResponse, SpamBalanceResponse, SpamChannelQuery, SpamChannelResponse,
+    UpdateCheck, UpdateCheckResponse,
 };
 use miner_core::error::{ApiError, ErrorCode};
 use miner_core::Manager;
@@ -116,6 +118,8 @@ pub fn router(state: Shared) -> Router {
         .route(ApiRoute::BadgesRefresh.path(), post(refresh_badges))
         .route(ApiRoute::UpdatesCheck.path(), post(check_for_update))
         .route(ApiRoute::LoginFlow.path(), post(start_login))
+        .route(ApiRoute::CheckPastedToken.path(), post(check_pasted_token))
+        .route(ApiRoute::ImportTokens.path(), post(import_tokens))
         .route(ApiRoute::Channel.path(), get(lookup_channel))
         .route(ApiRoute::ChannelsLookup.path(), post(lookup_channels))
         .route(ApiRoute::Search.path(), get(search))
@@ -214,6 +218,31 @@ async fn command(
 async fn start_login(State(state): State<Shared>) -> Result<Json<LoginFlowResponse>, Failure> {
     Ok(Json(LoginFlowResponse {
         login: state.manager.start_login().await?,
+    }))
+}
+
+async fn check_pasted_token(
+    State(state): State<Shared>,
+    Body(request): Body<CheckPastedTokenRequest>,
+) -> Result<Json<CheckPastedTokenResponse>, Failure> {
+    Ok(Json(CheckPastedTokenResponse {
+        check: state.manager.check_pasted_token(&request.token).await?,
+    }))
+}
+
+async fn import_tokens(
+    State(state): State<Shared>,
+    Body(request): Body<ImportTokensRequest>,
+) -> Result<Json<ImportTokensResponse>, Failure> {
+    Ok(Json(ImportTokensResponse {
+        import: state
+            .manager
+            .start_import_tokens(
+                request.tokens,
+                request.settings,
+                request.apply_existing_settings,
+            )
+            .await?,
     }))
 }
 

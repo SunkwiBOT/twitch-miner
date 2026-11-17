@@ -286,6 +286,8 @@ het werkt.
   <img src="../media/nl/basics.avif" alt="Talen, licht en donker thema, een bureaubladmelding en het pictogram in het systeemvak">
   </details>
 
+- **Accounts toevoegen door tokens te plakken.** Al elders ingelogd? Plak een lijst met toegangstokens, één per regel (maximaal 50); elk token wordt live gecontroleerd, met een teller “Gecontroleerd: n/N” en een nieuwe poging voor elke regel die is mislukt, waarna één instellingenstap op de hele batch wordt toegepast. De import loopt op de achtergrond, met live voortgang per account, kan halverwege worden geannuleerd, en een latere nieuwe poging stuurt alleen de mislukte accounts opnieuw. Bij het verwijderen van een op deze manier geïmporteerd account wordt ook aangeboden het token op Twitch in te trekken.
+
 > [!WARNING]
 > Dit project is niet gelieerd aan Twitch. Een account automatiseren kan in strijd zijn
 > met de voorwaarden van Twitch of de regels van een campagne.

@@ -290,6 +290,8 @@ im Einsatz.
   <img src="../media/de/basics.avif" alt="Sprachen, helles und dunkles Design, eine Desktop-Benachrichtigung und das Symbol im Infobereich">
   </details>
 
+- **Konten durch Einfügen von Token hinzufügen.** Bereits anderswo angemeldet? Fügen Sie eine Liste von Zugriffstoken ein, einen pro Zeile (bis zu 50); jeder wird live geprüft, mit einem Zähler „Geprüft: n/N“ und einer erneuten Prüfung für jede fehlgeschlagene Zeile, danach gilt ein einziger Einstellungsschritt für den gesamten Stapel. Der Import selbst läuft im Hintergrund mit Live-Fortschritt pro Konto, kann mitten drin abgebrochen werden, und ein späterer Versuch sendet nur die fehlgeschlagenen Konten erneut. Beim Entfernen eines so importierten Kontos wird angeboten, auch dessen Token bei Twitch zu widerrufen.
+
 > [!WARNING]
 > Dieses Projekt steht in keiner Verbindung zu Twitch. Ein Konto zu automatisieren kann
 > gegen die Bedingungen von Twitch oder die Regeln einer Kampagne verstoßen.

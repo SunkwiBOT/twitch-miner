@@ -1,8 +1,10 @@
+use std::collections::HashMap;
 use std::fmt;
 
 use chrono::{DateTime, Utc};
-use rusqlite::{params, OptionalExtension};
+use rusqlite::{params, Connection, OptionalExtension};
 use serde::{Deserialize, Serialize};
+use ts_rs::TS;
 use zeroize::Zeroizing;
 
 use super::vault::{Sealed, Vault};
@@ -12,6 +14,31 @@ use crate::error::{Error, Result};
 use crate::twitch::auth::TokenSet;
 
 const MASKED: &str = "[redacted]";
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default, TS)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+#[ts(repr(enum = name))]
+pub enum AccountSource {
+    #[default]
+    DeviceCode,
+    ImportedToken,
+}
+
+impl AccountSource {
+    fn as_str(self) -> &'static str {
+        match self {
+            Self::DeviceCode => "DEVICE_CODE",
+            Self::ImportedToken => "IMPORTED_TOKEN",
+        }
+    }
+
+    fn parse(value: &str) -> Self {
+        match value {
+            "IMPORTED_TOKEN" => Self::ImportedToken,
+            _ => Self::DeviceCode,
+        }
+    }
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AccountRecord {
@@ -23,6 +50,8 @@ pub struct AccountRecord {
     pub settings: AccountSettings,
     pub position: i64,
     pub created_at: DateTime<Utc>,
+    #[serde(default)]
+    pub source: AccountSource,
 }
 
 #[derive(Clone, Serialize, Deserialize)]
@@ -66,7 +95,7 @@ impl AccountRow {
         })
     }
 
-    fn record(self) -> Result<AccountRecord> {
+    fn record(self, source: AccountSource) -> Result<AccountRecord> {
         let settings = serde_json::from_str(&self.settings)
             .map_err(|error| foreign_data("the settings of an account", json_error(&error)))?;
         let created_at = DateTime::from_timestamp(self.created_at, 0)
@@ -80,8 +109,29 @@ impl AccountRow {
             settings,
             position: self.position,
             created_at,
+            source,
         })
     }
+}
+
+fn account_sources(connection: &Connection) -> Result<HashMap<String, AccountSource>> {
+    let mut statement = connection
+        .prepare("SELECT account_id, source FROM account_source")
+        .map_err(|error| foreign_data("the account table", error))?;
+    let rows = statement
+        .query_map([], |row| {
+            Ok((row.get::<_, String>(0)?, row.get::<_, String>(1)?))
+        })
+        .map_err(|error| foreign_data("the account table", error))?;
+    let mut sources = HashMap::new();
+
+    for row in rows {
+        let (account_id, value) = row.map_err(|error| foreign_data("an account", error))?;
+
+        sources.insert(account_id, AccountSource::parse(&value));
+    }
+
+    Ok(sources)
 }
 
 impl Store {
@@ -95,32 +145,53 @@ impl Store {
         let rows = statement
             .query_map([], AccountRow::read)
             .map_err(|error| foreign_data("the account table", error))?;
+        let sources = account_sources(&connection)?;
         let mut accounts = Vec::new();
 
         for row in rows {
             let row = row.map_err(|error| foreign_data("an account", error))?;
+            let source = sources.get(&row.id).copied().unwrap_or_default();
 
-            accounts.push(row.record()?);
+            accounts.push(row.record(source)?);
         }
 
         Ok(accounts)
     }
 
     pub fn account(&self, id: &str) -> Result<Option<AccountRecord>> {
-        self.lock()
+        let row = self
+            .lock()
             .query_row(
                 "SELECT id, login, display_name, avatar_url, settings, position, created_at FROM account WHERE id = ?1",
                 [id],
                 AccountRow::read,
             )
             .optional()
-            .map_err(|error| foreign_data("an account", error))?
-            .map(AccountRow::record)
-            .transpose()
+            .map_err(|error| foreign_data("an account", error))?;
+        let Some(row) = row else {
+            return Ok(None);
+        };
+        let source = self.get_account_source(id)?.unwrap_or_default();
+
+        row.record(source).map(Some)
+    }
+
+    fn get_account_source(&self, id: &str) -> Result<Option<AccountSource>> {
+        self.lock()
+            .query_row(
+                "SELECT source FROM account_source WHERE account_id = ?1",
+                [id],
+                |row| row.get::<_, String>(0),
+            )
+            .optional()
+            .map_err(|error| foreign_data("an account", error))
+            .map(|value| value.map(|value| AccountSource::parse(&value)))
     }
 
     pub fn upsert_account(&self, record: &AccountRecord) -> Result<()> {
-        self.lock().execute(
+        let connection = self.lock();
+
+        connection.execute(
             "INSERT INTO account(id, login, display_name, avatar_url, settings, position, created_at)
              VALUES(?1, ?2, ?3, ?4, ?5, ?6, ?7)
              ON CONFLICT(id) DO UPDATE SET login = excluded.login, display_name = excluded.display_name,
@@ -134,6 +205,15 @@ impl Store {
                 record.position,
                 record.created_at.timestamp(),
             ],
+        )?;
+
+        // ! Updated on every login (device code or a pasted token): the
+        // most recent credential decides how `remove_account` treats a
+        // removal, not however the account was first added.
+        connection.execute(
+            "INSERT INTO account_source(account_id, source) VALUES(?1, ?2)
+             ON CONFLICT(account_id) DO UPDATE SET source = excluded.source",
+            params![record.id, record.source.as_str()],
         )?;
 
         Ok(())
@@ -200,7 +280,8 @@ impl Store {
             "DELETE FROM request WHERE id IN (SELECT id FROM request WHERE account_id = ?1 LIMIT ?2)",
             &id,
         )?;
-
+        // ! `account_source` and `credential` cascade on `account`'s own
+        // delete: nothing left to clean up by hand here.
         Ok(())
     }
 

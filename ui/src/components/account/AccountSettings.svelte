@@ -1,44 +1,37 @@
 <script lang="ts">
   import PanelColumns from "../ui/PanelColumns.svelte";
+  import { AccountSource } from "../../lib/bindings/AccountSource";
   import { AccountStatus } from "../../lib/bindings/AccountStatus";
   import { CommandName } from "../../lib/bindings/CommandName";
   import { untrack } from "svelte";
 
   import { maskProxyCredentials } from "../../lib/accounts/accounts.utils";
-  import { SLOTS_MAX } from "../../lib/accounts/slots.constants";
   import {
     copyOptions,
     differingOptions,
     sameOptions,
     STREAMER_OPTIONS,
   } from "../../lib/accounts/options.utils";
-  import { testProxy } from "../../lib/api/client";
   import type { AccountSnapshotType } from "../../lib/bindings/AccountSnapshotType";
-  import { Mode } from "../../lib/bindings/Mode";
   import type { SnapshotType } from "../../lib/bindings/SnapshotType";
   import { maskId } from "../../lib/format.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
-  import { personMarker, strong } from "../../lib/text.utils";
-  import { AccountField, Page, ToastKind } from "../../lib/state/state.constants";
+  import { personMarker } from "../../lib/text.utils";
+  import { AccountField, Page } from "../../lib/state/state.constants";
   import { editsOf } from "../../lib/state/edits.svelte";
   import { app } from "../../lib/state/app.svelte";
   import { navigate } from "../../lib/state/router";
-  import { reportFailure, run } from "../../lib/state/session";
-  import { toast } from "../../lib/state/toasts";
+  import { run } from "../../lib/state/session";
   import TextButton from "../ui/TextButton.svelte";
-  import ActionButton from "../ui/ActionButton.svelte";
   import CopyButton from "../ui/CopyButton.svelte";
-  import ChoiceCards from "../ui/ChoiceCards.svelte";
   import ConfirmDialog from "../ui/ConfirmDialog.svelte";
-  import FormField from "../ui/FormField.svelte";
   import Meta from "../ui/Meta.svelte";
   import AccountHeading from "../ui/AccountHeading.svelte";
   import PageBody from "../ui/PageBody.svelte";
   import PauseButton from "../ui/PauseButton.svelte";
   import Panel from "../ui/Panel.svelte";
-  import SecretInput from "../ui/SecretInput.svelte";
   import Setting from "../ui/Setting.svelte";
-  import MiningOrderList from "./drops/MiningOrderList.svelte";
+  import AccountSettingsForm from "./AccountSettingsForm.svelte";
   import AccountSaveBar from "./AccountSaveBar.svelte";
   import StreamerOptions from "./StreamerOptions.svelte";
   import { PROXY_EXAMPLE } from "./account.constants";
@@ -52,7 +45,6 @@
 
   const edits = editsOf(untrack(() => account.id));
   const shown = $derived(edits.applied(account.settings));
-  let testing = $state(false);
 
   let defaults = $state(structuredClone(untrack(() => shown.points.streamer_defaults)));
 
@@ -79,26 +71,19 @@
     );
   };
 
-  const checkProxy = async (): Promise<void> => {
-    testing = true;
-
-    try {
-      toast(ToastKind.SUCCESS, t.settings_proxy_ok_title(), {
-        description: t.settings_proxy_ok({ ms: strong(await testProxy(shown.proxy)) }),
-      });
-    } catch (e: any) {
-      reportFailure(e);
-    } finally {
-      testing = false;
-    }
-  };
-
   let confirming = $state(false);
   let removing = $state(false);
+  let revokeToken = $state(true);
 
   const remove = async (): Promise<void> => {
     removing = true;
-    const removed = await run({ command: CommandName.REMOVE_ACCOUNT, account_id: account.id });
+
+    const removed = await run({
+      command: CommandName.REMOVE_ACCOUNT,
+      account_id: account.id,
+      revoke_token: revokeToken,
+    });
+
     removing = false;
 
     if (removed) {
@@ -145,7 +130,10 @@
           size={ButtonSize.MD}
           type={ButtonType.BUTTON}
           disabled={false}
-          onclick={() => (confirming = true)}
+          onclick={() => {
+            revokeToken = true;
+            confirming = true;
+          }}
         />
       {/snippet}
     </AccountHeading>
@@ -177,71 +165,28 @@
         {#snippet after()}{@render copy(t.account_twitch_id(), account.id)}{/snippet}
       </Meta>
     </dl>
-    <p class="text-hint text-muted-foreground">{t.account_twitch_hint()}</p>
+    <p class="text-hint text-muted-foreground">
+      {account.source === AccountSource.IMPORTED_TOKEN
+        ? t.account_twitch_hint_imported_token()
+        : t.account_twitch_hint()}
+    </p>
   </Panel>
 
   <PanelColumns width={PanelWidth.MD}>
-    <Panel title={t.account_mode_title()} description={t.account_mode_desc()}>
-      <ChoiceCards
-        vertical={true}
-        value={shown.mode}
-        label={t.account_mode_title()}
-        onchange={(mode) => edits.set(AccountField.MODE, (settings) => (settings.mode = mode))}
-        choices={[
-          { value: Mode.AUTO, title: t.mode_auto_title(), description: t.mode_auto_hint() },
-          { value: Mode.DROPS, title: t.mode_drops_title(), description: t.mode_drops_hint() },
-          { value: Mode.POINTS, title: t.mode_points_title(), description: t.mode_points_hint() },
-        ]}
-      />
-    </Panel>
-    <Panel title={t.mining_order_title()} description={t.mining_order_hint()}>
-      <MiningOrderList
-        order={shown.drops.mining_order}
-        onchange={(order) =>
-          edits.set(AccountField.MINING_ORDER, (settings) => (settings.drops.mining_order = order))}
-      />
-    </Panel>
-    <Panel title={t.account_slots_title()} description={t.account_slots_hint()}>
-      <ChoiceCards
-        vertical={false}
-        value={shown.slots}
-        label={t.account_slots_title()}
-        onchange={(slots) => edits.set(AccountField.SLOTS, (settings) => (settings.slots = slots))}
-        choices={[
-          { value: SLOTS_MAX, title: t.slots_two_title(), description: t.slots_two_hint() },
-          { value: 1, title: t.slots_one_title(), description: t.slots_one_hint() },
-        ]}
-      />
-    </Panel>
-
-    <Panel title={t.settings_proxy()} description={t.account_proxy_hint()}>
-      <FormField id="account-proxy" label={t.account_proxy()} hint={t.settings_proxy_hint()}>
-        <SecretInput
-          id="account-proxy"
-          class="font-mono"
-          autocomplete="off"
-          value={shown.proxy}
-          oninput={(event) => {
-            const value = event.currentTarget.value.trim();
-            edits.set(AccountField.PROXY, (settings) => (settings.proxy = value));
-          }}
-          placeholder={maskProxyCredentials(snapshot.settings.default_proxy) || PROXY_EXAMPLE}
-        />
-      </FormField>
-      <div class="flex flex-wrap justify-end gap-2">
-        <ActionButton
-          icon={IconName.GLOBE}
-          label={t.settings_proxy_test()}
-          busyLabel={t.common_testing()}
-          busy={testing}
-          disabled={!shown.proxy}
-          variant={ButtonVariant.DEFAULT}
-          size={ButtonSize.MD}
-          type={ButtonType.BUTTON}
-          onclick={checkProxy}
-        />
-      </div>
-    </Panel>
+    <AccountSettingsForm
+      mode={shown.mode}
+      onModeChange={(mode) => edits.set(AccountField.MODE, (settings) => (settings.mode = mode))}
+      miningOrder={shown.drops.mining_order}
+      onMiningOrderChange={(order) =>
+        edits.set(AccountField.MINING_ORDER, (settings) => (settings.drops.mining_order = order))}
+      slots={shown.slots}
+      onSlotsChange={(slots) =>
+        edits.set(AccountField.SLOTS, (settings) => (settings.slots = slots))}
+      proxy={shown.proxy}
+      onProxyChange={(value) =>
+        edits.set(AccountField.PROXY, (settings) => (settings.proxy = value))}
+      proxyPlaceholder={maskProxyCredentials(snapshot.settings.default_proxy) || PROXY_EXAMPLE}
+    />
     <Panel title={t.account_claims_priorities_title()}>
       <div>
         <Setting
@@ -283,14 +228,28 @@
   <AccountSaveBar {account} />
 </PageBody>
 
+{#snippet revokeLead()}
+  {#if account.source === AccountSource.IMPORTED_TOKEN}
+    <Setting
+      title={t.account_remove_revoke_label()}
+      checked={revokeToken}
+      disabled={removing}
+      onchange={(value) => (revokeToken = value)}
+    />
+  {/if}
+{/snippet}
+
 <ConfirmDialog
   open={confirming}
   title={t.accounts_remove_title()}
-  text={t.accounts_remove_text({ name: personMarker(0) })}
+  text={account.source === AccountSource.IMPORTED_TOKEN
+    ? t.accounts_remove_text_imported_token({ name: personMarker(0) })
+    : t.accounts_remove_text({ name: personMarker(0) })}
   people={[{ name: account.display_name, avatar: account.avatar_url, channel: null }]}
   confirmLabel={t.common_remove()}
   busyLabel={t.common_removing()}
   busy={removing}
+  extra={revokeLead}
   onconfirm={remove}
   oncancel={() => (confirming = false)}
 />

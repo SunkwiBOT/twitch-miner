@@ -74,6 +74,7 @@
   "common_accounts_none": "Ingen konto",
   "accounts_remove_title": "Fjern denne konto?",
   "accounts_remove_text": "Sessionen for {name} tilbagekaldes på Twitch og slettes her. Indløste drops bliver i Twitch-beholdningen.",
+  "accounts_remove_text_imported_token": "Sessionen for {name} slettes her. Indløste drops bliver i Twitch-beholdningen; brug kontakten nedenfor for også at tilbagekalde den på Twitch.",
   "accounts_login_again": "Log ind igen",
   "accounts_stats_drops": "Hentede drops: {count}",
   "accounts_stats_points": "Optjente point: {count}",
@@ -87,6 +88,85 @@
   "login_note": "Ingen adgangskode gemmes. Sessionen er krypteret på denne enhed og kan tilbagekaldes fra {settings}.",
   "login_note_settings": "dine Twitch-indstillinger",
   "login_vault_locked": "Lås appen op, før du tilføjer en konto.",
+  "login_use_tokens": "Indsæt tokens i stedet",
+  "login_use_code": "Brug login-koden i stedet",
+  "login_tokens_label": "Adgangstokens",
+  "login_tokens_hint": "Indsæt én token pr. linje. Hver enkelt tjekkes, før den kan importeres.",
+  "login_tokens_submit": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Importér tokenen",
+        "countPlural=*": "Importér tokens"
+      }
+    }
+  ],
+  "login_tokens_checking": "Tjekker tokens…",
+  "import_tokens_title": "Importér tokens",
+  "import_tokens_placeholder": "Indsæt tokens, én pr. linje…",
+  "import_tokens_too_many": "Højst {max} tokens ad gangen.",
+  "import_tokens_line_too_long": "En linje er for lang (højst {max} tegn).",
+  "import_tokens_status_pending": "Tjekker…",
+  "import_tokens_status_valid": "Gyldig",
+  "import_tokens_status_unusable_client": "Denne token kan ikke bruges til minedrift.",
+  "import_tokens_status_invalid": "Denne token er ugyldig eller udløbet.",
+  "import_tokens_status_already_added": "Allerede tilføjet",
+  "import_tokens_status_duplicate": "Duplikat af en anden linje",
+  "import_tokens_status_not_imported": "Ikke importeret",
+  "import_tokens_settings_step_title": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Indstillinger for denne konto",
+        "countPlural=*": "Indstillinger for disse konti"
+      }
+    }
+  ],
+  "import_tokens_settings_step_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Disse indstillinger gælder for den konto, der importeres.",
+        "countPlural=*": "Disse indstillinger gælder for alle importerede konti."
+      }
+    }
+  ],
+  "import_tokens_overwrite_existing_label": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Overskriv også indstillingerne for den konto, der allerede findes",
+        "countPlural=*": "Overskriv også indstillingerne for konti, der allerede findes"
+      }
+    }
+  ],
+  "import_tokens_result_count": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{count} token importeret",
+        "countPlural=*": "{count} tokens importeret"
+      }
+    }
+  ],
+  "import_tokens_result_cancelled": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Import annulleret — {count} token importeret",
+        "countPlural=*": "Import annulleret — {count} tokens importeret"
+      }
+    }
+  ],
+  "import_tokens_importing_progress": "Importerer: {done}/{total}",
+  "import_tokens_cancel": "Annullér importen",
+  "import_tokens_retry_failed": "Prøv igen",
   "account_slots_hint": "Twitch krediterer højst to kanaler pr. konto ad gangen.",
   "account_drops_priority_hint": "Deres kampagner mines der, hvor »Prioriterede kategorier« står i »Hvad der skal mines, i rækkefølge«, de vigtigste først.",
   "account_drops_priority_placeholder": "Tilføj en kategori…",
@@ -203,6 +283,8 @@
   "settings_auto_lock": "Lås efter inaktivitet",
   "settings_auto_lock_hint": "Beder om adgangskoden igen efter så lang tid uden brug af oversigten, også i en fane, der er ladt åben. Appen fortsætter med at mine.",
   "settings_auto_lock_never": "Aldrig",
+  "lock_warning_message": "Låser om {time} — bevæg dig eller klik for at forblive ulåst",
+  "lock_warning_message_a11y": "Der kommer snart en lås.",
   "unlock_title": "Lås appen op",
   "unlock_text": "Skriv appens adgangskode.",
   "unlock_passphrase": "Adgangskode",
@@ -345,13 +427,42 @@
   "feedback_discord_text": "Åbn en ticket eller snak med fællesskabet",
   "feedback_github_text": "Åbn et issue: en fejl eller en idé",
   "settings_catalog_text": "Kampagnelisten kommer fra drops.sunkwi.com, opdateret hvert 10. minut.",
-  "account_proxy": "Proxy for denne konto",
-  "account_proxy_hint": "Tomt: appens standardproxy. Ændring genstarter kontoens forbindelser.",
+  "account_proxy": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Proxy for denne konto",
+        "countPlural=*": "Proxy for disse konti"
+      }
+    }
+  ],
+  "account_proxy_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Tomt: appens standardproxy. Ændring genstarter kontoens forbindelser.",
+        "countPlural=*": "Tomt: appens standardproxy. Ændring genstarter disse kontis forbindelser."
+      }
+    }
+  ],
   "account_remove": "Fjern denne konto",
+  "account_remove_revoke_label": "Tilbagekald også denne token på Twitch",
   "account_mode_title": "Mining-tilstand",
-  "account_mode_desc": "Hvad kontoen bruger sin seertid på.",
+  "account_mode_desc": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Hvad kontoen bruger sin seertid på.",
+        "countPlural=*": "Hvad disse konti bruger deres seertid på."
+      }
+    }
+  ],
   "account_slots_title": "Kanaler, der ses samtidig",
   "account_twitch_hint": "Log ind igen, hvis Twitch har afsluttet sessionen. Hvis du fjerner kontoen, tilbagekaldes dens session på Twitch.",
+  "account_twitch_hint_imported_token": "Log ind igen, hvis Twitch har afsluttet sessionen. Når du fjerner kontoen, kan du vælge, om dens session på Twitch også skal tilbagekaldes.",
   "account_twitch_id": "Twitch-id",
   "account_twitch_login": "Brugernavn",
   "account_twitch_name": "Navn",
@@ -1359,6 +1470,9 @@
   "account_badges_not_mined": "Mines ikke",
   "account_badges_not_mined_hint": "Vises, men mines ikke: først kræves et abonnement, du selv tegner, eller et andet badge, eller Twitch angiver ingen kanal, som mineren kan se.",
   "error_action_rate_limited": "For mange forsøg: vent et øjeblik, og prøv igen.",
+  "error_invalid_token": "Denne token er ugyldig eller udløbet. Indsæt en ny.",
+  "error_unsupported_client": "Denne token kan ikke bruges til minedrift. Log ind med koden i stedet.",
+  "error_missing_scope": "Denne token mangler en tilladelse, appen kræver. Log ind med koden i stedet.",
   "ev_paused": "På pause",
   "ev_paused_quiet_window": "På pause (daglig pause)",
   "ev_paused_scheduled": "På pause, genoptages {time}",

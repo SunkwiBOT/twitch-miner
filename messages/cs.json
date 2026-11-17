@@ -75,6 +75,7 @@
   "common_accounts_none": "Žádný účet",
   "accounts_remove_title": "Odebrat tento účet?",
   "accounts_remove_text": "Relace {name} se na Twitchi zruší a tady smaže. Vyzvednuté dropy zůstanou v inventáři Twitch.",
+  "accounts_remove_text_imported_token": "Relace {name} se tady smaže. Vyzvednuté dropy zůstanou v inventáři Twitch; přepínačem níže ji můžete zrušit i na Twitchi.",
   "accounts_login_again": "Přihlásit se znovu",
   "accounts_stats_drops": "Získané dropy: {count}",
   "accounts_stats_points": "Získané body: {count}",
@@ -88,6 +89,91 @@
   "login_note": "Heslo se neukládá. Relace je na tomto zařízení šifrovaná a lze ji odvolat v {settings}.",
   "login_note_settings": "nastavení Twitch",
   "login_vault_locked": "Před přidáním účtu odemkněte aplikaci.",
+  "login_use_tokens": "Místo toho vložit tokeny",
+  "login_use_code": "Místo toho použít přihlašovací kód",
+  "login_tokens_label": "Přístupové tokeny",
+  "login_tokens_hint": "Vložte jeden token na řádek. Každý se ověří, než ho lze importovat.",
+  "login_tokens_submit": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Importovat token",
+        "countPlural=few": "Importovat tokeny",
+        "countPlural=*": "Importovat tokeny"
+      }
+    }
+  ],
+  "login_tokens_checking": "Ověřování tokenů…",
+  "import_tokens_title": "Importovat tokeny",
+  "import_tokens_placeholder": "Vložte tokeny, jeden na řádek…",
+  "import_tokens_too_many": "Příliš mnoho tokenů. Nejvýše najednou: {max}.",
+  "import_tokens_line_too_long": "Příliš dlouhý řádek. Nejvýše znaků: {max}.",
+  "import_tokens_status_pending": "Ověřování…",
+  "import_tokens_status_valid": "Platný",
+  "import_tokens_status_unusable_client": "Tento token nelze použít k těžbě.",
+  "import_tokens_status_invalid": "Tento token je neplatný nebo vypršel.",
+  "import_tokens_status_already_added": "Již přidáno",
+  "import_tokens_status_duplicate": "Duplicita jiného řádku",
+  "import_tokens_status_not_imported": "Neimportováno",
+  "import_tokens_settings_step_title": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Nastavení tohoto účtu",
+        "countPlural=few": "Nastavení těchto účtů",
+        "countPlural=*": "Nastavení těchto účtů"
+      }
+    }
+  ],
+  "import_tokens_settings_step_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Tato nastavení platí pro importovaný účet.",
+        "countPlural=few": "Tato nastavení platí pro všechny importované účty.",
+        "countPlural=*": "Tato nastavení platí pro všechny importované účty."
+      }
+    }
+  ],
+  "import_tokens_overwrite_existing_label": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Přepsat i nastavení již existujícího účtu",
+        "countPlural=few": "Přepsat i nastavení již existujících účtů",
+        "countPlural=*": "Přepsat i nastavení již existujících účtů"
+      }
+    }
+  ],
+  "import_tokens_result_count": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{count} token importován",
+        "countPlural=few": "{count} tokeny importovány",
+        "countPlural=*": "{count} tokenů importováno"
+      }
+    }
+  ],
+  "import_tokens_result_cancelled": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Import zrušen — {count} token importován",
+        "countPlural=few": "Import zrušen — {count} tokeny importovány",
+        "countPlural=*": "Import zrušen — {count} tokenů importováno"
+      }
+    }
+  ],
+  "import_tokens_importing_progress": "Importování: {done}/{total}",
+  "import_tokens_cancel": "Zrušit import",
+  "import_tokens_retry_failed": "Zkusit znovu",
   "account_slots_hint": "Twitch započítává nejvýše dva kanály na účet současně.",
   "account_drops_priority_hint": "Jejich kampaně se těží tam, kde jsou „Prioritní kategorie“ zařazeny v „Co těžit a v jakém pořadí“, nejdůležitější první.",
   "account_drops_priority_placeholder": "Přidat kategorii…",
@@ -204,6 +290,8 @@
   "settings_auto_lock": "Zamknout po nečinnosti",
   "settings_auto_lock_hint": "Po této době bez používání přehledu znovu požádá o heslo, i v kartě ponechané otevřené. Těžba pokračuje.",
   "settings_auto_lock_never": "Nikdy",
+  "lock_warning_message": "Uzamčení za {time} — pohněte myší nebo klikněte, abyste zůstali odemčeni",
+  "lock_warning_message_a11y": "Uzamčení brzy nastane.",
   "unlock_title": "Odemknout aplikaci",
   "unlock_text": "Zadejte heslo aplikace.",
   "unlock_passphrase": "Heslo",
@@ -348,13 +436,45 @@
   "feedback_discord_text": "Otevřít tiket nebo si popovídat s komunitou",
   "feedback_github_text": "Otevřít issue: chyba nebo nápad",
   "settings_catalog_text": "Seznam kampaní pochází z drops.sunkwi.com a obnovuje se každých 10 minut.",
-  "account_proxy": "Proxy pro tento účet",
-  "account_proxy_hint": "Prázdné: výchozí proxy aplikace. Změna restartuje připojení účtu.",
+  "account_proxy": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Proxy pro tento účet",
+        "countPlural=few": "Proxy pro tyto účty",
+        "countPlural=*": "Proxy pro tyto účty"
+      }
+    }
+  ],
+  "account_proxy_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Prázdné: výchozí proxy aplikace. Změna restartuje připojení účtu.",
+        "countPlural=few": "Prázdné: výchozí proxy aplikace. Změna restartuje připojení těchto účtů.",
+        "countPlural=*": "Prázdné: výchozí proxy aplikace. Změna restartuje připojení těchto účtů."
+      }
+    }
+  ],
   "account_remove": "Odebrat tento účet",
+  "account_remove_revoke_label": "Také zrušit tento token na Twitchi",
   "account_mode_title": "Režim těžby",
-  "account_mode_desc": "Na co tento účet využívá čas sledování.",
+  "account_mode_desc": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Na co tento účet využívá čas sledování.",
+        "countPlural=few": "Na co tyto účty využívají čas sledování.",
+        "countPlural=*": "Na co tyto účty využívají čas sledování."
+      }
+    }
+  ],
   "account_slots_title": "Kanály sledované současně",
   "account_twitch_hint": "Pokud Twitch relaci ukončil, přihlaste se znovu. Odebráním účtu se zruší jeho relace ve službě Twitch.",
+  "account_twitch_hint_imported_token": "Pokud Twitch relaci ukončil, přihlaste se znovu. Při odebírání účtu si můžete zvolit, zda zrušit i jeho relaci na Twitchi.",
   "account_twitch_id": "ID Twitch",
   "account_twitch_login": "Login",
   "account_twitch_name": "Jméno",
@@ -1561,6 +1681,9 @@
   "account_badges_not_mined": "Netěží se",
   "account_badges_not_mined_hint": "Zobrazeno, ale netěží se: nejdřív je potřeba předplatné, které si sjednáte sami, nebo jiný odznak, nebo Twitch neuvádí žádný kanál, který by miner mohl sledovat.",
   "error_action_rate_limited": "Příliš mnoho pokusů: chvíli počkejte a zkuste to znovu.",
+  "error_invalid_token": "Tento token je neplatný nebo vypršel. Vložte nový.",
+  "error_unsupported_client": "Tento token nelze použít k těžbě. Přihlaste se místo toho kódem.",
+  "error_missing_scope": "Tomuto tokenu chybí oprávnění, které tato aplikace vyžaduje. Přihlaste se místo toho kódem.",
   "ev_paused": "Pozastaveno",
   "ev_paused_quiet_window": "Pozastaveno (denní pauza)",
   "ev_paused_scheduled": "Pozastaveno, pokračuje {time}",

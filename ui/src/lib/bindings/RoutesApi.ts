@@ -10,6 +10,8 @@ export enum RoutesApi {
   CATALOG_REFRESH = "/api/catalog/refresh",
   UPDATES_CHECK = "/api/updates/check",
   LOGIN_FLOW = "/api/login-flow",
+  LOGIN_FLOW_CHECK_TOKEN = "/api/login-flow/check-token",
+  LOGIN_FLOW_IMPORT_TOKENS = "/api/login-flow/import-tokens",
   CHANNEL = "/api/channel",
   CHANNELS_LOOKUP = "/api/channels/lookup",
   SEARCH = "/api/search",

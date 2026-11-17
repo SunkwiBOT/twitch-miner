@@ -204,6 +204,8 @@ Hal-hal yang membedakannya dari penambang lain. “Lihat langsung” di bawah se
   <img src="../media/id/basics.avif" alt="Bahasa, tema terang dan gelap, notifikasi desktop, dan ikon tray">
   </details>
 
+- **Menambahkan akun dengan menempel daftar token.** Sudah masuk di tempat lain? Tempel daftar token akses, satu per baris (maks. 50); setiap token diperiksa langsung dengan penghitung “Diperiksa: n/N” dan coba lagi untuk baris yang gagal, lalu satu langkah pengaturan berlaku untuk seluruh batch. Impor berjalan di latar belakang dengan progres per akun, bisa dibatalkan di tengah jalan, dan coba lagi hanya mengirim ulang akun yang gagal. Menghapus akun yang diimpor dengan cara ini juga menawarkan pencabutan token-nya di Twitch.
+
 > [!WARNING]
 > Proyek ini tidak berafiliasi dengan Twitch. Mengotomatiskan akun bisa melanggar ketentuan Twitch atau aturan kampanye.
 

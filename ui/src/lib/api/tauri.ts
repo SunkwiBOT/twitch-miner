@@ -20,6 +20,9 @@ import type { HistoryExportQueryType } from "../bindings/HistoryExportQueryType"
 import type { HistoryExportResponseType } from "../bindings/HistoryExportResponseType";
 import type { HistoryQueryType } from "../bindings/HistoryQueryType";
 import type { HistoryResponseType } from "../bindings/HistoryResponseType";
+import type { AccountSettingsPatchType } from "../bindings/AccountSettingsPatchType";
+import type { CheckPastedTokenResponseType } from "../bindings/CheckPastedTokenResponseType";
+import type { ImportTokensResponseType } from "../bindings/ImportTokensResponseType";
 import type { LoginFlowResponseType } from "../bindings/LoginFlowResponseType";
 import type { LogsQueryType } from "../bindings/LogsQueryType";
 import type { LogsReportResponseType } from "../bindings/LogsReportResponseType";
@@ -71,6 +74,14 @@ export type TauriCommandsType = {
   [TauriCommand.REFRESH_CATALOG]: { args: undefined; result: RefreshResponseType };
   [TauriCommand.REFRESH_BADGES]: { args: undefined; result: RefreshResponseType };
   [TauriCommand.START_LOGIN]: { args: undefined; result: LoginFlowResponseType };
+  [TauriCommand.CHECK_PASTED_TOKEN]: {
+    args: { token: string };
+    result: CheckPastedTokenResponseType;
+  };
+  [TauriCommand.IMPORT_TOKENS]: {
+    args: { tokens: string[]; settings: AccountSettingsPatchType; applyExistingSettings: boolean };
+    result: ImportTokensResponseType;
+  };
   [TauriCommand.LOOKUP_CHANNEL]: { args: { login: string }; result: ChannelResponseType };
   [TauriCommand.LOOKUP_CHANNELS]: {
     args: { logins: string[] };

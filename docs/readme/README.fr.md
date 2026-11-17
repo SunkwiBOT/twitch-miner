@@ -285,6 +285,8 @@ Ce qui le distingue des autres mineurs. « Voir en image » montre chaque poin
   <img src="../media/fr/basics.avif" alt="Langues, thème clair et sombre, notification de bureau et icône de la zone de notification">
   </details>
 
+- **Importer une liste de tokens.** Déjà connecté ailleurs ? Collez une liste de tokens d'accès, un par ligne (jusqu'à 50) ; chacun est vérifié en direct, avec un compteur « Vérifiés : n/N » et une relance pour toute ligne en échec, puis une seule étape de paramètres s'applique à tout le lot. L'import lui-même tourne en arrière-plan avec une progression en direct par compte, peut être annulé en cours de route, et une relance ultérieure ne renvoie que les comptes en échec. Supprimer un compte importé ainsi propose de révoquer aussi son token sur Twitch.
+
 > [!WARNING]
 > Ce projet n'est pas affilié à Twitch. Automatiser un compte peut enfreindre les
 > conditions de Twitch ou les règles d'une campagne.

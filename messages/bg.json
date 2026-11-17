@@ -74,6 +74,7 @@
   "common_accounts_none": "Без акаунт",
   "accounts_remove_title": "Да се премахне ли този акаунт?",
   "accounts_remove_text": "Сесията на {name} се отменя в Twitch и се изтрива тук. Взетите drops остават в инвентара в Twitch.",
+  "accounts_remove_text_imported_token": "Сесията на {name} се изтрива тук. Взетите drops остават в инвентара в Twitch; използвайте превключвателя по-долу, за да я отмените и в Twitch.",
   "accounts_login_again": "Влез отново",
   "accounts_stats_drops": "Взети drops: {count}",
   "accounts_stats_points": "Спечелени точки: {count}",
@@ -87,6 +88,85 @@
   "login_note": "Не се съхранява парола. Сесията е криптирана на това устройство и може да бъде отменена от {settings}.",
   "login_note_settings": "настройките на Twitch",
   "login_vault_locked": "Отключете приложението, преди да добавите акаунт.",
+  "login_use_tokens": "Поставете токени вместо това",
+  "login_use_code": "Използвайте кода за вход вместо това",
+  "login_tokens_label": "Токени за достъп",
+  "login_tokens_hint": "Поставете по един токен на ред. Всеки се проверява, преди да може да бъде импортиран.",
+  "login_tokens_submit": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Импортиране на токен",
+        "countPlural=*": "Импортиране на токени"
+      }
+    }
+  ],
+  "login_tokens_checking": "Проверка на токените…",
+  "import_tokens_title": "Импортиране на токени",
+  "import_tokens_placeholder": "Поставете токените, по един на ред…",
+  "import_tokens_too_many": "Най-много {max} токена наведнъж.",
+  "import_tokens_line_too_long": "Един ред е твърде дълъг (най-много {max} знака).",
+  "import_tokens_status_pending": "Проверка…",
+  "import_tokens_status_valid": "Валиден",
+  "import_tokens_status_unusable_client": "Този токен не може да се използва за копаене.",
+  "import_tokens_status_invalid": "Този токен е невалиден или изтекъл.",
+  "import_tokens_status_already_added": "Вече добавен",
+  "import_tokens_status_duplicate": "Дубликат на друг ред",
+  "import_tokens_status_not_imported": "Не е импортиран",
+  "import_tokens_settings_step_title": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Настройки на този акаунт",
+        "countPlural=*": "Настройки на тези акаунти"
+      }
+    }
+  ],
+  "import_tokens_settings_step_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Тези настройки важат за импортирания акаунт.",
+        "countPlural=*": "Тези настройки важат за всички импортирани акаунти."
+      }
+    }
+  ],
+  "import_tokens_overwrite_existing_label": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Презаписване и на настройките на вече съществуващия акаунт",
+        "countPlural=*": "Презаписване и на настройките на вече съществуващите акаунти"
+      }
+    }
+  ],
+  "import_tokens_result_count": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{count} токен импортиран",
+        "countPlural=*": "{count} токени импортирани"
+      }
+    }
+  ],
+  "import_tokens_result_cancelled": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Импортът е отменен — {count} токен импортиран",
+        "countPlural=*": "Импортът е отменен — {count} токени импортирани"
+      }
+    }
+  ],
+  "import_tokens_importing_progress": "Импортиране: {done}/{total}",
+  "import_tokens_cancel": "Отмени импортирането",
+  "import_tokens_retry_failed": "Опитай отново",
   "account_slots_hint": "Twitch зачита най-много два канала на акаунт едновременно.",
   "account_drops_priority_hint": "Кампаниите им се копаят там, където „Приоритетни категории“ е в „Какво да се копае, по ред“, най-важните първи.",
   "account_drops_priority_placeholder": "Добави категория…",
@@ -203,6 +283,8 @@
   "settings_auto_lock": "Заключване след неактивност",
   "settings_auto_lock_hint": "Пита отново за паролата след толкова време без използване на таблото, дори в раздел, оставен отворен. Копаенето продължава.",
   "settings_auto_lock_never": "Никога",
+  "lock_warning_message": "Заключване след {time} — помръднете или кликнете, за да останете отключени",
+  "lock_warning_message_a11y": "Скоро ще има заключване.",
   "unlock_title": "Отключване на приложението",
   "unlock_text": "Въведете паролата за приложението.",
   "unlock_passphrase": "Парола",
@@ -345,13 +427,42 @@
   "feedback_discord_text": "Отворете тикет или разговаряйте с общността",
   "feedback_github_text": "Отворете issue: бъг или идея",
   "settings_catalog_text": "Списъкът с кампании идва от drops.sunkwi.com, обновяван на всеки 10 минути.",
-  "account_proxy": "Proxy за този акаунт",
-  "account_proxy_hint": "Празно: proxy по подразбиране на приложението. Промяната рестартира връзките на акаунта.",
+  "account_proxy": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Proxy за този акаунт",
+        "countPlural=*": "Proxy за тези акаунти"
+      }
+    }
+  ],
+  "account_proxy_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Празно: proxy по подразбиране на приложението. Промяната рестартира връзките на акаунта.",
+        "countPlural=*": "Празно: proxy по подразбиране на приложението. Промяната рестартира връзките на тези акаунти."
+      }
+    }
+  ],
   "account_remove": "Премахни този акаунт",
+  "account_remove_revoke_label": "Отмени и този токен в Twitch",
   "account_mode_title": "Режим на копаене",
-  "account_mode_desc": "За какво този акаунт използва времето си за гледане.",
+  "account_mode_desc": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "За какво този акаунт използва времето си за гледане.",
+        "countPlural=*": "За какво тези акаунти използват времето си за гледане."
+      }
+    }
+  ],
   "account_slots_title": "Едновременно гледани канали",
   "account_twitch_hint": "Влезте отново, ако Twitch е прекратил сесията. Премахването на акаунта отменя сесията му в Twitch.",
+  "account_twitch_hint_imported_token": "Влезте отново, ако Twitch е прекратил сесията. При премахване на акаунта можете да изберете дали да отмените сесията му и в Twitch.",
   "account_twitch_id": "Twitch ID",
   "account_twitch_login": "Потребителско име",
   "account_twitch_name": "Име",
@@ -1517,6 +1628,9 @@
   "account_badges_not_mined": "Не се копаят",
   "account_badges_not_mined_hint": "Показани, но не се копаят: първо е нужен абонамент, който правите сами, или друга значка, или Twitch не посочва канал, който майнерът да гледа.",
   "error_action_rate_limited": "Твърде много опити: изчакайте малко и опитайте отново.",
+  "error_invalid_token": "Този токен е невалиден или изтекъл. Поставете нов.",
+  "error_unsupported_client": "Този токен не може да се използва за копаене. Влезте с кода вместо това.",
+  "error_missing_scope": "Този токен няма разрешение, което приложението изисква. Влезте с кода вместо това.",
   "ev_paused": "На пауза",
   "ev_paused_quiet_window": "На пауза (дневна пауза)",
   "ev_paused_scheduled": "На пауза, продължава {time}",

@@ -16,11 +16,12 @@
   import TextButton from "../ui/TextButton.svelte";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import { IconName } from "../../lib/icons.constants";
+  import { LoginMode } from "../../lib/accounts/login.constants";
+  import ImportTokensDialog from "./ImportTokensDialog.svelte";
   import LoginCode from "./LoginCode.svelte";
   import SetupWizard from "./SetupWizard.svelte";
 
   type KnownAccountsType = { flowId: string; ids: string[] };
-
   const flow = $derived(app.snapshot?.login ?? null);
   // ! Kept while the dialog fades out: closing cancels the flow, and the clearing snapshot can land mid-animation.
   let shown = $state<typeof flow>(null);
@@ -28,10 +29,22 @@
   let startError = $state<string | null>(null);
   let autoStarted = false;
 
+  let mode = $state<LoginMode>(LoginMode.CODE);
+
+  let wasOpen = false;
+
   $effect.pre(() => {
     if (app.loginDialog) {
       shown = flow;
     }
+  });
+
+  $effect(() => {
+    if (app.loginDialog && !wasOpen) {
+      mode = LoginMode.CODE;
+    }
+
+    wasOpen = app.loginDialog;
   });
 
   const start = async (): Promise<void> => {
@@ -75,6 +88,7 @@
 
   let finishing = $state(false);
   let setupActions = $state<Snippet>();
+  let importFlowId = $state<string | null>(null);
 
   const close = (): void => {
     app.loginDialog = false;
@@ -82,13 +96,19 @@
     if (flow && flow.status !== LoginFlowStatus.PENDING) {
       void run({ command: CommandName.CANCEL_LOGIN });
     }
+
+    // ! Whatever state it is in: a running flow is cancelled, a settled
+    // one is dismissed from the snapshot, same as the login flow above.
+    if (importFlowId !== null && app.snapshot?.import?.flow_id === importFlowId) {
+      void run({ command: CommandName.CANCEL_IMPORT_TOKENS });
+    }
   };
 
   // ! One automatic start per opening: a failed start keeps its Restart button instead of looping.
   $effect(() => {
     if (!app.loginDialog) {
       autoStarted = false;
-    } else if (!autoStarted && !flow && app.snapshot?.vault.unlocked) {
+    } else if (mode === LoginMode.CODE && !autoStarted && !flow && app.snapshot?.vault.unlocked) {
       autoStarted = true;
       startError = null;
       void start();
@@ -129,21 +149,48 @@
   {/if}
 {/snippet}
 
+{#snippet modeToggle()}
+  <div class="flex justify-end">
+    <TextButton
+      label={t.login_use_tokens()}
+      variant={ButtonVariant.GHOST}
+      size={ButtonSize.SM}
+      type={ButtonType.BUTTON}
+      disabled={false}
+      onclick={() => (mode = LoginMode.TOKEN)}
+    />
+  </div>
+{/snippet}
+
 <Dialog
   open={app.loginDialog}
-  title={newAccount ? t.login_setup_title() : t.login_title()}
-  wide={newAccount !== null}
+  title={newAccount
+    ? t.login_setup_title()
+    : mode === LoginMode.TOKEN
+      ? t.import_tokens_title()
+      : t.login_title()}
+  wide={newAccount !== null || mode === LoginMode.TOKEN}
   closable={!finishing}
   closeLabel={t.common_close()}
   onclose={close}
   footer={newAccount
     ? setupActions
-    : failure !== null || (shown && shown.status !== LoginFlowStatus.PENDING)
-      ? actions
-      : undefined}
+    : mode === LoginMode.TOKEN
+      ? setupActions
+      : failure !== null || (shown && shown.status !== LoginFlowStatus.PENDING)
+        ? actions
+        : undefined}
 >
   {#if !app.snapshot?.vault.unlocked}
     <p class="text-hint text-muted-foreground">{t.login_vault_locked()}</p>
+  {:else if mode === LoginMode.TOKEN}
+    <ImportTokensDialog
+      onclose={close}
+      onusecode={() => (mode = LoginMode.CODE)}
+      bind:finishing
+      bind:actions={setupActions}
+      bind:flowId={importFlowId}
+    />
   {:else if failure !== null}
     <p class="text-destructive">
       <RichText text={t.login_failed({ error: strong(failure) })} />
@@ -152,6 +199,7 @@
     <p class="text-hint text-muted-foreground">{t.common_loading()}</p>
   {:else if shown.status === LoginFlowStatus.PENDING}
     <LoginCode flow={shown} />
+    {@render modeToggle()}
   {:else if shown.status === LoginFlowStatus.COMPLETED && newAccount}
     <SetupWizard account={newAccount} onclose={close} bind:finishing bind:actions={setupActions} />
   {:else if shown.status === LoginFlowStatus.COMPLETED}

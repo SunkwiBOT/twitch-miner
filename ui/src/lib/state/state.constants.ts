@@ -100,6 +100,8 @@ export const RELOAD_WAIT_MS = 2_000;
 
 export const LINK_TOAST_KEY = "link-opened";
 
+export const LOCK_WARNING_TOAST_KEY = "lock-warning";
+
 export const BULK_TOAST_KEY = "bulk-offer";
 
 export const LIVE_EVENTS_MAX = 200;
@@ -121,6 +123,9 @@ export const ACTIVITY_REPORT_GAP_MS = 30_000;
 export const LOCK_CHECK_DELAY_MS = 2_000;
 
 export const LOCK_CHECK_TIMEOUT_MS = 5_000;
+
+// ! 60 s is plenty of time to notice and move; never more than the timeout itself.
+export const LOCK_WARNING_LEAD_MS = 60_000;
 
 // ! Tailwind's `md`: the sidebar and the phone drawer switch where the `max-md:` rules do.
 export const WIDE_LAYOUT_QUERY = "min-width: 48rem";

@@ -59,6 +59,7 @@
   "common_accounts_none": "Không có tài khoản",
   "accounts_remove_title": "Xóa tài khoản này?",
   "accounts_remove_text": "Phiên của {name} bị thu hồi trên Twitch và xóa tại đây. Drop đã nhận vẫn ở trong kho Twitch.",
+  "accounts_remove_text_imported_token": "Phiên của {name} bị xóa tại đây. Drop đã nhận vẫn ở trong kho Twitch; dùng công tắc bên dưới để thu hồi phiên này trên Twitch nữa.",
   "accounts_login_again": "Đăng nhập lại",
   "accounts_stats_drops": "Drop đã nhận: {count}",
   "accounts_stats_points": "Điểm đã kiếm: {count}",
@@ -72,6 +73,67 @@
   "login_note": "Không lưu mật khẩu. Phiên được mã hóa trên thiết bị này và có thể thu hồi từ {settings}.",
   "login_note_settings": "cài đặt Twitch của bạn",
   "login_vault_locked": "Mở khóa ứng dụng trước khi thêm tài khoản.",
+  "login_use_tokens": "Dán mã thông báo thay vào đó",
+  "login_use_code": "Dùng mã đăng nhập thay vào đó",
+  "login_tokens_label": "Mã thông báo truy cập",
+  "login_tokens_hint": "Dán mỗi mã thông báo trên một dòng. Mỗi mã được kiểm tra trước khi có thể nhập.",
+  "login_tokens_submit": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "Nhập mã thông báo này",
+        "countPluralExact=*": "Nhập tất cả mã thông báo"
+      }
+    }
+  ],
+  "login_tokens_checking": "Đang kiểm tra mã thông báo…",
+  "import_tokens_title": "Nhập mã thông báo",
+  "import_tokens_placeholder": "Dán mã thông báo, mỗi dòng một mã…",
+  "import_tokens_too_many": "Quá nhiều token: tối đa {max} mỗi lần.",
+  "import_tokens_line_too_long": "Có một dòng quá dài: tối đa {max} ký tự.",
+  "import_tokens_status_pending": "Đang kiểm tra…",
+  "import_tokens_status_valid": "Hợp lệ",
+  "import_tokens_status_unusable_client": "Mã thông báo này không thể dùng để khai thác.",
+  "import_tokens_status_invalid": "Mã thông báo này không hợp lệ hoặc đã hết hạn.",
+  "import_tokens_status_already_added": "Đã được thêm",
+  "import_tokens_status_duplicate": "Trùng với dòng khác",
+  "import_tokens_status_not_imported": "Chưa được nhập",
+  "import_tokens_settings_step_title": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "Cài đặt của tài khoản này",
+        "countPluralExact=*": "Cài đặt của các tài khoản này"
+      }
+    }
+  ],
+  "import_tokens_settings_step_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "Các cài đặt này áp dụng cho tài khoản được nhập.",
+        "countPluralExact=*": "Các cài đặt này áp dụng cho mọi tài khoản được nhập."
+      }
+    }
+  ],
+  "import_tokens_overwrite_existing_label": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "Cũng ghi đè cài đặt của tài khoản đã tồn tại",
+        "countPluralExact=*": "Cũng ghi đè cài đặt của các tài khoản đã tồn tại"
+      }
+    }
+  ],
+  "import_tokens_result_count": "{count} mã thông báo đã được nhập",
+  "import_tokens_result_cancelled": "Đã hủy nhập — {count} mã thông báo đã được nhập",
+  "import_tokens_importing_progress": "Đang nhập: {done}/{total}",
+  "import_tokens_cancel": "Hủy nhập",
+  "import_tokens_retry_failed": "Thử lại",
   "account_slots_hint": "Twitch chỉ tính tối đa hai kênh cho mỗi tài khoản cùng lúc.",
   "account_drops_priority_hint": "Chiến dịch của chúng được đào ở vị trí “Danh mục ưu tiên” trong “Đào gì, theo thứ tự”, cái quan trọng nhất trước.",
   "account_drops_priority_placeholder": "Thêm danh mục…",
@@ -302,13 +364,14 @@
   "feedback_discord_text": "Mở ticket hoặc trò chuyện với cộng đồng",
   "feedback_github_text": "Mở issue: một lỗi hoặc một ý tưởng",
   "settings_catalog_text": "Danh sách chiến dịch lấy từ drops.sunkwi.com, làm mới mỗi 10 phút.",
-  "account_proxy": "Proxy cho tài khoản này",
+  "account_proxy": "Proxy cho tài khoản",
   "account_proxy_hint": "Trống: proxy mặc định của ứng dụng. Thay đổi sẽ khởi động lại kết nối của tài khoản.",
   "account_remove": "Xóa tài khoản này",
   "account_mode_title": "Chế độ đào",
-  "account_mode_desc": "Tài khoản này dùng thời gian xem vào việc gì.",
+  "account_mode_desc": "Tài khoản dùng thời gian xem vào việc gì.",
   "account_slots_title": "Số kênh xem cùng lúc",
   "account_twitch_hint": "Đăng nhập lại nếu Twitch đã kết thúc phiên. Xóa tài khoản sẽ thu hồi phiên của nó trên Twitch.",
+  "account_twitch_hint_imported_token": "Đăng nhập lại nếu Twitch đã kết thúc phiên. Khi xóa tài khoản, bạn có thể chọn có thu hồi luôn phiên của nó trên Twitch hay không.",
   "account_twitch_id": "Twitch ID",
   "account_twitch_login": "Tên đăng nhập",
   "account_twitch_name": "Tên",
@@ -1122,5 +1185,11 @@
   "settings_discord_test": "Kiểm tra",
   "settings_telegram_test": "Kiểm tra",
   "settings_webhook_test": "Kiểm tra",
-  "export_counts_count_one": "{count} đã nhận"
+  "export_counts_count_one": "{count} đã nhận",
+  "lock_warning_message": "Sẽ khóa sau {time} — di chuyển hoặc nhấp để giữ không bị khóa",
+  "lock_warning_message_a11y": "Sắp bị khóa.",
+  "account_remove_revoke_label": "Cũng thu hồi mã thông báo này trên Twitch",
+  "error_invalid_token": "Mã thông báo này không hợp lệ hoặc đã hết hạn. Dán một mã mới.",
+  "error_unsupported_client": "Mã thông báo này không thể dùng để khai thác. Hãy đăng nhập bằng mã thay vào đó.",
+  "error_missing_scope": "Mã thông báo này thiếu quyền mà ứng dụng này yêu cầu. Hãy đăng nhập bằng mã thay vào đó."
 }

@@ -75,6 +75,7 @@
   "common_accounts_none": "Brak konta",
   "accounts_remove_title": "Usunąć to konto?",
   "accounts_remove_text": "Sesja {name} zostaje unieważniona na Twitchu i usunięta tutaj. Odebrane dropy zostają w ekwipunku Twitch.",
+  "accounts_remove_text_imported_token": "Sesja {name} zostaje usunięta tutaj. Odebrane dropy zostają w ekwipunku Twitch; użyj przełącznika poniżej, aby unieważnić ją także na Twitchu.",
   "accounts_login_again": "Zaloguj ponownie",
   "accounts_stats_drops": "Odebrane dropy: {count}",
   "accounts_stats_points": "Zdobyte punkty: {count}",
@@ -88,6 +89,91 @@
   "login_note": "Żadne hasło nie jest zapisywane. Sesja jest zaszyfrowana na tym urządzeniu i można ją unieważnić w {settings}.",
   "login_note_settings": "ustawieniach Twitch",
   "login_vault_locked": "Odblokuj aplikację przed dodaniem konta.",
+  "login_use_tokens": "Wklej tokeny zamiast tego",
+  "login_use_code": "Użyj kodu logowania zamiast tego",
+  "login_tokens_label": "Tokeny dostępu",
+  "login_tokens_hint": "Wklej jeden token na linię. Każdy jest sprawdzany, zanim będzie można go zaimportować.",
+  "login_tokens_submit": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Importuj token",
+        "countPlural=few": "Importuj tokeny",
+        "countPlural=*": "Importuj tokeny"
+      }
+    }
+  ],
+  "login_tokens_checking": "Sprawdzanie tokenów…",
+  "import_tokens_title": "Importuj tokeny",
+  "import_tokens_placeholder": "Wklej tokeny, jeden na linię…",
+  "import_tokens_too_many": "Za dużo tokenów. Maksymalnie naraz: {max}.",
+  "import_tokens_line_too_long": "Zbyt długi wiersz. Maksymalnie znaków: {max}.",
+  "import_tokens_status_pending": "Sprawdzanie…",
+  "import_tokens_status_valid": "Prawidłowy",
+  "import_tokens_status_unusable_client": "Tego tokenu nie można użyć do kopania.",
+  "import_tokens_status_invalid": "Ten token jest nieprawidłowy lub wygasł.",
+  "import_tokens_status_already_added": "Już dodano",
+  "import_tokens_status_duplicate": "Duplikat innej linii",
+  "import_tokens_status_not_imported": "Nie zaimportowano",
+  "import_tokens_settings_step_title": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Ustawienia tego konta",
+        "countPlural=few": "Ustawienia tych kont",
+        "countPlural=*": "Ustawienia tych kont"
+      }
+    }
+  ],
+  "import_tokens_settings_step_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Te ustawienia dotyczą importowanego konta.",
+        "countPlural=few": "Te ustawienia dotyczą importowanych kont.",
+        "countPlural=*": "Te ustawienia dotyczą wszystkich importowanych kont."
+      }
+    }
+  ],
+  "import_tokens_overwrite_existing_label": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Nadpisz też ustawienia już istniejącego konta",
+        "countPlural=few": "Nadpisz też ustawienia już istniejących kont",
+        "countPlural=*": "Nadpisz też ustawienia już istniejących kont"
+      }
+    }
+  ],
+  "import_tokens_result_count": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{count} token zaimportowany",
+        "countPlural=few": "{count} tokeny zaimportowane",
+        "countPlural=*": "{count} tokenów zaimportowanych"
+      }
+    }
+  ],
+  "import_tokens_result_cancelled": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Import anulowany — {count} token zaimportowany",
+        "countPlural=few": "Import anulowany — {count} tokeny zaimportowane",
+        "countPlural=*": "Import anulowany — {count} tokenów zaimportowanych"
+      }
+    }
+  ],
+  "import_tokens_importing_progress": "Importowanie: {done}/{total}",
+  "import_tokens_cancel": "Anuluj import",
+  "import_tokens_retry_failed": "Spróbuj ponownie",
   "account_slots_hint": "Twitch zalicza maksymalnie dwa kanały na konto jednocześnie.",
   "account_drops_priority_hint": "Ich kampanie są kopane w miejscu, w którym „Kategorie priorytetowe” znajdują się w „Co kopać, w jakiej kolejności”, od najważniejszych.",
   "account_drops_priority_placeholder": "Dodaj kategorię…",
@@ -204,6 +290,8 @@
   "settings_auto_lock": "Blokuj po bezczynności",
   "settings_auto_lock_hint": "Ponownie prosi o hasło po tym czasie bez korzystania z pulpitu, także w karcie pozostawionej otwartej. Kopanie trwa dalej.",
   "settings_auto_lock_never": "Nigdy",
+  "lock_warning_message": "Blokada za {time} — poruszaj myszką lub kliknij, aby pozostać odblokowanym",
+  "lock_warning_message_a11y": "Blokada wkrótce nastąpi.",
   "unlock_title": "Odblokuj aplikację",
   "unlock_text": "Wpisz hasło aplikacji.",
   "unlock_passphrase": "Hasło",
@@ -348,13 +436,45 @@
   "feedback_discord_text": "Otwórz zgłoszenie lub porozmawiaj ze społecznością",
   "feedback_github_text": "Otwórz issue: błąd lub pomysł",
   "settings_catalog_text": "Lista kampanii pochodzi z drops.sunkwi.com, odświeżana co 10 minut.",
-  "account_proxy": "Proxy dla tego konta",
-  "account_proxy_hint": "Puste: domyślne proxy aplikacji. Zmiana restartuje połączenia konta.",
+  "account_proxy": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Proxy dla tego konta",
+        "countPlural=few": "Proxy dla tych kont",
+        "countPlural=*": "Proxy dla tych kont"
+      }
+    }
+  ],
+  "account_proxy_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Puste: domyślne proxy aplikacji. Zmiana restartuje połączenia konta.",
+        "countPlural=few": "Puste: domyślne proxy aplikacji. Zmiana restartuje połączenia tych kont.",
+        "countPlural=*": "Puste: domyślne proxy aplikacji. Zmiana restartuje połączenia tych kont."
+      }
+    }
+  ],
   "account_remove": "Usuń to konto",
+  "account_remove_revoke_label": "Także unieważnij ten token na Twitchu",
   "account_mode_title": "Tryb kopania",
-  "account_mode_desc": "Na co to konto przeznacza czas oglądania.",
+  "account_mode_desc": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Na co to konto przeznacza czas oglądania.",
+        "countPlural=few": "Na co te konta przeznaczają czas oglądania.",
+        "countPlural=*": "Na co te konta przeznaczają czas oglądania."
+      }
+    }
+  ],
   "account_slots_title": "Kanały oglądane jednocześnie",
   "account_twitch_hint": "Zaloguj się ponownie, jeśli Twitch zakończył sesję. Usunięcie konta unieważnia jego sesję na Twitch.",
+  "account_twitch_hint_imported_token": "Zaloguj się ponownie, jeśli Twitch zakończył sesję. Przy usuwaniu konta możesz wybrać, czy unieważnić też jego sesję na Twitch.",
   "account_twitch_id": "ID Twitch",
   "account_twitch_login": "Login",
   "account_twitch_name": "Nazwa",
@@ -1392,6 +1512,9 @@
   "account_badges_not_mined": "Nie są kopane",
   "account_badges_not_mined_hint": "Widoczne, ale niekopane: najpierw potrzebna jest subskrypcja wykupiona samodzielnie lub inna odznaka albo Twitch nie podaje kanału, który miner mógłby oglądać.",
   "error_action_rate_limited": "Zbyt wiele prób: odczekaj chwilę i spróbuj ponownie.",
+  "error_invalid_token": "Ten token jest nieprawidłowy lub wygasł. Wklej nowy.",
+  "error_unsupported_client": "Tego tokenu nie można użyć do kopania. Zaloguj się zamiast tego kodem.",
+  "error_missing_scope": "Temu tokenowi brakuje uprawnienia wymaganego przez tę aplikację. Zaloguj się zamiast tego kodem.",
   "ev_paused": "Wstrzymano",
   "ev_paused_quiet_window": "Wstrzymano (codzienna pauza)",
   "ev_paused_scheduled": "Wstrzymano, wznowienie {time}",

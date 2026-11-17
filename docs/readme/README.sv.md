@@ -281,6 +281,8 @@ arbete.
   <img src="../media/sv/basics.avif" alt="Språk, ljust och mörkt tema, en skrivbordsavisering och ikonen i systemfältet">
   </details>
 
+- **Lägga till konton genom att klistra in tokens.** Redan inloggad någon annanstans? Klistra in en lista med åtkomsttokens, en per rad (högst 50); varje token kontrolleras direkt, med en räknare “Kontrollerade: n/N” och ett nytt försök för varje rad som misslyckades, och därefter gäller ett enda inställningssteg för hela batchen. Själva importen körs i bakgrunden med löpande förlopp per konto, kan avbrytas mitt i och ett senare nytt försök skickar bara om de konton som misslyckades. Vid borttagning av ett konto som importerats på detta sätt erbjuds även att återkalla dess token på Twitch.
+
 > [!WARNING]
 > Det här projektet är inte kopplat till Twitch. Att automatisera ett konto kan bryta mot
 > Twitchs villkor eller en kampanjs regler.

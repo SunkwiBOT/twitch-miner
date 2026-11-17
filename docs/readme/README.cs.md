@@ -272,6 +272,8 @@
   <img src="../media/cs/basics.avif" alt="Jazyky, světlý a tmavý motiv, oznámení na ploše a ikona v liště">
   </details>
 
+- **Přidání účtů vložením tokenů.** Už jste přihlášeni jinde? Vložte seznam přístupových tokenů, jeden na řádek (nejvýše 50); každý se ověřuje průběžně, s počítadlem „Zkontrolováno: n/N“ a možností znovu zkusit každý řádek, který selhal; poté se na celou dávku použije jeden krok nastavení. Import běží na pozadí s průběžným postupem pro každý účet, lze ho uprostřed zrušit a pozdější opakování odešle znovu jen účty, které selhaly. Při odebírání účtu importovaného tímto způsobem nabídneme také zrušení jeho tokenu na Twitchi.
+
 > [!WARNING]
 > Tento projekt není spojen s Twitchem. Automatizace účtu může porušovat podmínky Twitche
 > nebo pravidla kampaně.

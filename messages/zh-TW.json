@@ -59,6 +59,7 @@
   "common_accounts_none": "無帳號",
   "accounts_remove_title": "要移除這個帳號嗎？",
   "accounts_remove_text": "{name} 的工作階段會在 Twitch 上撤銷並在此刪除。已領取的掉寶仍保留在 Twitch 庫存中。",
+  "accounts_remove_text_imported_token": "{name} 的工作階段會在此刪除。已領取的掉寶仍保留在 Twitch 庫存中；可使用下方開關同時在 Twitch 撤銷。",
   "accounts_login_again": "重新登入",
   "accounts_stats_drops": "已領取掉寶：{count}",
   "accounts_stats_points": "已賺取點數：{count}",
@@ -72,6 +73,67 @@
   "login_note": "不儲存密碼。工作階段在此裝置上加密，可在 {settings}中撤銷。",
   "login_note_settings": "Twitch 設定",
   "login_vault_locked": "新增帳號前請先解鎖應用程式。",
+  "login_use_tokens": "改為貼上多個權杖",
+  "login_use_code": "改為使用登入代碼",
+  "login_tokens_label": "存取權杖",
+  "login_tokens_hint": "每行貼上一個權杖，匯入前會逐一檢查每個權杖。",
+  "login_tokens_submit": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "匯入這個權杖",
+        "countPluralExact=*": "匯入這些權杖"
+      }
+    }
+  ],
+  "login_tokens_checking": "正在檢查這些權杖…",
+  "import_tokens_title": "匯入權杖",
+  "import_tokens_placeholder": "貼上權杖，每行一個…",
+  "import_tokens_too_many": "權杖過多：一次最多 {max} 個。",
+  "import_tokens_line_too_long": "有一行太長（最多 {max} 個字元）。",
+  "import_tokens_status_pending": "檢查中…",
+  "import_tokens_status_valid": "有效",
+  "import_tokens_status_unusable_client": "此權杖無法用於挖礦。",
+  "import_tokens_status_invalid": "此權杖無效或已過期。",
+  "import_tokens_status_already_added": "已新增",
+  "import_tokens_status_duplicate": "與另一行重複",
+  "import_tokens_status_not_imported": "未匯入",
+  "import_tokens_settings_step_title": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "這個帳戶的設定",
+        "countPluralExact=*": "這些帳戶的設定"
+      }
+    }
+  ],
+  "import_tokens_settings_step_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "這些設定會套用到正在匯入的帳戶。",
+        "countPluralExact=*": "這些設定會套用到所有匯入的帳戶。"
+      }
+    }
+  ],
+  "import_tokens_overwrite_existing_label": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "同時覆寫已存在的那個帳戶的設定",
+        "countPluralExact=*": "同時覆寫已存在帳戶的設定"
+      }
+    }
+  ],
+  "import_tokens_result_count": "已匯入 {count} 個權杖",
+  "import_tokens_result_cancelled": "匯入已取消 — 已匯入 {count} 個權杖",
+  "import_tokens_importing_progress": "匯入中：{done}/{total}",
+  "import_tokens_cancel": "取消匯入",
+  "import_tokens_retry_failed": "再試一次",
   "account_slots_hint": "Twitch 每個帳號同時最多只計入兩個頻道。",
   "account_drops_priority_hint": "它們的活動會依「優先分類」在「挖取什麼，依順序」中的位置挖取，越重要越前面。",
   "account_drops_priority_placeholder": "新增分類…",
@@ -188,6 +250,8 @@
   "settings_auto_lock": "閒置後鎖定",
   "settings_auto_lock_hint": "在這段時間內未使用儀表板後，會再次要求輸入密碼，保持開啟的分頁也一樣。挖取會繼續。",
   "settings_auto_lock_never": "永不",
+  "lock_warning_message": "將在 {time} 後鎖定 — 移動或點擊以保持解鎖",
+  "lock_warning_message_a11y": "即將鎖定。",
   "unlock_title": "解鎖應用程式",
   "unlock_text": "輸入應用程式密碼。",
   "unlock_passphrase": "密碼",
@@ -302,13 +366,15 @@
   "feedback_discord_text": "提交工單或與社群交流",
   "feedback_github_text": "提交 issue：錯誤或建議",
   "settings_catalog_text": "活動清單來自 drops.sunkwi.com，每 10 分鐘更新。",
-  "account_proxy": "此帳號的 proxy",
-  "account_proxy_hint": "留空：使用應用程式預設 proxy。變更後會重新啟動此帳號的連線。",
+  "account_proxy": "帳號的 proxy",
+  "account_proxy_hint": "留空：使用應用程式預設 proxy。變更後會重新啟動帳號的連線。",
   "account_remove": "移除此帳號",
+  "account_remove_revoke_label": "同時在 Twitch 撤銷此權杖",
   "account_mode_title": "挖取模式",
-  "account_mode_desc": "此帳號把觀看時間用在哪裡。",
+  "account_mode_desc": "帳號把觀看時間用在哪裡。",
   "account_slots_title": "同時觀看的頻道",
   "account_twitch_hint": "若 Twitch 已結束工作階段，請重新登入。移除帳號會在 Twitch 上撤銷其工作階段。",
+  "account_twitch_hint_imported_token": "若 Twitch 已結束工作階段，請重新登入。移除帳號時，你可以選擇是否同時在 Twitch 撤銷其工作階段。",
   "account_twitch_id": "Twitch ID",
   "account_twitch_login": "登入名稱",
   "account_twitch_name": "名稱",
@@ -1074,6 +1140,9 @@
   "account_badges_not_mined": "不挖取",
   "account_badges_not_mined_hint": "僅顯示，不挖取：需先自行訂閱或取得另一個徽章，或 Twitch 沒有指明挖掘器可以觀看的頻道。",
   "error_action_rate_limited": "嘗試次數過多：請稍候再試一次。",
+  "error_invalid_token": "此權杖無效或已過期。請貼上新的權杖。",
+  "error_unsupported_client": "此權杖無法用於挖礦。請改用代碼登入。",
+  "error_missing_scope": "此權杖缺少本應用程式所需的權限。請改用代碼登入。",
   "ev_paused": "已暫停",
   "ev_paused_quiet_window": "已暫停（每日暫停）",
   "ev_paused_scheduled": "已暫停，{time} 恢復",

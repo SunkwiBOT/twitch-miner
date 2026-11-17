@@ -74,6 +74,7 @@
   "common_accounts_none": "Κανένας λογαριασμός",
   "accounts_remove_title": "Αφαίρεση αυτού του λογαριασμού;",
   "accounts_remove_text": "Η συνεδρία του {name} ανακαλείται στο Twitch και διαγράφεται εδώ. Τα εξαργυρωμένα drops μένουν στο απόθεμα Twitch.",
+  "accounts_remove_text_imported_token": "Η συνεδρία του {name} διαγράφεται εδώ. Τα εξαργυρωμένα drops μένουν στο απόθεμα Twitch· χρησιμοποιήστε τον παρακάτω διακόπτη για να την ανακαλέσετε και στο Twitch.",
   "accounts_login_again": "Σύνδεση ξανά",
   "accounts_stats_drops": "Drops που παραλήφθηκαν: {count}",
   "accounts_stats_points": "Πόντοι που κερδήθηκαν: {count}",
@@ -87,6 +88,85 @@
   "login_note": "Δεν αποθηκεύεται κωδικός πρόσβασης. Η συνεδρία είναι κρυπτογραφημένη σε αυτή τη συσκευή και μπορεί να ανακληθεί από {settings}.",
   "login_note_settings": "τις ρυθμίσεις Twitch",
   "login_vault_locked": "Ξεκλειδώστε την εφαρμογή πριν προσθέσετε λογαριασμό.",
+  "login_use_tokens": "Επικόλληση tokens αντ' αυτού",
+  "login_use_code": "Χρήση του κωδικού σύνδεσης αντ' αυτού",
+  "login_tokens_label": "Tokens πρόσβασης",
+  "login_tokens_hint": "Επικολλήστε ένα token ανά γραμμή. Το καθένα ελέγχεται πριν μπορέσει να εισαχθεί.",
+  "login_tokens_submit": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Εισαγωγή token",
+        "countPlural=*": "Εισαγωγή tokens"
+      }
+    }
+  ],
+  "login_tokens_checking": "Έλεγχος των tokens…",
+  "import_tokens_title": "Εισαγωγή tokens",
+  "import_tokens_placeholder": "Επικολλήστε tokens, ένα ανά γραμμή…",
+  "import_tokens_too_many": "Το πολύ {max} tokens τη φορά.",
+  "import_tokens_line_too_long": "Μια γραμμή είναι πολύ μεγάλη (το πολύ {max} χαρακτήρες).",
+  "import_tokens_status_pending": "Έλεγχος…",
+  "import_tokens_status_valid": "Έγκυρο",
+  "import_tokens_status_unusable_client": "Αυτό το token δεν μπορεί να χρησιμοποιηθεί για εξόρυξη.",
+  "import_tokens_status_invalid": "Αυτό το token δεν είναι έγκυρο ή έχει λήξει.",
+  "import_tokens_status_already_added": "Έχει ήδη προστεθεί",
+  "import_tokens_status_duplicate": "Αντίγραφο άλλης γραμμής",
+  "import_tokens_status_not_imported": "Δεν εισήχθη",
+  "import_tokens_settings_step_title": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Ρυθμίσεις αυτού του λογαριασμού",
+        "countPlural=*": "Ρυθμίσεις αυτών των λογαριασμών"
+      }
+    }
+  ],
+  "import_tokens_settings_step_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Αυτές οι ρυθμίσεις ισχύουν για τον εισαγόμενο λογαριασμό.",
+        "countPlural=*": "Αυτές οι ρυθμίσεις ισχύουν για όλους τους εισαγόμενους λογαριασμούς."
+      }
+    }
+  ],
+  "import_tokens_overwrite_existing_label": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Αντικατάσταση και των ρυθμίσεων του λογαριασμού που ήδη υπάρχει",
+        "countPlural=*": "Αντικατάσταση και των ρυθμίσεων των ήδη υπαρχόντων λογαριασμών"
+      }
+    }
+  ],
+  "import_tokens_result_count": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{count} token εισήχθη",
+        "countPlural=*": "{count} tokens εισήχθησαν"
+      }
+    }
+  ],
+  "import_tokens_result_cancelled": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Η εισαγωγή ακυρώθηκε — {count} token εισήχθη",
+        "countPlural=*": "Η εισαγωγή ακυρώθηκε — {count} tokens εισήχθησαν"
+      }
+    }
+  ],
+  "import_tokens_importing_progress": "Εισαγωγή: {done}/{total}",
+  "import_tokens_cancel": "Ακύρωση εισαγωγής",
+  "import_tokens_retry_failed": "Δοκιμή ξανά",
   "account_slots_hint": "Το Twitch πιστώνει το πολύ δύο κανάλια ανά λογαριασμό ταυτόχρονα.",
   "account_drops_priority_hint": "Οι καμπάνιες τους εξορύσσονται εκεί όπου βρίσκεται το «Κατηγορίες προτεραιότητας» στο «Τι να εξορύσσεται, με σειρά», οι πιο σημαντικές πρώτες.",
   "account_drops_priority_placeholder": "Προσθήκη κατηγορίας…",
@@ -203,6 +283,8 @@
   "settings_auto_lock": "Κλείδωμα μετά από αδράνεια",
   "settings_auto_lock_hint": "Ζητά ξανά τον κωδικό μετά από τόσο χρόνο χωρίς χρήση του πίνακα, ακόμη και σε καρτέλα που έμεινε ανοιχτή. Η εξόρυξη συνεχίζεται.",
   "settings_auto_lock_never": "Ποτέ",
+  "lock_warning_message": "Κλείδωμα σε {time} — μετακινηθείτε ή κάντε κλικ για να παραμείνετε ξεκλείδωτοι",
+  "lock_warning_message_a11y": "Ένα κλείδωμα έρχεται σύντομα.",
   "unlock_title": "Ξεκλείδωμα της εφαρμογής",
   "unlock_text": "Πληκτρολογήστε τον κωδικό της εφαρμογής.",
   "unlock_passphrase": "Κωδικός πρόσβασης",
@@ -345,13 +427,42 @@
   "feedback_discord_text": "Ανοίξτε ένα ticket ή συζητήστε με την κοινότητα",
   "feedback_github_text": "Ανοίξτε ένα issue: ένα σφάλμα ή μια ιδέα",
   "settings_catalog_text": "Η λίστα καμπανιών προέρχεται από το drops.sunkwi.com, ανανέωση κάθε 10 λεπτά.",
-  "account_proxy": "Proxy για αυτόν τον λογαριασμό",
-  "account_proxy_hint": "Κενό: ο προεπιλεγμένος proxy της εφαρμογής. Η αλλαγή επανεκκινεί τις συνδέσεις του λογαριασμού.",
+  "account_proxy": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Proxy για αυτόν τον λογαριασμό",
+        "countPlural=*": "Proxy για αυτούς τους λογαριασμούς"
+      }
+    }
+  ],
+  "account_proxy_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Κενό: ο προεπιλεγμένος proxy της εφαρμογής. Η αλλαγή επανεκκινεί τις συνδέσεις του λογαριασμού.",
+        "countPlural=*": "Κενό: ο προεπιλεγμένος proxy της εφαρμογής. Η αλλαγή επανεκκινεί τις συνδέσεις αυτών των λογαριασμών."
+      }
+    }
+  ],
   "account_remove": "Αφαίρεση αυτού του λογαριασμού",
+  "account_remove_revoke_label": "Ανάκληση και αυτού του token στο Twitch",
   "account_mode_title": "Λειτουργία εξόρυξης",
-  "account_mode_desc": "Σε τι αφιερώνει αυτός ο λογαριασμός τον χρόνο παρακολούθησης.",
+  "account_mode_desc": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Σε τι αφιερώνει αυτός ο λογαριασμός τον χρόνο παρακολούθησης.",
+        "countPlural=*": "Σε τι αφιερώνουν αυτοί οι λογαριασμοί τον χρόνο παρακολούθησης."
+      }
+    }
+  ],
   "account_slots_title": "Κανάλια σε ταυτόχρονη παρακολούθηση",
   "account_twitch_hint": "Συνδεθείτε ξανά αν το Twitch τερμάτισε τη συνεδρία. Η αφαίρεση του λογαριασμού ανακαλεί τη συνεδρία του στο Twitch.",
+  "account_twitch_hint_imported_token": "Συνδεθείτε ξανά αν το Twitch τερμάτισε τη συνεδρία. Κατά την αφαίρεση του λογαριασμού μπορείτε να επιλέξετε αν θα ανακληθεί και η συνεδρία του στο Twitch.",
   "account_twitch_id": "Twitch ID",
   "account_twitch_login": "Όνομα χρήστη",
   "account_twitch_name": "Όνομα",
@@ -1517,6 +1628,9 @@
   "account_badges_not_mined": "Δεν εξορύσσονται",
   "account_badges_not_mined_hint": "Εμφανίζονται, αλλά δεν εξορύσσονται: πρώτα χρειάζεται μια συνδρομή που κάνετε μόνοι σας ή άλλο σήμα, ή το Twitch δεν δηλώνει κανάλι που ο miner μπορεί να παρακολουθήσει.",
   "error_action_rate_limited": "Πάρα πολλές προσπάθειες: περίμενε λίγο και ξαναδοκίμασε.",
+  "error_invalid_token": "Αυτό το token δεν είναι έγκυρο ή έχει λήξει. Επικολλήστε ένα νέο.",
+  "error_unsupported_client": "Αυτό το token δεν μπορεί να χρησιμοποιηθεί για εξόρυξη. Συνδεθείτε με τον κωδικό αντ' αυτού.",
+  "error_missing_scope": "Αυτό το token δεν έχει μια άδεια που απαιτεί η εφαρμογή. Συνδεθείτε με τον κωδικό αντ' αυτού.",
   "ev_paused": "Σε παύση",
   "ev_paused_quiet_window": "Σε παύση (ημερήσια παύση)",
   "ev_paused_scheduled": "Σε παύση, συνέχιση {time}",

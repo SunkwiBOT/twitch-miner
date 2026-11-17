@@ -194,6 +194,8 @@ Onu diğer madencilerden ayıran şeyler. Bir maddenin altındaki “Çalışır
   <img src="../media/tr/basics.avif" alt="Diller, açık ve koyu tema, bir masaüstü bildirimi ve sistem tepsisi simgesi">
   </details>
 
+- **Token listesi yapıştırarak hesap ekleme.** Başka bir yerde zaten oturum açtınız mı? Erişim tokenları listesini, satır başına bir tane olacak şekilde (en fazla 50) yapıştırın; her biri canlı olarak kontrol edilir, “Kontrol edildi: n/N” sayacı ve başarısız olan her satır için yeniden deneme vardır, ardından tek bir ayar adımı tüm gruba uygulanır. İçe aktarma kendisi arka planda, hesap başına canlı ilerlemeyle çalışır, yarıda iptal edilebilir ve daha sonraki yeniden deneme yalnızca başarısız olan hesapları yeniden gönderir. Bu şekilde içe aktarılan bir hesap kaldırılırken tokenı Twitch üzerinde de iptal etme seçeneği sunulur.
+
 > [!WARNING]
 > Bu proje Twitch ile bağlantılı değildir. Bir hesabı otomatikleştirmek Twitch'in koşullarını veya bir kampanyanın kurallarını ihlal edebilir.
 

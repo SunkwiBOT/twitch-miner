@@ -59,6 +59,7 @@
   "common_accounts_none": "계정 없음",
   "accounts_remove_title": "이 계정을 제거할까요?",
   "accounts_remove_text": "{name}의 세션은 Twitch에서 취소되고 여기서 삭제돼요. 이미 수령한 드롭은 Twitch 인벤토리에 남아요.",
+  "accounts_remove_text_imported_token": "{name}의 세션은 여기서 삭제돼요. 이미 수령한 드롭은 Twitch 인벤토리에 남아요. 아래 스위치로 Twitch에서도 취소할 수 있어요.",
   "accounts_login_again": "다시 로그인",
   "accounts_stats_drops": "수령한 드롭: {count}",
   "accounts_stats_points": "획득 포인트: {count}",
@@ -72,6 +73,67 @@
   "login_note": "비밀번호는 저장되지 않아요. 세션은 이 기기에서 암호화되며 {settings}에서 해지할 수 있어요.",
   "login_note_settings": "Twitch 설정",
   "login_vault_locked": "계정을 추가하기 전에 앱 잠금을 해제하세요.",
+  "login_use_tokens": "대신 토큰 붙여넣기",
+  "login_use_code": "대신 로그인 코드 사용",
+  "login_tokens_label": "액세스 토큰",
+  "login_tokens_hint": "한 줄에 토큰 하나씩 붙여넣으세요. 각 토큰은 가져오기 전에 확인됩니다.",
+  "login_tokens_submit": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "토큰 가져오기",
+        "countPluralExact=*": "토큰 모두 가져오기"
+      }
+    }
+  ],
+  "login_tokens_checking": "토큰 확인 중…",
+  "import_tokens_title": "토큰 가져오기",
+  "import_tokens_placeholder": "토큰을 한 줄에 하나씩 붙여넣으세요…",
+  "import_tokens_too_many": "토큰이 너무 많아요: 한 번에 최대 {max}개예요.",
+  "import_tokens_line_too_long": "한 줄이 너무 길어요: 최대 {max}자예요.",
+  "import_tokens_status_pending": "확인 중…",
+  "import_tokens_status_valid": "유효함",
+  "import_tokens_status_unusable_client": "이 토큰은 채굴에 사용할 수 없습니다.",
+  "import_tokens_status_invalid": "이 토큰은 유효하지 않거나 만료되었습니다.",
+  "import_tokens_status_already_added": "이미 추가됨",
+  "import_tokens_status_duplicate": "다른 줄과 중복됨",
+  "import_tokens_status_not_imported": "가져오지 않음",
+  "import_tokens_settings_step_title": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "이 계정의 설정",
+        "countPluralExact=*": "이 계정들의 설정"
+      }
+    }
+  ],
+  "import_tokens_settings_step_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "이 설정은 가져온 계정에 적용됩니다.",
+        "countPluralExact=*": "이 설정은 가져온 모든 계정에 적용됩니다."
+      }
+    }
+  ],
+  "import_tokens_overwrite_existing_label": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "이미 존재하는 계정의 설정도 덮어쓰기",
+        "countPluralExact=*": "이미 존재하는 모든 계정의 설정도 덮어쓰기"
+      }
+    }
+  ],
+  "import_tokens_result_count": "{count}개의 토큰을 가져왔습니다",
+  "import_tokens_result_cancelled": "가져오기가 취소됨 — {count}개의 토큰을 가져왔습니다",
+  "import_tokens_importing_progress": "가져오는 중: {done}/{total}",
+  "import_tokens_cancel": "가져오기 취소",
+  "import_tokens_retry_failed": "다시 시도",
   "account_slots_hint": "Twitch는 계정당 동시에 최대 두 채널까지만 인정해요.",
   "account_drops_priority_hint": "해당 캠페인은 “마이닝할 대상과 순서”에서 “우선 카테고리” 항목이 놓인 순위에 따라 마이닝되고, 중요한 것이 먼저예요.",
   "account_drops_priority_placeholder": "카테고리 추가…",
@@ -302,13 +364,14 @@
   "feedback_discord_text": "티켓을 열거나 커뮤니티와 대화해요",
   "feedback_github_text": "issue 만들기: 버그나 아이디어",
   "settings_catalog_text": "캠페인 목록은 drops.sunkwi.com에서 가져오며 10분마다 새로 고쳐요.",
-  "account_proxy": "이 계정의 proxy",
-  "account_proxy_hint": "비워 두면 앱 기본 proxy를 써요. 변경하면 이 계정의 연결을 다시 시작해요.",
+  "account_proxy": "계정의 proxy",
+  "account_proxy_hint": "비워 두면 앱 기본 proxy를 써요. 변경하면 계정의 연결을 다시 시작해요.",
   "account_remove": "이 계정 삭제",
   "account_mode_title": "마이닝 모드",
-  "account_mode_desc": "이 계정이 시청 시간을 어디에 쓸지 정해요.",
+  "account_mode_desc": "계정이 시청 시간을 어디에 쓸지 정해요.",
   "account_slots_title": "동시에 시청하는 채널",
   "account_twitch_hint": "Twitch가 세션을 종료했다면 다시 로그인하세요. 계정을 삭제하면 Twitch에서 해당 세션이 해지돼요.",
+  "account_twitch_hint_imported_token": "Twitch가 세션을 종료했다면 다시 로그인하세요. 계정을 삭제할 때 Twitch에서도 세션을 해지할지 선택할 수 있어요.",
   "account_twitch_id": "Twitch ID",
   "account_twitch_login": "로그인 이름",
   "account_twitch_name": "이름",
@@ -1122,5 +1185,11 @@
   "settings_discord_test": "테스트",
   "settings_telegram_test": "테스트",
   "settings_webhook_test": "테스트",
-  "export_counts_count_one": "{count}개 받음"
+  "export_counts_count_one": "{count}개 받음",
+  "lock_warning_message": "{time} 후 잠깁니다 — 잠금을 유지하지 않으려면 움직이거나 클릭하세요",
+  "lock_warning_message_a11y": "곧 잠깁니다.",
+  "account_remove_revoke_label": "Twitch에서도 이 토큰을 취소",
+  "error_invalid_token": "이 토큰은 유효하지 않거나 만료되었습니다. 새 토큰을 붙여넣으세요.",
+  "error_unsupported_client": "이 토큰은 채굴에 사용할 수 없습니다. 대신 코드로 로그인하세요.",
+  "error_missing_scope": "이 토큰에는 이 앱에 필요한 권한이 없습니다. 대신 코드로 로그인하세요."
 }

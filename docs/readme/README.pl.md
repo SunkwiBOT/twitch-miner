@@ -279,6 +279,8 @@ działa.
   <img src="../media/pl/basics.avif" alt="Języki, jasny i ciemny motyw, powiadomienie na pulpicie i ikona w zasobniku">
   </details>
 
+- **Dodanie kont przez wklejenie tokenów.** Jesteś już zalogowany gdzie indziej? Wklej listę tokenów dostępu, jeden na linię (maksymalnie 50); każdy jest sprawdzany na bieżąco, z licznikiem „Sprawdzono: n/N” i ponowieniem dla każdej linii, która się nie powiodła; potem jeden krok ustawień stosuje się do całej partii. Import działa w tle, z postępem na żywo dla każdego konta, można go anulować w trakcie, a późniejsze ponowienie wysyła ponownie tylko konta, które się nie powiodły. Przy usuwaniu konta zaimportowanego w ten sposób zaproponujemy też unieważnienie jego tokenu na Twitchu.
+
 > [!WARNING]
 > Ten projekt nie jest powiązany z Twitchem. Automatyzacja konta może naruszać regulamin
 > Twitcha lub zasady kampanii.

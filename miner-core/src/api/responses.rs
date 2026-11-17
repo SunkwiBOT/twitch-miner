@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-use super::{LoginFlowView, Snapshot};
+use super::{ImportTokensFlowView, LoginFlowView, Snapshot, TokenCheck};
 use crate::badges::GlobalBadge;
 use crate::domain::{Campaign, Channel};
 use crate::error::ErrorCode;
@@ -95,6 +95,18 @@ pub struct LogsReportResponse {
 #[ts(rename = "LoginFlowResponseType")]
 pub struct LoginFlowResponse {
     pub login: LoginFlowView,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[ts(rename = "CheckPastedTokenResponseType")]
+pub struct CheckPastedTokenResponse {
+    pub check: TokenCheck,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[ts(rename = "ImportTokensResponseType")]
+pub struct ImportTokensResponse {
+    pub import: ImportTokensFlowView,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]

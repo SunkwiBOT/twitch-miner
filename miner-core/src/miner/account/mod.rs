@@ -328,6 +328,7 @@ impl<T: TwitchApi> AccountMiner<T> {
             id: record.id.clone(),
             login: record.login.clone(),
             display_name: record.display_name.clone(),
+            source: record.source,
             avatar_url: record.avatar_url.clone(),
             settings: record.settings.clone(),
             status: AccountStatus::Starting,

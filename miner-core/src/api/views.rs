@@ -2,13 +2,13 @@ use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-use crate::config::{AccountSettings, GlobalSettings};
+use crate::config::{AccountSettings, AccountSettingsPatch, GlobalSettings};
 use crate::domain::{BadgeRef, Campaign, Channel, PointsState};
 use crate::error::ErrorCode;
 use crate::events::{MinerEvent, MinerKind};
 use crate::scheduler::{QueueItem, SlotPurpose};
 use crate::spam::SpamChannelEntry;
-use crate::store::VaultStatus;
+use crate::store::{AccountSource, VaultStatus};
 use crate::twitch::quests::Quest;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default, TS)]
@@ -90,6 +90,7 @@ pub struct AccountSnapshot {
     pub id: String,
     pub login: String,
     pub display_name: String,
+    pub source: AccountSource,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
     pub avatar_url: Option<String>,
@@ -224,6 +225,18 @@ pub struct Snapshot {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
     pub login: Option<LoginFlowView>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub import: Option<ImportTokensFlowView>,
+    // ! Mirrors `TOKENS_IMPORT_MAX`/`TOKEN_LINE_MAX_CHARS` so the paste dialog
+    // can refuse a too-long list/line before any check request, in both the
+    // desktop and the dashboard shell.
+    pub token_import_max: u32,
+    pub token_line_max_chars: u32,
+    // ! Built from `AccountSettings::default()`, the same way the caps
+    // above travel, so the bulk-import settings step never hand-copies
+    // defaults that could drift from the backend.
+    pub import_default_patch: AccountSettingsPatch,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
@@ -251,4 +264,45 @@ pub enum LoginFlowStatus {
     Completed,
     Expired,
     Failed,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[ts(rename = "TokenCheckType")]
+pub struct TokenCheck {
+    pub login: String,
+    pub display_name: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub avatar_url: Option<String>,
+    pub already_added: bool,
+}
+
+// ! Followed through the snapshot like `LoginFlowView`: the commit step runs
+// as a cancellable background job, not a single blocking request, so a long
+// list or a lock mid-import never leaves the UI with no way to know where it stopped.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[ts(rename = "ImportTokensFlowViewType")]
+pub struct ImportTokensFlowView {
+    pub flow_id: String,
+    pub lines: Vec<ImportTokenOutcome>,
+    pub status: ImportTokensFlowStatus,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+#[ts(repr(enum = name))]
+pub enum ImportTokensFlowStatus {
+    Running,
+    Completed,
+    Cancelled,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[serde(tag = "status", rename_all = "SCREAMING_SNAKE_CASE")]
+#[ts(rename = "ImportTokenOutcomeType")]
+pub enum ImportTokenOutcome {
+    Pending,
+    Checking,
+    Imported { account_id: String },
+    Failed { problem: ErrorCode },
 }

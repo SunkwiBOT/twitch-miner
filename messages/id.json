@@ -59,6 +59,7 @@
   "common_accounts_none": "Tanpa akun",
   "accounts_remove_title": "Hapus akun ini?",
   "accounts_remove_text": "Sesi {name} dicabut di Twitch dan dihapus di sini. Drop yang sudah diklaim tetap di inventaris Twitch.",
+  "accounts_remove_text_imported_token": "Sesi {name} dihapus di sini. Drop yang sudah diklaim tetap di inventaris Twitch; gunakan sakelar di bawah untuk juga mencabutnya di Twitch.",
   "accounts_login_again": "Masuk lagi",
   "accounts_stats_drops": "Drop diklaim: {count}",
   "accounts_stats_points": "Poin diperoleh: {count}",
@@ -72,6 +73,67 @@
   "login_note": "Kata sandi tidak disimpan. Sesi dienkripsi di perangkat ini dan dapat dicabut dari {settings}.",
   "login_note_settings": "pengaturan Twitch Anda",
   "login_vault_locked": "Buka kunci aplikasi sebelum menambah akun.",
+  "login_use_tokens": "Tempel token sebagai gantinya",
+  "login_use_code": "Gunakan kode masuk sebagai gantinya",
+  "login_tokens_label": "Token akses",
+  "login_tokens_hint": "Tempel satu token per baris. Setiap token diperiksa sebelum dapat diimpor.",
+  "login_tokens_submit": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "Impor token ini",
+        "countPluralExact=*": "Impor semua token"
+      }
+    }
+  ],
+  "login_tokens_checking": "Memeriksa token…",
+  "import_tokens_title": "Impor token",
+  "import_tokens_placeholder": "Tempel token, satu per baris…",
+  "import_tokens_too_many": "Maksimal {max} token sekaligus.",
+  "import_tokens_line_too_long": "Ada baris yang terlalu panjang (maksimal {max} karakter).",
+  "import_tokens_status_pending": "Memeriksa…",
+  "import_tokens_status_valid": "Valid",
+  "import_tokens_status_unusable_client": "Token ini tidak dapat digunakan untuk menambang.",
+  "import_tokens_status_invalid": "Token ini tidak valid atau sudah kedaluwarsa.",
+  "import_tokens_status_already_added": "Sudah ditambahkan",
+  "import_tokens_status_duplicate": "Duplikat baris lain",
+  "import_tokens_status_not_imported": "Tidak diimpor",
+  "import_tokens_settings_step_title": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "Pengaturan akun ini",
+        "countPluralExact=*": "Pengaturan akun-akun ini"
+      }
+    }
+  ],
+  "import_tokens_settings_step_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "Pengaturan ini berlaku untuk akun yang diimpor.",
+        "countPluralExact=*": "Pengaturan ini berlaku untuk semua akun yang diimpor."
+      }
+    }
+  ],
+  "import_tokens_overwrite_existing_label": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "Timpa juga pengaturan akun yang sudah ada",
+        "countPluralExact=*": "Timpa juga pengaturan akun-akun yang sudah ada"
+      }
+    }
+  ],
+  "import_tokens_result_count": "{count} token diimpor",
+  "import_tokens_result_cancelled": "Impor dibatalkan — {count} token diimpor",
+  "import_tokens_importing_progress": "Mengimpor: {done}/{total}",
+  "import_tokens_cancel": "Batalkan impor",
+  "import_tokens_retry_failed": "Coba lagi",
   "account_slots_hint": "Twitch menghitung paling banyak dua channel per akun secara bersamaan.",
   "account_drops_priority_hint": "Kampanye mereka ditambang di posisi “Kategori prioritas” dalam “Apa yang ditambang, berurutan”, yang terpenting lebih dulu.",
   "account_drops_priority_placeholder": "Tambah kategori…",
@@ -302,13 +364,14 @@
   "feedback_discord_text": "Buka tiket atau ngobrol dengan komunitas",
   "feedback_github_text": "Buka issue: bug atau ide",
   "settings_catalog_text": "Daftar kampanye berasal dari drops.sunkwi.com, diperbarui setiap 10 menit.",
-  "account_proxy": "Proxy untuk akun ini",
+  "account_proxy": "Proxy untuk akun",
   "account_proxy_hint": "Kosong: proxy default aplikasi. Mengubahnya akan memulai ulang koneksi akun.",
   "account_remove": "Hapus akun ini",
   "account_mode_title": "Mode penambangan",
-  "account_mode_desc": "Untuk apa akun ini memakai waktu tontonnya.",
+  "account_mode_desc": "Untuk apa akun menggunakan waktu tontonnya.",
   "account_slots_title": "Channel yang ditonton sekaligus",
   "account_twitch_hint": "Masuk lagi jika Twitch mengakhiri sesi. Menghapus akun akan mencabut sesinya di Twitch.",
+  "account_twitch_hint_imported_token": "Masuk lagi jika Twitch mengakhiri sesi. Saat menghapus akun, kamu bisa memilih apakah juga mencabut sesinya di Twitch.",
   "account_twitch_id": "ID Twitch",
   "account_twitch_login": "Nama login",
   "account_twitch_name": "Nama",
@@ -1122,5 +1185,11 @@
   "settings_discord_test": "Uji",
   "settings_telegram_test": "Uji",
   "settings_webhook_test": "Uji",
-  "export_counts_count_one": "{count} diklaim"
+  "export_counts_count_one": "{count} diklaim",
+  "lock_warning_message": "Mengunci dalam {time} — gerakkan atau klik untuk tetap tidak terkunci",
+  "lock_warning_message_a11y": "Penguncian akan segera terjadi.",
+  "account_remove_revoke_label": "Juga cabut token ini di Twitch",
+  "error_invalid_token": "Token ini tidak valid atau sudah kedaluwarsa. Tempel token baru.",
+  "error_unsupported_client": "Token ini tidak dapat digunakan untuk menambang. Masuk dengan kode sebagai gantinya.",
+  "error_missing_scope": "Token ini tidak memiliki izin yang diperlukan aplikasi ini. Masuk dengan kode sebagai gantinya."
 }

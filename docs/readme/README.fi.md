@@ -286,6 +286,8 @@ ominaisuuden käytössä.
   <img src="../media/fi/basics.avif" alt="Kielet, vaalea ja tumma teema, työpöytäilmoitus ja ilmoitusalueen kuvake">
   </details>
 
+- **Tilien lisääminen liittämällä tokenit.** Oletko jo kirjautunut muualla? Liitä luettelo käyttötokeneista, yksi riviä kohden (enintään 50); jokainen tarkistetaan reaaliajassa, laskurina ”Tarkistettu: n/N”, ja epäonnistuneet rivit voi yrittää uudelleen; sen jälkeen yksi asetusvaihe koskee koko erää. Tuonti käynnistyy taustalla ja näyttää kunkin tilin edistymisen reaaliajassa; sen voi perua kesken kaiken, ja myöhempi uudelleenyritys lähettää uudelleen vain epäonnistuneet tilit. Tällä tavalla tuodun tilin poistaminen tarjoaa myös tokenin kumoamisen Twitchissä.
+
 > [!WARNING]
 > Tämä projekti ei ole yhteydessä Twitchiin. Tilin automatisointi voi rikkoa Twitchin
 > käyttöehtoja tai kampanjan sääntöjä.

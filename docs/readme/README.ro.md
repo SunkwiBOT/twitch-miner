@@ -281,6 +281,8 @@ la lucru.
   <img src="../media/ro/basics.avif" alt="Limbi, temele luminoasă și întunecată, o notificare desktop și pictograma din bara de sistem">
   </details>
 
+- **Adăugarea conturilor prin lipirea unei liste de tokenuri.** Ești deja conectat în altă parte? Lipește o listă de tokenuri de acces, câte unul pe linie (până la 50); fiecare este verificat în timp real, cu un contor „Verificate: n/N” și reîncercare pentru fiecare linie eșuată, apoi un singur pas de setări se aplică întregului lot. Importul în sine rulează în fundal, cu progres în timp real pe fiecare cont, poate fi anulat pe parcurs, iar o reîncercare ulterioară retrimite doar conturile care au eșuat. Eliminarea unui cont importat astfel oferă și revocarea tokenului pe Twitch.
+
 > [!WARNING]
 > Acest proiect nu este afiliat cu Twitch. Automatizarea unui cont poate încălca termenii
 > Twitch sau regulile unei campanii.

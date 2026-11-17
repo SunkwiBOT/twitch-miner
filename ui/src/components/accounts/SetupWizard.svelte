@@ -212,7 +212,7 @@
       />
     </FormField>
   {:else if step === SetupStep.MODE}
-    {@render stepTitle(t.account_mode_title(), t.account_mode_desc())}
+    {@render stepTitle(t.account_mode_title(), t.account_mode_desc({ count: 1 }))}
     <ChoiceCards
       vertical={true}
       value={mode}

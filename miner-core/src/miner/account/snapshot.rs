@@ -94,6 +94,9 @@ impl<T: TwitchApi> AccountMiner<T> {
             id: self.id.clone(),
             login: self.login.clone(),
             display_name: self.display_name.clone(),
+            // ! Immutable and never shown from here: `Manager::snapshot()`
+            // always overwrites it from the stored record, like `settings`.
+            source: crate::store::AccountSource::DeviceCode,
             avatar_url: self.avatar_url.clone(),
             settings: self.settings.clone(),
             status: self.status,

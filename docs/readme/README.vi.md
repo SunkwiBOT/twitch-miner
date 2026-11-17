@@ -194,6 +194,8 @@ Những gì làm nên khác biệt so với các trình đào khác. “Xem minh
   <img src="../media/vi/basics.avif" alt="Ngôn ngữ, giao diện sáng và tối, một thông báo trên máy tính và biểu tượng trong khay hệ thống">
   </details>
 
+- **Thêm tài khoản bằng cách dán danh sách mã thông báo.** Đã đăng nhập ở nơi khác? Hãy dán danh sách mã thông báo truy cập, mỗi dòng một mã (tối đa 50); mỗi mã được kiểm tra trực tiếp, với bộ đếm “Đã kiểm tra: n/N” và nút thử lại cho mọi dòng bị lỗi, sau đó một bước cài đặt duy nhất áp dụng cho cả lô. Việc nhập chạy nền với tiến trình theo từng tài khoản, có thể hủy giữa chừng, và lần thử lại chỉ gửi lại các tài khoản bị lỗi. Khi xóa một tài khoản được nhập theo cách này, ứng dụng cũng hỏi có thu hồi mã thông báo của nó trên Twitch không.
+
 > [!WARNING]
 > Dự án này không liên kết với Twitch. Tự động hóa một tài khoản có thể vi phạm điều khoản của Twitch hoặc quy tắc của một chiến dịch.
 

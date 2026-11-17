@@ -74,6 +74,7 @@
   "common_accounts_none": "No account",
   "accounts_remove_title": "Remove this account?",
   "accounts_remove_text": "The session of {name} is revoked on Twitch and deleted here. Drops already claimed stay in its Twitch inventory.",
+  "accounts_remove_text_imported_token": "The session of {name} is deleted here. Drops already claimed stay in its Twitch inventory; use the switch below to also revoke it on Twitch.",
   "accounts_login_again": "Sign in again",
   "accounts_stats_drops": "Drops claimed: {count}",
   "accounts_stats_points": "Points earned: {count}",
@@ -87,6 +88,85 @@
   "login_note": "No password is stored. The session is encrypted on this device and can be revoked from {settings}.",
   "login_note_settings": "your Twitch settings",
   "login_vault_locked": "Unlock the app before adding an account.",
+  "login_use_tokens": "Paste tokens instead",
+  "login_use_code": "Use the sign-in code instead",
+  "login_tokens_label": "Access tokens",
+  "login_tokens_hint": "Paste one token per line. Each one is checked before it can be imported.",
+  "login_tokens_submit": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Import the token",
+        "countPlural=*": "Import the tokens"
+      }
+    }
+  ],
+  "login_tokens_checking": "Checking the tokens…",
+  "import_tokens_title": "Import tokens",
+  "import_tokens_placeholder": "Paste tokens, one per line…",
+  "import_tokens_too_many": "At most {max} tokens at once.",
+  "import_tokens_line_too_long": "One line is too long (at most {max} characters).",
+  "import_tokens_status_pending": "Checking…",
+  "import_tokens_status_valid": "Valid",
+  "import_tokens_status_unusable_client": "This token cannot be used to mine.",
+  "import_tokens_status_invalid": "This token is invalid or expired.",
+  "import_tokens_status_already_added": "Already added",
+  "import_tokens_status_duplicate": "Duplicate of another line",
+  "import_tokens_status_not_imported": "Not imported",
+  "import_tokens_settings_step_title": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Settings for this account",
+        "countPlural=*": "Settings for these accounts"
+      }
+    }
+  ],
+  "import_tokens_settings_step_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "These settings apply to the account being imported.",
+        "countPlural=*": "These settings apply to every account being imported."
+      }
+    }
+  ],
+  "import_tokens_overwrite_existing_label": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Also overwrite settings of the account that already exists",
+        "countPlural=*": "Also overwrite settings of accounts that already exist"
+      }
+    }
+  ],
+  "import_tokens_result_count": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{count} token imported",
+        "countPlural=*": "{count} tokens imported"
+      }
+    }
+  ],
+  "import_tokens_result_cancelled": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Import cancelled — {count} token imported",
+        "countPlural=*": "Import cancelled — {count} tokens imported"
+      }
+    }
+  ],
+  "import_tokens_importing_progress": "Importing: {done}/{total}",
+  "import_tokens_cancel": "Cancel the import",
+  "import_tokens_retry_failed": "Try again",
   "account_slots_hint": "Twitch credits at most two channels per account at the same time.",
   "account_drops_priority_hint": "Their campaigns are mined where “Priority categories” sits in “What to mine, in order”, most important first.",
   "account_drops_priority_placeholder": "Add a category…",
@@ -208,6 +288,8 @@
   "settings_auto_lock": "Lock after inactivity",
   "settings_auto_lock_hint": "Asks for the password again after this long without using the dashboard, also in a tab left open. Mining goes on.",
   "settings_auto_lock_never": "Never",
+  "lock_warning_message": "Locking in {time} — move or click to stay unlocked",
+  "lock_warning_message_a11y": "A lock is coming soon.",
   "unlock_title": "Unlock the app",
   "unlock_text": "Type the app password.",
   "unlock_passphrase": "Password",
@@ -350,13 +432,42 @@
   "feedback_discord_text": "Open a ticket or chat with the community",
   "feedback_github_text": "Open an issue: a bug or an idea",
   "settings_catalog_text": "The campaign list comes from drops.sunkwi.com, refreshed every 10 minutes.",
-  "account_proxy": "Proxy for this account",
-  "account_proxy_hint": "Empty: the app's default proxy. Changing it restarts the account's connections.",
+  "account_proxy": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Proxy for this account",
+        "countPlural=*": "Proxy for these accounts"
+      }
+    }
+  ],
+  "account_proxy_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Empty: the app's default proxy. Changing it restarts the account's connections.",
+        "countPlural=*": "Empty: the app's default proxy. Changing it restarts these accounts' connections."
+      }
+    }
+  ],
   "account_remove": "Remove this account",
+  "account_remove_revoke_label": "Also revoke this token on Twitch",
   "account_mode_title": "Mining mode",
-  "account_mode_desc": "What this account spends its watch time on.",
+  "account_mode_desc": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "What this account spends its watch time on.",
+        "countPlural=*": "What these accounts spend their watch time on."
+      }
+    }
+  ],
   "account_slots_title": "Channels watched at once",
   "account_twitch_hint": "Sign in again if Twitch ended the session. Removing the account revokes its session on Twitch.",
+  "account_twitch_hint_imported_token": "Sign in again if Twitch ended the session. Removing the account lets you choose whether to also revoke its session on Twitch.",
   "account_twitch_id": "Twitch ID",
   "account_twitch_login": "Login",
   "account_twitch_name": "Name",
@@ -408,6 +519,9 @@
   "error_catalog_rate_limited": "The catalogue asked to slow down. The next refresh waits longer.",
   "error_too_many_attempts": "Too many wrong passwords: try again in a moment.",
   "error_action_rate_limited": "Too many tries: wait a moment and try again.",
+  "error_invalid_token": "This token is invalid or expired. Paste a fresh one.",
+  "error_unsupported_client": "This token cannot be used to mine. Sign in with the code instead.",
+  "error_missing_scope": "This token is missing a permission this app requires. Sign in with the code instead.",
   "error_https_required": "Open the dashboard at its HTTPS address.",
   "error_forwarded_for_required": "The HTTPS proxy in front of the dashboard must send the visitor's address (X-Forwarded-For).",
   "error_proxy_not_local": "The dashboard only accepts its HTTPS proxy from this machine or its local network.",

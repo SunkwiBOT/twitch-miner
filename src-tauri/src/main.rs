@@ -16,14 +16,14 @@ use std::sync::Arc;
 use miner_core::api::{
     AccountStatus, AppInfo, AppInfoResponse, AutostartResponse, BadgeCatalogView, BadgesResponse,
     CatalogResponse, CatalogView, ChannelBannersResponse, ChannelResponse, ChannelsLookupResponse,
-    Command, CommandName, DesktopEvent, FollowsResponse, HistoryExportQuery, HistoryExportResponse,
-    HistoryQuery, HistoryResponse, LoginFlowResponse, LogsQuery, LogsReportResponse, LogsResponse,
-    NotificationTest, NotificationTestRequest, ProxyTestResponse, RedeemRequest, RedeemResponse,
-    RefreshResponse, RequestsQuery, RequestsResponse, SearchResponse, Shell, Snapshot,
-    SnapshotResponse, SpamBalanceResponse, SpamChannelResponse, StartupProblem,
-    StartupProblemResponse,
+    CheckPastedTokenResponse, Command, CommandName, DesktopEvent, FollowsResponse,
+    HistoryExportQuery, HistoryExportResponse, HistoryQuery, HistoryResponse, ImportTokensResponse,
+    LoginFlowResponse, LogsQuery, LogsReportResponse, LogsResponse, NotificationTest,
+    NotificationTestRequest, ProxyTestResponse, RedeemRequest, RedeemResponse, RefreshResponse,
+    RequestsQuery, RequestsResponse, SearchResponse, Shell, Snapshot, SnapshotResponse,
+    SpamBalanceResponse, SpamChannelResponse, StartupProblem, StartupProblemResponse,
 };
-use miner_core::config::{CloseAction, GlobalSettings};
+use miner_core::config::{AccountSettingsPatch, CloseAction, GlobalSettings};
 use miner_core::error::{ApiError, ErrorCode};
 use miner_core::i18n;
 use miner_core::notifications::desktop::DesktopNotifier;
@@ -130,6 +130,8 @@ fn main() {
             catalog,
             refresh_catalog,
             start_login,
+            check_pasted_token,
+            import_tokens,
             lookup_channel,
             lookup_channels,
             search,

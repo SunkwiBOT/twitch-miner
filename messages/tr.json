@@ -59,6 +59,7 @@
   "common_accounts_none": "Hesap yok",
   "accounts_remove_title": "Bu hesap kaldırılsın mı?",
   "accounts_remove_text": "{name} oturumu Twitch'te iptal edilir ve burada silinir. Alınan drop'lar Twitch envanterinde kalır.",
+  "accounts_remove_text_imported_token": "{name} oturumu burada silinir. Alınan drop'lar Twitch envanterinde kalır; Twitch'te de iptal etmek için aşağıdaki anahtarı kullanın.",
   "accounts_login_again": "Yeniden giriş yap",
   "accounts_stats_drops": "Alınan drops: {count}",
   "accounts_stats_points": "Kazanılan puan: {count}",
@@ -72,6 +73,67 @@
   "login_note": "Şifre saklanmaz. Oturum bu cihazda şifrelenir ve {settings} iptal edilebilir.",
   "login_note_settings": "Twitch ayarlarınızdan",
   "login_vault_locked": "Hesap eklemeden önce uygulamanın kilidini açın.",
+  "login_use_tokens": "Bunun yerine tokenlar yapıştır",
+  "login_use_code": "Bunun yerine giriş kodunu kullan",
+  "login_tokens_label": "Erişim tokenları",
+  "login_tokens_hint": "Satır başına bir token yapıştır. Her biri içe aktarılmadan önce kontrol edilir.",
+  "login_tokens_submit": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Token'ı içe aktar",
+        "countPlural=*": "Tokenları içe aktar"
+      }
+    }
+  ],
+  "login_tokens_checking": "Tokenlar kontrol ediliyor…",
+  "import_tokens_title": "Tokenları içe aktar",
+  "import_tokens_placeholder": "Tokenları yapıştır, satır başına bir tane…",
+  "import_tokens_too_many": "Çok fazla token: tek seferde en fazla {max}.",
+  "import_tokens_line_too_long": "Bir satır çok uzun: en fazla {max} karakter.",
+  "import_tokens_status_pending": "Kontrol ediliyor…",
+  "import_tokens_status_valid": "Geçerli",
+  "import_tokens_status_unusable_client": "Bu token madencilik için kullanılamaz.",
+  "import_tokens_status_invalid": "Bu token geçersiz veya süresi dolmuş.",
+  "import_tokens_status_already_added": "Zaten eklendi",
+  "import_tokens_status_duplicate": "Başka bir satırın kopyası",
+  "import_tokens_status_not_imported": "İçe aktarılmadı",
+  "import_tokens_settings_step_title": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Bu hesabın ayarları",
+        "countPlural=*": "Bu hesapların ayarları"
+      }
+    }
+  ],
+  "import_tokens_settings_step_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Bu ayarlar içe aktarılan hesap için geçerlidir.",
+        "countPlural=*": "Bu ayarlar içe aktarılan tüm hesaplar için geçerlidir."
+      }
+    }
+  ],
+  "import_tokens_overwrite_existing_label": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Zaten var olan hesabın ayarlarını da üzerine yaz",
+        "countPlural=*": "Zaten var olan hesapların ayarlarını da üzerine yaz"
+      }
+    }
+  ],
+  "import_tokens_result_count": "{count} token içe aktarıldı",
+  "import_tokens_result_cancelled": "İçe aktarma iptal edildi — {count} token içe aktarıldı",
+  "import_tokens_importing_progress": "İçe aktarılıyor: {done}/{total}",
+  "import_tokens_cancel": "İçe aktarmayı iptal et",
+  "import_tokens_retry_failed": "Yeniden dene",
   "account_slots_hint": "Twitch hesap başına aynı anda en fazla iki kanalı sayar.",
   "account_drops_priority_hint": "Bunların kampanyaları, “Öncelikli kategoriler” öğesinin “Ne kazılacak, sırayla” içinde bulunduğu sırada kazılır; en önemli olan önce gelir.",
   "account_drops_priority_placeholder": "Kategori ekle…",
@@ -188,6 +250,8 @@
   "settings_auto_lock": "Hareketsizlikten sonra kilitle",
   "settings_auto_lock_hint": "Panel bu süre boyunca kullanılmazsa, açık bırakılan sekmede de şifreyi yeniden sorar. Kazma devam eder.",
   "settings_auto_lock_never": "Asla",
+  "lock_warning_message": "{time} içinde kilitlenecek — kilitlenmemek için hareket edin veya tıklayın",
+  "lock_warning_message_a11y": "Yakında bir kilit olacak.",
   "unlock_title": "Uygulamanın kilidini aç",
   "unlock_text": "Uygulama şifresini yazın.",
   "unlock_passphrase": "Şifre",
@@ -302,13 +366,15 @@
   "feedback_discord_text": "Destek talebi açın veya toplulukla sohbet edin",
   "feedback_github_text": "Issue açın: bir hata ya da bir fikir",
   "settings_catalog_text": "Kampanya listesi drops.sunkwi.com'dan gelir, 10 dakikada bir yenilenir.",
-  "account_proxy": "Bu hesap için proxy",
+  "account_proxy": "Hesap için proxy",
   "account_proxy_hint": "Boş: uygulamanın varsayılan proxy'si. Değiştirmek hesabın bağlantılarını yeniden başlatır.",
   "account_remove": "Bu hesabı kaldır",
+  "account_remove_revoke_label": "Bu tokenı Twitch'te de iptal et",
   "account_mode_title": "Kazma modu",
-  "account_mode_desc": "Bu hesabın izleme süresini neye harcadığı.",
+  "account_mode_desc": "Hesabın izleme süresini neye harcadığı.",
   "account_slots_title": "Aynı anda izlenen kanallar",
   "account_twitch_hint": "Twitch oturumu sonlandırdıysa yeniden giriş yapın. Hesabı kaldırmak, Twitch'teki oturumunu iptal eder.",
+  "account_twitch_hint_imported_token": "Twitch oturumu sonlandırdıysa yeniden giriş yapın. Hesabı kaldırırken Twitch'teki oturumunu da iptal edip etmeyeceğinizi seçebilirsiniz.",
   "account_twitch_id": "Twitch kimliği",
   "account_twitch_login": "Kullanıcı adı",
   "account_twitch_name": "Ad",
@@ -1116,6 +1182,9 @@
   "account_badges_not_mined": "Kazılmıyor",
   "account_badges_not_mined_hint": "Gösterilir ama kazılmaz: önce kendinizin yapacağı bir abonelik ya da başka bir rozet gerekir veya Twitch madencinin izleyebileceği bir kanal belirtmez.",
   "error_action_rate_limited": "Çok fazla deneme: biraz bekleyip tekrar deneyin.",
+  "error_invalid_token": "Bu token geçersiz veya süresi dolmuş. Yeni bir tane yapıştırın.",
+  "error_unsupported_client": "Bu token madencilik için kullanılamaz. Bunun yerine kodla giriş yapın.",
+  "error_missing_scope": "Bu token, uygulamanın gerektirdiği bir izne sahip değil. Bunun yerine kodla giriş yapın.",
   "ev_paused": "Duraklatıldı",
   "ev_paused_quiet_window": "Duraklatıldı (günlük duraklatma)",
   "ev_paused_scheduled": "Duraklatıldı, devam: {time}",

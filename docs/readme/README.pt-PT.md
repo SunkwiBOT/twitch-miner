@@ -284,6 +284,8 @@ funcionar.
   <img src="../media/pt-PT/basics.avif" alt="Idiomas, temas claro e escuro, uma notificação do ambiente de trabalho e o ícone na área de notificação">
   </details>
 
+- **Adicionar contas colando uma lista de tokens.** Já tem sessão iniciada noutro sítio? Cole uma lista de tokens de acesso, um por linha (até 50); cada um é verificado em tempo real, com um contador «Verificados: n/N» e uma nova tentativa para qualquer linha que tenha falhado, e depois uma única etapa de definições aplica-se a todo o lote. A própria importação decorre em segundo plano, com progresso em tempo real por conta, pode ser cancelada a meio e uma nova tentativa volta a enviar apenas as contas que falharam. Remover uma conta importada desta forma oferece revogar também o token dela na Twitch.
+
 > [!WARNING]
 > Este projeto não está afiliado à Twitch. Automatizar uma conta pode violar os termos da
 > Twitch ou as regras de uma campanha.

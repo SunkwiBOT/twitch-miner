@@ -59,6 +59,7 @@
   "common_accounts_none": "无账号",
   "accounts_remove_title": "要移除这个账号吗？",
   "accounts_remove_text": "{name} 的会话将在 Twitch 上撤销并在此删除。已领取的掉落仍保留在 Twitch 库存中。",
+  "accounts_remove_text_imported_token": "{name} 的会话将在此删除。已领取的掉落仍保留在 Twitch 库存中；可使用下方开关同时在 Twitch 上撤销。",
   "accounts_login_again": "重新登录",
   "accounts_stats_drops": "已领取掉落：{count}",
   "accounts_stats_points": "已赚取点数：{count}",
@@ -72,6 +73,67 @@
   "login_note": "不保存密码。会话在此设备上加密，可在 {settings}中撤销。",
   "login_note_settings": "Twitch 设置",
   "login_vault_locked": "添加账号前请先解锁应用。",
+  "login_use_tokens": "改为粘贴多个令牌",
+  "login_use_code": "改为使用登录代码",
+  "login_tokens_label": "访问令牌",
+  "login_tokens_hint": "每行粘贴一个令牌，导入前会逐一检查每个令牌。",
+  "login_tokens_submit": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "导入这个令牌",
+        "countPluralExact=*": "导入这些令牌"
+      }
+    }
+  ],
+  "login_tokens_checking": "正在检查这些令牌…",
+  "import_tokens_title": "导入令牌",
+  "import_tokens_placeholder": "粘贴令牌，每行一个…",
+  "import_tokens_too_many": "令牌过多：一次最多 {max} 个。",
+  "import_tokens_line_too_long": "有一行太长（最多 {max} 个字符）。",
+  "import_tokens_status_pending": "检查中…",
+  "import_tokens_status_valid": "有效",
+  "import_tokens_status_unusable_client": "此令牌无法用于挖矿。",
+  "import_tokens_status_invalid": "此令牌无效或已过期。",
+  "import_tokens_status_already_added": "已添加",
+  "import_tokens_status_duplicate": "与另一行重复",
+  "import_tokens_status_not_imported": "未导入",
+  "import_tokens_settings_step_title": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "这个账户的设置",
+        "countPluralExact=*": "这些账户的设置"
+      }
+    }
+  ],
+  "import_tokens_settings_step_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "这些设置将应用于正在导入的账户。",
+        "countPluralExact=*": "这些设置将应用于所有导入的账户。"
+      }
+    }
+  ],
+  "import_tokens_overwrite_existing_label": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "同时覆盖已存在的那个账户的设置",
+        "countPluralExact=*": "同时覆盖已存在账户的设置"
+      }
+    }
+  ],
+  "import_tokens_result_count": "已导入 {count} 个令牌",
+  "import_tokens_result_cancelled": "导入已取消 — 已导入 {count} 个令牌",
+  "import_tokens_importing_progress": "导入中：{done}/{total}",
+  "import_tokens_cancel": "取消导入",
+  "import_tokens_retry_failed": "重试",
   "account_slots_hint": "Twitch 每个账号同时最多只计入两个频道。",
   "account_drops_priority_hint": "它们的活动会按“优先分类”在“挖取什么，按顺序”中所处的位置挖取，越重要越靠前。",
   "account_drops_priority_placeholder": "添加分类…",
@@ -188,6 +250,8 @@
   "settings_auto_lock": "闲置后锁定",
   "settings_auto_lock_hint": "在这段时间内未使用仪表盘后，会再次要求输入密码，保持打开的标签页也一样。挖取会继续。",
   "settings_auto_lock_never": "从不",
+  "lock_warning_message": "将在 {time} 后锁定 — 移动或点击以保持解锁",
+  "lock_warning_message_a11y": "即将锁定。",
   "unlock_title": "解锁应用",
   "unlock_text": "输入应用密码。",
   "unlock_passphrase": "密码",
@@ -302,13 +366,15 @@
   "feedback_discord_text": "提交工单或与社区交流",
   "feedback_github_text": "提交 issue：错误或建议",
   "settings_catalog_text": "活动列表来自 drops.sunkwi.com，每 10 分钟刷新。",
-  "account_proxy": "此账号的 proxy",
-  "account_proxy_hint": "留空：使用应用默认 proxy。更改后会重启此账号的连接。",
+  "account_proxy": "账号的 proxy",
+  "account_proxy_hint": "留空：使用应用默认 proxy。更改后会重启账号的连接。",
   "account_remove": "移除此账号",
+  "account_remove_revoke_label": "同时在 Twitch 上撤销此令牌",
   "account_mode_title": "挖取模式",
-  "account_mode_desc": "此账号把观看时间用在哪里。",
+  "account_mode_desc": "账号把观看时间用在哪里。",
   "account_slots_title": "同时观看的频道",
   "account_twitch_hint": "如果 Twitch 已结束会话，请重新登录。移除账号会在 Twitch 上撤销其会话。",
+  "account_twitch_hint_imported_token": "如果 Twitch 已结束会话，请重新登录。移除账号时，你可以选择是否同时在 Twitch 上撤销其会话。",
   "account_twitch_id": "Twitch ID",
   "account_twitch_login": "登录名",
   "account_twitch_name": "名称",
@@ -1074,6 +1140,9 @@
   "account_badges_not_mined": "不挖取",
   "account_badges_not_mined_hint": "仅显示，不挖取：需先自行订阅或获得另一个徽章，或 Twitch 没有指明挖掘器可以观看的频道。",
   "error_action_rate_limited": "尝试次数过多：请稍候再试。",
+  "error_invalid_token": "此令牌无效或已过期。请粘贴一个新令牌。",
+  "error_unsupported_client": "此令牌无法用于挖矿。请改用代码登录。",
+  "error_missing_scope": "此令牌缺少本应用所需的权限。请改用代码登录。",
   "ev_paused": "已暂停",
   "ev_paused_quiet_window": "已暂停（每日暂停）",
   "ev_paused_scheduled": "已暂停，{time} 恢复",

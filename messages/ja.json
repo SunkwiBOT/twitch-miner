@@ -59,6 +59,7 @@
   "common_accounts_none": "アカウントなし",
   "accounts_remove_title": "このアカウントを削除しますか？",
   "accounts_remove_text": "{name} のセッションは Twitch で取り消され、ここから削除されます。受け取り済みのドロップは Twitch のインベントリに残ります。",
+  "accounts_remove_text_imported_token": "{name} のセッションはここから削除されます。受け取り済みのドロップは Twitch のインベントリに残ります。下のスイッチで Twitch 上のセッションも失効させられます。",
   "accounts_login_again": "再ログイン",
   "accounts_stats_drops": "受け取ったドロップ：{count}",
   "accounts_stats_points": "獲得ポイント：{count}",
@@ -72,6 +73,67 @@
   "login_note": "パスワードは保存されません。セッションはこのデバイス上で暗号化され、{settings}から取り消せます。",
   "login_note_settings": "Twitch の設定",
   "login_vault_locked": "アカウントを追加する前にアプリのロックを解除してください。",
+  "login_use_tokens": "代わりにトークンを貼り付け",
+  "login_use_code": "代わりにサインインコードを使用",
+  "login_tokens_label": "アクセストークン",
+  "login_tokens_hint": "1行に1つのトークンを貼り付けてください。各トークンはインポート前に確認されます。",
+  "login_tokens_submit": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "このトークンをインポート",
+        "countPluralExact=*": "すべてのトークンをインポート"
+      }
+    }
+  ],
+  "login_tokens_checking": "トークンを確認中…",
+  "import_tokens_title": "トークンをインポート",
+  "import_tokens_placeholder": "トークンを1行に1つずつ貼り付けてください…",
+  "import_tokens_too_many": "トークンが多すぎます：一度に最大 {max} 件です。",
+  "import_tokens_line_too_long": "1行が長すぎます（最大 {max} 文字）。",
+  "import_tokens_status_pending": "確認中…",
+  "import_tokens_status_valid": "有効",
+  "import_tokens_status_unusable_client": "このトークンは採掘に使用できません。",
+  "import_tokens_status_invalid": "このトークンは無効か期限切れです。",
+  "import_tokens_status_already_added": "すでに追加済み",
+  "import_tokens_status_duplicate": "他の行と重複",
+  "import_tokens_status_not_imported": "インポートされませんでした",
+  "import_tokens_settings_step_title": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "このアカウントの設定",
+        "countPluralExact=*": "これらのアカウントの設定"
+      }
+    }
+  ],
+  "import_tokens_settings_step_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "この設定はインポートするアカウントに適用されます。",
+        "countPluralExact=*": "この設定はインポートするすべてのアカウントに適用されます。"
+      }
+    }
+  ],
+  "import_tokens_overwrite_existing_label": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "既存のアカウントの設定も上書きする",
+        "countPluralExact=*": "既存のアカウントすべての設定も上書きする"
+      }
+    }
+  ],
+  "import_tokens_result_count": "{count}個のトークンをインポートしました",
+  "import_tokens_result_cancelled": "インポートをキャンセルしました — {count}個のトークンをインポートしました",
+  "import_tokens_importing_progress": "インポート中: {done}/{total}",
+  "import_tokens_cancel": "インポートをキャンセル",
+  "import_tokens_retry_failed": "再試行",
   "account_slots_hint": "Twitch がカウントするのは、アカウントごとに同時に最大 2 チャンネルまでです。",
   "account_drops_priority_hint": "これらのキャンペーンは、「マイニングする内容と順番」の中で「優先カテゴリー」が置かれた順位でマイニングされます。重要なものが先です。",
   "account_drops_priority_placeholder": "カテゴリーを追加…",
@@ -302,13 +364,14 @@
   "feedback_discord_text": "チケットの作成やコミュニティとの交流",
   "feedback_github_text": "issue を作成：バグやアイデア",
   "settings_catalog_text": "キャンペーン一覧は drops.sunkwi.com から 10 分ごとに更新します。",
-  "account_proxy": "このアカウントの proxy",
-  "account_proxy_hint": "空欄：アプリの既定 proxy。変更するとこのアカウントの接続を再開します。",
+  "account_proxy": "アカウントの proxy",
+  "account_proxy_hint": "空欄：アプリの既定 proxy。変更するとアカウントの接続を再開します。",
   "account_remove": "このアカウントを削除",
   "account_mode_title": "マイニングモード",
-  "account_mode_desc": "このアカウントが視聴時間を何に使うかを選びます。",
+  "account_mode_desc": "アカウントが視聴時間を何に使うかを選びます。",
   "account_slots_title": "同時に視聴するチャンネル",
   "account_twitch_hint": "Twitch がセッションを終了した場合は再ログインしてください。アカウントを削除すると Twitch 上のセッションも取り消されます。",
+  "account_twitch_hint_imported_token": "Twitch がセッションを終了した場合は再ログインしてください。アカウントを削除する際、Twitch 上のセッションも取り消すかどうかを選べます。",
   "account_twitch_id": "Twitch ID",
   "account_twitch_login": "ログイン名",
   "account_twitch_name": "名前",
@@ -1122,5 +1185,11 @@
   "settings_discord_test": "テスト",
   "settings_telegram_test": "テスト",
   "settings_webhook_test": "テスト",
-  "export_counts_count_one": "{count}件獲得"
+  "export_counts_count_one": "{count}件獲得",
+  "lock_warning_message": "{time}後にロックされます — 動かすかクリックしてロックを防ぐ",
+  "lock_warning_message_a11y": "まもなくロックされます。",
+  "account_remove_revoke_label": "Twitchでもこのトークンを失効させる",
+  "error_invalid_token": "このトークンは無効か期限切れです。新しいトークンを貼り付けてください。",
+  "error_unsupported_client": "このトークンは採掘に使用できません。代わりにコードでサインインしてください。",
+  "error_missing_scope": "このトークンにはこのアプリが必要とする権限がありません。代わりにコードでサインインしてください。"
 }

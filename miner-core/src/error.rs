@@ -86,6 +86,14 @@ pub enum Error {
     Notification(String),
     #[error("too many tries in a row: wait a moment")]
     ActionRateLimited,
+    #[error("the pasted token is invalid or expired")]
+    InvalidToken,
+    #[error("this token cannot be used to mine: sign in with the device code instead")]
+    UnsupportedClient,
+    #[error(
+        "this token is missing a permission the miner needs: sign in with the device code instead"
+    )]
+    MissingScope,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize, TS)]
@@ -128,6 +136,9 @@ pub enum ErrorCode {
     ServerUnreachable,
     UnknownError,
     ActionRateLimited,
+    InvalidToken,
+    UnsupportedClient,
+    MissingScope,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, TS)]
@@ -169,6 +180,9 @@ impl Error {
             Error::NotSupported => ErrorCode::NotSupported,
             Error::Notification(_) => ErrorCode::NotificationFailed,
             Error::ActionRateLimited => ErrorCode::ActionRateLimited,
+            Error::InvalidToken => ErrorCode::InvalidToken,
+            Error::UnsupportedClient => ErrorCode::UnsupportedClient,
+            Error::MissingScope => ErrorCode::MissingScope,
         }
     }
 
@@ -192,6 +206,9 @@ impl Error {
                 | Error::NotSupported
                 | Error::InvalidRequest(_)
                 | Error::ActionRateLimited
+                | Error::InvalidToken
+                | Error::UnsupportedClient
+                | Error::MissingScope
         )
     }
 }

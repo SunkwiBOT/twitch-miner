@@ -67,6 +67,10 @@ async fn locked_snapshot(manager: &Manager) -> Snapshot {
         },
         recent_events: Vec::new(),
         login: None,
+        import: None,
+        token_import_max: miner_core::api::TOKENS_IMPORT_MAX as u32,
+        token_line_max_chars: miner_core::api::TOKEN_LINE_MAX_CHARS as u32,
+        import_default_patch: AccountSettingsPatch::defaults(),
     }
 }
 
@@ -92,6 +96,35 @@ pub(super) async fn start_login(state: tauri::State<'_, AppState>) -> Answer<Log
 
     Ok(LoginFlowResponse {
         login: state.manager.start_login().await?,
+    })
+}
+
+#[tauri::command]
+pub(super) async fn check_pasted_token(
+    state: tauri::State<'_, AppState>,
+    token: String,
+) -> Answer<CheckPastedTokenResponse> {
+    unlocked(&state).await?;
+
+    Ok(CheckPastedTokenResponse {
+        check: state.manager.check_pasted_token(&token).await?,
+    })
+}
+
+#[tauri::command]
+pub(super) async fn import_tokens(
+    state: tauri::State<'_, AppState>,
+    tokens: Vec<String>,
+    settings: AccountSettingsPatch,
+    apply_existing_settings: bool,
+) -> Answer<ImportTokensResponse> {
+    unlocked(&state).await?;
+
+    Ok(ImportTokensResponse {
+        import: state
+            .manager
+            .start_import_tokens(tokens, settings, apply_existing_settings)
+            .await?,
     })
 }
 
@@ -405,10 +438,9 @@ pub(super) async fn export_csv_file(
         chrono::Utc::now().format("%Y-%m-%d")
     );
 
-    // ! Opens the dialog and writes the file itself, from the query: never
-    // from a path and CSV text the webview names (see the review notes in
-    // `tests/README.md`), so the webview needs no `dialog:allow-save`
-    // capability at all. `None` means the user closed the dialog.
+    // ! Opens the dialog and writes the file itself, from the query: the
+    // webview never names a path or the CSV content, so it needs no
+    // `dialog:allow-save` capability. `None` means the user closed the dialog.
     let Some(path) = app
         .dialog()
         .file()

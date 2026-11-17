@@ -19,9 +19,11 @@ pub(super) fn status_of(code: ErrorCode) -> StatusCode {
         | ErrorCode::RewardNotRedeemable
         | ErrorCode::BurstRunning
         | ErrorCode::DeviceCodeExpired => StatusCode::CONFLICT,
-        ErrorCode::InvalidProxy | ErrorCode::InvalidStreamerLogin => {
-            StatusCode::UNPROCESSABLE_ENTITY
-        }
+        ErrorCode::InvalidProxy
+        | ErrorCode::InvalidStreamerLogin
+        | ErrorCode::InvalidToken
+        | ErrorCode::UnsupportedClient
+        | ErrorCode::MissingScope => StatusCode::UNPROCESSABLE_ENTITY,
         // ! Never 502 or 504: Cloudflare puts its own page in their place.
         ErrorCode::NetworkError
         | ErrorCode::TwitchUnavailable

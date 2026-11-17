@@ -4,15 +4,17 @@ import "@fontsource-variable/inter";
 import "./theme.css";
 
 import App from "./components/layout/App.svelte";
+import LockWarningToast from "./components/layout/LockWarningToast.svelte";
 import ToastCard from "./components/layout/ToastCard.svelte";
 import { isTauri } from "./lib/api/tauri";
 import { prepareLanguage } from "./lib/i18n/i18n.svelte";
 import { applySavedTheme } from "./lib/state/preferences.svelte";
 import { start } from "./lib/state/session";
-import { setToastCard } from "./lib/state/toasts";
+import { setLockWarningCard, setToastCard } from "./lib/state/toasts";
 import { followUpdates } from "./lib/updates/updates.svelte";
 
 setToastCard(ToastCard);
+setLockWarningCard(LockWarningToast);
 applySavedTheme();
 
 if (isTauri()) {

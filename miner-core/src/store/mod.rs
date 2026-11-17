@@ -4,7 +4,7 @@ mod requests;
 mod spam;
 pub mod vault;
 
-pub use accounts::{AccountRecord, Credential};
+pub use accounts::{AccountRecord, AccountSource, Credential};
 pub use history::{HistoryExportFilter, HistoryFilter};
 
 use std::fmt;
@@ -93,6 +93,11 @@ CREATE TABLE IF NOT EXISTS spam_channel (
     balance    INTEGER,
     balance_at INTEGER,
     PRIMARY KEY (account_id, login)
+) STRICT;
+
+CREATE TABLE IF NOT EXISTS account_source (
+    account_id TEXT PRIMARY KEY REFERENCES account(id) ON DELETE CASCADE,
+    source     TEXT NOT NULL
 ) STRICT;
 ";
 
