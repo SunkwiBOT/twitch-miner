@@ -66,10 +66,13 @@ const flushSettings = async (accountId: string): Promise<void> => {
   const sent = entry.version;
 
   try {
+    const settings = { ...entry.settings };
+    delete settings.paused_until;
+
     await sendCommand({
       command: CommandName.SET_ACCOUNT_SETTINGS,
       account_id: accountId,
-      settings: entry.settings,
+      settings,
     });
     entry.saving = false;
     entry.saved = sent;
@@ -168,13 +171,25 @@ export const keepPendingSettings = (snapshot: SnapshotType): void => {
     const entry = pendingSettings.get(item.id);
 
     if (entry) {
-      item.settings = entry.settings;
+      // ! `paused_until` is server-owned (see `set_account_settings`): kept
+      // from the snapshot, never from the locally edited draft.
+      item.settings = { ...entry.settings, paused_until: item.settings.paused_until };
     }
   }
 };
 
-export const saveAccountSettings = (id: string, settings: AccountSettingsType): Promise<boolean> =>
-  run({ command: CommandName.SET_ACCOUNT_SETTINGS, account_id: id, settings }, t.common_saved());
+export const saveAccountSettings = (
+  id: string,
+  settings: AccountSettingsType,
+): Promise<boolean> => {
+  const rest = { ...settings };
+  delete rest.paused_until;
+
+  return run(
+    { command: CommandName.SET_ACCOUNT_SETTINGS, account_id: id, settings: rest },
+    t.common_saved(),
+  );
+};
 
 export const prioritizeCampaign = async (
   accountIds: string[],

@@ -33,6 +33,8 @@ export const EVENT_TONES: Record<EventKind, BadgeTone> = {
   [EventKind.LOGIN_COMPLETED]: BadgeTone.NEUTRAL,
   [EventKind.UPDATE_AVAILABLE]: BadgeTone.INFO,
   [EventKind.VERSION_UPDATED]: BadgeTone.INFO,
+  [EventKind.PAUSED]: BadgeTone.WARNING,
+  [EventKind.RESUMED]: BadgeTone.SUCCESS,
 };
 
 export const EVENT_ICONS: Record<EventKind, IconName> = {
@@ -62,6 +64,8 @@ export const EVENT_ICONS: Record<EventKind, IconName> = {
   [EventKind.LOGIN_COMPLETED]: IconName.LOG_IN,
   [EventKind.UPDATE_AVAILABLE]: IconName.IMPORT,
   [EventKind.VERSION_UPDATED]: IconName.CHECK,
+  [EventKind.PAUSED]: IconName.PAUSE,
+  [EventKind.RESUMED]: IconName.PLAY,
 };
 
 export const MINER_TONES: Record<MinerKind, BadgeTone> = {
@@ -150,6 +154,8 @@ export const KIND_GROUPS: { group: KindGroup; kinds: EventKind[]; categories: Ev
         EventKind.LOGIN_COMPLETED,
         EventKind.UPDATE_AVAILABLE,
         EventKind.VERSION_UPDATED,
+        EventKind.PAUSED,
+        EventKind.RESUMED,
       ],
       categories: [EventCategory.OTHER],
     },

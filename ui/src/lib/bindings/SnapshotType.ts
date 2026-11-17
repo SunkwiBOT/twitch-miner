@@ -17,6 +17,7 @@ export type SnapshotType = {
   catalog: CatalogViewType;
   badges: BadgeCatalogViewType;
   settings: GlobalSettingsType;
+  quiet_window_active: boolean;
   vault: VaultStatusType;
   recent_events: Array<MinerEventType>;
   login?: LoginFlowViewType;

@@ -20,11 +20,11 @@ use miner_core::api::{
     ApiRoute, AuthResponse, AuthStatus, BadgesResponse, CatalogResponse, ChannelBannersRequest,
     ChannelBannersResponse, ChannelQuery, ChannelResponse, ChannelsLookupRequest,
     ChannelsLookupResponse, Command, DashboardLoginRequest, FollowsQuery, FollowsResponse,
-    HistoryQuery, HistoryResponse, LoginFlowResponse, LogsQuery, LogsReportResponse, LogsResponse,
-    NotificationTestResponse, ProxyTestRequest, ProxyTestResponse, RedeemRequest, RedeemResponse,
-    RefreshResponse, RequestsQuery, RequestsResponse, SearchQuery, SearchResponse, ServerMessage,
-    SnapshotResponse, SpamBalanceResponse, SpamChannelQuery, SpamChannelResponse, UpdateCheck,
-    UpdateCheckResponse,
+    HistoryExportQuery, HistoryExportResponse, HistoryQuery, HistoryResponse, LoginFlowResponse,
+    LogsQuery, LogsReportResponse, LogsResponse, NotificationTest, NotificationTestRequest,
+    ProxyTestRequest, ProxyTestResponse, RedeemRequest, RedeemResponse, RefreshResponse,
+    RequestsQuery, RequestsResponse, SearchQuery, SearchResponse, ServerMessage, SnapshotResponse,
+    SpamBalanceResponse, SpamChannelQuery, SpamChannelResponse, UpdateCheck, UpdateCheckResponse,
 };
 use miner_core::error::{ApiError, ErrorCode};
 use miner_core::Manager;
@@ -121,9 +121,10 @@ pub fn router(state: Shared) -> Router {
         .route(ApiRoute::Search.path(), get(search))
         .route(ApiRoute::ChannelBanners.path(), post(channel_banners))
         .route(ApiRoute::Follows.path(), get(follows))
-        .route(ApiRoute::NotificationsTest.path(), post(test_notifications))
+        .route(ApiRoute::NotificationsTest.path(), post(test_notification))
         .route(ApiRoute::ProxyTest.path(), post(test_proxy))
         .route(ApiRoute::History.path(), get(history))
+        .route(ApiRoute::HistoryExport.path(), get(history_export))
         .route(ApiRoute::Badges.path(), get(badges))
         .route(ApiRoute::Logs.path(), get(logs))
         .route(ApiRoute::LogsReport.path(), get(logs_report))
@@ -293,10 +294,11 @@ async fn redeem(
     ))
 }
 
-async fn test_notifications(State(state): State<Shared>) -> Json<NotificationTestResponse> {
-    Json(NotificationTestResponse {
-        targets: state.manager.test_notification_targets().await,
-    })
+async fn test_notification(
+    State(state): State<Shared>,
+    Body(request): Body<NotificationTestRequest>,
+) -> Result<Json<NotificationTest>, Failure> {
+    Ok(Json(state.manager.test_notification_target(request).await?))
 }
 
 async fn test_proxy(
@@ -311,6 +313,13 @@ async fn history(
     Params(query): Params<HistoryQuery>,
 ) -> Result<Json<HistoryResponse>, Failure> {
     Ok(Json(state.manager.history_page(&query)?))
+}
+
+async fn history_export(
+    State(state): State<Shared>,
+    Params(query): Params<HistoryExportQuery>,
+) -> Result<Json<HistoryExportResponse>, Failure> {
+    Ok(Json(state.manager.history_export(&query)?))
 }
 
 async fn refresh_catalog(State(state): State<Shared>) -> Result<Json<RefreshResponse>, Failure> {

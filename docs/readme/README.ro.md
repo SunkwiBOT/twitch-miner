@@ -180,6 +180,10 @@ la lucru.
   <img src="../media/ro/drops-streamers-first.avif" alt="Un streamer din listă, urmărit pentru Drops și pentru punctele lui">
   </details>
 
+- **Prioritatea recompenselor.** Când două campanii au același rang, minerul o alege întâi
+  pe cea ale cărei recompense se potrivesc tipului preferat (insignă, emote, obiect din
+  joc). Nu îți depășește niciodată ordinea de minare.
+
 - **Insigne (beta).** Pagina Insigne listează toate insignele globale din chatul Twitch
   și cum le obții. Fiecare cont are propria pagină Insigne: insignele în desfășurare cu
   progresul lor, cele pe care le mai poate obține și cele pe care le are. Minerul
@@ -216,6 +220,16 @@ la lucru.
   <details open><summary>Vezi în acțiune</summary>
   <img src="../media/ro/journal-requests.avif" alt="Jurnalul filtrat, apoi Loguri tehnice › Cereri">
   </details>
+
+- **Pauză programată și pauză zilnică.** Pune pauză unui cont sau tuturor pentru 30 de
+  minute, 1 oră, 4 ore, până mâine la 09:00, sau o dată și oră personalizate; „Reia acum”
+  o ridică mai devreme. O insignă arată ora la care se termină pauza. O pauză zilnică
+  oprește minarea tuturor conturilor în fiecare zi între două ore, în fusul orar ales, și
+  o reia după ce se termină, cu propria insignă în bara de sus.
+- **Export CSV și numărători pe categorie.** Jurnalul exportă drops revendicate ca fișier
+  CSV (data, contul, categoria, campania, drop, minute), filtrate după cont, iar o
+  fereastră de dialog arată câte drops au fost revendicate în fiecare categorie. Aplicația
+  desktop salvează fișierul printr-o fereastră de salvare; panoul web îl descarcă.
 
 ### Pe desktop sau pe un server
 
@@ -257,7 +271,8 @@ la lucru.
 - Ca alte instrumente de minare: cufere bonus, raiduri, momente, obiective ale comunității,
   predicții (strategii, momentul pariului, condiții), prioritate pentru seriile de
   vizionare și pentru canalele cu abonament, prezență în chat (se poate dezactiva), opțiuni
-  implicite pentru streamerii noi, notificări Discord, Telegram și webhook cu imagini (pe
+  implicite pentru streamerii noi, notificări Discord, Telegram și webhook cu imagini și
+  un buton „Testează” pentru fiecare (pe
   server, limba lor se alege în **Setări › Notificări**), proxy global sau per cont.
 - 29 de limbi, teme întunecată și luminoasă, notificări desktop, pictogramă în bara de
   sistem, pornire odată cu sistemul.

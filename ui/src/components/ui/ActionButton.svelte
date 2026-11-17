@@ -6,8 +6,8 @@
   import Spinner from "./Spinner.svelte";
   import {
     BUTTON_SIZES,
-    BUTTON_VARIANTS,
     BUTTON_VARIANT_CLASSES,
+    BUTTON_VARIANTS,
     ButtonSize,
     ButtonType,
     ButtonVariant,
@@ -17,6 +17,7 @@
   type ActionButtonPropsType = {
     icon: IconName;
     label: string;
+    ariaLabel?: string;
     busyLabel: string;
     busy: boolean;
     disabled: boolean;
@@ -31,6 +32,7 @@
   let {
     icon,
     label,
+    ariaLabel,
     busyLabel,
     busy,
     disabled,
@@ -49,8 +51,9 @@
   variant={BUTTON_VARIANTS[variant]}
   size={BUTTON_SIZES[size]}
   class={cn(BUTTON_VARIANT_CLASSES[variant], className)}
-  {type}
+  type={type as "button" | "submit"}
   disabled={disabled || busy}
+  aria-label={ariaLabel}
   aria-busy={busy}
   aria-describedby={describedby}
   {onclick}

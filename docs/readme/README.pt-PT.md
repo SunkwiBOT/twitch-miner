@@ -180,6 +180,10 @@ funcionar.
   <img src="../media/pt-PT/drops-streamers-first.avif" alt="Um streamer da lista, visto para os Drops e pelos seus pontos">
   </details>
 
+- **Prioridade das recompensas.** Quando duas campanhas têm a mesma posição, o minerador
+  escolhe primeiro a que tem recompensas do tipo que prefere (emblema, emote, item do
+  jogo). Nunca passa por cima da sua ordem de mineração.
+
 - **Emblemas (beta).** A página Emblemas lista todos os emblemas globais do chat da
   Twitch e como os obter. Cada conta tem a sua página Emblemas: os emblemas em curso com
   o respetivo progresso, os que ainda pode obter e os que possui. O minerador procura os
@@ -216,6 +220,18 @@ funcionar.
   <details open><summary>Ver em ação</summary>
   <img src="../media/pt-PT/journal-requests.avif" alt="O Diário filtrado e, depois, Registos técnicos › Pedidos">
   </details>
+
+- **Pausa agendada e pausa diária.** Pause uma conta ou todas durante 30 minutos, 1 hora,
+  4 horas, até amanhã às 09:00, ou uma data e hora personalizadas; «Retomar agora» levanta
+  a pausa mais cedo. Um emblema mostra a hora a que a pausa termina. Uma pausa diária
+  interrompe a mineração de todas as contas todos os dias entre duas horas, no fuso
+  horário escolhido, e retoma-a assim que esta termina, com o seu próprio emblema na barra
+  superior.
+- **Exportação CSV e contagens por categoria.** O Diário exporta os drops reclamados como
+  ficheiro CSV (data, conta, categoria, campanha, drop, minutos), filtrados por conta, e
+  uma caixa de diálogo lista quantos drops foram reclamados em cada categoria. A aplicação
+  de ambiente de trabalho guarda o ficheiro através de uma caixa de diálogo de gravação; o
+  painel web descarrega-o.
 
 ### No computador ou num servidor
 
@@ -258,7 +274,8 @@ funcionar.
 - Como outros mineradores: baús de bónus, raids, momentos, metas da comunidade, previsões
   (estratégias, momento da aposta, condições), sequências de visualização e canais
   subscritos primeiro, presença no chat (pode ser desativada), opções predefinidas para
-  novos streamers, notificações por Discord, Telegram e webhook com imagens (no servidor,
+  novos streamers, notificações por Discord, Telegram e webhook com imagens e um botão
+  «Testar» para cada (no servidor,
   o idioma escolhe-se em **Definições › Notificações**), proxy global ou por conta.
 - 29 idiomas, temas escuro e claro, notificações do ambiente de trabalho, ícone na área de
   notificação, arranque com o sistema.

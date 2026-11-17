@@ -37,18 +37,36 @@ pub struct ChannelRef {
 #[ts(repr(enum = name))]
 pub enum BenefitKind {
     Badge,
+    Emote,
     InGameItem,
     #[default]
     Other,
 }
 
 impl BenefitKind {
+    pub const ALL: [Self; 4] = [Self::Badge, Self::Emote, Self::InGameItem, Self::Other];
+
     pub fn from_twitch(distribution_type: Option<&str>) -> Self {
         match distribution_type {
             Some("BADGE") => Self::Badge,
+            Some("EMOTE") => Self::Emote,
             Some("DIRECT_ENTITLEMENT") => Self::InGameItem,
             _ => Self::Other,
         }
+    }
+
+    // ! The best (lowest) rank among a drop's benefits: a chest offering
+    // several kinds is as wanted as its most wanted one.
+    pub fn rank_of(kinds: impl Iterator<Item = Self>, priority: &[Self]) -> usize {
+        kinds
+            .map(|kind| {
+                priority
+                    .iter()
+                    .position(|p| *p == kind)
+                    .unwrap_or(priority.len())
+            })
+            .min()
+            .unwrap_or(priority.len())
     }
 }
 
@@ -364,7 +382,12 @@ impl Campaign {
             })
     }
 
-    pub fn next_drop(&self, now: DateTime<Utc>, excluded: &[String]) -> Option<&TimedDrop> {
+    pub fn next_drop(
+        &self,
+        now: DateTime<Utc>,
+        excluded: &[String],
+        priority: &[BenefitKind],
+    ) -> Option<&TimedDrop> {
         let completed: Vec<&str> = self
             .drops
             .iter()
@@ -381,7 +404,13 @@ impl Campaign {
                         .iter()
                         .all(|id| completed.contains(&id.as_str()))
             })
-            .min_by_key(|d| (d.required_minutes, d.id.clone()))
+            .min_by_key(|d| {
+                (
+                    BenefitKind::rank_of(d.benefits.iter().map(|b| b.kind), priority),
+                    d.required_minutes,
+                    d.id.clone(),
+                )
+            })
     }
 
     pub fn gives_badge(&self, now: DateTime<Utc>, excluded: &[String]) -> bool {

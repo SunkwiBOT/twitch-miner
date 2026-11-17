@@ -60,7 +60,7 @@
   const capacity = $derived(Math.max(1, Math.min(SLOTS_MAX, account.settings.slots)));
 
   const free = $derived(
-    account.settings.enabled ? Math.max(0, capacity - account.slots.length) : 0,
+    account.status === AccountStatus.PAUSED ? 0 : Math.max(0, capacity - account.slots.length),
   );
 </script>
 

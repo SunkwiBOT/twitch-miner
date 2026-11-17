@@ -64,6 +64,7 @@ const MESSAGES: Record<ErrorApiMessage, (code: ErrorApiMessage) => string> = {
   [ErrorApiMessage.UNAUTHORIZED]: () => t.error_dashboard_unauthorized(),
   [ErrorApiMessage.WRONG_PASSWORD]: () => t.auth_wrong(),
   [ErrorApiMessage.TOO_MANY_ATTEMPTS]: () => t.error_too_many_attempts(),
+  [ErrorApiMessage.ACTION_RATE_LIMITED]: () => t.error_action_rate_limited(),
   [ErrorApiMessage.HTTPS_REQUIRED]: () => t.error_https_required(),
   [ErrorApiMessage.FORWARDED_FOR_REQUIRED]: () => t.error_forwarded_for_required(),
   [ErrorApiMessage.PROXY_NOT_LOCAL]: () => t.error_proxy_not_local(),

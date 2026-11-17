@@ -180,6 +180,10 @@ arbete.
   <img src="../media/sv/drops-streamers-first.avif" alt="En streamer från listan som tittas på för Drops och för sina poäng">
   </details>
 
+- **Belöningsprioritet.** När två kampanjer rankas lika väljer minern först den vars
+  belöningar matchar din föredragna typ (märke, emote, föremål i spelet). Den åsidosätter
+  aldrig din utvinningsordning.
+
 - **Märken (beta).** Sidan Märken listar alla Twitchs globala chattmärken och hur du får
   dem. Varje konto har sin egen Märken-sida: märkena som pågår med sina framsteg, de som
   det fortfarande kan få och de som det äger. Minern går efter märkena från
@@ -216,6 +220,16 @@ arbete.
   <details open><summary>Se det i aktion</summary>
   <img src="../media/sv/journal-requests.avif" alt="Den filtrerade journalen, sedan Tekniska loggar › Förfrågningar">
   </details>
+
+- **Schemalagd paus och en daglig paus.** Pausa ett konto eller alla i 30 minuter, 1
+  timme, 4 timmar, till imorgon 09:00 eller ett anpassat datum och tid; ”Återuppta nu”
+  lyfter pausen tidigare. Ett märke visar när pausen slutar. En daglig paus stoppar
+  utvinningen på alla konton varje dag mellan två tider, i den tidszon du väljer, och
+  återupptar den när pausen är slut, med ett eget märke i det övre fältet.
+- **CSV-export och antal per kategori.** Journalen exporterar de hämtade dropparna som en
+  CSV-fil (datum, konto, kategori, kampanj, drop, minuter), filtrerade efter konto, och en
+  dialogruta listar hur många drops som hämtats i varje kategori. Skrivbordsappen sparar
+  filen via en spara-dialog; webbpanelen laddar ner den.
 
 ### På skrivbordet eller på en server
 
@@ -257,7 +271,8 @@ arbete.
 - Som andra miners: bonuskistor, raids, moments, communitymål, förutsägelser
   (strategier, när det ska satsas, villkor), tittarsviter och prenumererade kanaler först,
   närvaro i chatten (kan stängas av), standardalternativ för nya streamers, aviseringar via
-  Discord, Telegram och webhook med bilder (på servern väljs deras språk under
+  Discord, Telegram och webhook med bilder och en ”Testa”-knapp för var och en (på
+  servern väljs deras språk under
   **Inställningar › Aviseringar**), en global proxy eller en per konto.
 - 29 språk, mörkt och ljust tema, skrivbordsaviseringar, en ikon i systemfältet, start med
   systemet.

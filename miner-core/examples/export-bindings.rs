@@ -4,12 +4,12 @@ use miner_core::api::{
     ApiRoute, AppInfoResponse, AuthResponse, AutostartResponse, BadgesResponse, CatalogResponse,
     ChannelBannersRequest, ChannelBannersResponse, ChannelQuery, ChannelResponse,
     ChannelsLookupRequest, ChannelsLookupResponse, Command, CommandName, DashboardLoginRequest,
-    DesktopEvent, FollowsQuery, FollowsResponse, HistoryQuery, HistoryResponse, LoginFlowResponse,
-    LogsQuery, LogsReportResponse, LogsResponse, NotificationTestResponse, ProxyTestRequest,
-    ProxyTestResponse, RedeemRequest, RedeemResponse, RefreshResponse, RequestsQuery,
-    RequestsResponse, SearchQuery, SearchResponse, ServerMessage, ServerMessageKind,
-    SnapshotResponse, SpamBalanceResponse, SpamChannelQuery, SpamChannelResponse,
-    StartupProblemResponse, UpdateCheckResponse,
+    DesktopEvent, FollowsQuery, FollowsResponse, HistoryExportQuery, HistoryExportResponse,
+    HistoryQuery, HistoryResponse, LoginFlowResponse, LogsQuery, LogsReportResponse, LogsResponse,
+    NotificationTest, NotificationTestRequest, ProxyTestRequest, ProxyTestResponse, RedeemRequest,
+    RedeemResponse, RefreshResponse, RequestsQuery, RequestsResponse, SearchQuery, SearchResponse,
+    ServerMessage, ServerMessageKind, SnapshotResponse, SpamBalanceResponse, SpamChannelQuery,
+    SpamChannelResponse, StartupProblemResponse, UpdateCheckResponse,
 };
 use miner_core::error::{ApiError, ErrorCode};
 use miner_core::scheduler::SlotPurposeKind;
@@ -89,7 +89,10 @@ fn main() {
     export::<ChannelsLookupResponse>(&cfg);
     export::<FollowsQuery>(&cfg);
     export::<FollowsResponse>(&cfg);
-    export::<NotificationTestResponse>(&cfg);
+    export::<NotificationTest>(&cfg);
+    export::<NotificationTestRequest>(&cfg);
+    export::<HistoryExportQuery>(&cfg);
+    export::<HistoryExportResponse>(&cfg);
     export::<ProxyTestResponse>(&cfg);
     export::<AuthResponse>(&cfg);
     export::<AppInfoResponse>(&cfg);

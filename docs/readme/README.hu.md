@@ -184,6 +184,9 @@ láthatod, hogyan működnek.
   <img src="../media/hu/drops-streamers-first.avif" alt="A listán szereplő streamer, akit a Dropsért és a pontjaiért is néz">
   </details>
 
+- **Jutalom-prioritás.** Ha két kampány azonos helyen áll, a bányász először azt
+  választja, amelynek jutalmai a kedvelt típusodhoz illenek (jelvény, emote, játékon
+  belüli tárgy). A te bányászati sorrendedet sosem írja felül.
 - **Jelvények (béta).** A Jelvények oldal felsorolja a Twitch összes globális
   chatjelvényét, és azt, hogyan szerezhetők meg. Minden fióknak saját Jelvények oldala
   van: a folyamatban lévő jelvények a haladásukkal, a még megszerezhetők és a
@@ -220,6 +223,16 @@ láthatod, hogyan működnek.
   <details open><summary>Működés közben</summary>
   <img src="../media/hu/journal-requests.avif" alt="A szűrt Napló, majd a Technikai logok › Kérések">
   </details>
+
+- **Ütemezett szünet és napi szünet.** Állíts szünetet egy fiókra vagy mindegyikre 30
+  percre, 1 órára, 4 órára, holnap 9:00-ig vagy egyéni dátumra és időpontra; a „Folytatás
+  most” korábban feloldja. Egy jelvény mutatja, mikor ér véget a szünet. A napi szünet
+  minden nap két időpont között, a választott időzónában leállítja minden fiók
+  bányászatát, majd a végén folytatja, saját jelvénnyel a felső sávban.
+- **CSV-exportálás és kategóriánkénti számlálás.** A Napló a bevett dropokat CSV-fájlba
+  exportálja (dátum, fiók, kategória, kampány, drop, perc), fiók szerint szűrve, és egy
+  párbeszédablak felsorolja, hány dropot vettek be kategóriánként. Az asztali alkalmazás
+  mentési párbeszédablakkal menti a fájlt; a webes vezérlőpult letölti.
 
 ### Asztalon vagy szerveren
 
@@ -261,9 +274,9 @@ láthatod, hogyan működnek.
 - Mint más bányászokban: bónuszládák, raidek, pillanatok, közösségi célok, előrejelzések
   (stratégiák, a fogadás időzítése, feltételek), a nézési sorozatok és az előfizetett
   csatornák előnyben részesítése, jelenlét a chatben (kikapcsolható), alapértelmezett
-  beállítások az új streamerekhez, Discord-, Telegram- és webhook-értesítések képekkel (a
-  szerveren a nyelvüket a **Beállítások › Értesítések** alatt választod ki), globális vagy
-  fiókonkénti proxy.
+  beállítások az új streamerekhez, Discord-, Telegram- és webhook-értesítések képekkel és
+  mindegyikhez egy „Tesztelés” gombbal (a szerveren a nyelvüket a **Beállítások › Értesítések**
+  alatt választod ki), globális vagy fiókonkénti proxy.
 - 29 nyelv, sötét és világos téma, asztali értesítések, tálcaikon, indítás a rendszerrel.
 
   <details open><summary>Működés közben</summary>

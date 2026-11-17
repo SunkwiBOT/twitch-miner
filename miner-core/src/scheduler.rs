@@ -7,7 +7,7 @@ use ts_rs::TS;
 use crate::config::{
     AccountSettings, DropsOrder, DropsScope, MiningLaneKind, Mode, StreamerSettings,
 };
-use crate::domain::{Campaign, CampaignKind, Channel, PointsState};
+use crate::domain::{BenefitKind, Campaign, CampaignKind, Channel, PointsState};
 
 // ! Declared in rank order: the derived `Ord` ranks the reasons.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, TS)]
@@ -270,7 +270,7 @@ fn priority_index(settings: &AccountSettings, campaign: &Campaign) -> Option<usi
         .position(|g| game_matches(campaign, g))
 }
 
-type RankKey = (u8, i64, u8, i64);
+type RankKey = (u8, i64, u8, i64, usize);
 
 // ! "Linked only" never keeps out a quest, and keeps out a campaign only once Twitch says "not linked".
 fn in_scope(scope: DropsScope, campaign: &Campaign) -> bool {
@@ -364,6 +364,27 @@ fn automatic_key(
     }
 }
 
+// ! A tie-breaker between campaigns otherwise ranked equal, after the user's
+// explicit mining order and lane placement. The default priority order
+// (`BenefitKind::ALL`) is neutral: every campaign gets the same rank, so this
+// never changes today's behaviour unless the user reorders reward kinds.
+fn reward_tie_break(
+    campaign: &Campaign,
+    now: DateTime<Utc>,
+    excluded: &[String],
+    priority: &[BenefitKind],
+) -> usize {
+    if priority == BenefitKind::ALL.as_slice() {
+        return 0;
+    }
+
+    campaign
+        .next_drop(now, excluded, priority)
+        .map_or(0, |drop| {
+            BenefitKind::rank_of(drop.benefits.iter().map(|b| b.kind), priority)
+        })
+}
+
 // ! A tier per campaign: 0 for the campaigns placed by hand, then one per
 // lane of the mining order, in its order.
 fn rank_tiers<'a>(
@@ -374,7 +395,11 @@ fn rank_tiers<'a>(
     let drops = &settings.drops;
     let mut ranked: Vec<(&Campaign, QueueReason, RankKey)> = campaigns
         .iter()
-        .filter(|c| c.active_at(now) && c.next_drop(now, &drops.exclude_drop_ids).is_some())
+        .filter(|c| {
+            c.active_at(now)
+                && c.next_drop(now, &drops.exclude_drop_ids, &drops.reward_priority)
+                    .is_some()
+        })
         .filter(|c| !excluded(settings, c, now))
         .filter(|c| !drops.skip_unfinishable || c.can_finish(now, &drops.exclude_drop_ids))
         .filter_map(|c| {
@@ -386,29 +411,36 @@ fn rank_tiers<'a>(
             }
 
             let excluded = &drops.exclude_drop_ids;
+            let reward_rank = reward_tie_break(c, now, excluded, &drops.reward_priority);
 
             let key = match (pinned, lane) {
-                (Some(index), _) => (QueueReason::Ordered, (0u8, index as i64, 0, 0)),
+                (Some(index), _) => (QueueReason::Ordered, (0u8, index as i64, 0, 0, 0)),
                 (None, Some((kind, position))) => {
                     let tier = 1 + position as u8;
 
                     match kind {
                         MiningLaneKind::PriorityGames => (
                             QueueReason::Priority,
-                            (tier, priority_index(settings, c).unwrap_or(0) as i64, 0, 0),
+                            (
+                                tier,
+                                priority_index(settings, c).unwrap_or(0) as i64,
+                                0,
+                                0,
+                                reward_rank,
+                            ),
                         ),
                         MiningLaneKind::Badges => {
                             let badges = &settings.badges;
                             let (_, linked, value) =
                                 automatic_key(badges.linked_first, badges.order, c, now, excluded);
 
-                            (QueueReason::Badge, (tier, 0, linked, value))
+                            (QueueReason::Badge, (tier, 0, linked, value, reward_rank))
                         }
                         MiningLaneKind::OtherCampaigns => {
                             let (reason, linked, value) =
                                 automatic_key(drops.linked_first, drops.order, c, now, excluded);
 
-                            (reason, (tier, 0, linked, value))
+                            (reason, (tier, 0, linked, value, reward_rank))
                         }
                     }
                 }
@@ -576,7 +608,11 @@ pub fn plan(
 
             !aside.contains_key(&campaign.id)
                 && campaign
-                    .next_drop(now, &settings.drops.exclude_drop_ids)
+                    .next_drop(
+                        now,
+                        &settings.drops.exclude_drop_ids,
+                        &settings.drops.reward_priority,
+                    )
                     .is_some()
                 && pick_channel(settings, campaign, live, None, &subscribed).is_some()
         };
@@ -642,7 +678,11 @@ pub fn plan(
             match (
                 mining,
                 chosen,
-                campaign.next_drop(now, &settings.drops.exclude_drop_ids),
+                campaign.next_drop(
+                    now,
+                    &settings.drops.exclude_drop_ids,
+                    &settings.drops.reward_priority,
+                ),
             ) {
                 (false, Some(channel), Some(drop)) => {
                     mining = true;

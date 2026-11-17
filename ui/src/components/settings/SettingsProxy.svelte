@@ -53,6 +53,7 @@
   <ActionButton
     icon={IconName.GLOBE}
     label={t.settings_proxy_test()}
+    ariaLabel={`${t.settings_proxy_test()} ${t.settings_proxy()}`}
     busyLabel={t.common_testing()}
     busy={testingProxy}
     disabled={!draft.default_proxy.trim()}

@@ -215,6 +215,10 @@ pub struct Snapshot {
     pub catalog: CatalogView,
     pub badges: BadgeCatalogView,
     pub settings: GlobalSettings,
+    // ! Computed server-side from `settings.quiet_window` and `settings.time_zone`,
+    // so a clock that drifted in the browser never disagrees with it.
+    #[serde(default)]
+    pub quiet_window_active: bool,
     pub vault: VaultStatus,
     pub recent_events: Vec<MinerEvent>,
     #[serde(default, skip_serializing_if = "Option::is_none")]

@@ -146,6 +146,8 @@ Những gì làm nên khác biệt so với các trình đào khác. “Xem minh
   <img src="../media/vi/drops-streamers-first.avif" alt="Một streamer trong danh sách, được xem để lấy Drops và điểm kênh">
   </details>
 
+- **Thứ tự ưu tiên phần thưởng.** Khi hai chiến dịch xếp ngang hạng, trình đào chọn trước chiến dịch có phần thưởng đúng loại bạn ưa thích (huy hiệu, emote, vật phẩm trong game). Nó không bao giờ ghi đè thứ tự đào của bạn.
+
 - **Huy hiệu (beta).** Trang Huy hiệu liệt kê mọi huy hiệu chat toàn cầu của Twitch và cách nhận chúng. Mỗi tài khoản có trang Huy hiệu riêng: các huy hiệu đang tiến hành kèm tiến độ, những huy hiệu còn có thể nhận và những huy hiệu đã có. Trình đào nhắm đến huy hiệu của các chiến dịch Drops và nhiệm vụ Twitch, và bỏ qua những huy hiệu tài khoản đã có. Một huy hiệu cần xem mỗi ngày sẽ được đào lại mỗi ngày cho đến ngày cuối (“20 phút mỗi ngày, 3 ngày”), và kênh thuộc bất kỳ danh mục nào của chiến dịch đều được tính. Một rương cho “1 huy hiệu ngẫu nhiên trong N”. Huy hiệu yêu cầu đăng ký kênh sẽ được đào sau khi chính bạn đã đăng ký và Twitch đã tính lượt đăng ký đó. Không có gì được đào trước khi chiến dịch bắt đầu. Trong “Đào gì, theo thứ tự”, kéo danh mục ưu tiên, huy hiệu và các chiến dịch Drops khác vào thứ tự bạn muốn, hoặc tắt một mục. Một nhiệm vụ Twitch chỉ được đào trên kênh mà Twitch đề xuất nó trong bảng Drops của kênh. Một tiến hóa (Pichu → Pikachu) được đào ngay khi tài khoản có huy hiệu mà nó tiến hóa từ đó: trình đào tự gắn huy hiệu đó ngay trước và không gắn lại huy hiệu cũ; “Đào các tiến hóa huy hiệu”, trong cài đặt huy hiệu của tài khoản, tắt điều này. Bấm vào một huy hiệu sẽ mở chi tiết của nó: toàn bộ yêu cầu, mọi danh mục và kênh, bộ sưu tập, tiến hóa và tiến độ của từng tài khoản. Tính năng này đang ở giai đoạn beta.
 
   <details open><summary>Xem minh họa</summary>
@@ -159,6 +161,9 @@ Những gì làm nên khác biệt so với các trình đào khác. “Xem minh
   <details open><summary>Xem minh họa</summary>
   <img src="../media/vi/journal-requests.avif" alt="Nhật ký đã lọc, rồi Log kỹ thuật › Yêu cầu">
   </details>
+
+- **Tạm dừng theo lịch và tạm dừng hằng ngày.** Tạm dừng một tài khoản hoặc tất cả trong 30 phút, 1 giờ, 4 giờ, đến 09:00 ngày mai, hoặc một ngày và giờ tùy chỉnh; “Tiếp tục ngay” sẽ dỡ bỏ tạm dừng sớm hơn. Một huy hiệu cho biết giờ kết thúc tạm dừng. Tạm dừng hằng ngày dừng việc đào của mọi tài khoản giữa hai mốc giờ mỗi ngày, theo múi giờ bạn chọn, và tiếp tục khi kết thúc, với huy hiệu riêng trên thanh trên cùng.
+- **Xuất CSV và số lượng theo danh mục.** Nhật ký xuất các drop đã nhận thành tệp CSV (ngày, tài khoản, danh mục, chiến dịch, drop, phút), lọc theo tài khoản, và một hộp thoại liệt kê số drop đã nhận trong mỗi danh mục. Ứng dụng máy tính lưu tệp qua hộp thoại lưu; bảng điều khiển web tải tệp xuống.
 
 ### Trên máy tính hoặc trên máy chủ
 
@@ -182,7 +187,7 @@ Những gì làm nên khác biệt so với các trình đào khác. “Xem minh
 
 ### Và còn nữa
 
-- Như các trình đào khác: rương thưởng, raid, khoảnh khắc, mục tiêu cộng đồng, dự đoán (chiến lược, thời điểm cược, điều kiện), ưu tiên chuỗi xem và kênh đã đăng ký, hiện diện trong chat (có thể tắt), tùy chọn mặc định cho streamer mới, thông báo Discord, Telegram và webhook kèm hình ảnh (trên máy chủ, ngôn ngữ thông báo được chọn trong **Cài đặt › Thông báo**), proxy chung hoặc theo từng tài khoản.
+- Như các trình đào khác: rương thưởng, raid, khoảnh khắc, mục tiêu cộng đồng, dự đoán (chiến lược, thời điểm cược, điều kiện), ưu tiên chuỗi xem và kênh đã đăng ký, hiện diện trong chat (có thể tắt), tùy chọn mặc định cho streamer mới, thông báo Discord, Telegram và webhook kèm hình ảnh và một nút “Kiểm tra” cho mỗi kênh (trên máy chủ, ngôn ngữ thông báo được chọn trong **Cài đặt › Thông báo**), proxy chung hoặc theo từng tài khoản.
 - 29 ngôn ngữ, giao diện tối và sáng, thông báo trên máy tính, biểu tượng trong khay hệ thống, khởi động cùng hệ thống.
 
   <details open><summary>Xem minh họa</summary>

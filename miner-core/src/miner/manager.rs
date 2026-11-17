@@ -3,9 +3,9 @@ use std::path::Path;
 use std::sync::Arc;
 use std::time::Duration;
 
-use chrono::Utc;
+use chrono::{DateTime, Utc};
 use futures_util::future::join_all;
-use tokio::sync::{broadcast, oneshot, Mutex, Notify, RwLock};
+use tokio::sync::{broadcast, mpsc, oneshot, Mutex, Notify, RwLock};
 use tokio_util::sync::CancellationToken;
 
 use super::account::{self, AccountCommand, AccountContext, AccountHandle};
@@ -14,31 +14,39 @@ use super::record_event;
 use super::spam_points::{spam_channels, SpamAccess, SpamPoints};
 use crate::api::{
     AccountSnapshot, AccountStats, AccountStatus, BadgeCatalogView, BadgesResponse,
-    CatalogResponse, CatalogView, ChannelsLookupResponse, Command, HistoryQuery, HistoryResponse,
-    LoginFlowStatus, LoginFlowView, LogsQuery, LogsReportResponse, LogsResponse, NotificationTest,
-    ProxyTestResponse, RedeemRequest, RefreshCount, RequestsQuery, RequestsResponse, Shell,
-    Snapshot, CHANNELS_LOOKUP_MAX, FOLLOWS_MAX, HISTORY_LIMIT_DEFAULT, HISTORY_LIMIT_MAX,
-    LOGS_LIMIT_DEFAULT, LOGS_LIMIT_MAX, REQUESTS_LIMIT_DEFAULT, REQUESTS_LIMIT_MAX,
+    CatalogResponse, CatalogView, CategoryCount, ChannelsLookupResponse, Command,
+    HistoryExportQuery, HistoryExportResponse, HistoryQuery, HistoryResponse, LoginFlowStatus,
+    LoginFlowView, LogsQuery, LogsReportResponse, LogsResponse, NotificationTarget,
+    NotificationTest, NotificationTestRequest, ProxyTestResponse, RedeemRequest, RefreshCount,
+    RequestsQuery, RequestsResponse, Shell, Snapshot, CHANNELS_LOOKUP_MAX, FOLLOWS_MAX,
+    HISTORY_EXPORT_MAX, HISTORY_LIMIT_DEFAULT, HISTORY_LIMIT_MAX, LOGS_LIMIT_DEFAULT,
+    LOGS_LIMIT_MAX, REQUESTS_LIMIT_DEFAULT, REQUESTS_LIMIT_MAX,
 };
 use crate::badges::{BadgeCatalog, BadgeCatalogClient};
 use crate::catalog::{Catalog, CatalogClient};
 use crate::config::{AccountSettings, GlobalSettings};
 use crate::domain::Channel;
 use crate::error::{Error, ErrorCode, Result};
-use crate::events::{EventContext, EventKind, MinerEvent};
+use crate::events::{EventContext, EventKind, MinerEvent, PauseReason};
 use crate::feed::{Feed, REFRESH_INTERVAL};
 use crate::logs::LogFilter;
 use crate::notifications::Notifier;
 use crate::requests::{RequestCursor, RequestFilter, RequestLog, REPORT_MAX};
 use crate::spam::{BurstProgress, SpamBalance, SpamChannelView};
 use crate::store::vault::{random_salt, Vault, VaultMode};
-use crate::store::{AccountRecord, Credential, HistoryFilter, Store, VaultStatus};
+use crate::store::{
+    AccountRecord, Credential, HistoryExportFilter, HistoryFilter, Store, VaultStatus,
+};
 use crate::twitch::auth::{self, DeviceCode, Poll};
 use crate::twitch::{TwitchClient, TwitchHttp};
 use crate::util::{locked, read_locked, write_locked};
 use zeroize::Zeroizing;
 
 const RECENT_EVENTS: usize = 100;
+// ! Long enough that a user mashing the button never queues a burst of
+// outbound requests, short enough to feel instant on the first try.
+const TEST_ACTION_GAP: Duration = Duration::from_secs(5);
+const PAUSE_TICK: Duration = Duration::from_secs(30);
 
 fn recent_kinds() -> Vec<EventKind> {
     EventKind::ALL
@@ -141,6 +149,12 @@ pub struct Manager {
     vault_change: Mutex<()>,
     wrong_passphrases: std::sync::Mutex<WrongPassphrases>,
     restarts: std::sync::Mutex<HashMap<String, Arc<Mutex<()>>>>,
+    // ! Last broadcast state: compared each tick so an account only gets a
+    // journal line on an actual transition, not every tick it stays the same.
+    quiet_window: std::sync::Mutex<bool>,
+    proxy_test_at: std::sync::Mutex<Option<tokio::time::Instant>>,
+    // ! One gate per target: testing Discord does not block Telegram.
+    notification_test_at: std::sync::Mutex<HashMap<NotificationTarget, tokio::time::Instant>>,
     spam: Arc<SpamPoints>,
 }
 
@@ -218,6 +232,9 @@ impl Manager {
             vault_change: Mutex::new(()),
             wrong_passphrases: std::sync::Mutex::new(WrongPassphrases::default()),
             restarts: std::sync::Mutex::new(HashMap::new()),
+            quiet_window: std::sync::Mutex::new(false),
+            proxy_test_at: std::sync::Mutex::new(None),
+            notification_test_at: std::sync::Mutex::new(HashMap::new()),
             spam: Arc::new(spam),
         }))
     }
@@ -241,6 +258,15 @@ impl Manager {
 
         let this = self.clone();
         tokio::spawn(async move { this.event_loop(event_receiver).await });
+
+        // ! Seeded before the pause loop or any account spawns: otherwise its
+        // first tick can see a false->true transition mid-window at restart
+        // and journal "Paused" for whichever accounts already spawned by
+        // then, depending on timing.
+        *locked(&self.quiet_window) = self.quiet_window_now().await;
+
+        let this = self.clone();
+        tokio::spawn(async move { this.pause_loop().await });
 
         if self.vault.read().await.is_some() {
             self.spawn_all_accounts().await;
@@ -803,8 +829,10 @@ impl Manager {
             events: self.events.clone(),
             stats,
             spends: self.spam.spends(&record.id),
+            quiet_window: self.quiet_window_now().await,
         };
         let handle = account::spawn(record, credential, context);
+
         let mut watcher = handle.snapshot.clone();
         let this = self.clone();
 
@@ -944,12 +972,6 @@ impl Manager {
             crate::twitch::parse_proxy(&settings.proxy)?;
         }
 
-        let previous_proxy = self
-            .store
-            .account(account_id)?
-            .map(|a| a.settings.proxy)
-            .unwrap_or_default();
-
         settings
             .points
             .streamers
@@ -966,6 +988,15 @@ impl Manager {
             .points
             .streamers
             .retain(|streamer| seen.insert(streamer.login.clone()));
+
+        let stored = self
+            .store
+            .account(account_id)?
+            .ok_or_else(|| Error::UnknownAccount(account_id.to_owned()))?;
+        let previous_proxy = stored.settings.proxy;
+        // ! Only `PauseAccount`/`PauseAllAccounts` write this: a settings
+        // save from the UI must not erase or resurrect a scheduled pause.
+        settings.paused_until = stored.settings.paused_until;
 
         let defaults = &mut settings.points.streamer_defaults;
 
@@ -1429,6 +1460,9 @@ impl Manager {
     pub async fn snapshot(&self) -> Result<Snapshot> {
         let records = self.store.accounts()?;
         let vault = self.vault_status().await;
+        let settings = self.settings.read().await.clone();
+        let now = Utc::now();
+        let quiet_window_active = settings.quiet_window.active_at(now);
         let accounts_lock = self.accounts.lock().await;
         let start_failures: HashMap<String, ErrorCode> = self
             .start_failures()
@@ -1446,7 +1480,14 @@ impl Manager {
 
                     account.settings = record.settings.clone();
 
-                    if !account.settings.enabled && account.status != AccountStatus::LoginRequired {
+                    let paused = !account.settings.enabled
+                        || quiet_window_active
+                        || account
+                            .settings
+                            .paused_until
+                            .is_some_and(|until| now < until);
+
+                    if paused && account.status != AccountStatus::LoginRequired {
                         account.status = AccountStatus::Paused;
                     }
 
@@ -1496,7 +1537,6 @@ impl Manager {
 
         let catalog = self.catalog.state.read().await;
         let badges = self.badges.state.read().await;
-        let settings = self.settings.read().await.clone();
         let interval = REFRESH_INTERVAL.as_secs();
         let mut recent_events: Vec<MinerEvent> = self.recent().iter().cloned().collect();
 
@@ -1517,6 +1557,7 @@ impl Manager {
             update_checked_at,
             star_prompt,
             accounts,
+            quiet_window_active,
             catalog: CatalogView {
                 read_at: catalog.read_at,
                 updated_at: catalog.updated_at,
@@ -1578,6 +1619,10 @@ impl Manager {
                 self.forget_spam_channel(&account_id, &login)?
             }
             Command::CancelBurst { burst_id } => self.cancel_burst(&burst_id),
+            Command::PauseAccount { account_id, until } => {
+                self.pause_account(&account_id, until).await?
+            }
+            Command::PauseAllAccounts { until } => self.pause_all_accounts(until).await?,
         }
 
         Ok(())
@@ -1701,21 +1746,14 @@ impl Manager {
         access.client.followed_channels(FOLLOWS_MAX).await
     }
 
-    pub async fn test_notification_targets(&self) -> Vec<NotificationTest> {
-        self.notifier
-            .test()
-            .await
-            .into_iter()
-            .map(|(target, result)| NotificationTest {
-                target,
-                problem: result
-                    .map_err(|error| {
-                        tracing::warn!(?target, "notification test failed: {error}");
-                        error.code()
-                    })
-                    .err(),
-            })
-            .collect()
+    pub async fn test_notification_target(
+        &self,
+        request: NotificationTestRequest,
+    ) -> Result<NotificationTest> {
+        self.notifier.validate_adhoc(&request)?;
+        check_notification_test_rate_limit(&self.notification_test_at, request.target())?;
+
+        Ok(self.notifier.test_adhoc(request).await)
     }
 
     pub fn cancel_burst(&self, burst_id: &str) {
@@ -1789,12 +1827,376 @@ impl Manager {
     }
 
     pub async fn test_proxy(&self, url: &str) -> Result<ProxyTestResponse> {
+        check_test_rate_limit(&self.proxy_test_at)?;
+
         let latency = crate::twitch::test_proxy(url, self.requests.clone()).await?;
 
         Ok(ProxyTestResponse {
             latency_ms: u64::try_from(latency.as_millis()).unwrap_or(u64::MAX),
         })
     }
+
+    pub fn history_export(&self, query: &HistoryExportQuery) -> Result<HistoryExportResponse> {
+        let filter = HistoryExportFilter {
+            account_ids: query.account_ids.as_deref(),
+        };
+        let events = self.store.claimed_drops(&filter, HISTORY_EXPORT_MAX)?;
+        let rows: Vec<ClaimedDropRow> = events
+            .iter()
+            .map(|event| ClaimedDropRow {
+                at: event.at,
+                account_login: event.account_login.clone(),
+                category: event.context.game.clone().unwrap_or_default(),
+                campaign: event.context.campaign_name.clone().unwrap_or_default(),
+                drop: event.context.drop_name.clone().unwrap_or_default(),
+                minutes: event.context.required,
+            })
+            .collect();
+        let csv = claimed_drops_csv(&rows);
+        let (category_counts, total) = self.store.claimed_drops_counts(&filter)?;
+        let mut counts: Vec<CategoryCount> = category_counts
+            .into_iter()
+            .map(|(category, count)| CategoryCount { category, count })
+            .collect();
+
+        counts.sort_by(|a, b| {
+            b.count
+                .cmp(&a.count)
+                .then_with(|| a.category.cmp(&b.category))
+        });
+
+        Ok(HistoryExportResponse {
+            csv,
+            counts,
+            truncated: total > rows.len() as u64,
+        })
+    }
+
+    async fn quiet_window_now(&self) -> bool {
+        let settings = self.settings.read().await;
+
+        settings.quiet_window.active_at(Utc::now())
+    }
+
+    async fn pause_loop(self: Arc<Self>) {
+        let mut tick = tokio::time::interval(PAUSE_TICK);
+        tick.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
+
+        loop {
+            tokio::select! {
+                _ = self.cancel.cancelled() => break,
+                _ = tick.tick() => {
+                    self.resume_due_accounts().await;
+                    self.sync_quiet_window().await;
+                }
+            }
+        }
+    }
+
+    // ! Checked on every tick, not only at startup: the app can run for days
+    // without a settings change, and a scheduled pause must still lift itself.
+    async fn resume_due_accounts(&self) {
+        let now = Utc::now();
+        let records = match self.store.accounts() {
+            Ok(records) => records,
+            Err(error) => {
+                tracing::warn!(%error, "accounts not read for the pause scheduler");
+                return;
+            }
+        };
+
+        for record in records {
+            if record
+                .settings
+                .paused_until
+                .is_some_and(|until| now >= until)
+            {
+                if let Err(error) = self.set_paused_until(&record.id, None).await {
+                    tracing::warn!(account_id = %record.id, %error, "a scheduled pause was not cleared");
+                }
+            }
+        }
+    }
+
+    // ! Every running account is told the current state on every tick
+    // (idempotent for one already in it), so one just spawned or respawned
+    // never waits for the next edge; a journal line is written only on an
+    // actual transition, compared against the last one broadcast.
+    async fn sync_quiet_window(&self) {
+        let now = Utc::now();
+        let active = self.quiet_window_now().await;
+
+        let transitioned = {
+            let mut stored = locked(&self.quiet_window);
+            let transitioned = *stored != active;
+
+            *stored = active;
+
+            transitioned
+        };
+
+        let ids: Vec<(String, mpsc::Sender<AccountCommand>)> = {
+            let accounts = self.accounts.lock().await;
+
+            accounts
+                .iter()
+                .map(|(id, handle)| (id.clone(), handle.commands.clone()))
+                .collect()
+        };
+
+        for (_, commands) in &ids {
+            let _ = commands.try_send(AccountCommand::QuietWindow(active));
+        }
+
+        if !transitioned {
+            return;
+        }
+
+        for (id, _) in &ids {
+            let Ok(Some(record)) = self.store.account(id) else {
+                continue;
+            };
+
+            let individually_paused = record
+                .settings
+                .paused_until
+                .is_some_and(|until| now < until);
+
+            if !record.settings.enabled || individually_paused {
+                continue;
+            }
+
+            if active {
+                self.emit_pause_event(id, &record.login, PauseReason::QuietWindow, None);
+            } else {
+                self.emit_resume_event(id, &record.login);
+            }
+        }
+    }
+
+    pub async fn pause_account(
+        &self,
+        account_id: &str,
+        until: Option<chrono::DateTime<Utc>>,
+    ) -> Result<()> {
+        validate_pause_until(until, Utc::now())?;
+        self.set_paused_until(account_id, until).await
+    }
+
+    pub async fn pause_all_accounts(&self, until: Option<chrono::DateTime<Utc>>) -> Result<()> {
+        validate_pause_until(until, Utc::now())?;
+
+        let mut failed = Vec::new();
+
+        for record in self.store.accounts()? {
+            if let Err(error) = self.set_paused_until(&record.id, until).await {
+                tracing::warn!(account_id = %record.id, %error, "account not paused");
+                failed.push(record.login);
+            }
+        }
+
+        if failed.is_empty() {
+            Ok(())
+        } else {
+            Err(Error::Storage(format!(
+                "{} account(s) not paused: {}",
+                failed.len(),
+                failed.join(", ")
+            )))
+        }
+    }
+
+    async fn set_paused_until(
+        &self,
+        account_id: &str,
+        until: Option<chrono::DateTime<Utc>>,
+    ) -> Result<()> {
+        let record = self
+            .store
+            .account(account_id)?
+            .ok_or_else(|| Error::UnknownAccount(account_id.to_owned()))?;
+        let mut settings = record.settings;
+        // ! Not compared against `now`: a scheduled pause whose deadline just
+        // passed is still a pause to resume from, not a no-op, or the auto
+        // clear in `resume_due_accounts` would silently lose its event.
+        let was_paused = settings.paused_until.is_some();
+        let enabled = settings.enabled;
+
+        settings.paused_until = until;
+        self.store.save_account_settings(account_id, &settings)?;
+
+        let commands = self
+            .accounts
+            .lock()
+            .await
+            .get(account_id)
+            .map(|handle| handle.commands.clone());
+
+        if let Some(commands) = commands {
+            let _ = commands
+                .send(AccountCommand::Settings(Box::new(settings)))
+                .await;
+        }
+
+        let resumed = until.is_none() && was_paused && enabled && !self.quiet_window_now().await;
+
+        match until {
+            Some(until) => self.emit_pause_event(
+                account_id,
+                &record.login,
+                PauseReason::Scheduled,
+                Some(until),
+            ),
+            // ! Only when this clear actually resumes mining: the manual
+            // switch or the quiet window can still keep the account paused,
+            // which emits its own Resumed event once it lifts.
+            None if resumed => self.emit_resume_event(account_id, &record.login),
+            None => {}
+        }
+
+        self.changed.notify_waiters();
+
+        Ok(())
+    }
+
+    fn emit_pause_event(
+        &self,
+        account_id: &str,
+        login: &str,
+        reason: PauseReason,
+        until: Option<chrono::DateTime<Utc>>,
+    ) {
+        let event = MinerEvent::new(
+            account_id,
+            login,
+            EventKind::Paused,
+            format!("{login} paused"),
+        )
+        .context(EventContext {
+            pause_reason: Some(reason),
+            pause_until: until,
+            ..EventContext::default()
+        });
+
+        record_event(&self.store, &self.events, event);
+    }
+
+    fn emit_resume_event(&self, account_id: &str, login: &str) {
+        let event = MinerEvent::new(
+            account_id,
+            login,
+            EventKind::Resumed,
+            format!("{login} resumed"),
+        );
+
+        record_event(&self.store, &self.events, event);
+    }
+}
+
+// ! A gate shared by every test-before-saving action: a button mashed fast
+// waits instead of sending another round-trip with the typed secret.
+fn check_test_rate_limit(gate: &std::sync::Mutex<Option<tokio::time::Instant>>) -> Result<()> {
+    let mut last = locked(gate);
+    let now = tokio::time::Instant::now();
+
+    if last.is_some_and(|at| now.duration_since(at) < TEST_ACTION_GAP) {
+        return Err(Error::ActionRateLimited);
+    }
+
+    *last = Some(now);
+
+    Ok(())
+}
+
+// ! One slot per `NotificationTarget`: testing Discord does not block
+// Telegram or the webhook.
+fn check_notification_test_rate_limit(
+    gate: &std::sync::Mutex<HashMap<NotificationTarget, tokio::time::Instant>>,
+    target: NotificationTarget,
+) -> Result<()> {
+    let mut gate = locked(gate);
+    let now = tokio::time::Instant::now();
+
+    if gate
+        .get(&target)
+        .is_some_and(|at| now.duration_since(*at) < TEST_ACTION_GAP)
+    {
+        return Err(Error::ActionRateLimited);
+    }
+
+    gate.insert(target, now);
+
+    Ok(())
+}
+
+fn validate_pause_until(
+    until: Option<chrono::DateTime<Utc>>,
+    now: chrono::DateTime<Utc>,
+) -> Result<()> {
+    if until.is_some_and(|until| until <= now) {
+        return Err(Error::InvalidRequest(
+            "the pause deadline must be in the future".into(),
+        ));
+    }
+
+    Ok(())
+}
+
+// ! Built from a stored `DROP_CLAIMED` event for the CSV export: the row a
+// spreadsheet shows, not wire-shaped for the API on its own (see
+// `HistoryExportResponse`, which already holds the finished CSV text).
+struct ClaimedDropRow {
+    at: DateTime<Utc>,
+    account_login: String,
+    // ! Empty when the stored event predates the field, or Twitch's category is unknown.
+    category: String,
+    campaign: String,
+    drop: String,
+    minutes: Option<u32>,
+}
+
+// ! RFC 4180 escaping (a value touching a comma, quote or line break is
+// quoted, with any quote inside doubled), a UTF-8 BOM and CRLF endings:
+// ready for a spreadsheet to open as-is. A value starting with a character
+// a spreadsheet treats as a formula prefix (publisher-controlled campaign,
+// drop or category names included) is quoted with a leading `'` guard too,
+// per https://owasp.org/www-community/attacks/CSV_Injection.
+fn claimed_drops_csv(rows: &[ClaimedDropRow]) -> String {
+    fn field(value: &str) -> String {
+        let guarded = value.starts_with(['=', '+', '-', '@', '\t', '\r']);
+
+        if guarded || value.contains(['"', ',', '\n', '\r']) {
+            let prefix = if guarded { "'" } else { "" };
+
+            format!("\"{prefix}{}\"", value.replace('"', "\"\""))
+        } else {
+            value.to_owned()
+        }
+    }
+
+    let mut csv = String::from('\u{feff}');
+    csv.push_str("Date,Account,Category,Campaign,Drop,Minutes\r\n");
+
+    for row in rows {
+        csv.push_str(&field(&row.at.to_rfc3339()));
+        csv.push(',');
+        csv.push_str(&field(&row.account_login));
+        csv.push(',');
+        csv.push_str(&field(&row.category));
+        csv.push(',');
+        csv.push_str(&field(&row.campaign));
+        csv.push(',');
+        csv.push_str(&field(&row.drop));
+        csv.push(',');
+
+        if let Some(minutes) = row.minutes {
+            csv.push_str(&minutes.to_string());
+        }
+
+        csv.push_str("\r\n");
+    }
+
+    csv
 }
 
 // ! A proxy the client refuses leaves these requests direct, rather than

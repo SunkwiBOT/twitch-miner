@@ -9,7 +9,7 @@ type PartsType = { year: string; month: string; day: string };
 const toMs = (value: string | number): number =>
   typeof value === "number" ? value : new Date(value).getTime();
 
-const hour12 = (format: ClockFormat): boolean | undefined => {
+export const hour12 = (format: ClockFormat): boolean | undefined => {
   switch (format) {
     case ClockFormat.H12:
       return true;
@@ -138,6 +138,17 @@ export const zoneOffsetMs = (ms: number, zone: string): number => {
   );
 
   return wallClock - Math.floor(ms / MINUTE_MS) * MINUTE_MS;
+};
+
+// ! A ms value whose UTC getters read like the zone's wall clock at the real time `ms`;
+// the inverse resolves a wall-clock value back to the real ms it falls on in that zone,
+// refined once because the zone's offset at the wall value can differ at a DST edge.
+export const zoneWallMs = (ms: number, zone: string): number => ms + zoneOffsetMs(ms, zone);
+
+export const wallMsToZoneMs = (wallMs: number, zone: string): number => {
+  const approx = wallMs - zoneOffsetMs(wallMs, zone);
+
+  return wallMs - zoneOffsetMs(approx, zone);
 };
 
 export const formatZoneOffset = (zone: string, now: number): string => {

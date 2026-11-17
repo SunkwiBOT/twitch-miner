@@ -4,7 +4,6 @@ use std::time::Duration;
 
 use reqwest::StatusCode;
 use tokio::sync::mpsc::{self, error::TryRecvError};
-use tokio::sync::oneshot;
 use tokio::task::AbortHandle;
 use tokio::time::Instant;
 
@@ -39,13 +38,6 @@ pub(crate) fn name(target: NotificationTarget) -> &'static str {
     }
 }
 
-type Reply = oneshot::Sender<Result<()>>;
-
-enum Item {
-    Notice(Notice),
-    Test(Notice, Reply),
-}
-
 #[derive(Default)]
 struct Counters {
     waiting: AtomicUsize,
@@ -53,7 +45,7 @@ struct Counters {
 }
 
 struct Queue {
-    sender: mpsc::Sender<Item>,
+    sender: mpsc::Sender<Notice>,
     counters: Arc<Counters>,
     task: AbortHandle,
 }
@@ -104,24 +96,10 @@ impl Queues {
 
         queue.counters.waiting.fetch_add(1, Ordering::SeqCst);
 
-        if queue.sender.try_send(Item::Notice(notice)).is_err() {
+        if queue.sender.try_send(notice).is_err() {
             lower(&queue.counters.waiting, 1);
             queue.counters.lost.fetch_add(1, Ordering::SeqCst);
         }
-    }
-
-    pub fn test(
-        &self,
-        target: NotificationTarget,
-        notice: Notice,
-    ) -> oneshot::Receiver<Result<()>> {
-        let (reply, answer) = oneshot::channel();
-        let _refused = self
-            .queue(target)
-            .sender
-            .try_send(Item::Test(notice, reply));
-
-        answer
     }
 
     // ! Nothing is waited for: the tasks end and what they still held is counted.
@@ -206,17 +184,11 @@ async fn send_with_retries(
     shared: &Shared,
     target: NotificationTarget,
     notices: &[Notice],
-    mut reply: Option<&mut Reply>,
 ) -> (Result<()>, Duration) {
     let mut attempt = 1;
 
     loop {
-        let unwanted = match reply.as_deref() {
-            Some(reply) => reply.is_closed(),
-            None => !shared.enabled(target),
-        };
-
-        if unwanted {
+        if !shared.enabled(target) {
             return (Ok(()), Duration::ZERO);
         }
 
@@ -237,13 +209,7 @@ async fn send_with_retries(
             Next::Wait(wait) => wait,
         };
 
-        match reply.as_deref_mut() {
-            Some(reply) => tokio::select! {
-                () = tokio::time::sleep(wait) => {}
-                () = reply.closed() => return (Ok(()), Duration::ZERO),
-            },
-            None => tokio::time::sleep(wait).await,
-        }
+        tokio::time::sleep(wait).await;
 
         attempt += 1;
     }
@@ -252,8 +218,8 @@ async fn send_with_retries(
 async fn gather(
     target: NotificationTarget,
     first: Notice,
-    receiver: &mut mpsc::Receiver<Item>,
-) -> (Vec<Notice>, Option<Item>) {
+    receiver: &mut mpsc::Receiver<Notice>,
+) -> (Vec<Notice>, Option<Notice>) {
     let mut batch = vec![first];
 
     if target != NotificationTarget::Discord {
@@ -280,14 +246,10 @@ async fn gather(
             }
         };
 
-        let Item::Notice(notice) = next else {
-            return (batch, Some(next));
-        };
-
-        batch.push(notice);
+        batch.push(next);
 
         if !discord::fits(&batch) {
-            let carried = batch.pop().map(Item::Notice);
+            let carried = batch.pop();
 
             return (batch, carried);
         }
@@ -315,10 +277,10 @@ fn say_losses(target: NotificationTarget, dropped: usize, failure: Option<Error>
 async fn deliver(
     shared: Weak<Shared>,
     target: NotificationTarget,
-    mut receiver: mpsc::Receiver<Item>,
+    mut receiver: mpsc::Receiver<Notice>,
     counters: Arc<Counters>,
 ) {
-    let mut carried: Option<Item> = None;
+    let mut carried: Option<Notice> = None;
     let mut failure: Option<Error> = None;
     let mut first_loss: Option<Instant> = None;
 
@@ -331,43 +293,22 @@ async fn deliver(
             },
         };
 
-        let pause = match first {
-            Item::Test(notice, mut reply) => {
-                let Some(live) = shared.upgrade() else {
-                    return;
-                };
-                let (outcome, pause) = send_with_retries(
-                    &live,
-                    target,
-                    std::slice::from_ref(&notice),
-                    Some(&mut reply),
-                )
-                .await;
-
-                let _ = reply.send(outcome);
-
-                pause
-            }
-            Item::Notice(notice) => {
-                let (batch, rest) = gather(target, notice, &mut receiver).await;
-                let Some(live) = shared.upgrade() else {
-                    return;
-                };
-
-                carried = rest;
-
-                let (outcome, pause) = send_with_retries(&live, target, &batch, None).await;
-
-                lower(&counters.waiting, batch.len());
-
-                if let Err(error) = outcome {
-                    counters.lost.fetch_add(batch.len(), Ordering::SeqCst);
-                    failure = Some(error);
-                }
-
-                pause
-            }
+        let notice = first;
+        let (batch, rest) = gather(target, notice, &mut receiver).await;
+        let Some(live) = shared.upgrade() else {
+            return;
         };
+
+        carried = rest;
+
+        let (outcome, pause) = send_with_retries(&live, target, &batch).await;
+
+        lower(&counters.waiting, batch.len());
+
+        if let Err(error) = outcome {
+            counters.lost.fetch_add(batch.len(), Ordering::SeqCst);
+            failure = Some(error);
+        }
 
         if counters.lost.load(Ordering::SeqCst) > 0 {
             let since = *first_loss.get_or_insert_with(Instant::now);

@@ -1,4 +1,5 @@
 use std::path::Path;
+use std::str::FromStr;
 use std::sync::{Mutex, MutexGuard, PoisonError, RwLock, RwLockReadGuard, RwLockWriteGuard};
 
 use rand::RngCore;
@@ -24,6 +25,30 @@ pub fn random_hex(bytes: usize) -> String {
 
 pub fn random_device_id() -> String {
     random_hex(16)
+}
+
+// ! A resolved IANA zone name, accepted only if `chrono_tz` knows it (its
+// data is embedded, so this works the same on a `FROM scratch` image with no
+// system tzdata). The `AUTO` sentinel used by `GlobalSettings::time_zone` is
+// a display-only preference and is never valid here.
+pub fn parse_time_zone(time_zone: &str) -> Option<chrono_tz::Tz> {
+    chrono_tz::Tz::from_str(time_zone).ok()
+}
+
+// ! Minutes since local midnight, in the given IANA time zone. `time_zone`
+// is expected to already be validated (see `parse_time_zone`); an unparsable
+// value falls back to UTC rather than the host's own zone, which on the
+// published Docker image (no tzdata) would be UTC anyway and on desktop
+// would silently disagree with whatever zone the caller meant to use.
+pub fn local_minutes_of_day(now: chrono::DateTime<chrono::Utc>, time_zone: &str) -> u16 {
+    use chrono::Timelike;
+
+    let local = match parse_time_zone(time_zone) {
+        Some(zone) => now.with_timezone(&zone).naive_local(),
+        None => now.naive_utc(),
+    };
+
+    (local.hour() * 60 + local.minute()) as u16
 }
 
 // ! A folder another user owns (a mount shared on purpose) keeps its mode: only its owner may change it.

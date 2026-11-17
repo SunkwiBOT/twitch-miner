@@ -3,6 +3,7 @@ import { openUrl as tauriOpenUrl } from "@tauri-apps/plugin-opener";
 
 import type { AppInfoType } from "../bindings/AppInfoType";
 import type { AuthResponseType } from "../bindings/AuthResponseType";
+import type { CategoryCountType } from "../bindings/CategoryCountType";
 import type { AuthStatusType } from "../bindings/AuthStatusType";
 import type { BurstProgressType } from "../bindings/BurstProgressType";
 import type { RefreshCountType } from "../bindings/RefreshCountType";
@@ -22,7 +23,10 @@ import type { LogsQueryType } from "../bindings/LogsQueryType";
 import type { BadgesResponseType } from "../bindings/BadgesResponseType";
 import type { CatalogResponseType } from "../bindings/CatalogResponseType";
 import type { LogsResponseType } from "../bindings/LogsResponseType";
+import type { HistoryExportQueryType } from "../bindings/HistoryExportQueryType";
+import type { HistoryExportResponseType } from "../bindings/HistoryExportResponseType";
 import type { MinerEventType } from "../bindings/MinerEventType";
+import type { NotificationTestRequestType } from "../bindings/NotificationTestRequestType";
 import type { NotificationTestType } from "../bindings/NotificationTestType";
 import type { ProxyTestRequestType } from "../bindings/ProxyTestRequestType";
 import type { RedeemRequestType } from "../bindings/RedeemRequestType";
@@ -43,6 +47,7 @@ import {
   HttpMethod,
   RECONNECT_DELAY_MAX_MS,
   RECONNECT_DELAY_MIN_MS,
+  REVOKE_DOWNLOAD_URL_MS,
   TauriCommand,
   UpdateEvent,
 } from "./api.constants";
@@ -82,12 +87,13 @@ const ROUTES = {
   [TauriCommand.SPAM_CHANNEL]: { route: RoutesApi.SPAM_CHANNEL, method: HttpMethod.GET },
   [TauriCommand.SPAM_BALANCE]: { route: RoutesApi.SPAM_BALANCE, method: HttpMethod.GET },
   [TauriCommand.REDEEM]: { route: RoutesApi.SPAM_REDEEM, method: HttpMethod.POST },
-  [TauriCommand.TEST_NOTIFICATIONS]: {
+  [TauriCommand.TEST_NOTIFICATION]: {
     route: RoutesApi.NOTIFICATIONS_TEST,
     method: HttpMethod.POST,
   },
   [TauriCommand.TEST_PROXY]: { route: RoutesApi.PROXY_TEST, method: HttpMethod.POST },
   [TauriCommand.HISTORY]: { route: RoutesApi.HISTORY, method: HttpMethod.GET },
+  [TauriCommand.HISTORY_EXPORT]: { route: RoutesApi.HISTORY_EXPORT, method: HttpMethod.GET },
   [TauriCommand.BADGES]: { route: RoutesApi.BADGES, method: HttpMethod.GET },
   [TauriCommand.CATALOG]: { route: RoutesApi.CATALOG, method: HttpMethod.GET },
   [TauriCommand.LOGS]: { route: RoutesApi.LOGS, method: HttpMethod.GET },
@@ -193,8 +199,10 @@ export const fetchSpamBalance = async (
 export const redeemRewards = async (request: RedeemRequestType): Promise<string> =>
   (await transport(TauriCommand.REDEEM, { data: request }, { request })).burst_id;
 
-export const testNotifications = async (): Promise<NotificationTestType[]> =>
-  (await transport(TauriCommand.TEST_NOTIFICATIONS, {})).targets;
+export const testNotificationTarget = async (
+  request: NotificationTestRequestType,
+): Promise<NotificationTestType> =>
+  transport(TauriCommand.TEST_NOTIFICATION, { data: request }, { request });
 
 export const testProxy = async (url: string): Promise<number> =>
   (
@@ -207,6 +215,11 @@ export const testProxy = async (url: string): Promise<number> =>
 
 export const fetchHistory = async (query: HistoryQueryType): Promise<HistoryResponseType> =>
   transport(TauriCommand.HISTORY, { params: query }, { query });
+
+export const fetchHistoryExport = async (
+  query: HistoryExportQueryType,
+): Promise<HistoryExportResponseType> =>
+  transport(TauriCommand.HISTORY_EXPORT, { params: query }, { query });
 
 export const fetchBadges = async (): Promise<BadgesResponseType> =>
   transport(TauriCommand.BADGES, {});
@@ -350,6 +363,39 @@ export const openLogsDirectory = async (): Promise<void> => {
 
 export const openDataDirectory = async (): Promise<void> => {
   await invoke(TauriCommand.OPEN_DATA_DIRECTORY);
+};
+
+export type ExportCsvOutcomeType = {
+  counts: CategoryCountType[];
+  truncated: boolean;
+  // ! Only on desktop, where the command itself names the saved file.
+  path?: string;
+} | null;
+
+export const exportCsvToFile = async (
+  query: HistoryExportQueryType,
+  filename: string,
+): Promise<ExportCsvOutcomeType> => {
+  if (isTauri()) {
+    const result = await invoke(TauriCommand.EXPORT_CSV_FILE, { query });
+
+    return result && { path: result.path, counts: result.counts, truncated: result.truncated };
+  }
+
+  const response = await fetchHistoryExport(query);
+  const blob = new Blob([response.csv], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+
+  anchor.href = url;
+  anchor.download = filename;
+  anchor.click();
+  // ! Revoked on a timer, not right after `click()`: an immediate revoke
+  // cancels the download on iOS Safari and some Firefox versions
+  // (https://bugs.webkit.org/show_bug.cgi?id=211234).
+  setTimeout(() => URL.revokeObjectURL(url), REVOKE_DOWNLOAD_URL_MS);
+
+  return { counts: response.counts, truncated: response.truncated };
 };
 
 export const checkForUpdate = async (): Promise<string | null> => {

@@ -30,7 +30,9 @@ pub(super) fn status_of(code: ErrorCode) -> StatusCode {
         | ErrorCode::SessionExpired
         | ErrorCode::NotificationFailed
         | ErrorCode::BeaconBlocked => StatusCode::FAILED_DEPENDENCY,
-        ErrorCode::CatalogRateLimited | ErrorCode::TooManyAttempts => StatusCode::TOO_MANY_REQUESTS,
+        ErrorCode::CatalogRateLimited
+        | ErrorCode::TooManyAttempts
+        | ErrorCode::ActionRateLimited => StatusCode::TOO_MANY_REQUESTS,
         ErrorCode::NotSupported => StatusCode::NOT_IMPLEMENTED,
         ErrorCode::StorageError
         | ErrorCode::InvalidVault

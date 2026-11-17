@@ -1,15 +1,17 @@
 <script lang="ts">
   import { isTauri } from "../../lib/api/tauri";
-  import { testNotifications } from "../../lib/api/client";
+  import { testNotificationTarget } from "../../lib/api/client";
   import type { GlobalSettingsType } from "../../lib/bindings/GlobalSettingsType";
+  import type { NotificationTestRequestType } from "../../lib/bindings/NotificationTestRequestType";
+  import { NotificationTarget } from "../../lib/bindings/NotificationTarget";
   import { describeCode, describeError } from "../../lib/errors/errors.utils";
   import { languageOptions, t } from "../../lib/i18n/i18n.svelte";
   import { ToastKind } from "../../lib/state/state.constants";
   import { toast } from "../../lib/state/toasts";
   import { escapeEmphasis, strong } from "../../lib/text.utils";
   import { Input } from "$lib/components/ui/input";
-  import { cn } from "$lib/utils";
   import ActionButton from "../ui/ActionButton.svelte";
+  import FieldActions from "../ui/FieldActions.svelte";
   import FormField from "../ui/FormField.svelte";
   import Icon from "../ui/Icon.svelte";
   import Panel from "../ui/Panel.svelte";
@@ -24,45 +26,41 @@
 
   type SettingsNotificationsPropsType = {
     draft: GlobalSettingsType;
-    dirty: boolean;
   };
 
-  let { draft = $bindable(), dirty }: SettingsNotificationsPropsType = $props();
+  let { draft = $bindable() }: SettingsNotificationsPropsType = $props();
 
   const languages = $derived(languageOptions());
 
-  let testingTargets = $state(false);
+  let testing = $state<Record<NotificationTarget, boolean>>({
+    [NotificationTarget.DISCORD]: false,
+    [NotificationTarget.TELEGRAM]: false,
+    [NotificationTarget.WEBHOOK]: false,
+  });
 
-  const checkTargets = async (): Promise<void> => {
-    testingTargets = true;
+  const testTarget = async (request: NotificationTestRequestType): Promise<void> => {
+    testing[request.target] = true;
 
     try {
-      const results = await testNotifications();
+      const result = await testNotificationTarget(request);
+      const target = TARGET_NAMES[result.target]();
 
-      if (results.length === 0) {
-        toast(ToastKind.INFO, t.settings_test_none());
-      }
-
-      for (const result of results) {
-        const target = TARGET_NAMES[result.target]();
-
-        if (result.problem) {
-          toast(ToastKind.ERROR, t.settings_test_failed_title(), {
-            description: t.settings_test_failed({
-              target: strong(target),
-              error: escapeEmphasis(describeCode(result.problem)),
-            }),
-          });
-        } else {
-          toast(ToastKind.SUCCESS, t.settings_test_ok_title(), {
-            description: t.settings_test_ok({ target: strong(target) }),
-          });
-        }
+      if (result.problem) {
+        toast(ToastKind.ERROR, t.settings_test_failed_title(), {
+          description: t.settings_test_failed({
+            target: strong(target),
+            error: escapeEmphasis(describeCode(result.problem)),
+          }),
+        });
+      } else {
+        toast(ToastKind.SUCCESS, t.settings_test_ok_title(), {
+          description: t.settings_test_ok({ target: strong(target) }),
+        });
       }
     } catch (e: any) {
       toast(ToastKind.ERROR, t.action_failed(), { description: describeError(e) });
     } finally {
-      testingTargets = false;
+      testing[request.target] = false;
     }
   };
 </script>
@@ -83,20 +81,36 @@
     ><Icon name={IconName.BELL} size={16} /></span
   >{/snippet}
 
+{#snippet discordField()}
+  <SecretInput
+    id="n-discord"
+    class="font-mono"
+    autocomplete="off"
+    bind:value={draft.notifications.discord.webhook_url}
+    placeholder="https://discord.com/api/webhooks/…"
+  />
+{/snippet}
+
+{#snippet discordTest()}
+  <ActionButton
+    icon={IconName.DISCORD}
+    label={t.settings_discord_test()}
+    ariaLabel={`${t.settings_discord_test()} ${t.settings_discord()}`}
+    busyLabel={t.common_testing()}
+    busy={testing[NotificationTarget.DISCORD]}
+    disabled={!draft.notifications.discord.webhook_url.trim()}
+    variant={ButtonVariant.DEFAULT}
+    size={ButtonSize.MD}
+    type={ButtonType.BUTTON}
+    onclick={() =>
+      void testTarget({
+        target: "DISCORD",
+        webhook_url: draft.notifications.discord.webhook_url,
+      })}
+  />
+{/snippet}
+
 <Panel title={t.settings_notifications()}>
-  {#snippet actions()}
-    <ActionButton
-      icon={IconName.BELL}
-      label={t.settings_test_notifications()}
-      busyLabel={t.settings_test_sending()}
-      busy={testingTargets}
-      disabled={dirty}
-      variant={ButtonVariant.DEFAULT}
-      size={ButtonSize.MD}
-      type={ButtonType.BUTTON}
-      onclick={checkTargets}
-    />
-  {/snippet}
   <div class="grid gap-x-8 gap-y-5 @3xl:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
     <section class="flex min-w-0 flex-col">
       <h3 class="pb-2 text-sm font-semibold">{t.settings_notifications_targets()}</h3>
@@ -112,13 +126,7 @@
           {#if draft.notifications.discord.enabled}
             <div class="pb-3">
               <FormField id="n-discord" label={t.settings_discord_url()}>
-                <SecretInput
-                  id="n-discord"
-                  class="font-mono"
-                  autocomplete="off"
-                  bind:value={draft.notifications.discord.webhook_url}
-                  placeholder="https://discord.com/api/webhooks/…"
-                />
+                <FieldActions field={discordField} actions={discordTest} />
               </FormField>
             </div>
           {/if}
@@ -132,22 +140,44 @@
             onchange={(enabled) => (draft.notifications.telegram.enabled = enabled)}
           />
           {#if draft.notifications.telegram.enabled}
-            <div class={cn(FIELD_GRID_CLASSES, "pb-3")}>
-              <FormField id="n-tg-token" label={t.settings_telegram_token()}>
-                <SecretInput
-                  id="n-tg-token"
-                  class="font-mono"
-                  autocomplete="off"
-                  bind:value={draft.notifications.telegram.bot_token}
+            <div class="pb-3">
+              <div class={FIELD_GRID_CLASSES}>
+                <FormField id="n-tg-token" label={t.settings_telegram_token()}>
+                  <SecretInput
+                    id="n-tg-token"
+                    class="font-mono"
+                    autocomplete="off"
+                    bind:value={draft.notifications.telegram.bot_token}
+                  />
+                </FormField>
+                <FormField id="n-tg-chat" label={t.settings_telegram_chat()}>
+                  <Input
+                    id="n-tg-chat"
+                    class="font-mono"
+                    bind:value={draft.notifications.telegram.chat_id}
+                  />
+                </FormField>
+              </div>
+              <div class="flex flex-wrap justify-end gap-2 pt-2">
+                <ActionButton
+                  icon={IconName.TELEGRAM}
+                  label={t.settings_telegram_test()}
+                  ariaLabel={`${t.settings_telegram_test()} ${t.settings_telegram()}`}
+                  busyLabel={t.common_testing()}
+                  busy={testing[NotificationTarget.TELEGRAM]}
+                  disabled={!draft.notifications.telegram.bot_token.trim() ||
+                    !draft.notifications.telegram.chat_id.trim()}
+                  variant={ButtonVariant.DEFAULT}
+                  size={ButtonSize.MD}
+                  type={ButtonType.BUTTON}
+                  onclick={() =>
+                    void testTarget({
+                      target: "TELEGRAM",
+                      bot_token: draft.notifications.telegram.bot_token,
+                      chat_id: draft.notifications.telegram.chat_id,
+                    })}
                 />
-              </FormField>
-              <FormField id="n-tg-chat" label={t.settings_telegram_chat()}>
-                <Input
-                  id="n-tg-chat"
-                  class="font-mono"
-                  bind:value={draft.notifications.telegram.chat_id}
-                />
-              </FormField>
+              </div>
             </div>
           {/if}
         </div>
@@ -160,23 +190,44 @@
             onchange={(enabled) => (draft.notifications.webhook.enabled = enabled)}
           />
           {#if draft.notifications.webhook.enabled}
-            <div class={cn(FIELD_GRID_CLASSES, "pb-3")}>
-              <FormField id="n-wh" label={t.settings_webhook_url()}>
-                <SecretInput
-                  id="n-wh"
-                  class="font-mono"
-                  autocomplete="off"
-                  bind:value={draft.notifications.webhook.url}
+            <div class="pb-3">
+              <div class={FIELD_GRID_CLASSES}>
+                <FormField id="n-wh" label={t.settings_webhook_url()}>
+                  <SecretInput
+                    id="n-wh"
+                    class="font-mono"
+                    autocomplete="off"
+                    bind:value={draft.notifications.webhook.url}
+                  />
+                </FormField>
+                <FormField id="n-wh-auth" label={t.settings_webhook_auth()}>
+                  <SecretInput
+                    id="n-wh-auth"
+                    class="font-mono"
+                    autocomplete="off"
+                    bind:value={draft.notifications.webhook.authorization}
+                  />
+                </FormField>
+              </div>
+              <div class="flex flex-wrap justify-end gap-2 pt-2">
+                <ActionButton
+                  icon={IconName.WEBHOOK}
+                  label={t.settings_webhook_test()}
+                  ariaLabel={`${t.settings_webhook_test()} ${t.settings_webhook()}`}
+                  busyLabel={t.common_testing()}
+                  busy={testing[NotificationTarget.WEBHOOK]}
+                  disabled={!draft.notifications.webhook.url.trim()}
+                  variant={ButtonVariant.DEFAULT}
+                  size={ButtonSize.MD}
+                  type={ButtonType.BUTTON}
+                  onclick={() =>
+                    void testTarget({
+                      target: "WEBHOOK",
+                      url: draft.notifications.webhook.url,
+                      authorization: draft.notifications.webhook.authorization,
+                    })}
                 />
-              </FormField>
-              <FormField id="n-wh-auth" label={t.settings_webhook_auth()}>
-                <SecretInput
-                  id="n-wh-auth"
-                  class="font-mono"
-                  autocomplete="off"
-                  bind:value={draft.notifications.webhook.authorization}
-                />
-              </FormField>
+              </div>
             </div>
           {/if}
         </div>

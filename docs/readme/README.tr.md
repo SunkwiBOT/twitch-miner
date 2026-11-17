@@ -146,6 +146,8 @@ Onu diğer madencilerden ayıran şeyler. Bir maddenin altındaki “Çalışır
   <img src="../media/tr/drops-streamers-first.avif" alt="Listeden bir yayıncı, hem Drops hem de puanları için izleniyor">
   </details>
 
+- **Ödül önceliği.** İki kampanya eşit sıradaysa madenci önce ödülleri tercih ettiğiniz türe (rozet, emote, oyun içi eşya) uyan kampanyayı seçer. Madencilik sıranızı asla geçersiz kılmaz.
+
 - **Rozetler (beta).** Rozetler sayfası, Twitch'in tüm genel sohbet rozetlerini ve nasıl alınacaklarını listeler. Her hesabın kendi Rozetler sayfası vardır: ilerlemeleriyle birlikte devam eden rozetler, hâlâ alınabilecekler ve hesabın sahip olduğu rozetler. Madenci, Drops kampanyalarının ve Twitch görevlerinin rozetlerinin peşine düşer ve hesabın zaten sahip olduğu rozetleri atlar. Her gün izlenmesi gereken bir rozet, sonuncusuna kadar her gün yeniden kazılır (“Günde 20 dk., 3 gün”) ve kampanyanın kategorilerinden herhangi birindeki bir kanal sayılır. Bir sandık “N rozetten rastgele 1 tanesi” verir. Abonelik gerektiren bir rozet, aboneliği kendiniz yaptıktan ve Twitch onu saydıktan sonra kazılır. Kampanyası başlamadan hiçbir şey kazılmaz. “Ne kazılacak, sırayla” bölümünde öncelikli kategorileri, rozetleri ve diğer Drops kampanyalarını istediğiniz sıraya sürükleyin ya da birini kapatın. Bir Twitch görevi yalnızca Twitch'in onu Drops panelinde sunduğu bir kanalda kazılır. Bir evrim (Pichu → Pikachu), hesap evrimleştiği rozete sahip olur olmaz kazılır: madenci o rozeti hemen önce kendisi takar ve eskisini geri takmaz; hesabın rozet ayarlarındaki “Rozet evrimlerini kaz” bunu kapatır. Bir rozete tıklamak ayrıntılarını açar: tüm gereksinim, bütün kategoriler ve kanallar, koleksiyon, evrim ve her hesabın ilerlemesi. Bu özellik beta aşamasındadır.
 
   <details open><summary>Çalışırken görün</summary>
@@ -159,6 +161,9 @@ Onu diğer madencilerden ayıran şeyler. Bir maddenin altındaki “Çalışır
   <details open><summary>Çalışırken görün</summary>
   <img src="../media/tr/journal-requests.avif" alt="Filtrelenmiş Günlük, ardından Teknik kayıtlar › İstekler">
   </details>
+
+- **Zamanlanmış duraklatma ve günlük duraklatma.** Bir hesabı veya tüm hesapları 30 dakika, 1 saat, 4 saat, yarın 09:00'a kadar veya özel bir tarih ve saate kadar duraklatın; “Şimdi devam et” duraklatmayı erken kaldırır. Bir rozet duraklatmanın ne zaman biteceğini gösterir. Günlük duraklatma, her gün iki saat arasında, seçtiğiniz saat diliminde tüm hesapların madenciliğini durdurur ve süre bitince üst çubuktaki kendi rozetiyle birlikte devam ettirir.
+- **CSV dışa aktarma ve kategoriye göre sayılar.** Günlük, alınan drop'ları bir CSV dosyası olarak dışa aktarır (tarih, hesap, kategori, kampanya, drop, dakika); hesaba göre filtrelenir ve bir iletişim kutusu her kategoride kaç drop alındığını listeler. Masaüstü uygulaması dosyayı bir kaydetme iletişim kutusuyla kaydeder; web paneli indirir.
 
 ### Masaüstünde veya bir sunucuda
 
@@ -182,7 +187,7 @@ Onu diğer madencilerden ayıran şeyler. Bir maddenin altındaki “Çalışır
 
 ### Ve ayrıca
 
-- Diğer madencilerde olduğu gibi: bonus sandıkları, baskınlar, anlar, topluluk hedefleri, tahminler (stratejiler, bahis zamanı, koşullar), önce izleme serileri ve abone olunan kanallar, sohbette bulunma (kapatılabilir), yeni yayıncılar için varsayılan seçenekler, resimli Discord, Telegram ve webhook bildirimleri (sunucuda dilleri **Ayarlar › Bildirimler** bölümünden seçilir), genel veya hesap başına proxy.
+- Diğer madencilerde olduğu gibi: bonus sandıkları, baskınlar, anlar, topluluk hedefleri, tahminler (stratejiler, bahis zamanı, koşullar), önce izleme serileri ve abone olunan kanallar, sohbette bulunma (kapatılabilir), yeni yayıncılar için varsayılan seçenekler, resimli ve her biri için bir “Test et” düğmesine sahip Discord, Telegram ve webhook bildirimleri (sunucuda dilleri **Ayarlar › Bildirimler** bölümünden seçilir), genel veya hesap başına proxy.
 - 29 dil, koyu ve açık tema, masaüstü bildirimleri, sistem tepsisi simgesi, sistemle birlikte başlatma.
 
   <details open><summary>Çalışırken görün</summary>

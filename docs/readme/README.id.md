@@ -146,6 +146,10 @@ Hal-hal yang membedakannya dari penambang lain. “Lihat langsung” di bawah se
   <img src="../media/id/drops-streamers-first.avif" alt="Streamer dari daftar, ditonton untuk Drops dan untuk poinnya">
   </details>
 
+- **Prioritas hadiah.** Jika dua kampanye berperingkat sama, penambang lebih dulu memilih
+  yang hadiahnya cocok dengan jenis pilihan Anda (lencana, emote, item dalam game). Ia
+  tidak pernah menimpa urutan penambangan Anda.
+
 - **Lencana (beta).** Halaman Lencana mencantumkan semua lencana obrolan global Twitch dan cara mendapatkannya. Setiap akun punya halaman Lencana sendiri: lencana yang sedang berjalan beserta progresnya, yang masih bisa didapat, dan yang sudah dimiliki. Penambang mengejar lencana dari kampanye Drops dan quest Twitch, dan melewati lencana yang sudah dimiliki akun. Lencana yang harus ditonton setiap hari ditambang lagi setiap hari sampai hari terakhir (“20 mnt per hari, 3 hari”), dan channel di kategori mana pun dari kampanye itu ikut dihitung. Peti memberi “1 lencana acak dari N”. Lencana yang membutuhkan langganan ditambang setelah Anda sendiri berlangganan dan Twitch menghitungnya. Tidak ada yang ditambang sebelum kampanyenya dimulai. Di “Apa yang ditambang, berurutan”, seret kategori prioritas, lencana, dan kampanye Drops lainnya ke urutan yang Anda inginkan, atau matikan salah satunya. Quest Twitch hanya ditambang di channel tempat Twitch menawarkannya di panel Drops-nya. Evolusi (Pichu → Pikachu) ditambang begitu akun memiliki lencana asal evolusinya: penambang memasang sendiri lencana itu tepat sebelumnya dan tidak memasang kembali lencana lama; “Tambang evolusi lencana”, di pengaturan lencana akun, mematikannya. Klik pada lencana membuka detailnya: syarat lengkap, semua kategori dan channel, koleksi, evolusi, dan progres setiap akun. Fitur ini masih beta.
 
   <details open><summary>Lihat langsung</summary>
@@ -159,6 +163,17 @@ Hal-hal yang membedakannya dari penambang lain. “Lihat langsung” di bawah se
   <details open><summary>Lihat langsung</summary>
   <img src="../media/id/journal-requests.avif" alt="Jurnal yang disaring, lalu Log teknis › Permintaan">
   </details>
+
+- **Jeda terjadwal dan jeda harian.** Jeda satu akun atau semua akun selama 30 menit, 1
+  jam, 4 jam, hingga besok pukul 09.00, atau tanggal dan waktu khusus; “Lanjutkan
+  sekarang” mengangkat jeda lebih awal. Lencana menunjukkan kapan jeda berakhir. Jeda
+  harian menghentikan penambangan semua akun setiap hari di antara dua waktu, dalam zona
+  waktu yang Anda pilih, dan melanjutkannya setelah selesai, dengan lencananya sendiri di
+  bilah atas.
+- **Ekspor CSV dan jumlah per kategori.** Jurnal mengekspor drop yang diklaim sebagai file
+  CSV (tanggal, akun, kategori, kampanye, drop, menit), disaring menurut akun, dan sebuah
+  dialog mencantumkan berapa banyak drop yang diklaim di setiap kategori. Aplikasi desktop
+  menyimpan file lewat dialog simpan; dasbor web mengunduhnya.
 
 ### Di desktop atau di server
 
@@ -182,7 +197,7 @@ Hal-hal yang membedakannya dari penambang lain. “Lihat langsung” di bawah se
 
 ### Selain itu
 
-- Seperti penambang lain: peti bonus, raid, momen, target komunitas, prediksi (strategi, kapan bertaruh, syarat), streak tonton dan channel langganan lebih dulu, kehadiran di chat (bisa dimatikan), opsi default untuk streamer baru, notifikasi Discord, Telegram, dan webhook dengan gambar (di server, bahasanya dipilih di **Pengaturan › Notifikasi**), proxy global atau per akun.
+- Seperti penambang lain: peti bonus, raid, momen, target komunitas, prediksi (strategi, kapan bertaruh, syarat), streak tonton dan channel langganan lebih dulu, kehadiran di chat (bisa dimatikan), opsi default untuk streamer baru, notifikasi Discord, Telegram, dan webhook dengan gambar dan tombol “Uji” untuk masing-masing (di server, bahasanya dipilih di **Pengaturan › Notifikasi**), proxy global atau per akun.
 - 29 bahasa, tema gelap dan terang, notifikasi desktop, ikon tray, jalan saat sistem dimulai.
 
   <details open><summary>Lihat langsung</summary>

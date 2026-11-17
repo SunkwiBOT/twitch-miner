@@ -1,3 +1,4 @@
+use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
@@ -60,6 +61,17 @@ pub enum Command {
         burst_id: String,
     },
     DismissStarPrompt {},
+    PauseAccount {
+        account_id: String,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        #[ts(optional)]
+        until: Option<DateTime<Utc>>,
+    },
+    PauseAllAccounts {
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        #[ts(optional)]
+        until: Option<DateTime<Utc>>,
+    },
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, TS)]
@@ -81,6 +93,8 @@ pub enum CommandName {
     ForgetSpamChannel,
     CancelBurst,
     DismissStarPrompt,
+    PauseAccount,
+    PauseAllAccounts,
 }
 
 // ! By hand: the log redaction only knows some secret shapes, a passphrase or proxy password must never reach `{:?}`.
@@ -143,6 +157,15 @@ impl std::fmt::Debug for Command {
                 .field("burst_id", burst_id)
                 .finish(),
             Self::DismissStarPrompt {} => f.write_str("DismissStarPrompt"),
+            Self::PauseAccount { account_id, until } => f
+                .debug_struct("PauseAccount")
+                .field("account_id", account_id)
+                .field("until", until)
+                .finish(),
+            Self::PauseAllAccounts { until } => f
+                .debug_struct("PauseAllAccounts")
+                .field("until", until)
+                .finish(),
         }
     }
 }
@@ -165,6 +188,8 @@ impl Command {
             Self::ForgetSpamChannel { .. } => CommandName::ForgetSpamChannel,
             Self::CancelBurst { .. } => CommandName::CancelBurst,
             Self::DismissStarPrompt {} => CommandName::DismissStarPrompt,
+            Self::PauseAccount { .. } => CommandName::PauseAccount,
+            Self::PauseAllAccounts { .. } => CommandName::PauseAllAccounts,
         }
     }
 }

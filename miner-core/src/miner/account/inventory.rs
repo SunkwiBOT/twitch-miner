@@ -103,6 +103,7 @@ impl<T: TwitchApi> AccountMiner<T> {
             &mut self.set_aside,
             &self.campaigns,
             excluded,
+            &self.settings.drops.reward_priority,
             &stale_quests,
             &lifted_categories,
             now,

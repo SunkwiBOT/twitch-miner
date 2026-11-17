@@ -9,6 +9,8 @@
   import { describeError } from "../../lib/errors/errors.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { ToastKind } from "../../lib/state/state.constants";
+  import { AUTO_TIME_ZONE } from "../../lib/time/time.constants";
+  import { deviceTimeZone } from "../../lib/time/time.svelte";
   import { saveGlobalSettings } from "../../lib/state/preferences.svelte";
   import { toast } from "../../lib/state/toasts";
   import SettingsAbout from "../settings/SettingsAbout.svelte";
@@ -79,9 +81,19 @@
         ),
       );
       const proxy = draft.default_proxy.trim();
+      const resolvedZone = draft.time_zone === AUTO_TIME_ZONE ? deviceTimeZone() : draft.time_zone;
+      const quietWindow = { ...draft.quiet_window, time_zone: resolvedZone };
 
-      if (await saveGlobalSettings({ ...current(), ...changes, default_proxy: proxy })) {
+      if (
+        await saveGlobalSettings({
+          ...current(),
+          ...changes,
+          default_proxy: proxy,
+          quiet_window: quietWindow,
+        })
+      ) {
         draft.default_proxy = proxy;
+        draft.quiet_window.time_zone = resolvedZone;
         base = $state.snapshot(draft);
       }
     }
@@ -145,7 +157,7 @@
 
 {#snippet catalogue()}<SettingsCatalogue />{/snippet}
 
-{#snippet notifications()}<SettingsNotifications bind:draft dirty={edited} />{/snippet}
+{#snippet notifications()}<SettingsNotifications bind:draft />{/snippet}
 
 {#snippet about()}<SettingsAbout {snapshot} bind:draft />{/snippet}
 

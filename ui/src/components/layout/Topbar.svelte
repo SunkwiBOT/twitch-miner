@@ -13,6 +13,9 @@
   import AccountStatusBadges from "../ui/AccountStatusBadges.svelte";
   import Badge from "../ui/Badge.svelte";
   import PauseButton from "../ui/PauseButton.svelte";
+  import PauseMenu from "../ui/PauseMenu.svelte";
+  import PauseBadge from "../ui/PauseBadge.svelte";
+  import QuietWindowBadge from "../ui/QuietWindowBadge.svelte";
   import { AvatarSize } from "../ui/picture.constants";
   import { BadgeTone } from "../../lib/tones.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
@@ -35,6 +38,12 @@
     await run({ command: CommandName.REFRESH_ACCOUNT, account_id: id });
     refreshing = false;
   };
+
+  const pauseAccount = (id: string, until: string): Promise<boolean> =>
+    run({ command: CommandName.PAUSE_ACCOUNT, account_id: id, until });
+
+  const resumeAccount = (id: string): Promise<boolean> =>
+    run({ command: CommandName.PAUSE_ACCOUNT, account_id: id });
 </script>
 
 <header
@@ -67,8 +76,11 @@
     />{/if}
   <span class="flex-1"></span>
   <UpdateBadge />
+  {#if app.page !== Page.HOME}<QuietWindowBadge class="@max-[50rem]:hidden" />{/if}
   {#if current}
-    {#if wideLayout.current}<AccountStatusBadges account={current} />{/if}
+    {#if wideLayout.current}<span class="contents @max-[65rem]:hidden"
+        ><AccountStatusBadges account={current} /></span
+      >{/if}
     {#if current.status === AccountStatus.LOGIN_REQUIRED}
       <TextButton
         label={t.accounts_login_again()}
@@ -80,11 +92,21 @@
       />
     {:else}
       <PauseButton account={current} size={ButtonSize.MD} />
+      <PauseBadge account={current} class="@max-[50rem]:hidden" />
+      <PauseMenu
+        pausedUntil={current.settings.paused_until}
+        label={t.pause_menu_label()}
+        align={MenuAlign.RIGHT}
+        size={ButtonSize.MD}
+        compact={!wideLayout.current}
+        onpause={(until) => pauseAccount(current.id, until)}
+        onresume={() => resumeAccount(current.id)}
+      />
       <IconButton
         icon={IconName.REFRESH}
         label={t.account_refresh()}
         busy={refreshing}
-        disabled={!current.settings.enabled}
+        disabled={current.status === AccountStatus.PAUSED}
         variant={ButtonVariant.DEFAULT}
         size={ButtonSize.MD}
         onclick={() => refreshAccount(current.id)}

@@ -182,6 +182,10 @@ ominaisuuden käytössä.
   <img src="../media/fi/drops-streamers-first.avif" alt="Listan streamaaja, jota katsotaan sekä Dropsien että pisteiden vuoksi">
   </details>
 
+- **Palkintojen tärkeysjärjestys.** Kun kaksi kampanjaa on samalla sijalla, louhija
+  valitsee ensin sen, jonka palkinnot vastaavat suosimaasi tyyppiä (merkki, emote, pelin
+  sisäinen esine). Se ei koskaan ohita louhintajärjestystäsi.
+
 - **Merkit (beta).** Merkit-sivu luettelee kaikki Twitchin yleiset chat-merkit ja sen,
   miten ne saa. Jokaisella tilillä on oma Merkit-sivunsa: kesken olevat merkit
   edistymisineen, vielä saatavat merkit ja tilin omat merkit. Louhija tavoittelee
@@ -218,6 +222,18 @@ ominaisuuden käytössä.
   <details open><summary>Katso toiminnassa</summary>
   <img src="../media/fi/journal-requests.avif" alt="Suodatettu Päiväkirja ja sitten Tekniset lokit › Pyynnöt">
   </details>
+
+- **Ajastettu keskeytys ja päivittäinen tauko.** Keskeytä yksi tili tai kaikki 30
+  minuutiksi, 1 tunniksi, 4 tunniksi, huomiseen klo 09.00 asti tai mukautettuun
+  päivämäärään ja aikaan asti; ”Jatka nyt” päättää keskeytyksen etuajassa. Merkki näyttää,
+  milloin keskeytys päättyy. Päivittäinen tauko pysäyttää kaikkien tilien louhinnan joka
+  päivä kahden kellonajan välillä valitsemassasi aikavyöhykkeessä ja jatkaa sitä sen
+  päätyttyä, omalla merkillään yläpalkissa.
+- **CSV-vienti ja määrät kategorioittain.** Päiväkirja vie lunastetut dropit
+  CSV-tiedostona (päivämäärä, tili, kategoria, kampanja, drop, minuutit) tilin mukaan
+  suodatettuna, ja valintaikkuna listaa, montako droppia lunastettiin kussakin
+  kategoriassa. Työpöytäsovellus tallentaa tiedoston tallennusikkunan kautta;
+  verkkokäyttöliittymä lataa sen.
 
 ### Työpöydällä tai palvelimella
 
@@ -260,8 +276,9 @@ ominaisuuden käytössä.
 - Kuten muissa louhijoissa: bonusarkut, raidit, hetket, yhteisötavoitteet, ennustukset
   (strategiat, panostuksen ajoitus, ehdot), katseluputket ja tilatut kanavat ensin,
   läsnäolo chatissa (voi poistaa käytöstä), uusien streamaajien oletusvalinnat, Discord-,
-  Telegram- ja webhook-ilmoitukset kuvineen (palvelimella niiden kieli valitaan kohdassa
-  **Asetukset › Ilmoitukset**), yleinen tai tilikohtainen proxy.
+  Telegram- ja webhook-ilmoitukset kuvineen ja kullekin oma ”Testaa”-painike (palvelimella
+  niiden kieli valitaan kohdassa **Asetukset › Ilmoitukset**), yleinen tai tilikohtainen
+  proxy.
 - 29 kieltä, tumma ja vaalea teema, työpöytäilmoitukset, ilmoitusalueen kuvake,
   käynnistys järjestelmän mukana.
 

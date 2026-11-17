@@ -178,6 +178,10 @@ What sets it apart from other miners. “See it in action” under a point shows
   <img src="docs/media/en/drops-streamers-first.avif" alt="A streamer from the list, watched for the Drops and for its points">
   </details>
 
+- **Reward priority.** When two campaigns are equally ranked, the miner first picks the
+  one whose rewards match your preferred type (badge, emote, in-game item). It never
+  overrides your mining order.
+
 - **Badges (beta).** The Badges page lists every global Twitch chat badge and how to get
   it. Each account has its own Badges page: the badges in progress with their progress, the
   ones still to get and the ones it owns. The miner goes after the badges of Drops
@@ -212,6 +216,16 @@ What sets it apart from other miners. “See it in action” under a point shows
   <details open><summary>See it in action</summary>
   <img src="docs/media/en/journal-requests.avif" alt="The filtered Journal, then Technical logs › Requests">
   </details>
+
+- **Scheduled pause and a daily pause.** Pause one account or all of them for 30 minutes,
+  1 hour, 4 hours, until tomorrow at 09:00, or a custom date and time; “Resume now” lifts
+  it early. A badge shows the time the pause ends. A daily pause stops mining on every
+  account every day between two times, in the time zone you choose, and resumes it once it
+  ends, with its own badge in the top bar.
+- **CSV export and counts by category.** The Journal exports the claimed drops as a CSV
+  file (date, account, category, campaign, drop, minutes), filtered by account, and a
+  dialog lists how many drops were claimed in each category. The desktop app saves the
+  file through a save dialog; the web dashboard downloads it.
 
 ### On the desktop or on a server
 
@@ -252,8 +266,8 @@ What sets it apart from other miners. “See it in action” under a point shows
 - Like other miners: bonus chests, raids, moments, community goals, predictions
   (strategies, when to bet, conditions), watch streaks and subscribed channels first,
   chat presence (can be turned off), default options for new streamers, Discord, Telegram
-  and webhook notifications with images (on the server, their language is chosen in
-  **Settings › Notifications**), a global or per-account proxy.
+  and webhook notifications with images and a “Test” button for each (on the server,
+  their language is chosen in **Settings › Notifications**), a global or per-account proxy.
 - 29 languages, dark and light themes, desktop notifications, a tray icon, start with the
   system.
 

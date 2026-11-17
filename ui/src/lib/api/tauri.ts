@@ -3,7 +3,7 @@
 import { invoke as tauriInvoke } from "@tauri-apps/api/core";
 import { listen as tauriListen } from "@tauri-apps/api/event";
 
-import type { ChannelBannersResponseType } from "../bindings/ChannelBannersResponseType";
+import type { CategoryCountType } from "../bindings/CategoryCountType";
 import type { SearchResponseType } from "../bindings/SearchResponseType";
 import type { DesktopEvent } from "../bindings/DesktopEvent";
 import type { AppInfoResponseType } from "../bindings/AppInfoResponseType";
@@ -11,10 +11,13 @@ import type { AutostartResponseType } from "../bindings/AutostartResponseType";
 import type { BurstProgressType } from "../bindings/BurstProgressType";
 import type { RefreshResponseType } from "../bindings/RefreshResponseType";
 import type { ChannelResponseType } from "../bindings/ChannelResponseType";
+import type { ChannelBannersResponseType } from "../bindings/ChannelBannersResponseType";
 import type { ChannelsLookupResponseType } from "../bindings/ChannelsLookupResponseType";
 import type { CloseAction } from "../bindings/CloseAction";
 import type { CommandType } from "../bindings/CommandType";
 import type { FollowsResponseType } from "../bindings/FollowsResponseType";
+import type { HistoryExportQueryType } from "../bindings/HistoryExportQueryType";
+import type { HistoryExportResponseType } from "../bindings/HistoryExportResponseType";
 import type { HistoryQueryType } from "../bindings/HistoryQueryType";
 import type { HistoryResponseType } from "../bindings/HistoryResponseType";
 import type { LoginFlowResponseType } from "../bindings/LoginFlowResponseType";
@@ -24,7 +27,8 @@ import type { BadgesResponseType } from "../bindings/BadgesResponseType";
 import type { CatalogResponseType } from "../bindings/CatalogResponseType";
 import type { LogsResponseType } from "../bindings/LogsResponseType";
 import type { MinerEventType } from "../bindings/MinerEventType";
-import type { NotificationTestResponseType } from "../bindings/NotificationTestResponseType";
+import type { NotificationTestRequestType } from "../bindings/NotificationTestRequestType";
+import type { NotificationTestType } from "../bindings/NotificationTestType";
 import type { ProxyTestResponseType } from "../bindings/ProxyTestResponseType";
 import type { RedeemRequestType } from "../bindings/RedeemRequestType";
 import type { RedeemResponseType } from "../bindings/RedeemResponseType";
@@ -54,6 +58,13 @@ export type UpdateProgressType = {
   total: number | null;
 };
 
+// ! Hand mirror of `commands::ExportCsvResult` (src-tauri/src/commands.rs): no binding there.
+export type ExportCsvResultType = {
+  path: string;
+  counts: CategoryCountType[];
+  truncated: boolean;
+};
+
 export type TauriCommandsType = {
   [TauriCommand.SNAPSHOT]: { args: undefined; result: SnapshotResponseType };
   [TauriCommand.COMMAND]: { args: { command: CommandType }; result: null };
@@ -80,9 +91,16 @@ export type TauriCommandsType = {
     result: SpamBalanceResponseType;
   };
   [TauriCommand.REDEEM]: { args: { request: RedeemRequestType }; result: RedeemResponseType };
-  [TauriCommand.TEST_NOTIFICATIONS]: { args: undefined; result: NotificationTestResponseType };
+  [TauriCommand.TEST_NOTIFICATION]: {
+    args: { request: NotificationTestRequestType };
+    result: NotificationTestType;
+  };
   [TauriCommand.TEST_PROXY]: { args: { url: string }; result: ProxyTestResponseType };
   [TauriCommand.HISTORY]: { args: { query: HistoryQueryType }; result: HistoryResponseType };
+  [TauriCommand.HISTORY_EXPORT]: {
+    args: { query: HistoryExportQueryType };
+    result: HistoryExportResponseType;
+  };
   [TauriCommand.BADGES]: { args: undefined; result: BadgesResponseType };
   [TauriCommand.CATALOG]: { args: undefined; result: CatalogResponseType };
   [TauriCommand.LOGS]: { args: { query: LogsQueryType }; result: LogsResponseType };
@@ -100,6 +118,10 @@ export type TauriCommandsType = {
   [TauriCommand.AUTOSTART_STATUS]: { args: undefined; result: AutostartResponseType };
   [TauriCommand.SET_AUTOSTART]: { args: { enabled: boolean }; result: null };
   [TauriCommand.OPEN_DATA_DIRECTORY]: { args: undefined; result: null };
+  [TauriCommand.EXPORT_CSV_FILE]: {
+    args: { query: HistoryExportQueryType };
+    result: ExportCsvResultType | null;
+  };
   [TauriCommand.CHECK_FOR_UPDATE]: { args: undefined; result: UpdateInfoType | null };
   [TauriCommand.FOUND_UPDATE]: { args: undefined; result: UpdateInfoType | null };
   [TauriCommand.TAKE_FAILED_UPDATE]: { args: undefined; result: FailedUpdateType | null };

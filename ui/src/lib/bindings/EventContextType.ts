@@ -2,6 +2,7 @@
 import type { BetResult } from "./BetResult";
 import type { ErrorApiMessage } from "./ErrorApiMessage";
 import type { MinerKind } from "./MinerKind";
+import type { PauseReason } from "./PauseReason";
 import type { PointsReason } from "./PointsReason";
 
 export type EventContextType = {
@@ -45,4 +46,6 @@ export type EventContextType = {
   refusals?: Array<string>;
   failures?: Array<ErrorApiMessage>;
   badge?: string;
+  pause_until?: string;
+  pause_reason?: PauseReason;
 };

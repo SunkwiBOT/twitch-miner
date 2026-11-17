@@ -177,6 +177,10 @@
   <img src="../media/cs/drops-streamers-first.avif" alt="Streamer ze seznamu sledovaný kvůli Drops i kvůli svým bodům">
   </details>
 
+- **Priorita odměn.** Když jsou dvě kampaně na stejné pozici, miner nejprve vybere tu,
+  jejíž odměny odpovídají vašemu oblíbenému typu (odznak, emote, herní předmět). Vaše
+  pořadí těžby nikdy nepřebije.
+
 - **Odznaky (beta).** Stránka Odznaky uvádí všechny globální chatové odznaky Twitche a
   jak je získat. Každý účet má svou stránku Odznaky: rozpracované odznaky s jejich
   postupem, ty, které ještě může získat, a ty, které vlastní. Miner jde po odznacích
@@ -211,6 +215,16 @@
   <details open><summary>Ukázka v akci</summary>
   <img src="../media/cs/journal-requests.avif" alt="Filtrovaný Deník, pak Technické protokoly › Požadavky">
   </details>
+
+- **Naplánovaná pauza a denní pauza.** Pozastavte jeden účet nebo všechny na 30 minut, 1
+  hodinu, 4 hodiny, do zítřka do 9:00 nebo do vlastního data a času; „Pokračovat nyní“
+  pauzu ukončí dřív. Odznak ukazuje, kdy pauza končí. Denní pauza každý den mezi dvěma
+  časy v zvoleném časovém pásmu zastaví těžbu všech účtů a po svém konci ji obnoví, se
+  svým vlastním odznakem v horní liště.
+- **Export CSV a počty podle kategorie.** Deník exportuje vyzvednuté dropy jako soubor CSV
+  (datum, účet, kategorie, kampaň, drop, minuty) filtrovaný podle účtu a dialog uvede,
+  kolik dropů bylo vyzvednuto v jednotlivých kategoriích. Desktopová aplikace soubor uloží
+  přes dialog pro uložení; webový panel jej stáhne.
 
 ### Na počítači nebo na serveru
 
@@ -250,8 +264,8 @@
 - Stejně jako jiné minery: bonusové truhly, raidy, momenty, komunitní cíle, předpovědi
   (strategie, kdy vsadit, podmínky), přednost sériím sledování a předplaceným kanálům,
   přítomnost v chatu (lze vypnout), výchozí možnosti pro nové streamery, oznámení přes
-  Discord, Telegram a webhook s obrázky (na serveru se jejich jazyk volí v
-  **Nastavení › Oznámení**), globální proxy nebo proxy pro každý účet.
+  Discord, Telegram a webhook s obrázky a tlačítkem „Otestovat“ pro každý z nich (na serveru
+  se jejich jazyk volí v **Nastavení › Oznámení**), globální proxy nebo proxy pro každý účet.
 - 29 jazyků, tmavý a světlý motiv, oznámení na ploše, ikona v liště, spouštění se systémem.
 
   <details open><summary>Ukázka v akci</summary>

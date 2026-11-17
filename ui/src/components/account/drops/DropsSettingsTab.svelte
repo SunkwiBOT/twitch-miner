@@ -11,6 +11,7 @@
   import Setting from "../../ui/Setting.svelte";
   import CampaignScopeFields from "./CampaignScopeFields.svelte";
   import MiningOrderList from "./MiningOrderList.svelte";
+  import RewardPriorityList from "./RewardPriorityList.svelte";
 
   type DropsSettingsTabPropsType = { account: AccountSnapshotType };
 
@@ -26,6 +27,13 @@
       order={drops.mining_order}
       onchange={(order) =>
         edits.set(AccountField.MINING_ORDER, (s) => (s.drops.mining_order = order))}
+    />
+  </Panel>
+  <Panel title={t.reward_priority_title()} description={t.reward_priority_hint()}>
+    <RewardPriorityList
+      order={drops.reward_priority}
+      onchange={(order) =>
+        edits.set(AccountField.REWARD_PRIORITY, (s) => (s.drops.reward_priority = order))}
     />
   </Panel>
   <Panel title={t.drops_claim_title()}>

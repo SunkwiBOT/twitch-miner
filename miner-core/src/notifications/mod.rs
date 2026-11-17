@@ -12,8 +12,10 @@ use std::time::Duration;
 use reqwest::header::RETRY_AFTER;
 use reqwest::{Response, StatusCode};
 
-use crate::api::NotificationTarget;
-use crate::config::{NotificationEvents, NotificationSettings};
+use crate::api::{NotificationTarget, NotificationTest, NotificationTestRequest};
+use crate::config::{
+    DiscordSettings, NotificationEvents, NotificationSettings, TelegramSettings, WebhookSettings,
+};
 use crate::error::{Error, Result};
 use crate::events::{EventContext, EventKind, MinerEvent};
 use crate::i18n;
@@ -111,7 +113,9 @@ pub fn wanted(events: &NotificationEvents, kind: EventKind) -> bool {
         | EventKind::StreakRecovered
         | EventKind::GoalContributed
         | EventKind::LoginCompleted
-        | EventKind::RewardRedeemed => false,
+        | EventKind::RewardRedeemed
+        | EventKind::Paused
+        | EventKind::Resumed => false,
     }
 }
 
@@ -248,45 +252,102 @@ impl Notifier {
         }
     }
 
-    // ! A test waits its turn in the target's queue, so it never takes the 429
-    // of a burst being sent.
-    pub async fn test(&self) -> Vec<(NotificationTarget, Result<()>)> {
-        let settings = self.shared.settings();
+    // ! Cheap, no network: run before the rate-limit gate so a malformed
+    // webhook URL, bot token or address does not cost a test slot.
+    pub fn validate_adhoc(&self, request: &NotificationTestRequest) -> Result<()> {
+        match request {
+            NotificationTestRequest::Discord { webhook_url } => {
+                discord::validate_webhook_url(&self.shared, webhook_url.trim())
+            }
+            NotificationTestRequest::Telegram { bot_token, .. } => {
+                telegram::validate_bot_token(bot_token.trim())
+            }
+            NotificationTestRequest::Webhook { url, authorization } => {
+                webhook::target(url).map(drop)?;
+                webhook::authorization(authorization).map(drop)
+            }
+        }
+    }
+
+    // ! Bypasses the queue and the saved settings: a direct, single
+    // round-trip with the values typed in the form, never persisted or
+    // logged, so the button works before the section is even saved.
+    pub async fn test_adhoc(&self, request: NotificationTestRequest) -> NotificationTest {
         let language = self.language();
         let notice = Notice {
             event: sample_in(language),
             language,
         };
-        let queues = self.queues();
-        let deadline = tokio::time::Instant::now() + TEST_WAIT;
-        let waiting: Vec<_> = queue::TARGETS
-            .into_iter()
-            .filter(|target| match target {
-                NotificationTarget::Discord => settings.discord.enabled,
-                NotificationTarget::Telegram => settings.telegram.enabled,
-                NotificationTarget::Webhook => settings.webhook.enabled,
-            })
-            .map(|target| (target, queues.test(target, notice.clone())))
-            .collect();
-        let mut results = Vec::new();
+        let target = request.target();
+        let outcome = tokio::time::timeout(TEST_WAIT, self.send_adhoc(&request, &notice)).await;
 
-        for (target, answer) in waiting {
-            let outcome = match tokio::time::timeout_at(deadline, answer).await {
-                Ok(Ok(outcome)) => outcome,
-                Ok(Err(_)) => Err(Error::Notification(format!(
-                    "the {} queue is full",
-                    queue::name(target)
-                ))),
-                Err(_) => Err(Error::Notification(format!(
-                    "{} is still sending earlier notifications",
-                    queue::name(target)
-                ))),
-            };
+        let problem = match outcome {
+            Ok(Ok(())) => None,
+            Ok(Err(error)) => {
+                tracing::warn!(?target, "notification test failed: {error}");
+                Some(error.code())
+            }
+            Err(_) => {
+                let error =
+                    Error::Notification(format!("{} did not answer in time", queue::name(target)));
 
-            results.push((target, outcome));
+                tracing::warn!(?target, "notification test failed: {error}");
+                Some(error.code())
+            }
+        };
+
+        NotificationTest { target, problem }
+    }
+
+    async fn send_adhoc(&self, request: &NotificationTestRequest, notice: &Notice) -> Result<()> {
+        let target = request.target();
+        let answer = match request {
+            NotificationTestRequest::Discord { webhook_url } => {
+                discord::send(
+                    &self.shared,
+                    &DiscordSettings {
+                        enabled: true,
+                        webhook_url: webhook_url.clone(),
+                    },
+                    std::slice::from_ref(notice),
+                )
+                .await?
+            }
+            NotificationTestRequest::Telegram { bot_token, chat_id } => {
+                telegram::send(
+                    &self.shared,
+                    &TelegramSettings {
+                        enabled: true,
+                        bot_token: bot_token.clone(),
+                        chat_id: chat_id.clone(),
+                    },
+                    notice,
+                )
+                .await?
+            }
+            NotificationTestRequest::Webhook { url, authorization } => {
+                webhook::send(
+                    &self.shared,
+                    &WebhookSettings {
+                        enabled: true,
+                        url: url.clone(),
+                        authorization: authorization.clone(),
+                    },
+                    notice,
+                )
+                .await?
+            }
+        };
+
+        if answer.status.is_success() {
+            Ok(())
+        } else {
+            Err(Error::Notification(format!(
+                "{} answered {}",
+                queue::name(target),
+                answer.status.as_u16()
+            )))
         }
-
-        results
     }
 
     pub fn shutdown(&self) {

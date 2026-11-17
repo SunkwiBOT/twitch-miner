@@ -1,8 +1,10 @@
 use std::ops::RangeInclusive;
 
+use chrono::{DateTime, Utc};
 use serde::{Deserialize, Deserializer, Serialize};
 use ts_rs::TS;
 
+use crate::domain::BenefitKind;
 use crate::error::{Error, Result};
 use crate::predictions::MAX_PREDICTION_POINTS;
 
@@ -15,6 +17,7 @@ const BET_DELAY_SECONDS: RangeInclusive<u32> = 2..=300;
 const TEXT_MAX_CHARS: usize = 2048;
 const TIME_ZONE_MAX_CHARS: usize = 64;
 pub const SPAM_DELAY_MAX_MS: u32 = 5_000;
+const MINUTES_IN_DAY_MAX: u16 = 1439;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default, TS)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
@@ -96,6 +99,10 @@ pub struct DropsSettings {
     pub mine_points: bool,
     pub points_followed_only: bool,
     pub streamers_first: bool,
+    // ! The reward kind a multi-drop campaign's next drop is picked by,
+    // before the fewest minutes left: a badge, an emote, an in-game item, or
+    // anything else, each exactly once.
+    pub reward_priority: Vec<BenefitKind>,
 }
 
 impl Default for DropsSettings {
@@ -118,6 +125,7 @@ impl Default for DropsSettings {
             mine_points: true,
             points_followed_only: false,
             streamers_first: true,
+            reward_priority: BenefitKind::ALL.into(),
         }
     }
 }
@@ -328,6 +336,12 @@ pub struct AccountSettings {
     // ! Twitch credits at most two channels per account at a time.
     pub slots: u8,
     pub proxy: String,
+    // ! A scheduled pause: set by "Pause for…", cleared automatically once
+    // past, by hand with "Resume now", or replaced by a new one. Independent
+    // from `enabled`, which is the manual switch.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub paused_until: Option<DateTime<Utc>>,
 }
 
 impl Default for AccountSettings {
@@ -340,6 +354,7 @@ impl Default for AccountSettings {
             points: PointsSettings::default(),
             slots: 2,
             proxy: String::new(),
+            paused_until: None,
         }
     }
 }
@@ -362,6 +377,16 @@ impl AccountSettings {
         {
             return Err(Error::InvalidRequest(
                 "mining_order must hold each lane once".into(),
+            ));
+        }
+
+        if drops.reward_priority.len() != BenefitKind::ALL.len()
+            || BenefitKind::ALL
+                .iter()
+                .any(|kind| !drops.reward_priority.iter().any(|k| k == kind))
+        {
+            return Err(Error::InvalidRequest(
+                "reward_priority must hold each kind once".into(),
             ));
         }
 
@@ -440,10 +465,25 @@ impl GlobalSettings {
             return invalid("time_zone");
         }
 
+        if crate::util::parse_time_zone(&self.quiet_window.time_zone).is_none() {
+            return invalid("quiet_window.time_zone");
+        }
+
         within(
             "spam_points.delay_ms",
             self.spam_points.delay_ms,
             &(0..=SPAM_DELAY_MAX_MS),
+        )?;
+
+        within(
+            "quiet_window.start_minutes",
+            self.quiet_window.start_minutes,
+            &(0..=MINUTES_IN_DAY_MAX),
+        )?;
+        within(
+            "quiet_window.end_minutes",
+            self.quiet_window.end_minutes,
+            &(0..=MINUTES_IN_DAY_MAX),
         )?;
 
         let notifications = &self.notifications;
@@ -581,6 +621,54 @@ pub const AUTO_TIME_ZONE: &str = "AUTO";
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
 #[serde(default)]
+#[ts(rename = "QuietWindowSettingsType")]
+pub struct QuietWindowSettings {
+    pub enabled: bool,
+    // ! Minutes since local midnight, in `time_zone` below.
+    pub start_minutes: u16,
+    pub end_minutes: u16,
+    // ! A resolved IANA zone (never the `AUTO` sentinel used by
+    // `GlobalSettings::time_zone`, which is a display-only preference): the
+    // UI substitutes the device's zone before sending it, because the
+    // published Docker image carries no tzdata and cannot resolve one
+    // itself. Validated in `GlobalSettings::validate`.
+    pub time_zone: String,
+}
+
+impl Default for QuietWindowSettings {
+    fn default() -> Self {
+        Self {
+            enabled: false,
+            start_minutes: 60,
+            end_minutes: 8 * 60,
+            time_zone: "UTC".into(),
+        }
+    }
+}
+
+impl QuietWindowSettings {
+    // ! A window from its start up to (not including) its end; one that
+    // wraps past midnight (start after end) is active on either side of it.
+    // An empty window (start == end) is never active.
+    pub fn active_at(&self, now: DateTime<Utc>) -> bool {
+        if !self.enabled {
+            return false;
+        }
+
+        let minutes = crate::util::local_minutes_of_day(now, &self.time_zone);
+
+        if self.start_minutes == self.end_minutes {
+            false
+        } else if self.start_minutes < self.end_minutes {
+            (self.start_minutes..self.end_minutes).contains(&minutes)
+        } else {
+            minutes >= self.start_minutes || minutes < self.end_minutes
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[serde(default)]
 #[ts(rename = "GlobalSettingsType")]
 pub struct GlobalSettings {
     pub language: String,
@@ -596,6 +684,7 @@ pub struct GlobalSettings {
     pub clock_format: ClockFormat,
     pub history_retention: HistoryRetention,
     pub spam_points: SpamPointsSettings,
+    pub quiet_window: QuietWindowSettings,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, TS)]
@@ -753,6 +842,7 @@ impl Default for GlobalSettings {
             clock_format: ClockFormat::Auto,
             history_retention: HistoryRetention::Days30,
             spam_points: SpamPointsSettings::default(),
+            quiet_window: QuietWindowSettings::default(),
         }
     }
 }
@@ -796,6 +886,7 @@ strict_input!(DropsSettingsInput => DropsSettings {
     mine_points: bool,
     points_followed_only: bool,
     streamers_first: bool,
+    reward_priority: Vec<BenefitKind>,
 });
 
 strict_input!(BadgeSettingsInput => BadgeSettings {
@@ -851,7 +942,12 @@ strict_input!(PointsSettingsInput => PointsSettings {
     streamer_defaults: StreamerSettingsInput,
 });
 
-strict_input!(AccountSettingsInput => AccountSettings {
+// ! `paused_until` is deliberately absent: only `Manager::pause_account` and
+// `pause_all_accounts` may set it (see `set_account_settings`, which keeps
+// the stored value no matter what a settings save sends).
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct AccountSettingsInput {
     enabled: bool,
     mode: Mode,
     drops: DropsSettingsInput,
@@ -859,7 +955,22 @@ strict_input!(AccountSettingsInput => AccountSettings {
     points: PointsSettingsInput,
     slots: u8,
     proxy: String,
-});
+}
+
+impl From<AccountSettingsInput> for AccountSettings {
+    fn from(input: AccountSettingsInput) -> Self {
+        Self {
+            enabled: input.enabled,
+            mode: input.mode,
+            drops: input.drops.into(),
+            badges: input.badges.into(),
+            points: input.points.into(),
+            slots: input.slots,
+            proxy: input.proxy,
+            paused_until: None,
+        }
+    }
+}
 
 strict_input!(DiscordSettingsInput => DiscordSettings {
     enabled: bool,
@@ -910,6 +1021,13 @@ strict_input!(SpamPointsSettingsInput => SpamPointsSettings {
     delay_ms: u32,
 });
 
+strict_input!(QuietWindowSettingsInput => QuietWindowSettings {
+    enabled: bool,
+    start_minutes: u16,
+    end_minutes: u16,
+    time_zone: String,
+});
+
 strict_input!(GlobalSettingsInput => GlobalSettings {
     language: String,
     default_proxy: String,
@@ -924,6 +1042,7 @@ strict_input!(GlobalSettingsInput => GlobalSettings {
     clock_format: ClockFormat,
     history_retention: HistoryRetention,
     spam_points: SpamPointsSettingsInput,
+    quiet_window: QuietWindowSettingsInput,
 });
 
 pub fn strict_account_settings<'de, D: Deserializer<'de>>(

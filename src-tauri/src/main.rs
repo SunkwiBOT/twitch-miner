@@ -16,11 +16,12 @@ use std::sync::Arc;
 use miner_core::api::{
     AccountStatus, AppInfo, AppInfoResponse, AutostartResponse, BadgeCatalogView, BadgesResponse,
     CatalogResponse, CatalogView, ChannelBannersResponse, ChannelResponse, ChannelsLookupResponse,
-    Command, CommandName, DesktopEvent, FollowsResponse, HistoryQuery, HistoryResponse,
-    LoginFlowResponse, LogsQuery, LogsReportResponse, LogsResponse, NotificationTestResponse,
-    ProxyTestResponse, RedeemRequest, RedeemResponse, RefreshResponse, RequestsQuery,
-    RequestsResponse, SearchResponse, Shell, Snapshot, SnapshotResponse, SpamBalanceResponse,
-    SpamChannelResponse, StartupProblem, StartupProblemResponse,
+    Command, CommandName, DesktopEvent, FollowsResponse, HistoryExportQuery, HistoryExportResponse,
+    HistoryQuery, HistoryResponse, LoginFlowResponse, LogsQuery, LogsReportResponse, LogsResponse,
+    NotificationTest, NotificationTestRequest, ProxyTestResponse, RedeemRequest, RedeemResponse,
+    RefreshResponse, RequestsQuery, RequestsResponse, SearchResponse, Shell, Snapshot,
+    SnapshotResponse, SpamBalanceResponse, SpamChannelResponse, StartupProblem,
+    StartupProblemResponse,
 };
 use miner_core::config::{CloseAction, GlobalSettings};
 use miner_core::error::{ApiError, ErrorCode};
@@ -120,6 +121,7 @@ fn main() {
         .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_clipboard_manager::init())
+        .plugin(tauri_plugin_dialog::init())
         .manage(updates::PendingUpdate::default())
         .manage(updates::FoundUpdate::default())
         .invoke_handler(tauri::generate_handler![
@@ -136,9 +138,10 @@ fn main() {
             spam_channel,
             spam_balance,
             redeem,
-            test_notifications,
+            test_notification,
             test_proxy,
             history,
+            history_export,
             badges,
             refresh_badges,
             logs,
@@ -151,6 +154,7 @@ fn main() {
             quit,
             open_logs_directory,
             open_data_directory,
+            export_csv_file,
             autostart_status,
             set_autostart,
             updates::check_for_update,

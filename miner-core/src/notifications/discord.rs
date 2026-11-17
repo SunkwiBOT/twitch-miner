@@ -30,6 +30,23 @@ const MARKDOWN: [char; 12] = ['\\', '*', '_', '~', '`', '|', '>', '<', '[', ']',
 
 const MARKDOWN_LINE_START: [char; 2] = ['#', '-'];
 
+// ! Shared with `Notifier::validate_adhoc`, which runs it before the
+// rate-limit gate: a malformed URL does not cost a test slot.
+pub(super) fn validate_webhook_url(shared: &Shared, url: &str) -> Result<()> {
+    if shared
+        .endpoints
+        .discord
+        .iter()
+        .any(|prefix| url.starts_with(prefix))
+    {
+        Ok(())
+    } else {
+        Err(Error::Notification(
+            "Discord webhook URL must start with https://discord.com/api/webhooks/".into(),
+        ))
+    }
+}
+
 pub(super) async fn send(
     shared: &Shared,
     settings: &DiscordSettings,
@@ -37,16 +54,7 @@ pub(super) async fn send(
 ) -> Result<Answer> {
     let url = settings.webhook_url.trim();
 
-    if !shared
-        .endpoints
-        .discord
-        .iter()
-        .any(|prefix| url.starts_with(prefix))
-    {
-        return Err(Error::Notification(
-            "Discord webhook URL must start with https://discord.com/api/webhooks/".into(),
-        ));
-    }
+    validate_webhook_url(shared, url)?;
 
     let mut attachment = None;
     let payload = payload(notices, &mut attachment);

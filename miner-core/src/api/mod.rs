@@ -8,16 +8,16 @@ pub use command::{Command, CommandName};
 pub use push::{DesktopEvent, ServerMessage, ServerMessageKind};
 pub use queries::{
     ChannelBannersRequest, ChannelQuery, ChannelsLookupRequest, DashboardLoginRequest,
-    FollowsQuery, HistoryQuery, LogsQuery, ProxyTestRequest, RedeemRequest, RequestsQuery,
-    SearchQuery, SpamChannelQuery,
+    FollowsQuery, HistoryExportQuery, HistoryQuery, LogsQuery, NotificationTestRequest,
+    ProxyTestRequest, RedeemRequest, RequestsQuery, SearchQuery, SpamChannelQuery,
 };
 pub use responses::{
     AppInfo, AppInfoResponse, AuthResponse, AuthStatus, AutostartResponse, BadgesResponse,
-    CatalogResponse, ChannelBannersResponse, ChannelResponse, ChannelsLookupResponse,
-    FollowsResponse, HistoryResponse, LoginFlowResponse, LogsReportResponse, LogsResponse,
-    NotificationTarget, NotificationTest, NotificationTestResponse, ProxyTestResponse,
-    RedeemResponse, RefreshCount, RefreshResponse, RequestsResponse, SearchResponse,
-    SnapshotResponse, SpamBalanceResponse, SpamChannelResponse, StartupProblem,
+    CatalogResponse, CategoryCount, ChannelBannersResponse, ChannelResponse,
+    ChannelsLookupResponse, FollowsResponse, HistoryExportResponse, HistoryResponse,
+    LoginFlowResponse, LogsReportResponse, LogsResponse, NotificationTarget, NotificationTest,
+    ProxyTestResponse, RedeemResponse, RefreshCount, RefreshResponse, RequestsResponse,
+    SearchResponse, SnapshotResponse, SpamBalanceResponse, SpamChannelResponse, StartupProblem,
     StartupProblemResponse, UpdateCheck, UpdateCheckResponse,
 };
 pub use views::{
@@ -42,6 +42,7 @@ pub const FOLLOWS_MAX: usize = 1_000;
 
 pub const HISTORY_LIMIT_MAX: u32 = 500;
 pub const HISTORY_LIMIT_DEFAULT: u32 = 100;
+pub const HISTORY_EXPORT_MAX: usize = 10_000;
 
 pub const LOGS_LIMIT_DEFAULT: u32 = 100;
 pub const LOGS_LIMIT_MAX: u32 = 100;
@@ -86,6 +87,8 @@ pub enum ApiRoute {
     ProxyTest,
     #[serde(rename = "/api/history")]
     History,
+    #[serde(rename = "/api/history/export")]
+    HistoryExport,
     #[serde(rename = "/api/badges")]
     Badges,
     #[serde(rename = "/api/badges/refresh")]
@@ -128,6 +131,7 @@ impl ApiRoute {
             Self::NotificationsTest => "/api/notifications/test",
             Self::ProxyTest => "/api/proxy/test",
             Self::History => "/api/history",
+            Self::HistoryExport => "/api/history/export",
             Self::Badges => "/api/badges",
             Self::BadgesRefresh => "/api/badges/refresh",
             Self::Logs => "/api/logs",

@@ -2,6 +2,7 @@
 
 export enum BenefitKind {
   BADGE = "BADGE",
+  EMOTE = "EMOTE",
   IN_GAME_ITEM = "IN_GAME_ITEM",
   OTHER = "OTHER",
 }

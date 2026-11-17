@@ -183,6 +183,10 @@ het werkt.
   <img src="../media/nl/drops-streamers-first.avif" alt="Een streamer uit de lijst, bekeken voor de Drops en voor zijn punten">
   </details>
 
+- **Beloningsprioriteit.** Staan twee campagnes gelijk, dan kiest de miner eerst die met
+  beloningen van het soort dat jij het liefst hebt (badge, emote, game-item). Hij gaat
+  nooit tegen jouw mining-volgorde in.
+
 - **Badges (bèta).** De pagina Badges toont alle globale chatbadges van Twitch en hoe je
   ze krijgt. Elk account heeft een eigen Badges-pagina: de lopende badges met hun
   voortgang, de badges die het nog kan krijgen en de badges die het al heeft. De miner
@@ -220,6 +224,17 @@ het werkt.
   <details open><summary>Bekijk het in actie</summary>
   <img src="../media/nl/journal-requests.avif" alt="Het gefilterde Journaal, daarna Technisch logboek › Verzoeken">
   </details>
+
+- **Geplande pauze en dagelijkse pauze.** Pauzeer één account of alle accounts voor 30
+  minuten, 1 uur, 4 uur, tot morgen 09:00 of een aangepaste datum en tijd; “Nu hervatten”
+  heft de pauze eerder op. Een badge toont wanneer de pauze eindigt. Een dagelijkse pauze
+  stopt het minen van alle accounts elke dag tussen twee tijdstippen, in de gekozen
+  tijdzone, en hervat het zodra die pauze eindigt, met een eigen badge in de bovenste
+  balk.
+- **CSV-export en aantallen per categorie.** Het Journaal exporteert de geclaimde drops
+  als CSV-bestand (datum, account, categorie, campagne, drop, minuten), gefilterd op
+  account, en een dialoogvenster toont hoeveel drops in elke categorie geclaimd zijn. De
+  desktop-app bewaart het bestand via een opslaan-dialoog; het webdashboard downloadt het.
 
 ### Op de desktop of op een server
 
@@ -261,8 +276,9 @@ het werkt.
 - Net als andere miners: bonuskisten, raids, momenten, communitydoelen, voorspellingen
   (strategieën, moment van inzetten, voorwaarden), kijkreeksen en geabonneerde kanalen
   eerst, aanwezigheid in de chat (uit te zetten), standaardopties voor nieuwe streamers,
-  meldingen via Discord, Telegram en webhook met afbeeldingen (op de server kies je hun
-  taal onder **Instellingen › Meldingen**), een globale proxy of een proxy per account.
+  meldingen via Discord, Telegram en webhook met afbeeldingen en een knop “Testen” voor
+  elk (op de server kies je hun taal onder **Instellingen › Meldingen**), een globale
+  proxy of een proxy per account.
 - 29 talen, donker en licht thema, bureaubladmeldingen, een pictogram in het systeemvak,
   starten met het systeem.
 

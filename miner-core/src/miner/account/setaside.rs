@@ -96,6 +96,7 @@ pub(super) fn observe_all(
     set_aside: &mut SetAside,
     campaigns: &HashMap<String, Campaign>,
     excluded: &[String],
+    priority: &[crate::domain::BenefitKind],
     stale_quests: &HashSet<String>,
     lifted_categories: &HashSet<String>,
     now: DateTime<Utc>,
@@ -128,7 +129,7 @@ pub(super) fn observe_all(
         .values()
         .filter(|campaign| !stale_quests.contains(&campaign.id))
         .filter_map(|campaign| {
-            let drop = campaign.next_drop(now, excluded)?;
+            let drop = campaign.next_drop(now, excluded, priority)?;
             let retry_at = set_aside.entry(campaign.id.clone()).or_default().observe(
                 &drop.id,
                 drop.current_minutes,

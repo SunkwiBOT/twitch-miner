@@ -1,4 +1,4 @@
-use crate::events::{BetResult, EventKind, MinerEvent};
+use crate::events::{BetResult, EventKind, MinerEvent, PauseReason};
 use crate::scheduler::PointsReason;
 use chrono::{DateTime, Utc};
 
@@ -272,6 +272,8 @@ pub fn kind_label(language: &str, kind: EventKind) -> String {
         EventKind::UpdateAvailable => "event_kind_update_available",
         EventKind::VersionUpdated => "event_kind_version_updated",
         EventKind::RewardRedeemed => "event_kind_reward_redeemed",
+        EventKind::Paused => "event_kind_paused",
+        EventKind::Resumed => "event_kind_resumed",
     };
 
     text(language, key, &[])
@@ -479,6 +481,15 @@ pub fn event_text(language: &str, event: &MinerEvent) -> String {
         EventKind::CampaignRetried => {
             campaign.and_then(|campaign| say("ev_campaign_retried", &[("campaign", campaign)]))
         }
+        EventKind::Paused => match (context.pause_reason, context.pause_until) {
+            (Some(PauseReason::QuietWindow), _) => say("ev_paused_quiet_window", &[]),
+            (_, Some(until)) => say(
+                "ev_paused_scheduled",
+                &[("time", &relative_in(language, until, event.at))],
+            ),
+            _ => say("ev_paused", &[]),
+        },
+        EventKind::Resumed => say("ev_resumed", &[]),
         EventKind::Info | EventKind::RewardRedeemed => None,
     };
 

@@ -12,4 +12,5 @@ export type AccountSettingsType = {
   points: PointsSettingsType;
   slots: number;
   proxy: string;
+  paused_until?: string;
 };

@@ -11,11 +11,13 @@
     TableHeader,
     TableRow,
   } from "$lib/components/ui/table";
-  import { fetchHistory } from "../lib/api/client";
+  import { exportCsvToFile, fetchHistory } from "../lib/api/client";
+  import type { CategoryCountType } from "../lib/bindings/CategoryCountType";
   import type { EventKind } from "../lib/bindings/EventKind";
   import type { HistoryQueryType } from "../lib/bindings/HistoryQueryType";
   import type { MinerEventType } from "../lib/bindings/MinerEventType";
   import { ensureChannels } from "../lib/channels/channels.svelte";
+  import { describeError } from "../lib/errors/errors.utils";
   import { EVENT_ICONS, JOURNAL_ALL, JOURNAL_FILTER_SLUGS } from "../lib/events/events.constants";
   import {
     EVENT_KIND_LABELS,
@@ -29,17 +31,22 @@
   import { wideLayout } from "../lib/state/viewport.svelte";
   import { app } from "../lib/state/app.svelte";
   import { openTab, showTab } from "../lib/state/router";
+  import { ToastKind } from "../lib/state/state.constants";
+  import { toast } from "../lib/state/toasts";
   import {
     HISTORY_MORE_SKELETON_ROWS,
     HISTORY_PAGE_SIZE,
     HISTORY_SKELETON_ROWS,
   } from "./history.constants";
   import HistoryEvent from "./HistoryEvent.svelte";
+  import ActionButton from "./ui/ActionButton.svelte";
+  import Dialog from "./ui/Dialog.svelte";
   import LoadMoreSentinel from "./ui/LoadMoreSentinel.svelte";
   import MultiSelect from "./ui/MultiSelect.svelte";
   import Segmented from "./ui/Segmented.svelte";
   import { IconName } from "../lib/icons.constants";
   import { MenuAlign } from "./ui/menu.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "./ui/button.constants";
 
   type HistoryListPropsType = {
     accountIds: string[] | undefined;
@@ -110,6 +117,34 @@
     void feed.show(untrack(query));
   });
 
+  let exporting = $state(false);
+  let counts = $state<CategoryCountType[] | null>(null);
+
+  const exportHistory = async (): Promise<void> => {
+    exporting = true;
+
+    try {
+      const filename = `claimed-drops-${new Date().toISOString().slice(0, 10)}.csv`;
+      const result = await exportCsvToFile({ account_ids: accountIds }, filename);
+
+      if (result) {
+        counts = result.counts;
+
+        if (result.truncated) {
+          toast(ToastKind.INFO, t.export_csv_truncated());
+        }
+
+        if (result.path) {
+          toast(ToastKind.SUCCESS, t.export_csv_saved({ path: result.path }));
+        }
+      }
+    } catch (e: any) {
+      toast(ToastKind.ERROR, t.action_failed(), { description: describeError(e) });
+    } finally {
+      exporting = false;
+    }
+  };
+
   $effect(() => {
     ensureChannels(unnamedChannels(feed.items));
   });
@@ -117,6 +152,17 @@
 
 <div class="mb-3 flex flex-wrap items-center gap-2.5">
   {#if lead}{@render lead()}{/if}
+  <ActionButton
+    icon={IconName.FILE}
+    label={t.export_csv_button()}
+    busyLabel={t.export_csv_downloading()}
+    busy={exporting}
+    disabled={false}
+    variant={ButtonVariant.DEFAULT}
+    size={ButtonSize.MD}
+    type={ButtonType.BUTTON}
+    onclick={exportHistory}
+  />
   <span class="flex-1"></span>
   <div class="w-56">
     <MultiSelect
@@ -225,3 +271,31 @@
     onmore={feed.loadMore}
   />
 {/if}
+
+<Dialog
+  open={counts !== null}
+  title={t.export_counts_title()}
+  wide={false}
+  closable={true}
+  closeLabel={t.common_close()}
+  onclose={() => (counts = null)}
+>
+  {#if counts && counts.length > 0}
+    <ul class="flex flex-col divide-y text-sm">
+      {#each counts as entry (entry.category)}
+        <li class="flex items-center justify-between gap-3 py-2">
+          <span class="min-w-0 truncate"
+            >{entry.category.trim() === "" ? t.journal_filter_other() : entry.category}</span
+          >
+          <span class="shrink-0 font-medium tabular-nums text-muted-foreground"
+            >{(entry.count === 1 ? t.export_counts_count_one : t.export_counts_count)({
+              count: entry.count,
+            })}</span
+          >
+        </li>
+      {/each}
+    </ul>
+  {:else}
+    <EmptyState text={t.export_counts_empty()} />
+  {/if}
+</Dialog>

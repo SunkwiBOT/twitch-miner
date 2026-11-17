@@ -46,7 +46,7 @@ pub(super) async fn send(
     })
 }
 
-fn authorization(value: &str) -> Result<Option<HeaderValue>> {
+pub(super) fn authorization(value: &str) -> Result<Option<HeaderValue>> {
     let value = value.trim();
 
     if value.is_empty() {
@@ -62,7 +62,7 @@ fn authorization(value: &str) -> Result<Option<HeaderValue>> {
     Ok(Some(header))
 }
 
-fn target(address: &str) -> Result<Url> {
+pub(super) fn target(address: &str) -> Result<Url> {
     Url::parse(address.trim())
         .ok()
         .filter(|url| matches!(url.scheme(), "https" | "http") && url.has_host())

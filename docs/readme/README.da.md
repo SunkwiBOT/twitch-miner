@@ -181,6 +181,10 @@ brug.
   <img src="../media/da/drops-streamers-first.avif" alt="En streamer fra listen, der ses for Drops og for sine point">
   </details>
 
+- **Belønningsprioritet.** Når to kampagner er rangeret lige, vælger mineren først den,
+  hvis belønninger passer til din foretrukne type (badge, emote, genstand fra spillet).
+  Den tilsidesætter aldrig din miningrækkefølge.
+
 - **Badges (beta).** Siden Badges viser alle Twitchs globale chatbadges, og hvordan man
   får dem. Hver konto har sin egen Badges-side: de badges, der er i gang, med deres
   fremskridt, dem, den stadig kan få, og dem, den ejer. Mineren går efter badges fra
@@ -217,6 +221,16 @@ brug.
   <details open><summary>Se det i aktion</summary>
   <img src="../media/da/journal-requests.avif" alt="Den filtrerede journal, derefter Tekniske logfiler › Forespørgsler">
   </details>
+
+- **Planlagt pause og en daglig pause.** Sæt en konto eller alle på pause i 30 minutter, 1
+  time, 4 timer, til i morgen kl. 09:00 eller til en brugerdefineret dato og tidspunkt;
+  »Genoptag nu« ophæver pausen tidligere. Et badge viser, hvornår pausen slutter. En
+  daglig pause stopper miningen på alle konti hver dag mellem to tidspunkter i den valgte
+  tidszone og genoptager den, når pausen slutter, med sit eget badge i den øverste bjælke.
+- **CSV-eksport og antal pr. kategori.** Journalen eksporterer de hentede drops som en
+  CSV-fil (dato, konto, kategori, kampagne, drop, minutter), filtreret efter konto, og en
+  dialog viser, hvor mange drops der er hentet i hver kategori. Skrivebordsappen gemmer
+  filen via en gem-dialog; webdashboardet downloader den.
 
 ### På skrivebordet eller på en server
 
@@ -259,8 +273,9 @@ brug.
 - Som andre minere: bonuskister, raids, moments, fællesskabsmål, forudsigelser
   (strategier, hvornår der satses, betingelser), seerstimer og abonnerede kanaler først,
   tilstedeværelse i chatten (kan slås fra), standardindstillinger for nye streamere,
-  notifikationer via Discord, Telegram og webhook med billeder (på serveren vælges deres
-  sprog under **Indstillinger › Notifikationer**), en global proxy eller én pr. konto.
+  notifikationer via Discord, Telegram og webhook med billeder og en »Test«-knap for hver
+  (på serveren vælges deres sprog under **Indstillinger › Notifikationer**), en global
+  proxy eller én pr. konto.
 - 29 sprog, mørkt og lyst tema, skrivebordsnotifikationer, et ikon i proceslinjen, start
   sammen med systemet.
 

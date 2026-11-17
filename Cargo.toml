@@ -21,6 +21,7 @@ futures-util = { version = "0.3", features = ["sink"] }
 reqwest = { version = "0.13", default-features = false, features = ["rustls", "json", "form", "multipart", "gzip", "http2", "socks"] }
 reqwest-websocket = "0.6"
 chrono = { version = "0.4", features = ["serde"] }
+chrono-tz = "0.10"
 url = { version = "2", features = ["serde"] }
 ipnet = "2"
 regex = "1"

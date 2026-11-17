@@ -19,6 +19,18 @@ const MESSAGE_MAX: usize = 4096;
 const SEND_PHOTO: &str = "sendPhoto";
 const SEND_MESSAGE: &str = "sendMessage";
 
+// ! Shared with `Notifier::validate_adhoc`, which runs it before the
+// rate-limit gate: an obviously wrong token does not cost a test slot.
+pub(super) fn validate_bot_token(token: &str) -> Result<()> {
+    if token.trim().is_empty() || !token.trim().contains(':') {
+        Err(Error::Notification(
+            "Telegram bot token looks invalid".into(),
+        ))
+    } else {
+        Ok(())
+    }
+}
+
 pub(super) async fn send(
     shared: &Shared,
     settings: &TelegramSettings,
@@ -29,11 +41,7 @@ pub(super) async fn send(
     let account = Some(event.account_id.as_str()).filter(|id| !id.is_empty());
     let token = settings.bot_token.trim();
 
-    if token.is_empty() || !token.contains(':') {
-        return Err(Error::Notification(
-            "Telegram bot token looks invalid".into(),
-        ));
-    }
+    validate_bot_token(token)?;
 
     let chat_id = settings.chat_id.trim();
 

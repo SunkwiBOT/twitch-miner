@@ -109,6 +109,11 @@ pub struct HistoryFilter<'a> {
     pub kinds: Option<&'a [EventKind]>,
 }
 
+#[derive(Debug, Clone, Copy, Default)]
+pub struct HistoryExportFilter<'a> {
+    pub account_ids: Option<&'a [String]>,
+}
+
 // ! Parsed outside the SQLite callback: that callback can only fail the whole
 // page, and one broken entry must cost only itself.
 struct HistoryRow {
@@ -257,6 +262,104 @@ impl Store {
             .collect();
 
         Ok((events, next))
+    }
+
+    // ! For the claimed-drops CSV export: one claim per row, most recent
+    // first, over the whole account (or account filter) and period asked.
+    pub fn claimed_drops(
+        &self,
+        filter: &HistoryExportFilter,
+        limit: usize,
+    ) -> Result<Vec<MinerEvent>> {
+        let connection = self.lock();
+        let account_param = filter.account_ids.map(AccountIdsParam::new);
+        let mut conditions = vec!["h.kind = 'DROP_CLAIMED'".to_owned()];
+
+        if let Some(param) = &account_param {
+            conditions.push(param.condition("h."));
+        }
+
+        let sql = format!(
+            "SELECT h.id, h.account_id, h.at, h.kind, h.title, h.detail, h.context,
+                    COALESCE(a.login, '')
+             FROM history h LEFT JOIN account a ON a.id = h.account_id
+             WHERE {}
+             ORDER BY h.at DESC, h.id DESC LIMIT :limit",
+            conditions.join(" AND ")
+        );
+        let mut statement = connection
+            .prepare(&sql)
+            .map_err(|error| foreign_data("the history table", error))?;
+        let limit = limit as i64;
+        let mut named: Vec<(&str, &dyn rusqlite::ToSql)> = vec![(":limit", &limit)];
+
+        if let Some(param) = &account_param {
+            param.bind(&mut named);
+        }
+
+        let rows: Vec<HistoryRow> = statement
+            .query_map(named.as_slice(), |row| {
+                Ok(HistoryRow {
+                    id: row.get(0)?,
+                    account_id: row.get(1)?,
+                    at: row.get(2)?,
+                    kind: row.get(3)?,
+                    title: row.get(4)?,
+                    detail: row.get(5)?,
+                    context: row.get(6)?,
+                    account_login: row.get(7)?,
+                })
+            })?
+            .collect::<rusqlite::Result<_>>()?;
+
+        Ok(rows
+            .into_iter()
+            .filter_map(|row| {
+                let id = row.id;
+
+                row.event()
+                    .inspect_err(|error| tracing::warn!(id, "history entry skipped: {error}"))
+                    .ok()
+            })
+            .collect())
+    }
+    // ! Unlimited, unlike `claimed_drops`: the category breakdown and the
+    // truncation flag must reflect every matching claim, not just the page
+    // capped for the CSV body.
+    pub fn claimed_drops_counts(
+        &self,
+        filter: &HistoryExportFilter,
+    ) -> Result<(Vec<(String, u32)>, u64)> {
+        let connection = self.lock();
+        let account_param = filter.account_ids.map(AccountIdsParam::new);
+        let mut conditions = vec!["h.kind = 'DROP_CLAIMED'".to_owned()];
+
+        if let Some(param) = &account_param {
+            conditions.push(param.condition("h."));
+        }
+
+        let sql = format!(
+            "SELECT COALESCE(json_extract(h.context, '$.game'), ''), COUNT(*)
+             FROM history h
+             WHERE {}
+             GROUP BY 1",
+            conditions.join(" AND ")
+        );
+        let mut statement = connection
+            .prepare(&sql)
+            .map_err(|error| foreign_data("the history table", error))?;
+        let mut named: Vec<(&str, &dyn rusqlite::ToSql)> = vec![];
+
+        if let Some(param) = &account_param {
+            param.bind(&mut named);
+        }
+
+        let counts: Vec<(String, u32)> = statement
+            .query_map(named.as_slice(), |row| Ok((row.get(0)?, row.get(1)?)))?
+            .collect::<rusqlite::Result<_>>()?;
+        let total = counts.iter().map(|(_, count)| u64::from(*count)).sum();
+
+        Ok((counts, total))
     }
 
     pub fn prune_history(&self, cutoff: DateTime<Utc>) -> Result<usize> {

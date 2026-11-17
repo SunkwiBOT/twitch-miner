@@ -180,6 +180,10 @@ działa.
   <img src="../media/pl/drops-streamers-first.avif" alt="Streamer z listy oglądany dla Drops i dla swoich punktów">
   </details>
 
+- **Priorytet nagród.** Gdy dwie kampanie mają to samo miejsce w kolejności, miner wybiera
+  najpierw tę, której nagrody pasują do preferowanego przez Ciebie rodzaju (odznaka,
+  emotka, przedmiot z gry). Nigdy nie narusza ustalonej przez Ciebie kolejności kopania.
+
 - **Odznaki (beta).** Strona Odznaki pokazuje wszystkie globalne odznaki czatu Twitcha i
   sposób ich zdobycia. Każde konto ma własną stronę Odznaki: odznaki w toku z postępem,
   te, które może jeszcze zdobyć, i te, które posiada. Miner celuje w odznaki z kampanii
@@ -214,6 +218,17 @@ działa.
   <details open><summary>Zobacz w akcji</summary>
   <img src="../media/pl/journal-requests.avif" alt="Przefiltrowany Dziennik, a potem Logi techniczne › Żądania">
   </details>
+
+- **Zaplanowana pauza i codzienna pauza.** Wstrzymaj jedno konto albo wszystkie konta na
+  30 minut, 1 godzinę, 4 godziny, do jutra do 9:00 albo na niestandardową datę i godzinę;
+  „Wznów teraz” zdejmuje pauzę wcześniej. Plakietka pokazuje, kiedy pauza się kończy.
+  Codzienna pauza wstrzymuje kopanie na wszystkich kontach każdego dnia między dwiema
+  godzinami, w wybranej strefie czasowej, i wznawia je po swoim zakończeniu, z własną
+  plakietką na górnym pasku.
+- **Eksport CSV i liczby według kategorii.** Dziennik eksportuje odebrane dropy jako plik
+  CSV (data, konto, kategoria, kampania, drop, minuty), przefiltrowane według konta, a
+  okno dialogowe wyświetla, ile dropów odebrano w każdej kategorii. Aplikacja desktopowa
+  zapisuje plik przez okno zapisu; panel webowy go pobiera.
 
 ### Na komputerze lub na serwerze
 
@@ -254,8 +269,9 @@ działa.
 - Tak jak w innych minerach: skrzynki bonusowe, rajdy, momenty, cele społeczności, prognozy
   (strategie, moment zakładu, warunki), pierwszeństwo dla serii oglądania i subskrybowanych
   kanałów, obecność na czacie (można ją wyłączyć), domyślne opcje dla nowych streamerów,
-  powiadomienia Discord, Telegram i webhook z obrazkami (na serwerze ich język wybierasz
-  w **Ustawienia › Powiadomienia**), proxy globalne lub osobne dla każdego konta.
+  powiadomienia Discord, Telegram i webhook z obrazkami i przyciskiem „Testuj” dla każdego
+  z nich (na serwerze ich język wybierasz w **Ustawienia › Powiadomienia**), proxy
+  globalne lub osobne dla każdego konta.
 - 29 języków, ciemny i jasny motyw, powiadomienia na pulpicie, ikona w zasobniku,
   uruchamianie razem z systemem.
 

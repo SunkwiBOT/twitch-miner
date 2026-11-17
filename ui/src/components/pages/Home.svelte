@@ -3,6 +3,7 @@
 
   import { MODE_LABELS } from "../../lib/accounts/accounts.utils";
   import { AccountStatus } from "../../lib/bindings/AccountStatus";
+  import { CommandName } from "../../lib/bindings/CommandName";
   import { EventKind } from "../../lib/bindings/EventKind";
   import type { SnapshotType } from "../../lib/bindings/SnapshotType";
   import { recentEvents } from "../../lib/events/events.utils";
@@ -12,6 +13,8 @@
   import { Page } from "../../lib/state/state.constants";
   import { app } from "../../lib/state/app.svelte";
   import { navigate } from "../../lib/state/router";
+  import { run } from "../../lib/state/session";
+  import { ticker } from "../../lib/state/ticker.svelte";
   import AccountActivity from "../AccountActivity.svelte";
   import ActivityFeed from "../ActivityFeed.svelte";
   import { Button } from "$lib/components/ui/button";
@@ -23,6 +26,9 @@
   import PageHeader from "../ui/PageHeader.svelte";
   import Panel from "../ui/Panel.svelte";
   import PauseButton from "../ui/PauseButton.svelte";
+  import PauseBadge from "../ui/PauseBadge.svelte";
+  import PauseMenu from "../ui/PauseMenu.svelte";
+  import QuietWindowBadge from "../ui/QuietWindowBadge.svelte";
   import RichText from "../ui/RichText.svelte";
   import {
     BUTTON_SIZES,
@@ -32,6 +38,7 @@
     ButtonVariant,
   } from "../ui/button.constants";
   import { IconName } from "../../lib/icons.constants";
+  import { MenuAlign } from "../ui/menu.constants";
   import { RECENT_MAX } from "./home.constants";
 
   type HomePropsType = { snapshot: SnapshotType };
@@ -62,6 +69,19 @@
           })
         : "",
     ].filter(Boolean);
+
+  const latestPausedUntil = $derived.by(() => {
+    void ticker.now;
+
+    return snapshot.accounts
+      .map((a) => a.settings.paused_until)
+      .filter((until): until is string => until !== undefined && new Date(until) > new Date())
+      .sort()
+      .at(-1);
+  });
+
+  const pauseAll = (until: string): Promise<boolean> =>
+    run({ command: CommandName.PAUSE_ALL_ACCOUNTS, until });
 </script>
 
 <PageBody>
@@ -84,7 +104,19 @@
       {/snippet}
     </EmptyState>
   {:else}
-    <PageHeader intro={t.home_rules()} />
+    <PageHeader intro={t.home_rules()}>
+      {#snippet actions()}
+        <QuietWindowBadge />
+        <PauseMenu
+          pausedUntil={latestPausedUntil}
+          label={t.pause_all_label()}
+          align={MenuAlign.RIGHT}
+          size={ButtonSize.MD}
+          onpause={pauseAll}
+          onresume={() => run({ command: CommandName.PAUSE_ALL_ACCOUNTS })}
+        />
+      {/snippet}
+    </PageHeader>
     <div class="grid grid-cols-[repeat(auto-fit,minmax(min(460px,100%),1fr))] items-start gap-5">
       {#each snapshot.accounts as a (a.id)}
         <Card class="min-w-0 gap-0 py-0">
@@ -102,6 +134,7 @@
                   />
                 {:else}
                   <PauseButton account={a} size={ButtonSize.SM} />
+                  <PauseBadge account={a} />
                 {/if}
                 <Button
                   variant={BUTTON_VARIANTS[ButtonVariant.OUTLINE]}

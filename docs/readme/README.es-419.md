@@ -183,6 +183,10 @@ funcionando.
   <img src="../media/es-419/drops-streamers-first.avif" alt="Un streamer de la lista, mirado para los Drops y por sus puntos">
   </details>
 
+- **Prioridad de recompensas.** Cuando dos campañas tienen el mismo rango, el minero elige
+  primero la que tiene recompensas del tipo que prefieres (insignia, emote, objeto del
+  juego). Nunca pasa por encima de tu orden de minería.
+
 - **Insignias (beta).** La página Insignias muestra todas las insignias globales del chat
   de Twitch y cómo conseguirlas. Cada cuenta tiene su propia página Insignias: las
   insignias en curso con su progreso, las que aún puede conseguir y las que tiene. El
@@ -220,6 +224,17 @@ funcionando.
   <details open><summary>Verlo en acción</summary>
   <img src="../media/es-419/journal-requests.avif" alt="La Bitácora filtrada y, después, Registros técnicos › Solicitudes">
   </details>
+
+- **Pausa programada y una pausa diaria.** Pausa una cuenta o todas por 30 minutos, 1
+  hora, 4 horas, hasta mañana a las 09:00, o hasta una fecha y hora personalizadas;
+  “Reanudar ahora” la levanta antes. Una insignia muestra la hora en que termina la pausa.
+  Una pausa diaria detiene la minería de todas las cuentas cada día entre dos horas, en la
+  zona horaria elegida, y la reanuda cuando termina, con su propia insignia en la barra
+  superior.
+- **Exportación CSV y conteos por categoría.** La Bitácora exporta los drops reclamados
+  como un archivo CSV (fecha, cuenta, categoría, campaña, drop, minutos), filtrados por
+  cuenta, y un diálogo lista cuántos drops se reclamaron en cada categoría. La aplicación
+  de escritorio guarda el archivo con un diálogo de guardado; el panel web lo descarga.
 
 ### En el escritorio o en un servidor
 
@@ -264,8 +279,8 @@ funcionando.
   predicciones (estrategias, momento de la apuesta, condiciones), rachas de visualización
   y canales suscritos primero, presencia en el chat (se puede desactivar), opciones
   predeterminadas para streamers nuevos, notificaciones de Discord, Telegram y webhook con
-  imágenes (en el servidor, su idioma se elige en **Configuración › Notificaciones**),
-  proxy global o por cuenta.
+  imágenes y un botón "Probar" para cada una (en el servidor, su idioma se elige en
+  **Configuración › Notificaciones**), proxy global o por cuenta.
 - 29 idiomas, temas oscuro y claro, notificaciones de escritorio, ícono en la bandeja,
   inicio con el sistema.
 

@@ -1,6 +1,7 @@
 <script lang="ts">
   import AccountSaveBar from "./AccountSaveBar.svelte";
   import { dropDone, type RewardType } from "../../lib/catalogue/campaign.utils";
+  import { AccountStatus } from "../../lib/bindings/AccountStatus";
   import type { AccountSnapshotType } from "../../lib/bindings/AccountSnapshotType";
   import type { CampaignType } from "../../lib/bindings/CampaignType";
   import { CommandName } from "../../lib/bindings/CommandName";
@@ -125,7 +126,7 @@
 
 <PageBody>
   <PageHeader intro={t.inventory_hint()} />
-  {#if !account.settings.enabled && campaignsOf(account).length === 0}
+  {#if account.status === AccountStatus.PAUSED && campaignsOf(account).length === 0}
     <Notice tone={NoticeTone.INFO} text={t.inventory_paused()} />
   {/if}
 

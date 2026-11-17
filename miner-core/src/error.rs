@@ -84,6 +84,8 @@ pub enum Error {
     InvalidRequest(String),
     #[error("notification error: {0}")]
     Notification(String),
+    #[error("too many tries in a row: wait a moment")]
+    ActionRateLimited,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize, TS)]
@@ -125,6 +127,7 @@ pub enum ErrorCode {
     NotFound,
     ServerUnreachable,
     UnknownError,
+    ActionRateLimited,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, TS)]
@@ -165,6 +168,7 @@ impl Error {
             Error::TooManyAttempts => ErrorCode::TooManyAttempts,
             Error::NotSupported => ErrorCode::NotSupported,
             Error::Notification(_) => ErrorCode::NotificationFailed,
+            Error::ActionRateLimited => ErrorCode::ActionRateLimited,
         }
     }
 
@@ -187,6 +191,7 @@ impl Error {
                 | Error::TooManyAttempts
                 | Error::NotSupported
                 | Error::InvalidRequest(_)
+                | Error::ActionRateLimited
         )
     }
 }

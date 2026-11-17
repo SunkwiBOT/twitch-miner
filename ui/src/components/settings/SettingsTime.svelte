@@ -12,11 +12,17 @@
     formatZoneOffset,
     listTimeZones,
   } from "../../lib/time/time.utils";
+  import {
+    clockInputValueToMinutes,
+    minutesToClockInputValue,
+  } from "../../lib/time/quiet-window.utils";
+  import { Input } from "$lib/components/ui/input";
   import FormField from "../ui/FormField.svelte";
   import Panel from "../ui/Panel.svelte";
   import Select from "../ui/Select.svelte";
   import { MenuAlign } from "../ui/menu.constants";
-  import { SAMPLE_DATE } from "./settings.constants";
+  import Setting from "../ui/Setting.svelte";
+  import { FIELD_GRID_CLASSES, SAMPLE_DATE } from "./settings.constants";
 
   type SettingsTimePropsType = {
     draft: GlobalSettingsType;
@@ -51,6 +57,35 @@
     { value: ClockFormat.H24, label: t.clock_24({ example: sampleClock(ClockFormat.H24) }) },
     { value: ClockFormat.H12, label: t.clock_12({ example: sampleClock(ClockFormat.H12) }) },
   ]);
+
+  let startError = $state<string | undefined>();
+  let endError = $state<string | undefined>();
+
+  const setQuietWindowMinutes = (which: "start" | "end", raw: string): void => {
+    const minutes = clockInputValueToMinutes(raw);
+    const other =
+      which === "start" ? draft.quiet_window.end_minutes : draft.quiet_window.start_minutes;
+    const error =
+      minutes === null
+        ? t.quiet_window_time_required()
+        : minutes === other
+          ? t.quiet_window_same_time()
+          : undefined;
+
+    if (which === "start") {
+      startError = error;
+    } else {
+      endError = error;
+    }
+
+    if (minutes !== null && error === undefined) {
+      if (which === "start") {
+        draft.quiet_window.start_minutes = minutes;
+      } else {
+        draft.quiet_window.end_minutes = minutes;
+      }
+    }
+  };
 </script>
 
 <Panel title={t.settings_time()}>
@@ -85,5 +120,41 @@
         onchange={(value) => (draft.clock_format = value)}
       />
     </FormField>
+  </div>
+  <div class="border-t pt-3">
+    <Setting
+      title={t.quiet_window_title()}
+      description={t.quiet_window_hint()}
+      checked={draft.quiet_window.enabled}
+      disabled={false}
+      onchange={(enabled) => (draft.quiet_window.enabled = enabled)}
+    />
+    {#if draft.quiet_window.enabled}
+      <div class={FIELD_GRID_CLASSES}>
+        <FormField id="set-quiet-start" label={t.quiet_window_start()} error={startError}>
+          <Input
+            id="set-quiet-start"
+            type="time"
+            value={minutesToClockInputValue(draft.quiet_window.start_minutes)}
+            oninput={(event) => setQuietWindowMinutes("start", event.currentTarget.value)}
+          />
+        </FormField>
+        <FormField
+          id="set-quiet-end"
+          label={t.quiet_window_end()}
+          hint={t.quiet_window_zone_hint({
+            zone: draft.time_zone === AUTO_TIME_ZONE ? deviceTimeZone() : draft.time_zone,
+          })}
+          error={endError}
+        >
+          <Input
+            id="set-quiet-end"
+            type="time"
+            value={minutesToClockInputValue(draft.quiet_window.end_minutes)}
+            oninput={(event) => setQuietWindowMinutes("end", event.currentTarget.value)}
+          />
+        </FormField>
+      </div>
+    {/if}
   </div>
 </Panel>

@@ -1,5 +1,6 @@
 <script lang="ts">
   import PanelColumns from "../ui/PanelColumns.svelte";
+  import { AccountStatus } from "../../lib/bindings/AccountStatus";
   import { CommandName } from "../../lib/bindings/CommandName";
   import { untrack } from "svelte";
 
@@ -122,9 +123,9 @@
   <Panel title={t.account_twitch_title()}>
     <AccountHeading
       {account}
-      subtitle={account.settings.enabled
-        ? t.account_state_running_hint()
-        : t.account_state_paused_hint()}
+      subtitle={account.status === AccountStatus.PAUSED
+        ? t.account_state_paused_hint()
+        : t.account_state_running_hint()}
     >
       {#snippet actions()}
         <PauseButton {account} size={ButtonSize.MD} />

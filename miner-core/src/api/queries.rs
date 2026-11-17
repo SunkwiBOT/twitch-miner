@@ -5,6 +5,7 @@ use serde::de::{self, IntoDeserializer, SeqAccess, Visitor};
 use serde::{Deserialize, Deserializer, Serialize};
 use ts_rs::TS;
 
+use super::NotificationTarget;
 use crate::error::Error;
 use crate::events::{EventCategory, EventKind};
 use crate::logs::LogLevel;
@@ -267,4 +268,50 @@ impl std::fmt::Debug for DashboardLoginRequest {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.write_str("DashboardLoginRequest { .. }")
     }
+}
+
+#[derive(Clone, PartialEq, Serialize, Deserialize, TS)]
+#[serde(
+    tag = "target",
+    rename_all = "SCREAMING_SNAKE_CASE",
+    deny_unknown_fields
+)]
+#[ts(rename = "NotificationTestRequestType")]
+pub enum NotificationTestRequest {
+    Discord { webhook_url: String },
+    Telegram { bot_token: String, chat_id: String },
+    Webhook { url: String, authorization: String },
+}
+
+impl NotificationTestRequest {
+    pub fn target(&self) -> NotificationTarget {
+        match self {
+            Self::Discord { .. } => NotificationTarget::Discord,
+            Self::Telegram { .. } => NotificationTarget::Telegram,
+            Self::Webhook { .. } => NotificationTarget::Webhook,
+        }
+    }
+}
+
+// ! A webhook URL, a bot token or a chat id stays out of `{:?}`: the same
+// redaction rule as every other secret in the interface.
+impl std::fmt::Debug for NotificationTestRequest {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("NotificationTestRequest")
+            .field("target", &self.target())
+            .finish_non_exhaustive()
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[serde(deny_unknown_fields)]
+#[ts(rename = "HistoryExportQueryType")]
+pub struct HistoryExportQuery {
+    #[serde(
+        default,
+        deserialize_with = "listed",
+        skip_serializing_if = "Option::is_none"
+    )]
+    #[ts(optional)]
+    pub account_ids: Option<Vec<String>>,
 }

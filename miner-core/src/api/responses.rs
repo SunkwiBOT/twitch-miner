@@ -130,7 +130,7 @@ pub struct FollowsResponse {
     pub channels: Vec<Channel>,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize, TS)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 #[ts(repr(enum = name))]
 pub enum NotificationTarget {
@@ -148,16 +148,30 @@ pub struct NotificationTest {
     pub problem: Option<ErrorCode>,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
-#[ts(rename = "NotificationTestResponseType")]
-pub struct NotificationTestResponse {
-    pub targets: Vec<NotificationTest>,
-}
-
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, TS)]
 #[ts(rename = "ProxyTestResponseType")]
 pub struct ProxyTestResponse {
     pub latency_ms: u64,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[ts(rename = "CategoryCountType")]
+pub struct CategoryCount {
+    pub category: String,
+    pub count: u32,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[ts(rename = "HistoryExportResponseType")]
+pub struct HistoryExportResponse {
+    // ! UTF-8 with a BOM and CRLF line endings, RFC 4180 escaping already
+    // applied: the browser saves it as-is, nothing left for the UI to get wrong.
+    pub csv: String,
+    // ! Over every matching claim, not just the CSV body: accurate even once
+    // the export hits `truncated`.
+    pub counts: Vec<CategoryCount>,
+    // ! The CSV body stops at `HISTORY_EXPORT_MAX` rows; `counts` does not.
+    pub truncated: bool,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, TS)]

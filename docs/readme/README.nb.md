@@ -181,6 +181,10 @@ bruk.
   <img src="../media/nb/drops-streamers-first.avif" alt="En streamer fra listen, sett på for Drops og for poengene sine">
   </details>
 
+- **Belønningsprioritet.** Når to kampanjer er rangert likt, velger mineren først den med
+  belønninger av typen du foretrekker (merke, emote, gjenstand i spillet). Den overstyrer
+  aldri rekkefølgen du har valgt for utvinning.
+
 - **Merker (beta).** Siden Merker viser alle Twitchs globale chattemerker og hvordan du
   får dem. Hver konto har sin egen Merker-side: merkene som pågår, med fremgangen sin, de
   den fortsatt kan få, og de den eier. Mineren går etter merkene fra Drops-kampanjer og
@@ -216,6 +220,17 @@ bruk.
   <details open><summary>Se det i aksjon</summary>
   <img src="../media/nb/journal-requests.avif" alt="Den filtrerte journalen, deretter Tekniske logger › Forespørsler">
   </details>
+
+- **Planlagt pause og daglig pause.** Sett en konto eller alle kontoer på pause i 30
+  minutter, 1 time, 4 timer, til i morgen kl. 09:00 eller en egendefinert dato og
+  klokkeslett; «Fortsett nå» opphever pausen tidligere. Et merke viser når pausen slutter.
+  En daglig pause stopper utvinningen på alle kontoer hver dag mellom to tidspunkter, i
+  tidssonen du velger, og fortsetter den når pausen er over, med sitt eget merke i den
+  øverste linjen.
+- **CSV-eksport og antall per kategori.** Journalen eksporterer de hentede dropsene som en
+  CSV-fil (dato, konto, kategori, kampanje, drop, minutter), filtrert etter konto, og en
+  dialog viser hvor mange drops som er hentet i hver kategori. Skrivebordsappen lagrer
+  filen via en lagre-dialog; nettdashbordet laster den ned.
 
 ### På skrivebordet eller på en server
 
@@ -258,8 +273,9 @@ bruk.
 - Som andre minere: bonuskister, raids, øyeblikk, fellesskapsmål, spådommer (strategier,
   når det skal satses, betingelser), seerrekker og abonnerte kanaler først,
   tilstedeværelse i chatten (kan slås av), standardalternativer for nye streamere, varsler
-  via Discord, Telegram og webhook med bilder (på serveren velges språket deres under
-  **Innstillinger › Varsler**), en global proxy eller én per konto.
+  via Discord, Telegram og webhook med bilder og en «Test»-knapp for hver (på serveren
+  velges språket deres under **Innstillinger › Varsler**), en global proxy eller én per
+  konto.
 - 29 språk, mørkt og lyst tema, skrivebordsvarsler, et ikon i systemstatusfeltet, start
   med systemet.
 

@@ -5,7 +5,7 @@ mod spam;
 pub mod vault;
 
 pub use accounts::{AccountRecord, Credential};
-pub use history::HistoryFilter;
+pub use history::{HistoryExportFilter, HistoryFilter};
 
 use std::fmt;
 use std::path::{Path, PathBuf};

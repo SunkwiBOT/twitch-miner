@@ -102,6 +102,9 @@ pub enum AccountCommand {
     ClaimDrop(String, oneshot::Sender<Result<()>>),
     Balance { login: String, balance: i64 },
     Session(oneshot::Sender<Result<()>>),
+    // ! Never persisted on the account: the global quiet window's own state,
+    // pushed by the manager whenever it changes.
+    QuietWindow(bool),
 }
 
 enum Wake {
@@ -216,6 +219,10 @@ pub struct AccountContext {
     pub events: broadcast::Sender<MinerEvent>,
     pub stats: AccountStats,
     pub spends: BurstSpends,
+    // ! The current quiet-window state at spawn time: without it, a freshly
+    // spawned or respawned account can run a full first pass mining before
+    // the manager's own `QuietWindow` command catches up with it.
+    pub quiet_window: bool,
 }
 
 struct AccountMiner<T> {
@@ -278,6 +285,7 @@ struct AccountMiner<T> {
     cancel: CancellationToken,
     session_valid_at: Option<tokio::time::Instant>,
     login_checked_at: Option<tokio::time::Instant>,
+    quiet_window: bool,
 }
 
 pub fn spawn(
@@ -339,6 +347,7 @@ impl<T: TwitchApi> AccountMiner<T> {
         let (snapshot, receiver) = watch::channel(initial);
         let (pubsub_sender, pubsub_events) = mpsc::channel(256);
         let stats = context.stats.clone();
+        let quiet_window = context.quiet_window;
         let miner = Self {
             id: record.id,
             login: record.login,
@@ -393,6 +402,7 @@ impl<T: TwitchApi> AccountMiner<T> {
             followed: HashSet::new(),
             followed_at: None,
             pubsub_events,
+            quiet_window,
             pubsub_sender,
             cancel,
             session_valid_at: None,
@@ -565,7 +575,7 @@ impl<T: TwitchApi> AccountMiner<T> {
     }
 
     async fn run(&mut self, mut commands: mpsc::Receiver<AccountCommand>) {
-        if !self.settings.enabled {
+        if !self.effectively_mining() {
             self.set_status(AccountStatus::Paused, None);
         }
 
@@ -616,6 +626,9 @@ impl<T: TwitchApi> AccountMiner<T> {
             }
             Wake::Command(AccountCommand::Settings(settings)) => {
                 self.apply_settings(*settings).await
+            }
+            Wake::Command(AccountCommand::QuietWindow(active)) => {
+                self.apply_quiet_window(active).await
             }
             Wake::Command(AccountCommand::Refresh) => {
                 self.inventory_at = None;
@@ -681,27 +694,60 @@ impl<T: TwitchApi> AccountMiner<T> {
     }
 
     async fn apply_settings(&mut self, settings: AccountSettings) {
-        let was_enabled = self.settings.enabled;
+        let was_mining = self.effectively_mining();
         let channels_changed = watched_logins(&self.settings) != watched_logins(&settings)
             || self.settings.mode != settings.mode
             || self.settings.slots != settings.slots;
 
         self.settings = settings;
-
-        if self.settings.enabled != was_enabled {
-            if self.settings.enabled {
-                self.set_status(AccountStatus::Starting, None);
-            } else {
-                self.stop_all_slots("paused").await;
-                self.set_status(AccountStatus::Paused, None);
-            }
-        }
+        self.apply_mining_transition(was_mining).await;
 
         if channels_changed {
             self.channels_at = None;
         }
 
         self.tick().await;
+    }
+
+    async fn apply_quiet_window(&mut self, active: bool) {
+        if self.quiet_window == active {
+            return;
+        }
+
+        let was_mining = self.effectively_mining();
+
+        self.quiet_window = active;
+        self.apply_mining_transition(was_mining).await;
+        self.tick().await;
+    }
+
+    // ! Shared by a settings save and the quiet window edge: flips status
+    // only on an actual mining-state change, and never while waiting for
+    // sign-in. Doing so would hide the prompt behind "Paused" and, once the
+    // window lifted, send the account through `require_login` again and
+    // re-notify `SessionExpired` for a login it is still waiting on.
+    async fn apply_mining_transition(&mut self, was_mining: bool) {
+        if self.effectively_mining() == was_mining || self.status == AccountStatus::LoginRequired {
+            return;
+        }
+
+        if self.effectively_mining() {
+            self.set_status(AccountStatus::Starting, None);
+        } else {
+            self.stop_all_slots("paused").await;
+            self.set_status(AccountStatus::Paused, None);
+        }
+    }
+
+    // ! `enabled` is the manual switch; a scheduled pause or the global quiet
+    // window stop mining too, independently of it.
+    fn effectively_mining(&self) -> bool {
+        self.settings.enabled
+            && !self.quiet_window
+            && !self
+                .settings
+                .paused_until
+                .is_some_and(|until| Utc::now() < until)
     }
 
     async fn tick(&mut self) {
@@ -711,7 +757,7 @@ impl<T: TwitchApi> AccountMiner<T> {
             self.problem = None;
         }
 
-        if !self.settings.enabled {
+        if !self.effectively_mining() {
             self.push_snapshot();
 
             return;

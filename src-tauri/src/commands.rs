@@ -1,4 +1,5 @@
 use super::*;
+use tauri_plugin_dialog::DialogExt;
 
 pub(crate) type Answer<T> = Result<T, ApiError>;
 
@@ -51,6 +52,7 @@ async fn locked_snapshot(manager: &Manager) -> Snapshot {
         accounts: Vec::new(),
         catalog: CatalogView::default(),
         badges: BadgeCatalogView::default(),
+        quiet_window_active: false,
         settings: GlobalSettings {
             language: settings.language,
             theme: settings.theme,
@@ -186,14 +188,13 @@ pub(super) async fn redeem(
 }
 
 #[tauri::command]
-pub(super) async fn test_notifications(
+pub(super) async fn test_notification(
     state: tauri::State<'_, AppState>,
-) -> Answer<NotificationTestResponse> {
+    request: NotificationTestRequest,
+) -> Answer<NotificationTest> {
     unlocked(&state).await?;
 
-    Ok(NotificationTestResponse {
-        targets: state.manager.test_notification_targets().await,
-    })
+    Ok(state.manager.test_notification_target(request).await?)
 }
 
 #[tauri::command]
@@ -204,6 +205,16 @@ pub(super) async fn test_proxy(
     unlocked(&state).await?;
 
     Ok(state.manager.test_proxy(&url).await?)
+}
+
+#[tauri::command]
+pub(super) async fn history_export(
+    state: tauri::State<'_, AppState>,
+    query: HistoryExportQuery,
+) -> Answer<HistoryExportResponse> {
+    unlocked(&state).await?;
+
+    Ok(state.manager.history_export(&query)?)
 }
 
 #[tauri::command]
@@ -370,4 +381,58 @@ pub(super) fn open_data_directory(
     folder: tauri::State<'_, DataFolder>,
 ) -> Answer<()> {
     open_directory(&app, &folder.path)
+}
+
+// ! No `ts-rs` binding: hand-mirrored as `ExportCsvResultType` in `ui/src/lib/api/tauri.ts`.
+#[derive(serde::Serialize)]
+pub(super) struct ExportCsvResult {
+    path: String,
+    counts: Vec<miner_core::api::CategoryCount>,
+    truncated: bool,
+}
+
+#[tauri::command]
+pub(super) async fn export_csv_file(
+    app: AppHandle,
+    state: tauri::State<'_, AppState>,
+    query: HistoryExportQuery,
+) -> Answer<Option<ExportCsvResult>> {
+    unlocked(&state).await?;
+
+    let response = state.manager.history_export(&query)?;
+    let filename = format!(
+        "claimed-drops-{}.csv",
+        chrono::Utc::now().format("%Y-%m-%d")
+    );
+
+    // ! Opens the dialog and writes the file itself, from the query: never
+    // from a path and CSV text the webview names (see the review notes in
+    // `tests/README.md`), so the webview needs no `dialog:allow-save`
+    // capability at all. `None` means the user closed the dialog.
+    let Some(path) = app
+        .dialog()
+        .file()
+        .set_file_name(&filename)
+        .add_filter("CSV", &["csv"])
+        .blocking_save_file()
+    else {
+        return Ok(None);
+    };
+
+    let path = path.into_path().map_err(|error| {
+        tracing::warn!("resolving the export path failed: {error}");
+        ApiError::new(ErrorCode::StorageError)
+    })?;
+
+    // ! `csv` already carries the UTF-8 BOM from `history_export`: written as-is here.
+    std::fs::write(&path, &response.csv).map_err(|error| {
+        tracing::warn!("writing the CSV export failed: {error}");
+        ApiError::new(ErrorCode::StorageError)
+    })?;
+
+    Ok(Some(ExportCsvResult {
+        path: path.to_string_lossy().into_owned(),
+        counts: response.counts,
+        truncated: response.truncated,
+    }))
 }

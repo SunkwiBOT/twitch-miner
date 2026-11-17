@@ -5,6 +5,7 @@ import type { CloseAction } from "./CloseAction";
 import type { DateFormat } from "./DateFormat";
 import type { HistoryRetention } from "./HistoryRetention";
 import type { NotificationSettingsType } from "./NotificationSettingsType";
+import type { QuietWindowSettingsType } from "./QuietWindowSettingsType";
 import type { SpamPointsSettingsType } from "./SpamPointsSettingsType";
 import type { Theme } from "./Theme";
 import type { UpdateInterval } from "./UpdateInterval";
@@ -23,4 +24,5 @@ export type GlobalSettingsType = {
   clock_format: ClockFormat;
   history_retention: HistoryRetention;
   spam_points: SpamPointsSettingsType;
+  quiet_window: QuietWindowSettingsType;
 };

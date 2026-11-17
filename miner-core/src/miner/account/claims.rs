@@ -143,19 +143,18 @@ impl<T: TwitchApi> AccountMiner<T> {
     ) {
         self.stats.drops_claimed += 1;
 
-        let image = self
+        let required = self
             .campaigns
             .get(campaign_id)
             .and_then(|c| c.drops.iter().find(|d| d.id == drop_id))
-            .and_then(|d| d.benefits.first())
-            .and_then(|b| b.image_url.clone());
+            .map(|d| d.required_minutes);
         let event = self
             .emit(
                 EventKind::DropClaimed,
                 format!("Claimed {drop_name} ({campaign_name})"),
             )
             .context(EventContext {
-                reward: image,
+                required,
                 ..EventContext::drop(campaign_id, drop_id)
             });
 

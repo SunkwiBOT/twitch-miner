@@ -18,9 +18,10 @@ export enum TauriCommand {
   SPAM_CHANNEL = "spam_channel",
   SPAM_BALANCE = "spam_balance",
   REDEEM = "redeem",
-  TEST_NOTIFICATIONS = "test_notifications",
+  TEST_NOTIFICATION = "test_notification",
   TEST_PROXY = "test_proxy",
   HISTORY = "history",
+  HISTORY_EXPORT = "history_export",
   BADGES = "badges",
   CATALOG = "catalog",
   LOGS = "logs",
@@ -35,6 +36,7 @@ export enum TauriCommand {
   AUTOSTART_STATUS = "autostart_status",
   SET_AUTOSTART = "set_autostart",
   OPEN_DATA_DIRECTORY = "open_data_directory",
+  EXPORT_CSV_FILE = "export_csv_file",
   CHECK_FOR_UPDATE = "check_for_update",
   FOUND_UPDATE = "found_update",
   TAKE_FAILED_UPDATE = "take_failed_update",
@@ -50,3 +52,6 @@ export enum UpdateEvent {
 export const REQUEST_TIMEOUT_MS = 30_000;
 export const RECONNECT_DELAY_MIN_MS = 1_000;
 export const RECONNECT_DELAY_MAX_MS = 15_000;
+// ! Revoking right after `click()` cancels the download on iOS Safari and
+// some Firefox versions: a short delay lets the browser start reading it.
+export const REVOKE_DOWNLOAD_URL_MS = 1_000;

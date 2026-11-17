@@ -36,10 +36,12 @@ pub enum EventKind {
     UpdateAvailable,
     VersionUpdated,
     RewardRedeemed,
+    Paused,
+    Resumed,
 }
 
 impl EventKind {
-    pub const ALL: [EventKind; 26] = [
+    pub const ALL: [EventKind; 28] = [
         Self::Info,
         Self::Error,
         Self::WatchStarted,
@@ -66,6 +68,8 @@ impl EventKind {
         Self::UpdateAvailable,
         Self::VersionUpdated,
         Self::RewardRedeemed,
+        Self::Paused,
+        Self::Resumed,
     ];
 
     pub fn miner(self) -> Option<MinerKind> {
@@ -95,7 +99,9 @@ impl EventKind {
             | Self::LoginCompleted
             | Self::UpdateAvailable
             | Self::VersionUpdated
-            | Self::RewardRedeemed => None,
+            | Self::RewardRedeemed
+            | Self::Paused
+            | Self::Resumed => None,
         }
     }
 
@@ -159,6 +165,8 @@ impl EventKind {
             Self::UpdateAvailable => "UPDATE_AVAILABLE",
             Self::VersionUpdated => "VERSION_UPDATED",
             Self::RewardRedeemed => "REWARD_REDEEMED",
+            Self::Paused => "PAUSED",
+            Self::Resumed => "RESUMED",
         }
     }
 
@@ -211,6 +219,14 @@ impl BetResult {
             _ => Self::Refund,
         }
     }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+#[ts(repr(enum = name))]
+pub enum PauseReason {
+    Scheduled,
+    QuietWindow,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default, TS)]
@@ -297,6 +313,10 @@ pub struct EventContext {
     pub failures: Option<Vec<ErrorCode>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub badge: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub pause_until: Option<DateTime<Utc>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub pause_reason: Option<PauseReason>,
 }
 
 impl EventContext {

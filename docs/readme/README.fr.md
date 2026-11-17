@@ -182,6 +182,9 @@ Ce qui le distingue des autres mineurs. « Voir en image » montre chaque poin
   <img src="../media/fr/drops-streamers-first.avif" alt="Un streamer de la liste regardé pour les Drops et pour ses points">
   </details>
 
+- **Priorité des récompenses.** Quand deux campagnes sont classées à égalité, le mineur
+  choisit d'abord celle dont les récompenses correspondent au type que vous préférez
+  (badge, emote, objet en jeu). Il ne passe jamais devant votre ordre de minage.
 - **Badges (bêta).** La page Badges liste tous les badges de chat globaux de Twitch et
   comment les obtenir. Chaque compte a sa page Badges : les badges en cours avec leur
   progression, ceux encore à obtenir et ceux qu'il possède. Le mineur va chercher les
@@ -218,6 +221,18 @@ Ce qui le distingue des autres mineurs. « Voir en image » montre chaque poin
   <details open><summary>Voir en image</summary>
   <img src="../media/fr/journal-requests.avif" alt="Le Journal filtré, puis Logs techniques › Requêtes">
   </details>
+
+- **Pause programmée et pause quotidienne.** Mettez en pause un compte ou tous les comptes
+  pour 30 minutes, 1 heure, 4 heures, jusqu'à demain 09:00, ou une date et une heure
+  personnalisées ; « Reprendre maintenant » lève la pause plus tôt. Un badge affiche
+  l'heure de fin de la pause. Une pause quotidienne arrête le minage de tous les comptes
+  chaque jour entre deux heures, dans le fuseau horaire choisi, et le reprend une fois
+  celle-ci terminée, avec son propre badge dans la barre du haut.
+- **Export CSV et comptage par catégorie.** Le Journal exporte les drops réclamés en
+  fichier CSV (date, compte, catégorie, campagne, drop, minutes), filtrés par compte, et
+  une boîte de dialogue liste combien de drops ont été réclamés dans chaque catégorie.
+  L'application de bureau enregistre le fichier via une boîte de dialogue d'enregistrement,
+  le tableau de bord web le télécharge.
 
 ### Sur le bureau ou sur un serveur
 
@@ -260,9 +275,9 @@ Ce qui le distingue des autres mineurs. « Voir en image » montre chaque poin
 - Comme d'autres mineurs : coffres bonus, raids, moments, objectifs communautaires,
   prédictions (stratégies, moment du pari, conditions), séries de visionnage et priorité
   aux chaînes abonnées, présence dans le chat (désactivable), options par défaut des
-  nouveaux streamers, notifications Discord, Telegram et webhook avec images (sur le
-  serveur, leur langue se choisit dans **Paramètres › Notifications**), proxy global ou par
-  compte.
+  nouveaux streamers, notifications Discord, Telegram et webhook avec images et un bouton
+  « Tester » pour chacune (sur le serveur, leur langue se choisit dans
+  **Paramètres › Notifications**), proxy global ou par compte.
 - 29 langues, thèmes sombre et clair, notifications de bureau, icône dans la zone de
   notification, lancement au démarrage du système.
 

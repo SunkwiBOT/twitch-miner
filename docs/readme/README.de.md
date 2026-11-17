@@ -183,6 +183,10 @@ im Einsatz.
   <img src="../media/de/drops-streamers-first.avif" alt="Ein Streamer aus der Liste, geschaut für die Drops und für seine Punkte">
   </details>
 
+- **Belohnungspriorität.** Stehen zwei Kampagnen gleichauf, wählt der Miner zuerst die,
+  deren Belohnungen zu Ihrer bevorzugten Art passen (Abzeichen, Emote, Spielgegenstand).
+  Ihre Mining-Reihenfolge überstimmt er nie.
+
 - **Abzeichen (Beta).** Die Seite Abzeichen listet alle globalen Chat-Abzeichen von
   Twitch auf und wie man sie bekommt. Jedes Konto hat seine eigene Abzeichen-Seite: die
   laufenden Abzeichen mit ihrem Fortschritt, die noch erhältlichen und die, die es
@@ -221,6 +225,18 @@ im Einsatz.
   <details open><summary>In Aktion ansehen</summary>
   <img src="../media/de/journal-requests.avif" alt="Das gefilterte Journal, dann Technische Protokolle › Anfragen">
   </details>
+
+- **Geplante Pause und eine tägliche Pause.** Pausieren Sie ein Konto oder alle für 30
+  Minuten, 1 Stunde, 4 Stunden, bis morgen 09:00 Uhr oder bis zu einem eigenen Datum und
+  einer eigenen Uhrzeit; „Jetzt fortsetzen“ hebt die Pause vorzeitig auf. Ein Abzeichen
+  zeigt, wann die Pause endet. Eine tägliche Pause hält das Mining aller Konten jeden Tag
+  zwischen zwei Uhrzeiten in der gewählten Zeitzone an und setzt es nach deren Ende wieder
+  fort, mit eigenem Abzeichen in der oberen Leiste.
+- **CSV-Export und Anzahl nach Kategorie.** Das Journal exportiert die eingelösten Drops
+  als CSV-Datei (Datum, Konto, Kategorie, Kampagne, Drop, Minuten), gefiltert nach Konto,
+  und ein Dialog listet auf, wie viele Drops in welcher Kategorie eingelöst wurden. Die
+  Desktop-App speichert die Datei über einen Speichern-Dialog; das Web-Dashboard lädt sie
+  herunter.
 
 ### Auf dem Desktop oder auf einem Server
 
@@ -264,8 +280,9 @@ im Einsatz.
 - Wie bei anderen Minern: Bonus-Truhen, Raids, Momente, Community-Ziele, Vorhersagen
   (Strategien, Zeitpunkt der Wette, Bedingungen), Zuschauerserien und abonnierte Kanäle
   zuerst, Chat-Präsenz (abschaltbar), Standardoptionen für neue Streamer, Benachrichtigungen
-  über Discord, Telegram und Webhook mit Bildern (auf dem Server wird ihre Sprache unter
-  **Einstellungen › Benachrichtigungen** gewählt), ein globaler Proxy oder einer pro Konto.
+  über Discord, Telegram und Webhook mit Bildern und einem „Testen“-Button für jede davon
+  (auf dem Server wird ihre Sprache unter **Einstellungen › Benachrichtigungen** gewählt),
+  ein globaler Proxy oder einer pro Konto.
 - 29 Sprachen, dunkles und helles Design, Desktop-Benachrichtigungen, Symbol im
   Infobereich, Start mit dem System.
 

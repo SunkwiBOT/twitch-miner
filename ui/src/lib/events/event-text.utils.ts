@@ -2,6 +2,7 @@ import { BetResult } from "../bindings/BetResult";
 import { EventKind } from "../bindings/EventKind";
 import type { MinerEventType } from "../bindings/MinerEventType";
 import { PointsReason } from "../bindings/PointsReason";
+import { PauseReason } from "../bindings/PauseReason";
 import { onDropsPage } from "../catalogue/campaign.utils";
 import { catalogueCampaign } from "../catalogue/catalogue.svelte";
 import { number } from "../format.utils";
@@ -256,6 +257,20 @@ export const eventText = (
         return context.badge && drop
           ? t.ev_badge_equipped({ badge: strong(context.badge), drop })
           : fallback;
+      case EventKind.PAUSED:
+        if (context.pause_reason === PauseReason.QUIET_WINDOW) {
+          return t.ev_paused_quiet_window();
+        }
+
+        if (context.pause_until) {
+          return t.ev_paused_scheduled({
+            time: strong(relativeTime(context.pause_until, new Date(event.at).getTime())),
+          });
+        }
+
+        return t.ev_paused();
+      case EventKind.RESUMED:
+        return t.ev_resumed();
     }
   })();
 

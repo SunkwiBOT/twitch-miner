@@ -181,6 +181,10 @@ all'opera.
   <img src="../media/it/drops-streamers-first.avif" alt="Uno streamer della lista, guardato per i Drops e per i suoi punti">
   </details>
 
+- **Priorità delle ricompense.** Quando due campagne hanno la stessa posizione, il miner
+  sceglie prima quella con ricompense del tipo che preferisci (badge, emote, oggetto di
+  gioco). Non scavalca mai il tuo ordine di mining.
+
 - **Badge (beta).** La pagina Badge elenca tutti i badge globali della chat di Twitch e
   come ottenerli. Ogni account ha la sua pagina Badge: i badge in corso con i loro
   progressi, quelli ancora da ottenere e quelli che possiede. Il miner punta ai badge delle
@@ -217,6 +221,18 @@ all'opera.
   <details open><summary>Vedilo in azione</summary>
   <img src="../media/it/journal-requests.avif" alt="Il Registro filtrato, poi Log tecnici › Richieste">
   </details>
+
+- **Pausa programmata e finestra silenziosa.** Metti in pausa un account o tutti per 30
+  minuti, 1 ora, 4 ore, fino a domani alle 09:00, o una data e un'ora personalizzate;
+  «Riprendi ora» la toglie prima. Un badge mostra l'ora in cui finisce la pausa. Una
+  finestra silenziosa giornaliera ferma il mining di tutti gli account ogni giorno tra due
+  orari, nel fuso orario scelto, e lo riprende quando termina, con il suo badge nella
+  barra in alto.
+- **Esportazione CSV e conteggi per categoria.** Il Registro esporta i drop riscattati
+  come file CSV (data, account, categoria, campagna, drop, minuti), filtrati per account,
+  e una finestra di dialogo elenca quanti drop sono stati riscattati in ciascuna
+  categoria. L'app desktop salva il file con una finestra di salvataggio; la dashboard web
+  lo scarica.
 
 ### Sul desktop o su un server
 
@@ -258,8 +274,9 @@ all'opera.
 - Come altri miner: forzieri bonus, raid, momenti, obiettivi della community, previsioni
   (strategie, momento della scommessa, condizioni), priorità alle serie di visione e ai
   canali abbonati, presenza in chat (disattivabile), opzioni predefinite per i nuovi
-  streamer, notifiche Discord, Telegram e webhook con immagini (sul server, la loro lingua
-  si sceglie in **Impostazioni › Notifiche**), proxy globale o per account.
+  streamer, notifiche Discord, Telegram e webhook con immagini e un pulsante «Prova» per
+  ciascuna (sul server, la loro lingua si sceglie in **Impostazioni › Notifiche**), proxy
+  globale o per account.
 - 29 lingue, temi scuro e chiaro, notifiche desktop, icona nell'area di notifica, avvio con
   il sistema.
 
