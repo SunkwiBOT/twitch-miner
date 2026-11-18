@@ -221,6 +221,11 @@ bruk.
   <img src="../media/nb/journal-requests.avif" alt="Den filtrerte journalen, deretter Tekniske logger › Forespørsler">
   </details>
 
+- **En Statistikk-side.** Opptjente poeng, hentede drops, seertid og vunne spådommer over
+  7, 30 eller 90 dager, med streameren eller kategorien på topp bak hvert tall. En
+  poengkurve per streamer viser saldoen over tid, med markører for rekker, raids,
+  øyeblikk og spådommer og et verktøytips på hver.
+
 - **Planlagt pause og daglig pause.** Sett en konto eller alle kontoer på pause i 30
   minutter, 1 time, 4 timer, til i morgen kl. 09:00 eller en egendefinert dato og
   klokkeslett; «Fortsett nå» opphever pausen tidligere. Et merke viser når pausen slutter.
@@ -261,8 +266,7 @@ bruk.
   versjonsnummeret i den øverste linjen. «Installer og start på nytt» ber deg først
   bekrefte, deretter installerer appen versjonen og starter på nytt. Med app-passord
   starter den låst: skriv det inn igjen for å fortsette å mine. Bare en versjon signert av
-  prosjektet blir installert. Den portable Windows-filen oppdaterer seg ikke selv: knappen
-  åpner nedlastingssiden. Docker-versjonen sier også fra, med kommandoene som skal kjøres.
+  prosjektet blir installert. Docker-versjonen sier også fra, med kommandoene som skal kjøres.
 
   <details open><summary>Se det i aksjon</summary>
   <img src="../media/nb/updates.avif" alt="Merket «Oppdatering», bekreftelsen, deretter installasjonen">
@@ -371,8 +375,7 @@ deretter til **Systeminnstillinger › Personvern og sikkerhet** og klikk på
 Oppdateringene er signert. Appen ser etter en ny versjon når den starter, og deretter hver
 time (hvor ofte endrer du i **Innstillinger › Om**). Den installerer aldri en versjon av
 seg selv: du installerer den med ett klikk, fra meldingen som vises, eller fra
-**Innstillinger › Om**. Den portable filen oppdaterer seg aldri selv: «Åpne
-nedlastingssiden» tar deg til den nyeste versjonen.
+**Innstillinger › Om**.
 
 Dataene ligger i brukerens datamappe:
 
@@ -524,8 +527,7 @@ ikke noe app-passord er satt) og loggene.
 Skrivebordsappen ser etter en ny versjon når den starter, og deretter hver time (kan
 endres i **Innstillinger › Om**). Klikk på merket «Oppdatering», deretter på
 «Installer og start på nytt». Med Docker sier oversikten fra: kjør `docker compose pull`
-og deretter `docker compose up -d`. Den portable Windows-filen oppdaterer seg ikke selv:
-«Åpne nedlastingssiden» åpner den nyeste versjonen, der du laster ned den nye.
+og deretter `docker compose up -d`.
 
 **Jeg har glemt app-passordet.**\
 Det kan ikke gjenopprettes: det er det som krypterer Twitch-øktene dine. Avslutt appen,

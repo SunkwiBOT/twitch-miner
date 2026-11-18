@@ -2,6 +2,7 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "nav_accounts": "Облікові записи",
   "nav_history": "Журнал",
+  "nav_stats": "Статистика",
   "nav_settings": "Налаштування",
   "topbar_disconnected": "Перепідключення…",
   "topbar_language": "Мова",
@@ -90,7 +91,6 @@
   "login_note_settings": "налаштуваннях Twitch",
   "login_vault_locked": "Розблокуйте застосунок перед додаванням облікового запису.",
   "login_use_tokens": "Натомість вставити токени",
-  "login_use_code": "Натомість використати код входу",
   "login_tokens_label": "Токени доступу",
   "login_tokens_hint": "Вставте по одному токену на рядок. Кожен перевіряється перед імпортом.",
   "login_tokens_submit": [
@@ -115,11 +115,29 @@
   "import_tokens_line_too_long": "Занадто довгий рядок. Максимум символів: {max}.",
   "import_tokens_status_pending": "Перевірка…",
   "import_tokens_status_valid": "Дійсний",
-  "import_tokens_status_unusable_client": "Цей токен не можна використати для майнінгу.",
+  "import_tokens_client_warning": "Twitch може відхиляти деякі дії (отримання Drops, бонусних скринь, ставки) від цього клієнта. Вхід за кодом — найнадійніший спосіб додати акаунт.",
   "import_tokens_status_invalid": "Цей токен недійсний або прострочений.",
   "import_tokens_status_already_added": "Вже додано",
   "import_tokens_status_duplicate": "Дублікат іншого рядка",
   "import_tokens_status_not_imported": "Не імпортовано",
+  "import_tokens_configure": [
+    {
+      "declarations": [
+        "input count",
+        "local countPluralExact = count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPluralExact",
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=*, countPluralExact=1": "Налаштування акаунта",
+        "countPlural=few, countPluralExact=*": "Налаштування акаунтів",
+        "countPlural=*, countPluralExact=*": "Налаштування акаунтів"
+      }
+    }
+  ],
   "import_tokens_settings_step_title": [
     {
       "declarations": [
@@ -236,6 +254,50 @@
   "history_title": "Журнал",
   "history_empty": "Поки порожньо.",
   "history_load_failed": "Не вдалося прочитати журнал.",
+  "stats_title": "Статистика",
+  "stats_empty": "За цей період історії ще немає.",
+  "stats_load_failed": "Не вдалося завантажити статистику.",
+  "stats_period_label": "Відображений період",
+  "stats_period_7": "7 днів",
+  "stats_period_30": "30 днів",
+  "stats_period_90": "90 днів",
+  "stats_period_disabled_retention": "Історія зберігається {retention}: змініть термін зберігання в налаштуваннях, щоб бачити далі.",
+  "stats_tile_points": "Зароблені бали",
+  "stats_tile_drops": "Отримані drops",
+  "stats_tile_watched": "Час перегляду",
+  "stats_tile_predictions": "Виграні ставки",
+  "stats_tile_top_label": "Топ",
+  "stats_tile_top_empty": "Поки немає даних",
+  "stats_chart_points_by_day": "Бали за день",
+  "stats_chart_points_by_day_aria": "Зароблені бали за день протягом {days} днів",
+  "stats_chart_drops_by_category": "Отримані drops за категоріями",
+  "stats_chart_drops_by_category_empty": "За цей період не отримано жодного drop.",
+  "stats_category_unknown": "Без категорії",
+  "stats_chart_top_streamers": "Найприбутковіші стримери",
+  "stats_chart_top_streamers_empty": "За цей період не зароблено жодного бала.",
+  "stats_reason_watch": "Перегляд",
+  "stats_reason_watch_streak": "Бонус за серію",
+  "stats_reason_claim": "Бонусна скриня",
+  "stats_reason_raid": "Приєднано до рейду",
+  "stats_reason_community_moment": "Момент спільноти",
+  "stats_reason_prediction": "Ставку виграно",
+  "stats_reason_refund": "Ставку повернуто",
+  "stats_curve_title": "Крива балів",
+  "stats_curve_streamer_label": "Стример",
+  "stats_curve_streamer_empty": "Виберіть стримера",
+  "stats_curve_no_streamer": "У цього облікового запису ще немає стримера, для якого можна показати криву.",
+  "stats_curve_empty": "Немає подій з балами для цього стримера за цей період.",
+  "stats_curve_aria": "Баланс балів {streamer} у часі",
+  "stats_curve_legend_balance": "Баланс балів",
+  "stats_curve_legend_streak": "Серію відновлено",
+  "stats_curve_legend_raid": "Приєднано до рейду",
+  "stats_curve_legend_moment": "Момент отримано",
+  "stats_curve_legend_prediction_placed": "Ставку зроблено",
+  "stats_curve_legend_prediction_won": "Ставку виграно",
+  "stats_curve_legend_prediction_lost": "Ставку програно",
+  "stats_curve_legend_prediction_refund": "Ставку повернуто",
+  "stats_curve_open": "Переглянути криву балів {streamer}",
+  "stats_curve_open_tip": "Переглянути криву балів",
   "event_kind_info": "Інфо",
   "event_kind_error": "Помилка",
   "event_kind_watch_started": "Перегляд",
@@ -539,6 +601,8 @@
   "error_catalog_rate_limited": "Каталог попросив зменшити частоту запитів. Наступне оновлення зачекає довше.",
   "error_too_many_attempts": "Забагато неправильних паролів: спробуйте трохи згодом.",
   "error_https_required": "Відкрийте панель за її адресою HTTPS.",
+  "error_open_url_refused": "Це посилання не можна відкрити із застосунку.",
+  "error_open_url_failed": "Не вдалося відкрити це посилання.",
   "error_forwarded_for_required": "HTTPS-проксі перед панеллю має передавати адресу відвідувача (X-Forwarded-For).",
   "error_proxy_not_local": "Панель приймає свій HTTPS-проксі лише з цієї машини або з її локальної мережі.",
   "error_cross_site_request": "Відхилено: запит надійшов зі сторінки іншого сайту.",
@@ -614,6 +678,8 @@
   "ev_bonus_short": "Бонусну скриню отримано",
   "ev_points": "Бали: +{points} на {channel}",
   "ev_points_short": "Бали: +{points}",
+  "ev_points_reason": "Бали: +{points} на {channel} · {reason}",
+  "ev_points_reason_short": "Бали: +{points} · {reason}",
   "ev_online": "{channel} в ефірі",
   "ev_online_short": "В ефірі",
   "ev_offline": "{channel}: ефір завершено",
@@ -802,9 +868,29 @@
   "import_title": "Імпорт стримерів",
   "import_too_many": "Забагато імен. Максимум за раз: {max}.",
   "login_setup_custom": "Власні налаштування",
-  "login_setup_later_hint": "Акаунт залишається на паузі, доки ви його не запустите — зараз або пізніше на його сторінці.",
+  "login_setup_later_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count", "local countPlural = count: plural"],
+      "selectors": ["countPluralExact", "countPlural"],
+      "match": {
+        "countPlural=*, countPluralExact=1": "Акаунт залишається на паузі, доки ви його не запустите — зараз або пізніше на його сторінці.",
+        "countPlural=few, countPluralExact=*": "Акаунти залишаються на паузі, доки ви їх не запустите — зараз або пізніше на їхніх сторінках.",
+        "countPlural=*, countPluralExact=*": "Акаунти залишаються на паузі, доки ви їх не запустите — зараз або пізніше на їхніх сторінках."
+      }
+    }
+  ],
   "login_setup_streamers_empty": "Стримерів поки немає: додайте їх нижче або пізніше на сторінці «Бали».",
-  "login_setup_streamers_hint": "Канали, які цей обліковий запис дивиться заради балів каналу, найважливіші першими.",
+  "login_setup_streamers_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count", "local countPlural = count: plural"],
+      "selectors": ["countPluralExact", "countPlural"],
+      "match": {
+        "countPlural=*, countPluralExact=1": "Канали, які цей обліковий запис дивиться заради балів каналу, найважливіші першими.",
+        "countPlural=few, countPluralExact=*": "Канали, які ці облікові записи дивляться заради балів каналу, найважливіші першими.",
+        "countPlural=*, countPluralExact=*": "Канали, які ці облікові записи дивляться заради балів каналу, найважливіші першими."
+      }
+    }
+  ],
   "login_setup_streamers_title": "Стримери для балів",
   "points_import": "Імпорт",
   "streamer_change": "Змінити",
@@ -850,7 +936,6 @@
   "updates_last_checked": "Остання перевірка: {time}",
   "updates_never_checked": "Остання перевірка: від запуску відповіді ще не було",
   "updates_install": "Встановити й перезапустити",
-  "updates_download_page": "Відкрити сторінку завантаження",
   "settings_notifications_language": "Мова сповіщень",
   "updates_confirm_title": "Встановити версію {version}?",
   "updates_confirm_text": "У вас версія {current}. Застосунок завантажить версію {version}, зупинить майнінг на всіх акаунтах, встановить її та сам перезапуститься. Потім майнінг відновиться сам.",
@@ -947,11 +1032,31 @@
   "login_setup_step_streamers": "Стримери",
   "login_setup_step_summary": "Підсумок",
   "login_setup_start_hint": "Почніть із типових налаштувань або візьміть налаштування облікового запису, на якому ви вже майните. Усе можна змінити на наступних кроках.",
-  "login_setup_summary_hint": "Усе можна змінити пізніше на сторінках облікового запису.",
+  "login_setup_summary_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count", "local countPlural = count: plural"],
+      "selectors": ["countPluralExact", "countPlural"],
+      "match": {
+        "countPlural=*, countPluralExact=1": "Усе можна змінити пізніше на сторінках облікового запису.",
+        "countPlural=few, countPluralExact=*": "Усе можна змінити пізніше на сторінках облікових записів.",
+        "countPlural=*, countPluralExact=*": "Усе можна змінити пізніше на сторінках облікових записів."
+      }
+    }
+  ],
   "login_setup_progress": "Крок {current} з {total}",
   "common_yes": "Так",
   "common_no": "Ні",
-  "login_setup_drops_hint": "Які кампанії майнить цей обліковий запис і чи забирає він нагороди сам.",
+  "login_setup_drops_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count", "local countPlural = count: plural"],
+      "selectors": ["countPluralExact", "countPlural"],
+      "match": {
+        "countPlural=*, countPluralExact=1": "Які кампанії майнить цей обліковий запис і чи забирає він нагороди сам.",
+        "countPlural=few, countPluralExact=*": "Які кампанії майнять ці облікові записи і чи забирають вони нагороди самі.",
+        "countPlural=*, countPluralExact=*": "Які кампанії майнять ці облікові записи і чи забирають вони нагороди самі."
+      }
+    }
+  ],
   "event_kind_chat_mention": "Згадка",
   "ev_chat_mention": "Згадка від {chatter} у чаті {channel}",
   "ev_chat_mention_short": "Згадка від {chatter}",
@@ -1039,6 +1144,7 @@
   "confirm_remove_setup_streamer_text": "{name} виходить зі списку: цей акаунт не дивитиметься його заради балів каналу.",
   "search_verified": "Підтверджений партнер",
   "login_setup_for": "Акаунт: {name}",
+  "login_setup_for_many": "Облікові записи: {count}",
   "search_pick": "Вибрати",
   "search_no_result": "Немає результатів за запитом {query}.",
   "drops_tabs_label": "Розділи сторінки Drops",
@@ -1540,8 +1646,6 @@
   "account_badges_not_mined_hint": "Показані, але не майняться: спершу потрібна підписка, яку ви оформлюєте самі, або інший значок, або Twitch не вказує канал, який майнер міг би дивитися.",
   "error_action_rate_limited": "Забагато спроб: зачекайте трохи і спробуйте ще раз.",
   "error_invalid_token": "Цей токен недійсний або прострочений. Вставте новий.",
-  "error_unsupported_client": "Цей токен не можна використати для майнінгу. Увійдіть за допомогою коду натомість.",
-  "error_missing_scope": "Цей токен не має дозволу, потрібного застосунку. Увійдіть за допомогою коду натомість.",
   "ev_paused": "Призупинено",
   "ev_paused_quiet_window": "Призупинено (щоденна пауза)",
   "ev_paused_scheduled": "Призупинено, відновлення {time}",

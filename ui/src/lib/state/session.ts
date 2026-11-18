@@ -112,6 +112,7 @@ export const sessionEnded = (): void => {
   app.snapshot = null;
   app.liveEvents = [];
   app.logsAccount = null;
+  app.statsCurveTarget = null;
   app.loginDialog = false;
   app.feedbackDialog = false;
   app.navDrawer = false;

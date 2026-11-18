@@ -10,7 +10,7 @@ use serde_json::json;
 use url::Url;
 
 use super::operations::Operation;
-use super::{TwitchClient, USHER_URL, WEB_USER_AGENT};
+use super::{TwitchClient, USHER_URL};
 use crate::error::{Error, NetworkErrorKind, Result};
 use crate::http::{read_bounded, trusted_host};
 use crate::requests::{host_target, url_target, RequestKind};
@@ -181,7 +181,7 @@ async fn fetch(client: &TwitchClient, method: Method, url: Url) -> Result<String
                 .http
                 .client
                 .request(method, url)
-                .header(reqwest::header::USER_AGENT, WEB_USER_AGENT)
+                .header(reqwest::header::USER_AGENT, &client.identity.user_agent)
                 .header(reqwest::header::ACCEPT, "*/*")
                 .timeout(Duration::from_secs(if head { 5 } else { 8 })),
         )

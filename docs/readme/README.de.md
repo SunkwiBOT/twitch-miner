@@ -226,6 +226,12 @@ im Einsatz.
   <img src="../media/de/journal-requests.avif" alt="Das gefilterte Journal, dann Technische Protokolle › Anfragen">
   </details>
 
+- **Eine Statistik-Seite.** Verdiente Punkte, abgeholte Drops, angesehene Zeit und
+  gewonnene Vorhersagen über 7, 30 oder 90 Tage, mit dem führenden Streamer oder der
+  führenden Kategorie hinter jeder Zahl. Eine Punktekurve pro Streamer zeigt den
+  Punktestand im Zeitverlauf, mit Markierungen für Zuschauerserien, Raids, Momente und
+  Vorhersagen sowie einem Tooltip zu jeder davon.
+
 - **Geplante Pause und eine tägliche Pause.** Pausieren Sie ein Konto oder alle für 30
   Minuten, 1 Stunde, 4 Stunden, bis morgen 09:00 Uhr oder bis zu einem eigenen Datum und
   einer eigenen Uhrzeit; „Jetzt fortsetzen“ hebt die Pause vorzeitig auf. Ein Abzeichen
@@ -267,9 +273,8 @@ im Einsatz.
   „Update“ mit der Versionsnummer. „Installieren und neu starten“ fragt zuerst nach einer
   Bestätigung, dann installiert die App die Version und startet neu. Mit App-Passwort
   startet sie gesperrt neu: Geben Sie es erneut ein, um das Mining fortzusetzen. Installiert
-  wird nur eine vom Projekt signierte Version. Die portable Windows-Datei aktualisiert sich
-  nicht selbst: Ihr Button öffnet die Downloadseite. Die Docker-Version meldet sich
-  ebenfalls, mit den passenden Befehlen.
+  wird nur eine vom Projekt signierte Version. Die Docker-Version meldet sich ebenfalls,
+  mit den passenden Befehlen.
 
   <details open><summary>In Aktion ansehen</summary>
   <img src="../media/de/updates.avif" alt="Das Badge „Update“, die Bestätigung, dann die Installation">
@@ -380,8 +385,7 @@ auf **Dennoch öffnen**.
 Updates sind signiert. Die App sucht beim Start nach einer neuen Version, danach jede
 Stunde (wie oft, können Sie unter **Einstellungen › Über** ändern). Sie installiert nie
 selbst eine neue Version: Das tun Sie mit einem Klick, über die angezeigte Meldung oder
-über **Einstellungen › Über**. Die portable Datei aktualisiert sich nie selbst:
-„Downloadseite öffnen“ führt zur neuesten Version.
+über **Einstellungen › Über**.
 
 Die Daten liegen im Benutzerdatenordner:
 
@@ -541,9 +545,7 @@ Sitzungsschlüssel, wenn kein App-Passwort gesetzt ist) und die Logs.
 Die Desktop-App sucht beim Start nach einer neuen Version, danach jede Stunde (änderbar
 unter **Einstellungen › Über**). Klicken Sie auf das Badge „Update“, dann auf
 „Installieren und neu starten“. Bei Docker meldet es das Dashboard: Führen Sie
-`docker compose pull` und dann `docker compose up -d` aus. Die portable Windows-Datei
-aktualisiert sich nicht selbst: „Downloadseite öffnen“ öffnet die neueste Version, wo Sie
-die neue herunterladen.
+`docker compose pull` und dann `docker compose up -d` aus.
 
 **Ich habe das App-Passwort vergessen.**\
 Es lässt sich nicht wiederherstellen: Mit ihm werden Ihre Twitch-Sitzungen verschlüsselt.

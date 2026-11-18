@@ -1,12 +1,12 @@
 <script lang="ts">
   import type { GlobalSettingsType } from "../../lib/bindings/GlobalSettingsType";
-  import { HistoryRetention } from "../../lib/bindings/HistoryRetention";
   import { Theme } from "../../lib/bindings/Theme";
   import { languageOptions, t } from "../../lib/i18n/i18n.svelte";
   import FormField from "../ui/FormField.svelte";
   import Panel from "../ui/Panel.svelte";
   import Select from "../ui/Select.svelte";
   import { MenuAlign } from "../ui/menu.constants";
+  import { RETENTION_LABELS, RETENTION_OPTIONS } from "./settings.constants";
 
   type SettingsGeneralPropsType = {
     draft: GlobalSettingsType;
@@ -21,12 +21,9 @@
     { value: Theme.LIGHT, label: t.theme_light() },
   ]);
 
-  const retentions = $derived([
-    { value: HistoryRetention.DAYS30, label: t.retention_30() },
-    { value: HistoryRetention.DAYS90, label: t.retention_90() },
-    { value: HistoryRetention.YEAR1, label: t.retention_365() },
-    { value: HistoryRetention.UNLIMITED, label: t.retention_unlimited() },
-  ]);
+  const retentions = $derived(
+    RETENTION_OPTIONS.map((value) => ({ value, label: RETENTION_LABELS[value]() })),
+  );
 </script>
 
 <Panel title={t.settings_general()}>

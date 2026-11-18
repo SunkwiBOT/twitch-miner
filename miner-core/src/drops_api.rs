@@ -14,8 +14,15 @@ pub(crate) fn badges_url() -> String {
 // ! The dashboard opens this address in a button with no variable in its
 // label: an absolute https URL on the drops-web host, or dropped, so a
 // crafted response can never point the button elsewhere.
+pub(crate) fn base_host() -> Option<String> {
+    url::Url::parse(BASE_URL)
+        .ok()?
+        .host_str()
+        .map(str::to_owned)
+}
+
 pub(crate) fn valid_web_url(url: Option<String>) -> Option<String> {
-    let host = url::Url::parse(BASE_URL).ok()?.host_str()?.to_owned();
+    let host = base_host()?;
     let url = url?;
     let parsed = url::Url::parse(&url).ok()?;
 

@@ -8,18 +8,20 @@ pub use command::{Command, CommandName};
 pub use push::{DesktopEvent, ServerMessage, ServerMessageKind};
 pub use queries::{
     ChannelBannersRequest, ChannelQuery, ChannelsLookupRequest, CheckPastedTokenRequest,
-    DashboardLoginRequest, FollowsQuery, HistoryExportQuery, HistoryQuery, ImportTokensRequest,
-    LogsQuery, NotificationTestRequest, ProxyTestRequest, RedeemRequest, RequestsQuery,
-    SearchQuery, SpamChannelQuery,
+    DashboardLoginRequest, FollowsQuery, HistoryCurveQuery, HistoryExportQuery, HistoryQuery,
+    HistoryStatsQuery, ImportTokensRequest, LogsQuery, NotificationTestRequest, ProxyTestRequest,
+    RedeemRequest, RequestsQuery, SearchQuery, SpamChannelQuery,
 };
 pub use responses::{
     AppInfo, AppInfoResponse, AuthResponse, AuthStatus, AutostartResponse, BadgesResponse,
     CatalogResponse, CategoryCount, ChannelBannersResponse, ChannelResponse,
-    ChannelsLookupResponse, CheckPastedTokenResponse, FollowsResponse, HistoryExportResponse,
-    HistoryResponse, ImportTokensResponse, LoginFlowResponse, LogsReportResponse, LogsResponse,
-    NotificationTarget, NotificationTest, ProxyTestResponse, RedeemResponse, RefreshCount,
+    ChannelsLookupResponse, CheckPastedTokenResponse, DropsByCategory, FollowsResponse,
+    HistoryCurveResponse, HistoryExportResponse, HistoryResponse, HistoryStatsResponse,
+    ImportTokensResponse, LoginFlowResponse, LogsReportResponse, LogsResponse, NotificationTarget,
+    NotificationTest, PointsByDay, ProxyTestResponse, RedeemResponse, RefreshCount,
     RefreshResponse, RequestsResponse, SearchResponse, SnapshotResponse, SpamBalanceResponse,
-    SpamChannelResponse, StartupProblem, StartupProblemResponse, UpdateCheck, UpdateCheckResponse,
+    SpamChannelResponse, StartupProblem, StartupProblemResponse, StreamerMinutes, StreamerPoints,
+    StreamerPredictions, UpdateCheck, UpdateCheckResponse,
 };
 pub use views::{
     AccountSnapshot, AccountStats, AccountStatus, BadgeCatalogView, CampaignProgress, CatalogView,
@@ -53,6 +55,13 @@ pub const TOKEN_LINE_MAX_CHARS: usize = 256;
 pub const HISTORY_LIMIT_MAX: u32 = 500;
 pub const HISTORY_LIMIT_DEFAULT: u32 = 100;
 pub const HISTORY_EXPORT_MAX: usize = 10_000;
+// ! How many rows the stats page's "top streamers" lists keep, past the one
+// shown in a tile's empty space.
+pub const HISTORY_STATS_TOP_MAX: usize = 10;
+// ! The stats page and the per-streamer curve are asked for one bounded span
+// at a time, never the whole retention window; this caps it regardless of
+// `history_retention`, well above any period the UI offers.
+pub const HISTORY_STATS_MAX_SPAN_DAYS: i64 = 400;
 
 pub const LOGS_LIMIT_DEFAULT: u32 = 100;
 pub const LOGS_LIMIT_MAX: u32 = 100;
@@ -103,6 +112,10 @@ pub enum ApiRoute {
     History,
     #[serde(rename = "/api/history/export")]
     HistoryExport,
+    #[serde(rename = "/api/history/stats")]
+    HistoryStats,
+    #[serde(rename = "/api/history/curve")]
+    HistoryCurve,
     #[serde(rename = "/api/badges")]
     Badges,
     #[serde(rename = "/api/badges/refresh")]
@@ -148,6 +161,8 @@ impl ApiRoute {
             Self::ProxyTest => "/api/proxy/test",
             Self::History => "/api/history",
             Self::HistoryExport => "/api/history/export",
+            Self::HistoryStats => "/api/history/stats",
+            Self::HistoryCurve => "/api/history/curve",
             Self::Badges => "/api/badges",
             Self::BadgesRefresh => "/api/badges/refresh",
             Self::Logs => "/api/logs",

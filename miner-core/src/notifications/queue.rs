@@ -118,9 +118,16 @@ impl Queues {
 
 // ! An aborted task may still finish its batch after `shutdown` read the count.
 fn lower(counter: &AtomicUsize, by: usize) {
-    let _ = counter.fetch_update(Ordering::SeqCst, Ordering::SeqCst, |count| {
-        Some(count.saturating_sub(by))
-    });
+    let mut count = counter.load(Ordering::SeqCst);
+
+    while let Err(actual) = counter.compare_exchange_weak(
+        count,
+        count.saturating_sub(by),
+        Ordering::SeqCst,
+        Ordering::SeqCst,
+    ) {
+        count = actual;
+    }
 }
 
 enum Next {

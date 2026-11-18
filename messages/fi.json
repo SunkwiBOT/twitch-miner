@@ -2,6 +2,7 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "nav_accounts": "Tilit",
   "nav_history": "Päiväkirja",
+  "nav_stats": "Tilastot",
   "nav_settings": "Asetukset",
   "topbar_disconnected": "Yhdistetään uudelleen…",
   "topbar_language": "Kieli",
@@ -89,7 +90,6 @@
   "login_note_settings": "Twitch-asetuksista",
   "login_vault_locked": "Avaa sovelluksen lukitus ennen tilin lisäämistä.",
   "login_use_tokens": "Liitä tokenit sen sijaan",
-  "login_use_code": "Käytä kirjautumiskoodia sen sijaan",
   "login_tokens_label": "Käyttötokenit",
   "login_tokens_hint": "Liitä yksi token riviä kohden. Jokainen tarkistetaan ennen kuin se voidaan tuoda.",
   "login_tokens_submit": [
@@ -109,11 +109,26 @@
   "import_tokens_line_too_long": "Liian pitkä rivi: enintään {max} merkkiä.",
   "import_tokens_status_pending": "Tarkistetaan…",
   "import_tokens_status_valid": "Kelvollinen",
-  "import_tokens_status_unusable_client": "Tätä tokenia ei voi käyttää louhintaan.",
+  "import_tokens_client_warning": "Twitch saattaa hylätä joitain toimintoja (Dropsien lunastus, bonusarkut, vedot) tältä clientiltä. Kirjautuminen koodilla on luotettavin tapa lisätä tili.",
   "import_tokens_status_invalid": "Tämä token on virheellinen tai vanhentunut.",
   "import_tokens_status_already_added": "Lisätty jo",
   "import_tokens_status_duplicate": "Kaksoiskappale toisesta rivistä",
   "import_tokens_status_not_imported": "Ei tuotu",
+  "import_tokens_configure": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Määritä tili",
+        "countPlural=*": "Määritä tilit"
+      }
+    }
+  ],
   "import_tokens_settings_step_title": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -213,6 +228,50 @@
   "history_title": "Päiväkirja",
   "history_empty": "Ei vielä mitään.",
   "history_load_failed": "Päiväkirjaa ei voitu lukea.",
+  "stats_title": "Tilastot",
+  "stats_empty": "Ei vielä historiaa tältä ajanjaksolta.",
+  "stats_load_failed": "Tilastoja ei voitu ladata.",
+  "stats_period_label": "Näytettävä ajanjakso",
+  "stats_period_7": "7 päivää",
+  "stats_period_30": "30 päivää",
+  "stats_period_90": "90 päivää",
+  "stats_period_disabled_retention": "Historia säilytetään {retention}: muuta säilytysaikaa asetuksista nähdäksesi pidemmälle taaksepäin.",
+  "stats_tile_points": "Ansaitut pisteet",
+  "stats_tile_drops": "Lunastetut dropsit",
+  "stats_tile_watched": "Katseluaika",
+  "stats_tile_predictions": "Voitetut panokset",
+  "stats_tile_top_label": "Top",
+  "stats_tile_top_empty": "Ei vielä tietoja",
+  "stats_chart_points_by_day": "Pisteet päivässä",
+  "stats_chart_points_by_day_aria": "Päivässä ansaitut pisteet {days} päivän ajalta",
+  "stats_chart_drops_by_category": "Lunastetut dropsit kategorioittain",
+  "stats_chart_drops_by_category_empty": "Tänä ajanjaksona ei lunastettu yhtään dropsia.",
+  "stats_category_unknown": "Ei kategoriaa",
+  "stats_chart_top_streamers": "Tuottoisimmat streamaajat",
+  "stats_chart_top_streamers_empty": "Tänä ajanjaksona ei ansaittu yhtään pistettä.",
+  "stats_reason_watch": "Katsotaan",
+  "stats_reason_watch_streak": "Putkibonus",
+  "stats_reason_claim": "Bonusarkku",
+  "stats_reason_raid": "Raidiin liitytty",
+  "stats_reason_community_moment": "Yhteisön hetki",
+  "stats_reason_prediction": "Panos voitettu",
+  "stats_reason_refund": "Panos palautettu",
+  "stats_curve_title": "Pistekäyrä",
+  "stats_curve_streamer_label": "Striimaaja",
+  "stats_curve_streamer_empty": "Valitse striimaaja",
+  "stats_curve_no_streamer": "Tällä tilillä ei vielä ole striimaajaa, josta näyttää käyrän.",
+  "stats_curve_empty": "Ei pistetapahtumia tälle striimaajalle tällä ajanjaksolla.",
+  "stats_curve_aria": "{streamer}n pistesaldo ajan myötä",
+  "stats_curve_legend_balance": "Pistesaldo",
+  "stats_curve_legend_streak": "Putki palautettu",
+  "stats_curve_legend_raid": "Raidiin liitytty",
+  "stats_curve_legend_moment": "Hetki lunastettu",
+  "stats_curve_legend_prediction_placed": "Panos asetettu",
+  "stats_curve_legend_prediction_won": "Panos voitettu",
+  "stats_curve_legend_prediction_lost": "Panos hävitty",
+  "stats_curve_legend_prediction_refund": "Panos palautettu",
+  "stats_curve_open": "Näytä {streamer}n pistekäyrä",
+  "stats_curve_open_tip": "Näytä pistekäyrä",
   "event_kind_info": "Info",
   "event_kind_error": "Virhe",
   "event_kind_watch_started": "Katsotaan",
@@ -499,6 +558,8 @@
   "error_catalog_rate_limited": "Luettelo pyysi hidastamaan. Seuraava päivitys odottaa pidempään.",
   "error_too_many_attempts": "Liian monta väärää salasanaa: yritä hetken päästä uudelleen.",
   "error_https_required": "Avaa hallintapaneeli sen HTTPS-osoitteesta.",
+  "error_open_url_refused": "Tätä linkkiä ei saa avata sovelluksesta.",
+  "error_open_url_failed": "Tämän linkin avaaminen epäonnistui.",
   "error_forwarded_for_required": "Hallintapaneelin edessä olevan HTTPS-välityspalvelimen on lähetettävä kävijän osoite (X-Forwarded-For).",
   "error_proxy_not_local": "Hallintapaneeli hyväksyy HTTPS-välityspalvelimensa vain tältä koneelta tai sen lähiverkosta.",
   "error_cross_site_request": "Hylätty: pyyntö tuli toisen sivuston sivulta.",
@@ -602,6 +663,41 @@
       "match": {
         "countPlural=one": "+{points} piste",
         "countPlural=*": "+{points} pistettä"
+      }
+    }
+  ],
+  "ev_points_reason": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input channel",
+        "input reason",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "+{points} piste kanavalla {channel} · {reason}",
+        "countPlural=*": "+{points} pistettä kanavalla {channel} · {reason}"
+      }
+    }
+  ],
+  "ev_points_reason_short": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input reason",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "+{points} piste · {reason}",
+        "countPlural=*": "+{points} pistettä · {reason}"
       }
     }
   ],
@@ -839,9 +935,27 @@
   "import_title": "Tuo streamaajia",
   "import_too_many": "Liikaa nimiä: enintään {max} kerralla.",
   "login_setup_custom": "Mukautettu",
-  "login_setup_later_hint": "Tili pysyy tauolla, kunnes käynnistät sen, nyt tai myöhemmin sen sivulta.",
+  "login_setup_later_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Tili pysyy tauolla, kunnes käynnistät sen, nyt tai myöhemmin sen sivulta.",
+        "countPlural=*": "Tilit pysyvät tauolla, kunnes käynnistät ne, nyt tai myöhemmin niiden sivulta."
+      }
+    }
+  ],
   "login_setup_streamers_empty": "Ei vielä streamaajia: lisää niitä alla tai myöhemmin Pisteet-sivulta.",
-  "login_setup_streamers_hint": "Kanavat, joita tämä tili katsoo kanavapisteiden vuoksi, tärkein ensin.",
+  "login_setup_streamers_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Kanavat, joita tämä tili katsoo kanavapisteiden vuoksi, tärkein ensin.",
+        "countPlural=*": "Kanavat, joita nämä tilit katsovat kanavapisteiden vuoksi, tärkein ensin."
+      }
+    }
+  ],
   "login_setup_streamers_title": "Streamaajat pisteitä varten",
   "points_import": "Tuo",
   "streamer_change": "Vaihda",
@@ -887,7 +1001,6 @@
   "updates_last_checked": "Viimeksi tarkistettu: {time}",
   "updates_never_checked": "Viimeksi tarkistettu: ei vielä vastausta käynnistyksen jälkeen",
   "updates_install": "Asenna ja käynnistä uudelleen",
-  "updates_download_page": "Avaa lataussivu",
   "settings_notifications_language": "Ilmoitusten kieli",
   "updates_confirm_title": "Asennetaanko versio {version}?",
   "updates_confirm_text": "Sinulla on versio {current}. Sovellus lataa version {version}, pysäyttää louhinnan kaikilla tileillä, asentaa sen ja käynnistyy uudelleen itsestään. Sen jälkeen louhinta jatkuu itsestään.",
@@ -1015,11 +1128,29 @@
   "login_setup_step_streamers": "Streamaajat",
   "login_setup_step_summary": "Yhteenveto",
   "login_setup_start_hint": "Aloita oletusasetuksista tai käytä uudelleen sellaisen tilin asetuksia, jolla jo louhit. Voit muuttaa mitä tahansa seuraavissa vaiheissa.",
-  "login_setup_summary_hint": "Kaikkea voi muuttaa myöhemmin tilin sivuilta.",
+  "login_setup_summary_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Kaikkea voi muuttaa myöhemmin tilin sivuilta.",
+        "countPlural=*": "Kaikkea voi muuttaa myöhemmin tilien sivuilta."
+      }
+    }
+  ],
   "login_setup_progress": "Vaihe {current}/{total}",
   "common_yes": "Kyllä",
   "common_no": "Ei",
-  "login_setup_drops_hint": "Mitä kampanjoita tämä tili louhii ja lunastaako se palkinnot itse.",
+  "login_setup_drops_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Mitä kampanjoita tämä tili louhii ja lunastaako se palkinnot itse.",
+        "countPlural=*": "Mitä kampanjoita nämä tilit louhivat ja lunastavatko ne palkinnot itse."
+      }
+    }
+  ],
   "event_kind_chat_mention": "Maininta",
   "ev_chat_mention": "{chatter} mainitsi sinut kanavan {channel} chatissa",
   "ev_chat_mention_short": "{chatter} mainitsi sinut",
@@ -1107,6 +1238,7 @@
   "confirm_remove_setup_streamer_text": "{name} poistuu listalta: tämä tili ei katso sitä kanavapisteiden vuoksi.",
   "search_verified": "Vahvistettu kumppani",
   "login_setup_for": "Tili: {name}",
+  "login_setup_for_many": "Tilit: {count}",
   "search_pick": "Valitse",
   "search_no_result": "Ei tuloksia haulle {query}.",
   "drops_tabs_label": "Drops-sivun osiot",
@@ -1615,8 +1747,6 @@
   "account_badges_not_mined_hint": "Näytetään, mutta ei louhita: ensin tarvitaan itse tehty tilaus tai toinen merkki, tai Twitch ei nimeä kanavaa, jota louhija voisi katsoa.",
   "error_action_rate_limited": "Liian monta yritystä: odota hetki ja yritä uudelleen.",
   "error_invalid_token": "Tämä token on virheellinen tai vanhentunut. Liitä uusi.",
-  "error_unsupported_client": "Tätä tokenia ei voi käyttää louhintaan. Kirjaudu sen sijaan koodilla.",
-  "error_missing_scope": "Tästä tokenista puuttuu sovelluksen vaatima oikeus. Kirjaudu sen sijaan koodilla.",
   "ev_paused": "Keskeytetty",
   "ev_paused_quiet_window": "Tauolla (päivittäinen tauko)",
   "ev_paused_scheduled": "Keskeytetty, jatkuu {time}",

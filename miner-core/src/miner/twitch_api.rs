@@ -77,11 +77,17 @@ impl TwitchApi for TwitchClient {
     async fn validate(&self) -> Result<Option<Validation>> {
         let token = self.token().await;
 
-        auth::validate(&self.http, Some(&self.user_id), &token).await
+        auth::validate(&self.http, Some(&self.user_id), &self.identity, &token).await
     }
 
     async fn refresh_tokens(&self, refresh_token: &str) -> Result<TokenSet> {
-        let tokens = auth::refresh(&self.http, Some(&self.user_id), refresh_token).await?;
+        let tokens = auth::refresh(
+            &self.http,
+            Some(&self.user_id),
+            &self.identity,
+            refresh_token,
+        )
+        .await?;
 
         self.set_token(tokens.access_token.clone()).await;
 

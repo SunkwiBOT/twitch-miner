@@ -2,6 +2,7 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "nav_accounts": "Akun",
   "nav_history": "Jurnal",
+  "nav_stats": "Statistik",
   "nav_settings": "Pengaturan",
   "topbar_disconnected": "Menghubungkan ulang…",
   "topbar_language": "Bahasa",
@@ -74,7 +75,6 @@
   "login_note_settings": "pengaturan Twitch Anda",
   "login_vault_locked": "Buka kunci aplikasi sebelum menambah akun.",
   "login_use_tokens": "Tempel token sebagai gantinya",
-  "login_use_code": "Gunakan kode masuk sebagai gantinya",
   "login_tokens_label": "Token akses",
   "login_tokens_hint": "Tempel satu token per baris. Setiap token diperiksa sebelum dapat diimpor.",
   "login_tokens_submit": [
@@ -94,11 +94,26 @@
   "import_tokens_line_too_long": "Ada baris yang terlalu panjang (maksimal {max} karakter).",
   "import_tokens_status_pending": "Memeriksa…",
   "import_tokens_status_valid": "Valid",
-  "import_tokens_status_unusable_client": "Token ini tidak dapat digunakan untuk menambang.",
+  "import_tokens_client_warning": "Twitch mungkin menolak beberapa aksi (klaim Drops, peti bonus, taruhan) dari klien ini. Masuk dengan kode adalah cara yang paling andal untuk menambahkan akun.",
   "import_tokens_status_invalid": "Token ini tidak valid atau sudah kedaluwarsa.",
   "import_tokens_status_already_added": "Sudah ditambahkan",
   "import_tokens_status_duplicate": "Duplikat baris lain",
   "import_tokens_status_not_imported": "Tidak diimpor",
+  "import_tokens_configure": [
+    {
+      "declarations": [
+        "input count",
+        "local countPluralExact = count"
+      ],
+      "selectors": [
+        "countPluralExact"
+      ],
+      "match": {
+        "countPluralExact=1": "Atur akun",
+        "countPluralExact=*": "Atur akun-akun"
+      }
+    }
+  ],
   "import_tokens_settings_step_title": [
     {
       "declarations": ["input count", "local countPluralExact = count"],
@@ -180,6 +195,50 @@
   "history_title": "Jurnal",
   "history_empty": "Belum ada apa-apa.",
   "history_load_failed": "Jurnal tidak dapat dibaca.",
+  "stats_title": "Statistik",
+  "stats_empty": "Belum ada riwayat untuk periode ini.",
+  "stats_load_failed": "Statistik tidak dapat dimuat.",
+  "stats_period_label": "Periode yang ditampilkan",
+  "stats_period_7": "7 hari",
+  "stats_period_30": "30 hari",
+  "stats_period_90": "90 hari",
+  "stats_period_disabled_retention": "Riwayat disimpan selama {retention}: ubah masa simpan di pengaturan untuk melihat lebih jauh ke belakang.",
+  "stats_tile_points": "Poin diperoleh",
+  "stats_tile_drops": "Drop diklaim",
+  "stats_tile_watched": "Waktu menonton",
+  "stats_tile_predictions": "Taruhan menang",
+  "stats_tile_top_label": "Teratas",
+  "stats_tile_top_empty": "Belum ada data",
+  "stats_chart_points_by_day": "Poin per hari",
+  "stats_chart_points_by_day_aria": "Poin yang diperoleh per hari selama {days} hari",
+  "stats_chart_drops_by_category": "Drop diklaim berdasarkan kategori",
+  "stats_chart_drops_by_category_empty": "Tidak ada drop yang diklaim untuk periode ini.",
+  "stats_category_unknown": "Tanpa kategori",
+  "stats_chart_top_streamers": "Streamer paling menguntungkan",
+  "stats_chart_top_streamers_empty": "Tidak ada poin yang diperoleh untuk periode ini.",
+  "stats_reason_watch": "Menonton",
+  "stats_reason_watch_streak": "Bonus streak tonton",
+  "stats_reason_claim": "Peti bonus",
+  "stats_reason_raid": "Bergabung ke raid",
+  "stats_reason_community_moment": "Momen komunitas",
+  "stats_reason_prediction": "Taruhan menang",
+  "stats_reason_refund": "Taruhan dikembalikan",
+  "stats_curve_title": "Kurva poin",
+  "stats_curve_streamer_label": "Streamer",
+  "stats_curve_streamer_empty": "Pilih streamer",
+  "stats_curve_no_streamer": "Akun ini belum punya streamer untuk menampilkan kurva.",
+  "stats_curve_empty": "Tidak ada peristiwa poin untuk streamer ini pada periode ini.",
+  "stats_curve_aria": "Saldo poin {streamer} seiring waktu",
+  "stats_curve_legend_balance": "Saldo poin",
+  "stats_curve_legend_streak": "Streak dipulihkan",
+  "stats_curve_legend_raid": "Bergabung ke raid",
+  "stats_curve_legend_moment": "Momen diklaim",
+  "stats_curve_legend_prediction_placed": "Taruhan dipasang",
+  "stats_curve_legend_prediction_won": "Taruhan menang",
+  "stats_curve_legend_prediction_lost": "Taruhan kalah",
+  "stats_curve_legend_prediction_refund": "Taruhan dikembalikan",
+  "stats_curve_open": "Lihat kurva poin {streamer}",
+  "stats_curve_open_tip": "Lihat kurva poin",
   "event_kind_info": "Info",
   "event_kind_error": "Kesalahan",
   "event_kind_watch_started": "Menonton",
@@ -408,6 +467,8 @@
   "error_catalog_rate_limited": "Katalog meminta agar diperlambat. Penyegaran berikutnya akan menunggu lebih lama.",
   "error_too_many_attempts": "Terlalu banyak kata sandi salah: coba lagi sebentar lagi.",
   "error_https_required": "Buka dasbor melalui alamat HTTPS-nya.",
+  "error_open_url_refused": "Tautan ini tidak diizinkan dibuka dari aplikasi.",
+  "error_open_url_failed": "Gagal membuka tautan ini.",
   "error_forwarded_for_required": "Proxy HTTPS di depan dasbor harus mengirim alamat pengunjung (X-Forwarded-For).",
   "error_proxy_not_local": "Dasbor hanya menerima proxy HTTPS-nya dari mesin ini atau jaringan lokalnya.",
   "error_cross_site_request": "Ditolak: permintaan datang dari halaman situs lain.",
@@ -483,6 +544,8 @@
   "ev_bonus_short": "Peti bonus diklaim",
   "ev_points": "+{points} poin di {channel}",
   "ev_points_short": "+{points} poin",
+  "ev_points_reason": "+{points} poin di {channel} · {reason}",
+  "ev_points_reason_short": "+{points} poin · {reason}",
   "ev_online": "{channel} sedang live",
   "ev_online_short": "Sedang live",
   "ev_offline": "{channel} sudah offline",
@@ -639,9 +702,27 @@
   "import_title": "Impor streamer",
   "import_too_many": "Maksimal {max} nama sekaligus.",
   "login_setup_custom": "Kustom",
-  "login_setup_later_hint": "Akun tetap dijeda sampai Anda memulainya, sekarang atau nanti dari halamannya.",
+  "login_setup_later_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "Akun tetap dijeda sampai Anda memulainya, sekarang atau nanti dari halamannya.",
+        "countPluralExact=*": "Akun-akun tetap dijeda sampai Anda memulainya, sekarang atau nanti dari halamannya."
+      }
+    }
+  ],
   "login_setup_streamers_empty": "Belum ada streamer: tambahkan di bawah, atau nanti dari halaman Poin.",
-  "login_setup_streamers_hint": "Channel yang ditonton akun ini untuk poin channel, yang terpenting lebih dulu.",
+  "login_setup_streamers_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "Channel yang ditonton akun ini untuk poin channel, yang terpenting lebih dulu.",
+        "countPluralExact=*": "Channel yang ditonton akun-akun ini untuk poin channel, yang terpenting lebih dulu."
+      }
+    }
+  ],
   "login_setup_streamers_title": "Streamer untuk poin",
   "points_import": "Impor",
   "streamer_change": "Ganti",
@@ -687,7 +768,6 @@
   "updates_last_checked": "Terakhir diperiksa: {time}",
   "updates_never_checked": "Terakhir diperiksa: belum ada jawaban sejak dimulai",
   "updates_install": "Pasang dan mulai ulang",
-  "updates_download_page": "Buka halaman unduhan",
   "settings_notifications_language": "Bahasa notifikasi",
   "updates_confirm_title": "Pasang versi {version}?",
   "updates_confirm_text": "Anda memakai versi {current}. Aplikasi mengunduh versi {version}, menghentikan penambangan di semua akun, memasangnya, lalu memulai ulang sendiri. Setelah itu penambangan berlanjut sendiri.",
@@ -754,11 +834,29 @@
   "login_setup_step_streamers": "Streamer",
   "login_setup_step_summary": "Ringkasan",
   "login_setup_start_hint": "Mulai dari pengaturan bawaan, atau gunakan kembali pengaturan akun yang sudah Anda pakai untuk menambang. Anda bisa mengubah apa pun di langkah berikutnya.",
-  "login_setup_summary_hint": "Semuanya bisa diubah nanti dari halaman akun.",
+  "login_setup_summary_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "Semuanya bisa diubah nanti dari halaman akun.",
+        "countPluralExact=*": "Semuanya bisa diubah nanti dari halaman akun-akun ini."
+      }
+    }
+  ],
   "login_setup_progress": "Langkah {current} dari {total}",
   "common_yes": "Ya",
   "common_no": "Tidak",
-  "login_setup_drops_hint": "Kampanye mana yang ditambang akun ini, dan apakah akun ini mengklaim hadiahnya sendiri.",
+  "login_setup_drops_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "Kampanye mana yang ditambang akun ini, dan apakah akun ini mengklaim hadiahnya sendiri.",
+        "countPluralExact=*": "Kampanye mana yang ditambang akun-akun ini, dan apakah akun-akun ini mengklaim hadiahnya sendiri."
+      }
+    }
+  ],
   "event_kind_chat_mention": "Sebutan",
   "ev_chat_mention": "{chatter} menyebut Anda di chat {channel}",
   "ev_chat_mention_short": "{chatter} menyebut Anda",
@@ -846,6 +944,7 @@
   "confirm_remove_setup_streamer_text": "{name} keluar dari daftar: akun ini tidak akan menontonnya untuk poin channel.",
   "search_verified": "Partner terverifikasi",
   "login_setup_for": "Akun: {name}",
+  "login_setup_for_many": "Akun: {count}",
   "search_pick": "Pilih",
   "search_no_result": "Tidak ada hasil untuk {query}.",
   "drops_tabs_label": "Bagian halaman Drops",
@@ -1189,7 +1288,5 @@
   "lock_warning_message": "Mengunci dalam {time} — gerakkan atau klik untuk tetap tidak terkunci",
   "lock_warning_message_a11y": "Penguncian akan segera terjadi.",
   "account_remove_revoke_label": "Juga cabut token ini di Twitch",
-  "error_invalid_token": "Token ini tidak valid atau sudah kedaluwarsa. Tempel token baru.",
-  "error_unsupported_client": "Token ini tidak dapat digunakan untuk menambang. Masuk dengan kode sebagai gantinya.",
-  "error_missing_scope": "Token ini tidak memiliki izin yang diperlukan aplikasi ini. Masuk dengan kode sebagai gantinya."
+  "error_invalid_token": "Token ini tidak valid atau sudah kedaluwarsa. Tempel token baru."
 }

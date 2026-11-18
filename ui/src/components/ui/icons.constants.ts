@@ -106,4 +106,5 @@ export const ICON_PATHS: Record<IconName, string> = {
   [IconName.VERIFIED]:
     "M12.5 3.5 8 2 3.5 3.5 2 8l1.5 4.5L8 14l4.5-1.5L14 8l-1.5-4.5ZM7 11l4.5-4.5L10 5 7 8 5.5 6.5 4 8l3 3Z",
   [IconName.IMPORT]: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3",
+  [IconName.CHART]: "M3 3v18h18M18 17V9M13 17V5M8 17v-3",
 };

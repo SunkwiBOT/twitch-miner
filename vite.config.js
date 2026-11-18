@@ -70,5 +70,7 @@ export default defineConfig({
     target: process.env.TAURI_ENV_PLATFORM === "windows" ? "chrome105" : "safari16.4",
     minify: !process.env.TAURI_ENV_DEBUG,
     sourcemap: Boolean(process.env.TAURI_ENV_DEBUG),
+    // ! A small font would become a `data:` URI, which `font-src 'self'` in the app's CSP refuses.
+    assetsInlineLimit: (filePath) => (filePath.endsWith(".woff2") ? false : undefined),
   },
 });

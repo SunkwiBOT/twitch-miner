@@ -1,3 +1,4 @@
+use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
@@ -23,6 +24,86 @@ pub struct HistoryResponse {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
     pub next_before_id: Option<u64>,
+}
+
+// ! Each row is one day's total for one reason: `day_start` is one of the
+// caller's own `day_boundaries` (DST-safe, see `HistoryStatsQuery`), the
+// UI formats its label in its own zone rather than parsing a server date
+// string; `reason` is Twitch's own `reason_code` on the `PointsEarned` row,
+// the single source of earned points.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[ts(rename = "PointsByDayType")]
+pub struct PointsByDay {
+    pub day_start: DateTime<Utc>,
+    pub reason: String,
+    pub points: i64,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default, TS)]
+#[ts(rename = "DropsByCategoryType")]
+pub struct DropsByCategory {
+    // ! `None` for a claim with no `game` in its own data: a real category
+    // name is never conflated with "no category" (the UI labels this case
+    // itself, rather than matching a server-chosen placeholder string).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub category: Option<String>,
+    pub count: u32,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default, TS)]
+#[ts(rename = "StreamerPointsType")]
+pub struct StreamerPoints {
+    pub login: String,
+    pub points: i64,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default, TS)]
+#[ts(rename = "StreamerMinutesType")]
+pub struct StreamerMinutes {
+    pub login: String,
+    pub minutes: i64,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default, TS)]
+#[ts(rename = "StreamerPredictionsType")]
+pub struct StreamerPredictions {
+    pub login: String,
+    pub won: u32,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default, TS)]
+#[ts(rename = "HistoryStatsResponseType")]
+pub struct HistoryStatsResponse {
+    pub points_by_day: Vec<PointsByDay>,
+    pub drops_by_category: Vec<DropsByCategory>,
+    pub top_streamers_by_points: Vec<StreamerPoints>,
+    pub points_total: i64,
+    pub drops_claimed_total: u32,
+    pub minutes_watched_total: i64,
+    pub predictions_won_total: u32,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub top_points_streamer: Option<StreamerPoints>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub top_category: Option<DropsByCategory>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub top_watched_streamer: Option<StreamerMinutes>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub top_predictions_streamer: Option<StreamerPredictions>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default, TS)]
+#[ts(rename = "HistoryCurveResponseType")]
+pub struct HistoryCurveResponse {
+    pub events: Vec<MinerEvent>,
+    // ! What the query was clamped to (`history_retention`, the hard span
+    // cap): the curve's X domain follows this, not the client's request.
+    pub since: DateTime<Utc>,
+    pub until: DateTime<Utc>,
 }
 
 // ! Not in the snapshot pushed at every change: the interface asks again when `read_at` moves.
@@ -206,8 +287,6 @@ pub struct AppInfo {
     pub version: String,
     pub platform: String,
     pub data_dir: String,
-    // ! The updater would install the app beside a portable executable and leave it old.
-    pub portable: bool,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]

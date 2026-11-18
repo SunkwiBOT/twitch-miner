@@ -217,6 +217,11 @@ What sets it apart from other miners. “See it in action” under a point shows
   <img src="docs/media/en/journal-requests.avif" alt="The filtered Journal, then Technical logs › Requests">
   </details>
 
+- **A Statistics page.** Points earned, drops claimed, time watched and predictions won over
+  7, 30 or 90 days, with the top streamer or category behind each number. A per-streamer
+  points curve shows the balance over time, with markers for streaks, raids, moments and
+  predictions and a tooltip on each.
+
 - **Scheduled pause and a daily pause.** Pause one account or all of them for 30 minutes,
   1 hour, 4 hours, until tomorrow at 09:00, or a custom date and time; “Resume now” lifts
   it early. A badge shows the time the pause ends. A daily pause stops mining on every
@@ -253,8 +258,7 @@ What sets it apart from other miners. “See it in action” under a point shows
 - **Signed updates, never automatic.** An “Update” badge with the version number appears
   in the top bar. “Install and restart” first asks you to confirm, then the app installs
   the version and restarts. With an app password, it restarts locked: type it again to
-  resume mining. Only a version signed by the project is installed. The portable Windows
-  executable does not update itself: its button opens the download page. The Docker version
+  resume mining. Only a version signed by the project is installed. The Docker version
   tells you too, with the commands to run.
 
   <details open><summary>See it in action</summary>
@@ -365,9 +369,7 @@ to **System Settings › Privacy & Security** and click **Open Anyway**.
 
 Updates are signed. The app checks for a new version when it starts, then every hour
 (you can change how often in **Settings › About**). It never installs one by itself: you
-install it in one click, from the message that appears or from **Settings › About**. The
-portable executable never updates itself: “Open the download page” takes you to the
-latest release.
+install it in one click, from the message that appears or from **Settings › About**.
 
 Data lives in the user data folder:
 
@@ -518,8 +520,6 @@ password is set) and the logs.
 The desktop app checks for a new version when it starts, then every hour (you can change
 this in **Settings › About**). Click the “Update” badge, then “Install and restart”. With
 Docker, the dashboard tells you: run `docker compose pull`, then `docker compose up -d`.
-The portable Windows executable does not update itself: “Open the download page” opens
-the latest release, where you download the new one.
 
 **I forgot the app password.**\
 It cannot be recovered: it is what encrypts your Twitch sessions. Quit the app, delete the

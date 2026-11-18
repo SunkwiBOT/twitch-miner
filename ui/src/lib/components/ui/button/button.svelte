@@ -1,7 +1,6 @@
 <script lang="ts" module>
-  // ! Edited after generation: sizes, destructive and outline variants, semibold labels, the
-  // app's 2 px focus outline, hover kept off a disabled control (`not-disabled:hover:` since
-  // `disabled:pointer-events-none` was dropped for the `not-allowed` cursor).
+  // ! Hover uses `not-disabled:hover:` rather than `disabled:pointer-events-none`,
+  // to keep the `not-allowed` cursor on a disabled control.
 
   import { type VariantProps, tv } from "tailwind-variants";
   import { cn, type WithElementRef } from "$lib/utils.js";

@@ -70,7 +70,6 @@ export const PILL_EXTRA_PX = 16;
 export const LABEL_PADDING_PX = 30;
 export const LABEL_IMAGE_PX = 24;
 
-export const TICK_CHARACTER_PX = 7;
 export const TICK_LABEL_PADDING_PX = 12;
 
 export const SINGLE_LANE_HEIGHT = 28;

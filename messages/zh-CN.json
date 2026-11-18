@@ -2,6 +2,7 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "nav_accounts": "账号",
   "nav_history": "记录",
+  "nav_stats": "统计",
   "nav_settings": "设置",
   "topbar_disconnected": "正在重新连接…",
   "topbar_language": "语言",
@@ -74,7 +75,6 @@
   "login_note_settings": "Twitch 设置",
   "login_vault_locked": "添加账号前请先解锁应用。",
   "login_use_tokens": "改为粘贴多个令牌",
-  "login_use_code": "改为使用登录代码",
   "login_tokens_label": "访问令牌",
   "login_tokens_hint": "每行粘贴一个令牌，导入前会逐一检查每个令牌。",
   "login_tokens_submit": [
@@ -94,11 +94,26 @@
   "import_tokens_line_too_long": "有一行太长（最多 {max} 个字符）。",
   "import_tokens_status_pending": "检查中…",
   "import_tokens_status_valid": "有效",
-  "import_tokens_status_unusable_client": "此令牌无法用于挖矿。",
+  "import_tokens_client_warning": "Twitch 可能会拒绝来自此客户端的某些操作（领取 Drops、奖励宝箱、下注）。使用代码登录是添加账户最可靠的方式。",
   "import_tokens_status_invalid": "此令牌无效或已过期。",
   "import_tokens_status_already_added": "已添加",
   "import_tokens_status_duplicate": "与另一行重复",
   "import_tokens_status_not_imported": "未导入",
+  "import_tokens_configure": [
+    {
+      "declarations": [
+        "input count",
+        "local countPluralExact = count"
+      ],
+      "selectors": [
+        "countPluralExact"
+      ],
+      "match": {
+        "countPluralExact=1": "设置账号",
+        "countPluralExact=*": "设置账号"
+      }
+    }
+  ],
   "import_tokens_settings_step_title": [
     {
       "declarations": ["input count", "local countPluralExact = count"],
@@ -180,6 +195,50 @@
   "history_title": "记录",
   "history_empty": "暂无记录。",
   "history_load_failed": "无法读取记录。",
+  "stats_title": "统计",
+  "stats_empty": "此时间段暂无记录。",
+  "stats_load_failed": "无法加载统计数据。",
+  "stats_period_label": "显示的时间段",
+  "stats_period_7": "7 天",
+  "stats_period_30": "30 天",
+  "stats_period_90": "90 天",
+  "stats_period_disabled_retention": "记录保留 {retention}：在设置中更改保留期限以查看更久以前的数据。",
+  "stats_tile_points": "已赚取点数",
+  "stats_tile_drops": "已领取掉落",
+  "stats_tile_watched": "观看时长",
+  "stats_tile_predictions": "获胜下注",
+  "stats_tile_top_label": "最高",
+  "stats_tile_top_empty": "暂无数据",
+  "stats_chart_points_by_day": "每日点数",
+  "stats_chart_points_by_day_aria": "过去 {days} 天每日赚取的点数",
+  "stats_chart_drops_by_category": "按分类领取的掉落",
+  "stats_chart_drops_by_category_empty": "此时间段内没有领取到掉落。",
+  "stats_category_unknown": "无分类",
+  "stats_chart_top_streamers": "最赚钱的主播",
+  "stats_chart_top_streamers_empty": "此时间段内没有赚取到点数。",
+  "stats_reason_watch": "观看中",
+  "stats_reason_watch_streak": "连胜奖励",
+  "stats_reason_claim": "奖励宝箱",
+  "stats_reason_raid": "已加入突袭",
+  "stats_reason_community_moment": "社区时刻",
+  "stats_reason_prediction": "下注获胜",
+  "stats_reason_refund": "下注已退款",
+  "stats_curve_title": "积分曲线",
+  "stats_curve_streamer_label": "主播",
+  "stats_curve_streamer_empty": "选择一个主播",
+  "stats_curve_no_streamer": "此账号还没有可显示曲线的主播。",
+  "stats_curve_empty": "该时段内此主播没有积分事件。",
+  "stats_curve_aria": "{streamer} 随时间变化的积分余额",
+  "stats_curve_legend_balance": "积分余额",
+  "stats_curve_legend_streak": "连续观看已恢复",
+  "stats_curve_legend_raid": "已加入突袭",
+  "stats_curve_legend_moment": "已领取时刻",
+  "stats_curve_legend_prediction_placed": "已下注",
+  "stats_curve_legend_prediction_won": "下注获胜",
+  "stats_curve_legend_prediction_lost": "下注失败",
+  "stats_curve_legend_prediction_refund": "下注已退款",
+  "stats_curve_open": "查看 {streamer} 的积分曲线",
+  "stats_curve_open_tip": "查看积分曲线",
   "event_kind_info": "信息",
   "event_kind_error": "错误",
   "event_kind_watch_started": "观看中",
@@ -411,6 +470,8 @@
   "error_catalog_rate_limited": "目录要求降低请求频率。下次刷新会等待更久。",
   "error_too_many_attempts": "密码错误次数过多：请稍后再试。",
   "error_https_required": "请通过 HTTPS 地址打开控制面板。",
+  "error_open_url_refused": "此链接不允许从应用内打开。",
+  "error_open_url_failed": "打开此链接失败。",
   "error_forwarded_for_required": "控制面板前的 HTTPS 代理必须发送访问者的地址（X-Forwarded-For）。",
   "error_proxy_not_local": "控制面板只接受来自本机或其局域网的 HTTPS 代理。",
   "error_cross_site_request": "已拒绝：该请求来自其他网站的页面。",
@@ -486,6 +547,8 @@
   "ev_bonus_short": "已领取奖励宝箱",
   "ev_points": "在 {channel} 获得 {points} 点数",
   "ev_points_short": "获得 {points} 点数",
+  "ev_points_reason": "在 {channel} 获得 {points} 点数 · {reason}",
+  "ev_points_reason_short": "获得 {points} 点数 · {reason}",
   "ev_online": "{channel} 开播了",
   "ev_online_short": "已开播",
   "ev_offline": "{channel} 已下播",
@@ -642,9 +705,27 @@
   "import_title": "导入主播",
   "import_too_many": "名称过多：一次最多 {max} 个。",
   "login_setup_custom": "自定义",
-  "login_setup_later_hint": "账号会保持暂停，直到你启动它：现在启动，或稍后在它的页面启动。",
+  "login_setup_later_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "账号会保持暂停，直到你启动它：现在启动，或稍后在它的页面启动。",
+        "countPluralExact=*": "账号会保持暂停，直到你启动它们：现在启动，或稍后在各自的页面启动。"
+      }
+    }
+  ],
   "login_setup_streamers_empty": "还没有主播：在下方添加，或稍后在“点数”页面添加。",
-  "login_setup_streamers_hint": "此账号为赚取频道点数而观看的频道，最重要的排在前面。",
+  "login_setup_streamers_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "此账号为赚取频道点数而观看的频道，最重要的排在前面。",
+        "countPluralExact=*": "这些账号为赚取频道点数而观看的频道，最重要的排在前面。"
+      }
+    }
+  ],
   "login_setup_streamers_title": "用于点数的主播",
   "points_import": "导入",
   "streamer_change": "更换",
@@ -690,7 +771,6 @@
   "updates_last_checked": "上次检查：{time}",
   "updates_never_checked": "上次检查：启动后尚未收到回复",
   "updates_install": "安装并重启",
-  "updates_download_page": "打开下载页面",
   "settings_notifications_language": "通知语言",
   "updates_confirm_title": "安装版本 {version}？",
   "updates_confirm_text": "你当前的版本是 {current}。应用会下载版本 {version}，停止所有账号的挖取，安装后自动重启。之后挖取会自动恢复。",
@@ -757,11 +837,29 @@
   "login_setup_step_streamers": "主播",
   "login_setup_step_summary": "摘要",
   "login_setup_start_hint": "从默认设置开始，或沿用你已用于挖取的某个账号的设置。之后的步骤中可以修改任何内容。",
-  "login_setup_summary_hint": "之后可在账号页面中修改所有内容。",
+  "login_setup_summary_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "之后可在账号页面中修改所有内容。",
+        "countPluralExact=*": "之后可在各账号页面中修改所有内容。"
+      }
+    }
+  ],
   "login_setup_progress": "第 {current} 步，共 {total} 步",
   "common_yes": "是",
   "common_no": "否",
-  "login_setup_drops_hint": "此账号挖取哪些活动，以及是否自行领取奖励。",
+  "login_setup_drops_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "此账号挖取哪些活动，以及是否自行领取奖励。",
+        "countPluralExact=*": "这些账号挖取哪些活动，以及是否自行领取奖励。"
+      }
+    }
+  ],
   "event_kind_chat_mention": "提及",
   "ev_chat_mention": "{chatter} 在 {channel} 的聊天室中提到了你",
   "ev_chat_mention_short": "{chatter} 提到了你",
@@ -849,6 +947,7 @@
   "confirm_remove_setup_streamer_text": "{name} 将离开列表：此账号不会为频道点数观看它。",
   "search_verified": "已认证合作伙伴",
   "login_setup_for": "账号：{name}",
+  "login_setup_for_many": "账号：{count}",
   "search_pick": "选择",
   "search_no_result": "没有找到 {query} 的结果。",
   "drops_tabs_label": "掉落页面的分区",
@@ -1141,8 +1240,6 @@
   "account_badges_not_mined_hint": "仅显示，不挖取：需先自行订阅或获得另一个徽章，或 Twitch 没有指明挖掘器可以观看的频道。",
   "error_action_rate_limited": "尝试次数过多：请稍候再试。",
   "error_invalid_token": "此令牌无效或已过期。请粘贴一个新令牌。",
-  "error_unsupported_client": "此令牌无法用于挖矿。请改用代码登录。",
-  "error_missing_scope": "此令牌缺少本应用所需的权限。请改用代码登录。",
   "ev_paused": "已暂停",
   "ev_paused_quiet_window": "已暂停（每日暂停）",
   "ev_paused_scheduled": "已暂停，{time} 恢复",

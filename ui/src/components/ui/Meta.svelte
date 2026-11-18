@@ -33,11 +33,13 @@
   <dd class="m-0 flex min-w-0 items-center gap-1">
     <span
       class={cn(
-        "truncate font-semibold text-foreground",
-        mono && "font-mono text-hint",
+        "font-semibold text-foreground",
+        mono ? "truncate font-mono text-hint" : "min-w-0 break-words",
         layout === MetaLayout.STACKED && "text-base",
-      )}>{value}</span
+      )}
     >
+      {value}
+    </span>
     {#if after}{@render after()}{/if}
   </dd>
 </div>

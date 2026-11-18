@@ -221,6 +221,11 @@ la lucru.
   <img src="../media/ro/journal-requests.avif" alt="Jurnalul filtrat, apoi Loguri tehnice › Cereri">
   </details>
 
+- **O pagină Statistici.** Puncte câștigate, drops revendicate, timp de vizionare și
+  predicții câștigate în ultimele 7, 30 sau 90 de zile, cu cel mai bun streamer sau cea mai
+  bună categorie în spatele fiecărei cifre. O curbă a punctelor per streamer arată soldul
+  în timp, cu marcaje pentru serii, raiduri, momente și predicții și un indiciu la fiecare.
+
 - **Pauză programată și pauză zilnică.** Pune pauză unui cont sau tuturor pentru 30 de
   minute, 1 oră, 4 ore, până mâine la 09:00, sau o dată și oră personalizate; „Reia acum”
   o ridică mai devreme. O insignă arată ora la care se termină pauza. O pauză zilnică
@@ -254,13 +259,11 @@ la lucru.
   <img src="../media/ro/security-lock.avif" alt="Lacătul: aplicația blocată, apoi deblocată cu parola ei">
   </details>
 
-- **Actualizări semnate, niciodată automate.** În bara de sus apare o insignă
-  „Actualizare” cu numărul versiunii. „Instalează și repornește” cere întâi o confirmare,
-  apoi aplicația instalează versiunea și repornește. Dacă are o parolă a aplicației,
-  repornește blocată: introdu-o din nou ca să reiei minarea. Se instalează doar o versiune
-  semnată de proiect. Executabilul portabil pentru Windows nu se actualizează singur:
-  butonul lui deschide pagina de descărcare. Și versiunea Docker te anunță, cu comenzile
-  de rulat.
+- **Actualizări semnate, niciodată automate.** În bara de sus apare o insignă „Actualizare”
+  cu numărul versiunii. „Instalează și repornește” cere întâi o confirmare, apoi aplicația
+  instalează versiunea și repornește. Dacă are o parolă a aplicației, repornește blocată:
+  introdu-o din nou ca să reiei minarea. Se instalează doar o versiune semnată de proiect.
+  Și versiunea Docker te anunță, cu comenzile de rulat.
 
   <details open><summary>Vezi în acțiune</summary>
   <img src="../media/ro/updates.avif" alt="Insigna „Actualizare”, confirmarea, apoi instalarea">
@@ -368,8 +371,7 @@ blochează. Apoi mergi la **Configurări sistem › Intimitate și securitate** 
 Actualizările sunt semnate. Aplicația verifică la pornire dacă există o versiune nouă, apoi
 la fiecare oră (frecvența o poți schimba în **Setări › Despre**). Nu instalează niciodată
 singură o versiune: o instalezi tu cu un singur clic, din mesajul care apare sau din
-**Setări › Despre**. Executabilul portabil nu se actualizează niciodată singur:
-„Deschide pagina de descărcare” te duce la ultima versiune publicată.
+**Setări › Despre**.
 
 Datele se află în dosarul de date al utilizatorului:
 
@@ -517,9 +519,7 @@ aplicației) și logurile.
 Aplicația desktop verifică la pornire dacă există o versiune nouă, apoi la fiecare oră
 (poți schimba asta în **Setări › Despre**). Dă clic pe insigna „Actualizare”, apoi pe
 „Instalează și repornește”. Cu Docker, panoul te anunță: rulează `docker compose pull`,
-apoi `docker compose up -d`. Executabilul portabil pentru Windows nu se actualizează
-singur: „Deschide pagina de descărcare” deschide ultima versiune publicată, de unde
-descarci noul fișier.
+apoi `docker compose up -d`.
 
 **Am uitat parola aplicației.**\
 Nu poate fi recuperată: ea criptează sesiunile tale Twitch. Închide aplicația, șterge

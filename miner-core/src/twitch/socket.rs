@@ -144,6 +144,8 @@ async fn open(client: &TwitchClient, place: &SocketPlace, event: SocketEvent) ->
             .http
             .socket_client
             .get(place.address)
+            .header("Client-Id", &client.identity.client_id)
+            .header(reqwest::header::USER_AGENT, &client.identity.user_agent)
             .upgrade()
             .send(),
     )

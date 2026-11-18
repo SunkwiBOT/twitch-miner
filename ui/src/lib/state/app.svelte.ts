@@ -22,6 +22,7 @@ type AppStateType = {
   navDrawer: boolean;
   liveEvents: MinerEventType[];
   logsAccount: string | null;
+  statsCurveTarget: { accountId: string; channel: string; period: number } | null;
   tab: string;
   revealPassword: boolean;
 };
@@ -40,6 +41,7 @@ export const app = $state<AppStateType>({
   navDrawer: false,
   liveEvents: [],
   logsAccount: null,
+  statsCurveTarget: null,
   tab: "",
   revealPassword: false,
 });

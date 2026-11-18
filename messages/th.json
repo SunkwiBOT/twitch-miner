@@ -2,6 +2,7 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "nav_accounts": "บัญชี",
   "nav_history": "บันทึกกิจกรรม",
+  "nav_stats": "สถิติ",
   "nav_settings": "การตั้งค่า",
   "topbar_disconnected": "กำลังเชื่อมต่อใหม่…",
   "topbar_language": "ภาษา",
@@ -74,7 +75,6 @@
   "login_note_settings": "การตั้งค่า Twitch ของคุณ",
   "login_vault_locked": "ปลดล็อกแอปก่อนเพิ่มบัญชี",
   "login_use_tokens": "วางโทเค็นแทน",
-  "login_use_code": "ใช้รหัสเข้าสู่ระบบแทน",
   "login_tokens_label": "โทเค็นเข้าถึง",
   "login_tokens_hint": "วางโทเค็นบรรทัดละหนึ่งรายการ แต่ละรายการจะถูกตรวจสอบก่อนนำเข้า",
   "login_tokens_submit": [
@@ -94,11 +94,26 @@
   "import_tokens_line_too_long": "มีบรรทัดที่ยาวเกินไป: สูงสุด {max} ตัวอักษร",
   "import_tokens_status_pending": "กำลังตรวจสอบ…",
   "import_tokens_status_valid": "ใช้ได้",
-  "import_tokens_status_unusable_client": "ไม่สามารถใช้โทเค็นนี้ในการขุดได้",
+  "import_tokens_client_warning": "Twitch อาจปฏิเสธการกระทำบางอย่าง (การรับ Drops, หีบโบนัส, การเดิมพัน) จากไคลเอนต์นี้ การเข้าสู่ระบบด้วยรหัสเป็นวิธีที่เชื่อถือได้ที่สุดในการเพิ่มบัญชี",
   "import_tokens_status_invalid": "โทเค็นนี้ไม่ถูกต้องหรือหมดอายุแล้ว",
   "import_tokens_status_already_added": "เพิ่มไปแล้ว",
   "import_tokens_status_duplicate": "ซ้ำกับบรรทัดอื่น",
   "import_tokens_status_not_imported": "ไม่ได้นำเข้า",
+  "import_tokens_configure": [
+    {
+      "declarations": [
+        "input count",
+        "local countPluralExact = count"
+      ],
+      "selectors": [
+        "countPluralExact"
+      ],
+      "match": {
+        "countPluralExact=1": "ตั้งค่าบัญชี",
+        "countPluralExact=*": "ตั้งค่าบัญชี"
+      }
+    }
+  ],
   "import_tokens_settings_step_title": [
     {
       "declarations": ["input count", "local countPluralExact = count"],
@@ -180,6 +195,50 @@
   "history_title": "บันทึกกิจกรรม",
   "history_empty": "ยังไม่มีอะไร",
   "history_load_failed": "อ่านบันทึกกิจกรรมไม่ได้",
+  "stats_title": "สถิติ",
+  "stats_empty": "ยังไม่มีประวัติสำหรับช่วงเวลานี้",
+  "stats_load_failed": "โหลดสถิติไม่ได้",
+  "stats_period_label": "ช่วงเวลาที่แสดง",
+  "stats_period_7": "7 วัน",
+  "stats_period_30": "30 วัน",
+  "stats_period_90": "90 วัน",
+  "stats_period_disabled_retention": "ประวัติจะถูกเก็บไว้ {retention}: เปลี่ยนระยะเวลาเก็บในการตั้งค่าเพื่อดูย้อนหลังได้มากขึ้น",
+  "stats_tile_points": "พอยต์ที่ได้รับ",
+  "stats_tile_drops": "ดรอปที่รับแล้ว",
+  "stats_tile_watched": "เวลารับชม",
+  "stats_tile_predictions": "เดิมพันที่ชนะ",
+  "stats_tile_top_label": "สูงสุด",
+  "stats_tile_top_empty": "ยังไม่มีข้อมูล",
+  "stats_chart_points_by_day": "พอยต์ต่อวัน",
+  "stats_chart_points_by_day_aria": "พอยต์ที่ได้รับต่อวันในช่วง {days} วัน",
+  "stats_chart_drops_by_category": "ดรอปที่รับตามหมวดหมู่",
+  "stats_chart_drops_by_category_empty": "ไม่มีดรอปที่รับในช่วงเวลานี้",
+  "stats_category_unknown": "ไม่มีหมวดหมู่",
+  "stats_chart_top_streamers": "สตรีมเมอร์ที่ทำกำไรได้มากที่สุด",
+  "stats_chart_top_streamers_empty": "ไม่มีพอยต์ที่ได้รับในช่วงเวลานี้",
+  "stats_reason_watch": "กำลังดู",
+  "stats_reason_watch_streak": "โบนัสสตรีคการดู",
+  "stats_reason_claim": "หีบโบนัส",
+  "stats_reason_raid": "เข้าร่วมเรดแล้ว",
+  "stats_reason_community_moment": "โมเมนต์ของชุมชน",
+  "stats_reason_prediction": "เดิมพันชนะ",
+  "stats_reason_refund": "คืนเงินเดิมพัน",
+  "stats_curve_title": "กราฟคะแนน",
+  "stats_curve_streamer_label": "สตรีมเมอร์",
+  "stats_curve_streamer_empty": "เลือกสตรีมเมอร์",
+  "stats_curve_no_streamer": "บัญชีนี้ยังไม่มีสตรีมเมอร์ให้แสดงกราฟ",
+  "stats_curve_empty": "ไม่มีเหตุการณ์คะแนนของสตรีมเมอร์นี้ในช่วงเวลานี้",
+  "stats_curve_aria": "ยอดคะแนนคงเหลือของ {streamer} ตามเวลา",
+  "stats_curve_legend_balance": "ยอดคะแนนคงเหลือ",
+  "stats_curve_legend_streak": "กู้คืนสตรีค",
+  "stats_curve_legend_raid": "เข้าร่วมเรดแล้ว",
+  "stats_curve_legend_moment": "รับโมเมนต์แล้ว",
+  "stats_curve_legend_prediction_placed": "วางเดิมพันแล้ว",
+  "stats_curve_legend_prediction_won": "เดิมพันชนะ",
+  "stats_curve_legend_prediction_lost": "เดิมพันแพ้",
+  "stats_curve_legend_prediction_refund": "คืนเงินเดิมพัน",
+  "stats_curve_open": "ดูกราฟคะแนนของ {streamer}",
+  "stats_curve_open_tip": "ดูกราฟคะแนน",
   "event_kind_info": "ข้อมูล",
   "event_kind_error": "ข้อผิดพลาด",
   "event_kind_watch_started": "กำลังดู",
@@ -408,6 +467,8 @@
   "error_catalog_rate_limited": "แคตตาล็อกขอให้ลดความถี่ การรีเฟรชครั้งถัดไปจะรอนานขึ้น",
   "error_too_many_attempts": "ใส่รหัสผ่านผิดหลายครั้งเกินไป: โปรดลองใหม่อีกครั้งในอีกสักครู่",
   "error_https_required": "เปิดแดชบอร์ดผ่านที่อยู่ HTTPS ของมัน",
+  "error_open_url_refused": "ลิงก์นี้ไม่ได้รับอนุญาตให้เปิดจากแอป",
+  "error_open_url_failed": "เปิดลิงก์นี้ไม่สำเร็จ",
   "error_forwarded_for_required": "พร็อกซี HTTPS ที่อยู่หน้าแดชบอร์ดต้องส่งที่อยู่ของผู้เข้าชม (X-Forwarded-For)",
   "error_proxy_not_local": "แดชบอร์ดรับพร็อกซี HTTPS ของตัวเองจากเครื่องนี้หรือเครือข่ายภายในของเครื่องนี้เท่านั้น",
   "error_cross_site_request": "ปฏิเสธแล้ว: คำขอนี้มาจากหน้าของเว็บไซต์อื่น",
@@ -483,6 +544,8 @@
   "ev_bonus_short": "รับหีบโบนัสแล้ว",
   "ev_points": "+{points} พอยต์ที่ {channel}",
   "ev_points_short": "+{points} พอยต์",
+  "ev_points_reason": "+{points} พอยต์ที่ {channel} · {reason}",
+  "ev_points_reason_short": "+{points} พอยต์ · {reason}",
   "ev_online": "{channel} กำลังไลฟ์",
   "ev_online_short": "กำลังไลฟ์",
   "ev_offline": "{channel} ออฟไลน์แล้ว",
@@ -639,9 +702,27 @@
   "import_title": "นำเข้าสตรีมเมอร์",
   "import_too_many": "ชื่อมากเกินไป: สูงสุด {max} ชื่อต่อครั้ง",
   "login_setup_custom": "กำหนดเอง",
-  "login_setup_later_hint": "บัญชีจะหยุดชั่วคราวจนกว่าคุณจะเริ่ม ตอนนี้หรือภายหลังจากหน้าของบัญชี",
+  "login_setup_later_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "บัญชีจะหยุดชั่วคราวจนกว่าคุณจะเริ่ม ตอนนี้หรือภายหลังจากหน้าของบัญชี",
+        "countPluralExact=*": "บัญชีเหล่านี้จะหยุดชั่วคราวจนกว่าคุณจะเริ่ม ตอนนี้หรือภายหลังจากหน้าของแต่ละบัญชี"
+      }
+    }
+  ],
   "login_setup_streamers_empty": "ยังไม่มีสตรีมเมอร์: เพิ่มได้ด้านล่าง หรือภายหลังจากหน้าพอยต์",
-  "login_setup_streamers_hint": "ช่องที่บัญชีนี้ดูเพื่อรับพอยต์ช่อง สำคัญที่สุดก่อน",
+  "login_setup_streamers_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "ช่องที่บัญชีนี้ดูเพื่อรับพอยต์ช่อง สำคัญที่สุดก่อน",
+        "countPluralExact=*": "ช่องที่บัญชีเหล่านี้ดูเพื่อรับพอยต์ช่อง สำคัญที่สุดก่อน"
+      }
+    }
+  ],
   "login_setup_streamers_title": "สตรีมเมอร์สำหรับพอยต์",
   "points_import": "นำเข้า",
   "streamer_change": "เปลี่ยน",
@@ -687,7 +768,6 @@
   "updates_last_checked": "ตรวจสอบล่าสุด: {time}",
   "updates_never_checked": "ตรวจสอบล่าสุด: ยังไม่มีการตอบกลับตั้งแต่เริ่มต้น",
   "updates_install": "ติดตั้งและรีสตาร์ต",
-  "updates_download_page": "เปิดหน้าดาวน์โหลด",
   "settings_notifications_language": "ภาษาของการแจ้งเตือน",
   "updates_confirm_title": "ติดตั้งเวอร์ชัน {version} ไหม",
   "updates_confirm_text": "คุณใช้เวอร์ชัน {current} อยู่ แอปจะดาวน์โหลดเวอร์ชัน {version} หยุดการขุดในทุกบัญชี ติดตั้ง แล้วรีสตาร์ตเอง จากนั้นการขุดจะกลับมาทำงานเอง",
@@ -754,11 +834,29 @@
   "login_setup_step_streamers": "สตรีมเมอร์",
   "login_setup_step_summary": "สรุป",
   "login_setup_start_hint": "เริ่มจากการตั้งค่าเริ่มต้น หรือใช้การตั้งค่าของบัญชีที่คุณขุดอยู่แล้วซ้ำ คุณเปลี่ยนแปลงได้ทุกอย่างในขั้นตอนถัดไป",
-  "login_setup_summary_hint": "เปลี่ยนแปลงทุกอย่างได้ภายหลังจากหน้าของบัญชี",
+  "login_setup_summary_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "เปลี่ยนแปลงทุกอย่างได้ภายหลังจากหน้าของบัญชี",
+        "countPluralExact=*": "เปลี่ยนแปลงทุกอย่างได้ภายหลังจากหน้าของบัญชีแต่ละบัญชี"
+      }
+    }
+  ],
   "login_setup_progress": "ขั้นตอนที่ {current} จาก {total}",
   "common_yes": "ใช่",
   "common_no": "ไม่",
-  "login_setup_drops_hint": "แคมเปญที่บัญชีนี้ขุด และจะรับรางวัลเองหรือไม่",
+  "login_setup_drops_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "แคมเปญที่บัญชีนี้ขุด และจะรับรางวัลเองหรือไม่",
+        "countPluralExact=*": "แคมเปญที่บัญชีเหล่านี้ขุด และจะรับรางวัลเองหรือไม่"
+      }
+    }
+  ],
   "event_kind_chat_mention": "การกล่าวถึง",
   "ev_chat_mention": "{chatter} กล่าวถึงคุณในแชทของ {channel}",
   "ev_chat_mention_short": "{chatter} กล่าวถึงคุณ",
@@ -846,6 +944,7 @@
   "confirm_remove_setup_streamer_text": "{name} จะออกจากรายการ บัญชีนี้จะไม่ดูช่องนี้เพื่อรับแต้มช่อง",
   "search_verified": "พาร์ทเนอร์ที่ยืนยันแล้ว",
   "login_setup_for": "บัญชี: {name}",
+  "login_setup_for_many": "บัญชี: {count}",
   "search_pick": "เลือก",
   "search_no_result": "ไม่พบผลลัพธ์สำหรับ {query}",
   "drops_tabs_label": "ส่วนของหน้า Drops",
@@ -1189,7 +1288,5 @@
   "lock_warning_message": "จะล็อกใน {time} — ขยับหรือคลิกเพื่อไม่ให้ล็อก",
   "lock_warning_message_a11y": "กำลังจะล็อกในไม่ช้า",
   "account_remove_revoke_label": "เพิกถอนโทเค็นนี้บน Twitch ด้วย",
-  "error_invalid_token": "โทเค็นนี้ไม่ถูกต้องหรือหมดอายุแล้ว วางโทเค็นใหม่",
-  "error_unsupported_client": "ไม่สามารถใช้โทเค็นนี้ในการขุดได้ กรุณาเข้าสู่ระบบด้วยรหัสแทน",
-  "error_missing_scope": "โทเค็นนี้ขาดสิทธิ์ที่แอปนี้ต้องการ กรุณาเข้าสู่ระบบด้วยรหัสแทน"
+  "error_invalid_token": "โทเค็นนี้ไม่ถูกต้องหรือหมดอายุแล้ว วางโทเค็นใหม่"
 }

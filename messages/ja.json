@@ -2,6 +2,7 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "nav_accounts": "アカウント",
   "nav_history": "履歴",
+  "nav_stats": "統計",
   "nav_settings": "設定",
   "topbar_disconnected": "再接続中…",
   "topbar_language": "言語",
@@ -74,7 +75,6 @@
   "login_note_settings": "Twitch の設定",
   "login_vault_locked": "アカウントを追加する前にアプリのロックを解除してください。",
   "login_use_tokens": "代わりにトークンを貼り付け",
-  "login_use_code": "代わりにサインインコードを使用",
   "login_tokens_label": "アクセストークン",
   "login_tokens_hint": "1行に1つのトークンを貼り付けてください。各トークンはインポート前に確認されます。",
   "login_tokens_submit": [
@@ -94,11 +94,26 @@
   "import_tokens_line_too_long": "1行が長すぎます（最大 {max} 文字）。",
   "import_tokens_status_pending": "確認中…",
   "import_tokens_status_valid": "有効",
-  "import_tokens_status_unusable_client": "このトークンは採掘に使用できません。",
+  "import_tokens_client_warning": "このクライアントからの一部の操作（Dropsの受け取り、ボーナスチェスト、予想）はTwitchに拒否される場合があります。アカウントを追加する最も確実な方法は、コードでサインインすることです。",
   "import_tokens_status_invalid": "このトークンは無効か期限切れです。",
   "import_tokens_status_already_added": "すでに追加済み",
   "import_tokens_status_duplicate": "他の行と重複",
   "import_tokens_status_not_imported": "インポートされませんでした",
+  "import_tokens_configure": [
+    {
+      "declarations": [
+        "input count",
+        "local countPluralExact = count"
+      ],
+      "selectors": [
+        "countPluralExact"
+      ],
+      "match": {
+        "countPluralExact=1": "アカウントを設定",
+        "countPluralExact=*": "アカウントを設定"
+      }
+    }
+  ],
   "import_tokens_settings_step_title": [
     {
       "declarations": ["input count", "local countPluralExact = count"],
@@ -180,6 +195,50 @@
   "history_title": "履歴",
   "history_empty": "まだ何もありません。",
   "history_load_failed": "履歴を読み込めませんでした。",
+  "stats_title": "統計",
+  "stats_empty": "この期間の履歴はまだありません。",
+  "stats_load_failed": "統計を読み込めませんでした。",
+  "stats_period_label": "表示する期間",
+  "stats_period_7": "7日間",
+  "stats_period_30": "30日間",
+  "stats_period_90": "90日間",
+  "stats_period_disabled_retention": "履歴は{retention}保存されます。さらに過去を見るには、設定で保存期間を変更してください。",
+  "stats_tile_points": "獲得ポイント",
+  "stats_tile_drops": "受け取ったドロップ",
+  "stats_tile_watched": "視聴時間",
+  "stats_tile_predictions": "勝ったベット",
+  "stats_tile_top_label": "トップ",
+  "stats_tile_top_empty": "まだデータがありません",
+  "stats_chart_points_by_day": "1日あたりのポイント",
+  "stats_chart_points_by_day_aria": "過去{days}日間の1日あたりの獲得ポイント",
+  "stats_chart_drops_by_category": "カテゴリー別の受け取ったドロップ",
+  "stats_chart_drops_by_category_empty": "この期間にドロップは受け取っていません。",
+  "stats_category_unknown": "カテゴリーなし",
+  "stats_chart_top_streamers": "最も稼げる配信者",
+  "stats_chart_top_streamers_empty": "この期間にポイントは獲得していません。",
+  "stats_reason_watch": "視聴中",
+  "stats_reason_watch_streak": "視聴ストリークボーナス",
+  "stats_reason_claim": "ボーナスチェスト",
+  "stats_reason_raid": "レイドに参加",
+  "stats_reason_community_moment": "コミュニティモーメント",
+  "stats_reason_prediction": "ベット勝利",
+  "stats_reason_refund": "ベット返金",
+  "stats_curve_title": "ポイント推移",
+  "stats_curve_streamer_label": "配信者",
+  "stats_curve_streamer_empty": "配信者を選択",
+  "stats_curve_no_streamer": "このアカウントにはまだ推移を表示できる配信者がありません。",
+  "stats_curve_empty": "この期間、この配信者のポイントイベントはありません。",
+  "stats_curve_aria": "{streamer}のポイント残高の推移",
+  "stats_curve_legend_balance": "ポイント残高",
+  "stats_curve_legend_streak": "ストリーク復活",
+  "stats_curve_legend_raid": "レイドに参加",
+  "stats_curve_legend_moment": "モーメント受け取り",
+  "stats_curve_legend_prediction_placed": "ベット",
+  "stats_curve_legend_prediction_won": "ベット勝利",
+  "stats_curve_legend_prediction_lost": "ベット敗北",
+  "stats_curve_legend_prediction_refund": "ベット返金",
+  "stats_curve_open": "{streamer}のポイント推移を見る",
+  "stats_curve_open_tip": "ポイント推移を見る",
   "event_kind_info": "情報",
   "event_kind_error": "エラー",
   "event_kind_watch_started": "視聴開始",
@@ -408,6 +467,8 @@
   "error_catalog_rate_limited": "カタログから間隔を空けるよう求められました。次の更新まで長めに待ちます。",
   "error_too_many_attempts": "パスワードの誤りが多すぎます。しばらくしてからもう一度お試しください。",
   "error_https_required": "ダッシュボードは HTTPS のアドレスで開いてください。",
+  "error_open_url_refused": "このリンクはアプリから開くことが許可されていません。",
+  "error_open_url_failed": "このリンクを開けませんでした。",
   "error_forwarded_for_required": "ダッシュボードの前にある HTTPS プロキシが、訪問者のアドレス（X-Forwarded-For）を送る必要があります。",
   "error_proxy_not_local": "ダッシュボードは、このマシンかそのローカルネットワーク上の HTTPS プロキシからの接続だけを受け付けます。",
   "error_cross_site_request": "拒否しました。このリクエストは別のサイトのページから送られました。",
@@ -483,6 +544,8 @@
   "ev_bonus_short": "ボーナスチェストを受け取り",
   "ev_points": "{channel} で +{points} ポイント",
   "ev_points_short": "+{points} ポイント",
+  "ev_points_reason": "{channel} で +{points} ポイント · {reason}",
+  "ev_points_reason_short": "+{points} ポイント · {reason}",
   "ev_online": "{channel} が配信開始",
   "ev_online_short": "配信開始",
   "ev_offline": "{channel} が配信終了",
@@ -639,9 +702,27 @@
   "import_title": "配信者をインポート",
   "import_too_many": "名前が多すぎます：一度に最大 {max} 件です。",
   "login_setup_custom": "カスタム",
-  "login_setup_later_hint": "開始するまでアカウントは一時停止のままです。今すぐ、またはあとでアカウントのページから開始できます。",
+  "login_setup_later_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "開始するまでアカウントは一時停止のままです。今すぐ、またはあとでアカウントのページから開始できます。",
+        "countPluralExact=*": "開始するまでアカウントは一時停止のままです。今すぐ、またはあとでそれぞれのアカウントのページから開始できます。"
+      }
+    }
+  ],
   "login_setup_streamers_empty": "配信者はまだいません：下で追加するか、あとで「ポイント」ページから追加してください。",
-  "login_setup_streamers_hint": "このアカウントがチャンネルポイントのために視聴するチャンネル。重要なものから順に。",
+  "login_setup_streamers_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "このアカウントがチャンネルポイントのために視聴するチャンネル。重要なものから順に。",
+        "countPluralExact=*": "これらのアカウントがチャンネルポイントのために視聴するチャンネル。重要なものから順に。"
+      }
+    }
+  ],
   "login_setup_streamers_title": "ポイント用の配信者",
   "points_import": "インポート",
   "streamer_change": "変更",
@@ -687,7 +768,6 @@
   "updates_last_checked": "最終確認：{time}",
   "updates_never_checked": "最終確認：起動後まだ応答がありません",
   "updates_install": "インストールして再起動",
-  "updates_download_page": "ダウンロードページを開く",
   "settings_notifications_language": "通知の言語",
   "updates_confirm_title": "バージョン {version} をインストールしますか？",
   "updates_confirm_text": "現在のバージョンは {current} です。アプリはバージョン {version} をダウンロードし、すべてのアカウントのマイニングを止めてインストールし、自動で再起動します。その後、マイニングは自動で再開します。",
@@ -754,11 +834,29 @@
   "login_setup_step_streamers": "配信者",
   "login_setup_step_summary": "確認",
   "login_setup_start_hint": "既定の設定から始めるか、すでにマイニングに使っているアカウントの設定を再利用します。次のステップで何でも変更できます。",
-  "login_setup_summary_hint": "すべて後からアカウントのページで変更できます。",
+  "login_setup_summary_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "すべて後からアカウントのページで変更できます。",
+        "countPluralExact=*": "すべて後からそれぞれのアカウントのページで変更できます。"
+      }
+    }
+  ],
   "login_setup_progress": "ステップ {current}/{total}",
   "common_yes": "はい",
   "common_no": "いいえ",
-  "login_setup_drops_hint": "このアカウントがマイニングするキャンペーンと、報酬を自動で受け取るかどうか。",
+  "login_setup_drops_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "このアカウントがマイニングするキャンペーンと、報酬を自動で受け取るかどうか。",
+        "countPluralExact=*": "これらのアカウントがマイニングするキャンペーンと、報酬を自動で受け取るかどうか。"
+      }
+    }
+  ],
   "event_kind_chat_mention": "メンション",
   "ev_chat_mention": "{chatter} が {channel} のチャットであなたをメンションしました",
   "ev_chat_mention_short": "{chatter} があなたをメンションしました",
@@ -846,6 +944,7 @@
   "confirm_remove_setup_streamer_text": "{name} はリストから外れ、このアカウントはチャンネルポイントのために視聴しません。",
   "search_verified": "認証済みパートナー",
   "login_setup_for": "アカウント：{name}",
+  "login_setup_for_many": "アカウント：{count}",
   "search_pick": "選択",
   "search_no_result": "{query} の検索結果はありません。",
   "drops_tabs_label": "ドロップページのセクション",
@@ -1189,7 +1288,5 @@
   "lock_warning_message": "{time}後にロックされます — 動かすかクリックしてロックを防ぐ",
   "lock_warning_message_a11y": "まもなくロックされます。",
   "account_remove_revoke_label": "Twitchでもこのトークンを失効させる",
-  "error_invalid_token": "このトークンは無効か期限切れです。新しいトークンを貼り付けてください。",
-  "error_unsupported_client": "このトークンは採掘に使用できません。代わりにコードでサインインしてください。",
-  "error_missing_scope": "このトークンにはこのアプリが必要とする権限がありません。代わりにコードでサインインしてください。"
+  "error_invalid_token": "このトークンは無効か期限切れです。新しいトークンを貼り付けてください。"
 }

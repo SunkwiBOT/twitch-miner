@@ -2,6 +2,7 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "nav_accounts": "帳號",
   "nav_history": "紀錄",
+  "nav_stats": "統計",
   "nav_settings": "設定",
   "topbar_disconnected": "正在重新連線…",
   "topbar_language": "語言",
@@ -74,7 +75,6 @@
   "login_note_settings": "Twitch 設定",
   "login_vault_locked": "新增帳號前請先解鎖應用程式。",
   "login_use_tokens": "改為貼上多個權杖",
-  "login_use_code": "改為使用登入代碼",
   "login_tokens_label": "存取權杖",
   "login_tokens_hint": "每行貼上一個權杖，匯入前會逐一檢查每個權杖。",
   "login_tokens_submit": [
@@ -94,11 +94,26 @@
   "import_tokens_line_too_long": "有一行太長（最多 {max} 個字元）。",
   "import_tokens_status_pending": "檢查中…",
   "import_tokens_status_valid": "有效",
-  "import_tokens_status_unusable_client": "此權杖無法用於挖礦。",
+  "import_tokens_client_warning": "Twitch 可能會拒絕來自此客戶端的某些操作（領取 Drops、獎勵寶箱、下注）。使用代碼登入是新增帳號最可靠的方式。",
   "import_tokens_status_invalid": "此權杖無效或已過期。",
   "import_tokens_status_already_added": "已新增",
   "import_tokens_status_duplicate": "與另一行重複",
   "import_tokens_status_not_imported": "未匯入",
+  "import_tokens_configure": [
+    {
+      "declarations": [
+        "input count",
+        "local countPluralExact = count"
+      ],
+      "selectors": [
+        "countPluralExact"
+      ],
+      "match": {
+        "countPluralExact=1": "設定帳號",
+        "countPluralExact=*": "設定帳號"
+      }
+    }
+  ],
   "import_tokens_settings_step_title": [
     {
       "declarations": ["input count", "local countPluralExact = count"],
@@ -180,6 +195,50 @@
   "history_title": "紀錄",
   "history_empty": "尚無記錄。",
   "history_load_failed": "無法讀取紀錄。",
+  "stats_title": "統計",
+  "stats_empty": "此時段暫無紀錄。",
+  "stats_load_failed": "無法載入統計資料。",
+  "stats_period_label": "顯示的時段",
+  "stats_period_7": "7 天",
+  "stats_period_30": "30 天",
+  "stats_period_90": "90 天",
+  "stats_period_disabled_retention": "紀錄保留 {retention}：在設定中變更保留期限以查看更久以前的資料。",
+  "stats_tile_points": "已賺取點數",
+  "stats_tile_drops": "已領取掉寶",
+  "stats_tile_watched": "觀看時間",
+  "stats_tile_predictions": "獲勝下注",
+  "stats_tile_top_label": "最高",
+  "stats_tile_top_empty": "暫無資料",
+  "stats_chart_points_by_day": "每日點數",
+  "stats_chart_points_by_day_aria": "過去 {days} 天每日賺取的點數",
+  "stats_chart_drops_by_category": "依分類領取的掉寶",
+  "stats_chart_drops_by_category_empty": "此時段內沒有領取到掉寶。",
+  "stats_category_unknown": "無分類",
+  "stats_chart_top_streamers": "最賺錢的實況主",
+  "stats_chart_top_streamers_empty": "此時段內沒有賺取到點數。",
+  "stats_reason_watch": "觀看中",
+  "stats_reason_watch_streak": "連續觀看獎勵",
+  "stats_reason_claim": "獎勵寶箱",
+  "stats_reason_raid": "已加入 Raid",
+  "stats_reason_community_moment": "社群時刻",
+  "stats_reason_prediction": "下注獲勝",
+  "stats_reason_refund": "下注已退款",
+  "stats_curve_title": "點數曲線",
+  "stats_curve_streamer_label": "實況主",
+  "stats_curve_streamer_empty": "選擇一位實況主",
+  "stats_curve_no_streamer": "此帳號尚無可顯示曲線的實況主。",
+  "stats_curve_empty": "此期間內此實況主沒有點數事件。",
+  "stats_curve_aria": "{streamer} 隨時間變化的點數餘額",
+  "stats_curve_legend_balance": "點數餘額",
+  "stats_curve_legend_streak": "連續觀看已恢復",
+  "stats_curve_legend_raid": "已加入 Raid",
+  "stats_curve_legend_moment": "已領取時刻",
+  "stats_curve_legend_prediction_placed": "已下注",
+  "stats_curve_legend_prediction_won": "下注獲勝",
+  "stats_curve_legend_prediction_lost": "下注失敗",
+  "stats_curve_legend_prediction_refund": "下注已退款",
+  "stats_curve_open": "查看 {streamer} 的點數曲線",
+  "stats_curve_open_tip": "查看點數曲線",
   "event_kind_info": "資訊",
   "event_kind_error": "錯誤",
   "event_kind_watch_started": "觀看中",
@@ -411,6 +470,8 @@
   "error_catalog_rate_limited": "目錄要求降低請求頻率。下次重新整理會等待更久。",
   "error_too_many_attempts": "密碼錯誤次數過多：請稍後再試。",
   "error_https_required": "請透過 HTTPS 位址開啟控制面板。",
+  "error_open_url_refused": "此連結不允許從應用程式內開啟。",
+  "error_open_url_failed": "開啟此連結失敗。",
   "error_forwarded_for_required": "控制面板前方的 HTTPS 代理伺服器必須傳送訪客的位址（X-Forwarded-For）。",
   "error_proxy_not_local": "控制面板只接受來自本機或其區域網路的 HTTPS 代理伺服器。",
   "error_cross_site_request": "已拒絕：這個要求來自其他網站的頁面。",
@@ -486,6 +547,8 @@
   "ev_bonus_short": "已領取獎勵寶箱",
   "ev_points": "在 {channel} 獲得 {points} 點數",
   "ev_points_short": "獲得 {points} 點數",
+  "ev_points_reason": "在 {channel} 獲得 {points} 點數 · {reason}",
+  "ev_points_reason_short": "獲得 {points} 點數 · {reason}",
   "ev_online": "{channel} 開台了",
   "ev_online_short": "已開台",
   "ev_offline": "{channel} 已關台",
@@ -642,9 +705,27 @@
   "import_title": "匯入實況主",
   "import_too_many": "名稱過多：一次最多 {max} 個。",
   "login_setup_custom": "自訂",
-  "login_setup_later_hint": "帳號會保持暫停，直到你啟動它：現在啟動，或稍後在它的頁面啟動。",
+  "login_setup_later_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "帳號會保持暫停，直到你啟動它：現在啟動，或稍後在它的頁面啟動。",
+        "countPluralExact=*": "帳號會保持暫停，直到你啟動它們：現在啟動，或稍後在各自的頁面啟動。"
+      }
+    }
+  ],
   "login_setup_streamers_empty": "還沒有實況主：在下方新增，或稍後在「點數」頁面新增。",
-  "login_setup_streamers_hint": "此帳號為賺取頻道點數而觀看的頻道，最重要的排在前面。",
+  "login_setup_streamers_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "此帳號為賺取頻道點數而觀看的頻道，最重要的排在前面。",
+        "countPluralExact=*": "這些帳號為賺取頻道點數而觀看的頻道，最重要的排在前面。"
+      }
+    }
+  ],
   "login_setup_streamers_title": "用於點數的實況主",
   "points_import": "匯入",
   "streamer_change": "更換",
@@ -690,7 +771,6 @@
   "updates_last_checked": "上次檢查：{time}",
   "updates_never_checked": "上次檢查：啟動後尚未收到回應",
   "updates_install": "安裝並重新啟動",
-  "updates_download_page": "開啟下載頁面",
   "settings_notifications_language": "通知語言",
   "updates_confirm_title": "要安裝版本 {version} 嗎？",
   "updates_confirm_text": "你目前的版本是 {current}。應用程式會下載版本 {version}，停止所有帳號的挖取，安裝後自動重新啟動。之後挖取會自動恢復。",
@@ -757,11 +837,29 @@
   "login_setup_step_streamers": "實況主",
   "login_setup_step_summary": "摘要",
   "login_setup_start_hint": "從預設設定開始，或沿用你已用於挖取的帳號設定。之後的步驟中可以修改任何內容。",
-  "login_setup_summary_hint": "之後可在帳號頁面中修改所有內容。",
+  "login_setup_summary_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "之後可在帳號頁面中修改所有內容。",
+        "countPluralExact=*": "之後可在各帳號頁面中修改所有內容。"
+      }
+    }
+  ],
   "login_setup_progress": "第 {current} 步，共 {total} 步",
   "common_yes": "是",
   "common_no": "否",
-  "login_setup_drops_hint": "此帳號挖取哪些活動，以及是否自行領取獎勵。",
+  "login_setup_drops_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "此帳號挖取哪些活動，以及是否自行領取獎勵。",
+        "countPluralExact=*": "這些帳號挖取哪些活動，以及是否自行領取獎勵。"
+      }
+    }
+  ],
   "event_kind_chat_mention": "提及",
   "ev_chat_mention": "{chatter} 在 {channel} 的聊天室中提到了你",
   "ev_chat_mention_short": "{chatter} 提到了你",
@@ -849,6 +947,7 @@
   "confirm_remove_setup_streamer_text": "{name} 將離開清單：此帳號不會為頻道點數觀看它。",
   "search_verified": "已驗證合作夥伴",
   "login_setup_for": "帳號：{name}",
+  "login_setup_for_many": "帳號：{count}",
   "search_pick": "選擇",
   "search_no_result": "找不到 {query} 的結果。",
   "drops_tabs_label": "掉寶頁面的區塊",
@@ -1141,8 +1240,6 @@
   "account_badges_not_mined_hint": "僅顯示，不挖取：需先自行訂閱或取得另一個徽章，或 Twitch 沒有指明挖掘器可以觀看的頻道。",
   "error_action_rate_limited": "嘗試次數過多：請稍候再試一次。",
   "error_invalid_token": "此權杖無效或已過期。請貼上新的權杖。",
-  "error_unsupported_client": "此權杖無法用於挖礦。請改用代碼登入。",
-  "error_missing_scope": "此權杖缺少本應用程式所需的權限。請改用代碼登入。",
   "ev_paused": "已暫停",
   "ev_paused_quiet_window": "已暫停（每日暫停）",
   "ev_paused_scheduled": "已暫停，{time} 恢復",

@@ -5,6 +5,7 @@
   import {
     buildTokenLines,
     dedupeByAccount,
+    hasClientWarning,
     ImportLineStatus,
     ImportStep,
     maskToken,
@@ -15,11 +16,12 @@
   import { CommandName } from "../../lib/bindings/CommandName";
   import { ErrorApiMessage } from "../../lib/bindings/ErrorApiMessage";
   import type { ImportTokenOutcomeType } from "../../lib/bindings/ImportTokenOutcomeType";
+  import type { AccountSnapshotType } from "../../lib/bindings/AccountSnapshotType";
   import { ImportTokensFlowStatus } from "../../lib/bindings/ImportTokensFlowStatus";
   import type { TokenCheckType } from "../../lib/bindings/TokenCheckType";
   import { describeCode, describeError, toApiError } from "../../lib/errors/errors.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
-  import { app } from "../../lib/state/app.svelte";
+  import { account as accountOf, app } from "../../lib/state/app.svelte";
   import { refresh, reportFailure } from "../../lib/state/session";
   import { strong } from "../../lib/text.utils";
   import { cn } from "$lib/utils";
@@ -27,7 +29,7 @@
   import ActionButton from "../ui/ActionButton.svelte";
   import Icon from "../ui/Icon.svelte";
   import IconButton from "../ui/IconButton.svelte";
-  import PanelColumns from "../ui/PanelColumns.svelte";
+  import ProxyField from "../ui/ProxyField.svelte";
   import RichText from "../ui/RichText.svelte";
   import Setting from "../ui/Setting.svelte";
   import Spinner from "../ui/Spinner.svelte";
@@ -36,9 +38,8 @@
   import { BADGE_TONE_CLASSES } from "../ui/badge.constants";
   import { BadgeTone } from "../../lib/tones.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
-  import { PanelWidth } from "../ui/ui.constants";
   import { IconName } from "../../lib/icons.constants";
-  import AccountSettingsForm from "../account/AccountSettingsForm.svelte";
+  import SetupWizard from "./SetupWizard.svelte";
   import { PROXY_EXAMPLE } from "../account/account.constants";
 
   type ImportTokensDialogPropsType = {
@@ -47,6 +48,7 @@
     finishing: boolean;
     actions: Snippet | undefined;
     flowId: string | null;
+    wizardOpen: boolean;
   };
 
   let {
@@ -55,16 +57,8 @@
     finishing = $bindable(),
     actions = $bindable(),
     flowId = $bindable(null),
+    wizardOpen = $bindable(false),
   }: ImportTokensDialogPropsType = $props();
-
-  // ! The steps' buttons go up to the dialog's footer, same as every other multi-step flow.
-  $effect.pre(() => {
-    actions = footer;
-
-    return () => {
-      actions = undefined;
-    };
-  });
 
   type LineType = {
     token: string;
@@ -110,7 +104,6 @@
     [ImportLineStatus.ALREADY_ADDED]: BADGE_TONE_CLASSES[BadgeTone.MUTED],
     [ImportLineStatus.DUPLICATE]: BADGE_TONE_CLASSES[BadgeTone.WARNING],
     [ImportLineStatus.INVALID]: BADGE_TONE_CLASSES[BadgeTone.DANGER],
-    [ImportLineStatus.UNUSABLE_CLIENT]: BADGE_TONE_CLASSES[BadgeTone.DANGER],
     [ImportLineStatus.OTHER_ERROR]: BADGE_TONE_CLASSES[BadgeTone.DANGER],
     [ImportLineStatus.NOT_IMPORTED]: BADGE_TONE_CLASSES[BadgeTone.NEUTRAL],
   };
@@ -121,7 +114,6 @@
     [ImportLineStatus.ALREADY_ADDED]: () => t.import_tokens_status_already_added(),
     [ImportLineStatus.DUPLICATE]: () => t.import_tokens_status_duplicate(),
     [ImportLineStatus.INVALID]: () => t.import_tokens_status_invalid(),
-    [ImportLineStatus.UNUSABLE_CLIENT]: () => t.import_tokens_status_unusable_client(),
     [ImportLineStatus.NOT_IMPORTED]: () => t.import_tokens_status_not_imported(),
   };
 
@@ -131,6 +123,25 @@
       : (STATUS_LABELS[line.status]?.() ?? "");
 
   let step = $state<ImportStep>(ImportStep.LIST);
+  // ! The steps' buttons go up to the dialog's footer, same as every other
+  // multi-step flow — except the wizard step, which owns `actions` itself
+  // through its own `bind:actions`, forwarded straight through this one.
+  $effect.pre(() => {
+    if (step === ImportStep.WIZARD) {
+      return;
+    }
+
+    actions = footer;
+
+    return () => {
+      actions = undefined;
+    };
+  });
+
+  $effect(() => {
+    wizardOpen = step === ImportStep.WIZARD;
+  });
+
   let pasted = $state("");
   let pasteError = $state<string | null>(null);
   let pasteShown = $state(false);
@@ -232,10 +243,7 @@
           const status =
             code === ErrorApiMessage.INVALID_TOKEN
               ? ImportLineStatus.INVALID
-              : code === ErrorApiMessage.UNSUPPORTED_CLIENT ||
-                  code === ErrorApiMessage.MISSING_SCOPE
-                ? ImportLineStatus.UNUSABLE_CLIENT
-                : ImportLineStatus.OTHER_ERROR;
+              : ImportLineStatus.OTHER_ERROR;
 
           settleCheck(
             index,
@@ -300,6 +308,13 @@
     inflight?.abort();
   };
 
+  // ! Checked lines are never dropped on the way back: the paste field
+  // gets its tokens back instead of leaving token mode outright.
+  const backToPaste = (): void => {
+    pasted = lines.map((line) => line.token).join("\n");
+    lines = [];
+  };
+
   const checkAgain = async (): Promise<void> => {
     const indexes = lines.flatMap((line, index) =>
       line.status === ImportLineStatus.OTHER_ERROR ? [index] : [],
@@ -349,6 +364,23 @@
 
   const importedCount = $derived(
     resultRows.filter(({ outcome }) => outcome.status === OUTCOME_IMPORTED).length,
+  );
+
+  // ! Every account this batch actually touched: a brand-new one always,
+  // an already-known one only if the user asked to overwrite its stored
+  // settings too — same scope the "overwrite existing settings" choice
+  // already controls at commit time, carried over to who the setup
+  // wizard configures once the import is done.
+  const wizardAccounts = $derived(
+    resultRows
+      .filter(
+        ({ line, outcome }) =>
+          outcome.status === OUTCOME_IMPORTED && (!line.check?.already_added || overwriteExisting),
+      )
+      .map(({ outcome }) =>
+        outcome.status === OUTCOME_IMPORTED ? accountOf(outcome.account_id) : null,
+      )
+      .filter((a): a is AccountSnapshotType => a !== null),
   );
 
   // ! Cancelling a running import leaves the lines it never settled as
@@ -496,46 +528,53 @@
 </script>
 
 {#snippet lineRow(line: LineType, onremove: (() => void) | undefined)}
+  {@const clientWarning = line.check !== null && hasClientWarning(line.check)}
   <li
     class={cn(
-      "flex items-center gap-2 rounded-md border px-2 py-1.5 text-hint",
+      "flex flex-col gap-1 rounded-md border px-2 py-1.5 text-hint",
       STATUS_CLASSES[line.status],
     )}
   >
-    {#if line.status === ImportLineStatus.CHECKING}
-      <Spinner size={14} />
-    {:else if line.status === ImportLineStatus.VALID || line.status === ImportLineStatus.ALREADY_ADDED}
-      <Icon name={IconName.CHECK} size={14} />
-    {:else if line.status === ImportLineStatus.DUPLICATE}
-      <Icon name={IconName.COPY} size={14} />
-    {:else if line.status === ImportLineStatus.UNUSABLE_CLIENT}
-      <Icon name={IconName.ALERT} size={14} />
-    {:else if line.status === ImportLineStatus.NOT_IMPORTED}
-      <Icon name={IconName.MINUS} size={14} />
-    {:else}
-      <Icon name={IconName.X} size={14} />
-    {/if}
-    {#if line.check}
-      <AvatarImage
-        url={line.check.avatar_url}
-        name={line.check.display_name}
-        class="size-5.5 shrink-0 rounded-md bg-muted text-initial-sm font-semibold text-muted-foreground uppercase"
-      />
-    {/if}
-    <span class="min-w-0 flex-1 truncate font-medium"
-      >{line.check?.display_name ?? (line.token ? maskToken(line.token) : "")}</span
-    >
-    <span class="min-w-0 shrink truncate text-muted-foreground">{lineLabel(line)}</span>
-    {#if onremove}
-      <IconButton
-        icon={IconName.X}
-        label={t.common_remove()}
-        busy={false}
-        disabled={false}
-        variant={ButtonVariant.GHOST}
-        size={ButtonSize.SM}
-        onclick={onremove}
-      />
+    <div class="flex items-center gap-2">
+      {#if line.status === ImportLineStatus.CHECKING}
+        <Spinner size={14} />
+      {:else if line.status === ImportLineStatus.VALID || line.status === ImportLineStatus.ALREADY_ADDED}
+        <Icon name={IconName.CHECK} size={14} />
+      {:else if line.status === ImportLineStatus.DUPLICATE}
+        <Icon name={IconName.COPY} size={14} />
+      {:else if line.status === ImportLineStatus.NOT_IMPORTED}
+        <Icon name={IconName.MINUS} size={14} />
+      {:else}
+        <Icon name={IconName.X} size={14} />
+      {/if}
+      {#if line.check}
+        <AvatarImage
+          url={line.check.avatar_url}
+          name={line.check.display_name}
+          class="size-5.5 shrink-0 rounded-md bg-muted text-initial-sm font-semibold text-muted-foreground uppercase"
+        />
+      {/if}
+      <span class="min-w-0 flex-1 truncate font-medium">
+        {line.check?.display_name ?? (line.token ? maskToken(line.token) : "")}
+      </span>
+      <span class="min-w-0 shrink truncate text-muted-foreground">{lineLabel(line)}</span>
+      {#if onremove}
+        <IconButton
+          icon={IconName.X}
+          label={t.common_remove()}
+          busy={false}
+          disabled={false}
+          variant={ButtonVariant.GHOST}
+          size={ButtonSize.SM}
+          onclick={onremove}
+        />
+      {/if}
+    </div>
+    {#if clientWarning}
+      <p class="flex items-start gap-1.5 pl-[22px] text-muted-foreground">
+        <Icon name={IconName.ALERT} size={12} class="mt-0.5 shrink-0" />
+        <span class="min-w-0">{t.import_tokens_client_warning()}</span>
+      </p>
     {/if}
   </li>
 {/snippet}
@@ -553,7 +592,7 @@
           autocomplete="off"
           autocapitalize="off"
           autocorrect="off"
-          class={cn("pr-9", !pasteShown && "[-webkit-text-security:disc]")}
+          class={cn("pr-9", !pasteShown && pasted !== "" && "[font-family:text-security-disc]")}
           bind:value={pasted}
           oninput={() => (pasteError = null)}
         />
@@ -572,16 +611,6 @@
       {#if pasteError}
         <p class="text-destructive"><RichText text={pasteError} /></p>
       {/if}
-      <div class="flex justify-end">
-        <TextButton
-          label={t.login_use_code()}
-          variant={ButtonVariant.GHOST}
-          size={ButtonSize.SM}
-          type={ButtonType.BUTTON}
-          disabled={false}
-          onclick={useCode}
-        />
-      </div>
     </div>
   {:else}
     <ul
@@ -622,22 +651,15 @@
       </span>
     {/each}
   </div>
-  <PanelColumns width={PanelWidth.MD}>
-    <AccountSettingsForm
-      mode={patch.mode}
-      onModeChange={(mode) => (patch = { ...patch, mode })}
-      miningOrder={patch.mining_order}
-      onMiningOrderChange={(order) => (patch = { ...patch, mining_order: order })}
-      slots={patch.slots}
-      onSlotsChange={(slots) => (patch = { ...patch, slots })}
-      proxy={patch.proxy}
-      onProxyChange={(proxy) => (patch = { ...patch, proxy })}
-      proxyPlaceholder={maskProxyCredentials(app.snapshot?.settings.default_proxy ?? "") ||
-        PROXY_EXAMPLE}
-      accountCount={importableLines.length}
-      idPrefix="import-tokens"
-    />
-  </PanelColumns>
+  <ProxyField
+    id="import-tokens-proxy"
+    label={t.account_proxy({ count: importableLines.length })}
+    hint={t.account_proxy_hint({ count: importableLines.length })}
+    proxy={patch.proxy}
+    onProxyChange={(proxy) => (patch = { ...patch, proxy })}
+    proxyPlaceholder={maskProxyCredentials(app.snapshot?.settings.default_proxy ?? "") ||
+      PROXY_EXAMPLE}
+  />
   {#if hasAlreadyAdded}
     <Setting
       title={t.import_tokens_overwrite_existing_label({ count: alreadyAddedCount })}
@@ -649,7 +671,7 @@
   {#if commitError}
     <p class="text-destructive">{commitError}</p>
   {/if}
-{:else}
+{:else if step === ImportStep.RESULT}
   {#if importRunning}
     <span class="text-hint text-muted-foreground tabular-nums" aria-live="polite">
       <RichText
@@ -700,6 +722,8 @@
       {/each}
     </ul>
   {/if}
+{:else if step === ImportStep.WIZARD}
+  <SetupWizard accounts={wizardAccounts} onclose={done} bind:finishing bind:actions />
 {/if}
 
 {#snippet footer()}
@@ -713,7 +737,17 @@
         disabled={false}
         onclick={cancelChecking}
       />
-    {:else if checkAgainCount > 0}
+    {:else}
+      <TextButton
+        label={t.common_back()}
+        variant={ButtonVariant.OUTLINE}
+        size={ButtonSize.MD}
+        type={ButtonType.BUTTON}
+        disabled={false}
+        onclick={lines.length > 0 ? backToPaste : useCode}
+      />
+    {/if}
+    {#if !checking && checkAgainCount > 0}
       <TextButton
         label={t.import_check_again({ count: checkAgainCount })}
         icon={IconName.REFRESH}
@@ -776,13 +810,35 @@
         onclick={() => void retryFailed()}
       />
     {/if}
-    <TextButton
-      label={t.common_close()}
-      variant={ButtonVariant.PRIMARY}
-      size={ButtonSize.MD}
-      type={ButtonType.BUTTON}
-      disabled={false}
-      onclick={done}
-    />
+    {#if wizardAccounts.length > 0}
+      <TextButton
+        label={t.common_close()}
+        variant={ButtonVariant.OUTLINE}
+        size={ButtonSize.MD}
+        type={ButtonType.BUTTON}
+        disabled={false}
+        onclick={done}
+      />
+      <ActionButton
+        icon={IconName.CHECK}
+        label={t.import_tokens_configure({ count: wizardAccounts.length })}
+        busyLabel={t.common_saving()}
+        busy={false}
+        disabled={false}
+        variant={ButtonVariant.PRIMARY}
+        size={ButtonSize.MD}
+        type={ButtonType.BUTTON}
+        onclick={() => (step = ImportStep.WIZARD)}
+      />
+    {:else}
+      <TextButton
+        label={t.common_close()}
+        variant={ButtonVariant.PRIMARY}
+        size={ButtonSize.MD}
+        type={ButtonType.BUTTON}
+        disabled={false}
+        onclick={done}
+      />
+    {/if}
   {/if}
 {/snippet}

@@ -2,6 +2,7 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "nav_accounts": "Account",
   "nav_history": "Registro",
+  "nav_stats": "Statistiche",
   "nav_settings": "Impostazioni",
   "topbar_disconnected": "Riconnessione…",
   "topbar_language": "Lingua",
@@ -89,7 +90,6 @@
   "login_note_settings": "impostazioni di Twitch",
   "login_vault_locked": "Sblocca l'app prima di aggiungere un account.",
   "login_use_tokens": "Incolla dei token invece",
-  "login_use_code": "Usa il codice di accesso invece",
   "login_tokens_label": "Token di accesso",
   "login_tokens_hint": "Incolla un token per riga. Ognuno viene verificato prima di poter essere importato.",
   "login_tokens_submit": [
@@ -109,11 +109,26 @@
   "import_tokens_line_too_long": "Una riga è troppo lunga (al massimo {max} caratteri).",
   "import_tokens_status_pending": "Verifica…",
   "import_tokens_status_valid": "Valido",
-  "import_tokens_status_unusable_client": "Questo token non può essere usato per minare.",
+  "import_tokens_client_warning": "Twitch potrebbe rifiutare alcune azioni (riscattare Drops, forzieri bonus, scommesse) da questo client. Accedere con il codice è il modo più affidabile per aggiungere un account.",
   "import_tokens_status_invalid": "Questo token non è valido o è scaduto.",
   "import_tokens_status_already_added": "Già aggiunto",
   "import_tokens_status_duplicate": "Duplicato di un’altra riga",
   "import_tokens_status_not_imported": "Non importato",
+  "import_tokens_configure": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Configura l'account",
+        "countPlural=*": "Configura gli account"
+      }
+    }
+  ],
   "import_tokens_settings_step_title": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -213,6 +228,50 @@
   "history_title": "Registro",
   "history_empty": "Ancora niente.",
   "history_load_failed": "Impossibile leggere il Registro.",
+  "stats_title": "Statistiche",
+  "stats_empty": "Nessuno storico per questo periodo, per ora.",
+  "stats_load_failed": "Impossibile caricare le statistiche.",
+  "stats_period_label": "Periodo mostrato",
+  "stats_period_7": "7 giorni",
+  "stats_period_30": "30 giorni",
+  "stats_period_90": "90 giorni",
+  "stats_period_disabled_retention": "Lo storico viene conservato {retention}: cambia la conservazione nelle impostazioni per vedere più indietro.",
+  "stats_tile_points": "Punti guadagnati",
+  "stats_tile_drops": "Drop riscattati",
+  "stats_tile_watched": "Tempo di visione",
+  "stats_tile_predictions": "Scommesse vinte",
+  "stats_tile_top_label": "Top",
+  "stats_tile_top_empty": "Nessun dato per ora",
+  "stats_chart_points_by_day": "Punti al giorno",
+  "stats_chart_points_by_day_aria": "Punti guadagnati al giorno negli ultimi {days} giorni",
+  "stats_chart_drops_by_category": "Drop riscattati per categoria",
+  "stats_chart_drops_by_category_empty": "Nessun drop riscattato in questo periodo.",
+  "stats_category_unknown": "Senza categoria",
+  "stats_chart_top_streamers": "Streamer più redditizi",
+  "stats_chart_top_streamers_empty": "Nessun punto guadagnato in questo periodo.",
+  "stats_reason_watch": "In visione",
+  "stats_reason_watch_streak": "Bonus serie",
+  "stats_reason_claim": "Forziere bonus",
+  "stats_reason_raid": "Raid seguito",
+  "stats_reason_community_moment": "Momento della community",
+  "stats_reason_prediction": "Scommessa vinta",
+  "stats_reason_refund": "Scommessa rimborsata",
+  "stats_curve_title": "Curva dei punti",
+  "stats_curve_streamer_label": "Streamer",
+  "stats_curve_streamer_empty": "Seleziona uno streamer",
+  "stats_curve_no_streamer": "Questo account non ha ancora uno streamer per mostrare una curva.",
+  "stats_curve_empty": "Nessun evento di punti per questo streamer in questo periodo.",
+  "stats_curve_aria": "Saldo punti di {streamer} nel tempo",
+  "stats_curve_legend_balance": "Saldo punti",
+  "stats_curve_legend_streak": "Serie recuperata",
+  "stats_curve_legend_raid": "Raid seguito",
+  "stats_curve_legend_moment": "Momento riscattato",
+  "stats_curve_legend_prediction_placed": "Scommessa piazzata",
+  "stats_curve_legend_prediction_won": "Scommessa vinta",
+  "stats_curve_legend_prediction_lost": "Scommessa persa",
+  "stats_curve_legend_prediction_refund": "Scommessa rimborsata",
+  "stats_curve_open": "Vedi la curva dei punti di {streamer}",
+  "stats_curve_open_tip": "Vedi la curva dei punti",
   "event_kind_info": "Info",
   "event_kind_error": "Errore",
   "event_kind_watch_started": "In visione",
@@ -499,6 +558,8 @@
   "error_catalog_rate_limited": "Il catalogo ha chiesto di rallentare. Il prossimo aggiornamento attenderà di più.",
   "error_too_many_attempts": "Troppe password errate: riprova tra poco.",
   "error_https_required": "Apri la dashboard dal suo indirizzo HTTPS.",
+  "error_open_url_refused": "Questo link non può essere aperto dall'app.",
+  "error_open_url_failed": "Impossibile aprire questo link.",
   "error_forwarded_for_required": "Il proxy HTTPS davanti alla dashboard deve inviare l'indirizzo del visitatore (X-Forwarded-For).",
   "error_proxy_not_local": "La dashboard accetta il suo proxy HTTPS solo da questa macchina o dalla sua rete locale.",
   "error_cross_site_request": "Rifiutata: la richiesta veniva da una pagina di un altro sito.",
@@ -602,6 +663,41 @@
       "match": {
         "countPlural=one": "+{points} punto",
         "countPlural=*": "+{points} punti"
+      }
+    }
+  ],
+  "ev_points_reason": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input channel",
+        "input reason",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "+{points} punto su {channel} · {reason}",
+        "countPlural=*": "+{points} punti su {channel} · {reason}"
+      }
+    }
+  ],
+  "ev_points_reason_short": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input reason",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "+{points} punto · {reason}",
+        "countPlural=*": "+{points} punti · {reason}"
       }
     }
   ],
@@ -839,9 +935,27 @@
   "import_title": "Importa streamer",
   "import_too_many": "Al massimo {max} nomi alla volta.",
   "login_setup_custom": "Personalizzato",
-  "login_setup_later_hint": "L'account resta in pausa finché non lo avvii, ora o più tardi dalla sua pagina.",
+  "login_setup_later_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "L'account resta in pausa finché non lo avvii, ora o più tardi dalla sua pagina.",
+        "countPlural=*": "Gli account restano in pausa finché non li avvii, ora o più tardi dalla loro pagina."
+      }
+    }
+  ],
   "login_setup_streamers_empty": "Nessuno streamer per ora: aggiungine qui sotto, o più tardi dalla pagina Punti.",
-  "login_setup_streamers_hint": "I canali che questo account guarda per i punti canale, il più importante per primo.",
+  "login_setup_streamers_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "I canali che questo account guarda per i punti canale, il più importante per primo.",
+        "countPlural=*": "I canali che questi account guardano per i punti canale, il più importante per primo."
+      }
+    }
+  ],
   "login_setup_streamers_title": "Streamer per i punti",
   "points_import": "Importa",
   "streamer_change": "Cambia",
@@ -887,7 +1001,6 @@
   "updates_last_checked": "Ultimo controllo: {time}",
   "updates_never_checked": "Ultimo controllo: ancora nessuna risposta dall'avvio",
   "updates_install": "Installa e riavvia",
-  "updates_download_page": "Apri la pagina di download",
   "settings_notifications_language": "Lingua delle notifiche",
   "updates_confirm_title": "Installare la versione {version}?",
   "updates_confirm_text": "Hai la versione {current}. L'app scarica la versione {version}, ferma il mining su tutti gli account, la installa e si riavvia da sola. Poi il mining riprende da solo.",
@@ -1015,11 +1128,29 @@
   "login_setup_step_streamers": "Streamer",
   "login_setup_step_summary": "Riepilogo",
   "login_setup_start_hint": "Parti dalle impostazioni predefinite o riusa le impostazioni di un account con cui fai già mining. Puoi cambiare tutto nei passaggi successivi.",
-  "login_setup_summary_hint": "Tutto si può modificare in seguito dalle pagine dell'account.",
+  "login_setup_summary_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Tutto si può modificare in seguito dalle pagine dell'account.",
+        "countPlural=*": "Tutto si può modificare in seguito dalle pagine degli account."
+      }
+    }
+  ],
   "login_setup_progress": "Passaggio {current} di {total}",
   "common_yes": "Sì",
   "common_no": "No",
-  "login_setup_drops_hint": "Quali campagne mina questo account e se riscatta da solo le ricompense.",
+  "login_setup_drops_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Quali campagne mina questo account e se riscatta da solo le ricompense.",
+        "countPlural=*": "Quali campagne minano questi account e se riscattano da soli le ricompense."
+      }
+    }
+  ],
   "event_kind_chat_mention": "Menzione",
   "ev_chat_mention": "{chatter} ti ha menzionato nella chat di {channel}",
   "ev_chat_mention_short": "{chatter} ti ha menzionato",
@@ -1107,6 +1238,7 @@
   "confirm_remove_setup_streamer_text": "{name} esce dalla lista: questo account non lo guarderà per i punti canale.",
   "search_verified": "Partner verificato",
   "login_setup_for": "Account: {name}",
+  "login_setup_for_many": "Account: {count}",
   "search_pick": "Scegli",
   "search_no_result": "Nessun risultato per {query}.",
   "drops_tabs_label": "Sezioni della pagina Drops",
@@ -1615,8 +1747,6 @@
   "account_badges_not_mined_hint": "Mostrati, non minati: prima serve un abbonamento fatto da te o un altro badge, oppure Twitch non indica alcun canale che il miner possa guardare.",
   "error_action_rate_limited": "Troppi tentativi: attendi un momento e riprova.",
   "error_invalid_token": "Questo token non è valido o è scaduto. Incollane uno nuovo.",
-  "error_unsupported_client": "Questo token non può essere usato per minare. Accedi con il codice invece.",
-  "error_missing_scope": "A questo token manca un permesso richiesto da questa app. Accedi con il codice invece.",
   "ev_paused": "In pausa",
   "ev_paused_quiet_window": "In pausa (pausa giornaliera)",
   "ev_paused_scheduled": "In pausa, riprende {time}",

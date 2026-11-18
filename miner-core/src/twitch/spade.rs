@@ -10,7 +10,7 @@ use std::net::IpAddr;
 use std::sync::OnceLock;
 use url::Url;
 
-use super::{TwitchClient, WEB_URL, WEB_USER_AGENT};
+use super::{TwitchClient, WEB_URL};
 use crate::domain::Channel;
 use crate::error::{Error, Result};
 use crate::http::{read_bounded, trusted_host};
@@ -54,7 +54,7 @@ async fn page(client: &TwitchClient, url: Url) -> Result<String> {
                 .http
                 .client
                 .request(Method::GET, url)
-                .header(reqwest::header::USER_AGENT, WEB_USER_AGENT)
+                .header(reqwest::header::USER_AGENT, &client.identity.user_agent)
                 .header(
                     reqwest::header::ACCEPT,
                     "text/html,application/xhtml+xml,*/*",
@@ -140,7 +140,7 @@ pub async fn send_minute_watched(
                 .http
                 .client
                 .request(Method::POST, beacon.clone())
-                .header(reqwest::header::USER_AGENT, WEB_USER_AGENT)
+                .header(reqwest::header::USER_AGENT, &client.identity.user_agent)
                 .form(&[("data", data)]),
         )
         .await?;

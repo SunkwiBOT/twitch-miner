@@ -9,6 +9,7 @@ use crate::events::{MinerEvent, MinerKind};
 use crate::scheduler::{QueueItem, SlotPurpose};
 use crate::spam::SpamChannelEntry;
 use crate::store::{AccountSource, VaultStatus};
+use crate::twitch::identity::ClientPersona;
 use crate::twitch::quests::Quest;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default, TS)]
@@ -216,6 +217,11 @@ pub struct Snapshot {
     pub catalog: CatalogView,
     pub badges: BadgeCatalogView,
     pub settings: GlobalSettings,
+    // ! Derived from `settings.history_retention`, so the UI never computes
+    // its own day count.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub history_retention_days: Option<u32>,
     // ! Computed server-side from `settings.quiet_window` and `settings.time_zone`,
     // so a clock that drifted in the browser never disagrees with it.
     #[serde(default)]
@@ -274,6 +280,8 @@ pub struct TokenCheck {
     #[ts(optional)]
     pub avatar_url: Option<String>,
     pub already_added: bool,
+    pub persona: ClientPersona,
+    pub scopes_ok: bool,
 }
 
 // ! Followed through the snapshot like `LoginFlowView`: the commit step runs

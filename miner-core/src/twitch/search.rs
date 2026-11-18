@@ -12,6 +12,7 @@ pub async fn suggestions(
     let answer = http
         .post_gql(
             None,
+            &super::identity::AccountIdentity::default(),
             Operation::SearchSuggestions.name(),
             None,
             &Operation::SearchSuggestions.request(json!({

@@ -11,7 +11,6 @@
     askInstall,
     availableVersion,
     checkUpdates,
-    installLabel,
     installStatus,
     updates,
   } from "../../lib/updates/updates.svelte";
@@ -74,7 +73,7 @@
   {#if isTauri() && version}
     <ActionButton
       icon={IconName.IMPORT}
-      label={installLabel()}
+      label={t.updates_install()}
       busyLabel={t.updates_installing()}
       busy={updates.stage !== UpdateStage.IDLE}
       disabled={false}

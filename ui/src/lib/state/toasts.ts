@@ -1,7 +1,11 @@
 import type { Component } from "svelte";
 import { toast as sonner } from "svelte-sonner";
 
-import { openUrl } from "../api/client";
+import {
+  openBadgeLink as openBadgeLinkCommand,
+  openCampaignLink as openCampaignLinkCommand,
+  openUrl,
+} from "../api/client";
 import { isTauri } from "../api/tauri";
 import { describeError } from "../errors/errors.utils";
 import { t } from "../i18n/i18n.svelte";
@@ -98,24 +102,53 @@ export const dismissLockWarning = (): void => {
   dismissToast(LOCK_WARNING_TOAST_KEY);
 };
 
-export const openLink = async (url: string): Promise<void> => {
+const notifyOpened = (host: string): void => {
+  if (!isTauri()) {
+    return;
+  }
+
+  const site = host.replace(/^www\./, "");
+
+  toast(ToastKind.INFO, t.link_opened_title(), {
+    description: t.link_opened({ site: strong(site) }),
+    key: LINK_TOAST_KEY,
+  });
+};
+
+const openAndNotify = async (url: string, open: () => Promise<void>): Promise<void> => {
   try {
-    await openUrl(url);
-  } catch (e: any) {
+    await open();
+  } catch (e: unknown) {
     toast(ToastKind.ERROR, t.action_failed(), { description: describeError(e) });
 
     return;
   }
 
-  if (isTauri()) {
-    const site = new URL(url).host.replace(/^www\./, "");
-
-    toast(ToastKind.INFO, t.link_opened_title(), {
-      description: t.link_opened({ site: strong(site) }),
-      key: LINK_TOAST_KEY,
-    });
-  }
+  notifyOpened(new URL(url).host);
 };
+
+export const openLink = (url: string): Promise<void> => openAndNotify(url, () => openUrl(url));
+
+export const openCampaignLink = async (
+  accountId: string,
+  campaignId: string,
+  url: string,
+): Promise<void> => {
+  let host: string;
+
+  try {
+    host = await openCampaignLinkCommand(accountId, campaignId, url);
+  } catch (e: unknown) {
+    toast(ToastKind.ERROR, t.action_failed(), { description: describeError(e) });
+
+    return;
+  }
+
+  notifyOpened(host);
+};
+
+export const openBadgeLink = (badgeKey: string, url: string): Promise<void> =>
+  openAndNotify(url, () => openBadgeLinkCommand(badgeKey, url));
 
 export const accountImage = (accountId: string, fallback: string): ToastSubjectType => {
   const found = app.snapshot?.accounts.find((a) => a.id === accountId);

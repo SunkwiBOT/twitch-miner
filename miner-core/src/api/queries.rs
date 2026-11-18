@@ -1,3 +1,4 @@
+use chrono::{DateTime, Utc};
 use std::fmt;
 use std::marker::PhantomData;
 
@@ -79,6 +80,42 @@ where
     deserializer.deserialize_any(Listed(PhantomData))
 }
 
+fn listed_required<'de, D, T>(deserializer: D) -> Result<Vec<T>, D::Error>
+where
+    D: Deserializer<'de>,
+    T: Deserialize<'de>,
+{
+    struct ListedRequired<T>(PhantomData<T>);
+
+    impl<'de, T: Deserialize<'de>> Visitor<'de> for ListedRequired<T> {
+        type Value = Vec<T>;
+
+        fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+            formatter.write_str("a list, or its items joined by commas")
+        }
+
+        fn visit_str<E: de::Error>(self, value: &str) -> Result<Self::Value, E> {
+            value
+                .split(',')
+                .filter(|item| !item.is_empty())
+                .map(|item| T::deserialize(IntoDeserializer::<E>::into_deserializer(item)))
+                .collect()
+        }
+
+        fn visit_seq<A: SeqAccess<'de>>(self, mut items: A) -> Result<Self::Value, A::Error> {
+            let mut list = Vec::new();
+
+            while let Some(item) = items.next_element()? {
+                list.push(item);
+            }
+
+            Ok(list)
+        }
+    }
+
+    deserializer.deserialize_any(ListedRequired(PhantomData))
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
 #[serde(deny_unknown_fields)]
 #[ts(rename = "HistoryQueryType")]
@@ -106,6 +143,37 @@ pub struct HistoryQuery {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
     pub limit: Option<u32>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[serde(deny_unknown_fields)]
+#[ts(rename = "HistoryStatsQueryType")]
+pub struct HistoryStatsQuery {
+    #[serde(
+        default,
+        deserialize_with = "listed",
+        skip_serializing_if = "Option::is_none"
+    )]
+    #[ts(optional)]
+    pub account_ids: Option<Vec<String>>,
+    pub since: DateTime<Utc>,
+    pub until: DateTime<Utc>,
+    // ! Ascending local-midnight instants for the period, in the caller's
+    // own zone; clamped server-side to `since`/`until`. Sent as a comma
+    // list like the optional fields above, but never missing, hence
+    // `listed_required` instead of `listed` and no `Option` wrapper.
+    #[serde(deserialize_with = "listed_required")]
+    pub day_boundaries: Vec<DateTime<Utc>>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[serde(deny_unknown_fields)]
+#[ts(rename = "HistoryCurveQueryType")]
+pub struct HistoryCurveQuery {
+    pub account_id: String,
+    pub channel: String,
+    pub since: DateTime<Utc>,
+    pub until: DateTime<Utc>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]

@@ -50,8 +50,13 @@ impl<T: TwitchApi> AccountMiner<T> {
                 outcome_id,
                 points,
             } => {
+                let login = self
+                    .predictions_placed
+                    .get(&event_id)
+                    .and_then(|(_, _, login)| login.clone());
+
                 self.predictions_placed
-                    .insert(event_id, (outcome_id, points));
+                    .insert(event_id, (outcome_id, points, login));
             }
             PubSubEvent::PredictionResult {
                 event_id,
@@ -277,7 +282,8 @@ impl<T: TwitchApi> AccountMiner<T> {
 
     pub(super) fn prediction_result(&mut self, event_id: &str, result: &str, points_won: i64) {
         let placed = self.predictions_placed.remove(event_id);
-        let staked = placed.map(|(_, p)| p).unwrap_or(0);
+        let staked = placed.as_ref().map(|(_, p, _)| *p).unwrap_or(0);
+        let login = placed.and_then(|(_, _, login)| login);
         let result = BetResult::from_twitch(result);
 
         let title = match result {
@@ -294,13 +300,17 @@ impl<T: TwitchApi> AccountMiner<T> {
             BetResult::Refund => format!("Prediction refunded: {staked} points returned"),
         };
 
+        // ! Twitch's result carries no running balance, and its win/refund
+        // credit is also reported as a real `points-earned` message (reason
+        // `PREDICTION`/`REFUND`): this event keeps the outcome for the
+        // Journal and the curve's annotation, not another `earned`.
         let event = self
             .emit(EventKind::PredictionResult, title)
             .context(EventContext {
                 bet_result: Some(result),
                 points_won: Some(points_won),
                 staked: Some(staked),
-                ..EventContext::default()
+                ..login.map(EventContext::channel).unwrap_or_default()
             });
 
         self.publish(event);

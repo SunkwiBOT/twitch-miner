@@ -13,12 +13,11 @@ import { ErrorApiMessage } from "../bindings/ErrorApiMessage";
 import { describeCode, toApiError } from "../errors/errors.utils";
 import { percent } from "../format.utils";
 import { t } from "../i18n/i18n.svelte";
-import { REPO_URL } from "../partners.constants";
 import { Page, ToastKind } from "../state/state.constants";
 import { app } from "../state/app.svelte";
 import { navigate } from "../state/router";
 import { isVaultLocked } from "../state/session";
-import { dismissToast, openLink, toast } from "../state/toasts";
+import { dismissToast, toast } from "../state/toasts";
 import { strong } from "../text.utils";
 import { UPDATE_TOAST_KEY, UpdateCheck, UpdateStage } from "./updates.constants";
 
@@ -83,9 +82,6 @@ export const checkUpdates = async (): Promise<void> => {
   }
 };
 
-export const installLabel = (): string =>
-  app.info?.portable ? t.updates_download_page() : t.updates_install();
-
 export const askInstall = (): void => {
   const version = availableVersion();
 
@@ -94,12 +90,6 @@ export const askInstall = (): void => {
   }
 
   dismissToast(UPDATE_TOAST_KEY);
-
-  if (app.info?.portable) {
-    void openLink(`${REPO_URL}/releases/tag/v${version}`);
-
-    return;
-  }
 
   updates.confirming = true;
 };
@@ -191,7 +181,7 @@ const offer = (found: UpdateInfoType): void => {
   toast(ToastKind.INFO, t.updates_available_title(), {
     description: t.updates_available({ version: strong(found.version) }),
     key: UPDATE_TOAST_KEY,
-    action: { label: installLabel(), run: askInstall },
+    action: { label: t.updates_install(), run: askInstall },
   });
 };
 

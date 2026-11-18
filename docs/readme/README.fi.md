@@ -223,6 +223,12 @@ ominaisuuden käytössä.
   <img src="../media/fi/journal-requests.avif" alt="Suodatettu Päiväkirja ja sitten Tekniset lokit › Pyynnöt">
   </details>
 
+- **Tilastot-sivu.** Ansaitut pisteet, lunastetut dropsit, katsottu aika ja voitetut
+  ennustukset 7, 30 tai 90 päivältä, kärjessä olevan streamaajan tai kategorian kanssa
+  jokaisen luvun takana. Streamaajakohtainen pistekäyrä näyttää saldon ajan myötä,
+  merkintöineen katseluputkista, raideista, hetkistä ja ennustuksista sekä
+  työkaluvihjeellä jokaisessa.
+
 - **Ajastettu keskeytys ja päivittäinen tauko.** Keskeytä yksi tili tai kaikki 30
   minuutiksi, 1 tunniksi, 4 tunniksi, huomiseen klo 09.00 asti tai mukautettuun
   päivämäärään ja aikaan asti; ”Jatka nyt” päättää keskeytyksen etuajassa. Merkki näyttää,
@@ -263,8 +269,7 @@ ominaisuuden käytössä.
   ”Päivitys”-merkki ja versionumero. ”Asenna ja käynnistä uudelleen” pyytää ensin
   vahvistuksen, minkä jälkeen sovellus asentaa version ja käynnistyy uudelleen. Jos
   sovelluksen salasana on asetettu, se käynnistyy lukittuna: kirjoita salasana uudelleen
-  jatkaaksesi louhintaa. Vain projektin allekirjoittama versio asennetaan. Siirrettävä
-  Windows-tiedosto ei päivitä itseään: sen painike avaa lataussivun. Docker-versio
+  jatkaaksesi louhintaa. Vain projektin allekirjoittama versio asennetaan. Docker-versio
   ilmoittaa myös ja kertoo suoritettavat komennot.
 
   <details open><summary>Katso toiminnassa</summary>
@@ -376,8 +381,7 @@ Siirry sitten kohtaan **Järjestelmäasetukset › Tietosuoja ja suojaus** ja na
 Päivitykset on allekirjoitettu. Sovellus tarkistaa käynnistyessään ja sen jälkeen tunnin
 välein, onko uutta versiota (tiheyttä voi muuttaa kohdassa **Asetukset › Tietoja**). Se ei
 koskaan asenna versiota itse: asennat sen yhdellä napsautuksella näkyviin tulevasta
-ilmoituksesta tai kohdasta **Asetukset › Tietoja**. Siirrettävä tiedosto ei koskaan
-päivitä itseään: ”Avaa lataussivu” vie uusimpaan julkaistuun versioon.
+ilmoituksesta tai kohdasta **Asetukset › Tietoja**.
 
 Tiedot sijaitsevat käyttäjän datakansiossa:
 
@@ -527,8 +531,7 @@ salasanaa ei ole asetettu) ja lokit.
 Työpöytäsovellus tarkistaa uuden version käynnistyessään ja sen jälkeen tunnin välein
 (muutettavissa kohdassa **Asetukset › Tietoja**). Napsauta ”Päivitys”-merkkiä ja sitten
 ”Asenna ja käynnistä uudelleen”. Dockerilla hallintapaneeli ilmoittaa asiasta: suorita
-`docker compose pull` ja sitten `docker compose up -d`. Siirrettävä Windows-tiedosto ei
-päivitä itseään: ”Avaa lataussivu” avaa uusimman julkaistun version, josta lataat uuden.
+`docker compose pull` ja sitten `docker compose up -d`.
 
 **Unohdin sovelluksen salasanan.**\
 Sitä ei voi palauttaa: juuri se salaa Twitch-istuntosi. Sulje sovellus, poista datakansio

@@ -20,6 +20,10 @@ import type { HistoryExportQueryType } from "../bindings/HistoryExportQueryType"
 import type { HistoryExportResponseType } from "../bindings/HistoryExportResponseType";
 import type { HistoryQueryType } from "../bindings/HistoryQueryType";
 import type { HistoryResponseType } from "../bindings/HistoryResponseType";
+import type { HistoryStatsQueryType } from "../bindings/HistoryStatsQueryType";
+import type { HistoryStatsResponseType } from "../bindings/HistoryStatsResponseType";
+import type { HistoryCurveQueryType } from "../bindings/HistoryCurveQueryType";
+import type { HistoryCurveResponseType } from "../bindings/HistoryCurveResponseType";
 import type { AccountSettingsPatchType } from "../bindings/AccountSettingsPatchType";
 import type { CheckPastedTokenResponseType } from "../bindings/CheckPastedTokenResponseType";
 import type { ImportTokensResponseType } from "../bindings/ImportTokensResponseType";
@@ -112,6 +116,14 @@ export type TauriCommandsType = {
     args: { query: HistoryExportQueryType };
     result: HistoryExportResponseType;
   };
+  [TauriCommand.HISTORY_STATS]: {
+    args: { query: HistoryStatsQueryType };
+    result: HistoryStatsResponseType;
+  };
+  [TauriCommand.HISTORY_CURVE]: {
+    args: { query: HistoryCurveQueryType };
+    result: HistoryCurveResponseType;
+  };
   [TauriCommand.BADGES]: { args: undefined; result: BadgesResponseType };
   [TauriCommand.CATALOG]: { args: undefined; result: CatalogResponseType };
   [TauriCommand.LOGS]: { args: { query: LogsQueryType }; result: LogsResponseType };
@@ -138,6 +150,12 @@ export type TauriCommandsType = {
   [TauriCommand.TAKE_FAILED_UPDATE]: { args: undefined; result: FailedUpdateType | null };
   [TauriCommand.DOWNLOAD_UPDATE]: { args: undefined; result: string };
   [TauriCommand.APPLY_UPDATE]: { args: { version: string }; result: null };
+  [TauriCommand.OPEN_URL]: { args: { url: string }; result: null };
+  [TauriCommand.OPEN_CAMPAIGN_LINK]: {
+    args: { accountId: string; campaignId: string };
+    result: string;
+  };
+  [TauriCommand.OPEN_BADGE_LINK]: { args: { badgeKey: string }; result: null };
 };
 
 export type ArgumentsType<K extends TauriCommand> = TauriCommandsType[K]["args"] extends undefined

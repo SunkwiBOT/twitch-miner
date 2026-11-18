@@ -225,6 +225,12 @@ funcionando.
   <img src="../media/es-419/journal-requests.avif" alt="La Bitácora filtrada y, después, Registros técnicos › Solicitudes">
   </details>
 
+- **Una página de Estadísticas.** Puntos ganados, drops reclamados, tiempo visto y
+  predicciones ganadas en 7, 30 o 90 días, con el streamer o la categoría principal
+  detrás de cada cifra. Una curva de puntos por streamer muestra el saldo a lo largo del
+  tiempo, con marcadores para rachas, raids, momentos y predicciones, y un tooltip en
+  cada uno.
+
 - **Pausa programada y una pausa diaria.** Pausa una cuenta o todas por 30 minutos, 1
   hora, 4 horas, hasta mañana a las 09:00, o hasta una fecha y hora personalizadas;
   “Reanudar ahora” la levanta antes. Una insignia muestra la hora en que termina la pausa.
@@ -265,8 +271,7 @@ funcionando.
   insignia “Actualización” con el número de versión. “Instalar y reiniciar” primero te
   pide confirmación; luego la app instala la versión y se reinicia. Si tiene contraseña de
   la app, se reinicia bloqueada: vuelve a ingresarla para seguir minando. Solo se instala
-  una versión firmada por el proyecto. El ejecutable portátil de Windows no se actualiza
-  solo: su botón abre la página de descarga. La versión de Docker también te avisa, con los
+  una versión firmada por el proyecto. La versión de Docker también te avisa, con los
   comandos que tienes que ejecutar.
 
   <details open><summary>Verlo en acción</summary>
@@ -375,8 +380,7 @@ bloquea. Luego ve a **Configuración del Sistema › Privacidad y seguridad** y 
 Las actualizaciones están firmadas. La app busca una nueva versión cuando se inicia y
 después cada hora (puedes cambiar la frecuencia en **Configuración › Acerca de**). Nunca
 instala una por sí sola: tú la instalas con un clic, desde el mensaje que aparece o desde
-**Configuración › Acerca de**. El ejecutable portátil nunca se actualiza solo: “Abrir la
-página de descarga” te lleva a la última versión publicada.
+**Configuración › Acerca de**.
 
 Los datos se guardan en la carpeta de datos del usuario:
 
@@ -529,9 +533,7 @@ cuando no hay contraseña de la app) y los registros.
 La app de escritorio busca una nueva versión cuando se inicia y después cada hora (puedes
 cambiarlo en **Configuración › Acerca de**). Haz clic en la insignia “Actualización” y
 después en “Instalar y reiniciar”. Con Docker, el panel te avisa: ejecuta
-`docker compose pull` y después `docker compose up -d`. El ejecutable portátil de Windows
-no se actualiza solo: “Abrir la página de descarga” abre la última versión publicada,
-donde descargas el nuevo.
+`docker compose pull` y después `docker compose up -d`.
 
 **Olvidé la contraseña de la app.**\
 No se puede recuperar: es lo que cifra tus sesiones de Twitch. Cierra la app, borra la

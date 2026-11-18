@@ -5,13 +5,13 @@ use miner_core::api::{
     ChannelBannersRequest, ChannelBannersResponse, ChannelQuery, ChannelResponse,
     ChannelsLookupRequest, ChannelsLookupResponse, CheckPastedTokenRequest,
     CheckPastedTokenResponse, Command, CommandName, DashboardLoginRequest, DesktopEvent,
-    FollowsQuery, FollowsResponse, HistoryExportQuery, HistoryExportResponse, HistoryQuery,
-    HistoryResponse, ImportTokensRequest, ImportTokensResponse, LoginFlowResponse, LogsQuery,
-    LogsReportResponse, LogsResponse, NotificationTest, NotificationTestRequest, ProxyTestRequest,
-    ProxyTestResponse, RedeemRequest, RedeemResponse, RefreshResponse, RequestsQuery,
-    RequestsResponse, SearchQuery, SearchResponse, ServerMessage, ServerMessageKind,
-    SnapshotResponse, SpamBalanceResponse, SpamChannelQuery, SpamChannelResponse,
-    StartupProblemResponse, UpdateCheckResponse,
+    FollowsQuery, FollowsResponse, HistoryCurveQuery, HistoryCurveResponse, HistoryExportQuery,
+    HistoryExportResponse, HistoryQuery, HistoryResponse, HistoryStatsQuery, HistoryStatsResponse,
+    ImportTokensRequest, ImportTokensResponse, LoginFlowResponse, LogsQuery, LogsReportResponse,
+    LogsResponse, NotificationTest, NotificationTestRequest, ProxyTestRequest, ProxyTestResponse,
+    RedeemRequest, RedeemResponse, RefreshResponse, RequestsQuery, RequestsResponse, SearchQuery,
+    SearchResponse, ServerMessage, ServerMessageKind, SnapshotResponse, SpamBalanceResponse,
+    SpamChannelQuery, SpamChannelResponse, StartupProblemResponse, UpdateCheckResponse,
 };
 use miner_core::error::{ApiError, ErrorCode};
 use miner_core::scheduler::SlotPurposeKind;
@@ -99,6 +99,10 @@ fn main() {
     export::<NotificationTestRequest>(&cfg);
     export::<HistoryExportQuery>(&cfg);
     export::<HistoryExportResponse>(&cfg);
+    export::<HistoryStatsQuery>(&cfg);
+    export::<HistoryStatsResponse>(&cfg);
+    export::<HistoryCurveQuery>(&cfg);
+    export::<HistoryCurveResponse>(&cfg);
     export::<ProxyTestResponse>(&cfg);
     export::<AuthResponse>(&cfg);
     export::<AppInfoResponse>(&cfg);

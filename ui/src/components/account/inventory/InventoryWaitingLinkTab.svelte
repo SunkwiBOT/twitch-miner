@@ -15,6 +15,7 @@
   import { ButtonSize, ButtonVariant } from "../../ui/button.constants";
   import { IconName } from "../../../lib/icons.constants";
   import { ThumbSize } from "../../ui/picture.constants";
+  import { ResolveKind } from "../../ui/external-button.constants";
 
   type InventoryWaitingLinkTabPropsType = {
     account: AccountSnapshotType;
@@ -46,6 +47,11 @@
             {#if item.campaign.link_url}
               <ExternalButton
                 url={item.campaign.link_url}
+                resolve={{
+                  kind: ResolveKind.CAMPAIGN,
+                  accountId: account.id,
+                  campaignId: item.campaign.id,
+                }}
                 label={t.campaign_link_game()}
                 variant={ButtonVariant.OUTLINE}
                 size={ButtonSize.SM}

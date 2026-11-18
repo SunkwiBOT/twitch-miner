@@ -222,6 +222,11 @@ all'opera.
   <img src="../media/it/journal-requests.avif" alt="Il Registro filtrato, poi Log tecnici › Richieste">
   </details>
 
+- **Una pagina Statistiche.** Punti guadagnati, drop riscattati, tempo di visione e
+  previsioni vinte su 7, 30 o 90 giorni, con lo streamer o la categoria in testa dietro
+  ogni numero. Una curva dei punti per streamer mostra il saldo nel tempo, con indicatori
+  per serie, raid, momenti e previsioni e un suggerimento su ciascuno.
+
 - **Pausa programmata e finestra silenziosa.** Metti in pausa un account o tutti per 30
   minuti, 1 ora, 4 ore, fino a domani alle 09:00, o una data e un'ora personalizzate;
   «Riprendi ora» la toglie prima. Un badge mostra l'ora in cui finisce la pausa. Una
@@ -261,9 +266,8 @@ all'opera.
   «Aggiornamento» con il numero di versione. «Installa e riavvia» chiede prima una
   conferma, poi l'app installa la versione e si riavvia. Con una password dell'app, si
   riavvia bloccata: reinseriscila per riprendere il mining. Viene installata solo una
-  versione firmata dal progetto. L'eseguibile portatile per Windows non si aggiorna da
-  solo: il suo pulsante apre la pagina di download. Anche la versione Docker avvisa, con i
-  comandi da eseguire.
+  versione firmata dal progetto. Anche la versione Docker avvisa, con i comandi da
+  eseguire.
 
   <details open><summary>Vedilo in azione</summary>
   <img src="../media/it/updates.avif" alt="Il badge «Aggiornamento», la conferma, poi l'installazione">
@@ -369,8 +373,7 @@ in **Impostazioni di sistema › Privacy e sicurezza** e fai clic su **Apri comu
 Gli aggiornamenti sono firmati. L'app controlla se c'è una nuova versione all'avvio, poi
 ogni ora (puoi cambiare la frequenza in **Impostazioni › Informazioni**). Non ne installa
 mai una da sola: la installi tu con un clic, dal messaggio che compare o da
-**Impostazioni › Informazioni**. L'eseguibile portatile non si aggiorna mai da solo:
-«Apri la pagina di download» porta all'ultima versione pubblicata.
+**Impostazioni › Informazioni**.
 
 I dati si trovano nella cartella dei dati dell'utente:
 
@@ -526,8 +529,7 @@ quando non è impostata alcuna password dell'app) e i log.
 L'app desktop controlla se c'è una nuova versione all'avvio, poi ogni ora (si può cambiare
 in **Impostazioni › Informazioni**). Fai clic sul badge «Aggiornamento», poi su
 «Installa e riavvia». Con Docker, la dashboard ti avvisa: esegui `docker compose pull`,
-poi `docker compose up -d`. L'eseguibile portatile per Windows non si aggiorna da solo:
-«Apri la pagina di download» apre l'ultima versione pubblicata, dove scarichi quello nuovo.
+poi `docker compose up -d`.
 
 **Ho dimenticato la password dell'app.**\
 Non si può recuperare: è proprio lei a cifrare le tue sessioni Twitch. Chiudi l'app,

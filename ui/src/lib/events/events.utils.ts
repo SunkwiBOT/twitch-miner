@@ -1,22 +1,29 @@
 import { EventKind } from "../bindings/EventKind";
 import type { MinerEventType } from "../bindings/MinerEventType";
+import { pointsEarnedIcon } from "./event-reasons.utils";
 import { IconName } from "../icons.constants";
 import {
   EVENT_ICONS,
   JOURNAL_ALL,
   KIND_GROUPS,
   POINTS_ROUTINE,
-  TWITCH_WATCH_STREAK_REASON,
+  TwitchPointsReason,
   type JournalFilterType,
 } from "./events.constants";
 
 export const eventIcon = (event: MinerEventType): IconName => {
   const streakBonus =
-    event.kind === EventKind.POINTS_EARNED && event.context.reason === TWITCH_WATCH_STREAK_REASON;
+    event.kind === EventKind.POINTS_EARNED &&
+    event.context.reason === TwitchPointsReason.WATCH_STREAK;
 
-  return streakBonus || event.kind === EventKind.STREAK_RECOVERED
-    ? IconName.WATCH_STREAK
-    : EVENT_ICONS[event.kind];
+  if (streakBonus || event.kind === EventKind.STREAK_RECOVERED) {
+    return IconName.WATCH_STREAK;
+  }
+
+  const reasonIcon =
+    event.kind === EventKind.POINTS_EARNED ? pointsEarnedIcon(event.context.reason) : undefined;
+
+  return reasonIcon ?? EVENT_ICONS[event.kind];
 };
 
 export const kindGroupsOf = (filter: JournalFilterType) =>

@@ -164,6 +164,11 @@ Hal-hal yang membedakannya dari penambang lain. “Lihat langsung” di bawah se
   <img src="../media/id/journal-requests.avif" alt="Jurnal yang disaring, lalu Log teknis › Permintaan">
   </details>
 
+- **Halaman Statistik.** Poin yang didapat, drop yang diklaim, waktu tonton, dan prediksi
+  yang menang selama 7, 30, atau 90 hari, dengan streamer atau kategori teratas di balik
+  setiap angka. Kurva poin per streamer menunjukkan saldo dari waktu ke waktu, dengan
+  penanda untuk streak, raid, momen, dan prediksi, serta tooltip pada masing-masing.
+
 - **Jeda terjadwal dan jeda harian.** Jeda satu akun atau semua akun selama 30 menit, 1
   jam, 4 jam, hingga besok pukul 09.00, atau tanggal dan waktu khusus; “Lanjutkan
   sekarang” mengangkat jeda lebih awal. Lencana menunjukkan kapan jeda berakhir. Jeda
@@ -189,7 +194,7 @@ Hal-hal yang membedakannya dari penambang lain. “Lihat langsung” di bawah se
   <img src="../media/id/security-lock.avif" alt="Gembok: aplikasi terkunci, lalu dibuka dengan kata sandinya">
   </details>
 
-- **Pembaruan bertanda tangan, tidak pernah otomatis.** Lencana “Pembaruan” beserta nomor versinya muncul di bilah atas. “Pasang dan mulai ulang” meminta konfirmasi dulu, lalu aplikasi memasang versi itu dan memulai ulang. Jika ada kata sandi aplikasi, aplikasi dimulai ulang dalam keadaan terkunci: ketik lagi kata sandinya untuk melanjutkan penambangan. Hanya versi yang ditandatangani proyek yang dipasang. File portabel untuk Windows tidak memperbarui dirinya sendiri: tombolnya membuka halaman unduhan. Versi Docker juga memberi tahu, lengkap dengan perintah yang perlu dijalankan.
+- **Pembaruan bertanda tangan, tidak pernah otomatis.** Lencana “Pembaruan” beserta nomor versinya muncul di bilah atas. “Pasang dan mulai ulang” meminta konfirmasi dulu, lalu aplikasi memasang versi itu dan memulai ulang. Jika ada kata sandi aplikasi, aplikasi dimulai ulang dalam keadaan terkunci: ketik lagi kata sandinya untuk melanjutkan penambangan. Hanya versi yang ditandatangani proyek yang dipasang. Versi Docker juga memberi tahu, lengkap dengan perintah yang perlu dijalankan.
 
   <details open><summary>Lihat langsung</summary>
   <img src="../media/id/updates.avif" alt="Lencana “Pembaruan”, konfirmasi, lalu pemasangan">
@@ -274,7 +279,7 @@ Unduh file untuk sistem Anda dari [rilis terbaru](https://github.com/SunkwiBOT/t
 
 Build macOS tidak dinotarisasi. Saat pertama kali, buka aplikasinya: macOS akan memblokirnya. Lalu buka **Pengaturan Sistem › Privasi & Keamanan** dan klik **Tetap Buka**.
 
-Pembaruan ditandatangani. Aplikasi memeriksa versi baru saat dimulai, lalu setiap jam (Anda bisa mengubah frekuensinya di **Pengaturan › Tentang**). Aplikasi tidak pernah memasangnya sendiri: Anda memasangnya dengan sekali klik, dari pesan yang muncul atau dari **Pengaturan › Tentang**. File portabel tidak pernah memperbarui dirinya sendiri: “Buka halaman unduhan” membawa Anda ke rilis terbaru.
+Pembaruan ditandatangani. Aplikasi memeriksa versi baru saat dimulai, lalu setiap jam (Anda bisa mengubah frekuensinya di **Pengaturan › Tentang**). Aplikasi tidak pernah memasangnya sendiri: Anda memasangnya dengan sekali klik, dari pesan yang muncul atau dari **Pengaturan › Tentang**.
 
 Data disimpan di folder data pengguna:
 
@@ -369,7 +374,7 @@ Aplikasi desktop menambang selama PC Anda menyala, dengan ikon tray, kata sandi 
 Di folder data: `~/.local/share/twitch-miner` di Linux, `%APPDATA%\twitch-miner` di Windows, `~/Library/Application Support/twitch-miner` di macOS, dan volume `/data` dengan Docker. Di desktop, **Pengaturan › Desktop** membukanya dengan sekali klik. Isinya `miner.db` (akun, pengaturan, jurnal), `master.key` (kunci sesi, jika kata sandi aplikasi tidak diatur), dan log.
 
 **Bagaimana cara memperbarui?**\
-Aplikasi desktop memeriksa versi baru saat dimulai, lalu setiap jam (Anda bisa mengubahnya di **Pengaturan › Tentang**). Klik lencana “Pembaruan”, lalu “Pasang dan mulai ulang”. Dengan Docker, dasbor memberi tahu Anda: jalankan `docker compose pull`, lalu `docker compose up -d`. File portabel untuk Windows tidak memperbarui dirinya sendiri: “Buka halaman unduhan” membuka rilis terbaru, tempat Anda mengunduh yang baru.
+Aplikasi desktop memeriksa versi baru saat dimulai, lalu setiap jam (Anda bisa mengubahnya di **Pengaturan › Tentang**). Klik lencana “Pembaruan”, lalu “Pasang dan mulai ulang”. Dengan Docker, dasbor memberi tahu Anda: jalankan `docker compose pull`, lalu `docker compose up -d`.
 
 **Saya lupa kata sandi aplikasi.**\
 Kata sandi itu tidak bisa dipulihkan: justru kata sandi itulah yang mengenkripsi sesi Twitch Anda. Tutup aplikasi, hapus folder data, lalu tambahkan lagi akun Anda; pengaturannya harus dibuat ulang. Dengan Docker, kata sandi dasbor diubah di `MINER_PASSWORD`, lalu `docker compose up -d`.

@@ -5,6 +5,8 @@ export enum Page {
   CATALOGUE = "CATALOGUE",
   BADGES = "BADGES",
   HISTORY = "HISTORY",
+  STATS = "STATS",
+  STATS_STREAMER = "STATS_STREAMER",
   LOGS = "LOGS",
   SETTINGS = "SETTINGS",
   ACCOUNT = "ACCOUNT",
@@ -28,11 +30,20 @@ export const ACCOUNT_PAGES: ReadonlySet<Page> = new Set([
   Page.ACCOUNT_SETTINGS,
 ]);
 
+export const BETA_PAGES: ReadonlySet<Page> = new Set([
+  Page.BADGES,
+  Page.ACCOUNT_BADGES,
+  Page.STATS,
+  Page.STATS_STREAMER,
+]);
+
 export const PAGE_PATHS: Record<Page, string> = {
   [Page.HOME]: "/",
   [Page.CATALOGUE]: "/catalogue",
   [Page.BADGES]: "/badges",
   [Page.HISTORY]: "/history",
+  [Page.STATS]: "/stats",
+  [Page.STATS_STREAMER]: "/stats/streamer",
   [Page.LOGS]: "/logs",
   [Page.SETTINGS]: "/settings",
   [Page.ACCOUNT]: "",

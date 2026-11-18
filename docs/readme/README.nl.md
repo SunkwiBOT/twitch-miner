@@ -225,6 +225,11 @@ het werkt.
   <img src="../media/nl/journal-requests.avif" alt="Het gefilterde Journaal, daarna Technisch logboek › Verzoeken">
   </details>
 
+- **Een Statistieken-pagina.** Verdiende punten, geclaimde drops, kijktijd en gewonnen
+  voorspellingen over 7, 30 of 90 dagen, met de topstreamer of -categorie achter elk
+  cijfer. Een puntencurve per streamer toont het saldo in de tijd, met markeringen voor
+  kijkreeksen, raids, momenten en voorspellingen en een tooltip op elk.
+
 - **Geplande pauze en dagelijkse pauze.** Pauzeer één account of alle accounts voor 30
   minuten, 1 uur, 4 uur, tot morgen 09:00 of een aangepaste datum en tijd; “Nu hervatten”
   heft de pauze eerder op. Een badge toont wanneer de pauze eindigt. Een dagelijkse pauze
@@ -263,8 +268,7 @@ het werkt.
   “Update” met het versienummer. “Installeren en herstarten” vraagt eerst om bevestiging,
   daarna installeert de app de versie en start ze opnieuw op. Met een app-wachtwoord start
   ze vergrendeld op: voer het opnieuw in om verder te minen. Alleen een door het project
-  ondertekende versie wordt geïnstalleerd. Het draagbare Windows-bestand werkt zichzelf
-  niet bij: de knop opent de downloadpagina. De Docker-versie laat het ook weten, met de
+  ondertekende versie wordt geïnstalleerd. De Docker-versie laat het ook weten, met de
   commando's die je moet uitvoeren.
 
   <details open><summary>Bekijk het in actie</summary>
@@ -371,8 +375,7 @@ dan naar **Systeeminstellingen › Privacy en beveiliging** en klik op **Open to
 Updates zijn ondertekend. De app zoekt bij het starten naar een nieuwe versie, en daarna
 elk uur (hoe vaak stel je in onder **Instellingen › Over**). Hij installeert er nooit zelf
 een: je installeert die met één klik, via de melding die verschijnt of via
-**Instellingen › Over**. Het draagbare bestand werkt zichzelf nooit bij:
-“Downloadpagina openen” brengt je naar de nieuwste versie.
+**Instellingen › Over**.
 
 De gegevens staan in de map met gebruikersgegevens:
 
@@ -523,9 +526,7 @@ er geen app-wachtwoord is ingesteld) en het logboek in.
 De desktop-app zoekt bij het starten naar een nieuwe versie, en daarna elk uur (aan te
 passen in **Instellingen › Over**). Klik op de badge “Update” en daarna op
 “Installeren en herstarten”. Bij Docker meldt het dashboard het: voer
-`docker compose pull` uit en daarna `docker compose up -d`. Het draagbare Windows-bestand
-werkt zichzelf niet bij: “Downloadpagina openen” opent de nieuwste versie, waar je het
-nieuwe downloadt.
+`docker compose pull` uit en daarna `docker compose up -d`.
 
 **Ik ben het app-wachtwoord vergeten.**\
 Het kan niet worden hersteld: juist dit wachtwoord versleutelt je Twitch-sessies. Sluit de

@@ -222,6 +222,11 @@ brug.
   <img src="../media/da/journal-requests.avif" alt="Den filtrerede journal, derefter Tekniske logfiler › Forespørgsler">
   </details>
 
+- **En Statistik-side.** Optjente point, hentede drops, set tid og vundne forudsigelser
+  over 7, 30 eller 90 dage, med den førende streamer eller kategori bag hvert tal. En
+  pointkurve pr. streamer viser saldoen over tid, med markører for seerstimer, raids,
+  moments og forudsigelser og et værktøjstip på hver.
+
 - **Planlagt pause og en daglig pause.** Sæt en konto eller alle på pause i 30 minutter, 1
   time, 4 timer, til i morgen kl. 09:00 eller til en brugerdefineret dato og tidspunkt;
   »Genoptag nu« ophæver pausen tidligere. Et badge viser, hvornår pausen slutter. En
@@ -260,9 +265,8 @@ brug.
   versionsnummeret i den øverste bjælke. »Installer og genstart« beder dig først bekræfte,
   derefter installerer appen versionen og genstarter. Med en appadgangskode genstarter den
   låst: indtast den igen for at fortsætte med at mine. Kun en version, der er signeret af
-  projektet, bliver installeret. Den portable Windows-fil opdaterer ikke sig selv: dens knap
-  åbner downloadsiden. Docker-versionen giver også besked, med de kommandoer, der skal
-  køres.
+  projektet, bliver installeret. Docker-versionen giver også besked, med de
+  kommandoer, der skal køres.
 
   <details open><summary>Se det i aktion</summary>
   <img src="../media/da/updates.avif" alt="Mærket »Opdatering«, bekræftelsen og derefter installationen">
@@ -370,8 +374,7 @@ Gå derefter til **Systemindstillinger › Anonymitet og sikkerhed**, og klik p�
 Opdateringer er signerede. Appen søger efter en ny version, når den starter, og derefter
 hver time (hvor ofte, ændrer du i **Indstillinger › Om**). Den installerer aldrig en
 version af sig selv: du installerer den med ét klik, fra den besked, der vises, eller fra
-**Indstillinger › Om**. Den portable fil opdaterer aldrig sig selv: »Åbn downloadsiden«
-fører til den nyeste version.
+**Indstillinger › Om**.
 
 Data ligger i brugerens datamappe:
 
@@ -522,8 +525,7 @@ der ikke er sat en appadgangskode) og logfilerne.
 Skrivebordsappen søger efter en ny version, når den starter, og derefter hver time (kan
 ændres i **Indstillinger › Om**). Klik på mærket »Opdatering« og derefter på
 »Installer og genstart«. Med Docker giver oversigten besked: kør `docker compose pull` og
-derefter `docker compose up -d`. Den portable Windows-fil opdaterer ikke sig selv:
-»Åbn downloadsiden« åbner den nyeste version, hvor du henter den nye.
+derefter `docker compose up -d`.
 
 **Jeg har glemt appadgangskoden.**\
 Den kan ikke gendannes: det er den, der krypterer dine Twitch-sessioner. Luk appen, slet

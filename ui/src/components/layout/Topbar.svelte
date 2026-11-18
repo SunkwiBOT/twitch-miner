@@ -2,7 +2,7 @@
   import { CommandName } from "../../lib/bindings/CommandName";
   import { AccountStatus } from "../../lib/bindings/AccountStatus";
   import { t } from "../../lib/i18n/i18n.svelte";
-  import { Page } from "../../lib/state/state.constants";
+  import { BETA_PAGES, Page } from "../../lib/state/state.constants";
   import { account, app } from "../../lib/state/app.svelte";
   import { isAccountPage } from "../../lib/state/router";
   import { run } from "../../lib/state/session";
@@ -65,11 +65,11 @@
   {/if}
   <h1 class="flex min-w-0 text-xl font-semibold max-md:text-lg">
     <span class="min-w-0 truncate">{title}</span>
-    {#if section}<span class="min-w-0 shrink-[100] truncate ps-1.5 @max-[45rem]:hidden"
-        >· {section}</span
-      >{/if}
+    {#if section}<span class="min-w-0 shrink-[100] truncate ps-1.5 @max-[45rem]:hidden">
+        · {section}
+      </span>{/if}
   </h1>
-  {#if app.page === Page.BADGES || app.page === Page.ACCOUNT_BADGES}<Badge
+  {#if BETA_PAGES.has(app.page)}<Badge
       text={t.common_beta()}
       tone={BadgeTone.ACCENT}
       dot={false}
@@ -78,9 +78,9 @@
   <UpdateBadge />
   {#if app.page !== Page.HOME}<QuietWindowBadge class="@max-[50rem]:hidden" />{/if}
   {#if current}
-    {#if wideLayout.current}<span class="contents @max-[65rem]:hidden"
-        ><AccountStatusBadges account={current} /></span
-      >{/if}
+    {#if wideLayout.current}<span class="contents @max-[65rem]:hidden">
+        <AccountStatusBadges account={current} />
+      </span>{/if}
     {#if current.status === AccountStatus.LOGIN_REQUIRED}
       <TextButton
         label={t.accounts_login_again()}

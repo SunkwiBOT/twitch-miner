@@ -1,3 +1,5 @@
+pub mod identity;
+
 pub mod auth;
 pub mod channels;
 pub mod chat;
@@ -27,13 +29,8 @@ use zeroize::Zeroizing;
 
 use crate::error::{Error, NetworkErrorKind, Result};
 use crate::requests::{address_target, RequestKind, RequestLog};
+use identity::AccountIdentity;
 use operations::Operation;
-
-// ! Twitch for Android TV ("SMARTBOX"): its device code still works.
-pub const CLIENT_ID: &str = "ue6666qo983tsx6so1t0vnawi233wa";
-pub const CLIENT_ORIGIN: &str = "https://android.tv.twitch.tv";
-pub const TV_USER_AGENT: &str = "Mozilla/5.0 (Linux; Android 7.1; Smart Box C1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36";
-pub const WEB_USER_AGENT: &str = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36";
 
 pub const GQL_URL: &str = "https://gql.twitch.tv/gql";
 pub const OAUTH_URL: &str = "https://id.twitch.tv/oauth2";
@@ -73,7 +70,7 @@ impl TwitchHttp {
 
             let mut builder = reqwest::Client::builder()
                 .default_headers(headers)
-                .user_agent(TV_USER_AGENT)
+                .user_agent(identity::DEFAULT_USER_AGENT)
                 .timeout(REQUEST_TIMEOUT)
                 .gzip(true);
 
@@ -110,23 +107,37 @@ impl TwitchHttp {
             .expect("semaphore is never closed")
     }
 
-    pub fn request(&self, method: Method, url: &str) -> reqwest::RequestBuilder {
-        self.client
+    pub fn request(
+        &self,
+        method: Method,
+        url: &str,
+        identity: &AccountIdentity,
+    ) -> reqwest::RequestBuilder {
+        let mut builder = self
+            .client
             .request(method, url)
-            .header("Client-Id", CLIENT_ID)
-            .header("X-Device-Id", &self.device_id)
-            .header(ORIGIN, CLIENT_ORIGIN)
-            .header(REFERER, format!("{CLIENT_ORIGIN}/"))
+            .header("Client-Id", &identity.client_id)
+            .header(reqwest::header::USER_AGENT, &identity.user_agent)
+            .header("X-Device-Id", &self.device_id);
+
+        if let Some(origin) = identity.persona().origin() {
+            builder = builder
+                .header(ORIGIN, origin)
+                .header(REFERER, format!("{origin}/"));
+        }
+
+        builder
     }
 
     pub async fn post_gql(
         &self,
         account_id: Option<&str>,
+        identity: &AccountIdentity,
         operation: &str,
         token: Option<&str>,
         body: &Value,
     ) -> Result<GqlAnswer> {
-        self.post_gql_leaving(account_id, operation, token, body, || true)
+        self.post_gql_leaving(account_id, identity, operation, token, body, || true)
             .await
     }
 
@@ -135,6 +146,7 @@ impl TwitchHttp {
     pub async fn post_gql_leaving(
         &self,
         account_id: Option<&str>,
+        identity: &AccountIdentity,
         operation: &str,
         token: Option<&str>,
         body: &Value,
@@ -150,7 +162,7 @@ impl TwitchHttp {
             .requests
             .start(RequestKind::Gql, operation)
             .account(account_id);
-        let mut request = self.request(Method::POST, GQL_URL).json(body);
+        let mut request = self.request(Method::POST, GQL_URL, identity).json(body);
 
         if let Some(token) = token {
             request = request.header(AUTHORIZATION, format!("OAuth {token}"));
@@ -198,6 +210,7 @@ pub struct TwitchClient {
     pub http: Arc<TwitchHttp>,
     pub user_id: String,
     pub login: String,
+    pub identity: AccountIdentity,
     token: Arc<RwLock<Zeroizing<String>>>,
 }
 
@@ -212,12 +225,14 @@ impl TwitchClient {
         http: Arc<TwitchHttp>,
         user_id: String,
         login: String,
+        identity: AccountIdentity,
         access_token: String,
     ) -> Self {
         Self {
             http,
             user_id,
             login,
+            identity,
             token: Arc::new(RwLock::new(Zeroizing::new(access_token))),
         }
     }
@@ -258,6 +273,7 @@ impl TwitchClient {
             .http
             .post_gql_leaving(
                 Some(&self.user_id),
+                &self.identity,
                 operation.name(),
                 Some(&token),
                 &operation.request(variables),
@@ -298,7 +314,13 @@ impl TwitchClient {
             // backing off must not sit on the slots the others share.
             let sent = self
                 .http
-                .post_gql(Some(&self.user_id), operation.name(), Some(&token), body)
+                .post_gql(
+                    Some(&self.user_id),
+                    &self.identity,
+                    operation.name(),
+                    Some(&token),
+                    body,
+                )
                 .await;
             let retried = match sent {
                 Ok(answer) => match answer.checked(operation) {

@@ -2,6 +2,7 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "nav_accounts": "Accounts",
   "nav_history": "Journaal",
+  "nav_stats": "Statistieken",
   "nav_settings": "Instellingen",
   "topbar_disconnected": "Opnieuw verbinden…",
   "topbar_language": "Taal",
@@ -89,7 +90,6 @@
   "login_note_settings": "je Twitch-instellingen",
   "login_vault_locked": "Ontgrendel de app voordat je een account toevoegt.",
   "login_use_tokens": "Plak in plaats daarvan tokens",
-  "login_use_code": "Gebruik in plaats daarvan de inlogcode",
   "login_tokens_label": "Toegangstokens",
   "login_tokens_hint": "Plak één token per regel. Elk token wordt gecontroleerd voordat het kan worden geïmporteerd.",
   "login_tokens_submit": [
@@ -109,11 +109,26 @@
   "import_tokens_line_too_long": "Een regel is te lang (maximaal {max} tekens).",
   "import_tokens_status_pending": "Wordt gecontroleerd…",
   "import_tokens_status_valid": "Geldig",
-  "import_tokens_status_unusable_client": "Dit token kan niet worden gebruikt om te minen.",
+  "import_tokens_client_warning": "Twitch kan sommige acties (Drops claimen, bonuskisten, inzetten) van deze client weigeren. Inloggen met de code is de meest betrouwbare manier om een account toe te voegen.",
   "import_tokens_status_invalid": "Dit token is ongeldig of verlopen.",
   "import_tokens_status_already_added": "Al toegevoegd",
   "import_tokens_status_duplicate": "Duplicaat van een andere regel",
   "import_tokens_status_not_imported": "Niet geïmporteerd",
+  "import_tokens_configure": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Account instellen",
+        "countPlural=*": "Accounts instellen"
+      }
+    }
+  ],
   "import_tokens_settings_step_title": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -213,6 +228,50 @@
   "history_title": "Journaal",
   "history_empty": "Nog niets.",
   "history_load_failed": "Het Journaal kon niet worden gelezen.",
+  "stats_title": "Statistieken",
+  "stats_empty": "Nog geen geschiedenis voor deze periode.",
+  "stats_load_failed": "De statistieken konden niet worden geladen.",
+  "stats_period_label": "Getoonde periode",
+  "stats_period_7": "7 dagen",
+  "stats_period_30": "30 dagen",
+  "stats_period_90": "90 dagen",
+  "stats_period_disabled_retention": "De geschiedenis wordt {retention} bewaard: wijzig de bewaartermijn in de instellingen om verder terug te kijken.",
+  "stats_tile_points": "Verdiende punten",
+  "stats_tile_drops": "Geclaimde drops",
+  "stats_tile_watched": "Kijktijd",
+  "stats_tile_predictions": "Gewonnen inzetten",
+  "stats_tile_top_label": "Top",
+  "stats_tile_top_empty": "Nog geen gegevens",
+  "stats_chart_points_by_day": "Punten per dag",
+  "stats_chart_points_by_day_aria": "Verdiende punten per dag over {days} dagen",
+  "stats_chart_drops_by_category": "Geclaimde drops per categorie",
+  "stats_chart_drops_by_category_empty": "Geen drop geclaimd in deze periode.",
+  "stats_category_unknown": "Geen categorie",
+  "stats_chart_top_streamers": "Meest winstgevende streamers",
+  "stats_chart_top_streamers_empty": "Geen punten verdiend in deze periode.",
+  "stats_reason_watch": "Aan het kijken",
+  "stats_reason_watch_streak": "Reeksbonus",
+  "stats_reason_claim": "Bonuskist",
+  "stats_reason_raid": "Raid gevolgd",
+  "stats_reason_community_moment": "Community-moment",
+  "stats_reason_prediction": "Inzet gewonnen",
+  "stats_reason_refund": "Inzet terugbetaald",
+  "stats_curve_title": "Puntencurve",
+  "stats_curve_streamer_label": "Streamer",
+  "stats_curve_streamer_empty": "Selecteer een streamer",
+  "stats_curve_no_streamer": "Dit account heeft nog geen streamer om een curve voor te tonen.",
+  "stats_curve_empty": "Geen puntengebeurtenis voor deze streamer in deze periode.",
+  "stats_curve_aria": "Puntensaldo van {streamer} over tijd",
+  "stats_curve_legend_balance": "Puntensaldo",
+  "stats_curve_legend_streak": "Streak hersteld",
+  "stats_curve_legend_raid": "Raid gevolgd",
+  "stats_curve_legend_moment": "Moment geclaimd",
+  "stats_curve_legend_prediction_placed": "Inzet geplaatst",
+  "stats_curve_legend_prediction_won": "Inzet gewonnen",
+  "stats_curve_legend_prediction_lost": "Inzet verloren",
+  "stats_curve_legend_prediction_refund": "Inzet terugbetaald",
+  "stats_curve_open": "Bekijk de puntencurve van {streamer}",
+  "stats_curve_open_tip": "Bekijk de puntencurve",
   "event_kind_info": "Info",
   "event_kind_error": "Fout",
   "event_kind_watch_started": "Kijken",
@@ -499,6 +558,8 @@
   "error_catalog_rate_limited": "De catalogus vroeg om af te remmen. De volgende vernieuwing wacht langer.",
   "error_too_many_attempts": "Te veel verkeerde wachtwoorden: probeer het zo opnieuw.",
   "error_https_required": "Open het dashboard via het HTTPS-adres.",
+  "error_open_url_refused": "Deze link mag niet vanuit de app worden geopend.",
+  "error_open_url_failed": "Deze link openen is mislukt.",
   "error_forwarded_for_required": "De HTTPS-proxy vóór het dashboard moet het adres van de bezoeker meesturen (X-Forwarded-For).",
   "error_proxy_not_local": "Het dashboard accepteert zijn HTTPS-proxy alleen vanaf deze machine of het lokale netwerk ervan.",
   "error_cross_site_request": "Geweigerd: het verzoek kwam van een pagina van een andere site.",
@@ -602,6 +663,41 @@
       "match": {
         "countPlural=one": "+{points} punt",
         "countPlural=*": "+{points} punten"
+      }
+    }
+  ],
+  "ev_points_reason": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input channel",
+        "input reason",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "+{points} punt op {channel} · {reason}",
+        "countPlural=*": "+{points} punten op {channel} · {reason}"
+      }
+    }
+  ],
+  "ev_points_reason_short": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input reason",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "+{points} punt · {reason}",
+        "countPlural=*": "+{points} punten · {reason}"
       }
     }
   ],
@@ -839,9 +935,27 @@
   "import_title": "Streamers importeren",
   "import_too_many": "Maximaal {max} namen tegelijk.",
   "login_setup_custom": "Aangepast",
-  "login_setup_later_hint": "Het account blijft gepauzeerd tot je het start, nu of later vanaf zijn pagina.",
+  "login_setup_later_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Het account blijft gepauzeerd tot je het start, nu of later vanaf zijn pagina.",
+        "countPlural=*": "De accounts blijven gepauzeerd tot je ze start, nu of later vanaf hun pagina."
+      }
+    }
+  ],
   "login_setup_streamers_empty": "Nog geen streamer: voeg er hieronder toe, of later via de pagina Punten.",
-  "login_setup_streamers_hint": "De kanalen die dit account bekijkt voor kanaalpunten, belangrijkste eerst.",
+  "login_setup_streamers_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "De kanalen die dit account bekijkt voor kanaalpunten, belangrijkste eerst.",
+        "countPlural=*": "De kanalen die deze accounts bekijken voor kanaalpunten, belangrijkste eerst."
+      }
+    }
+  ],
   "login_setup_streamers_title": "Streamers voor de punten",
   "points_import": "Importeren",
   "streamer_change": "Wijzigen",
@@ -887,7 +1001,6 @@
   "updates_last_checked": "Laatst gecontroleerd: {time}",
   "updates_never_checked": "Laatst gecontroleerd: nog geen antwoord sinds de start",
   "updates_install": "Installeren en herstarten",
-  "updates_download_page": "Downloadpagina openen",
   "settings_notifications_language": "Taal van de meldingen",
   "updates_confirm_title": "Versie {version} installeren?",
   "updates_confirm_text": "Je hebt versie {current}. De app downloadt versie {version}, stopt het minen op alle accounts, installeert hem en herstart vanzelf. Daarna gaat het minen vanzelf weer verder.",
@@ -1015,11 +1128,29 @@
   "login_setup_step_streamers": "Streamers",
   "login_setup_step_summary": "Samenvatting",
   "login_setup_start_hint": "Begin met de standaardinstellingen, of hergebruik de instellingen van een account waarmee je al mint. In de volgende stappen kun je alles aanpassen.",
-  "login_setup_summary_hint": "Alles is later aan te passen via de pagina's van het account.",
+  "login_setup_summary_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Alles is later aan te passen via de pagina's van het account.",
+        "countPlural=*": "Alles is later aan te passen via de pagina's van de accounts."
+      }
+    }
+  ],
   "login_setup_progress": "Stap {current} van {total}",
   "common_yes": "Ja",
   "common_no": "Nee",
-  "login_setup_drops_hint": "Welke campagnes dit account mint, en of het de beloningen zelf claimt.",
+  "login_setup_drops_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Welke campagnes dit account mint, en of het de beloningen zelf claimt.",
+        "countPlural=*": "Welke campagnes deze accounts minen, en of ze de beloningen zelf claimen."
+      }
+    }
+  ],
   "event_kind_chat_mention": "Vermelding",
   "ev_chat_mention": "{chatter} heeft je vermeld in de chat van {channel}",
   "ev_chat_mention_short": "{chatter} heeft je vermeld",
@@ -1107,6 +1238,7 @@
   "confirm_remove_setup_streamer_text": "{name} gaat van de lijst: dit account kijkt het kanaal niet voor kanaalpunten.",
   "search_verified": "Geverifieerde partner",
   "login_setup_for": "Account: {name}",
+  "login_setup_for_many": "Accounts: {count}",
   "search_pick": "Kiezen",
   "search_no_result": "Geen resultaat voor {query}.",
   "drops_tabs_label": "Onderdelen van de Drops-pagina",
@@ -1629,8 +1761,6 @@
   "account_badges_not_mined_hint": "Wel getoond, niet gemind: eerst is een abonnement nodig dat je zelf neemt, of een andere badge, of Twitch noemt geen kanaal dat de miner kan bekijken.",
   "error_action_rate_limited": "Te veel pogingen: wacht even en probeer het opnieuw.",
   "error_invalid_token": "Dit token is ongeldig of verlopen. Plak een nieuw token.",
-  "error_unsupported_client": "Dit token kan niet worden gebruikt om te minen. Log in plaats daarvan in met de code.",
-  "error_missing_scope": "Dit token mist een recht dat deze app nodig heeft. Log in plaats daarvan in met de code.",
   "ev_paused": "Gepauzeerd",
   "ev_paused_quiet_window": "Gepauzeerd (dagelijkse pauze)",
   "ev_paused_scheduled": "Gepauzeerd, hervat {time}",

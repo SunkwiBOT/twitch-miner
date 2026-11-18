@@ -188,10 +188,15 @@ impl TwitchClient {
     }
 }
 
-pub async fn lookup_public(http: &TwitchHttp, login: &str) -> Result<Option<Channel>> {
+pub async fn lookup_public(
+    http: &TwitchHttp,
+    identity: &super::identity::AccountIdentity,
+    login: &str,
+) -> Result<Option<Channel>> {
     let body = http
         .post_gql(
             None,
+            identity,
             Operation::StreamInfo.name(),
             None,
             &Operation::StreamInfo.request(json!({"channel": login})),
@@ -254,6 +259,7 @@ pub async fn lookup_public_many(http: &TwitchHttp, logins: &[String]) -> Result<
         let body = http
             .post_gql(
                 None,
+                &super::identity::AccountIdentity::default(),
                 Operation::StreamInfo.name(),
                 None,
                 &Value::Array(batch),
@@ -412,6 +418,7 @@ async fn banner_batch(
     let body = http
         .post_gql(
             None,
+            &super::identity::AccountIdentity::default(),
             BANNERS_QUERY,
             None,
             &json!({ "query": format!("query {{ {fields}}}") }),

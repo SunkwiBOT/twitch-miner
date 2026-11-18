@@ -12,6 +12,7 @@ impl<T: TwitchApi> AccountMiner<T> {
         let Some(login) = self.streamer_login(&event.channel_id) else {
             return;
         };
+
         let Some(settings) = self
             .settings
             .points
@@ -93,7 +94,11 @@ impl<T: TwitchApi> AccountMiner<T> {
                     self.spent_here(&login, decision.points);
                     self.predictions_placed.insert(
                         event.id.clone(),
-                        (decision.outcome_id.clone(), decision.points),
+                        (
+                            decision.outcome_id.clone(),
+                            decision.points,
+                            Some(login.clone()),
+                        ),
                     );
 
                     let outcome = event

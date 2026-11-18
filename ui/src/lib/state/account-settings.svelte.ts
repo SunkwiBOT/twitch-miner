@@ -181,13 +181,14 @@ export const keepPendingSettings = (snapshot: SnapshotType): void => {
 export const saveAccountSettings = (
   id: string,
   settings: AccountSettingsType,
+  success: string | undefined = t.common_saved(),
 ): Promise<boolean> => {
   const rest = { ...settings };
   delete rest.paused_until;
 
   return run(
     { command: CommandName.SET_ACCOUNT_SETTINGS, account_id: id, settings: rest },
-    t.common_saved(),
+    success,
   );
 };
 

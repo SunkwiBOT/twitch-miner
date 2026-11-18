@@ -6,6 +6,7 @@ mod env;
 mod events;
 mod lifecycle;
 mod logging;
+mod open_url;
 mod tray;
 mod updates;
 
@@ -17,7 +18,8 @@ use miner_core::api::{
     AccountStatus, AppInfo, AppInfoResponse, AutostartResponse, BadgeCatalogView, BadgesResponse,
     CatalogResponse, CatalogView, ChannelBannersResponse, ChannelResponse, ChannelsLookupResponse,
     CheckPastedTokenResponse, Command, CommandName, DesktopEvent, FollowsResponse,
-    HistoryExportQuery, HistoryExportResponse, HistoryQuery, HistoryResponse, ImportTokensResponse,
+    HistoryCurveQuery, HistoryCurveResponse, HistoryExportQuery, HistoryExportResponse,
+    HistoryQuery, HistoryResponse, HistoryStatsQuery, HistoryStatsResponse, ImportTokensResponse,
     LoginFlowResponse, LogsQuery, LogsReportResponse, LogsResponse, NotificationTest,
     NotificationTestRequest, ProxyTestResponse, RedeemRequest, RedeemResponse, RefreshResponse,
     RequestsQuery, RequestsResponse, SearchResponse, Shell, Snapshot, SnapshotResponse,
@@ -92,6 +94,13 @@ fn prepare_linux_display() {
 fn prepare_linux_display() {}
 
 fn main() {
+    // ! See `updates::SELFTEST_ARG`: exits before any window, data folder, or log file is touched.
+    if std::env::args().any(|arg| arg == updates::SELFTEST_ARG) {
+        std::process::exit(0);
+    }
+
+    updates::cleanup_stale_backup();
+
     prepare_linux_display();
 
     let env = match DesktopEnv::from_env() {
@@ -144,6 +153,8 @@ fn main() {
             test_proxy,
             history,
             history_export,
+            history_stats,
+            history_curve,
             badges,
             refresh_badges,
             logs,
@@ -157,6 +168,9 @@ fn main() {
             open_logs_directory,
             open_data_directory,
             export_csv_file,
+            open_url::open_url,
+            open_url::open_campaign_link,
+            open_url::open_badge_link,
             autostart_status,
             set_autostart,
             updates::check_for_update,

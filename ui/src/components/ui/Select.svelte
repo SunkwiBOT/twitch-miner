@@ -14,6 +14,7 @@
   import { t } from "../../lib/i18n/i18n.svelte";
   import { overlay } from "../../lib/state/overlay.svelte";
   import Avatar from "./Avatar.svelte";
+  import ChannelAvatar from "./ChannelAvatar.svelte";
   import { AvatarSize } from "./picture.constants";
   import { BUTTON_VARIANTS, ButtonVariant } from "./button.constants";
   import {
@@ -39,10 +40,22 @@
     id?: string;
     placeholder?: string;
     align: MenuAlign;
+    // ! The app's channel avatar shape (rounded square, no live tag here):
+    // used for streamer pickers instead of the default round account avatar.
+    channelShape?: boolean;
     onchange: (value: T) => void;
   };
 
-  let { value, options, label, id, placeholder, align, onchange }: SelectPropsType = $props();
+  let {
+    value,
+    options,
+    label,
+    id,
+    placeholder,
+    align,
+    channelShape = false,
+    onchange,
+  }: SelectPropsType = $props();
 
   let open = $state(false);
 
@@ -63,7 +76,16 @@
       >
         <span class="flex min-w-0 items-center gap-2">
           {#if current?.image}
-            <Avatar url={current.image} name={current.label} size={AvatarSize.XS} />
+            {#if channelShape}
+              <ChannelAvatar
+                url={current.image}
+                name={current.label}
+                size={AvatarSize.XS}
+                live={false}
+              />
+            {:else}
+              <Avatar url={current.image} name={current.label} size={AvatarSize.XS} />
+            {/if}
           {/if}
           {#if current}
             <span class="truncate">{current.label}</span>
@@ -111,20 +133,29 @@
             }}
           >
             {#if option.image}
-              <Avatar url={option.image} name={option.label} size={AvatarSize.XS} />
+              {#if channelShape}
+                <ChannelAvatar
+                  url={option.image}
+                  name={option.label}
+                  size={AvatarSize.XS}
+                  live={false}
+                />
+              {:else}
+                <Avatar url={option.image} name={option.label} size={AvatarSize.XS} />
+              {/if}
             {/if}
             <span class="flex min-w-0 flex-1 flex-col gap-0.5">
               <span class="truncate">{option.label}</span>
               {#if option.description}
-                <span class="text-xs leading-snug font-normal text-muted-foreground"
-                  >{option.description}</span
-                >
+                <span class="text-xs leading-snug font-normal text-muted-foreground">
+                  {option.description}
+                </span>
               {/if}
             </span>
             {#if option.meta}
-              <span class="shrink-0 text-xs font-normal text-muted-foreground tabular-nums"
-                >{option.meta}</span
-              >
+              <span class="shrink-0 text-xs font-normal text-muted-foreground tabular-nums">
+                {option.meta}
+              </span>
             {/if}
           </CommandItem>
         {/each}

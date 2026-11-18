@@ -65,4 +65,5 @@ export enum IconName {
   VERIFIED = "VERIFIED",
   WATCH_STREAK = "WATCH_STREAK",
   GITHUB = "GITHUB",
+  CHART = "CHART",
 }

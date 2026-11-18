@@ -2,6 +2,7 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "nav_accounts": "Акаунти",
   "nav_history": "Дневник",
+  "nav_stats": "Статистика",
   "nav_settings": "Настройки",
   "topbar_disconnected": "Повторно свързване…",
   "topbar_language": "Език",
@@ -89,7 +90,6 @@
   "login_note_settings": "настройките на Twitch",
   "login_vault_locked": "Отключете приложението, преди да добавите акаунт.",
   "login_use_tokens": "Поставете токени вместо това",
-  "login_use_code": "Използвайте кода за вход вместо това",
   "login_tokens_label": "Токени за достъп",
   "login_tokens_hint": "Поставете по един токен на ред. Всеки се проверява, преди да може да бъде импортиран.",
   "login_tokens_submit": [
@@ -109,11 +109,26 @@
   "import_tokens_line_too_long": "Един ред е твърде дълъг (най-много {max} знака).",
   "import_tokens_status_pending": "Проверка…",
   "import_tokens_status_valid": "Валиден",
-  "import_tokens_status_unusable_client": "Този токен не може да се използва за копаене.",
+  "import_tokens_client_warning": "Twitch може да откаже някои действия (вземане на Drops, бонус сандъци, залози) от този клиент. Влизането с кода е най-надеждният начин да добавите акаунт.",
   "import_tokens_status_invalid": "Този токен е невалиден или изтекъл.",
   "import_tokens_status_already_added": "Вече добавен",
   "import_tokens_status_duplicate": "Дубликат на друг ред",
   "import_tokens_status_not_imported": "Не е импортиран",
+  "import_tokens_configure": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Настройка на акаунта",
+        "countPlural=*": "Настройка на акаунтите"
+      }
+    }
+  ],
   "import_tokens_settings_step_title": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -213,6 +228,50 @@
   "history_title": "Дневник",
   "history_empty": "Все още нищо.",
   "history_load_failed": "Дневникът не можа да бъде прочетен.",
+  "stats_title": "Статистика",
+  "stats_empty": "За този период все още няма история.",
+  "stats_load_failed": "Статистиката не можа да бъде заредена.",
+  "stats_period_label": "Показан период",
+  "stats_period_7": "7 дни",
+  "stats_period_30": "30 дни",
+  "stats_period_90": "90 дни",
+  "stats_period_disabled_retention": "Историята се пази {retention}: сменете съхранението в настройките, за да видите по-назад.",
+  "stats_tile_points": "Спечелени точки",
+  "stats_tile_drops": "Взети drops",
+  "stats_tile_watched": "Време на гледане",
+  "stats_tile_predictions": "Спечелени залози",
+  "stats_tile_top_label": "Топ",
+  "stats_tile_top_empty": "Все още няма данни",
+  "stats_chart_points_by_day": "Точки на ден",
+  "stats_chart_points_by_day_aria": "Спечелени точки на ден за {days} дни",
+  "stats_chart_drops_by_category": "Взети drops по категория",
+  "stats_chart_drops_by_category_empty": "Няма взет drop за този период.",
+  "stats_category_unknown": "Без категория",
+  "stats_chart_top_streamers": "Най-печеливши стриймъри",
+  "stats_chart_top_streamers_empty": "Няма спечелена точка за този период.",
+  "stats_reason_watch": "Гледа се",
+  "stats_reason_watch_streak": "Бонус за серия",
+  "stats_reason_claim": "Бонус сандък",
+  "stats_reason_raid": "Присъединяване към рейд",
+  "stats_reason_community_moment": "Момент на общността",
+  "stats_reason_prediction": "Спечелен залог",
+  "stats_reason_refund": "Възстановен залог",
+  "stats_curve_title": "Крива на точките",
+  "stats_curve_streamer_label": "Стриймър",
+  "stats_curve_streamer_empty": "Изберете стриймър",
+  "stats_curve_no_streamer": "Този акаунт все още няма стриймър, за да покаже крива.",
+  "stats_curve_empty": "Няма събитие с точки за този стриймър през този период.",
+  "stats_curve_aria": "Баланс на точките на {streamer} във времето",
+  "stats_curve_legend_balance": "Баланс на точки",
+  "stats_curve_legend_streak": "Възстановена серия",
+  "stats_curve_legend_raid": "Присъединен рейд",
+  "stats_curve_legend_moment": "Взет момент",
+  "stats_curve_legend_prediction_placed": "Направен залог",
+  "stats_curve_legend_prediction_won": "Спечелен залог",
+  "stats_curve_legend_prediction_lost": "Загубен залог",
+  "stats_curve_legend_prediction_refund": "Възстановен залог",
+  "stats_curve_open": "Виж кривата на точките на {streamer}",
+  "stats_curve_open_tip": "Виж кривата на точките",
   "event_kind_info": "Инфо",
   "event_kind_error": "Грешка",
   "event_kind_watch_started": "Гледане",
@@ -499,6 +558,8 @@
   "error_catalog_rate_limited": "Каталогът поиска по-бавен темп. Следващото опресняване ще изчака по-дълго.",
   "error_too_many_attempts": "Твърде много грешни пароли: опитайте отново след малко.",
   "error_https_required": "Отворете таблото на неговия HTTPS адрес.",
+  "error_open_url_refused": "Тази връзка не е разрешено да се отваря от приложението.",
+  "error_open_url_failed": "Отварянето на тази връзка се провали.",
   "error_forwarded_for_required": "HTTPS проксито пред таблото трябва да изпраща адреса на посетителя (X-Forwarded-For).",
   "error_proxy_not_local": "Таблото приема своето HTTPS прокси само от тази машина или от локалната ѝ мрежа.",
   "error_cross_site_request": "Отказано: заявката дойде от страница на друг сайт.",
@@ -602,6 +663,41 @@
       "match": {
         "countPlural=one": "+{points} точка",
         "countPlural=*": "+{points} точки"
+      }
+    }
+  ],
+  "ev_points_reason": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input channel",
+        "input reason",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "+{points} точка в {channel} · {reason}",
+        "countPlural=*": "+{points} точки в {channel} · {reason}"
+      }
+    }
+  ],
+  "ev_points_reason_short": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input reason",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "+{points} точка · {reason}",
+        "countPlural=*": "+{points} точки · {reason}"
       }
     }
   ],
@@ -839,9 +935,27 @@
   "import_title": "Импортиране на стриймъри",
   "import_too_many": "Най-много {max} имена наведнъж.",
   "login_setup_custom": "Персонализирани",
-  "login_setup_later_hint": "Акаунтът остава на пауза, докато не го стартирате – сега или по-късно от страницата му.",
+  "login_setup_later_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Акаунтът остава на пауза, докато не го стартирате – сега или по-късно от страницата му.",
+        "countPlural=*": "Акаунтите остават на пауза, докато не ги стартирате – сега или по-късно от страниците им."
+      }
+    }
+  ],
   "login_setup_streamers_empty": "Все още няма стриймъри: добавете някои по-долу или по-късно от страницата „Точки“.",
-  "login_setup_streamers_hint": "Каналите, които този акаунт гледа за точки на канала, най-важните първи.",
+  "login_setup_streamers_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Каналите, които този акаунт гледа за точки на канала, най-важните първи.",
+        "countPlural=*": "Каналите, които тези акаунти гледат за точки на канала, най-важните първи."
+      }
+    }
+  ],
   "login_setup_streamers_title": "Стриймъри за точките",
   "points_import": "Импортирай",
   "streamer_change": "Смени",
@@ -887,7 +1001,6 @@
   "updates_last_checked": "Последна проверка: {time}",
   "updates_never_checked": "Последна проверка: все още няма отговор от стартирането",
   "updates_install": "Инсталирай и рестартирай",
-  "updates_download_page": "Отвори страницата за изтегляне",
   "settings_notifications_language": "Език на известията",
   "updates_confirm_title": "Да се инсталира ли версия {version}?",
   "updates_confirm_text": "Имате версия {current}. Приложението изтегля версия {version}, спира копаенето във всички акаунти, инсталира я и се рестартира само. След това копаенето продължава само.",
@@ -1015,11 +1128,29 @@
   "login_setup_step_streamers": "Стриймъри",
   "login_setup_step_summary": "Обобщение",
   "login_setup_start_hint": "Започнете от настройките по подразбиране или използвайте отново настройките на акаунт, с който вече копаете. Всичко може да се промени в следващите стъпки.",
-  "login_setup_summary_hint": "Всичко може да се промени по-късно от страниците на акаунта.",
+  "login_setup_summary_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Всичко може да се промени по-късно от страниците на акаунта.",
+        "countPlural=*": "Всичко може да се промени по-късно от страниците на акаунтите."
+      }
+    }
+  ],
   "login_setup_progress": "Стъпка {current} от {total}",
   "common_yes": "Да",
   "common_no": "Не",
-  "login_setup_drops_hint": "Кои кампании копае този акаунт и дали сам взема наградите.",
+  "login_setup_drops_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Кои кампании копае този акаунт и дали сам взема наградите.",
+        "countPlural=*": "Кои кампании копаят тези акаунти и дали сами взимат наградите."
+      }
+    }
+  ],
   "event_kind_chat_mention": "Споменаване",
   "ev_chat_mention": "{chatter} ви спомена в чата на {channel}",
   "ev_chat_mention_short": "{chatter} ви спомена",
@@ -1107,6 +1238,7 @@
   "confirm_remove_setup_streamer_text": "{name} излиза от списъка: този акаунт няма да го гледа за точки на канала.",
   "search_verified": "Потвърден партньор",
   "login_setup_for": "Акаунт: {name}",
+  "login_setup_for_many": "Акаунти: {count}",
   "search_pick": "Избери",
   "search_no_result": "Няма резултати за {query}.",
   "drops_tabs_label": "Раздели на страницата Drops",
@@ -1629,8 +1761,6 @@
   "account_badges_not_mined_hint": "Показани, но не се копаят: първо е нужен абонамент, който правите сами, или друга значка, или Twitch не посочва канал, който майнерът да гледа.",
   "error_action_rate_limited": "Твърде много опити: изчакайте малко и опитайте отново.",
   "error_invalid_token": "Този токен е невалиден или изтекъл. Поставете нов.",
-  "error_unsupported_client": "Този токен не може да се използва за копаене. Влезте с кода вместо това.",
-  "error_missing_scope": "Този токен няма разрешение, което приложението изисква. Влезте с кода вместо това.",
   "ev_paused": "На пауза",
   "ev_paused_quiet_window": "На пауза (дневна пауза)",
   "ev_paused_scheduled": "На пауза, продължава {time}",

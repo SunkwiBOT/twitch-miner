@@ -262,7 +262,10 @@ struct AccountMiner<T> {
     pubsub_left_out: usize,
     goals_at: HashMap<String, tokio::time::Instant>,
     slots: Vec<ActiveSlot>,
-    predictions_placed: HashMap<String, (String, i64)>,
+    // ! The login is known only when this account placed the bet itself
+    // (`place_due_bets`); `None` when Twitch's own echo of an external bet
+    // (`PredictionMade`) inserts the entry first.
+    predictions_placed: HashMap<String, (String, i64, Option<String>)>,
     // ! A bet sent once is never sent again for its prediction: Twitch repeats the prediction at every update.
     bets_tried: HashSet<String>,
     claims: ClaimRegistry,
@@ -300,6 +303,7 @@ pub fn spawn(
         context.http.clone(),
         record.id.clone(),
         record.login.clone(),
+        credential.identity.clone(),
         credential.tokens.access_token.clone(),
     );
     let (mut miner, snapshot) =

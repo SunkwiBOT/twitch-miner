@@ -222,6 +222,11 @@ Ce qui le distingue des autres mineurs. « Voir en image » montre chaque poin
   <img src="../media/fr/journal-requests.avif" alt="Le Journal filtré, puis Logs techniques › Requêtes">
   </details>
 
+- **Une page Statistiques.** Points gagnés, drops réclamés, temps regardé et paris gagnés
+  sur 7, 30 ou 90 jours, avec le streamer ou la catégorie en tête derrière chaque chiffre.
+  Une courbe de points par streamer montre le solde dans le temps, avec des repères pour les
+  streaks, raids, moments et paris, et une infobulle sur chacun.
+
 - **Pause programmée et pause quotidienne.** Mettez en pause un compte ou tous les comptes
   pour 30 minutes, 1 heure, 4 heures, jusqu'à demain 09:00, ou une date et une heure
   personnalisées ; « Reprendre maintenant » lève la pause plus tôt. Un badge affiche
@@ -258,13 +263,12 @@ Ce qui le distingue des autres mineurs. « Voir en image » montre chaque poin
   <img src="../media/fr/security-lock.avif" alt="Le cadenas : l'application verrouillée, puis déverrouillée avec son mot de passe">
   </details>
 
-- **Des mises à jour signées, jamais automatiques.** Un badge « Mise à jour » et son numéro
-  de version apparaissent dans la barre du haut. « Installer et redémarrer » demande
+- **Des mises à jour signées, jamais automatiques.** Un badge « Mise à jour » et son numéro
+  de version apparaissent dans la barre du haut. « Installer et redémarrer » demande
   d'abord une confirmation, puis l'application installe la version et redémarre. Avec un
-  mot de passe de l'application, elle redémarre verrouillée : retapez-le pour reprendre le
-  minage. Seule une version signée par le projet est installée. L'exécutable portable
-  Windows ne se met pas à jour seul : son bouton ouvre la page de téléchargement. La
-  version Docker prévient aussi, avec les commandes à lancer.
+  mot de passe de l'application, elle redémarre verrouillée : retapez-le pour reprendre le
+  minage. Seule une version signée par le projet est installée. La version Docker prévient
+  aussi, avec les commandes à lancer.
 
   <details open><summary>Voir en image</summary>
   <img src="../media/fr/updates.avif" alt="Le badge « Mise à jour », la confirmation, puis l'installation">
@@ -370,9 +374,8 @@ sur **Ouvrir quand même**.
 
 Les mises à jour sont signées. L'application cherche une nouvelle version au démarrage,
 puis toutes les heures (vous pouvez changer la fréquence dans **Paramètres › À propos**).
-Elle n'en installe jamais une toute seule : vous l'installez en un clic, depuis le message
-qui s'affiche ou depuis **Paramètres › À propos**. L'exécutable portable ne se met jamais à
-jour seul : « Ouvrir la page de téléchargement » mène à la dernière version publiée.
+Elle n'en installe jamais une toute seule : vous l'installez en un clic, depuis le message
+qui s'affiche ou depuis **Paramètres › À propos**.
 
 Les données sont dans le dossier de données de l'utilisateur :
 
@@ -524,13 +527,11 @@ avec Docker. Sur le bureau, **Paramètres › Bureau** l'ouvre en un clic. On y 
 `miner.db` (comptes, réglages, journal), `master.key` (la clé des sessions, quand aucun mot
 de passe de l'application n'est défini) et les logs.
 
-**Comment mettre à jour ?**\
+**Comment mettre à jour ?**\
 L'application de bureau cherche une nouvelle version au démarrage, puis toutes les heures
-(réglable dans **Paramètres › À propos**). Cliquez sur le badge « Mise à jour », puis sur
-« Installer et redémarrer ». Avec Docker, le tableau de bord prévient : lancez
-`docker compose pull`, puis `docker compose up -d`. L'exécutable portable Windows ne se met
-pas à jour seul : « Ouvrir la page de téléchargement » ouvre la dernière version publiée,
-où vous téléchargez le nouveau.
+(réglable dans **Paramètres › À propos**). Cliquez sur le badge « Mise à jour », puis sur
+« Installer et redémarrer ». Avec Docker, le tableau de bord prévient : lancez
+`docker compose pull`, puis `docker compose up -d`.
 
 **J'ai oublié le mot de passe de l'application.**\
 Il ne peut pas être récupéré : c'est lui qui chiffre vos sessions Twitch. Quittez

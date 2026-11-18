@@ -3,6 +3,7 @@ import type { CampaignType } from "../bindings/CampaignType";
 import { BoxArtSize } from "../format.constants";
 import { boxArt } from "../format.utils";
 import { t } from "../i18n/i18n.svelte";
+import { LABEL_CHARACTER_PX } from "../text-metrics.utils";
 import { DAY_MS } from "../time/time.constants";
 import { zoneOffsetMs } from "../time/time.utils";
 import {
@@ -21,7 +22,6 @@ import {
   SINGLE_LANE_PADDING,
   STACKED_LANE_HEIGHT,
   STACKED_LANE_PADDING,
-  TICK_CHARACTER_PX,
   TICK_LABEL_PADDING_PX,
   ZOOM_FRAMES,
 } from "./timeline.constants";
@@ -111,7 +111,7 @@ export const getTickLabelStep = (
 ): number => {
   const spacing = (range.tick / range.span) * laneWidth;
   const longest = Math.max(0, ...labels.map((label) => label.length));
-  const needed = longest * TICK_CHARACTER_PX + TICK_LABEL_PADDING_PX;
+  const needed = longest * LABEL_CHARACTER_PX + TICK_LABEL_PADDING_PX;
 
   return spacing > 0 ? Math.max(1, Math.ceil(needed / spacing)) : 1;
 };

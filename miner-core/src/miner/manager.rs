@@ -14,15 +14,17 @@ use super::record_event;
 use super::spam_points::{spam_channels, SpamAccess, SpamPoints};
 use crate::api::{
     AccountSnapshot, AccountStats, AccountStatus, BadgeCatalogView, BadgesResponse,
-    CatalogResponse, CatalogView, CategoryCount, ChannelsLookupResponse, Command,
-    HistoryExportQuery, HistoryExportResponse, HistoryQuery, HistoryResponse, ImportTokenOutcome,
+    CatalogResponse, CatalogView, CategoryCount, ChannelsLookupResponse, Command, DropsByCategory,
+    HistoryCurveQuery, HistoryCurveResponse, HistoryExportQuery, HistoryExportResponse,
+    HistoryQuery, HistoryResponse, HistoryStatsQuery, HistoryStatsResponse, ImportTokenOutcome,
     ImportTokensFlowStatus, ImportTokensFlowView, LoginFlowStatus, LoginFlowView, LogsQuery,
     LogsReportResponse, LogsResponse, NotificationTarget, NotificationTest,
-    NotificationTestRequest, ProxyTestResponse, RedeemRequest, RefreshCount, RequestsQuery,
-    RequestsResponse, Shell, Snapshot, TokenCheck, CHANNELS_LOOKUP_MAX, FOLLOWS_MAX,
-    HISTORY_EXPORT_MAX, HISTORY_LIMIT_DEFAULT, HISTORY_LIMIT_MAX, LOGS_LIMIT_DEFAULT,
-    LOGS_LIMIT_MAX, REQUESTS_LIMIT_DEFAULT, REQUESTS_LIMIT_MAX, TOKENS_IMPORT_MAX,
-    TOKEN_LINE_MAX_CHARS,
+    NotificationTestRequest, PointsByDay, ProxyTestResponse, RedeemRequest, RefreshCount,
+    RequestsQuery, RequestsResponse, Shell, Snapshot, StreamerMinutes, StreamerPoints,
+    StreamerPredictions, TokenCheck, CHANNELS_LOOKUP_MAX, FOLLOWS_MAX, HISTORY_EXPORT_MAX,
+    HISTORY_LIMIT_DEFAULT, HISTORY_LIMIT_MAX, HISTORY_STATS_MAX_SPAN_DAYS, HISTORY_STATS_TOP_MAX,
+    LOGS_LIMIT_DEFAULT, LOGS_LIMIT_MAX, REQUESTS_LIMIT_DEFAULT, REQUESTS_LIMIT_MAX,
+    TOKENS_IMPORT_MAX, TOKEN_LINE_MAX_CHARS,
 };
 use crate::badges::{BadgeCatalog, BadgeCatalogClient};
 use crate::catalog::{Catalog, CatalogClient};
@@ -37,10 +39,11 @@ use crate::requests::{RequestCursor, RequestFilter, RequestLog, REPORT_MAX};
 use crate::spam::{BurstProgress, SpamBalance, SpamChannelView};
 use crate::store::vault::{random_salt, Vault, VaultMode};
 use crate::store::{
-    AccountRecord, AccountSource, Credential, HistoryExportFilter, HistoryFilter, Store,
-    VaultStatus,
+    AccountRecord, AccountSource, Credential, HistoryCurveFilter, HistoryExportFilter,
+    HistoryFilter, HistoryStatsFilter, Store, VaultStatus,
 };
 use crate::twitch::auth::{self, DeviceCode, Poll};
+use crate::twitch::identity::AccountIdentity;
 use crate::twitch::TwitchHttp;
 use crate::util::{locked, read_locked, write_locked};
 use zeroize::Zeroizing;
@@ -73,6 +76,45 @@ const SEARCH_MAX_CHARS: usize = 60;
 // ! Twitch logins are 4 to 25 characters long: shorter text is only a
 // fragment, not worth reading apart.
 const LOGIN_MIN_CHARS: usize = 4;
+
+// ! A wide curve span (90 days of 5-minute gains) can hold tens of
+// thousands of pure balance rows: thinned below, annotations kept in full.
+const CURVE_MAX_BALANCE_POINTS: usize = 2_000;
+
+// ! Keeps every annotated event (a raid, a bet, a streak...) whole, and
+// decimates the plain balance rows (`PointsEarned`/`PointsSpent`) evenly so
+// the line stays representative without shipping every 5-minute tick; the
+// first and last balance row of the span are always kept so the curve's
+// start and end are exact.
+fn thin_curve_events(events: Vec<MinerEvent>) -> Vec<MinerEvent> {
+    let is_balance_only =
+        |kind: EventKind| matches!(kind, EventKind::PointsEarned | EventKind::PointsSpent);
+    let balance_count = events.iter().filter(|e| is_balance_only(e.kind)).count();
+
+    if balance_count <= CURVE_MAX_BALANCE_POINTS {
+        return events;
+    }
+
+    let stride = balance_count.div_ceil(CURVE_MAX_BALANCE_POINTS);
+    let last_balance_index = events.iter().rposition(|e| is_balance_only(e.kind));
+    let mut seen = 0usize;
+
+    events
+        .into_iter()
+        .enumerate()
+        .filter(|(index, event)| {
+            if !is_balance_only(event.kind) {
+                return true;
+            }
+
+            let keep = seen.is_multiple_of(stride) || Some(*index) == last_balance_index;
+            seen += 1;
+
+            keep
+        })
+        .map(|(_, event)| event)
+        .collect()
+}
 
 const HISTORY_PRUNE_EVERY: Duration = Duration::from_secs(3600);
 const REQUESTS_MAX_AGE: chrono::Duration = chrono::Duration::days(365);
@@ -111,6 +153,10 @@ struct ImportFlow {
 struct LoginOutcome<'a> {
     source: AccountSource,
     new_account: AccountSettings,
+    // ! The identity of the token this login just produced: for an
+    // existing account, `finish_login` only keeps its stored user agent
+    // if the persona didn't change, see its own comment there.
+    identity: AccountIdentity,
     existing_patch: Option<&'a AccountSettingsPatch>,
 }
 
@@ -232,6 +278,7 @@ impl Manager {
         };
 
         let vault = store.open_default_vault()?;
+
         let catalog: Catalog = crate::feed::cached(&store);
         let badges: BadgeCatalog = crate::feed::cached(&store);
         let recent = read_recent(&store)?;
@@ -503,6 +550,16 @@ impl Manager {
         }
     }
 
+    // ! A campaign or badge link that only the account's own inventory carries (ended, not
+    // crawled, or whose `link_url` differs from the catalogue's) is resolved from here first.
+    pub async fn account_snapshot(&self, account_id: &str) -> Option<AccountSnapshot> {
+        self.accounts
+            .lock()
+            .await
+            .get(account_id)
+            .map(|handle| handle.snapshot.borrow().clone())
+    }
+
     pub fn logs_page(&self, query: &LogsQuery) -> LogsResponse {
         let limit = query
             .limit
@@ -546,6 +603,134 @@ impl Manager {
         Ok(HistoryResponse {
             events,
             next_before_id,
+        })
+    }
+
+    // ! Clamped against `history_retention` and a hard span cap, regardless
+    // of what the caller asked for: the stats page and the per-streamer
+    // curve never read more than one bounded period at a time.
+    async fn clamped_span(
+        &self,
+        since: DateTime<Utc>,
+        until: DateTime<Utc>,
+    ) -> (DateTime<Utc>, DateTime<Utc>) {
+        let retention = self.settings.read().await.history_retention.max_age();
+        let now = Utc::now();
+        let until = until.min(now);
+        let mut since = since.min(until);
+
+        if let Some(age) = retention {
+            since = since.max(now - age);
+        }
+
+        let max_span = chrono::Duration::days(HISTORY_STATS_MAX_SPAN_DAYS);
+
+        if until - since > max_span {
+            since = until - max_span;
+        }
+
+        (since, until)
+    }
+
+    pub async fn history_stats(&self, query: &HistoryStatsQuery) -> Result<HistoryStatsResponse> {
+        let (since, until) = self.clamped_span(query.since, query.until).await;
+        let filter = HistoryStatsFilter {
+            account_ids: query.account_ids.as_deref(),
+            since,
+            until,
+        };
+
+        // ! A boundary below the clamped `since` (narrow edge: retention
+        // equal to the requested period, near a day boundary) is floored to
+        // `since` rather than dropped, so the rows between them are not
+        // silently left out of every bucket.
+        let mut day_boundaries: Vec<DateTime<Utc>> = query
+            .day_boundaries
+            .iter()
+            .copied()
+            .filter(|boundary| *boundary < until)
+            .map(|boundary| boundary.max(since))
+            .collect();
+        day_boundaries.sort();
+        day_boundaries.dedup();
+
+        let points_by_day = self.store.points_by_day(&filter, &day_boundaries)?;
+        let drops_by_category = self.store.drops_by_category(&filter)?;
+        let top_streamers = self.store.streamer_points(&filter, HISTORY_STATS_TOP_MAX)?;
+        let streamer_predictions = self.store.streamer_predictions_won(&filter)?;
+        let predictions_won_total = self.store.predictions_won_total(&filter)?;
+        let watch_minutes = self.store.watch_minutes_by_streamer(&filter)?;
+
+        let points_total = points_by_day.iter().map(|(_, _, points)| points).sum();
+        let drops_claimed_total = drops_by_category.iter().map(|(_, count)| count).sum();
+        let minutes_watched_total = watch_minutes.iter().map(|(_, minutes)| minutes).sum();
+
+        let top_points_streamer = top_streamers.first().map(|(login, points)| StreamerPoints {
+            login: login.clone(),
+            points: *points,
+        });
+        let top_category = drops_by_category
+            .first()
+            .map(|(category, count)| DropsByCategory {
+                category: category.clone(),
+                count: *count,
+            });
+        let top_watched_streamer = watch_minutes
+            .first()
+            .map(|(login, minutes)| StreamerMinutes {
+                login: login.clone(),
+                minutes: *minutes,
+            });
+        let top_predictions_streamer =
+            streamer_predictions
+                .first()
+                .map(|(login, won)| StreamerPredictions {
+                    login: login.clone(),
+                    won: *won,
+                });
+
+        Ok(HistoryStatsResponse {
+            points_by_day: points_by_day
+                .into_iter()
+                .map(|(day_start, reason, points)| PointsByDay {
+                    day_start,
+                    reason,
+                    points,
+                })
+                .collect(),
+            drops_by_category: drops_by_category
+                .into_iter()
+                .map(|(category, count)| DropsByCategory { category, count })
+                .collect(),
+            top_streamers_by_points: top_streamers
+                .into_iter()
+                .map(|(login, points)| StreamerPoints { login, points })
+                .collect(),
+            points_total,
+            drops_claimed_total,
+            minutes_watched_total,
+            predictions_won_total,
+            top_points_streamer,
+            top_category,
+            top_watched_streamer,
+            top_predictions_streamer,
+        })
+    }
+
+    pub async fn history_curve(&self, query: &HistoryCurveQuery) -> Result<HistoryCurveResponse> {
+        let (since, until) = self.clamped_span(query.since, query.until).await;
+        let filter = HistoryCurveFilter {
+            account_id: &query.account_id,
+            channel: &query.channel,
+            since,
+            until,
+        };
+        let events = thin_curve_events(self.store.balance_curve(&filter)?);
+
+        Ok(HistoryCurveResponse {
+            events,
+            since,
+            until,
         })
     }
 
@@ -1110,6 +1295,7 @@ impl Manager {
                     auth::revoke(
                         &self.http(),
                         Some(account_id),
+                        &credential.identity,
                         &credential.tokens.access_token,
                     )
                     .await;
@@ -1238,9 +1424,14 @@ impl Manager {
             match poll {
                 Poll::Pending => continue,
                 Poll::Token(tokens) => {
-                    let validation = auth::validate(&http, None, &tokens.access_token)
-                        .await?
-                        .ok_or(Error::Unauthorized)?;
+                    let validation = auth::validate(
+                        &http,
+                        None,
+                        &AccountIdentity::default(),
+                        &tokens.access_token,
+                    )
+                    .await?
+                    .ok_or(Error::Unauthorized)?;
 
                     return self
                         .finish_login(
@@ -1254,6 +1445,7 @@ impl Manager {
                                     enabled: false,
                                     ..AccountSettings::default()
                                 },
+                                identity: AccountIdentity::new_tv(),
                                 existing_patch: None,
                             },
                         )
@@ -1273,14 +1465,19 @@ impl Manager {
         let token = auth::parse_pasted_token(token)?;
         let http = self.http();
         let validation = auth::validate_pasted_token(&http, &token).await?;
-        let (display_name, avatar_url) = self.describe_token(&http, &validation).await;
+        let identity = AccountIdentity::for_client(&validation.client_id);
+        let (display_name, avatar_url) = self.describe_token(&http, &validation, &identity).await;
         let already_added = self.store.account(&validation.user_id)?.is_some();
+        let persona = identity.persona();
+        let scopes_ok = auth::has_required_scopes(&validation.scopes);
 
         Ok(TokenCheck {
             login: validation.login,
             display_name,
             avatar_url,
             already_added,
+            persona,
+            scopes_ok,
         })
     }
 
@@ -1469,6 +1666,7 @@ impl Manager {
             access_token: token,
             refresh_token: None,
         };
+        let identity = AccountIdentity::for_client(&validation.client_id);
 
         self.finish_login(
             &http,
@@ -1477,7 +1675,14 @@ impl Manager {
             token_set,
             LoginOutcome {
                 source: AccountSource::ImportedToken,
-                new_account: settings.clone().apply(AccountSettings::default()),
+                // ! Always starts paused, same as a fresh device-code
+                // account: the setup wizard the import flow runs once
+                // results are in decides the real `enabled` state.
+                new_account: AccountSettings {
+                    enabled: false,
+                    ..settings.clone().apply(AccountSettings::default())
+                },
+                identity,
                 existing_patch: apply_existing_settings.then_some(settings),
             },
         )
@@ -1589,8 +1794,9 @@ impl Manager {
         &self,
         http: &Arc<TwitchHttp>,
         validation: &auth::Validation,
+        identity: &AccountIdentity,
     ) -> (String, Option<String>) {
-        match crate::twitch::channels::lookup_public(http, &validation.login).await {
+        match crate::twitch::channels::lookup_public(http, identity, &validation.login).await {
             Ok(Some(channel)) => (channel.display_name, channel.avatar_url),
             _ => (validation.login.clone(), None),
         }
@@ -1610,7 +1816,9 @@ impl Manager {
         outcome: LoginOutcome<'_>,
     ) -> Result<String> {
         let existing = self.store.account(&validation.user_id)?;
-        let (display_name, avatar_url) = self.describe_token(http, &validation).await;
+        let (display_name, avatar_url) = self
+            .describe_token(http, &validation, &outcome.identity)
+            .await;
         let position = self.store.accounts()?.len() as i64;
         let record = AccountRecord {
             id: validation.user_id.clone(),
@@ -1639,6 +1847,32 @@ impl Manager {
 
         self.store.upsert_account(&record)?;
 
+        // ! A token is bound to the client that issued it: the client id
+        // always follows the fresh token this login just produced. The
+        // user agent only changes if the persona changed too (a
+        // same-persona re-login/re-import keeps the device it already
+        // picked instead of looking like a new one every time). The
+        // existing identity lives inside the *old* credential, read before
+        // it is overwritten below.
+        let existing_identity = match existing {
+            Some(existing) => self
+                .store
+                .load_credential(&existing.id, vault)?
+                .map(|credential| credential.identity),
+            None => None,
+        };
+        let identity = match existing_identity {
+            Some(existing_identity)
+                if existing_identity.persona() == outcome.identity.persona() =>
+            {
+                AccountIdentity {
+                    client_id: outcome.identity.client_id.clone(),
+                    user_agent: existing_identity.user_agent.clone(),
+                }
+            }
+            _ => outcome.identity,
+        };
+
         let restart = self.restart_lock(&record.id);
         let _one_at_a_time = restart.lock().await;
 
@@ -1654,6 +1888,7 @@ impl Manager {
         let credential = Credential {
             tokens,
             device_id: self.device_id.clone(),
+            identity,
         };
 
         self.store.save_credential(&record.id, &credential, vault)?;
@@ -1881,6 +2116,7 @@ impl Manager {
         let settings = self.settings.read().await.clone();
         let now = Utc::now();
         let quiet_window_active = settings.quiet_window.active_at(now);
+        let history_retention_days = settings.history_retention.days();
         let accounts_lock = self.accounts.lock().await;
         let start_failures: HashMap<String, ErrorCode> = self
             .start_failures()
@@ -1996,6 +2232,7 @@ impl Manager {
                 next_manual_refresh_at: self.next_badges_manual_refresh(),
             },
             settings,
+            history_retention_days,
             vault,
             recent_events,
             login: self.login_status().await,
@@ -2061,7 +2298,7 @@ impl Manager {
         let login = crate::util::normalize_login(login)
             .ok_or_else(|| Error::UnknownChannel(login.to_owned()))?;
 
-        crate::twitch::channels::lookup_public(&self.http(), &login)
+        crate::twitch::channels::lookup_public(&self.http(), &AccountIdentity::default(), &login)
             .await?
             .ok_or(Error::UnknownChannel(login))
     }
@@ -2107,10 +2344,14 @@ impl Manager {
             async {
                 match &exact {
                     // ! Only an extra: a failed read leaves the suggestions as they are.
-                    Some(login) => crate::twitch::channels::lookup_public(&http, login)
-                        .await
-                        .ok()
-                        .flatten(),
+                    Some(login) => crate::twitch::channels::lookup_public(
+                        &http,
+                        &AccountIdentity::default(),
+                        login,
+                    )
+                    .await
+                    .ok()
+                    .flatten(),
                     None => None,
                 }
             },

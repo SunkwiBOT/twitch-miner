@@ -53,6 +53,7 @@ async fn locked_snapshot(manager: &Manager) -> Snapshot {
         catalog: CatalogView::default(),
         badges: BadgeCatalogView::default(),
         quiet_window_active: false,
+        history_retention_days: None,
         settings: GlobalSettings {
             language: settings.language,
             theme: settings.theme,
@@ -261,6 +262,26 @@ pub(super) async fn history(
 }
 
 #[tauri::command]
+pub(super) async fn history_stats(
+    state: tauri::State<'_, AppState>,
+    query: HistoryStatsQuery,
+) -> Answer<HistoryStatsResponse> {
+    unlocked(&state).await?;
+
+    Ok(state.manager.history_stats(&query).await?)
+}
+
+#[tauri::command]
+pub(super) async fn history_curve(
+    state: tauri::State<'_, AppState>,
+    query: HistoryCurveQuery,
+) -> Answer<HistoryCurveResponse> {
+    unlocked(&state).await?;
+
+    Ok(state.manager.history_curve(&query).await?)
+}
+
+#[tauri::command]
 pub(super) async fn refresh_catalog(state: tauri::State<'_, AppState>) -> Answer<RefreshResponse> {
     unlocked(&state).await?;
 
@@ -368,7 +389,6 @@ pub(super) fn app_info(folder: tauri::State<'_, DataFolder>) -> AppInfoResponse 
             version: miner_core::VERSION.to_owned(),
             platform: std::env::consts::OS.to_owned(),
             data_dir: folder.path.to_string_lossy().into_owned(),
-            portable: updates::portable(),
         },
     }
 }

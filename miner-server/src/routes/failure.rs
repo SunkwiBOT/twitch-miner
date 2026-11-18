@@ -8,7 +8,8 @@ pub(super) fn status_of(code: ErrorCode) -> StatusCode {
         | ErrorCode::ForwardedForRequired
         | ErrorCode::ProxyNotLocal
         | ErrorCode::CrossSiteRequest
-        | ErrorCode::UpdateSignatureRefused => StatusCode::FORBIDDEN,
+        | ErrorCode::UpdateSignatureRefused
+        | ErrorCode::OpenUrlRefused => StatusCode::FORBIDDEN,
         ErrorCode::InvalidRequest => StatusCode::BAD_REQUEST,
         ErrorCode::NotFound
         | ErrorCode::UnknownAccount
@@ -19,11 +20,9 @@ pub(super) fn status_of(code: ErrorCode) -> StatusCode {
         | ErrorCode::RewardNotRedeemable
         | ErrorCode::BurstRunning
         | ErrorCode::DeviceCodeExpired => StatusCode::CONFLICT,
-        ErrorCode::InvalidProxy
-        | ErrorCode::InvalidStreamerLogin
-        | ErrorCode::InvalidToken
-        | ErrorCode::UnsupportedClient
-        | ErrorCode::MissingScope => StatusCode::UNPROCESSABLE_ENTITY,
+        ErrorCode::InvalidProxy | ErrorCode::InvalidStreamerLogin | ErrorCode::InvalidToken => {
+            StatusCode::UNPROCESSABLE_ENTITY
+        }
         // ! Never 502 or 504: Cloudflare puts its own page in their place.
         ErrorCode::NetworkError
         | ErrorCode::TwitchUnavailable
@@ -40,6 +39,7 @@ pub(super) fn status_of(code: ErrorCode) -> StatusCode {
         | ErrorCode::InvalidVault
         | ErrorCode::UpdateInstallFailed
         | ErrorCode::ServerUnreachable
+        | ErrorCode::OpenUrlFailed
         | ErrorCode::UnknownError => StatusCode::INTERNAL_SERVER_ERROR,
     }
 }

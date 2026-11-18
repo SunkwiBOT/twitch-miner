@@ -20,13 +20,13 @@ use miner_core::api::{
     ApiRoute, AuthResponse, AuthStatus, BadgesResponse, CatalogResponse, ChannelBannersRequest,
     ChannelBannersResponse, ChannelQuery, ChannelResponse, ChannelsLookupRequest,
     ChannelsLookupResponse, CheckPastedTokenRequest, CheckPastedTokenResponse, Command,
-    DashboardLoginRequest, FollowsQuery, FollowsResponse, HistoryExportQuery,
-    HistoryExportResponse, HistoryQuery, HistoryResponse, ImportTokensRequest,
-    ImportTokensResponse, LoginFlowResponse, LogsQuery, LogsReportResponse, LogsResponse,
-    NotificationTest, NotificationTestRequest, ProxyTestRequest, ProxyTestResponse, RedeemRequest,
-    RedeemResponse, RefreshResponse, RequestsQuery, RequestsResponse, SearchQuery, SearchResponse,
-    ServerMessage, SnapshotResponse, SpamBalanceResponse, SpamChannelQuery, SpamChannelResponse,
-    UpdateCheck, UpdateCheckResponse,
+    DashboardLoginRequest, FollowsQuery, FollowsResponse, HistoryCurveQuery, HistoryCurveResponse,
+    HistoryExportQuery, HistoryExportResponse, HistoryQuery, HistoryResponse, HistoryStatsQuery,
+    HistoryStatsResponse, ImportTokensRequest, ImportTokensResponse, LoginFlowResponse, LogsQuery,
+    LogsReportResponse, LogsResponse, NotificationTest, NotificationTestRequest, ProxyTestRequest,
+    ProxyTestResponse, RedeemRequest, RedeemResponse, RefreshResponse, RequestsQuery,
+    RequestsResponse, SearchQuery, SearchResponse, ServerMessage, SnapshotResponse,
+    SpamBalanceResponse, SpamChannelQuery, SpamChannelResponse, UpdateCheck, UpdateCheckResponse,
 };
 use miner_core::error::{ApiError, ErrorCode};
 use miner_core::Manager;
@@ -129,6 +129,8 @@ pub fn router(state: Shared) -> Router {
         .route(ApiRoute::ProxyTest.path(), post(test_proxy))
         .route(ApiRoute::History.path(), get(history))
         .route(ApiRoute::HistoryExport.path(), get(history_export))
+        .route(ApiRoute::HistoryStats.path(), get(history_stats))
+        .route(ApiRoute::HistoryCurve.path(), get(history_curve))
         .route(ApiRoute::Badges.path(), get(badges))
         .route(ApiRoute::Logs.path(), get(logs))
         .route(ApiRoute::LogsReport.path(), get(logs_report))
@@ -349,6 +351,20 @@ async fn history_export(
     Params(query): Params<HistoryExportQuery>,
 ) -> Result<Json<HistoryExportResponse>, Failure> {
     Ok(Json(state.manager.history_export(&query)?))
+}
+
+async fn history_stats(
+    State(state): State<Shared>,
+    Params(query): Params<HistoryStatsQuery>,
+) -> Result<Json<HistoryStatsResponse>, Failure> {
+    Ok(Json(state.manager.history_stats(&query).await?))
+}
+
+async fn history_curve(
+    State(state): State<Shared>,
+    Params(query): Params<HistoryCurveQuery>,
+) -> Result<Json<HistoryCurveResponse>, Failure> {
+    Ok(Json(state.manager.history_curve(&query).await?))
 }
 
 async fn refresh_catalog(State(state): State<Shared>) -> Result<Json<RefreshResponse>, Failure> {

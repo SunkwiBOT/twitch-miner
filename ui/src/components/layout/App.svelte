@@ -27,6 +27,8 @@
   import Home from "../pages/Home.svelte";
   import Logs from "../pages/Logs.svelte";
   import Settings from "../pages/Settings.svelte";
+  import Stats from "../pages/Stats.svelte";
+  import StreamerCurve from "../pages/StreamerCurve.svelte";
   import CloseDialog from "./CloseDialog.svelte";
   import FeedbackDialog from "../feedback/FeedbackDialog.svelte";
   import { APP_TITLE, LockKind } from "./layout.constants";
@@ -54,6 +56,10 @@
         return t.badges_title();
       case Page.HISTORY:
         return t.history_title();
+      case Page.STATS:
+        return t.stats_title();
+      case Page.STATS_STREAMER:
+        return t.stats_curve_title();
       case Page.LOGS:
         return t.logs_title();
       case Page.SETTINGS:
@@ -162,6 +168,10 @@
           <Badges snapshot={app.snapshot} />
         {:else if app.page === Page.HISTORY}
           <History snapshot={app.snapshot} />
+        {:else if app.page === Page.STATS}
+          <Stats snapshot={app.snapshot} />
+        {:else if app.page === Page.STATS_STREAMER}
+          <StreamerCurve snapshot={app.snapshot} />
         {:else if app.page === Page.LOGS}
           <Logs snapshot={app.snapshot} />
         {:else if app.page === Page.SETTINGS}

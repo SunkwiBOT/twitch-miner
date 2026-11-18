@@ -221,6 +221,11 @@ arbete.
   <img src="../media/sv/journal-requests.avif" alt="Den filtrerade journalen, sedan Tekniska loggar › Förfrågningar">
   </details>
 
+- **En statistiksida.** Intjänade poäng, inlösta drops, tittartid och vunna vadslagningar
+  över 7, 30 eller 90 dagar, med den bästa streamern eller kategorin bakom varje siffra.
+  En poängkurva per streamer visar saldot över tid, med markörer för streaks, raids,
+  moment och vadslagningar samt ett verktygstips på varje.
+
 - **Schemalagd paus och en daglig paus.** Pausa ett konto eller alla i 30 minuter, 1
   timme, 4 timmar, till imorgon 09:00 eller ett anpassat datum och tid; ”Återuppta nu”
   lyfter pausen tidigare. Ett märke visar när pausen slutar. En daglig paus stoppar
@@ -258,9 +263,7 @@ arbete.
   versionsnumret i det övre fältet. ”Installera och starta om” ber dig först bekräfta,
   sedan installerar appen versionen och startar om. Med ett applösenord startar den om
   låst: skriv in det igen för att fortsätta mina. Bara en version som signerats av
-  projektet installeras. Den portabla Windows-filen uppdaterar sig inte själv: dess knapp
-  öppnar nedladdningssidan. Docker-versionen säger också till, med kommandona som ska
-  köras.
+  projektet installeras. Docker-versionen säger också till, med kommandona som ska köras.
 
   <details open><summary>Se det i aktion</summary>
   <img src="../media/sv/updates.avif" alt="Märket ”Uppdatering”, bekräftelsen och sedan installationen">
@@ -368,8 +371,7 @@ sedan till **Systeminställningar › Integritet och säkerhet** och klicka på 
 Uppdateringarna är signerade. Appen söker efter en ny version när den startar och sedan
 varje timme (hur ofta ändrar du i **Inställningar › Om**). Den installerar aldrig en
 version på egen hand: du installerar den med ett klick, från meddelandet som visas eller
-från **Inställningar › Om**. Den portabla filen uppdaterar sig aldrig själv: ”Öppna
-nedladdningssidan” tar dig till den senaste versionen.
+från **Inställningar › Om**.
 
 Data lagras i användarens datamapp:
 
@@ -519,8 +521,7 @@ när inget applösenord har angetts) och loggarna.
 Skrivbordsappen söker efter en ny version när den startar och sedan varje timme (kan
 ändras i **Inställningar › Om**). Klicka på märket ”Uppdatering” och sedan på
 ”Installera och starta om”. Med Docker säger översikten till: kör `docker compose pull`
-och sedan `docker compose up -d`. Den portabla Windows-filen uppdaterar sig inte själv:
-”Öppna nedladdningssidan” öppnar den senaste versionen, där du laddar ned den nya.
+och sedan `docker compose up -d`.
 
 **Jag har glömt applösenordet.**\
 Det går inte att återställa: det är det som krypterar dina Twitch-sessioner. Avsluta

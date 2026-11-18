@@ -220,6 +220,11 @@ recurso funcionando.
   <img src="../media/pt-BR/journal-requests.avif" alt="O Diário filtrado e, depois, Registros técnicos › Requisições">
   </details>
 
+- **Uma página Estatísticas.** Pontos ganhos, drops resgatados, tempo assistido e previsões
+  vencidas em 7, 30 ou 90 dias, com o streamer ou a categoria no topo por trás de cada
+  número. Uma curva de pontos por streamer mostra o saldo ao longo do tempo, com marcadores
+  de sequências, raids, momentos e previsões e uma dica em cada um.
+
 - **Pausa agendada e pausa diária.** Pause uma conta ou todas as contas por 30 minutos, 1
   hora, 4 horas, até amanhã às 09:00, ou uma data e hora personalizadas; “Retomar agora”
   encerra a pausa antes. Um selo mostra o horário em que a pausa termina. Uma pausa diária
@@ -258,10 +263,9 @@ recurso funcionando.
 
 - **Atualizações assinadas, nunca automáticas.** Um selo “Atualização” com o número da
   versão aparece na barra superior. “Instalar e reiniciar” primeiro pede confirmação;
-  depois, o app instala a versão e reinicia. Com uma senha do app, ele reinicia
-  bloqueado: digite a senha de novo para retomar a mineração. Só uma versão assinada pelo
-  projeto é instalada. O executável portátil do Windows não se atualiza sozinho: o botão
-  abre a página de download. A versão Docker também avisa, com os comandos a rodar.
+  depois, o app instala a versão e reinicia. Com uma senha do app, ele reinicia bloqueado:
+  digite a senha de novo para retomar a mineração. Só uma versão assinada pelo projeto é
+  instalada. A versão Docker também avisa, com os comandos a rodar.
 
   <details open><summary>Ver em ação</summary>
   <img src="../media/pt-BR/updates.avif" alt="O selo “Atualização”, a confirmação e, depois, a instalação">
@@ -368,8 +372,7 @@ Depois, vá em **Ajustes do Sistema › Privacidade e Segurança** e clique em
 As atualizações são assinadas. O app verifica se há uma nova versão ao iniciar e depois a
 cada hora (você pode mudar a frequência em **Configurações › Sobre**). Ele nunca instala
 uma sozinho: você instala com um clique, pela mensagem que aparece ou em
-**Configurações › Sobre**. O executável portátil nunca se atualiza sozinho: “Abrir a
-página de download” leva à versão mais recente publicada.
+**Configurações › Sobre**.
 
 Os dados ficam na pasta de dados do usuário:
 
@@ -523,8 +526,7 @@ quando nenhuma senha do app está definida) e os logs.
 O app para desktop verifica se há uma nova versão ao iniciar e depois a cada hora (dá
 para mudar isso em **Configurações › Sobre**). Clique no selo “Atualização” e depois em
 “Instalar e reiniciar”. No Docker, o painel avisa: rode `docker compose pull` e depois
-`docker compose up -d`. O executável portátil do Windows não se atualiza sozinho: “Abrir
-a página de download” abre a versão mais recente publicada, onde você baixa o novo.
+`docker compose up -d`.
 
 **Esqueci a senha do app.**\
 Ela não pode ser recuperada: é ela que criptografa as suas sessões da Twitch. Feche o app,

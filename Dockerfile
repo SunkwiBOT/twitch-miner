@@ -2,7 +2,7 @@
 
 FROM --platform=$BUILDPLATFORM docker.io/tonistiigi/xx:1.10.0@sha256:40fe21f44bb8cddf1eb1226db190d0a984118f62ee02a91b77d99448d28264a6 AS xx
 
-FROM --platform=$BUILDPLATFORM docker.io/library/node:24-alpine@sha256:8a32c8cf649a49915a66e81e7a609223c708d0adabf288ee3f4077d765542f85 AS dashboard
+FROM --platform=$BUILDPLATFORM docker.io/library/node:24-alpine@sha256:116b800c3754b440ee0aa3ed2f20f5bf3d99a554bfd9adeea09ea8017f6e85f5 AS dashboard
 
 WORKDIR /build
 
@@ -17,7 +17,7 @@ COPY ui ./ui
 
 RUN npm run build
 
-FROM --platform=$BUILDPLATFORM docker.io/library/rust:1.99-alpine@sha256:27cd9befd4a05d6f6eb407c3e28365f5092f008bfc5946207cca76ae5179ef23 AS build
+FROM --platform=$BUILDPLATFORM docker.io/library/rust:1.99-alpine@sha256:44819b27be4c97b0e4d7203bd2e02c4820f97700211b6a37fb4c246a2de59383 AS build
 
 COPY --from=xx / /
 

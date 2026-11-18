@@ -16,6 +16,7 @@
   type IconButtonPropsType = {
     icon: IconName;
     label: string;
+    tooltip?: string;
     busy: boolean;
     disabled: boolean;
     variant: ButtonVariant;
@@ -27,6 +28,7 @@
   let {
     icon,
     label,
+    tooltip,
     busy,
     disabled,
     variant,
@@ -38,7 +40,7 @@
   const iconSize = $derived(size === ButtonSize.SM ? 14 : 16);
 </script>
 
-<Tip text={label}>
+<Tip text={tooltip ?? label}>
   {#snippet children(props)}
     <Button
       {...props}

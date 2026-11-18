@@ -9,6 +9,7 @@ pub mod events;
 pub mod feed;
 pub mod http;
 pub mod i18n;
+pub mod links;
 pub mod logs;
 pub mod miner;
 pub mod notifications;

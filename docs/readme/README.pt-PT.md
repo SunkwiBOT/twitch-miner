@@ -221,6 +221,11 @@ funcionar.
   <img src="../media/pt-PT/journal-requests.avif" alt="O Diário filtrado e, depois, Registos técnicos › Pedidos">
   </details>
 
+- **Uma página Estatísticas.** Pontos ganhos, drops reclamados, tempo de visualização e
+  previsões ganhas em 7, 30 ou 90 dias, com o streamer ou a categoria no topo por trás de
+  cada número. Uma curva de pontos por streamer mostra o saldo ao longo do tempo, com
+  marcadores de sequências, raids, momentos e previsões e uma dica em cada um.
+
 - **Pausa agendada e pausa diária.** Pause uma conta ou todas durante 30 minutos, 1 hora,
   4 horas, até amanhã às 09:00, ou uma data e hora personalizadas; «Retomar agora» levanta
   a pausa mais cedo. Um emblema mostra a hora a que a pausa termina. Uma pausa diária
@@ -261,9 +266,7 @@ funcionar.
   «Atualização» com o número da versão. «Instalar e reiniciar» pede primeiro uma
   confirmação; depois, a app instala a versão e reinicia. Com uma palavra-passe da app,
   reinicia bloqueada: introduza-a de novo para retomar a mineração. Só é instalada uma
-  versão assinada pelo projeto. O executável portátil do Windows não se atualiza sozinho:
-  o botão abre a página de transferência. A versão Docker também avisa, com os comandos a
-  executar.
+  versão assinada pelo projeto. A versão Docker também avisa, com os comandos a executar.
 
   <details open><summary>Ver em ação</summary>
   <img src="../media/pt-PT/updates.avif" alt="O emblema «Atualização», a confirmação e, depois, a instalação">
@@ -369,8 +372,7 @@ Depois, vá a **Definições do sistema › Privacidade e segurança** e clique 
 As atualizações são assinadas. A app verifica se há uma nova versão ao arrancar e, depois,
 a cada hora (pode alterar a frequência em **Definições › Acerca de**). Nunca instala
 nenhuma por iniciativa própria: a instalação faz-se com um clique, a partir da mensagem que
-aparece ou de **Definições › Acerca de**. O executável portátil nunca se atualiza sozinho:
-«Abrir a página de transferência» leva à última versão publicada.
+aparece ou de **Definições › Acerca de**.
 
 Os dados ficam na pasta de dados do utilizador:
 
@@ -525,9 +527,7 @@ palavra-passe da app definida) e os registos.
 A app para computador verifica se há uma nova versão ao arrancar e, depois, a cada hora
 (pode alterar isto em **Definições › Acerca de**). Clique no emblema «Atualização» e
 depois em «Instalar e reiniciar». Com o Docker, o painel avisa: execute
-`docker compose pull` e depois `docker compose up -d`. O executável portátil do Windows
-não se atualiza sozinho: «Abrir a página de transferência» abre a última versão
-publicada, onde transfere o novo.
+`docker compose pull` e depois `docker compose up -d`.
 
 **Esqueci-me da palavra-passe da app.**\
 Não pode ser recuperada: é ela que cifra as suas sessões da Twitch. Feche a app, apague a

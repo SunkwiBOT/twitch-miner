@@ -2,6 +2,7 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "nav_accounts": "Fiókok",
   "nav_history": "Napló",
+  "nav_stats": "Statisztika",
   "nav_settings": "Beállítások",
   "topbar_disconnected": "Újracsatlakozás…",
   "topbar_language": "Nyelv",
@@ -74,7 +75,6 @@
   "login_note_settings": "a Twitch beállításaiban",
   "login_vault_locked": "Fiók hozzáadása előtt oldd fel az alkalmazást.",
   "login_use_tokens": "Inkább tokenek beillesztése",
-  "login_use_code": "Inkább a bejelentkezési kód használata",
   "login_tokens_label": "Hozzáférési tokenek",
   "login_tokens_hint": "Illessz be soronként egy tokent. Mindegyiket ellenőrizzük importálás előtt.",
   "login_tokens_submit": [
@@ -94,11 +94,26 @@
   "import_tokens_line_too_long": "Túl hosszú egy sor: legfeljebb {max} karakter.",
   "import_tokens_status_pending": "Ellenőrzés…",
   "import_tokens_status_valid": "Érvényes",
-  "import_tokens_status_unusable_client": "Ez a token nem használható bányászatra.",
+  "import_tokens_client_warning": "A Twitch elutasíthat bizonyos műveleteket (Drops beváltása, bónuszládák, fogadások) ettől a klienstől. Fiók hozzáadásának legmegbízhatóbb módja a bejelentkezés a kóddal.",
   "import_tokens_status_invalid": "Ez a token érvénytelen vagy lejárt.",
   "import_tokens_status_already_added": "Már hozzáadva",
   "import_tokens_status_duplicate": "Másik sor duplikátuma",
   "import_tokens_status_not_imported": "Nincs importálva",
+  "import_tokens_configure": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Fiók beállítása",
+        "countPlural=*": "Fiókok beállítása"
+      }
+    }
+  ],
   "import_tokens_settings_step_title": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -180,6 +195,50 @@
   "history_title": "Napló",
   "history_empty": "Még nincs semmi.",
   "history_load_failed": "A Naplót nem sikerült beolvasni.",
+  "stats_title": "Statisztika",
+  "stats_empty": "Erre az időszakra még nincs előzmény.",
+  "stats_load_failed": "A statisztikát nem sikerült betölteni.",
+  "stats_period_label": "Megjelenített időszak",
+  "stats_period_7": "7 nap",
+  "stats_period_30": "30 nap",
+  "stats_period_90": "90 nap",
+  "stats_period_disabled_retention": "Az előzmény {retention} megőrzött: módosítsd a megőrzést a beállításokban, hogy messzebbre láss vissza.",
+  "stats_tile_points": "Szerzett pontok",
+  "stats_tile_drops": "Begyűjtött drops",
+  "stats_tile_watched": "Nézési idő",
+  "stats_tile_predictions": "Megnyert fogadások",
+  "stats_tile_top_label": "Top",
+  "stats_tile_top_empty": "Még nincs adat",
+  "stats_chart_points_by_day": "Pontok naponta",
+  "stats_chart_points_by_day_aria": "Naponta szerzett pontok {days} napon át",
+  "stats_chart_drops_by_category": "Begyűjtött drops kategória szerint",
+  "stats_chart_drops_by_category_empty": "Ebben az időszakban nem gyűlt be drop.",
+  "stats_category_unknown": "Nincs kategória",
+  "stats_chart_top_streamers": "Legjövedelmezőbb streamerek",
+  "stats_chart_top_streamers_empty": "Ebben az időszakban nem gyűlt pont.",
+  "stats_reason_watch": "Nézés alatt",
+  "stats_reason_watch_streak": "Sorozat bónusz",
+  "stats_reason_claim": "Bónuszláda",
+  "stats_reason_raid": "Raidhez csatlakozva",
+  "stats_reason_community_moment": "Közösségi pillanat",
+  "stats_reason_prediction": "Fogadás megnyerve",
+  "stats_reason_refund": "Fogadás visszatérítve",
+  "stats_curve_title": "Pontgörbe",
+  "stats_curve_streamer_label": "Streamer",
+  "stats_curve_streamer_empty": "Válassz streamert",
+  "stats_curve_no_streamer": "Ennek a fióknak még nincs streamere, amelyhez görbét mutathatnánk.",
+  "stats_curve_empty": "Ebben az időszakban nincs pontesemény ennél a streamernél.",
+  "stats_curve_aria": "{streamer} pontegyenlege időben",
+  "stats_curve_legend_balance": "Pontegyenleg",
+  "stats_curve_legend_streak": "Sorozat visszaállítva",
+  "stats_curve_legend_raid": "Raidhez csatlakozva",
+  "stats_curve_legend_moment": "Pillanat begyűjtve",
+  "stats_curve_legend_prediction_placed": "Fogadás megtéve",
+  "stats_curve_legend_prediction_won": "Fogadás megnyerve",
+  "stats_curve_legend_prediction_lost": "Fogadás elveszítve",
+  "stats_curve_legend_prediction_refund": "Fogadás visszatérítve",
+  "stats_curve_open": "{streamer} pontgörbéjének megtekintése",
+  "stats_curve_open_tip": "Pontgörbe megtekintése",
   "event_kind_info": "Infó",
   "event_kind_error": "Hiba",
   "event_kind_watch_started": "Nézés",
@@ -411,6 +470,8 @@
   "error_catalog_rate_limited": "A katalógus lassítást kért. A következő frissítés tovább vár.",
   "error_too_many_attempts": "Túl sok hibás jelszó: próbáld újra egy kicsit később.",
   "error_https_required": "Nyisd meg az irányítópultot a HTTPS-címén.",
+  "error_open_url_refused": "Ezt a linket nem engedélyezett megnyitni az alkalmazásból.",
+  "error_open_url_failed": "A link megnyitása sikertelen volt.",
   "error_forwarded_for_required": "Az irányítópult előtti HTTPS-proxynak el kell küldenie a látogató címét (X-Forwarded-For).",
   "error_proxy_not_local": "Az irányítópult csak erről a gépről vagy a helyi hálózatáról fogadja el a HTTPS-proxyját.",
   "error_cross_site_request": "Elutasítva: a kérés egy másik webhely oldaláról érkezett.",
@@ -486,6 +547,8 @@
   "ev_bonus_short": "Bónuszláda begyűjtve",
   "ev_points": "+{points} pont: {channel}",
   "ev_points_short": "+{points} pont",
+  "ev_points_reason": "+{points} pont: {channel} · {reason}",
+  "ev_points_reason_short": "+{points} pont · {reason}",
   "ev_online": "{channel} élőben közvetít",
   "ev_online_short": "Élőben közvetít",
   "ev_offline": "{channel} befejezte az adást",
@@ -642,9 +705,27 @@
   "import_title": "Streamerek importálása",
   "import_too_many": "Túl sok név: egyszerre legfeljebb {max}.",
   "login_setup_custom": "Egyéni",
-  "login_setup_later_hint": "A fiók szünetel, amíg el nem indítod – most vagy később az oldaláról.",
+  "login_setup_later_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "A fiók szünetel, amíg el nem indítod – most vagy később az oldaláról.",
+        "countPlural=*": "A fiókok szünetelnek, amíg el nem indítod őket – most vagy később az oldalaikról."
+      }
+    }
+  ],
   "login_setup_streamers_empty": "Még nincs streamer: adj hozzá lent, vagy később a Pontok oldalon.",
-  "login_setup_streamers_hint": "A csatornák, amelyeket ez a fiók csatornapontokért néz, a legfontosabb előre.",
+  "login_setup_streamers_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "A csatornák, amelyeket ez a fiók csatornapontokért néz, a legfontosabb előre.",
+        "countPlural=*": "A csatornák, amelyeket ezek a fiókok csatornapontokért néznek, a legfontosabb előre."
+      }
+    }
+  ],
   "login_setup_streamers_title": "Streamerek a pontokhoz",
   "points_import": "Importálás",
   "streamer_change": "Csere",
@@ -690,7 +771,6 @@
   "updates_last_checked": "Utolsó ellenőrzés: {time}",
   "updates_never_checked": "Utolsó ellenőrzés: az indítás óta még nem jött válasz",
   "updates_install": "Telepítés és újraindítás",
-  "updates_download_page": "Letöltési oldal megnyitása",
   "settings_notifications_language": "Értesítések nyelve",
   "updates_confirm_title": "Telepíted a következő verziót: {version}?",
   "updates_confirm_text": "A jelenlegi verziód: {current}. Az alkalmazás letölti ezt a verziót: {version}, minden fiókon leállítja a bányászatot, telepíti, majd magától újraindul. Utána a bányászat magától folytatódik.",
@@ -785,11 +865,29 @@
   "login_setup_step_streamers": "Streamerek",
   "login_setup_step_summary": "Összegzés",
   "login_setup_start_hint": "Indulj az alapértelmezett beállításokból, vagy használd újra egy olyan fiók beállításait, amellyel már bányászol. A következő lépésekben bármit módosíthatsz.",
-  "login_setup_summary_hint": "Később minden módosítható a fiók oldalain.",
+  "login_setup_summary_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Később minden módosítható a fiók oldalain.",
+        "countPlural=*": "Később minden módosítható a fiókok oldalain."
+      }
+    }
+  ],
   "login_setup_progress": "{current}. lépés / {total}",
   "common_yes": "Igen",
   "common_no": "Nem",
-  "login_setup_drops_hint": "Mely kampányokat bányássza ez a fiók, és hogy maga gyűjti-e be a jutalmakat.",
+  "login_setup_drops_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Mely kampányokat bányássza ez a fiók, és hogy maga gyűjti-e be a jutalmakat.",
+        "countPlural=*": "Mely kampányokat bányásszák ezek a fiókok, és hogy maguk gyűjtik-e be a jutalmakat."
+      }
+    }
+  ],
   "event_kind_chat_mention": "Említés",
   "ev_chat_mention": "{chatter} megemlített téged {channel} chatjében",
   "ev_chat_mention_short": "{chatter} megemlített téged",
@@ -877,6 +975,7 @@
   "confirm_remove_setup_streamer_text": "{name} kikerül a listából: ez a fiók nem nézi csatornapontokért.",
   "search_verified": "Ellenőrzött partner",
   "login_setup_for": "Fiók: {name}",
+  "login_setup_for_many": "Fiókok: {count}",
   "search_pick": "Kiválasztás",
   "search_no_result": "Nincs találat erre: {query}.",
   "drops_tabs_label": "A Drops oldal részei",
@@ -1183,8 +1282,6 @@
   "account_badges_not_mined_hint": "Megjelennek, de nem bányássza őket: előbb egy magad által kötött előfizetés vagy egy másik jelvény kell, vagy a Twitch nem nevez meg olyan csatornát, amelyet a bányász nézhetne.",
   "error_action_rate_limited": "Túl sok próbálkozás: várj egy kicsit, és próbáld újra.",
   "error_invalid_token": "Ez a token érvénytelen vagy lejárt. Illessz be egy újat.",
-  "error_unsupported_client": "Ez a token nem használható bányászatra. Jelentkezz be inkább a kóddal.",
-  "error_missing_scope": "Ebből a tokenből hiányzik egy engedély, amelyre az alkalmazásnak szüksége van. Jelentkezz be inkább a kóddal.",
   "ev_paused": "Szüneteltetve",
   "ev_paused_quiet_window": "Szüneteltetve (napi szünet)",
   "ev_paused_scheduled": "Szüneteltetve, folytatás {time}",

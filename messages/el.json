@@ -2,6 +2,7 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "nav_accounts": "Λογαριασμοί",
   "nav_history": "Χρονικό",
+  "nav_stats": "Στατιστικά",
   "nav_settings": "Ρυθμίσεις",
   "topbar_disconnected": "Επανασύνδεση…",
   "topbar_language": "Γλώσσα",
@@ -89,7 +90,6 @@
   "login_note_settings": "τις ρυθμίσεις Twitch",
   "login_vault_locked": "Ξεκλειδώστε την εφαρμογή πριν προσθέσετε λογαριασμό.",
   "login_use_tokens": "Επικόλληση tokens αντ' αυτού",
-  "login_use_code": "Χρήση του κωδικού σύνδεσης αντ' αυτού",
   "login_tokens_label": "Tokens πρόσβασης",
   "login_tokens_hint": "Επικολλήστε ένα token ανά γραμμή. Το καθένα ελέγχεται πριν μπορέσει να εισαχθεί.",
   "login_tokens_submit": [
@@ -109,11 +109,26 @@
   "import_tokens_line_too_long": "Μια γραμμή είναι πολύ μεγάλη (το πολύ {max} χαρακτήρες).",
   "import_tokens_status_pending": "Έλεγχος…",
   "import_tokens_status_valid": "Έγκυρο",
-  "import_tokens_status_unusable_client": "Αυτό το token δεν μπορεί να χρησιμοποιηθεί για εξόρυξη.",
+  "import_tokens_client_warning": "Το Twitch ενδέχεται να απορρίψει ορισμένες ενέργειες (παραλαβή Drops, μπόνους σεντούκια, στοιχήματα) από αυτόν τον πελάτη. Η σύνδεση με τον κωδικό είναι ο πιο αξιόπιστος τρόπος για να προσθέσετε έναν λογαριασμό.",
   "import_tokens_status_invalid": "Αυτό το token δεν είναι έγκυρο ή έχει λήξει.",
   "import_tokens_status_already_added": "Έχει ήδη προστεθεί",
   "import_tokens_status_duplicate": "Αντίγραφο άλλης γραμμής",
   "import_tokens_status_not_imported": "Δεν εισήχθη",
+  "import_tokens_configure": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Ρύθμιση λογαριασμού",
+        "countPlural=*": "Ρύθμιση λογαριασμών"
+      }
+    }
+  ],
   "import_tokens_settings_step_title": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -213,6 +228,50 @@
   "history_title": "Χρονικό",
   "history_empty": "Τίποτα ακόμα.",
   "history_load_failed": "Δεν ήταν δυνατή η ανάγνωση του Χρονικού.",
+  "stats_title": "Στατιστικά",
+  "stats_empty": "Δεν υπάρχει ακόμη ιστορικό για αυτήν την περίοδο.",
+  "stats_load_failed": "Δεν ήταν δυνατή η φόρτωση των στατιστικών.",
+  "stats_period_label": "Εμφανιζόμενη περίοδος",
+  "stats_period_7": "7 ημέρες",
+  "stats_period_30": "30 ημέρες",
+  "stats_period_90": "90 ημέρες",
+  "stats_period_disabled_retention": "Το ιστορικό διατηρείται {retention}: άλλαξε τη διατήρηση στις ρυθμίσεις για να δεις πιο πίσω.",
+  "stats_tile_points": "Πόντοι που κερδήθηκαν",
+  "stats_tile_drops": "Drops που παραλήφθηκαν",
+  "stats_tile_watched": "Χρόνος παρακολούθησης",
+  "stats_tile_predictions": "Κερδισμένα στοιχήματα",
+  "stats_tile_top_label": "Top",
+  "stats_tile_top_empty": "Δεν υπάρχουν ακόμη δεδομένα",
+  "stats_chart_points_by_day": "Πόντοι ανά ημέρα",
+  "stats_chart_points_by_day_aria": "Πόντοι που κερδήθηκαν ανά ημέρα για {days} ημέρες",
+  "stats_chart_drops_by_category": "Drops που παραλήφθηκαν ανά κατηγορία",
+  "stats_chart_drops_by_category_empty": "Δεν παραλήφθηκε κανένα drop σε αυτήν την περίοδο.",
+  "stats_category_unknown": "Χωρίς κατηγορία",
+  "stats_chart_top_streamers": "Πιο κερδοφόροι streamers",
+  "stats_chart_top_streamers_empty": "Δεν κερδήθηκε κανένας πόντος σε αυτήν την περίοδο.",
+  "stats_reason_watch": "Παρακολούθηση",
+  "stats_reason_watch_streak": "Μπόνους σερί",
+  "stats_reason_claim": "Μπόνους σεντούκι",
+  "stats_reason_raid": "Συμμετοχή σε raid",
+  "stats_reason_community_moment": "Στιγμή κοινότητας",
+  "stats_reason_prediction": "Στοίχημα κερδισμένο",
+  "stats_reason_refund": "Στοίχημα επιστράφηκε",
+  "stats_curve_title": "Καμπύλη πόντων",
+  "stats_curve_streamer_label": "Streamer",
+  "stats_curve_streamer_empty": "Επιλέξτε streamer",
+  "stats_curve_no_streamer": "Αυτός ο λογαριασμός δεν έχει ακόμη streamer για να εμφανιστεί καμπύλη.",
+  "stats_curve_empty": "Κανένα συμβάν πόντων για αυτόν τον streamer σε αυτή την περίοδο.",
+  "stats_curve_aria": "Υπόλοιπο πόντων του {streamer} με την πάροδο του χρόνου",
+  "stats_curve_legend_balance": "Υπόλοιπο πόντων",
+  "stats_curve_legend_streak": "Σερί ανακτήθηκε",
+  "stats_curve_legend_raid": "Συμμετοχή σε raid",
+  "stats_curve_legend_moment": "Στιγμή παραλήφθηκε",
+  "stats_curve_legend_prediction_placed": "Στοίχημα τοποθετήθηκε",
+  "stats_curve_legend_prediction_won": "Στοίχημα κερδισμένο",
+  "stats_curve_legend_prediction_lost": "Στοίχημα χαμένο",
+  "stats_curve_legend_prediction_refund": "Στοίχημα επιστράφηκε",
+  "stats_curve_open": "Δείτε την καμπύλη πόντων του {streamer}",
+  "stats_curve_open_tip": "Δείτε την καμπύλη πόντων",
   "event_kind_info": "Πληροφορία",
   "event_kind_error": "Σφάλμα",
   "event_kind_watch_started": "Παρακολούθηση",
@@ -499,6 +558,8 @@
   "error_catalog_rate_limited": "Ο κατάλογος ζήτησε πιο αργό ρυθμό. Η επόμενη ανανέωση θα περιμένει περισσότερο.",
   "error_too_many_attempts": "Πάρα πολλοί λάθος κωδικοί: δοκιμάστε ξανά σε λίγο.",
   "error_https_required": "Ανοίξτε τον πίνακα ελέγχου από τη διεύθυνση HTTPS του.",
+  "error_open_url_refused": "Αυτός ο σύνδεσμος δεν επιτρέπεται να ανοίξει από την εφαρμογή.",
+  "error_open_url_failed": "Το άνοιγμα αυτού του συνδέσμου απέτυχε.",
   "error_forwarded_for_required": "Ο διακομιστής μεσολάβησης HTTPS μπροστά από τον πίνακα ελέγχου πρέπει να στέλνει τη διεύθυνση του επισκέπτη (X-Forwarded-For).",
   "error_proxy_not_local": "Ο πίνακας ελέγχου δέχεται τον διακομιστή μεσολάβησης HTTPS μόνο από αυτό το μηχάνημα ή το τοπικό του δίκτυο.",
   "error_cross_site_request": "Απορρίφθηκε: το αίτημα προήλθε από σελίδα άλλου ιστότοπου.",
@@ -602,6 +663,41 @@
       "match": {
         "countPlural=one": "+{points} πόντος",
         "countPlural=*": "+{points} πόντοι"
+      }
+    }
+  ],
+  "ev_points_reason": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input channel",
+        "input reason",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "+{points} πόντος στο {channel} · {reason}",
+        "countPlural=*": "+{points} πόντοι στο {channel} · {reason}"
+      }
+    }
+  ],
+  "ev_points_reason_short": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input reason",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "+{points} πόντος · {reason}",
+        "countPlural=*": "+{points} πόντοι · {reason}"
       }
     }
   ],
@@ -839,9 +935,27 @@
   "import_title": "Εισαγωγή streamers",
   "import_too_many": "Το πολύ {max} ονόματα τη φορά.",
   "login_setup_custom": "Προσαρμοσμένες",
-  "login_setup_later_hint": "Ο λογαριασμός μένει σε παύση μέχρι να τον ξεκινήσετε, τώρα ή αργότερα από τη σελίδα του.",
+  "login_setup_later_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Ο λογαριασμός μένει σε παύση μέχρι να τον ξεκινήσετε, τώρα ή αργότερα από τη σελίδα του.",
+        "countPlural=*": "Οι λογαριασμοί μένουν σε παύση μέχρι να τους ξεκινήσετε, τώρα ή αργότερα από τη σελίδα τους."
+      }
+    }
+  ],
   "login_setup_streamers_empty": "Κανένας streamer ακόμα: προσθέστε μερικούς παρακάτω ή αργότερα από τη σελίδα Πόντοι.",
-  "login_setup_streamers_hint": "Τα κανάλια που παρακολουθεί αυτός ο λογαριασμός για πόντους καναλιού, τα πιο σημαντικά πρώτα.",
+  "login_setup_streamers_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Τα κανάλια που παρακολουθεί αυτός ο λογαριασμός για πόντους καναλιού, τα πιο σημαντικά πρώτα.",
+        "countPlural=*": "Τα κανάλια που παρακολουθούν αυτοί οι λογαριασμοί για πόντους καναλιού, τα πιο σημαντικά πρώτα."
+      }
+    }
+  ],
   "login_setup_streamers_title": "Streamers για τους πόντους",
   "points_import": "Εισαγωγή",
   "streamer_change": "Αλλαγή",
@@ -887,7 +1001,6 @@
   "updates_last_checked": "Τελευταίος έλεγχος: {time}",
   "updates_never_checked": "Τελευταίος έλεγχος: καμία απάντηση ακόμη από την εκκίνηση",
   "updates_install": "Εγκατάσταση και επανεκκίνηση",
-  "updates_download_page": "Άνοιγμα της σελίδας λήψης",
   "settings_notifications_language": "Γλώσσα ειδοποιήσεων",
   "updates_confirm_title": "Εγκατάσταση της έκδοσης {version};",
   "updates_confirm_text": "Έχετε την έκδοση {current}. Η εφαρμογή κατεβάζει την έκδοση {version}, σταματά την εξόρυξη σε όλους τους λογαριασμούς, την εγκαθιστά και επανεκκινείται μόνη της. Μετά η εξόρυξη συνεχίζεται μόνη της.",
@@ -1015,11 +1128,29 @@
   "login_setup_step_streamers": "Streamers",
   "login_setup_step_summary": "Σύνοψη",
   "login_setup_start_hint": "Ξεκινήστε από τις προεπιλεγμένες ρυθμίσεις ή χρησιμοποιήστε ξανά τις ρυθμίσεις ενός λογαριασμού με τον οποίο ήδη κάνετε εξόρυξη. Μπορείτε να αλλάξετε οτιδήποτε στα επόμενα βήματα.",
-  "login_setup_summary_hint": "Όλα μπορούν να αλλάξουν αργότερα από τις σελίδες του λογαριασμού.",
+  "login_setup_summary_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Όλα μπορούν να αλλάξουν αργότερα από τις σελίδες του λογαριασμού.",
+        "countPlural=*": "Όλα μπορούν να αλλάξουν αργότερα από τις σελίδες των λογαριασμών."
+      }
+    }
+  ],
   "login_setup_progress": "Βήμα {current} από {total}",
   "common_yes": "Ναι",
   "common_no": "Όχι",
-  "login_setup_drops_hint": "Ποιες καμπάνιες εξορύσσει αυτός ο λογαριασμός και αν παραλαμβάνει ο ίδιος τις ανταμοιβές.",
+  "login_setup_drops_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Ποιες καμπάνιες εξορύσσει αυτός ο λογαριασμός και αν παραλαμβάνει ο ίδιος τις ανταμοιβές.",
+        "countPlural=*": "Ποιες καμπάνιες εξορύσσουν αυτοί οι λογαριασμοί και αν παραλαμβάνουν οι ίδιοι τις ανταμοιβές."
+      }
+    }
+  ],
   "event_kind_chat_mention": "Αναφορά",
   "ev_chat_mention": "{chatter} σας ανέφερε στη συνομιλία του {channel}",
   "ev_chat_mention_short": "{chatter} σας ανέφερε",
@@ -1107,6 +1238,7 @@
   "confirm_remove_setup_streamer_text": "Το {name} βγαίνει από τη λίστα: αυτός ο λογαριασμός δεν θα το παρακολουθεί για πόντους καναλιού.",
   "search_verified": "Επαληθευμένος συνεργάτης",
   "login_setup_for": "Λογαριασμός: {name}",
+  "login_setup_for_many": "Λογαριασμοί: {count}",
   "search_pick": "Επιλογή",
   "search_no_result": "Κανένα αποτέλεσμα για {query}.",
   "drops_tabs_label": "Ενότητες της σελίδας Drops",
@@ -1629,8 +1761,6 @@
   "account_badges_not_mined_hint": "Εμφανίζονται, αλλά δεν εξορύσσονται: πρώτα χρειάζεται μια συνδρομή που κάνετε μόνοι σας ή άλλο σήμα, ή το Twitch δεν δηλώνει κανάλι που ο miner μπορεί να παρακολουθήσει.",
   "error_action_rate_limited": "Πάρα πολλές προσπάθειες: περίμενε λίγο και ξαναδοκίμασε.",
   "error_invalid_token": "Αυτό το token δεν είναι έγκυρο ή έχει λήξει. Επικολλήστε ένα νέο.",
-  "error_unsupported_client": "Αυτό το token δεν μπορεί να χρησιμοποιηθεί για εξόρυξη. Συνδεθείτε με τον κωδικό αντ' αυτού.",
-  "error_missing_scope": "Αυτό το token δεν έχει μια άδεια που απαιτεί η εφαρμογή. Συνδεθείτε με τον κωδικό αντ' αυτού.",
   "ev_paused": "Σε παύση",
   "ev_paused_quiet_window": "Σε παύση (ημερήσια παύση)",
   "ev_paused_scheduled": "Σε παύση, συνέχιση {time}",

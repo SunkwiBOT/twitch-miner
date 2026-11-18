@@ -2,6 +2,7 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "nav_accounts": "Accounts",
   "nav_history": "Journal",
+  "nav_stats": "Stats",
   "nav_settings": "Settings",
   "topbar_disconnected": "Reconnecting…",
   "topbar_language": "Language",
@@ -89,7 +90,6 @@
   "login_note_settings": "your Twitch settings",
   "login_vault_locked": "Unlock the app before adding an account.",
   "login_use_tokens": "Paste tokens instead",
-  "login_use_code": "Use the sign-in code instead",
   "login_tokens_label": "Access tokens",
   "login_tokens_hint": "Paste one token per line. Each one is checked before it can be imported.",
   "login_tokens_submit": [
@@ -109,11 +109,26 @@
   "import_tokens_line_too_long": "One line is too long (at most {max} characters).",
   "import_tokens_status_pending": "Checking…",
   "import_tokens_status_valid": "Valid",
-  "import_tokens_status_unusable_client": "This token cannot be used to mine.",
+  "import_tokens_client_warning": "Twitch may refuse some actions (claiming drops, bonus chests, predictions) from this client. Signing in with the code is the most reliable way to add an account.",
   "import_tokens_status_invalid": "This token is invalid or expired.",
   "import_tokens_status_already_added": "Already added",
   "import_tokens_status_duplicate": "Duplicate of another line",
   "import_tokens_status_not_imported": "Not imported",
+  "import_tokens_configure": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Configure this account",
+        "countPlural=*": "Configure these accounts"
+      }
+    }
+  ],
   "import_tokens_settings_step_title": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -213,6 +228,50 @@
   "history_title": "Journal",
   "history_empty": "Nothing yet.",
   "history_load_failed": "The Journal could not be read.",
+  "stats_title": "Statistics",
+  "stats_empty": "No history for this period yet.",
+  "stats_load_failed": "Statistics could not be loaded.",
+  "stats_period_label": "Period shown",
+  "stats_period_7": "7 days",
+  "stats_period_30": "30 days",
+  "stats_period_90": "90 days",
+  "stats_period_disabled_retention": "History is kept {retention}: change the retention in settings to see further back.",
+  "stats_tile_points": "Points earned",
+  "stats_tile_drops": "Drops claimed",
+  "stats_tile_watched": "Time watched",
+  "stats_tile_predictions": "Predictions won",
+  "stats_tile_top_label": "Top",
+  "stats_tile_top_empty": "No data yet",
+  "stats_chart_points_by_day": "Points per day",
+  "stats_chart_points_by_day_aria": "Points earned per day over {days} days",
+  "stats_chart_drops_by_category": "Drops claimed by category",
+  "stats_chart_drops_by_category_empty": "No drop claimed for this period.",
+  "stats_category_unknown": "Uncategorized",
+  "stats_chart_top_streamers": "Most profitable streamers",
+  "stats_chart_top_streamers_empty": "No points earned for this period.",
+  "stats_reason_watch": "Watching",
+  "stats_reason_watch_streak": "Watch streak bonus",
+  "stats_reason_claim": "Bonus chest",
+  "stats_reason_raid": "Raid joined",
+  "stats_reason_community_moment": "Community moment",
+  "stats_reason_prediction": "Prediction won",
+  "stats_reason_refund": "Prediction refunded",
+  "stats_curve_title": "Points curve",
+  "stats_curve_streamer_label": "Streamer",
+  "stats_curve_streamer_empty": "Select a streamer",
+  "stats_curve_no_streamer": "This account has no streamer to show a curve for yet.",
+  "stats_curve_empty": "No points event for this streamer over this period.",
+  "stats_curve_aria": "{streamer}'s points balance over time",
+  "stats_curve_legend_balance": "Points balance",
+  "stats_curve_legend_streak": "Streak recovered",
+  "stats_curve_legend_raid": "Raid joined",
+  "stats_curve_legend_moment": "Moment claimed",
+  "stats_curve_legend_prediction_placed": "Prediction placed",
+  "stats_curve_legend_prediction_won": "Prediction won",
+  "stats_curve_legend_prediction_lost": "Prediction lost",
+  "stats_curve_legend_prediction_refund": "Prediction refunded",
+  "stats_curve_open": "View {streamer}'s points curve",
+  "stats_curve_open_tip": "View points curve",
   "event_kind_info": "Info",
   "event_kind_error": "Error",
   "event_kind_watch_started": "Watching",
@@ -520,9 +579,9 @@
   "error_too_many_attempts": "Too many wrong passwords: try again in a moment.",
   "error_action_rate_limited": "Too many tries: wait a moment and try again.",
   "error_invalid_token": "This token is invalid or expired. Paste a fresh one.",
-  "error_unsupported_client": "This token cannot be used to mine. Sign in with the code instead.",
-  "error_missing_scope": "This token is missing a permission this app requires. Sign in with the code instead.",
   "error_https_required": "Open the dashboard at its HTTPS address.",
+  "error_open_url_refused": "This link isn't allowed to open from the app.",
+  "error_open_url_failed": "Opening this link failed.",
   "error_forwarded_for_required": "The HTTPS proxy in front of the dashboard must send the visitor's address (X-Forwarded-For).",
   "error_proxy_not_local": "The dashboard only accepts its HTTPS proxy from this machine or its local network.",
   "error_cross_site_request": "Refused: the request came from a page of another site.",
@@ -630,6 +689,41 @@
       "match": {
         "countPlural=one": "+{points} point",
         "countPlural=*": "+{points} points"
+      }
+    }
+  ],
+  "ev_points_reason": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input channel",
+        "input reason",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "+{points} point on {channel} · {reason}",
+        "countPlural=*": "+{points} points on {channel} · {reason}"
+      }
+    }
+  ],
+  "ev_points_reason_short": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input reason",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "+{points} point · {reason}",
+        "countPlural=*": "+{points} points · {reason}"
       }
     }
   ],
@@ -889,9 +983,27 @@
   "import_title": "Import streamers",
   "import_too_many": "At most {max} names at once.",
   "login_setup_custom": "Custom",
-  "login_setup_later_hint": "The account stays paused until you start it, now or later from its page.",
+  "login_setup_later_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "The account stays paused until you start it, now or later from its page.",
+        "countPlural=*": "The accounts stay paused until you start them, now or later from their pages."
+      }
+    }
+  ],
   "login_setup_streamers_empty": "No streamer yet: add some below, or later from the Points page.",
-  "login_setup_streamers_hint": "The channels this account watches for channel points, most important first.",
+  "login_setup_streamers_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "The channels this account watches for channel points, most important first.",
+        "countPlural=*": "The channels these accounts watch for channel points, most important first."
+      }
+    }
+  ],
   "login_setup_streamers_title": "Streamers for the points",
   "points_import": "Import",
   "streamer_change": "Change",
@@ -937,7 +1049,6 @@
   "updates_last_checked": "Last checked: {time}",
   "updates_never_checked": "Last checked: no answer yet since the start",
   "updates_install": "Install and restart",
-  "updates_download_page": "Open the download page",
   "settings_notifications_language": "Language of the notifications",
   "updates_confirm_title": "Install version {version}?",
   "updates_confirm_text": "You have version {current}. The app downloads version {version}, stops mining on every account, installs it and restarts by itself. Mining then starts again on its own.",
@@ -1065,11 +1176,29 @@
   "login_setup_step_streamers": "Streamers",
   "login_setup_step_summary": "Summary",
   "login_setup_start_hint": "Start from the default settings, or reuse the settings of an account you already mine with. You can change anything in the next steps.",
-  "login_setup_summary_hint": "Everything can be changed later from the account's pages.",
+  "login_setup_summary_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Everything can be changed later from the account's pages.",
+        "countPlural=*": "Everything can be changed later from the accounts' pages."
+      }
+    }
+  ],
   "login_setup_progress": "Step {current} of {total}",
   "common_yes": "Yes",
   "common_no": "No",
-  "login_setup_drops_hint": "Which campaigns this account mines, and whether it claims the rewards itself.",
+  "login_setup_drops_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Which campaigns this account mines, and whether it claims the rewards itself.",
+        "countPlural=*": "Which campaigns these accounts mine, and whether they claim the rewards themselves."
+      }
+    }
+  ],
   "event_kind_chat_mention": "Mention",
   "ev_chat_mention": "{chatter} mentioned you in {channel}'s chat",
   "ev_chat_mention_short": "{chatter} mentioned you",
@@ -1157,6 +1286,7 @@
   "confirm_remove_setup_streamer_text": "{name} leaves the list: this account will not watch it for channel points.",
   "search_verified": "Verified Partner",
   "login_setup_for": "Account: {name}",
+  "login_setup_for_many": "Accounts: {count}",
   "search_pick": "Choose",
   "search_no_result": "No result for {query}.",
   "drops_tabs_label": "Drops page sections",

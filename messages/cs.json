@@ -2,6 +2,7 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "nav_accounts": "Účty",
   "nav_history": "Deník",
+  "nav_stats": "Statistiky",
   "nav_settings": "Nastavení",
   "topbar_disconnected": "Znovu se připojuje…",
   "topbar_language": "Jazyk",
@@ -90,7 +91,6 @@
   "login_note_settings": "nastavení Twitch",
   "login_vault_locked": "Před přidáním účtu odemkněte aplikaci.",
   "login_use_tokens": "Místo toho vložit tokeny",
-  "login_use_code": "Místo toho použít přihlašovací kód",
   "login_tokens_label": "Přístupové tokeny",
   "login_tokens_hint": "Vložte jeden token na řádek. Každý se ověří, než ho lze importovat.",
   "login_tokens_submit": [
@@ -111,11 +111,27 @@
   "import_tokens_line_too_long": "Příliš dlouhý řádek. Nejvýše znaků: {max}.",
   "import_tokens_status_pending": "Ověřování…",
   "import_tokens_status_valid": "Platný",
-  "import_tokens_status_unusable_client": "Tento token nelze použít k těžbě.",
+  "import_tokens_client_warning": "Twitch může odmítnout některé akce (vyzvednutí Drops, bonusových truhel, sázek) od tohoto klienta. Přihlášení pomocí kódu je nejspolehlivější způsob, jak přidat účet.",
   "import_tokens_status_invalid": "Tento token je neplatný nebo vypršel.",
   "import_tokens_status_already_added": "Již přidáno",
   "import_tokens_status_duplicate": "Duplicita jiného řádku",
   "import_tokens_status_not_imported": "Neimportováno",
+  "import_tokens_configure": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Nastavit účet",
+        "countPlural=few": "Nastavit účty",
+        "countPlural=*": "Nastavit účty"
+      }
+    }
+  ],
   "import_tokens_settings_step_title": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -220,6 +236,50 @@
   "history_title": "Deník",
   "history_empty": "Zatím nic.",
   "history_load_failed": "Deník se nepodařilo načíst.",
+  "stats_title": "Statistiky",
+  "stats_empty": "Pro toto období zatím není žádná historie.",
+  "stats_load_failed": "Statistiky se nepodařilo načíst.",
+  "stats_period_label": "Zobrazené období",
+  "stats_period_7": "7 dní",
+  "stats_period_30": "30 dní",
+  "stats_period_90": "90 dní",
+  "stats_period_disabled_retention": "Historie se uchovává {retention}: změň uchovávání v nastavení, abys viděl dál do minulosti.",
+  "stats_tile_points": "Získané body",
+  "stats_tile_drops": "Získané dropy",
+  "stats_tile_watched": "Čas sledování",
+  "stats_tile_predictions": "Vyhrané sázky",
+  "stats_tile_top_label": "Top",
+  "stats_tile_top_empty": "Zatím žádná data",
+  "stats_chart_points_by_day": "Body za den",
+  "stats_chart_points_by_day_aria": "Získané body za den za posledních {days} dní",
+  "stats_chart_drops_by_category": "Získané dropy podle kategorie",
+  "stats_chart_drops_by_category_empty": "V tomto období nebyl získán žádný drop.",
+  "stats_category_unknown": "Bez kategorie",
+  "stats_chart_top_streamers": "Nejvýnosnější streameři",
+  "stats_chart_top_streamers_empty": "V tomto období nebyl získán žádný bod.",
+  "stats_reason_watch": "Sleduje se",
+  "stats_reason_watch_streak": "Bonus za sérii",
+  "stats_reason_claim": "Bonusová truhla",
+  "stats_reason_raid": "Připojeno k raidu",
+  "stats_reason_community_moment": "Moment komunity",
+  "stats_reason_prediction": "Vyhraná sázka",
+  "stats_reason_refund": "Vrácená sázka",
+  "stats_curve_title": "Křivka bodů",
+  "stats_curve_streamer_label": "Streamer",
+  "stats_curve_streamer_empty": "Vyberte streamera",
+  "stats_curve_no_streamer": "Tento účet zatím nemá streamera, pro který by šla zobrazit křivka.",
+  "stats_curve_empty": "V tomto období žádná událost s body pro tohoto streamera.",
+  "stats_curve_aria": "Zůstatek bodů uživatele {streamer} v čase",
+  "stats_curve_legend_balance": "Zůstatek bodů",
+  "stats_curve_legend_streak": "Obnovená série",
+  "stats_curve_legend_raid": "Připojen raid",
+  "stats_curve_legend_moment": "Vyzvednutý moment",
+  "stats_curve_legend_prediction_placed": "Vsazená sázka",
+  "stats_curve_legend_prediction_won": "Vyhraná sázka",
+  "stats_curve_legend_prediction_lost": "Prohraná sázka",
+  "stats_curve_legend_prediction_refund": "Vrácená sázka",
+  "stats_curve_open": "Zobrazit křivku bodů uživatele {streamer}",
+  "stats_curve_open_tip": "Zobrazit křivku bodů",
   "event_kind_info": "Info",
   "event_kind_error": "Chyba",
   "event_kind_watch_started": "Sleduje se",
@@ -511,6 +571,8 @@
   "error_catalog_rate_limited": "Katalog požádal o zpomalení. Další obnovení počká déle.",
   "error_too_many_attempts": "Příliš mnoho špatných hesel: zkuste to za chvíli znovu.",
   "error_https_required": "Otevřete panel na jeho adrese HTTPS.",
+  "error_open_url_refused": "Tento odkaz nemá povoleno otevřít se z aplikace.",
+  "error_open_url_failed": "Otevření tohoto odkazu selhalo.",
   "error_forwarded_for_required": "Proxy HTTPS před panelem musí posílat adresu návštěvníka (X-Forwarded-For).",
   "error_proxy_not_local": "Panel přijímá svou proxy HTTPS jen z tohoto počítače nebo jeho místní sítě.",
   "error_cross_site_request": "Odmítnuto: požadavek přišel ze stránky jiného webu.",
@@ -616,6 +678,43 @@
         "countPlural=one": "+{points} bod",
         "countPlural=few": "+{points} body",
         "countPlural=*": "+{points} bodů"
+      }
+    }
+  ],
+  "ev_points_reason": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input channel",
+        "input reason",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "+{points} bod na {channel} · {reason}",
+        "countPlural=few": "+{points} body na {channel} · {reason}",
+        "countPlural=*": "+{points} bodů na {channel} · {reason}"
+      }
+    }
+  ],
+  "ev_points_reason_short": [
+    {
+      "declarations": [
+        "input count",
+        "input points",
+        "input reason",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "+{points} bod · {reason}",
+        "countPlural=few": "+{points} body · {reason}",
+        "countPlural=*": "+{points} bodů · {reason}"
       }
     }
   ],
@@ -874,9 +973,29 @@
   "import_title": "Importovat streamery",
   "import_too_many": "Příliš mnoho jmen. Nejvýše najednou: {max}.",
   "login_setup_custom": "Vlastní",
-  "login_setup_later_hint": "Účet zůstane pozastavený, dokud ho nespustíte – teď, nebo později na jeho stránce.",
+  "login_setup_later_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Účet zůstane pozastavený, dokud ho nespustíte – teď, nebo později na jeho stránce.",
+        "countPlural=few": "Účty zůstanou pozastavené, dokud je nespustíte – teď, nebo později na jejich stránkách.",
+        "countPlural=*": "Účty zůstanou pozastavené, dokud je nespustíte – teď, nebo později na jejich stránkách."
+      }
+    }
+  ],
   "login_setup_streamers_empty": "Zatím žádný streamer: přidejte je níže, nebo později na stránce Body.",
-  "login_setup_streamers_hint": "Kanály, které tento účet sleduje kvůli bodům kanálu, nejdůležitější první.",
+  "login_setup_streamers_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Kanály, které tento účet sleduje kvůli bodům kanálu, nejdůležitější první.",
+        "countPlural=few": "Kanály, které tyto účty sledují kvůli bodům kanálu, nejdůležitější první.",
+        "countPlural=*": "Kanály, které tyto účty sledují kvůli bodům kanálu, nejdůležitější první."
+      }
+    }
+  ],
   "login_setup_streamers_title": "Streameři pro body",
   "points_import": "Importovat",
   "streamer_change": "Změnit",
@@ -922,7 +1041,6 @@
   "updates_last_checked": "Poslední kontrola: {time}",
   "updates_never_checked": "Poslední kontrola: od spuštění zatím bez odpovědi",
   "updates_install": "Nainstalovat a restartovat",
-  "updates_download_page": "Otevřít stránku ke stažení",
   "settings_notifications_language": "Jazyk oznámení",
   "updates_confirm_title": "Nainstalovat verzi {version}?",
   "updates_confirm_text": "Máte verzi {current}. Aplikace stáhne verzi {version}, zastaví těžbu na všech účtech, nainstaluje ji a sama se restartuje. Těžba pak sama pokračuje.",
@@ -1054,11 +1172,31 @@
   "login_setup_step_streamers": "Streameři",
   "login_setup_step_summary": "Shrnutí",
   "login_setup_start_hint": "Začněte s výchozím nastavením, nebo převezměte nastavení účtu, se kterým už těžíte. Vše můžete změnit v dalších krocích.",
-  "login_setup_summary_hint": "Vše lze později změnit na stránkách účtu.",
+  "login_setup_summary_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Vše lze později změnit na stránkách účtu.",
+        "countPlural=few": "Vše lze později změnit na stránkách účtů.",
+        "countPlural=*": "Vše lze později změnit na stránkách účtů."
+      }
+    }
+  ],
   "login_setup_progress": "Krok {current} z {total}",
   "common_yes": "Ano",
   "common_no": "Ne",
-  "login_setup_drops_hint": "Které kampaně tento účet těží a zda si odměny vyzvedává sám.",
+  "login_setup_drops_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Které kampaně tento účet těží a zda si odměny vyzvedává sám.",
+        "countPlural=few": "Které kampaně tyto účty těží a zda si odměny vyzvedávají samy.",
+        "countPlural=*": "Které kampaně tyto účty těží a zda si odměny vyzvedávají samy."
+      }
+    }
+  ],
   "event_kind_chat_mention": "Zmínka",
   "ev_chat_mention": "Zmínka od {chatter} v chatu kanálu {channel}",
   "ev_chat_mention_short": "Zmínka od {chatter}",
@@ -1146,6 +1284,7 @@
   "confirm_remove_setup_streamer_text": "{name} odchází ze seznamu: tento účet ho nebude sledovat kvůli bodům kanálu.",
   "search_verified": "Ověřený partner",
   "login_setup_for": "Účet: {name}",
+  "login_setup_for_many": "Účty: {count}",
   "search_pick": "Vybrat",
   "search_no_result": "Žádné výsledky pro {query}.",
   "drops_tabs_label": "Části stránky Drops",
@@ -1682,8 +1821,6 @@
   "account_badges_not_mined_hint": "Zobrazeno, ale netěží se: nejdřív je potřeba předplatné, které si sjednáte sami, nebo jiný odznak, nebo Twitch neuvádí žádný kanál, který by miner mohl sledovat.",
   "error_action_rate_limited": "Příliš mnoho pokusů: chvíli počkejte a zkuste to znovu.",
   "error_invalid_token": "Tento token je neplatný nebo vypršel. Vložte nový.",
-  "error_unsupported_client": "Tento token nelze použít k těžbě. Přihlaste se místo toho kódem.",
-  "error_missing_scope": "Tomuto tokenu chybí oprávnění, které tato aplikace vyžaduje. Přihlaste se místo toho kódem.",
   "ev_paused": "Pozastaveno",
   "ev_paused_quiet_window": "Pozastaveno (denní pauza)",
   "ev_paused_scheduled": "Pozastaveno, pokračuje {time}",

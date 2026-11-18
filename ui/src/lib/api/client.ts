@@ -1,5 +1,4 @@
 import { ServerMessageKind } from "../bindings/ServerMessageKind";
-import { openUrl as tauriOpenUrl } from "@tauri-apps/plugin-opener";
 
 import type { AppInfoType } from "../bindings/AppInfoType";
 import type { AuthResponseType } from "../bindings/AuthResponseType";
@@ -18,6 +17,10 @@ import { DesktopEvent } from "../bindings/DesktopEvent";
 import type { FollowsQueryType } from "../bindings/FollowsQueryType";
 import type { HistoryQueryType } from "../bindings/HistoryQueryType";
 import type { HistoryResponseType } from "../bindings/HistoryResponseType";
+import type { HistoryStatsQueryType } from "../bindings/HistoryStatsQueryType";
+import type { HistoryStatsResponseType } from "../bindings/HistoryStatsResponseType";
+import type { HistoryCurveQueryType } from "../bindings/HistoryCurveQueryType";
+import type { HistoryCurveResponseType } from "../bindings/HistoryCurveResponseType";
 import type { AccountSettingsPatchType } from "../bindings/AccountSettingsPatchType";
 import type { CheckPastedTokenRequestType } from "../bindings/CheckPastedTokenRequestType";
 import type { ImportTokensFlowViewType } from "../bindings/ImportTokensFlowViewType";
@@ -107,6 +110,8 @@ const ROUTES = {
   [TauriCommand.TEST_PROXY]: { route: RoutesApi.PROXY_TEST, method: HttpMethod.POST },
   [TauriCommand.HISTORY]: { route: RoutesApi.HISTORY, method: HttpMethod.GET },
   [TauriCommand.HISTORY_EXPORT]: { route: RoutesApi.HISTORY_EXPORT, method: HttpMethod.GET },
+  [TauriCommand.HISTORY_STATS]: { route: RoutesApi.HISTORY_STATS, method: HttpMethod.GET },
+  [TauriCommand.HISTORY_CURVE]: { route: RoutesApi.HISTORY_CURVE, method: HttpMethod.GET },
   [TauriCommand.BADGES]: { route: RoutesApi.BADGES, method: HttpMethod.GET },
   [TauriCommand.CATALOG]: { route: RoutesApi.CATALOG, method: HttpMethod.GET },
   [TauriCommand.LOGS]: { route: RoutesApi.LOGS, method: HttpMethod.GET },
@@ -264,6 +269,16 @@ export const fetchHistoryExport = async (
   query: HistoryExportQueryType,
 ): Promise<HistoryExportResponseType> =>
   transport(TauriCommand.HISTORY_EXPORT, { params: query }, { query });
+
+export const fetchHistoryStats = async (
+  query: HistoryStatsQueryType,
+): Promise<HistoryStatsResponseType> =>
+  transport(TauriCommand.HISTORY_STATS, { params: query }, { query });
+
+export const fetchHistoryCurve = async (
+  query: HistoryCurveQueryType,
+): Promise<HistoryCurveResponseType> =>
+  transport(TauriCommand.HISTORY_CURVE, { params: query }, { query });
 
 export const fetchBadges = async (): Promise<BadgesResponseType> =>
   transport(TauriCommand.BADGES, {});
@@ -476,7 +491,33 @@ export const onUpdateProgress = (
 
 export const openUrl = async (url: string): Promise<void> => {
   if (isTauri()) {
-    await tauriOpenUrl(url);
+    await invoke(TauriCommand.OPEN_URL, { url });
+
+    return;
+  }
+
+  window.open(url, "_blank", "noopener,noreferrer");
+};
+
+// ! The backend resolves the actual URL from the account's own campaigns first, then its
+// catalogue; `url` is only used for the non-Tauri (browser) fallback, which has neither.
+export const openCampaignLink = async (
+  accountId: string,
+  campaignId: string,
+  url: string,
+): Promise<string> => {
+  if (isTauri()) {
+    return await invoke(TauriCommand.OPEN_CAMPAIGN_LINK, { accountId, campaignId });
+  }
+
+  window.open(url, "_blank", "noopener,noreferrer");
+
+  return new URL(url).host;
+};
+
+export const openBadgeLink = async (badgeKey: string, url: string): Promise<void> => {
+  if (isTauri()) {
+    await invoke(TauriCommand.OPEN_BADGE_LINK, { badgeKey });
 
     return;
   }

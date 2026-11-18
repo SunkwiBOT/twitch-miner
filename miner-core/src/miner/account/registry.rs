@@ -16,6 +16,8 @@ pub(super) struct ClaimRegistry {
     refused_windows: HashMap<String, u32>,
     refused: HashMap<String, Option<bool>>,
     pub finished: HashSet<String>,
+    // ! An unlinked campaign's drop never becomes `claimed`: told once, not every tick.
+    told_unlinked: HashSet<String>,
 }
 
 impl ClaimRegistry {
@@ -63,6 +65,18 @@ impl ClaimRegistry {
 
     pub fn finish(&mut self, campaign_id: &str) -> bool {
         self.finished.insert(campaign_id.to_owned())
+    }
+
+    pub fn tell_unlinked(&mut self, drop_id: &str) -> bool {
+        self.told_unlinked.insert(drop_id.to_owned())
+    }
+
+    pub fn forget_stale_told_unlinked(&mut self, campaigns: &HashMap<String, Campaign>) {
+        self.told_unlinked.retain(|drop_id| {
+            campaigns
+                .values()
+                .any(|c| c.drops.iter().any(|d| &d.id == drop_id))
+        });
     }
 
     // ! Twitch's status and minutes rule a quest group: only while it still says CLAIMABLE for the window claimed is the claim held.

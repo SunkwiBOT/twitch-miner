@@ -4,7 +4,24 @@ import { MinerKind } from "../bindings/MinerKind";
 import { IconName } from "../icons.constants";
 import { BadgeTone } from "../tones.constants";
 
-export const TWITCH_WATCH_STREAK_REASON = "WATCH_STREAK";
+// ! The Twitch `points-earned` reason codes the app treats specially
+// (a dedicated label, icon, tone, or bucket): kept to `string` on the wire
+// since `context.reason` is an open external set, but each of these codes
+// is written once here and read through `isTwitchPointsReason`.
+export enum TwitchPointsReason {
+  WATCH = "WATCH",
+  WATCH_STREAK = "WATCH_STREAK",
+  CLAIM = "CLAIM",
+  RAID = "RAID",
+  COMMUNITY_MOMENT_COMPLETE = "COMMUNITY_MOMENT_COMPLETE",
+  PREDICTION = "PREDICTION",
+  REFUND = "REFUND",
+}
+
+const TWITCH_POINTS_REASONS: ReadonlySet<string> = new Set(Object.values(TwitchPointsReason));
+
+export const isTwitchPointsReason = (value: string): value is TwitchPointsReason =>
+  TWITCH_POINTS_REASONS.has(value);
 
 export const EVENT_TONES: Record<EventKind, BadgeTone> = {
   [EventKind.INFO]: BadgeTone.NEUTRAL,

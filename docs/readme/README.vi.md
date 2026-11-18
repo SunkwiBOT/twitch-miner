@@ -162,6 +162,8 @@ Những gì làm nên khác biệt so với các trình đào khác. “Xem minh
   <img src="../media/vi/journal-requests.avif" alt="Nhật ký đã lọc, rồi Log kỹ thuật › Yêu cầu">
   </details>
 
+- **Một trang Thống kê.** Điểm kiếm được, drop đã nhận, thời gian xem và cược đã thắng trong 7, 30 hoặc 90 ngày, kèm streamer hoặc danh mục đứng đầu phía sau mỗi con số. Một đường biểu diễn điểm theo streamer cho thấy số dư theo thời gian, với các mốc đánh dấu cho streak, raid, moment và cược, cùng chú thích khi di chuột vào từng mốc.
+
 - **Tạm dừng theo lịch và tạm dừng hằng ngày.** Tạm dừng một tài khoản hoặc tất cả trong 30 phút, 1 giờ, 4 giờ, đến 09:00 ngày mai, hoặc một ngày và giờ tùy chỉnh; “Tiếp tục ngay” sẽ dỡ bỏ tạm dừng sớm hơn. Một huy hiệu cho biết giờ kết thúc tạm dừng. Tạm dừng hằng ngày dừng việc đào của mọi tài khoản giữa hai mốc giờ mỗi ngày, theo múi giờ bạn chọn, và tiếp tục khi kết thúc, với huy hiệu riêng trên thanh trên cùng.
 - **Xuất CSV và số lượng theo danh mục.** Nhật ký xuất các drop đã nhận thành tệp CSV (ngày, tài khoản, danh mục, chiến dịch, drop, phút), lọc theo tài khoản, và một hộp thoại liệt kê số drop đã nhận trong mỗi danh mục. Ứng dụng máy tính lưu tệp qua hộp thoại lưu; bảng điều khiển web tải tệp xuống.
 
@@ -179,7 +181,7 @@ Những gì làm nên khác biệt so với các trình đào khác. “Xem minh
   <img src="../media/vi/security-lock.avif" alt="Ổ khóa: ứng dụng bị khóa, rồi được mở bằng mật khẩu">
   </details>
 
-- **Cập nhật có chữ ký, không bao giờ tự động.** Huy hiệu “Cập nhật” kèm số phiên bản xuất hiện trên thanh trên cùng. “Cài đặt và khởi động lại” trước tiên hỏi xác nhận, rồi ứng dụng cài phiên bản đó và khởi động lại. Nếu có mật khẩu ứng dụng, ứng dụng khởi động lại ở trạng thái khóa: nhập lại mật khẩu để tiếp tục đào. Chỉ phiên bản do dự án ký mới được cài. Bản di động cho Windows không tự cập nhật: nút của nó mở trang tải xuống. Bản Docker cũng báo cho bạn, kèm các lệnh cần chạy.
+- **Cập nhật có chữ ký, không bao giờ tự động.** Huy hiệu “Cập nhật” kèm số phiên bản xuất hiện trên thanh trên cùng. “Cài đặt và khởi động lại” trước tiên hỏi xác nhận, rồi ứng dụng cài phiên bản đó và khởi động lại. Nếu có mật khẩu ứng dụng, ứng dụng khởi động lại ở trạng thái khóa: nhập lại mật khẩu để tiếp tục đào. Chỉ phiên bản do dự án ký mới được cài. Bản Docker cũng báo cho bạn, kèm các lệnh cần chạy.
 
   <details open><summary>Xem minh họa</summary>
   <img src="../media/vi/updates.avif" alt="Huy hiệu “Cập nhật”, bước xác nhận, rồi quá trình cài đặt">
@@ -264,7 +266,7 @@ Tải tệp cho hệ thống của bạn từ [bản phát hành mới nhất](h
 
 Bản macOS chưa được công chứng (notarize). Lần đầu tiên, hãy mở ứng dụng: macOS sẽ chặn nó. Sau đó vào **Cài đặt hệ thống › Quyền riêng tư & bảo mật** và bấm **Vẫn mở**.
 
-Các bản cập nhật đều có chữ ký. Ứng dụng kiểm tra phiên bản mới khi khởi động, rồi mỗi giờ một lần (bạn có thể đổi tần suất trong **Cài đặt › Giới thiệu**). Ứng dụng không bao giờ tự cài: bạn cài chỉ với một cú nhấp, từ thông báo hiện ra hoặc từ **Cài đặt › Giới thiệu**. Bản di động không bao giờ tự cập nhật: “Mở trang tải xuống” đưa bạn tới bản phát hành mới nhất.
+Các bản cập nhật đều có chữ ký. Ứng dụng kiểm tra phiên bản mới khi khởi động, rồi mỗi giờ một lần (bạn có thể đổi tần suất trong **Cài đặt › Giới thiệu**). Ứng dụng không bao giờ tự cài: bạn cài chỉ với một cú nhấp, từ thông báo hiện ra hoặc từ **Cài đặt › Giới thiệu**.
 
 Dữ liệu nằm trong thư mục dữ liệu người dùng:
 
@@ -359,7 +361,7 @@ Mở trang **Drops** của tài khoản. Trong “Thứ tự đào”, mỗi chi
 Trong thư mục dữ liệu: `~/.local/share/twitch-miner` trên Linux, `%APPDATA%\twitch-miner` trên Windows, `~/Library/Application Support/twitch-miner` trên macOS, và volume `/data` với Docker. Trên máy tính, **Cài đặt › Máy tính** mở thư mục này chỉ với một cú nhấp. Thư mục chứa `miner.db` (tài khoản, cài đặt, nhật ký), `master.key` (khóa của các phiên, khi không đặt mật khẩu ứng dụng) và log.
 
 **Làm sao để cập nhật?**\
-Ứng dụng máy tính kiểm tra phiên bản mới khi khởi động, rồi mỗi giờ một lần (bạn có thể đổi trong **Cài đặt › Giới thiệu**). Nhấp vào huy hiệu “Cập nhật”, rồi “Cài đặt và khởi động lại”. Với Docker, bảng điều khiển sẽ báo cho bạn: chạy `docker compose pull`, rồi `docker compose up -d`. Bản di động cho Windows không tự cập nhật: “Mở trang tải xuống” mở bản phát hành mới nhất, nơi bạn tải bản mới.
+Ứng dụng máy tính kiểm tra phiên bản mới khi khởi động, rồi mỗi giờ một lần (bạn có thể đổi trong **Cài đặt › Giới thiệu**). Nhấp vào huy hiệu “Cập nhật”, rồi “Cài đặt và khởi động lại”. Với Docker, bảng điều khiển sẽ báo cho bạn: chạy `docker compose pull`, rồi `docker compose up -d`.
 
 **Tôi quên mật khẩu ứng dụng.**\
 Không thể khôi phục: chính mật khẩu này mã hóa các phiên Twitch của bạn. Thoát ứng dụng, xóa thư mục dữ liệu, rồi thêm lại tài khoản; cài đặt của chúng cũng phải làm lại từ đầu. Với Docker, mật khẩu bảng điều khiển được đổi trong `MINER_PASSWORD`, rồi chạy `docker compose up -d`.

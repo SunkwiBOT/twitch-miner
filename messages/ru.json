@@ -2,6 +2,7 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "nav_accounts": "Аккаунты",
   "nav_history": "Журнал",
+  "nav_stats": "Статистика",
   "nav_settings": "Настройки",
   "topbar_disconnected": "Переподключение…",
   "topbar_language": "Язык",
@@ -90,7 +91,6 @@
   "login_note_settings": "настройках Twitch",
   "login_vault_locked": "Разблокируйте приложение перед добавлением аккаунта.",
   "login_use_tokens": "Вставить токены вместо этого",
-  "login_use_code": "Использовать код входа вместо этого",
   "login_tokens_label": "Токены доступа",
   "login_tokens_hint": "Вставьте по одному токену на строку. Каждый проверяется перед импортом.",
   "login_tokens_submit": [
@@ -115,11 +115,29 @@
   "import_tokens_line_too_long": "Слишком длинная строка. Максимум символов: {max}.",
   "import_tokens_status_pending": "Проверка…",
   "import_tokens_status_valid": "Действителен",
-  "import_tokens_status_unusable_client": "Этот токен нельзя использовать для майнинга.",
+  "import_tokens_client_warning": "Twitch может отклонять некоторые действия (получение Drops, бонусных сундуков, ставки) от этого клиента. Вход по коду — самый надёжный способ добавить аккаунт.",
   "import_tokens_status_invalid": "Этот токен недействителен или истёк.",
   "import_tokens_status_already_added": "Уже добавлен",
   "import_tokens_status_duplicate": "Дубликат другой строки",
   "import_tokens_status_not_imported": "Не импортирован",
+  "import_tokens_configure": [
+    {
+      "declarations": [
+        "input count",
+        "local countPluralExact = count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPluralExact",
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=*, countPluralExact=1": "Настройка аккаунта",
+        "countPlural=few, countPluralExact=*": "Настройка аккаунтов",
+        "countPlural=*, countPluralExact=*": "Настройка аккаунтов"
+      }
+    }
+  ],
   "import_tokens_settings_step_title": [
     {
       "declarations": [
@@ -236,6 +254,50 @@
   "history_title": "Журнал",
   "history_empty": "Пока пусто.",
   "history_load_failed": "Не удалось прочитать журнал.",
+  "stats_title": "Статистика",
+  "stats_empty": "За этот период пока нет истории.",
+  "stats_load_failed": "Не удалось загрузить статистику.",
+  "stats_period_label": "Отображаемый период",
+  "stats_period_7": "7 дней",
+  "stats_period_30": "30 дней",
+  "stats_period_90": "90 дней",
+  "stats_period_disabled_retention": "История хранится {retention}: измените срок хранения в настройках, чтобы увидеть больше.",
+  "stats_tile_points": "Заработанные баллы",
+  "stats_tile_drops": "Полученные drops",
+  "stats_tile_watched": "Время просмотра",
+  "stats_tile_predictions": "Выигранные ставки",
+  "stats_tile_top_label": "Топ",
+  "stats_tile_top_empty": "Пока нет данных",
+  "stats_chart_points_by_day": "Баллы по дням",
+  "stats_chart_points_by_day_aria": "Заработанные баллы по дням за {days} дней",
+  "stats_chart_drops_by_category": "Полученные drops по категориям",
+  "stats_chart_drops_by_category_empty": "За этот период не получено ни одного drop.",
+  "stats_category_unknown": "Без категории",
+  "stats_chart_top_streamers": "Самые прибыльные стримеры",
+  "stats_chart_top_streamers_empty": "За этот период не заработано ни одного балла.",
+  "stats_reason_watch": "Просмотр",
+  "stats_reason_watch_streak": "Бонус за серию",
+  "stats_reason_claim": "Бонусный сундук",
+  "stats_reason_raid": "Присоединились к рейду",
+  "stats_reason_community_moment": "Момент сообщества",
+  "stats_reason_prediction": "Ставка выиграна",
+  "stats_reason_refund": "Ставка возвращена",
+  "stats_curve_title": "Кривая баллов",
+  "stats_curve_streamer_label": "Стример",
+  "stats_curve_streamer_empty": "Выберите стримера",
+  "stats_curve_no_streamer": "У этого аккаунта пока нет стримера, для которого можно показать кривую.",
+  "stats_curve_empty": "Нет событий с баллами для этого стримера за этот период.",
+  "stats_curve_aria": "Баланс баллов {streamer} во времени",
+  "stats_curve_legend_balance": "Баланс баллов",
+  "stats_curve_legend_streak": "Серия восстановлена",
+  "stats_curve_legend_raid": "Присоединились к рейду",
+  "stats_curve_legend_moment": "Момент получен",
+  "stats_curve_legend_prediction_placed": "Ставка сделана",
+  "stats_curve_legend_prediction_won": "Ставка выиграна",
+  "stats_curve_legend_prediction_lost": "Ставка проиграна",
+  "stats_curve_legend_prediction_refund": "Ставка возвращена",
+  "stats_curve_open": "Посмотреть кривую баллов {streamer}",
+  "stats_curve_open_tip": "Посмотреть кривую баллов",
   "event_kind_info": "Инфо",
   "event_kind_error": "Ошибка",
   "event_kind_watch_started": "Просмотр",
@@ -539,6 +601,8 @@
   "error_catalog_rate_limited": "Каталог попросил снизить частоту запросов. Следующее обновление подождёт дольше.",
   "error_too_many_attempts": "Слишком много неверных паролей: попробуйте чуть позже.",
   "error_https_required": "Откройте панель по её адресу HTTPS.",
+  "error_open_url_refused": "Эту ссылку нельзя открыть из приложения.",
+  "error_open_url_failed": "Не удалось открыть эту ссылку.",
   "error_forwarded_for_required": "HTTPS-прокси перед панелью должен передавать адрес посетителя (X-Forwarded-For).",
   "error_proxy_not_local": "Панель принимает свой HTTPS-прокси только с этой машины или из её локальной сети.",
   "error_cross_site_request": "Отклонено: запрос пришёл со страницы другого сайта.",
@@ -614,6 +678,8 @@
   "ev_bonus_short": "Бонусный сундук получен",
   "ev_points": "Баллы: +{points} на {channel}",
   "ev_points_short": "Баллы: +{points}",
+  "ev_points_reason": "Баллы: +{points} на {channel} · {reason}",
+  "ev_points_reason_short": "Баллы: +{points} · {reason}",
   "ev_online": "{channel} в эфире",
   "ev_online_short": "В эфире",
   "ev_offline": "{channel}: эфир завершён",
@@ -802,9 +868,29 @@
   "import_title": "Импорт стримеров",
   "import_too_many": "Слишком много имён. Максимум за раз: {max}.",
   "login_setup_custom": "Свои настройки",
-  "login_setup_later_hint": "Аккаунт остаётся на паузе, пока вы его не запустите — сейчас или позже на его странице.",
+  "login_setup_later_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count", "local countPlural = count: plural"],
+      "selectors": ["countPluralExact", "countPlural"],
+      "match": {
+        "countPlural=*, countPluralExact=1": "Аккаунт остаётся на паузе, пока вы его не запустите — сейчас или позже на его странице.",
+        "countPlural=few, countPluralExact=*": "Аккаунты остаются на паузе, пока вы их не запустите — сейчас или позже на их странице.",
+        "countPlural=*, countPluralExact=*": "Аккаунты остаются на паузе, пока вы их не запустите — сейчас или позже на их странице."
+      }
+    }
+  ],
   "login_setup_streamers_empty": "Стримеров пока нет: добавьте их ниже или позже на странице «Баллы».",
-  "login_setup_streamers_hint": "Каналы, которые этот аккаунт смотрит ради баллов канала, самые важные первыми.",
+  "login_setup_streamers_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count", "local countPlural = count: plural"],
+      "selectors": ["countPluralExact", "countPlural"],
+      "match": {
+        "countPlural=*, countPluralExact=1": "Каналы, которые этот аккаунт смотрит ради баллов канала, самые важные первыми.",
+        "countPlural=few, countPluralExact=*": "Каналы, которые эти аккаунты смотрят ради баллов канала, самые важные первыми.",
+        "countPlural=*, countPluralExact=*": "Каналы, которые эти аккаунты смотрят ради баллов канала, самые важные первыми."
+      }
+    }
+  ],
   "login_setup_streamers_title": "Стримеры для баллов",
   "points_import": "Импорт",
   "streamer_change": "Сменить",
@@ -850,7 +936,6 @@
   "updates_last_checked": "Последняя проверка: {time}",
   "updates_never_checked": "Последняя проверка: с момента запуска ответа ещё не было",
   "updates_install": "Установить и перезапустить",
-  "updates_download_page": "Открыть страницу загрузки",
   "settings_notifications_language": "Язык уведомлений",
   "updates_confirm_title": "Установить версию {version}?",
   "updates_confirm_text": "У вас версия {current}. Приложение скачает версию {version}, остановит майнинг на всех аккаунтах, установит её и само перезапустится. Затем майнинг возобновится сам.",
@@ -947,11 +1032,31 @@
   "login_setup_step_streamers": "Стримеры",
   "login_setup_step_summary": "Сводка",
   "login_setup_start_hint": "Начните с настроек по умолчанию или возьмите настройки аккаунта, на котором вы уже майните. Всё можно изменить на следующих шагах.",
-  "login_setup_summary_hint": "Всё можно изменить позже на страницах аккаунта.",
+  "login_setup_summary_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count", "local countPlural = count: plural"],
+      "selectors": ["countPluralExact", "countPlural"],
+      "match": {
+        "countPlural=*, countPluralExact=1": "Всё можно изменить позже на страницах аккаунта.",
+        "countPlural=few, countPluralExact=*": "Всё можно изменить позже на страницах аккаунтов.",
+        "countPlural=*, countPluralExact=*": "Всё можно изменить позже на страницах аккаунтов."
+      }
+    }
+  ],
   "login_setup_progress": "Шаг {current} из {total}",
   "common_yes": "Да",
   "common_no": "Нет",
-  "login_setup_drops_hint": "Какие кампании майнит этот аккаунт и забирает ли он награды сам.",
+  "login_setup_drops_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count", "local countPlural = count: plural"],
+      "selectors": ["countPluralExact", "countPlural"],
+      "match": {
+        "countPlural=*, countPluralExact=1": "Какие кампании майнит этот аккаунт и забирает ли он награды сам.",
+        "countPlural=few, countPluralExact=*": "Какие кампании майнят эти аккаунты и забирают ли они награды сами.",
+        "countPlural=*, countPluralExact=*": "Какие кампании майнят эти аккаунты и забирают ли они награды сами."
+      }
+    }
+  ],
   "event_kind_chat_mention": "Упоминание",
   "ev_chat_mention": "Упоминание от {chatter} в чате {channel}",
   "ev_chat_mention_short": "Упоминание от {chatter}",
@@ -1039,6 +1144,7 @@
   "confirm_remove_setup_streamer_text": "{name} уходит из списка: этот аккаунт не будет смотреть его ради баллов канала.",
   "search_verified": "Подтверждённый партнёр",
   "login_setup_for": "Аккаунт: {name}",
+  "login_setup_for_many": "Аккаунты: {count}",
   "search_pick": "Выбрать",
   "search_no_result": "Нет результатов по запросу {query}.",
   "drops_tabs_label": "Разделы страницы Drops",
@@ -1540,8 +1646,6 @@
   "account_badges_not_mined_hint": "Показаны, но не майнятся: сначала нужна подписка, которую вы оформляете сами, или другой значок, либо Twitch не указывает канал, который майнер мог бы смотреть.",
   "error_action_rate_limited": "Слишком много попыток: подождите немного и повторите попытку.",
   "error_invalid_token": "Этот токен недействителен или истёк. Вставьте новый.",
-  "error_unsupported_client": "Этот токен нельзя использовать для майнинга. Войдите с помощью кода вместо этого.",
-  "error_missing_scope": "У этого токена нет разрешения, необходимого приложению. Войдите с помощью кода вместо этого.",
   "ev_paused": "Приостановлено",
   "ev_paused_quiet_window": "Приостановлено (ежедневная пауза)",
   "ev_paused_scheduled": "Приостановлено, возобновление {time}",

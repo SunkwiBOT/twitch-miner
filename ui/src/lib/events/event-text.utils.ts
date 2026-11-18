@@ -5,6 +5,7 @@ import { PointsReason } from "../bindings/PointsReason";
 import { PauseReason } from "../bindings/PauseReason";
 import { onDropsPage } from "../catalogue/campaign.utils";
 import { catalogueCampaign } from "../catalogue/catalogue.svelte";
+import { POINTS_EARNED_REASON_TEXT, reasonLabel } from "./event-reasons.utils";
 import { number } from "../format.utils";
 import { t } from "../i18n/i18n.svelte";
 import { campaignUrl, channelUrl } from "../links/twitch.utils";
@@ -136,6 +137,16 @@ export const eventText = (
       case EventKind.POINTS_EARNED: {
         if (context.earned === undefined) {
           return fallback;
+        }
+
+        const reason = context.reason;
+
+        if (reason !== undefined && POINTS_EARNED_REASON_TEXT.has(reason)) {
+          return pick([t.ev_points_reason_short, t.ev_points_reason], {
+            count: context.earned,
+            points: bold(context.earned) ?? "",
+            reason: reasonLabel(reason),
+          });
         }
 
         return pick([t.ev_points_short, t.ev_points], {

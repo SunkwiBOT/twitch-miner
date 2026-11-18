@@ -3,6 +3,11 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@font-face {
+  font-family: "text-security-disc";
+  src: url("text-security/text-security-disc.woff2") format("woff2");
+}
+
 @custom-variant dark (&:where([data-theme="DARK"], [data-theme="DARK"] *));
 
 @custom-variant data-open (&:where([data-state="open"], [data-open]:not([data-open="false"])));

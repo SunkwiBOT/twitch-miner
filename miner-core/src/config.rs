@@ -364,15 +364,10 @@ impl AccountSettings {
         self.slots.clamp(*SLOTS.start(), *SLOTS.end()) as usize
     }
 
-    // ! The inverse of `AccountSettingsPatch::apply`: the fields a patch
+    // ! The inverse of `AccountSettingsPatch::apply`: the field a patch
     // covers, taken out of a full settings value.
     pub fn into_patch(self) -> AccountSettingsPatch {
-        AccountSettingsPatch {
-            mode: self.mode,
-            mining_order: self.drops.mining_order,
-            slots: self.slots,
-            proxy: self.proxy,
-        }
+        AccountSettingsPatch { proxy: self.proxy }
     }
 
     pub fn validate(&self) -> Result<()> {
@@ -418,8 +413,8 @@ impl AccountSettings {
     }
 }
 
-// ! Shared with `AccountSettingsPatch`: the bulk-import settings step edits
-// the same mining order and must hold it to the same rule.
+// ! Every lane kind must appear exactly once: dropping or duplicating one
+// would silently stop mining it or run it twice.
 fn validate_mining_order(mining_order: &[MiningLane]) -> Result<()> {
     if mining_order.len() != MiningLaneKind::ALL.len()
         || MiningLaneKind::ALL
@@ -437,22 +432,20 @@ fn validate_mining_order(mining_order: &[MiningLane]) -> Result<()> {
 // ! What the bulk token-import settings step edits, applied over
 // `AccountSettings::default()` for a new account or over an existing one's
 // stored settings when the import is asked to overwrite them: every other
-// field (streamers, drop filters, badges…) is never touched by a batch.
+// field (mode, mining order, slots, streamers, drop filters, badges…) is
+// never touched by a batch — the token-import setup wizard that runs after
+// the import applies those through `saveAccountSettings` like any other
+// account, never through this patch.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, TS)]
 #[serde(deny_unknown_fields)]
 #[ts(rename = "AccountSettingsPatchType")]
 pub struct AccountSettingsPatch {
-    pub mode: Mode,
-    pub mining_order: Vec<MiningLane>,
-    pub slots: u8,
     pub proxy: String,
 }
 
 impl AccountSettingsPatch {
     pub fn validate(&self) -> Result<()> {
-        within("slots", self.slots, &SLOTS)?;
-        short("proxy", &self.proxy)?;
-        validate_mining_order(&self.mining_order)
+        short("proxy", &self.proxy)
     }
 
     // ! Lets the bulk-import settings step start from the backend's own
@@ -462,9 +455,6 @@ impl AccountSettingsPatch {
     }
 
     pub fn apply(self, mut base: AccountSettings) -> AccountSettings {
-        base.mode = self.mode;
-        base.drops.mining_order = self.mining_order;
-        base.slots = self.slots;
         base.proxy = self.proxy;
         base
     }
@@ -794,13 +784,19 @@ pub enum HistoryRetention {
 }
 
 impl HistoryRetention {
-    pub fn max_age(self) -> Option<chrono::Duration> {
+    // ! Single source for the retention's day count: `max_age` and
+    // `Snapshot.history_retention_days` both derive from it.
+    pub fn days(self) -> Option<u32> {
         match self {
-            Self::Days30 => Some(chrono::Duration::days(30)),
-            Self::Days90 => Some(chrono::Duration::days(90)),
-            Self::Year1 => Some(chrono::Duration::days(365)),
+            Self::Days30 => Some(30),
+            Self::Days90 => Some(90),
+            Self::Year1 => Some(365),
             Self::Unlimited => None,
         }
+    }
+
+    pub fn max_age(self) -> Option<chrono::Duration> {
+        self.days().map(|days| chrono::Duration::days(days as i64))
     }
 }
 

@@ -2,6 +2,7 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "nav_accounts": "Konton",
   "nav_history": "Journal",
+  "nav_stats": "Statistik",
   "nav_settings": "Inställningar",
   "topbar_disconnected": "Återansluter…",
   "topbar_language": "Språk",
@@ -89,7 +90,6 @@
   "login_note_settings": "dina Twitch-inställningar",
   "login_vault_locked": "Lås upp appen innan du lägger till ett konto.",
   "login_use_tokens": "Klistra in tokens istället",
-  "login_use_code": "Använd inloggningskoden istället",
   "login_tokens_label": "Åtkomsttokens",
   "login_tokens_hint": "Klistra in en token per rad. Varje token kontrolleras innan den kan importeras.",
   "login_tokens_submit": [
@@ -109,11 +109,26 @@
   "import_tokens_line_too_long": "En rad är för lång (högst {max} tecken).",
   "import_tokens_status_pending": "Kontrollerar…",
   "import_tokens_status_valid": "Giltig",
-  "import_tokens_status_unusable_client": "Denna token kan inte användas för mining.",
+  "import_tokens_client_warning": "Twitch kan neka vissa åtgärder (hämta Drops, bonuskistor, insatser) från den här klienten. Att logga in med koden är det mest pålitliga sättet att lägga till ett konto.",
   "import_tokens_status_invalid": "Denna token är ogiltig eller har gått ut.",
   "import_tokens_status_already_added": "Redan tillagt",
   "import_tokens_status_duplicate": "Dubblett av en annan rad",
   "import_tokens_status_not_imported": "Inte importerad",
+  "import_tokens_configure": [
+    {
+      "declarations": [
+        "input count",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Konfigurera kontot",
+        "countPlural=*": "Konfigurera konton"
+      }
+    }
+  ],
   "import_tokens_settings_step_title": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -213,6 +228,50 @@
   "history_title": "Journal",
   "history_empty": "Inget än.",
   "history_load_failed": "Journalen kunde inte läsas.",
+  "stats_title": "Statistik",
+  "stats_empty": "Ingen historik för den här perioden än.",
+  "stats_load_failed": "Statistiken kunde inte läsas in.",
+  "stats_period_label": "Visad period",
+  "stats_period_7": "7 dagar",
+  "stats_period_30": "30 dagar",
+  "stats_period_90": "90 dagar",
+  "stats_period_disabled_retention": "Historiken sparas {retention}: ändra lagringstiden i inställningarna för att se längre tillbaka.",
+  "stats_tile_points": "Intjänade poäng",
+  "stats_tile_drops": "Hämtade drops",
+  "stats_tile_watched": "Tittartid",
+  "stats_tile_predictions": "Vunna insatser",
+  "stats_tile_top_label": "Topp",
+  "stats_tile_top_empty": "Ingen data än",
+  "stats_chart_points_by_day": "Poäng per dag",
+  "stats_chart_points_by_day_aria": "Intjänade poäng per dag under {days} dagar",
+  "stats_chart_drops_by_category": "Hämtade drops per kategori",
+  "stats_chart_drops_by_category_empty": "Ingen drop hämtad under den här perioden.",
+  "stats_category_unknown": "Ingen kategori",
+  "stats_chart_top_streamers": "Mest lönsamma streamers",
+  "stats_chart_top_streamers_empty": "Inga poäng intjänade under den här perioden.",
+  "stats_reason_watch": "Tittar",
+  "stats_reason_watch_streak": "Svitbonus",
+  "stats_reason_claim": "Bonuskista",
+  "stats_reason_raid": "Raid följd",
+  "stats_reason_community_moment": "Community-moment",
+  "stats_reason_prediction": "Insats vunnen",
+  "stats_reason_refund": "Insats återbetald",
+  "stats_curve_title": "Poängkurva",
+  "stats_curve_streamer_label": "Streamer",
+  "stats_curve_streamer_empty": "Välj en streamer",
+  "stats_curve_no_streamer": "Det här kontot har ännu ingen streamer att visa en kurva för.",
+  "stats_curve_empty": "Inga poänghändelser för denna streamer under denna period.",
+  "stats_curve_aria": "{streamer}s poängsaldo över tid",
+  "stats_curve_legend_balance": "Poängsaldo",
+  "stats_curve_legend_streak": "Streak återställd",
+  "stats_curve_legend_raid": "Raid följd",
+  "stats_curve_legend_moment": "Ögonblick hämtat",
+  "stats_curve_legend_prediction_placed": "Insats placerad",
+  "stats_curve_legend_prediction_won": "Insats vunnen",
+  "stats_curve_legend_prediction_lost": "Insats förlorad",
+  "stats_curve_legend_prediction_refund": "Insats återbetald",
+  "stats_curve_open": "Visa {streamer}s poängkurva",
+  "stats_curve_open_tip": "Visa poängkurva",
   "event_kind_info": "Info",
   "event_kind_error": "Fel",
   "event_kind_watch_started": "Tittar",
@@ -499,6 +558,8 @@
   "error_catalog_rate_limited": "Katalogen bad om lägre takt. Nästa uppdatering väntar längre.",
   "error_too_many_attempts": "För många felaktiga lösenord: försök igen om en stund.",
   "error_https_required": "Öppna instrumentpanelen på dess HTTPS-adress.",
+  "error_open_url_refused": "Den här länken får inte öppnas från appen.",
+  "error_open_url_failed": "Det gick inte att öppna den här länken.",
   "error_forwarded_for_required": "HTTPS-proxyn framför instrumentpanelen måste skicka besökarens adress (X-Forwarded-For).",
   "error_proxy_not_local": "Instrumentpanelen tar bara emot sin HTTPS-proxy från den här datorn eller dess lokala nätverk.",
   "error_cross_site_request": "Nekad: förfrågan kom från en sida på en annan webbplats.",
@@ -574,6 +635,8 @@
   "ev_bonus_short": "Bonuskista hämtad",
   "ev_points": "+{points} poäng på {channel}",
   "ev_points_short": "+{points} poäng",
+  "ev_points_reason": "+{points} poäng på {channel} · {reason}",
+  "ev_points_reason_short": "+{points} poäng · {reason}",
   "ev_online": "{channel} är live",
   "ev_online_short": "Är live",
   "ev_offline": "{channel} gick offline",
@@ -745,9 +808,27 @@
   "import_title": "Importera streamers",
   "import_too_many": "Högst {max} namn åt gången.",
   "login_setup_custom": "Anpassad",
-  "login_setup_later_hint": "Kontot förblir pausat tills du startar det, nu eller senare från dess sida.",
+  "login_setup_later_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Kontot förblir pausat tills du startar det, nu eller senare från dess sida.",
+        "countPlural=*": "Kontona förblir pausade tills du startar dem, nu eller senare från deras sida."
+      }
+    }
+  ],
   "login_setup_streamers_empty": "Ingen streamer än: lägg till några nedan, eller senare från sidan Poäng.",
-  "login_setup_streamers_hint": "Kanalerna som det här kontot tittar på för kanalpoäng, viktigast först.",
+  "login_setup_streamers_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Kanalerna som det här kontot tittar på för kanalpoäng, viktigast först.",
+        "countPlural=*": "Kanalerna som dessa konton tittar på för kanalpoäng, viktigast först."
+      }
+    }
+  ],
   "login_setup_streamers_title": "Streamers för poängen",
   "points_import": "Importera",
   "streamer_change": "Ändra",
@@ -793,7 +874,6 @@
   "updates_last_checked": "Senast kontrollerad: {time}",
   "updates_never_checked": "Senast kontrollerad: inget svar ännu sedan starten",
   "updates_install": "Installera och starta om",
-  "updates_download_page": "Öppna nedladdningssidan",
   "settings_notifications_language": "Språk för aviseringar",
   "updates_confirm_title": "Installera version {version}?",
   "updates_confirm_text": "Du har version {current}. Appen laddar ned version {version}, stoppar mining på alla konton, installerar den och startar om av sig själv. Sedan fortsätter mining av sig själv.",
@@ -921,11 +1001,29 @@
   "login_setup_step_streamers": "Streamers",
   "login_setup_step_summary": "Sammanfattning",
   "login_setup_start_hint": "Utgå från standardinställningarna, eller återanvänd inställningarna från ett konto du redan minar med. Du kan ändra allt i nästa steg.",
-  "login_setup_summary_hint": "Allt kan ändras senare från kontots sidor.",
+  "login_setup_summary_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Allt kan ändras senare från kontots sidor.",
+        "countPlural=*": "Allt kan ändras senare från kontonas sidor."
+      }
+    }
+  ],
   "login_setup_progress": "Steg {current} av {total}",
   "common_yes": "Ja",
   "common_no": "Nej",
-  "login_setup_drops_hint": "Vilka kampanjer det här kontot minar och om det hämtar belöningarna självt.",
+  "login_setup_drops_hint": [
+    {
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Vilka kampanjer det här kontot minar och om det hämtar belöningarna självt.",
+        "countPlural=*": "Vilka kampanjer dessa konton minar och om de hämtar belöningarna själva."
+      }
+    }
+  ],
   "event_kind_chat_mention": "Omnämnande",
   "ev_chat_mention": "{chatter} nämnde dig i chatten hos {channel}",
   "ev_chat_mention_short": "{chatter} nämnde dig",
@@ -1013,6 +1111,7 @@
   "confirm_remove_setup_streamer_text": "{name} tas bort från listan: det här kontot tittar inte på den för kanalpoäng.",
   "search_verified": "Verifierad partner",
   "login_setup_for": "Konto: {name}",
+  "login_setup_for_many": "Konton: {count}",
   "search_pick": "Välj",
   "search_no_result": "Inget resultat för {query}.",
   "drops_tabs_label": "Delar av Drops-sidan",
@@ -1504,8 +1603,6 @@
   "account_badges_not_mined_hint": "Visas men minas inte: först krävs en prenumeration som du tecknar själv eller ett annat märke, eller så anger Twitch ingen kanal som minern kan titta på.",
   "error_action_rate_limited": "För många försök: vänta en stund och försök igen.",
   "error_invalid_token": "Denna token är ogiltig eller har gått ut. Klistra in en ny.",
-  "error_unsupported_client": "Denna token kan inte användas för mining. Logga in med koden istället.",
-  "error_missing_scope": "Denna token saknar en behörighet som appen kräver. Logga in med koden istället.",
   "ev_paused": "Pausad",
   "ev_paused_quiet_window": "Pausad (daglig paus)",
   "ev_paused_scheduled": "Pausad, återupptas {time}",

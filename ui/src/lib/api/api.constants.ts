@@ -24,6 +24,8 @@ export enum TauriCommand {
   TEST_PROXY = "test_proxy",
   HISTORY = "history",
   HISTORY_EXPORT = "history_export",
+  HISTORY_STATS = "history_stats",
+  HISTORY_CURVE = "history_curve",
   BADGES = "badges",
   CATALOG = "catalog",
   LOGS = "logs",
@@ -44,6 +46,9 @@ export enum TauriCommand {
   TAKE_FAILED_UPDATE = "take_failed_update",
   DOWNLOAD_UPDATE = "download_update",
   APPLY_UPDATE = "apply_update",
+  OPEN_URL = "open_url",
+  OPEN_CAMPAIGN_LINK = "open_campaign_link",
+  OPEN_BADGE_LINK = "open_badge_link",
 }
 
 export enum UpdateEvent {

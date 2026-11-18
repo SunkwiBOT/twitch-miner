@@ -2,6 +2,7 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "nav_accounts": "Tài khoản",
   "nav_history": "Nhật ký",
+  "nav_stats": "Thống kê",
   "nav_settings": "Cài đặt",
   "topbar_disconnected": "Đang kết nối lại…",
   "topbar_language": "Ngôn ngữ",
@@ -74,7 +75,6 @@
   "login_note_settings": "cài đặt Twitch của bạn",
   "login_vault_locked": "Mở khóa ứng dụng trước khi thêm tài khoản.",
   "login_use_tokens": "Dán mã thông báo thay vào đó",
-  "login_use_code": "Dùng mã đăng nhập thay vào đó",
   "login_tokens_label": "Mã thông báo truy cập",
   "login_tokens_hint": "Dán mỗi mã thông báo trên một dòng. Mỗi mã được kiểm tra trước khi có thể nhập.",
   "login_tokens_submit": [
@@ -94,11 +94,26 @@
   "import_tokens_line_too_long": "Có một dòng quá dài: tối đa {max} ký tự.",
   "import_tokens_status_pending": "Đang kiểm tra…",
   "import_tokens_status_valid": "Hợp lệ",
-  "import_tokens_status_unusable_client": "Mã thông báo này không thể dùng để khai thác.",
+  "import_tokens_client_warning": "Twitch có thể từ chối một số hành động (nhận Drops, rương thưởng, cược) từ client này. Đăng nhập bằng mã là cách đáng tin cậy nhất để thêm tài khoản.",
   "import_tokens_status_invalid": "Mã thông báo này không hợp lệ hoặc đã hết hạn.",
   "import_tokens_status_already_added": "Đã được thêm",
   "import_tokens_status_duplicate": "Trùng với dòng khác",
   "import_tokens_status_not_imported": "Chưa được nhập",
+  "import_tokens_configure": [
+    {
+      "declarations": [
+        "input count",
+        "local countPluralExact = count"
+      ],
+      "selectors": [
+        "countPluralExact"
+      ],
+      "match": {
+        "countPluralExact=1": "Thiết lập tài khoản",
+        "countPluralExact=*": "Thiết lập tài khoản"
+      }
+    }
+  ],
   "import_tokens_settings_step_title": [
     {
       "declarations": ["input count", "local countPluralExact = count"],
@@ -180,6 +195,50 @@
   "history_title": "Nhật ký",
   "history_empty": "Chưa có gì.",
   "history_load_failed": "Không thể đọc Nhật ký.",
+  "stats_title": "Thống kê",
+  "stats_empty": "Chưa có lịch sử cho giai đoạn này.",
+  "stats_load_failed": "Không thể tải thống kê.",
+  "stats_period_label": "Giai đoạn hiển thị",
+  "stats_period_7": "7 ngày",
+  "stats_period_30": "30 ngày",
+  "stats_period_90": "90 ngày",
+  "stats_period_disabled_retention": "Lịch sử được lưu {retention}: đổi thời gian lưu trong cài đặt để xem xa hơn.",
+  "stats_tile_points": "Điểm đã kiếm",
+  "stats_tile_drops": "Drop đã nhận",
+  "stats_tile_watched": "Thời gian xem",
+  "stats_tile_predictions": "Cược thắng",
+  "stats_tile_top_label": "Top",
+  "stats_tile_top_empty": "Chưa có dữ liệu",
+  "stats_chart_points_by_day": "Điểm mỗi ngày",
+  "stats_chart_points_by_day_aria": "Điểm kiếm được mỗi ngày trong {days} ngày",
+  "stats_chart_drops_by_category": "Drop đã nhận theo danh mục",
+  "stats_chart_drops_by_category_empty": "Không có drop nào được nhận trong giai đoạn này.",
+  "stats_category_unknown": "Không có danh mục",
+  "stats_chart_top_streamers": "Streamer sinh lời nhiều nhất",
+  "stats_chart_top_streamers_empty": "Không có điểm nào được kiếm trong giai đoạn này.",
+  "stats_reason_watch": "Đang xem",
+  "stats_reason_watch_streak": "Thưởng chuỗi xem",
+  "stats_reason_claim": "Rương thưởng",
+  "stats_reason_raid": "Đã tham gia raid",
+  "stats_reason_community_moment": "Khoảnh khắc cộng đồng",
+  "stats_reason_prediction": "Cược thắng",
+  "stats_reason_refund": "Đã hoàn cược",
+  "stats_curve_title": "Biểu đồ điểm",
+  "stats_curve_streamer_label": "Streamer",
+  "stats_curve_streamer_empty": "Chọn một streamer",
+  "stats_curve_no_streamer": "Tài khoản này chưa có streamer nào để hiển thị biểu đồ.",
+  "stats_curve_empty": "Không có sự kiện điểm nào cho streamer này trong khoảng thời gian này.",
+  "stats_curve_aria": "Số dư điểm của {streamer} theo thời gian",
+  "stats_curve_legend_balance": "Số dư điểm",
+  "stats_curve_legend_streak": "Khôi phục chuỗi",
+  "stats_curve_legend_raid": "Đã tham gia raid",
+  "stats_curve_legend_moment": "Đã nhận khoảnh khắc",
+  "stats_curve_legend_prediction_placed": "Đã đặt cược",
+  "stats_curve_legend_prediction_won": "Cược thắng",
+  "stats_curve_legend_prediction_lost": "Cược thua",
+  "stats_curve_legend_prediction_refund": "Đã hoàn cược",
+  "stats_curve_open": "Xem biểu đồ điểm của {streamer}",
+  "stats_curve_open_tip": "Xem biểu đồ điểm",
   "event_kind_info": "Thông tin",
   "event_kind_error": "Lỗi",
   "event_kind_watch_started": "Đang xem",
@@ -408,6 +467,8 @@
   "error_catalog_rate_limited": "Danh mục yêu cầu giảm tốc độ. Lần làm mới tiếp theo sẽ chờ lâu hơn.",
   "error_too_many_attempts": "Sai mật khẩu quá nhiều lần: hãy thử lại sau giây lát.",
   "error_https_required": "Hãy mở bảng điều khiển bằng địa chỉ HTTPS của nó.",
+  "error_open_url_refused": "Liên kết này không được phép mở từ ứng dụng.",
+  "error_open_url_failed": "Mở liên kết này không thành công.",
   "error_forwarded_for_required": "Proxy HTTPS đứng trước bảng điều khiển phải gửi địa chỉ của khách truy cập (X-Forwarded-For).",
   "error_proxy_not_local": "Bảng điều khiển chỉ chấp nhận proxy HTTPS của nó từ máy này hoặc mạng nội bộ của máy.",
   "error_cross_site_request": "Đã từ chối: yêu cầu đến từ một trang của trang web khác.",
@@ -483,6 +544,8 @@
   "ev_bonus_short": "Đã nhận rương thưởng",
   "ev_points": "+{points} điểm trên {channel}",
   "ev_points_short": "+{points} điểm",
+  "ev_points_reason": "+{points} điểm trên {channel} · {reason}",
+  "ev_points_reason_short": "+{points} điểm · {reason}",
   "ev_online": "{channel} đang phát trực tiếp",
   "ev_online_short": "Đang phát trực tiếp",
   "ev_offline": "{channel} đã ngừng phát",
@@ -639,9 +702,27 @@
   "import_title": "Nhập streamer",
   "import_too_many": "Quá nhiều tên: tối đa {max} mỗi lần.",
   "login_setup_custom": "Tùy chỉnh",
-  "login_setup_later_hint": "Tài khoản vẫn tạm dừng cho đến khi bạn khởi động, ngay bây giờ hoặc sau này từ trang của nó.",
+  "login_setup_later_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "Tài khoản vẫn tạm dừng cho đến khi bạn khởi động, ngay bây giờ hoặc sau này từ trang của nó.",
+        "countPluralExact=*": "Các tài khoản vẫn tạm dừng cho đến khi bạn khởi động, ngay bây giờ hoặc sau này từ trang của từng tài khoản."
+      }
+    }
+  ],
   "login_setup_streamers_empty": "Chưa có streamer: thêm ở bên dưới, hoặc sau này từ trang Điểm.",
-  "login_setup_streamers_hint": "Các kênh tài khoản này xem để lấy điểm kênh, quan trọng nhất xếp trước.",
+  "login_setup_streamers_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "Các kênh tài khoản này xem để lấy điểm kênh, quan trọng nhất xếp trước.",
+        "countPluralExact=*": "Các kênh các tài khoản này xem để lấy điểm kênh, quan trọng nhất xếp trước."
+      }
+    }
+  ],
   "login_setup_streamers_title": "Streamer để lấy điểm",
   "points_import": "Nhập",
   "streamer_change": "Đổi",
@@ -687,7 +768,6 @@
   "updates_last_checked": "Lần kiểm tra cuối: {time}",
   "updates_never_checked": "Lần kiểm tra cuối: chưa có phản hồi kể từ khi khởi động",
   "updates_install": "Cài đặt và khởi động lại",
-  "updates_download_page": "Mở trang tải xuống",
   "settings_notifications_language": "Ngôn ngữ thông báo",
   "updates_confirm_title": "Cài đặt phiên bản {version}?",
   "updates_confirm_text": "Bạn đang dùng phiên bản {current}. Ứng dụng sẽ tải phiên bản {version}, dừng việc đào trên mọi tài khoản, cài đặt rồi tự khởi động lại. Sau đó việc đào sẽ tự tiếp tục.",
@@ -754,11 +834,29 @@
   "login_setup_step_streamers": "Streamer",
   "login_setup_step_summary": "Tóm tắt",
   "login_setup_start_hint": "Bắt đầu từ cài đặt mặc định, hoặc dùng lại cài đặt của một tài khoản bạn đang dùng để đào. Bạn có thể thay đổi mọi thứ ở các bước tiếp theo.",
-  "login_setup_summary_hint": "Mọi thứ đều có thể thay đổi sau trong các trang của tài khoản.",
+  "login_setup_summary_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "Mọi thứ đều có thể thay đổi sau trong các trang của tài khoản.",
+        "countPluralExact=*": "Mọi thứ đều có thể thay đổi sau trong các trang của từng tài khoản."
+      }
+    }
+  ],
   "login_setup_progress": "Bước {current}/{total}",
   "common_yes": "Có",
   "common_no": "Không",
-  "login_setup_drops_hint": "Những chiến dịch tài khoản này đào, và nó có tự nhận phần thưởng hay không.",
+  "login_setup_drops_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "Những chiến dịch tài khoản này đào, và nó có tự nhận phần thưởng hay không.",
+        "countPluralExact=*": "Những chiến dịch các tài khoản này đào, và chúng có tự nhận phần thưởng hay không."
+      }
+    }
+  ],
   "event_kind_chat_mention": "Nhắc đến",
   "ev_chat_mention": "{chatter} đã nhắc đến bạn trong chat của {channel}",
   "ev_chat_mention_short": "{chatter} đã nhắc đến bạn",
@@ -846,6 +944,7 @@
   "confirm_remove_setup_streamer_text": "{name} rời khỏi danh sách: tài khoản này sẽ không xem kênh này để lấy điểm kênh.",
   "search_verified": "Đối tác đã xác minh",
   "login_setup_for": "Tài khoản: {name}",
+  "login_setup_for_many": "Tài khoản: {count}",
   "search_pick": "Chọn",
   "search_no_result": "Không có kết quả cho {query}.",
   "drops_tabs_label": "Các phần của trang Drops",
@@ -1189,7 +1288,5 @@
   "lock_warning_message": "Sẽ khóa sau {time} — di chuyển hoặc nhấp để giữ không bị khóa",
   "lock_warning_message_a11y": "Sắp bị khóa.",
   "account_remove_revoke_label": "Cũng thu hồi mã thông báo này trên Twitch",
-  "error_invalid_token": "Mã thông báo này không hợp lệ hoặc đã hết hạn. Dán một mã mới.",
-  "error_unsupported_client": "Mã thông báo này không thể dùng để khai thác. Hãy đăng nhập bằng mã thay vào đó.",
-  "error_missing_scope": "Mã thông báo này thiếu quyền mà ứng dụng này yêu cầu. Hãy đăng nhập bằng mã thay vào đó."
+  "error_invalid_token": "Mã thông báo này không hợp lệ hoặc đã hết hạn. Dán một mã mới."
 }

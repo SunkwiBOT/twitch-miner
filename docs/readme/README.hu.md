@@ -224,6 +224,12 @@ láthatod, hogyan működnek.
   <img src="../media/hu/journal-requests.avif" alt="A szűrt Napló, majd a Technikai logok › Kérések">
   </details>
 
+- **Statisztika oldal.** Szerzett pontok, begyűjtött dropok, nézett idő és megnyert
+  előrejelzések 7, 30 vagy 90 napra visszamenőleg, minden szám mögött a vezető
+  streamerrel vagy kategóriával. A streamerenkénti pontgörbe az egyenleget mutatja az
+  idő múlásával, jelölőkkel a nézési sorozatokhoz, raidekhez, pillanatokhoz és
+  előrejelzésekhez, és egy tooltippel mindegyiken.
+
 - **Ütemezett szünet és napi szünet.** Állíts szünetet egy fiókra vagy mindegyikre 30
   percre, 1 órára, 4 órára, holnap 9:00-ig vagy egyéni dátumra és időpontra; a „Folytatás
   most” korábban feloldja. Egy jelvény mutatja, mikor ér véget a szünet. A napi szünet
@@ -262,7 +268,6 @@ láthatod, hogyan működnek.
   jelvény a verziószámmal. A „Telepítés és újraindítás” először megerősítést kér, majd az
   alkalmazás telepíti a verziót és újraindul. Alkalmazásjelszóval zárolva indul újra: írd
   be újra, hogy folytatódjon a bányászat. Csak a projekt által aláírt verzió települ.
-  A hordozható Windows-fájl nem frissíti magát: a gombja a letöltési oldalt nyitja meg.
   A Docker-verzió is szól, a futtatandó parancsokkal együtt.
 
   <details open><summary>Működés közben</summary>
@@ -369,8 +374,7 @@ biztonság** részhez, és kattints a **Megnyitás mindenképp** gombra.
 A frissítések alá vannak írva. Az alkalmazás induláskor, majd óránként ellenőrzi, van-e új
 verzió (a gyakoriságot a **Beállítások › Névjegy** helyen módosíthatod). Magától soha nem
 telepít: egy kattintással telepítheted a megjelenő üzenetből vagy a **Beállítások › Névjegy**
-helyen. A hordozható fájl soha nem frissíti magát: a „Letöltési oldal megnyitása” a
-legújabb kiadáshoz visz.
+helyen.
 
 Az adatok a felhasználói adatmappában vannak:
 
@@ -521,9 +525,7 @@ alkalmazásjelszó beállítva) és a logok.
 Az asztali alkalmazás induláskor, majd óránként keres új verziót (ez a
 **Beállítások › Névjegy** alatt módosítható). Kattints a „Frissítés” jelvényre, majd a
 „Telepítés és újraindítás” gombra. Dockerrel az irányítópult szól: futtasd a
-`docker compose pull`, majd a `docker compose up -d` parancsot. A hordozható Windows-fájl
-nem frissíti magát: a „Letöltési oldal megnyitása” a legújabb kiadást nyitja meg, ahonnan
-letöltöd az újat.
+`docker compose pull`, majd a `docker compose up -d` parancsot.
 
 **Elfelejtettem az alkalmazásjelszót.**\
 Nem állítható vissza: épp ez titkosítja a Twitch-munkameneteidet. Lépj ki az

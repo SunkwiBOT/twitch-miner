@@ -12,6 +12,7 @@ use super::{foreign_data, json_error, Store};
 use crate::config::AccountSettings;
 use crate::error::{Error, Result};
 use crate::twitch::auth::TokenSet;
+use crate::twitch::identity::AccountIdentity;
 
 const MASKED: &str = "[redacted]";
 
@@ -58,6 +59,12 @@ pub struct AccountRecord {
 pub struct Credential {
     pub tokens: TokenSet,
     pub device_id: String,
+    // ! Which Twitch client this token's requests present themselves as:
+    // a property of the token itself, sealed and written with it so the
+    // two can never drift apart. `#[serde(default)]` falls back to the TV
+    // identity for a credential sealed before this field existed.
+    #[serde(default)]
+    pub identity: AccountIdentity,
 }
 
 // ! The tokens stay out of `{:?}`: the log redaction only catches what looks
@@ -68,6 +75,7 @@ impl fmt::Debug for Credential {
             .debug_struct("Credential")
             .field("tokens", &MASKED)
             .field("device_id", &self.device_id)
+            .field("identity", &self.identity)
             .finish()
     }
 }

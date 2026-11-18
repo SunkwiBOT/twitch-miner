@@ -1,3 +1,4 @@
+import { ClientPersonaType } from "../bindings/ClientPersonaType";
 import type { TokenCheckType } from "../bindings/TokenCheckType";
 
 export enum ImportLineStatus {
@@ -7,7 +8,6 @@ export enum ImportLineStatus {
   ALREADY_ADDED = "already_added",
   DUPLICATE = "duplicate",
   INVALID = "invalid",
-  UNUSABLE_CLIENT = "unusable_client",
   OTHER_ERROR = "other_error",
   NOT_IMPORTED = "not_imported",
 }
@@ -16,6 +16,7 @@ export enum ImportStep {
   LIST = "list",
   SETTINGS = "settings",
   RESULT = "result",
+  WIZARD = "wizard",
 }
 
 export type ParsedTokenLineType = {
@@ -81,3 +82,8 @@ export const maskToken = (token: string): string => {
 
   return visible < 1 ? "…" : `${token.slice(0, visible)}…${token.slice(-visible)}`;
 };
+
+// ! A heads-up, never a refusal: Twitch may require its client attestation
+// from a non-TV client, or the token may lack a scope the miner uses.
+export const hasClientWarning = (check: TokenCheckType): boolean =>
+  check.persona !== ClientPersonaType.TV || !check.scopes_ok;

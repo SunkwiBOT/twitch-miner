@@ -28,7 +28,7 @@ jobs:
       tagged: ${{ steps.tag.outputs.tagged }}
       image: ${{ steps.check.outputs.image }}
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
 
@@ -93,7 +93,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: v${{ needs.version.outputs.version }}
 
@@ -105,13 +105,13 @@ jobs:
             libwebkit2gtk-4.1-dev libgtk-3-dev libayatana-appindicator3-dev \
             librsvg2-dev patchelf rpm file
 
-      - uses: dtolnay/rust-toolchain@b725eda525362e7cf34af9a7243cac1e3f01a7ec # stable
+      - uses: dtolnay/rust-toolchain@39008827e6b4319a349e9a42dfc90579dd25f1ca # stable
         with:
           toolchain: stable
           targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
       - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
 
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
           cache: npm
@@ -129,7 +129,7 @@ jobs:
         with:
           tagName: v${{ needs.version.outputs.version }}
           releaseName: "v${{ needs.version.outputs.version }} - Twitch Miner"
-          releaseBody: "Download the installer for your system, or run the Docker image ${{ needs.version.outputs.image }}:${{ needs.version.outputs.version }} (also tagged latest) on a home server. macOS builds are not notarized: the first time, open the app, then allow it in System Settings › Privacy & Security › Open Anyway. TwitchMiner-portable.exe runs on Windows without installing; it does not update itself, download the new one here."
+          releaseBody: "Download the installer for your system, or run the Docker image ${{ needs.version.outputs.image }}:${{ needs.version.outputs.version }} (also tagged latest) on a home server. macOS builds are not notarized: the first time, open the app, then allow it in System Settings › Privacy & Security › Open Anyway. TwitchMiner-portable.exe runs on Windows without installing; it updates itself like the other builds."
           releaseDraft: true
           prerelease: false
           uploadUpdaterJson: true
@@ -159,17 +159,17 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: v${{ needs.version.outputs.version }}
-      - uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3.7.0
-      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
-      - uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
+      - uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - uses: docker/login-action@8aa5831fb8d48d8f76594c7ddde61ae58019f550 # v4.8.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
+      - uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
           context: .
           platforms: linux/amd64,linux/arm64
@@ -185,24 +185,40 @@ jobs:
       contents: write
       packages: write
     steps:
-      # ! tauri-action points latest.json at API URLs limited to 60 requests an hour per IP.
-      - name: Point latest.json at the public downloads
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # ! tauri-action points latest.json at API URLs limited to 60 requests an hour per IP, and
+      # the NSIS-only manifest has no entry a portable Windows copy could self-update from: both
+      # are fixed here, before the release goes public.
+      - name: Point latest.json at the public downloads and sign the portable copy
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
           RELEASE_VERSION: ${{ needs.version.outputs.version }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         run: |
           tag="v$RELEASE_VERSION"
-          gh release download "$tag" --pattern latest.json --dir draft
+          base="https://github.com/$GH_REPO/releases/download/$tag"
+          gh release download "$tag" --pattern latest.json --pattern TwitchMiner-portable.exe --dir draft
           gh release view "$tag" --json assets \
             --jq '[.assets[] | {key: (.apiUrl | split("/") | last), value: .name}] | from_entries' \
             > draft/names.json
-          jq --slurpfile names draft/names.json \
-            --arg base "https://github.com/$GH_REPO/releases/download/$tag/" \
+          jq --slurpfile names draft/names.json --arg base "$base/" \
             '.platforms |= map_values(.url = ($base + ($names[0][.url | split("/") | last] // error("no asset for " + .url))))' \
-            draft/latest.json > latest.json
+            draft/latest.json > draft/rewritten.json
+
+          # ! The portable copy ships no Tauri bundle the CLI signs on its own during `publish`:
+          # it is signed here instead, against the same version, so the app can verify it like
+          # every other platform. `--app-version` is what `requireSignedVersion` checks against.
+          cli_version="$(jq -r '.packages["node_modules/@tauri-apps/cli"].version' package-lock.json)"
+          npx --yes "@tauri-apps/cli@$cli_version" signer sign --app-version "$RELEASE_VERSION" draft/TwitchMiner-portable.exe
+          jq --arg url "$base/TwitchMiner-portable.exe" \
+            --arg signature "$(cat draft/TwitchMiner-portable.exe.sig)" \
+            '.platforms["windows-x86_64-portable"] = {url: $url, signature: $signature}' \
+            draft/rewritten.json > latest.json
+
           # ! The three builds rewrite latest.json in turn: one finishing at the same time as another can drop its system.
-          jq -e '.platforms | has("linux-x86_64") and has("windows-x86_64") and has("darwin-aarch64") and has("darwin-x86_64")' latest.json > /dev/null \
+          jq -e '.platforms | has("linux-x86_64") and has("windows-x86_64") and has("windows-x86_64-portable") and has("darwin-aarch64") and has("darwin-x86_64")' latest.json > /dev/null \
             || { echo "::error::latest.json lacks a system: $(jq -c '.platforms | keys' latest.json)"; exit 1; }
           gh release upload "$tag" latest.json --clobber
 
@@ -213,8 +229,8 @@ jobs:
           RELEASE_VERSION: ${{ needs.version.outputs.version }}
         run: gh release edit "v$RELEASE_VERSION" --draft=false
 
-      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
-      - uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - uses: docker/login-action@8aa5831fb8d48d8f76594c7ddde61ae58019f550 # v4.8.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}

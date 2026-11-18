@@ -7,8 +7,23 @@ impl<T: TwitchApi> AccountMiner<T> {
         }
 
         self.claims.forget_stale_refusals(&self.campaigns);
+        self.claims.forget_stale_told_unlinked(&self.campaigns);
 
         let ignored_drops = &self.settings.drops.exclude_drop_ids;
+
+        // ! See `Campaign::claims_delivered`: told once, not every tick.
+        let unlinked: Vec<(String, String, String)> = self
+            .campaigns
+            .values()
+            .filter(|c| !scheduler::claim_excluded(&self.settings, c) && !c.claims_delivered())
+            .flat_map(|c| {
+                c.drops
+                    .iter()
+                    .filter(|d| d.claimable() && !ignored_drops.contains(&d.id))
+                    .map(move |d| (c.id.clone(), d.id.clone(), d.name.clone()))
+            })
+            .collect();
+
         let claimable: Vec<(String, String, String, String, Option<String>)> = self
             .campaigns
             .values()
@@ -29,12 +44,48 @@ impl<T: TwitchApi> AccountMiner<T> {
             })
             .collect();
 
+        for (campaign_id, drop_id, drop_name) in unlinked {
+            if !self.claims.tell_unlinked(&drop_id) {
+                continue;
+            }
+
+            let event = self
+                .emit(
+                    EventKind::Info,
+                    format!("{drop_name} is done: link the publisher account to claim it"),
+                )
+                .context(EventContext {
+                    drop_name: Some(drop_name),
+                    ..EventContext::drop(&campaign_id, &drop_id)
+                });
+
+            self.publish(event);
+        }
+
         for (campaign_id, campaign_name, drop_id, drop_name, instance) in claimable {
-            let Some(instance) = instance else { continue };
+            let Some(instance) = instance else {
+                // ! `claimable()` above already requires an instance id, on the same
+                // unmutated snapshot: unreachable unless that guard changes.
+                tracing::debug!(account = %self.login, drop = %drop_name, "claimable drop had no instance id");
+
+                continue;
+            };
 
             match self.client.claim_drop(&instance).await {
                 Ok(ClaimOutcome::AlreadyClaimed) => {
                     self.record_claim(&campaign_id, &drop_id, false);
+
+                    let event = self
+                        .emit(
+                            EventKind::Info,
+                            format!("{drop_name} was already claimed on Twitch"),
+                        )
+                        .context(EventContext {
+                            drop_name: Some(drop_name),
+                            ..EventContext::drop(&campaign_id, &drop_id)
+                        });
+
+                    self.publish(event);
                 }
                 Ok(ClaimOutcome::Claimed) => {
                     self.record_claim(&campaign_id, &drop_id, true);
@@ -296,7 +347,9 @@ impl<T: TwitchApi> AccountMiner<T> {
 
         self.bonus_claims
             .insert(channel_id.to_owned(), claim_id.to_owned());
-
+        // ! Twitch's `points-earned` message with reason `CLAIM` is the
+        // single source for this chest's earned points; only the balance
+        // (for the curve) comes from the claim mutation itself.
         match self.client.claim_bonus(channel_id, claim_id).await {
             Ok(balance) => {
                 self.stats.bonuses_claimed += 1;

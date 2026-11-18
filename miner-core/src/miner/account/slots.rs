@@ -610,7 +610,30 @@ pub(super) fn stop_reason(
         drop_id,
     } = &slot.purpose
     else {
-        return "another channel comes first".to_owned();
+        // ! Points watches no campaign: a replacement is only true once the new
+        // plan actually wants another points channel, never assumed from the stop alone.
+        return if plan
+            .slots
+            .iter()
+            .any(|wanted| matches!(wanted.purpose, SlotPurpose::Points { .. }))
+        {
+            "another channel comes first".to_owned()
+        } else if let Some(id) = plan.slots.iter().find_map(|wanted| match &wanted.purpose {
+            SlotPurpose::Drop {
+                campaign_id: id, ..
+            } => Some(id),
+            SlotPurpose::Points { .. } => None,
+        }) {
+            format!(
+                "{} comes first",
+                campaigns
+                    .iter()
+                    .find(|c| &c.id == id)
+                    .map_or(id.as_str(), |c| c.name.as_str())
+            )
+        } else {
+            "no live channel offers channel points".to_owned()
+        };
     };
 
     if let Some(drop) = campaigns

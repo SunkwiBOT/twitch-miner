@@ -162,6 +162,8 @@ Onu diğer madencilerden ayıran şeyler. Bir maddenin altındaki “Çalışır
   <img src="../media/tr/journal-requests.avif" alt="Filtrelenmiş Günlük, ardından Teknik kayıtlar › İstekler">
   </details>
 
+- **Bir İstatistikler sayfası.** 7, 30 veya 90 gün boyunca kazanılan puanlar, alınan drop'lar, izlenen süre ve kazanılan bahisler, her sayının arkasındaki en iyi yayıncı veya kategoriyle birlikte. Yayıncı başına bir puan eğrisi, bakiyeyi zaman içinde gösterir; seri, baskın, an ve bahisler için işaretleyicilerle ve her birinde bir araç ipucuyla birlikte.
+
 - **Zamanlanmış duraklatma ve günlük duraklatma.** Bir hesabı veya tüm hesapları 30 dakika, 1 saat, 4 saat, yarın 09:00'a kadar veya özel bir tarih ve saate kadar duraklatın; “Şimdi devam et” duraklatmayı erken kaldırır. Bir rozet duraklatmanın ne zaman biteceğini gösterir. Günlük duraklatma, her gün iki saat arasında, seçtiğiniz saat diliminde tüm hesapların madenciliğini durdurur ve süre bitince üst çubuktaki kendi rozetiyle birlikte devam ettirir.
 - **CSV dışa aktarma ve kategoriye göre sayılar.** Günlük, alınan drop'ları bir CSV dosyası olarak dışa aktarır (tarih, hesap, kategori, kampanya, drop, dakika); hesaba göre filtrelenir ve bir iletişim kutusu her kategoride kaç drop alındığını listeler. Masaüstü uygulaması dosyayı bir kaydetme iletişim kutusuyla kaydeder; web paneli indirir.
 
@@ -179,7 +181,7 @@ Onu diğer madencilerden ayıran şeyler. Bir maddenin altındaki “Çalışır
   <img src="../media/tr/security-lock.avif" alt="Asma kilit: kilitli uygulama, ardından şifresiyle açılması">
   </details>
 
-- **İmzalı güncellemeler, asla otomatik değil.** Üst çubukta sürüm numarasıyla birlikte bir “Güncelleme” rozeti belirir. “Yükle ve yeniden başlat” önce onay ister, ardından uygulama sürümü yükler ve yeniden başlar. Uygulama şifresi varsa uygulama kilitli olarak yeniden başlar: kazmaya devam etmek için şifreyi yeniden yazın. Yalnızca proje tarafından imzalanmış bir sürüm yüklenir. Taşınabilir Windows dosyası kendini güncellemez: düğmesi indirme sayfasını açar. Docker sürümü de çalıştırılacak komutlarla birlikte haber verir.
+- **İmzalı güncellemeler, asla otomatik değil.** Üst çubukta sürüm numarasıyla birlikte bir “Güncelleme” rozeti belirir. “Yükle ve yeniden başlat” önce onay ister, ardından uygulama sürümü yükler ve yeniden başlar. Uygulama şifresi varsa uygulama kilitli olarak yeniden başlar: kazmaya devam etmek için şifreyi yeniden yazın. Yalnızca proje tarafından imzalanmış bir sürüm yüklenir. Docker sürümü de çalıştırılacak komutlarla birlikte haber verir.
 
   <details open><summary>Çalışırken görün</summary>
   <img src="../media/tr/updates.avif" alt="“Güncelleme” rozeti, onay, ardından yükleme">
@@ -264,7 +266,7 @@ Sisteminize uygun dosyayı [son sürümden](https://github.com/SunkwiBOT/twitch-
 
 macOS derlemesi notarize edilmemiştir. İlk seferde uygulamayı açın: macOS onu engeller. Ardından **Sistem Ayarları › Gizlilik ve Güvenlik** bölümüne gidip **Yine de Aç** düğmesine tıklayın.
 
-Güncellemeler imzalıdır. Uygulama açılırken, ardından saatte bir yeni bir sürüm olup olmadığını denetler (sıklığı **Ayarlar › Hakkında** bölümünden değiştirebilirsiniz). Hiçbir sürümü kendiliğinden yüklemez: güncellemeyi, beliren mesajdan ya da **Ayarlar › Hakkında** bölümünden tek tıkla siz yüklersiniz. Taşınabilir dosya kendini asla güncellemez: “İndirme sayfasını aç” sizi en son sürüme götürür.
+Güncellemeler imzalıdır. Uygulama açılırken, ardından saatte bir yeni bir sürüm olup olmadığını denetler (sıklığı **Ayarlar › Hakkında** bölümünden değiştirebilirsiniz). Hiçbir sürümü kendiliğinden yüklemez: güncellemeyi, beliren mesajdan ya da **Ayarlar › Hakkında** bölümünden tek tıkla siz yüklersiniz.
 
 Veriler kullanıcı veri klasöründe bulunur:
 
@@ -359,7 +361,7 @@ Masaüstü uygulaması bilgisayarınız açıkken kazar; sistem tepsisi simgesi,
 Veri klasöründe: Linux'ta `~/.local/share/twitch-miner`, Windows'ta `%APPDATA%\twitch-miner`, macOS'ta `~/Library/Application Support/twitch-miner`, Docker'da ise `/data` birimi. Masaüstünde **Ayarlar › Masaüstü** onu tek tıkla açar. İçinde `miner.db` (hesaplar, ayarlar, günlük), `master.key` (uygulama şifresi ayarlanmamışsa oturum anahtarı) ve kayıtlar bulunur.
 
 **Nasıl güncellerim?**\
-Masaüstü uygulaması açılışta, ardından saatte bir yeni sürüm olup olmadığını denetler (bunu **Ayarlar › Hakkında** bölümünden değiştirebilirsiniz). “Güncelleme” rozetine, ardından “Yükle ve yeniden başlat” düğmesine tıklayın. Docker'da panel size haber verir: `docker compose pull`, ardından `docker compose up -d` komutunu çalıştırın. Taşınabilir Windows dosyası kendini güncellemez: “İndirme sayfasını aç” en son sürümü açar, yenisini oradan indirirsiniz.
+Masaüstü uygulaması açılışta, ardından saatte bir yeni sürüm olup olmadığını denetler (bunu **Ayarlar › Hakkında** bölümünden değiştirebilirsiniz). “Güncelleme” rozetine, ardından “Yükle ve yeniden başlat” düğmesine tıklayın. Docker'da panel size haber verir: `docker compose pull`, ardından `docker compose up -d` komutunu çalıştırın.
 
 **Uygulama şifresini unuttum.**\
 Kurtarılamaz: Twitch oturumlarınızı şifreleyen odur. Uygulamadan çıkın, veri klasörünü silin, ardından hesaplarınızı yeniden ekleyin; ayarlarını da baştan yapmanız gerekir. Docker'da panel şifresi `MINER_PASSWORD` içinde değiştirilir, ardından `docker compose up -d` çalıştırılır.

@@ -2,6 +2,7 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "nav_accounts": "계정",
   "nav_history": "일지",
+  "nav_stats": "통계",
   "nav_settings": "설정",
   "topbar_disconnected": "다시 연결 중…",
   "topbar_language": "언어",
@@ -74,7 +75,6 @@
   "login_note_settings": "Twitch 설정",
   "login_vault_locked": "계정을 추가하기 전에 앱 잠금을 해제하세요.",
   "login_use_tokens": "대신 토큰 붙여넣기",
-  "login_use_code": "대신 로그인 코드 사용",
   "login_tokens_label": "액세스 토큰",
   "login_tokens_hint": "한 줄에 토큰 하나씩 붙여넣으세요. 각 토큰은 가져오기 전에 확인됩니다.",
   "login_tokens_submit": [
@@ -94,11 +94,26 @@
   "import_tokens_line_too_long": "한 줄이 너무 길어요: 최대 {max}자예요.",
   "import_tokens_status_pending": "확인 중…",
   "import_tokens_status_valid": "유효함",
-  "import_tokens_status_unusable_client": "이 토큰은 채굴에 사용할 수 없습니다.",
+  "import_tokens_client_warning": "이 클라이언트에서는 Twitch가 일부 작업(Drops 수령, 보너스 상자, 베팅)을 거부할 수 있습니다. 계정을 추가하는 가장 확실한 방법은 코드로 로그인하는 것입니다.",
   "import_tokens_status_invalid": "이 토큰은 유효하지 않거나 만료되었습니다.",
   "import_tokens_status_already_added": "이미 추가됨",
   "import_tokens_status_duplicate": "다른 줄과 중복됨",
   "import_tokens_status_not_imported": "가져오지 않음",
+  "import_tokens_configure": [
+    {
+      "declarations": [
+        "input count",
+        "local countPluralExact = count"
+      ],
+      "selectors": [
+        "countPluralExact"
+      ],
+      "match": {
+        "countPluralExact=1": "계정 설정",
+        "countPluralExact=*": "계정 설정"
+      }
+    }
+  ],
   "import_tokens_settings_step_title": [
     {
       "declarations": ["input count", "local countPluralExact = count"],
@@ -180,6 +195,50 @@
   "history_title": "일지",
   "history_empty": "아직 아무것도 없어요.",
   "history_load_failed": "일지를 읽을 수 없어요.",
+  "stats_title": "통계",
+  "stats_empty": "이 기간에 대한 기록이 아직 없어요.",
+  "stats_load_failed": "통계를 불러올 수 없어요.",
+  "stats_period_label": "표시 기간",
+  "stats_period_7": "7일",
+  "stats_period_30": "30일",
+  "stats_period_90": "90일",
+  "stats_period_disabled_retention": "기록은 {retention} 보관돼요. 더 이전까지 보려면 설정에서 보관 기간을 바꾸세요.",
+  "stats_tile_points": "획득 포인트",
+  "stats_tile_drops": "수령한 드롭",
+  "stats_tile_watched": "시청 시간",
+  "stats_tile_predictions": "승리한 베팅",
+  "stats_tile_top_label": "최고",
+  "stats_tile_top_empty": "아직 데이터가 없어요",
+  "stats_chart_points_by_day": "일별 포인트",
+  "stats_chart_points_by_day_aria": "최근 {days}일간 일별 획득 포인트",
+  "stats_chart_drops_by_category": "카테고리별 수령한 드롭",
+  "stats_chart_drops_by_category_empty": "이 기간에 수령한 드롭이 없어요.",
+  "stats_category_unknown": "카테고리 없음",
+  "stats_chart_top_streamers": "가장 수익성 높은 스트리머",
+  "stats_chart_top_streamers_empty": "이 기간에 획득한 포인트가 없어요.",
+  "stats_reason_watch": "시청 중",
+  "stats_reason_watch_streak": "시청 스트릭 보너스",
+  "stats_reason_claim": "보너스 상자",
+  "stats_reason_raid": "레이드 참여",
+  "stats_reason_community_moment": "커뮤니티 모먼트",
+  "stats_reason_prediction": "베팅 승리",
+  "stats_reason_refund": "베팅 환불",
+  "stats_curve_title": "포인트 추이",
+  "stats_curve_streamer_label": "스트리머",
+  "stats_curve_streamer_empty": "스트리머를 선택하세요",
+  "stats_curve_no_streamer": "이 계정에는 아직 추이를 표시할 스트리머가 없습니다.",
+  "stats_curve_empty": "이 기간 동안 이 스트리머의 포인트 이벤트가 없습니다.",
+  "stats_curve_aria": "{streamer}의 포인트 잔액 추이",
+  "stats_curve_legend_balance": "포인트 잔액",
+  "stats_curve_legend_streak": "스트릭 복구",
+  "stats_curve_legend_raid": "레이드 참여",
+  "stats_curve_legend_moment": "모먼트 수령",
+  "stats_curve_legend_prediction_placed": "베팅함",
+  "stats_curve_legend_prediction_won": "베팅 승리",
+  "stats_curve_legend_prediction_lost": "베팅 패배",
+  "stats_curve_legend_prediction_refund": "베팅 환불",
+  "stats_curve_open": "{streamer}의 포인트 추이 보기",
+  "stats_curve_open_tip": "포인트 추이 보기",
   "event_kind_info": "정보",
   "event_kind_error": "오류",
   "event_kind_watch_started": "시청 시작",
@@ -408,6 +467,8 @@
   "error_catalog_rate_limited": "카탈로그가 속도를 늦춰 달라고 요청했어요. 다음 새로고침은 더 오래 기다려요.",
   "error_too_many_attempts": "잘못된 비밀번호가 너무 많아요. 잠시 후 다시 시도하세요.",
   "error_https_required": "대시보드는 HTTPS 주소로 여세요.",
+  "error_open_url_refused": "이 링크는 앱에서 열 수 없어요.",
+  "error_open_url_failed": "이 링크를 여는 데 실패했어요.",
   "error_forwarded_for_required": "대시보드 앞의 HTTPS 프록시가 방문자 주소(X-Forwarded-For)를 보내야 해요.",
   "error_proxy_not_local": "대시보드는 이 기기나 같은 로컬 네트워크에 있는 HTTPS 프록시만 받아들여요.",
   "error_cross_site_request": "거부됨: 다른 사이트의 페이지에서 보낸 요청이에요.",
@@ -483,6 +544,8 @@
   "ev_bonus_short": "보너스 상자 수령",
   "ev_points": "{channel}에서 +{points} 포인트",
   "ev_points_short": "+{points} 포인트",
+  "ev_points_reason": "{channel}에서 +{points} 포인트 · {reason}",
+  "ev_points_reason_short": "+{points} 포인트 · {reason}",
   "ev_online": "{channel} 방송 시작",
   "ev_online_short": "방송 시작",
   "ev_offline": "{channel} 방송 종료",
@@ -639,9 +702,27 @@
   "import_title": "스트리머 가져오기",
   "import_too_many": "이름이 너무 많아요: 한 번에 최대 {max}개예요.",
   "login_setup_custom": "사용자 지정",
-  "login_setup_later_hint": "시작하기 전까지 계정은 일시 정지 상태로 유지돼요. 지금 또는 나중에 계정 페이지에서 시작할 수 있어요.",
+  "login_setup_later_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "시작하기 전까지 계정은 일시 정지 상태로 유지돼요. 지금 또는 나중에 계정 페이지에서 시작할 수 있어요.",
+        "countPluralExact=*": "시작하기 전까지 계정들은 일시 정지 상태로 유지돼요. 지금 또는 나중에 각 계정 페이지에서 시작할 수 있어요."
+      }
+    }
+  ],
   "login_setup_streamers_empty": "아직 스트리머가 없어요: 아래에서 추가하거나 나중에 포인트 페이지에서 추가하세요.",
-  "login_setup_streamers_hint": "이 계정이 채널 포인트를 위해 시청하는 채널이에요. 중요한 순서대로예요.",
+  "login_setup_streamers_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "이 계정이 채널 포인트를 위해 시청하는 채널이에요. 중요한 순서대로예요.",
+        "countPluralExact=*": "이 계정들이 채널 포인트를 위해 시청하는 채널이에요. 중요한 순서대로예요."
+      }
+    }
+  ],
   "login_setup_streamers_title": "포인트용 스트리머",
   "points_import": "가져오기",
   "streamer_change": "변경",
@@ -687,7 +768,6 @@
   "updates_last_checked": "마지막 확인: {time}",
   "updates_never_checked": "마지막 확인: 시작 후 아직 응답이 없어요",
   "updates_install": "설치 후 다시 시작",
-  "updates_download_page": "다운로드 페이지 열기",
   "settings_notifications_language": "알림 언어",
   "updates_confirm_title": "{version} 버전을 설치할까요?",
   "updates_confirm_text": "현재 버전: {current}. 앱이 {version} 버전을 다운로드하고, 모든 계정의 마이닝을 멈춘 뒤 설치하고 자동으로 다시 시작해요. 그다음 마이닝은 자동으로 다시 시작돼요.",
@@ -754,11 +834,29 @@
   "login_setup_step_streamers": "스트리머",
   "login_setup_step_summary": "요약",
   "login_setup_start_hint": "기본 설정에서 시작하거나, 이미 마이닝 중인 계정의 설정을 다시 사용하세요. 다음 단계에서 무엇이든 바꿀 수 있어요.",
-  "login_setup_summary_hint": "모든 항목은 나중에 계정 페이지에서 바꿀 수 있어요.",
+  "login_setup_summary_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "모든 항목은 나중에 계정 페이지에서 바꿀 수 있어요.",
+        "countPluralExact=*": "모든 항목은 나중에 각 계정 페이지에서 바꿀 수 있어요."
+      }
+    }
+  ],
   "login_setup_progress": "{total}단계 중 {current}단계",
   "common_yes": "예",
   "common_no": "아니요",
-  "login_setup_drops_hint": "이 계정이 마이닝하는 캠페인과 보상을 직접 받을지 여부예요.",
+  "login_setup_drops_hint": [
+    {
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
+      "match": {
+        "countPluralExact=1": "이 계정이 마이닝하는 캠페인과 보상을 직접 받을지 여부예요.",
+        "countPluralExact=*": "이 계정들이 마이닝하는 캠페인과 보상을 직접 받을지 여부예요."
+      }
+    }
+  ],
   "event_kind_chat_mention": "멘션",
   "ev_chat_mention": "{chatter}님이 {channel} 채팅에서 멘션했어요",
   "ev_chat_mention_short": "{chatter}님이 멘션했어요",
@@ -846,6 +944,7 @@
   "confirm_remove_setup_streamer_text": "{name}이(가) 목록에서 빠져요. 이 계정은 채널 포인트를 위해 시청하지 않아요.",
   "search_verified": "인증된 파트너",
   "login_setup_for": "계정: {name}",
+  "login_setup_for_many": "계정: {count}",
   "search_pick": "선택",
   "search_no_result": "{query}에 대한 결과가 없어요.",
   "drops_tabs_label": "드롭 페이지 섹션",
@@ -1189,7 +1288,5 @@
   "lock_warning_message": "{time} 후 잠깁니다 — 잠금을 유지하지 않으려면 움직이거나 클릭하세요",
   "lock_warning_message_a11y": "곧 잠깁니다.",
   "account_remove_revoke_label": "Twitch에서도 이 토큰을 취소",
-  "error_invalid_token": "이 토큰은 유효하지 않거나 만료되었습니다. 새 토큰을 붙여넣으세요.",
-  "error_unsupported_client": "이 토큰은 채굴에 사용할 수 없습니다. 대신 코드로 로그인하세요.",
-  "error_missing_scope": "이 토큰에는 이 앱에 필요한 권한이 없습니다. 대신 코드로 로그인하세요."
+  "error_invalid_token": "이 토큰은 유효하지 않거나 만료되었습니다. 새 토큰을 붙여넣으세요."
 }

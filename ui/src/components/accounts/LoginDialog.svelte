@@ -90,6 +90,7 @@
   let finishing = $state(false);
   let setupActions = $state<Snippet>();
   let importFlowId = $state<string | null>(null);
+  let importWizardOpen = $state(false);
 
   const close = (): void => {
     app.loginDialog = false;
@@ -156,13 +157,15 @@
 {/snippet}
 
 {#snippet modeToggle()}
-  <div class="flex justify-end">
+  <div class="flex flex-col gap-3 border-t pt-4">
     <TextButton
       label={t.login_use_tokens()}
-      variant={ButtonVariant.GHOST}
-      size={ButtonSize.SM}
+      icon={IconName.IMPORT}
+      variant={ButtonVariant.OUTLINE}
+      size={ButtonSize.MD}
       type={ButtonType.BUTTON}
       disabled={false}
+      class="w-full"
       onclick={() => (mode = LoginMode.TOKEN)}
     />
   </div>
@@ -170,7 +173,7 @@
 
 <Dialog
   open={app.loginDialog}
-  title={newAccount
+  title={newAccount || (mode === LoginMode.TOKEN && importWizardOpen)
     ? t.login_setup_title()
     : mode === LoginMode.TOKEN
       ? t.import_tokens_title()
@@ -196,6 +199,7 @@
       bind:finishing
       bind:actions={setupActions}
       bind:flowId={importFlowId}
+      bind:wizardOpen={importWizardOpen}
     />
   {:else if failure !== null}
     <p class="text-destructive">
@@ -207,7 +211,12 @@
     <LoginCode flow={shown} />
     {@render modeToggle()}
   {:else if shown.status === LoginFlowStatus.COMPLETED && newAccount}
-    <SetupWizard account={newAccount} onclose={close} bind:finishing bind:actions={setupActions} />
+    <SetupWizard
+      accounts={[newAccount]}
+      onclose={close}
+      bind:finishing
+      bind:actions={setupActions}
+    />
   {:else if shown.status === LoginFlowStatus.COMPLETED}
     <p class="flex items-center gap-2 text-success-foreground">
       <Icon name={IconName.CHECK} size={18} />

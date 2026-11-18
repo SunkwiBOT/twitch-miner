@@ -20,6 +20,7 @@
   import { DROPS_WEB_HOST } from "../../lib/partners.constants";
   import { ProgressState } from "../../lib/catalogue/progress.constants";
   import { gameArt } from "../../lib/catalogue/games.utils";
+  import { ResolveKind } from "../ui/external-button.constants";
   import { ensureChannels, knownChannels } from "../../lib/channels/channels.svelte";
   import { minutes } from "../../lib/format.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
@@ -225,29 +226,29 @@
         {#if requirement}
           <div class="flex flex-col gap-1 text-hint">
             {#if requirement.required_minutes > 0}
-              <span class="font-semibold"
-                >{watchText(minutes(requirement.required_minutes), requirement.repeat)}</span
-              >
+              <span class="font-semibold">
+                {watchText(minutes(requirement.required_minutes), requirement.repeat)}
+              </span>
             {/if}
             {#if requirement.required_subs > 0}
-              <span class="text-muted-foreground"
-                ><RichText
+              <span class="text-muted-foreground">
+                <RichText
                   text={t.badge_dialog_subs({ count: strong(requirement.required_subs) })}
-                /></span
-              >
+                />
+              </span>
             {/if}
             {#if dates}
               <span class="text-muted-foreground"><RichText text={dates} /></span>
             {/if}
-            <span class="text-muted-foreground"
-              ><RichText
+            <span class="text-muted-foreground">
+              <RichText
                 text={requirement.channel_count > 0
                   ? t.campaign_channels_some({ count: strong(requirement.channel_count) })
                   : categories.length > 1
                     ? t.campaign_channels_categories({ count: strong(categories.length) })
                     : t.campaign_channels_any()}
-              /></span
-            >
+              />
+            </span>
           </div>
         {/if}
         <div class="flex flex-wrap gap-2 empty:hidden">
@@ -266,6 +267,10 @@
           {#if badge.click_url}
             <ExternalButton
               url={badge.click_url}
+              resolve={{
+                kind: ResolveKind.BADGE,
+                badgeKey: badgeKey(badge.set_id, badge.version_id),
+              }}
               label={t.campaign_open_twitch()}
               variant={campaign ? ButtonVariant.OUTLINE : ButtonVariant.PRIMARY}
               size={ButtonSize.SM}

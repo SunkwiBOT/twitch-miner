@@ -219,6 +219,11 @@ działa.
   <img src="../media/pl/journal-requests.avif" alt="Przefiltrowany Dziennik, a potem Logi techniczne › Żądania">
   </details>
 
+- **Strona Statystyki.** Zdobyte punkty, odebrane dropy, czas oglądania i wygrane prognozy
+  w ciągu 7, 30 lub 90 dni, z najlepszym streamerem lub kategorią za każdą liczbą. Krzywa
+  punktów dla streamera pokazuje saldo w czasie, z oznaczeniami serii, rajdów, momentów i
+  prognoz oraz podpowiedzią przy każdym z nich.
+
 - **Zaplanowana pauza i codzienna pauza.** Wstrzymaj jedno konto albo wszystkie konta na
   30 minut, 1 godzinę, 4 godziny, do jutra do 9:00 albo na niestandardową datę i godzinę;
   „Wznów teraz” zdejmuje pauzę wcześniej. Plakietka pokazuje, kiedy pauza się kończy.
@@ -253,12 +258,11 @@ działa.
   </details>
 
 - **Podpisane aktualizacje, nigdy automatyczne.** Na górnym pasku pojawia się plakietka
-  „Aktualizacja” z numerem wersji. „Zainstaluj i uruchom ponownie” najpierw prosi
-  o potwierdzenie, a potem aplikacja instaluje wersję i uruchamia się ponownie. Z hasłem
+  „Aktualizacja” z numerem wersji. „Zainstaluj i uruchom ponownie” najpierw prosi o
+  potwierdzenie, a potem aplikacja instaluje wersję i uruchamia się ponownie. Z hasłem
   aplikacji uruchamia się zablokowana: wpisz je ponownie, aby wznowić kopanie. Instalowana
-  jest tylko wersja podpisana przez projekt. Przenośny plik dla Windows nie aktualizuje
-  się sam: jego przycisk otwiera stronę pobierania. Wersja Docker też o tym informuje
-  i podaje polecenia do uruchomienia.
+  jest tylko wersja podpisana przez projekt. Wersja Docker też o tym informuje i podaje
+  polecenia do uruchomienia.
 
   <details open><summary>Zobacz w akcji</summary>
   <img src="../media/pl/updates.avif" alt="Plakietka „Aktualizacja”, potwierdzenie, a potem instalacja">
@@ -364,8 +368,7 @@ zablokuje. Następnie przejdź do **Ustawienia systemowe › Prywatność i ochr
 Aktualizacje są podpisane. Aplikacja sprawdza dostępność nowej wersji przy uruchomieniu,
 a potem co godzinę (częstotliwość zmienisz w sekcji **Ustawienia › O programie**). Nigdy
 nie instaluje jej sama: instalujesz ją jednym kliknięciem, z wyświetlonego komunikatu lub
-z sekcji **Ustawienia › O programie**. Przenośny plik nigdy nie aktualizuje się sam:
-„Otwórz stronę pobierania” prowadzi do najnowszej wersji.
+z sekcji **Ustawienia › O programie**.
 
 Dane są przechowywane w folderze danych użytkownika:
 
@@ -516,9 +519,7 @@ hasła aplikacji) i logi.
 Aplikacja desktopowa sprawdza dostępność nowej wersji przy uruchomieniu, a potem co godzinę
 (zmienisz to w sekcji **Ustawienia › O programie**). Kliknij plakietkę „Aktualizacja”,
 a potem „Zainstaluj i uruchom ponownie”. W Dockerze panel o tym informuje: uruchom
-`docker compose pull`, a potem `docker compose up -d`. Przenośny plik dla Windows nie
-aktualizuje się sam: „Otwórz stronę pobierania” otwiera najnowszą wersję, skąd pobierzesz
-nowy plik.
+`docker compose pull`, a potem `docker compose up -d`.
 
 **Nie pamiętam hasła aplikacji.**\
 Nie da się go odzyskać: to ono szyfruje Twoje sesje Twitch. Zamknij aplikację, usuń folder

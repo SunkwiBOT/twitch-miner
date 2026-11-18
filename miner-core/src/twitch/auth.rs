@@ -6,7 +6,8 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use zeroize::{Zeroize, ZeroizeOnDrop};
 
-use super::{TwitchHttp, CLIENT_ID, OAUTH_URL};
+use super::identity::{AccountIdentity, TV_CLIENT_ID};
+use super::{TwitchHttp, OAUTH_URL};
 use crate::error::{Error, Result};
 use crate::requests::{address_target, RequestKind};
 
@@ -66,6 +67,8 @@ impl fmt::Debug for TokenSet {
 pub struct Validation {
     pub user_id: String,
     pub login: String,
+    pub client_id: String,
+    pub scopes: Vec<String>,
 }
 
 pub enum Poll {
@@ -79,6 +82,7 @@ async fn oauth(
     path: &str,
     form: &[(&str, &str)],
     expected: &'static [StatusCode],
+    identity: &AccountIdentity,
 ) -> Result<(StatusCode, Value)> {
     let address = format!("{OAUTH_URL}/{path}");
     let response = http
@@ -86,7 +90,7 @@ async fn oauth(
         .start(RequestKind::Auth, address_target(&address))
         .account(account_id)
         .expecting(expected)
-        .send(http.request(Method::POST, &address).form(form))
+        .send(http.request(Method::POST, &address, identity).form(form))
         .await?;
     let status = response.status();
     let body: Value = response.json().await.unwrap_or(Value::Null);
@@ -99,8 +103,9 @@ pub async fn start_device_flow(http: &TwitchHttp) -> Result<DeviceCode> {
         http,
         None,
         "device",
-        &[("client_id", CLIENT_ID), ("scopes", SCOPES)],
+        &[("client_id", TV_CLIENT_ID), ("scopes", SCOPES)],
         &[],
+        &AccountIdentity::default(),
     )
     .await?;
 
@@ -162,11 +167,12 @@ pub async fn poll_device_flow(http: &TwitchHttp, code: &DeviceCode) -> Result<Po
         None,
         "token",
         &[
-            ("client_id", CLIENT_ID),
+            ("client_id", TV_CLIENT_ID),
             ("device_code", &code.device_code),
             ("grant_type", "urn:ietf:params:oauth:grant-type:device_code"),
         ],
         &[StatusCode::BAD_REQUEST],
+        &AccountIdentity::default(),
     )
     .await?;
 
@@ -206,13 +212,13 @@ fn parse_tokens(body: &Value) -> Result<TokenSet> {
 
 enum ValidationOutcome {
     Invalid,
-    WrongClient,
-    Valid(Validation, Vec<String>),
+    Valid(Validation),
 }
 
 async fn validate_raw(
     http: &TwitchHttp,
     account_id: Option<&str>,
+    identity: &AccountIdentity,
     access_token: &str,
 ) -> Result<ValidationOutcome> {
     let address = format!("{OAUTH_URL}/validate");
@@ -221,7 +227,7 @@ async fn validate_raw(
         .start(RequestKind::Auth, address_target(&address))
         .account(account_id)
         .send(
-            http.request(Method::GET, &address)
+            http.request(Method::GET, &address, identity)
                 .header("Authorization", format!("OAuth {access_token}")),
         )
         .await?;
@@ -236,11 +242,6 @@ async fn validate_raw(
     }
 
     let body: Value = response.json().await?;
-
-    if body["client_id"].as_str() != Some(CLIENT_ID) {
-        return Ok(ValidationOutcome::WrongClient);
-    }
-
     let scopes = body["scopes"]
         .as_array()
         .map(|values| {
@@ -251,48 +252,42 @@ async fn validate_raw(
         })
         .unwrap_or_default();
 
-    Ok(ValidationOutcome::Valid(
-        Validation {
-            user_id: body["user_id"]
-                .as_str()
-                .ok_or_else(|| Error::InvalidResponse("user_id missing".into()))?
-                .to_owned(),
-            login: body["login"].as_str().unwrap_or_default().to_owned(),
-        },
+    Ok(ValidationOutcome::Valid(Validation {
+        user_id: body["user_id"]
+            .as_str()
+            .ok_or_else(|| Error::InvalidResponse("user_id missing".into()))?
+            .to_owned(),
+        login: body["login"].as_str().unwrap_or_default().to_owned(),
+        client_id: body["client_id"].as_str().unwrap_or_default().to_owned(),
         scopes,
-    ))
+    }))
 }
 
 pub async fn validate(
     http: &TwitchHttp,
     account_id: Option<&str>,
+    identity: &AccountIdentity,
     access_token: &str,
 ) -> Result<Option<Validation>> {
-    match validate_raw(http, account_id, access_token).await? {
+    match validate_raw(http, account_id, identity, access_token).await? {
         ValidationOutcome::Invalid => Ok(None),
-        // ! A token issued for another client is not a usable session here:
-        // same refusal as an expired one at the API boundary.
-        ValidationOutcome::WrongClient => Err(Error::Unauthorized),
-        ValidationOutcome::Valid(validation, _) => Ok(Some(validation)),
+        ValidationOutcome::Valid(validation) => Ok(Some(validation)),
     }
 }
 
 // ! A pasted token tells the import flow apart from a dead session: the user
 // gets to know whether to retype it or sign in with the device code instead.
-// Scope checked here, unlike `validate()`: the device flow always requests
-// `SCOPES` itself, but a pasted token could come from anywhere.
+// Any client's valid token is accepted: the caller reads `client_id` and
+// `scopes` to warn that Twitch may refuse some actions. No account exists
+// yet, so the default (TV) identity is what asks Twitch for it.
 pub async fn validate_pasted_token(http: &TwitchHttp, access_token: &str) -> Result<Validation> {
-    match validate_raw(http, None, access_token).await? {
+    match validate_raw(http, None, &AccountIdentity::default(), access_token).await? {
         ValidationOutcome::Invalid => Err(Error::InvalidToken),
-        ValidationOutcome::WrongClient => Err(Error::UnsupportedClient),
-        ValidationOutcome::Valid(_, scopes) if !has_required_scopes(&scopes) => {
-            Err(Error::MissingScope)
-        }
-        ValidationOutcome::Valid(validation, _) => Ok(validation),
+        ValidationOutcome::Valid(validation) => Ok(validation),
     }
 }
 
-fn has_required_scopes(scopes: &[String]) -> bool {
+pub fn has_required_scopes(scopes: &[String]) -> bool {
     SCOPES
         .split_whitespace()
         .all(|required| scopes.iter().any(|scope| scope == required))
@@ -324,6 +319,7 @@ pub fn parse_pasted_token(input: &str) -> Result<String> {
 pub async fn refresh(
     http: &TwitchHttp,
     account_id: Option<&str>,
+    identity: &AccountIdentity,
     refresh_token: &str,
 ) -> Result<TokenSet> {
     let (status, body) = oauth(
@@ -331,11 +327,12 @@ pub async fn refresh(
         account_id,
         "token",
         &[
-            ("client_id", CLIENT_ID),
+            ("client_id", &identity.client_id),
             ("grant_type", "refresh_token"),
             ("refresh_token", refresh_token),
         ],
         &[],
+        identity,
     )
     .await?;
 
@@ -350,13 +347,19 @@ pub async fn refresh(
     Err(Error::Status(status))
 }
 
-pub async fn revoke(http: &TwitchHttp, account_id: Option<&str>, access_token: &str) {
+pub async fn revoke(
+    http: &TwitchHttp,
+    account_id: Option<&str>,
+    identity: &AccountIdentity,
+    access_token: &str,
+) {
     let _ = oauth(
         http,
         account_id,
         "revoke",
-        &[("client_id", CLIENT_ID), ("token", access_token)],
+        &[("client_id", &identity.client_id), ("token", access_token)],
         &[],
+        identity,
     )
     .await;
 }

@@ -19,8 +19,9 @@
   import { setAsideLabel } from "../../lib/accounts/accounts.utils";
   import { refreshWhenBack } from "../../lib/accounts/refresh.utils";
   import { campaignUrl } from "../../lib/links/twitch.utils";
-  import { BoxArtSize } from "../../lib/format.constants";
   import { boxArt, shortDuration } from "../../lib/format.utils";
+  import { BoxArtSize } from "../../lib/format.constants";
+  import { ResolveKind } from "../ui/external-button.constants";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { strong } from "../../lib/text.utils";
   import { DROPS_WEB_HOST, TWITCH_CATEGORY_URL } from "../../lib/partners.constants";
@@ -191,9 +192,9 @@
           />{" · "}<RichText text={campaignEnd(view.ends_at, ticker.now)} />
         </span>
         {#if !view.allowed_channels.length && view.categories.length > 1}
-          <span class="line-clamp-2 text-hint text-muted-foreground"
-            >{categoryNames(view.categories)}</span
-          >
+          <span class="line-clamp-2 text-hint text-muted-foreground">
+            {categoryNames(view.categories)}
+          </span>
         {/if}
         <div class="flex flex-wrap gap-2">
           {#if onDropsPage(view)}
@@ -208,6 +209,7 @@
             {@const link = view.link_url}
             <ExternalButton
               url={link}
+              resolve={{ kind: ResolveKind.CAMPAIGN, accountId: linker?.id ?? "", campaignId: id }}
               label={t.campaign_link_game()}
               variant={ButtonVariant.OUTLINE}
               size={ButtonSize.SM}

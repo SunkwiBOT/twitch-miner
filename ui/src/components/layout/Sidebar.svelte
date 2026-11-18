@@ -11,7 +11,7 @@
   import { catalogue } from "../../lib/catalogue/catalogue.svelte";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { REPO_URL } from "../../lib/partners.constants";
-  import { Page } from "../../lib/state/state.constants";
+  import { BETA_PAGES, Page } from "../../lib/state/state.constants";
   import { followLink } from "../../lib/links/links.utils";
   import { app } from "../../lib/state/app.svelte";
   import { isAccountPage, navigate } from "../../lib/state/router";
@@ -30,7 +30,7 @@
   import { APP_TITLE, REORDER_HINT_ID } from "./layout.constants";
   import PoweredBy from "./PoweredBy.svelte";
 
-  type NavItemType = { page: Page; icon: IconName; label: string; count?: number; beta?: boolean };
+  type NavItemType = { page: Page; icon: IconName; label: string; count?: number };
 
   type SidebarPropsType = { controls?: Snippet };
 
@@ -69,10 +69,10 @@
       page: Page.BADGES,
       icon: IconName.AWARD,
       label: t.nav_badges(),
-      beta: true,
       count: minableBadgeCount(badgeList.badges, ticker.now),
     },
     { page: Page.HISTORY, icon: IconName.HISTORY, label: t.nav_history() },
+    { page: Page.STATS, icon: IconName.CHART, label: t.nav_stats() },
     { page: Page.LOGS, icon: IconName.FILE, label: t.nav_logs() },
     { page: Page.SETTINGS, icon: IconName.SETTINGS, label: t.nav_settings() },
   ]);
@@ -85,12 +85,7 @@
       icon: IconName.PACKAGE,
       label: t.nav_account_inventory(),
     },
-    {
-      page: Page.ACCOUNT_BADGES,
-      icon: IconName.AWARD,
-      label: t.nav_account_badges(),
-      beta: true,
-    },
+    { page: Page.ACCOUNT_BADGES, icon: IconName.AWARD, label: t.nav_account_badges() },
     { page: Page.ACCOUNT_POINTS, icon: IconName.CHANNEL_POINTS, label: t.nav_account_points() },
     { page: Page.ACCOUNT_SPAM, icon: IconName.ZAP, label: t.nav_account_spam() },
     { page: Page.ACCOUNT_HISTORY, icon: IconName.HISTORY, label: t.nav_account_history() },
@@ -104,6 +99,9 @@
       active &&
         "border-primary/50 bg-primary/15 font-semibold text-link hover:bg-primary/15 hover:text-link",
     );
+
+  const navActive = (page: Page): boolean =>
+    app.page === page || (page === Page.STATS && app.page === Page.STATS_STREAMER);
 </script>
 
 <nav
@@ -122,16 +120,20 @@
     </a>
     {#each main as item (item.page)}
       <button
-        class={itemClass(app.page === item.page, false)}
+        class={itemClass(navActive(item.page), false)}
         type="button"
-        aria-current={app.page === item.page ? "page" : undefined}
+        aria-current={navActive(item.page) ? "page" : undefined}
         onclick={() => navigate(item.page)}
       >
         <Icon name={item.icon} size={18} /><span class="truncate">{item.label}</span>
-        {#if item.beta}<Badge text={t.common_beta()} tone={BadgeTone.NEUTRAL} dot={false} />{/if}
-        {#if item.count}<span class="ml-auto"
-            ><Badge text={number(item.count)} tone={BadgeTone.NEUTRAL} dot={false} /></span
-          >{/if}
+        {#if BETA_PAGES.has(item.page)}<Badge
+            text={t.common_beta()}
+            tone={BadgeTone.NEUTRAL}
+            dot={false}
+          />{/if}
+        {#if item.count}<span class="ml-auto">
+            <Badge text={number(item.count)} tone={BadgeTone.NEUTRAL} dot={false} />
+          </span>{/if}
       </button>
     {/each}
 
@@ -195,11 +197,11 @@
       >
         <Avatar url={a.avatar_url} name={a.display_name} size={AvatarSize.SM} />
         <span class="truncate">{a.display_name}</span>
-        <span class="ml-auto"
-          ><StatusDot tone={STATUS_TONES[a.status]} /><span class="sr-only"
-            >{STATUS_LABELS[a.status]()}</span
-          ></span
-        >
+        <span class="ml-auto">
+          <StatusDot tone={STATUS_TONES[a.status]} /><span class="sr-only">
+            {STATUS_LABELS[a.status]()}
+          </span>
+        </span>
       </button>
       {#if selected}
         <div class="mt-0.5 mb-1.5 ml-5.5 flex flex-col gap-0.5 border-l border-input pl-2.5">
@@ -211,9 +213,11 @@
               onclick={() => navigate(item.page, a.id)}
             >
               <Icon name={item.icon} size={16} class="shrink-0" /><span
-                class="min-w-0 py-1 leading-tight break-words">{item.label}</span
+                class="min-w-0 py-1 leading-tight break-words"
               >
-              {#if item.beta}<Badge
+                {item.label}
+              </span>
+              {#if BETA_PAGES.has(item.page)}<Badge
                   text={t.common_beta()}
                   tone={BadgeTone.NEUTRAL}
                   dot={false}
@@ -245,8 +249,9 @@
       href={REPO_URL}
       rel="noreferrer"
       onclick={(event) => followLink(event, REPO_URL)}
-      >v{app.snapshot?.version ?? app.info?.version ?? ""}</a
     >
+      v{app.snapshot?.version ?? app.info?.version ?? ""}
+    </a>
     {#if !app.connected}<span class="text-destructive">· {t.topbar_disconnected()}</span>{/if}
     <span class="h-px flex-1 bg-border"></span>
   </div>

@@ -216,6 +216,11 @@
   <img src="../media/cs/journal-requests.avif" alt="Filtrovaný Deník, pak Technické protokoly › Požadavky">
   </details>
 
+- **Stránka Statistiky.** Získané body, vyzvednuté dropy, odsledovaný čas a vyhrané
+  předpovědi za 7, 30 nebo 90 dní, s nejlepším streamerem nebo kategorií za každým
+  číslem. Graf bodů za streamera ukazuje zůstatek v čase, se značkami pro série
+  sledování, raidy, momenty a předpovědi a popiskem u každé z nich.
+
 - **Naplánovaná pauza a denní pauza.** Pozastavte jeden účet nebo všechny na 30 minut, 1
   hodinu, 4 hodiny, do zítřka do 9:00 nebo do vlastního data a času; „Pokračovat nyní“
   pauzu ukončí dřív. Odznak ukazuje, kdy pauza končí. Denní pauza každý den mezi dvěma
@@ -252,8 +257,7 @@
   „Aktualizace“ s číslem verze. „Nainstalovat a restartovat“ si nejdřív vyžádá potvrzení,
   pak aplikace verzi nainstaluje a restartuje se. S heslem aplikace se restartuje zamčená:
   zadejte ho znovu a těžba bude pokračovat. Nainstaluje se jen verze podepsaná projektem.
-  Přenosný soubor pro Windows se sám neaktualizuje: jeho tlačítko otevře stránku ke
-  stažení. Verze pro Docker vám to také oznámí, i s příkazy, které je třeba spustit.
+  Verze pro Docker vám to také oznámí, i s příkazy, které je třeba spustit.
 
   <details open><summary>Ukázka v akci</summary>
   <img src="../media/cs/updates.avif" alt="Odznak „Aktualizace“, potvrzení a pak instalace">
@@ -358,8 +362,6 @@ přejděte do **Nastavení systému › Soukromí a zabezpečení** a klikněte 
 Aktualizace jsou podepsané. Aplikace zkontroluje novou verzi při spuštění a pak každou
 hodinu (jak často, změníte v **Nastavení › O aplikaci**). Sama ji nikdy nenainstaluje:
 nainstalujete ji jedním kliknutím, ze zobrazené zprávy nebo z **Nastavení › O aplikaci**.
-Přenosný soubor se nikdy neaktualizuje sám: „Otevřít stránku ke stažení“ vede na
-nejnovější vydanou verzi.
 
 Data jsou uložena ve složce s uživatelskými daty:
 
@@ -506,8 +508,7 @@ heslo aplikace) a protokoly.
 Desktopová aplikace kontroluje novou verzi při spuštění a pak každou hodinu (lze změnit
 v **Nastavení › O aplikaci**). Klikněte na odznak „Aktualizace“ a pak na
 „Nainstalovat a restartovat“. U Dockeru vám to oznámí panel: spusťte `docker compose pull`
-a pak `docker compose up -d`. Přenosný soubor pro Windows se sám neaktualizuje: „Otevřít
-stránku ke stažení“ otevře nejnovější vydanou verzi, odkud stáhnete nový.
+a pak `docker compose up -d`.
 
 **Nepamatuji si heslo aplikace.**\
 Nelze ho obnovit: právě ono šifruje vaše relace Twitch. Ukončete aplikaci, smažte složku
