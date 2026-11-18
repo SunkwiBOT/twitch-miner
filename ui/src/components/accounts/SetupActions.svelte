@@ -33,14 +33,14 @@
   const finishing = $derived(ending !== null);
 </script>
 
-<span class="mr-auto self-center text-xs text-muted-foreground"
-  ><RichText
+<span class="mr-auto self-center text-xs text-muted-foreground">
+  <RichText
     text={t.login_setup_progress({
       current: strong(stepIndex + 1),
       total: strong(total),
     })}
-  /></span
->
+  />
+</span>
 <ActionButton
   icon={IconName.PAUSE}
   label={t.login_setup_later()}

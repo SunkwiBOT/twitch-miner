@@ -128,9 +128,9 @@
           {:else}
             <Icon name={IconName.CLOCK} size={iconSize} />
           {/if}
-          <span class={cn("truncate @max-[60rem]:sr-only", compact && "sr-only")}
-            >{acting ? t.pause_menu_working() : label}</span
-          >
+          <span class={cn("truncate @max-[60rem]:sr-only", compact && "sr-only")}>
+            {acting ? t.pause_menu_working() : label}
+          </span>
         </span>
         <ChevronsUpDownIcon class={cn("opacity-50", acting && "hidden")} />
       </Button>

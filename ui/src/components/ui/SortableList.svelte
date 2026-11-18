@@ -129,8 +129,9 @@
             </span>
             <span
               class="-ml-2 w-4 shrink-0 text-right text-xs text-muted-foreground tabular-nums max-sm:ml-0"
-              >{index + 1}</span
             >
+              {index + 1}
+            </span>
             <div class="flex min-w-0 flex-1 items-center gap-3">{@render row(item, index)}</div>
             <div class="flex shrink-0 items-center gap-1.5 max-sm:w-full max-sm:justify-end">
               {#if actions}{@render actions(item, index)}{/if}

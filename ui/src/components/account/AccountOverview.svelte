@@ -108,9 +108,9 @@
               muted={false}
             >
               {#snippet lead()}
-                <span class="w-4 shrink-0 text-right text-xs text-muted-foreground tabular-nums"
-                  >{i + 1}</span
-                >
+                <span class="w-4 shrink-0 text-right text-xs text-muted-foreground tabular-nums">
+                  {i + 1}
+                </span>
                 <Thumb
                   src={boxArt(c && campaignArtUrl(c), BoxArtSize.ROW)}
                   round={false}

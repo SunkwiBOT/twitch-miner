@@ -46,8 +46,10 @@
   <span
     class="-m-0.5 min-w-0 overflow-hidden p-0.5 leading-3.5 text-ellipsis"
     title={cut && !hint ? text : undefined}
-    {@attach (label) => on(label, "pointerenter", () => measure(label))}>{text}</span
+    {@attach (label) => on(label, "pointerenter", () => measure(label))}
   >
+    {text}
+  </span>
 {/snippet}
 
 {#if hint}

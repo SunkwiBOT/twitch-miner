@@ -124,9 +124,9 @@
                   <span class="truncate font-semibold">{c.display_name}</span>
                   {#if c.verified}<VerifiedBadge />{/if}
                 </span>
-                {#if known}<span class="truncate text-xs text-muted-foreground"
-                    >{known.in_points ? t.spam_in_points() : t.spam_in_history()}</span
-                  >{/if}
+                {#if known}<span class="truncate text-xs text-muted-foreground">
+                    {known.in_points ? t.spam_in_points() : t.spam_in_history()}
+                  </span>{/if}
               </span>
             </button>
             <TextButton
@@ -167,20 +167,24 @@
             onclick={() => onselect(e.login)}
           >
             <ChannelAvatar url={e.avatar} name={e.name} size={AvatarSize.MD} live={e.live} />
-            <span class={cn("min-w-0 flex-1 truncate font-semibold", current && "text-link")}
-              >{e.name}</span
-            >
+            <span class={cn("min-w-0 flex-1 truncate font-semibold", current && "text-link")}>
+              {e.name}
+            </span>
             {#if e.own}<span
                 class="inline-flex shrink-0 items-center gap-1 text-hint font-semibold"
                 role="img"
                 aria-label={t.spam_balance_unlimited()}
-                ><span class="text-link"><Icon name={IconName.CHANNEL_POINTS} size={13} /></span
-                ><Icon name={IconName.INFINITY} size={16} /></span
-              >{:else if e.balance !== undefined}<span
+              >
+                <span class="text-link">
+                  <Icon name={IconName.CHANNEL_POINTS} size={13} />
+                </span><Icon name={IconName.INFINITY} size={16} />
+              </span>{:else if e.balance !== undefined}<span
                 class="inline-flex shrink-0 items-center gap-1 text-hint font-semibold tabular-nums"
-                ><span class="text-link"><Icon name={IconName.CHANNEL_POINTS} size={13} /></span
-                >{number(e.balance)}</span
-              >{/if}
+              >
+                <span class="text-link">
+                  <Icon name={IconName.CHANNEL_POINTS} size={13} />
+                </span>{number(e.balance)}
+              </span>{/if}
           </button>
           {#if !e.in_points}
             <ChipRemoveButton

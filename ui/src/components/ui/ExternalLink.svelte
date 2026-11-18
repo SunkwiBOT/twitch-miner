@@ -30,8 +30,10 @@
       always
         ? "opacity-100"
         : "opacity-0 group-hover/link:opacity-100 group-focus-visible/link:opacity-100",
-    )}><Icon name={IconName.EXTERNAL} size={LINK_SIZES[size].icon} /></span
+    )}
   >
+    <Icon name={IconName.EXTERNAL} size={LINK_SIZES[size].icon} />
+  </span>
 {/snippet}
 
 <a
@@ -44,12 +46,15 @@
   href={url}
   rel="noreferrer"
   onclick={(event) => followLink(event, url)}
-  >{#if lead}{@render lead()}{/if}{#if mark === LinkMark.START}{@render arrow()}{/if}<span
+>
+  {#if lead}{@render lead()}{/if}{#if mark === LinkMark.START}{@render arrow()}{/if}<span
     class={cn(
       "underline-offset-3 group-hover/link:underline group-focus-visible/link:underline",
       (always || sentence) && "underline",
       sentence && "decoration-link",
       (lead || marked) && LINK_SIZES[size].fit,
-    )}>{text}</span
-  >{#if mark === LinkMark.END}{@render arrow()}{/if}</a
->
+    )}
+  >
+    {text}
+  </span>{#if mark === LinkMark.END}{@render arrow()}{/if}
+</a>

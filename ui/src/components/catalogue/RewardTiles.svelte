@@ -212,9 +212,9 @@
             class={TILE_BADGE_CLASS}
           />{/if}
         {#if benefit?.chest_size && benefit.badges.length > 1}
-          <small class="text-tiny text-muted-foreground"
-            >{t.reward_chest({ count: benefit.chest_size })}</small
-          >
+          <small class="text-tiny text-muted-foreground">
+            {t.reward_chest({ count: benefit.chest_size })}
+          </small>
           <span class="flex flex-wrap justify-center gap-0.5">
             {#each benefit.badges as badge (`${badge.set_id}/${badge.version}`)}
               {#if showImage(badge.image_url)}<img
@@ -230,9 +230,9 @@
         {/if}
         <span class="mt-auto flex w-full flex-col items-center gap-1">
           {#if d.repeat && state !== RewardState.SKIPPED && state !== RewardState.TO_EARN}
-            <small class="text-tiny text-muted-foreground"
-              >{periodsText(d.periods_done, d.repeat)}</small
-            >
+            <small class="text-tiny text-muted-foreground">
+              {periodsText(d.periods_done, d.repeat)}
+            </small>
           {/if}
           {#if state === RewardState.IN_PROGRESS}
             {@const totals = dropTotals(d)}
@@ -254,8 +254,9 @@
               onclick={() => claim(instanceId)}
             />
           {:else if state === RewardState.TO_EARN || state === RewardState.SKIPPED}
-            <small class="text-tiny text-muted-foreground"><RichText text={requirement(d)} /></small
-            >
+            <small class="text-tiny text-muted-foreground">
+              <RichText text={requirement(d)} />
+            </small>
           {/if}
         </span>
       </span>

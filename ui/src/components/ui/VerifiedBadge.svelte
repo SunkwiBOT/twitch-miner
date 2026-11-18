@@ -8,5 +8,7 @@
   class="inline-flex shrink-0 text-brand-twitch"
   role="img"
   aria-label={t.search_verified()}
-  title={t.search_verified()}><Icon name={IconName.VERIFIED} size={16} /></span
+  title={t.search_verified()}
 >
+  <Icon name={IconName.VERIFIED} size={16} />
+</span>

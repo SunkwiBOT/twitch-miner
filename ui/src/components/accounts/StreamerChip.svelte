@@ -25,9 +25,9 @@
   variant={BADGE_VARIANTS[BadgeVariant.CHIP]}
   class="h-9 gap-1.5 overflow-visible pr-1.5 pl-1.5 text-hint font-semibold"
 >
-  <span class={cn("inline-flex", live && "-translate-y-0.5")}
-    ><ChannelAvatar url={channel?.avatar_url} {name} size={AvatarSize.SM} {live} /></span
-  >
+  <span class={cn("inline-flex", live && "-translate-y-0.5")}>
+    <ChannelAvatar url={channel?.avatar_url} {name} size={AvatarSize.SM} {live} />
+  </span>
   <span class="max-w-40 truncate">{name}</span>
   {#if onremove}
     <ChipRemoveButton label={t.common_remove()} {name} iconSize={11} onclick={onremove} />

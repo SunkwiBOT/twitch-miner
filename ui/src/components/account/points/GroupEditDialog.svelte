@@ -99,8 +99,9 @@
         {#if chips.length < group.length}<BadgeRoot
             variant={BADGE_VARIANTS[BadgeVariant.CHIP]}
             class="h-7 px-2.5 text-hint font-semibold"
-            >+{number(group.length - chips.length)}</BadgeRoot
-          >{/if}
+          >
+            +{number(group.length - chips.length)}
+          </BadgeRoot>{/if}
       </div>
       <p class="text-hint text-muted-foreground">{t.points_group_hint()}</p>
     </div>

@@ -50,9 +50,9 @@
 {/snippet}
 
 {#snippet sentenceText()}
-  <span class="leading-snug break-words"
-    ><RichText text={sentence.text} links={sentence.links} /></span
-  >
+  <span class="leading-snug break-words">
+    <RichText text={sentence.text} links={sentence.links} />
+  </span>
 {/snippet}
 
 {#snippet channelLink(channel: string, size: AvatarSize)}
@@ -90,9 +90,9 @@
 
 {#if wide}
   <TableRow>
-    <TableCell class="pl-0 text-xs text-muted-foreground tabular-nums"
-      >{formatShortDateTime(event.at)}</TableCell
-    >
+    <TableCell class="pl-0 text-xs text-muted-foreground tabular-nums">
+      {formatShortDateTime(event.at)}
+    </TableCell>
     {#if showAccount}
       <TableCell>
         {#if event.account_id}

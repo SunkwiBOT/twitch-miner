@@ -162,8 +162,9 @@
           class="font-semibold text-foreground underline decoration-link underline-offset-3 transition-colors hover:text-link focus-visible:text-link"
           type="button"
           onclick={() => showTab(TIMELINE_VIEW_SLUGS, TimelineView.CARDS)}
-          >{t.badges_show_cards()}</button
         >
+          {t.badges_show_cards()}
+        </button>
       </p>
     {/if}
     {#if rows.length > 0}

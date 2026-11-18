@@ -20,7 +20,8 @@
 <Field class="gap-1.5" data-invalid={error ? "true" : undefined}>
   <FieldLabel for={id}>{label}</FieldLabel>
   {@render children()}
-  {#if hint}<FieldDescription class="text-hint"><RichText text={hint} {people} /></FieldDescription
-    >{/if}
+  {#if hint}<FieldDescription class="text-hint">
+      <RichText text={hint} {people} />
+    </FieldDescription>{/if}
   {#if error}<FieldError class="text-hint">{error}</FieldError>{/if}
 </Field>

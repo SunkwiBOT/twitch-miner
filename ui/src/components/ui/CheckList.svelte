@@ -95,8 +95,9 @@
               <Avatar url={item.image} name={item.label} size={AvatarSize.SM} />
             {/if}
             <span class="flex-1 truncate font-semibold">{item.label}</span>
-            {#if item.hint}<span class="truncate text-xs text-muted-foreground">{item.hint}</span
-              >{/if}
+            {#if item.hint}<span class="truncate text-xs text-muted-foreground">
+                {item.hint}
+              </span>{/if}
           </label>
         </li>
       {/each}

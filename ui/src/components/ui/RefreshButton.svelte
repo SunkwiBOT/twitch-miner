@@ -45,8 +45,8 @@
     onclick={refresh}
   />
   {#if wait > 0}
-    <span id={waitId} class="text-hint text-muted-foreground"
-      >{t.common_refresh_wait({ time: mmss(wait) })}</span
-    >
+    <span id={waitId} class="text-hint text-muted-foreground">
+      {t.common_refresh_wait({ time: mmss(wait) })}
+    </span>
   {/if}
 </span>

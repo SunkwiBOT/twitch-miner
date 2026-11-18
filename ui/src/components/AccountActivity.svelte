@@ -66,32 +66,30 @@
 
 {#snippet watched(slot: SlotViewType)}
   <span class="text-xs text-muted-foreground">
-    <span class="inline-block"
-      ><RichText
-        text={t.dashboard_watching_since({ time: strong(formatClock(slot.since)) })}
-      /></span
-    >{#if slot.last_beacon_at}{" · "}<span class="inline-block"
-        ><RichText
+    <span class="inline-block">
+      <RichText text={t.dashboard_watching_since({ time: strong(formatClock(slot.since)) })} />
+    </span>{#if slot.last_beacon_at}{" · "}<span class="inline-block">
+        <RichText
           text={t.slot_last_minute({
             time: strong(relativeTime(slot.last_beacon_at, ticker.now)),
           })}
-        /></span
-      >{/if}{" · "}<span class="inline-block"
-      ><RichText text={t.slot_segments({ count: strong(number(slot.segments_requested)) })} /></span
-    >
+        />
+      </span>{/if}{" · "}<span class="inline-block">
+      <RichText text={t.slot_segments({ count: strong(number(slot.segments_requested)) })} />
+    </span>
   </span>
 {/snippet}
 
 {#snippet points(reason: PointsReason | null)}
-  <span class="flex flex-wrap gap-1.5"
-    ><MiningBadge kind={MinerKind.POINTS} />{#if reason}<Badge
+  <span class="flex flex-wrap gap-1.5">
+    <MiningBadge kind={MinerKind.POINTS} />{#if reason}<Badge
         text={POINTS_REASON_LABELS[reason]()}
         tone={BadgeTone.NEUTRAL}
         dot={false}
         icon={POINTS_REASON_ICONS[reason]}
         hint={POINTS_REASON_HINTS[reason]()}
-      />{/if}</span
-  >
+      />{/if}
+  </span>
 {/snippet}
 
 {#snippet streamer(slot: SlotViewType)}
@@ -141,8 +139,9 @@
       <span class="truncate font-semibold">{c ? campaignHeading(c) : progress.game}</span>
       {#if !c || campaignSubtitle(c)}<span
           class="truncate text-hint text-muted-foreground group-hover:text-link group-has-[[data-game-twin]:hover]/game:text-link"
-          >{progress.campaign_name}</span
-        >{/if}
+        >
+          {progress.campaign_name}
+        </span>{/if}
     {/snippet}
     {#snippet reward()}
       <Thumb
@@ -156,9 +155,9 @@
       <div class="flex min-w-0 flex-1 flex-col gap-1">
         <span class="flex min-w-0 items-baseline gap-2">
           <span class="truncate text-xs font-semibold">{progress.drop_name}</span>
-          {#if d?.repeat}<span class="shrink-0 text-hint text-muted-foreground"
-              >{periodsText(d.periods_done, d.repeat)}</span
-            >{/if}
+          {#if d?.repeat}<span class="shrink-0 text-hint text-muted-foreground">
+              {periodsText(d.periods_done, d.repeat)}
+            </span>{/if}
         </span>
         <ProgressLine
           current={progress.current_minutes}
@@ -177,8 +176,10 @@
           type="button"
           aria-label={progress.campaign_name}
           data-game-twin
-          onclick={() => (open = known)}>{@render art()}</button
+          onclick={() => (open = known)}
         >
+          {@render art()}
+        </button>
       {:else}
         <span class="shrink-0">{@render art()}</span>
       {/if}
@@ -190,8 +191,10 @@
           <button
             class="group flex min-w-0 flex-col text-left transition-colors group-has-[[data-game-twin]:hover]/game:text-link hover:text-link"
             type="button"
-            onclick={() => (open = known)}>{@render heading()}</button
+            onclick={() => (open = known)}
           >
+            {@render heading()}
+          </button>
         {:else}
           <span class="flex min-w-0 flex-col">{@render heading()}</span>
         {/if}
@@ -204,8 +207,10 @@
           <button
             class="flex items-center gap-2.5 rounded-lg border bg-muted/50 p-2 text-left transition-colors hover:bg-accent"
             type="button"
-            onclick={() => (open = known)}>{@render reward()}</button
+            onclick={() => (open = known)}
           >
+            {@render reward()}
+          </button>
         {:else}
           <div class="flex items-center gap-2.5 rounded-lg border bg-muted/50 p-2">
             {@render reward()}

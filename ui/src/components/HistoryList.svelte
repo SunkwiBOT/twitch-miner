@@ -284,14 +284,14 @@
     <ul class="flex flex-col divide-y text-sm">
       {#each counts as entry (entry.category)}
         <li class="flex items-center justify-between gap-3 py-2">
-          <span class="min-w-0 truncate"
-            >{entry.category.trim() === "" ? t.journal_filter_other() : entry.category}</span
-          >
-          <span class="shrink-0 font-medium tabular-nums text-muted-foreground"
-            >{(entry.count === 1 ? t.export_counts_count_one : t.export_counts_count)({
+          <span class="min-w-0 truncate">
+            {entry.category.trim() === "" ? t.journal_filter_other() : entry.category}
+          </span>
+          <span class="shrink-0 font-medium tabular-nums text-muted-foreground">
+            {(entry.count === 1 ? t.export_counts_count_one : t.export_counts_count)({
               count: entry.count,
-            })}</span
-          >
+            })}
+          </span>
         </li>
       {/each}
     </ul>

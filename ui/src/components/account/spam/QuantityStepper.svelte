@@ -41,8 +41,10 @@
         class={BUTTON}
         aria-label={t.spam_decrease()}
         disabled={disabled || value <= 1}
-        onclick={() => step(-1)}><Icon name={IconName.MINUS} size={14} /></button
+        onclick={() => step(-1)}
       >
+        <Icon name={IconName.MINUS} size={14} />
+      </button>
     {/snippet}
   </Tip>
   <input
@@ -71,8 +73,10 @@
           if (!disabled && value < max) {
             step(1);
           }
-        }}><Icon name={IconName.PLUS} size={14} /></button
+        }}
       >
+        <Icon name={IconName.PLUS} size={14} />
+      </button>
     {/snippet}
   </Tip>
 </div>

@@ -47,11 +47,13 @@
         class={lane.enabled
           ? "text-sm font-semibold"
           : "text-sm font-semibold text-muted-foreground"}
-        >{MINING_LANE_LABELS[lane.kind]()}{#if lane.kind === MiningLaneKind.BADGES}<span
-            class="ms-1.5 align-middle"
-            ><Badge text={t.common_beta()} tone={BadgeTone.ACCENT} dot={false} /></span
-          >{/if}</span
       >
+        {MINING_LANE_LABELS[lane.kind]()}{#if lane.kind === MiningLaneKind.BADGES}<span
+            class="ms-1.5 align-middle"
+          >
+            <Badge text={t.common_beta()} tone={BadgeTone.ACCENT} dot={false} />
+          </span>{/if}
+      </span>
       <span class="text-xs text-muted-foreground">{MINING_LANE_HINTS[lane.kind]()}</span>
     </span>
   {/snippet}

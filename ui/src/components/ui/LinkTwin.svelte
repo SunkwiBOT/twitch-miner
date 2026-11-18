@@ -16,5 +16,7 @@
   rel="noreferrer"
   tabindex="-1"
   aria-hidden="true"
-  onclick={(event) => followLink(event, url)}>{@render children()}</a
->{#if live}<span class="sr-only">{t.common_live()}</span>{/if}
+  onclick={(event) => followLink(event, url)}
+>
+  {@render children()}
+</a>{#if live}<span class="sr-only">{t.common_live()}</span>{/if}

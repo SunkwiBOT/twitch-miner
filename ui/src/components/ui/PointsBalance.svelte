@@ -26,29 +26,31 @@
     end ? "min-w-22 items-end text-right" : "items-start text-left",
   ]}
 >
-  <span class="inline-flex items-center gap-1 font-semibold tabular-nums"
-    ><span class="text-link"><Icon name={IconName.CHANNEL_POINTS} size={14} /></span>{number(
+  <span class="inline-flex items-center gap-1 font-semibold tabular-nums">
+    <span class="text-link"><Icon name={IconName.CHANNEL_POINTS} size={14} /></span>{number(
       balance,
-    )}</span
-  >
+    )}
+  </span>
   {#if earned > 0 || streak !== undefined}
     <span class="text-xs text-muted-foreground tabular-nums">
-      {#if earned > 0}<span class="inline-flex items-center gap-1 text-success-foreground"
-          ><Icon name={IconName.CHANNEL_POINTS} size={12} />+{number(earned)}</span
-        >{/if}
+      {#if earned > 0}<span class="inline-flex items-center gap-1 text-success-foreground">
+          <Icon name={IconName.CHANNEL_POINTS} size={12} />+{number(earned)}
+        </span>{/if}
       {#if earned > 0 && streak !== undefined}·{/if}
       {#if streak !== undefined}<span
           class="inline-flex items-center gap-0.5 font-semibold text-foreground"
-          ><span aria-hidden="true">{number(streak)}</span><Icon
+        >
+          <span aria-hidden="true">{number(streak)}</span><Icon
             name={IconName.WATCH_STREAK}
             size={13}
             class="-translate-y-px"
-          /><span class="sr-only">{t.streamer_streak({ count: number(streak) })}</span></span
-        >{/if}
+          /><span class="sr-only">{t.streamer_streak({ count: number(streak) })}</span>
+        </span>{/if}
     </span>
   {/if}
   {#if children}<span
       class={["flex flex-col text-xs text-muted-foreground", end ? "items-end" : "items-start"]}
-      >{@render children()}</span
-    >{/if}
+    >
+      {@render children()}
+    </span>{/if}
 </span>

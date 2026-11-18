@@ -68,16 +68,16 @@
   {#if entry.mark}
     <img class="size-7 shrink-0 rounded-md" src={entry.mark} alt="" />
   {:else}
-    <span class="flex size-7 shrink-0 items-center justify-center text-foreground"
-      ><Icon name={IconName.GITHUB} size={24} /></span
-    >
+    <span class="flex size-7 shrink-0 items-center justify-center text-foreground">
+      <Icon name={IconName.GITHUB} size={24} />
+    </span>
   {/if}
   <span class="flex min-w-0 flex-col leading-tight">
-    <span class="text-tiny font-bold tracking-wider text-muted-foreground uppercase"
-      >{entry.label}</span
-    >
-    <span class="truncate text-hint font-semibold text-foreground group-hover:text-link"
-      >{entry.name}</span
-    >
+    <span class="text-tiny font-bold tracking-wider text-muted-foreground uppercase">
+      {entry.label}
+    </span>
+    <span class="truncate text-hint font-semibold text-foreground group-hover:text-link">
+      {entry.name}
+    </span>
   </span>
 </a>

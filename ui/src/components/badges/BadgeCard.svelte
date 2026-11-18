@@ -62,8 +62,10 @@
         <button
           class="text-left outline-hidden after:absolute after:inset-0 after:rounded-lg focus-visible:after:outline-2 focus-visible:after:outline-ring focus-visible:after:outline-solid"
           type="button"
-          onclick={onopen}>{badge.title}</button
+          onclick={onopen}
         >
+          {badge.title}
+        </button>
       </h3>
       <TextButton
         label={t.campaign_details()}
@@ -115,9 +117,9 @@
         <div class="flex flex-col gap-0.5 text-xs">
           <span class="flex min-w-0 flex-wrap items-center gap-x-1.5">
             {#if requirement.required_minutes > 0}
-              <span class="font-semibold"
-                >{watchText(minutes(requirement.required_minutes), requirement.repeat)}</span
-              >
+              <span class="font-semibold">
+                {watchText(minutes(requirement.required_minutes), requirement.repeat)}
+              </span>
             {/if}
             {#if requirement.game_name}
               {@const game = requirement.categories.find((c) => c.name === requirement.game_name)}
@@ -140,13 +142,13 @@
               {#if requirement.channel_count > 0}
                 <span>{t.campaign_channels_some({ count: requirement.channel_count })}</span>
                 {#each requirement.channels as login (login)}{@const channel =
-                    knownChannels[login]}<span class="relative z-10"
-                    ><ChannelLink
+                    knownChannels[login]}<span class="relative z-10">
+                    <ChannelLink
                       {login}
                       name={channel?.display_name ?? login}
                       avatar={channel?.avatar_url}
-                    /></span
-                  >{/each}
+                    />
+                  </span>{/each}
               {:else if requirement.categories.length > 1}
                 {t.campaign_channels_categories({ count: requirement.categories.length })}
               {:else}
@@ -160,9 +162,9 @@
             <span class="truncate text-muted-foreground">{requirement.campaign_name}</span>
           {/if}
           {#if requirement.ends_at && !ended}
-            <span class="text-muted-foreground"
-              >{t.badges_until({ date: formatDate(requirement.ends_at, true) })}</span
-            >
+            <span class="text-muted-foreground">
+              {t.badges_until({ date: formatDate(requirement.ends_at, true) })}
+            </span>
           {/if}
         </div>
       {/if}

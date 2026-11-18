@@ -28,9 +28,9 @@
       <span class={cn("truncate font-semibold", onopen && "text-link")}>{title}</span>
       {#if badges}{@render badges()}{/if}
     </span>
-    {#if subtitle}<span class="truncate text-xs text-muted-foreground"
-        ><RichText text={subtitle} /></span
-      >{/if}
+    {#if subtitle}<span class="truncate text-xs text-muted-foreground">
+        <RichText text={subtitle} />
+      </span>{/if}
     {#if details}<DetailLine parts={details} />{/if}
     {#if below}<span class="mt-1 block">{@render below()}</span>{/if}
   </span>
@@ -55,8 +55,10 @@
       <button
         class={cn("flex min-w-0 flex-1 gap-3 text-left", below ? "items-start" : "items-center")}
         type="button"
-        onclick={onopen}>{@render body()}</button
+        onclick={onopen}
       >
+        {@render body()}
+      </button>
     {:else}
       {@render body()}
     {/if}

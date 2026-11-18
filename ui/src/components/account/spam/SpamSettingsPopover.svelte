@@ -93,8 +93,10 @@
           />
           <span
             class="pointer-events-none absolute inset-y-0 right-3 grid place-items-center text-muted-foreground"
-            aria-hidden="true">{t.spam_delay_unit()}</span
+            aria-hidden="true"
           >
+            {t.spam_delay_unit()}
+          </span>
         </div>
       </FormField>
     </div>

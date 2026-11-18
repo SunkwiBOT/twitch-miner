@@ -32,8 +32,10 @@
         "absolute -bottom-1 left-1/2 -translate-x-1/2 rounded-sm bg-live font-bold tracking-wide text-live-foreground uppercase ring-2 ring-card",
         LIVE_TAG_CLASSES[size],
       )}
-      aria-hidden="true">{LIVE_TAG}</span
+      aria-hidden="true"
     >
+      {LIVE_TAG}
+    </span>
   {/if}
   {#if tagged}<span class="sr-only">{t.common_live()}</span>{/if}
 </span>

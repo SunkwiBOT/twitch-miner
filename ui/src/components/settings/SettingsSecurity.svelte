@@ -171,8 +171,9 @@
               />
             </FormField>
           </div>
-          {#if !mismatch}<span class="text-hint text-muted-foreground">{t.security_rules()}</span
-            >{/if}
+          {#if !mismatch}<span class="text-hint text-muted-foreground">
+              {t.security_rules()}
+            </span>{/if}
           <div class="flex flex-wrap justify-end gap-2">
             {#if editing}
               <TextButton

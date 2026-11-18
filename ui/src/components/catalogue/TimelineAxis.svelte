@@ -46,8 +46,9 @@
       >
         {#if index % labelStep === 0 && ((100 - tick.percent) / 100) * laneWidth >= LABEL_ROOM_PX}
           <span class="label">
-            {#if tick.isMidnight}<b class="text-hint font-bold text-foreground">{labels[index]}</b
-              >{:else}{labels[index]}{/if}
+            {#if tick.isMidnight}<b class="text-hint font-bold text-foreground">
+                {labels[index]}
+              </b>{:else}{labels[index]}{/if}
           </span>
         {/if}
       </div>

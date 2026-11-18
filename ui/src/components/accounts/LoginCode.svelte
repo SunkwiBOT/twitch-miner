@@ -40,8 +40,9 @@
   <div class="flex items-start gap-3">
     <span
       class="grid size-6 shrink-0 place-items-center rounded-full border border-primary/50 bg-primary/15 text-xs font-bold text-link"
-      >1</span
     >
+      1
+    </span>
     <div class="flex min-w-0 flex-1 flex-col gap-1">
       <span class="font-semibold">{t.login_step_open()}</span>
       <span class="text-hint text-muted-foreground">{t.login_step_open_hint()}</span>
@@ -67,16 +68,17 @@
   <div class="flex items-start gap-3">
     <span
       class="grid size-6 shrink-0 place-items-center rounded-full border border-primary/50 bg-primary/15 text-xs font-bold text-link"
-      >2</span
     >
+      2
+    </span>
     <div class="flex min-w-0 flex-1 flex-col gap-1">
       <span class="font-semibold">{t.login_step_check()}</span>
       <div
         class="mt-1.5 flex items-center justify-between gap-3 rounded-lg border border-input bg-background px-4 py-3.5"
       >
-        <span class="font-mono text-3xl leading-none font-bold tracking-[0.22em]"
-          >{flow.user_code}</span
-        >
+        <span class="font-mono text-3xl leading-none font-bold tracking-[0.22em]">
+          {flow.user_code}
+        </span>
         <CopyButton
           text={() => flow.user_code}
           label={t.common_copy()}
@@ -90,9 +92,9 @@
   </div>
   <div class="flex flex-col gap-1.5">
     <div class="flex items-center justify-between text-hint text-muted-foreground">
-      <span class="flex items-center gap-2"
-        ><StatusDot tone={BadgeTone.INFO} />{t.login_waiting()}</span
-      >
+      <span class="flex items-center gap-2">
+        <StatusDot tone={BadgeTone.INFO} />{t.login_waiting()}
+      </span>
       <span class="font-mono">{mmss(left)}</span>
     </div>
     <Progress

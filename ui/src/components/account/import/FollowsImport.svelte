@@ -50,12 +50,12 @@
 
 {#if open}
   <div class="flex flex-wrap items-center justify-between gap-2">
-    <span class="text-hint text-muted-foreground"
-      ><RichText
+    <span class="text-hint text-muted-foreground">
+      <RichText
         text={t.import_follows_hint({ name: personMarker(0) })}
         people={[{ name: target.display_name, avatar: target.avatar_url, channel: null }]}
-      /></span
-    >
+      />
+    </span>
     <ActionButton
       icon={IconName.REFRESH}
       label={t.common_refresh()}

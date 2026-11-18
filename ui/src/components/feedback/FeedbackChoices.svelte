@@ -41,15 +41,15 @@
         followLink(event, choice.url);
       }}
     >
-      <span class={cn("flex size-8 shrink-0 items-center justify-center", choice.tone)}
-        ><Icon name={choice.icon} size={26} /></span
-      >
+      <span class={cn("flex size-8 shrink-0 items-center justify-center", choice.tone)}>
+        <Icon name={choice.icon} size={26} />
+      </span>
       <span class="flex min-w-0 flex-col gap-0.5">
         <span
           class="flex items-center gap-1.5 text-sm font-semibold text-foreground underline-offset-3 group-hover:text-link group-hover:underline group-focus-visible:text-link group-focus-visible:underline"
-          >{choice.name}<span class="opacity-70"><Icon name={IconName.EXTERNAL} size={13} /></span
-          ></span
         >
+          {choice.name}<span class="opacity-70"><Icon name={IconName.EXTERNAL} size={13} /></span>
+        </span>
         <span class="text-hint leading-snug text-muted-foreground">{choice.text}</span>
       </span>
     </a>

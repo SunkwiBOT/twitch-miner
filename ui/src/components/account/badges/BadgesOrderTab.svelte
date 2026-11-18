@@ -121,8 +121,10 @@
         <button
           class="flex min-w-0 flex-1 flex-col gap-0.5 text-left"
           type="button"
-          onclick={() => onopen(campaign)}>{@render body()}</button
+          onclick={() => onopen(campaign)}
         >
+          {@render body()}
+        </button>
       {:else}
         <span class="flex min-w-0 flex-1 flex-col gap-0.5">{@render body()}</span>
       {/if}

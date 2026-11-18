@@ -139,9 +139,9 @@
     <div class={LOG_LIST_CLASSES}>
       {#each feed.items as line (line.id)}
         <div class={LOG_LINE_CLASSES}>
-          <span class="whitespace-nowrap text-muted-foreground"
-            >{formatClockWithSeconds(line.at)}</span
-          >
+          <span class="whitespace-nowrap text-muted-foreground">
+            {formatClockWithSeconds(line.at)}
+          </span>
           <span class={cn("hidden md:block", LOG_LEVEL_CLASSES[line.level])}>{line.level}</span>
           <span class="hidden min-w-0 items-center gap-1.5 md:flex">
             {#if line.account}

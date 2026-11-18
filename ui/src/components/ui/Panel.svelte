@@ -46,15 +46,17 @@
     {#if actions}
       <CardAction
         class="ml-auto flex max-w-full min-w-0 flex-wrap items-center justify-end gap-2 self-center"
-        >{@render actions()}</CardAction
       >
+        {@render actions()}
+      </CardAction>
     {/if}
     {#if description}
-      <CardDescription class="basis-full text-hint"><RichText text={description} /></CardDescription
-      >
+      <CardDescription class="basis-full text-hint">
+        <RichText text={description} />
+      </CardDescription>
     {/if}
   </CardHeader>
-  {#if children}<CardContent class="flex min-h-0 flex-1 flex-col gap-3"
-      >{@render children()}</CardContent
-    >{/if}
+  {#if children}<CardContent class="flex min-h-0 flex-1 flex-col gap-3">
+      {@render children()}
+    </CardContent>{/if}
 </Card>

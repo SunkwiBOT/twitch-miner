@@ -122,9 +122,9 @@
           />
         {/if}
         <span class="flex min-w-0 flex-col gap-0.5">
-          <span class="text-sm leading-snug break-words"
-            ><RichText text={sentence.text} links={sentence.links} /></span
-          >
+          <span class="text-sm leading-snug break-words">
+            <RichText text={sentence.text} links={sentence.links} />
+          </span>
           {#if (showAccount && e.account_id) || detail}
             <span class="flex min-w-0 items-center gap-1.5 text-xs text-muted-foreground">
               {#if showAccount && e.account_id}
@@ -133,13 +133,13 @@
                   name={acc?.display_name ?? e.account_login}
                   size={AvatarSize.XS}
                 />
-                <span class="font-semibold text-foreground/80"
-                  >{acc?.display_name ?? e.account_login}</span
-                >
+                <span class="font-semibold text-foreground/80">
+                  {acc?.display_name ?? e.account_login}
+                </span>
               {/if}
-              {#if detail}<span class="truncate"
-                  >{showAccount && e.account_id ? "· " : ""}{detail}</span
-                >{/if}
+              {#if detail}<span class="truncate">
+                  {showAccount && e.account_id ? "· " : ""}{detail}
+                </span>{/if}
             </span>
           {/if}
         </span>

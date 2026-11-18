@@ -32,12 +32,12 @@
 >
   <span class="relative block aspect-[3/4] overflow-hidden rounded-lg bg-muted {CARD_LIFT_CLASSES}">
     {#if art}<img class="block size-full object-cover" src={art} alt="" loading="lazy" />{/if}
-    <span class="absolute bottom-1.5 left-1.5"
-      ><TimeLeftTag
+    <span class="absolute bottom-1.5 left-1.5">
+      <TimeLeftTag
         text={left > 0 ? shortDuration(left) : t.campaign_ended()}
         urgent={left < URGENT_MS}
-      /></span
-    >
+      />
+    </span>
     {#if ordered || isNew}
       <span class="absolute top-1.5 right-1.5">
         {#if ordered}
@@ -53,9 +53,12 @@
       </span>
     {/if}
   </span>
-  <span class="line-clamp-2 min-h-[2lh] text-hint leading-tight font-semibold" title={campaign.name}
-    >{campaign.name}</span
+  <span
+    class="line-clamp-2 min-h-[2lh] text-hint leading-tight font-semibold"
+    title={campaign.name}
   >
+    {campaign.name}
+  </span>
   <span class="-mt-1 truncate text-xs text-muted-foreground">{campaign.game.name}</span>
   <span class="flex flex-wrap gap-1">
     <Badge

@@ -81,9 +81,9 @@
       />
       {selectLabel}
     </label>
-    <span class="sr-only" role="status"
-      >{t.common_selected_count({ count: selected.length, total: streamers.length })}</span
-    >
+    <span class="sr-only" role="status">
+      {t.common_selected_count({ count: selected.length, total: streamers.length })}
+    </span>
     {#if selected.length > 0}
       <TextButton
         label={t.points_edit_selected({ count: selected.length })}

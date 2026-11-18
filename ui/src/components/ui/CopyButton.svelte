@@ -58,8 +58,9 @@
 {#snippet mark()}
   {#if busy}<Spinner size={iconSize} />{:else}<span
       class={cn("inline-flex", copied && "text-success-emphasis")}
-      ><Icon name={copied ? IconName.CHECK : IconName.COPY} size={iconSize} /></span
-    >{/if}
+    >
+      <Icon name={copied ? IconName.CHECK : IconName.COPY} size={iconSize} />
+    </span>{/if}
 {/snippet}
 
 {#if layout === CopyLayout.ICON}
@@ -74,8 +75,10 @@
         aria-label={name ?? label}
         disabled={busy}
         aria-busy={busy}
-        onclick={copy}>{@render mark()}</Button
+        onclick={copy}
       >
+        {@render mark()}
+      </Button>
     {/snippet}
   </Tip>
 {:else}
@@ -86,8 +89,10 @@
     class="not-aria-busy:cursor-copy"
     disabled={busy}
     aria-busy={busy}
-    onclick={copy}>{@render mark()}{copied ? copiedLabel : label}</Button
+    onclick={copy}
   >
+    {@render mark()}{copied ? copiedLabel : label}
+  </Button>
 {/if}
 
 <span class="sr-only" aria-live="polite">{copied ? copiedLabel : ""}</span>

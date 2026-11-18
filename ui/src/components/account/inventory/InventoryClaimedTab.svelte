@@ -31,15 +31,15 @@
           <RewardThumb {item} size={ThumbSize.MD} />
           <span class="flex min-w-0 flex-col">
             <span class="truncate text-xs font-semibold">{item.drop.name}</span>
-            <span class="text-xs text-muted-foreground"
-              ><GameName
+            <span class="text-xs text-muted-foreground">
+              <GameName
                 name={item.campaign.game.name}
                 url={null}
                 art={gameArt(item.campaign.game.name, item.campaign.game.box_art_url)}
                 size={ThumbSize.XS}
                 inSentence={false}
-              /></span
-            >
+              />
+            </span>
           </span>
         </button>
       {/each}

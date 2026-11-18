@@ -41,13 +41,13 @@
       streak={view.points.streak?.count}
       {align}
     >
-      {#if view.points.last_bonus_at}<span
-          ><RichText
+      {#if view.points.last_bonus_at}<span>
+          <RichText
             text={t.streamer_last_bonus({
               time: strong(relativeTime(view.points.last_bonus_at, ticker.now)),
             })}
-          /></span
-        >{/if}
+          />
+        </span>{/if}
     </PointsBalance>
   {/if}
 {/snippet}

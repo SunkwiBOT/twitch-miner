@@ -34,6 +34,8 @@
     class={cn(
       "shrink-0 text-muted-foreground tabular-nums",
       stacked ? "text-tiny" : "min-w-18 text-right text-xs",
-    )}><RichText {text} /></span
+    )}
   >
+    <RichText {text} />
+  </span>
 </span>

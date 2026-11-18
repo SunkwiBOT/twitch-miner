@@ -87,10 +87,11 @@
     {#if cooling}
       <span
         class="absolute top-1/2 left-1/2 inline-flex -translate-1/2 items-center gap-1 rounded-md bg-background/90 px-1.5 py-0.5 text-xs font-semibold whitespace-nowrap tabular-nums"
-        ><Icon name={IconName.CLOCK} size={12} />{t.spam_reward_cooldown({
-          time: countdown(cooldownLeft),
-        })}</span
       >
+        <Icon name={IconName.CLOCK} size={12} />{t.spam_reward_cooldown({
+          time: countdown(cooldownLeft),
+        })}
+      </span>
     {/if}
   </div>
   {#if reward.prompt}
@@ -103,8 +104,9 @@
             type="button"
             class="grid size-6 cursor-help place-items-center rounded-md bg-background/85 text-muted-foreground transition-colors hover:bg-background hover:text-foreground"
             aria-label={t.spam_description({ text: prompt })}
-            ><Icon name={IconName.INFO} size={14} /></button
           >
+            <Icon name={IconName.INFO} size={14} />
+          </button>
         {/snippet}
       </Tip>
     </span>
@@ -114,11 +116,11 @@
       {reward.title}
     </h4>
     <div class="flex min-h-8 items-center justify-between gap-2">
-      <span class="inline-flex items-center gap-1 text-hint font-semibold tabular-nums"
-        ><span class="text-link"><Icon name={IconName.CHANNEL_POINTS} size={13} /></span>{number(
+      <span class="inline-flex items-center gap-1 text-hint font-semibold tabular-nums">
+        <span class="text-link"><Icon name={IconName.CHANNEL_POINTS} size={13} /></span>{number(
           reward.cost,
-        )}</span
-      >
+        )}
+      </span>
       {#if badge}
         <Badge
           text={badge.label()}
@@ -152,9 +154,9 @@
           }}
         />
       {/if}
-      <span class="sr-only" aria-live="polite"
-        >{sending ? t.spam_redeeming({ done: sending.done, total: sending.total }) : ""}</span
-      >
+      <span class="sr-only" aria-live="polite">
+        {sending ? t.spam_redeeming({ done: sending.done, total: sending.total }) : ""}
+      </span>
       <span class="mt-auto">
         {#snippet button(props: Record<string, unknown>)}
           <Button
@@ -172,10 +174,9 @@
               {t.spam_redeem()}
               {#if !free}<span
                   class="inline-flex items-center gap-1 border-l border-primary-foreground/40 pl-2 font-semibold tabular-nums"
-                  ><Icon name={IconName.CHANNEL_POINTS} size={13} />{number(
-                    reward.cost * quantity,
-                  )}</span
-                >{/if}
+                >
+                  <Icon name={IconName.CHANNEL_POINTS} size={13} />{number(reward.cost * quantity)}
+                </span>{/if}
             {/if}
           </Button>
         {/snippet}
@@ -183,9 +184,9 @@
           <p
             class="flex h-8 items-center justify-center gap-1 rounded-lg bg-muted text-hint text-muted-foreground tabular-nums"
           >
-            {t.spam_missing()}<span class="text-link"
-              ><Icon name={IconName.CHANNEL_POINTS} size={13} /></span
-            ><span class="font-semibold text-foreground">{number(missing)}</span>
+            {t.spam_missing()}<span class="text-link">
+              <Icon name={IconName.CHANNEL_POINTS} size={13} />
+            </span><span class="font-semibold text-foreground">{number(missing)}</span>
           </p>
         {:else if needsText && !blocked}
           <Tip text={t.spam_message_needed()}>

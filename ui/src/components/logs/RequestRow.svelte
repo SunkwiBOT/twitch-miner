@@ -42,8 +42,10 @@
   <span class="whitespace-nowrap text-muted-foreground">
     {#if entry.group}
       <time datetime={entry.at}>{formatClock(entry.at)}</time>{TIME_RANGE_SEPARATOR}<time
-        datetime={entry.group.until}>{formatClock(entry.group.until)}</time
+        datetime={entry.group.until}
       >
+        {formatClock(entry.group.until)}
+      </time>
     {:else}
       <time datetime={entry.at}>{formatClockWithSeconds(entry.at)}</time>
     {/if}
@@ -64,14 +66,14 @@
 
   <span class="min-w-0">
     <span class="text-muted-foreground @4xl:hidden">{kind}{PART_SEPARATOR}</span>
-    <span
-      >{#if entry.target}{#each targetParts(entry.target) as part, index (index)}{#if index > 0}<wbr
-            />{/if}{part}{/each}{:else}{NO_TARGET}{/if}</span
-    >
+    <span>
+      {#if entry.target}{#each targetParts(entry.target) as part, index (index)}{#if index > 0}<wbr
+            />{/if}{part}{/each}{:else}{NO_TARGET}{/if}
+    </span>
     {#if entry.socket}
-      <span class="text-muted-foreground"
-        >{PART_SEPARATOR}{SOCKET_EVENT_LABELS[entry.socket]()}</span
-      >
+      <span class="text-muted-foreground">
+        {PART_SEPARATOR}{SOCKET_EVENT_LABELS[entry.socket]()}
+      </span>
     {/if}
     {#if entry.group}
       {@const hint = t.requests_group_hint({
@@ -97,9 +99,9 @@
     {#if notModifiedHint}
       <Tip text={notModifiedHint}>
         {#snippet children(props)}
-          <span {...props} class="cursor-help underline decoration-dotted underline-offset-2"
-            >{resultText(entry)}</span
-          >
+          <span {...props} class="cursor-help underline decoration-dotted underline-offset-2">
+            {resultText(entry)}
+          </span>
         {/snippet}
       </Tip>
       <span class="sr-only">{notModifiedHint}</span>

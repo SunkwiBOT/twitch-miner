@@ -57,31 +57,35 @@
   });
 </script>
 
-{#each parts as part, index (index)}{#if part.person?.channel}<span class="whitespace-nowrap"
-      ><span class="mr-1.5 inline-flex align-middle"
-        ><ChannelAvatar
+{#each parts as part, index (index)}{#if part.person?.channel}<span class="whitespace-nowrap">
+      <span class="mr-1.5 inline-flex align-middle">
+        <ChannelAvatar
           url={part.person.avatar}
           name={part.person.name}
           size={AvatarSize.SM}
           live={false}
-        /></span
-      ><ExternalLink
+        />
+      </span><ExternalLink
         url={channelUrl(part.person.channel)}
         text={part.text}
         mark={LinkMark.NONE}
         look={LinkLook.SENTENCE}
         size={LinkSize.MD}
-      /></span
-    >{:else if part.person}<span class="inline-flex items-center gap-1 align-[-0.3em]"
-      ><Avatar url={part.person.avatar} name={part.person.name} size={AvatarSize.XS} /><strong
-        class="font-semibold in-[.text-muted-foreground]:text-foreground">{part.text}</strong
-      ></span
-    >{:else if part.link}<ExternalLink
+      />
+    </span>{:else if part.person}<span class="inline-flex items-center gap-1 align-[-0.3em]">
+      <Avatar url={part.person.avatar} name={part.person.name} size={AvatarSize.XS} /><strong
+        class="font-semibold in-[.text-muted-foreground]:text-foreground"
+      >
+        {part.text}
+      </strong>
+    </span>{:else if part.link}<ExternalLink
       url={part.link.url}
       text={part.text}
       mark={LinkMark.NONE}
       look={LinkLook.SENTENCE}
       size={LinkSize.MD}
     />{:else if part.strong}<strong
-      class="font-semibold in-[.text-muted-foreground]:text-foreground">{part.text}</strong
-    >{:else}{part.text}{/if}{/each}
+      class="font-semibold in-[.text-muted-foreground]:text-foreground"
+    >
+      {part.text}
+    </strong>{:else}{part.text}{/if}{/each}

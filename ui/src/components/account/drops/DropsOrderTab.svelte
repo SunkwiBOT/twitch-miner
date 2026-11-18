@@ -165,9 +165,9 @@
           onclick={() => c && onopen(c)}
         >
           <span class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
-            <span class={cn("truncate font-semibold", c && "text-link")}
-              >{c ? campaignHeading(c) : item.campaign_id}</span
-            >
+            <span class={cn("truncate font-semibold", c && "text-link")}>
+              {c ? campaignHeading(c) : item.campaign_id}
+            </span>
             <span class="inline-flex max-w-full flex-wrap items-center gap-1.5">
               {#if minesCampaign(account, item.campaign_id)}<Badge
                   text={t.queue_mining()}

@@ -217,14 +217,14 @@
               <Spinner size={12} />
             {:else if e.channel}
               {@const live = isLive(e.channel.login)}
-              <span class={cn("inline-flex", live && "-translate-y-0.5")}
-                ><ChannelAvatar
+              <span class={cn("inline-flex", live && "-translate-y-0.5")}>
+                <ChannelAvatar
                   url={e.channel.avatar_url}
                   name={e.channel.display_name}
                   size={AvatarSize.SM}
                   {live}
-                /></span
-              >
+                />
+              </span>
             {:else if e.status === ImportEntryStatus.UNCHECKED}
               <Icon name={IconName.ALERT} size={12} />
             {:else}

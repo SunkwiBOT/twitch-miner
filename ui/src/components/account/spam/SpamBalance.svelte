@@ -36,11 +36,12 @@
     class="inline-flex items-center gap-1.5 text-xl leading-tight font-semibold tabular-nums"
     role="img"
     aria-label={free ? t.spam_balance_unlimited() : t.spam_balance({ points: number(balance) })}
-    ><span class="text-link"><Icon name={IconName.CHANNEL_POINTS} size={18} /></span>{#if free}<Icon
+  >
+    <span class="text-link"><Icon name={IconName.CHANNEL_POINTS} size={18} /></span>{#if free}<Icon
         name={IconName.INFINITY}
         size={22}
-      />{:else}{number(balance)}{/if}</span
-  >
+      />{:else}{number(balance)}{/if}
+  </span>
   <Tip text={BALANCE_HINTS[tracking]()}>
     {#snippet children(props)}
       <button

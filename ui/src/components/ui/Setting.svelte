@@ -37,13 +37,13 @@
   class:opacity-60={disabled}
 >
   <div class="flex min-w-0 flex-col gap-0.5">
-    <span class="flex items-center gap-2 text-sm font-medium text-foreground"
-      >{#if lead}{@render lead()}{/if}{title}{#if mark}<Badge
+    <span class="flex items-center gap-2 text-sm font-medium text-foreground">
+      {#if lead}{@render lead()}{/if}{title}{#if mark}<Badge
           text={mark}
           tone={BadgeTone.NEUTRAL}
           dot={false}
-        />{/if}</span
-    >
+        />{/if}
+    </span>
     {#if description}<span class="text-hint text-muted-foreground">{description}</span>{/if}
   </div>
   {#if mark}
@@ -60,8 +60,10 @@
             FOCUS_INSIDE_CLASSES,
           )}
           {disabled}
-          onclick={() => void choose(choice.value)}>{choice.label()}</button
+          onclick={() => void choose(choice.value)}
         >
+          {choice.label()}
+        </button>
       {/each}
     </div>
   {:else}

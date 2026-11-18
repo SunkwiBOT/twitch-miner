@@ -149,9 +149,9 @@
           {#if pictures.length}
             <span class="flex shrink-0 -space-x-1.5">
               {#each pictures as option (option.value)}
-                <span class="rounded-full ring-2 ring-background"
-                  ><Avatar url={option.image} name={option.label} size={AvatarSize.XS} /></span
-                >
+                <span class="rounded-full ring-2 ring-background">
+                  <Avatar url={option.image} name={option.label} size={AvatarSize.XS} />
+                </span>
               {/each}
             </span>
           {/if}

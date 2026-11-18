@@ -33,9 +33,9 @@
     >
       <RadioGroupItem value={String(choice.value)} />
       <span class="text-sm font-medium text-foreground">{choice.title}</span>
-      <span class="col-span-2 text-hint leading-snug text-muted-foreground"
-        >{choice.description}</span
-      >
+      <span class="col-span-2 text-hint leading-snug text-muted-foreground">
+        {choice.description}
+      </span>
     </label>
   {/each}
 </RadioGroup>

@@ -65,21 +65,21 @@
   };
 </script>
 
-{#snippet settings_discordMark()}<span class="text-brand-discord"
-    ><Icon name={IconName.DISCORD} size={16} /></span
-  >{/snippet}
+{#snippet settings_discordMark()}<span class="text-brand-discord">
+    <Icon name={IconName.DISCORD} size={16} />
+  </span>{/snippet}
 
-{#snippet settings_telegramMark()}<span class="text-brand-telegram"
-    ><Icon name={IconName.TELEGRAM} size={16} /></span
-  >{/snippet}
+{#snippet settings_telegramMark()}<span class="text-brand-telegram">
+    <Icon name={IconName.TELEGRAM} size={16} />
+  </span>{/snippet}
 
-{#snippet settings_webhookMark()}<span class="text-muted-foreground"
-    ><Icon name={IconName.WEBHOOK} size={16} /></span
-  >{/snippet}
+{#snippet settings_webhookMark()}<span class="text-muted-foreground">
+    <Icon name={IconName.WEBHOOK} size={16} />
+  </span>{/snippet}
 
-{#snippet settings_system_notificationsMark()}<span class="text-muted-foreground"
-    ><Icon name={IconName.BELL} size={16} /></span
-  >{/snippet}
+{#snippet settings_system_notificationsMark()}<span class="text-muted-foreground">
+    <Icon name={IconName.BELL} size={16} />
+  </span>{/snippet}
 
 {#snippet discordField()}
   <SecretInput
