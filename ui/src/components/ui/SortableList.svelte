@@ -103,8 +103,11 @@
           }}
         >
           {#if background}{@render background(item)}{/if}
-          <!-- ! On a phone the row's buttons take a line of their own, under the content. -->
-          <div class="flex min-h-13 items-center gap-3 px-3 py-2.5 max-sm:flex-wrap max-sm:gap-2">
+          <!-- ! On a phone the row's buttons take a line of their own, under the content. The
+          hover tint sits on this layer, above the row's banner, so it covers the whole row. -->
+          <div
+            class="flex min-h-13 items-center gap-3 px-3 py-2.5 transition-colors hover:bg-accent/50 max-sm:flex-wrap max-sm:gap-2"
+          >
             {#if lead}{@render lead(item)}{/if}
             <span
               class="inline-flex cursor-grab rounded-sm px-0.5 py-1 text-link transition-colors hover:bg-accent hover:text-link-hover active:cursor-grabbing max-sm:hidden"
