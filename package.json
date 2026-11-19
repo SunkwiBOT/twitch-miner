@@ -1,7 +1,7 @@
 {
   "name": "twitch-miner",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.14.1",
   "description": "Mine Twitch Drops, badges and channel points on as many accounts as you want, with no browser and no Twitch tab open.",
   "license": "MIT",
   "repository": {
