@@ -52,7 +52,7 @@
           text={shortLink}
           mark={LinkMark.END}
           look={LinkLook.ALWAYS}
-          size={LinkSize.LG}
+          size={LinkSize.MD}
         />
         <CopyButton
           text={() => flow.verification_uri}
