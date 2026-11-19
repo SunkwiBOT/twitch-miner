@@ -113,6 +113,9 @@ jobs:
       - name: Install the interface dependencies
         run: npm ci
 
+      - name: Generate the interface messages
+        run: npm run build
+
       - name: Check the interface
         run: npm run verify
 
