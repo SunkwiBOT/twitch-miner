@@ -1,6 +1,12 @@
 <script lang="ts">
   import { number } from "../../../lib/format.utils";
-  import { axisLabelStep, niceTicks } from "./chart-scale.utils";
+  import {
+    axisLabelStep,
+    niceTicks,
+    xTickAnchor,
+    Y_AXIS_LABEL_GAP_PX,
+    yAxisLeftPad,
+  } from "./chart-scale.utils";
   import { reasonLabel } from "../../../lib/events/event-reasons.utils";
   import { reasonTone } from "../stats.utils";
   import type { StatsDayBucketType } from "../stats.types";
@@ -19,20 +25,26 @@
   let measuredWidth = $state(0);
   const WIDTH = $derived(measuredWidth > 0 ? Math.round(measuredWidth) : 760);
   const HEIGHT = 200;
-  const PAD_LEFT = 34;
+  const PAD_RIGHT = 8;
   const PAD_BOTTOM = 18;
   const PAD_TOP = 8;
 
-  const plotWidth = $derived(WIDTH - PAD_LEFT - 8);
-  const plotHeight = $derived(HEIGHT - PAD_TOP - PAD_BOTTOM);
-
   const maxRaw = $derived(Math.max(1, ...days.map((day) => day.total)));
+  const gridValues = $derived(niceTicks(maxRaw));
+  const maxTotal = $derived(Math.max(...gridValues, 1));
+
+  const PAD_LEFT = $derived(yAxisLeftPad(gridValues.map(number)));
+  const plotWidth = $derived(WIDTH - PAD_LEFT - PAD_RIGHT);
+  const plotHeight = $derived(HEIGHT - PAD_TOP - PAD_BOTTOM);
 
   const barGap = $derived(plotWidth / Math.max(1, days.length));
   const barWidth = $derived(Math.max(2, barGap * 0.64));
 
   const longestDayLabel = $derived(Math.max(0, ...days.map((day) => day.dateLabel.length)));
   const tickEvery = $derived(axisLabelStep(longestDayLabel, barGap));
+  const lastTickIndex = $derived(
+    Math.floor((days.length - 1) / Math.max(1, tickEvery)) * tickEvery,
+  );
 
   const yOf = (value: number): number => PAD_TOP + plotHeight - (value / maxTotal) * plotHeight;
 
@@ -49,9 +61,6 @@
       return { reason, value, y, height };
     });
   };
-
-  const gridValues = $derived(niceTicks(maxRaw));
-  const maxTotal = $derived(Math.max(...gridValues, 1));
 </script>
 
 <figure class="flex flex-col gap-2" bind:clientWidth={measuredWidth}>
@@ -67,13 +76,18 @@
     {#each gridValues as grid (grid)}
       <line
         x1={PAD_LEFT}
-        x2={WIDTH - 8}
+        x2={WIDTH - PAD_RIGHT}
         y1={yOf(grid)}
         y2={yOf(grid)}
         class="stroke-border"
         stroke-width="1"
       />
-      <text x={PAD_LEFT - 6} y={yOf(grid) + 3} text-anchor="end" class="fill-current text-tiny">
+      <text
+        x={PAD_LEFT - Y_AXIS_LABEL_GAP_PX}
+        y={yOf(grid) + 3}
+        text-anchor="end"
+        class="fill-current text-tiny"
+      >
         {number(grid)}
       </text>
     {/each}
@@ -98,7 +112,7 @@
         <text
           x={x + barWidth / 2}
           y={HEIGHT - 4}
-          text-anchor="middle"
+          text-anchor={xTickAnchor(index === 0, index === lastTickIndex)}
           class="fill-current text-tiny"
         >
           {day.dateLabel}

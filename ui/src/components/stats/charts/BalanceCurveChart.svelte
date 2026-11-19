@@ -5,7 +5,13 @@
   import { formatDayMonth, formatShortDateTime } from "../../../lib/time/time.utils";
   import Icon from "../../ui/Icon.svelte";
   import { annotationStyle } from "../stats-annotations.utils";
-  import { axisLabelCount, niceTicks } from "./chart-scale.utils";
+  import {
+    axisLabelCount,
+    curveYTicks,
+    xTickAnchor,
+    Y_AXIS_LABEL_GAP_PX,
+    yAxisLeftPad,
+  } from "./chart-scale.utils";
 
   type BalanceCurveChartPropsType = {
     events: MinerEventType[];
@@ -22,13 +28,9 @@
   let measuredWidth = $state(0);
   const WIDTH = $derived(measuredWidth > 0 ? Math.round(measuredWidth) : 760);
   const HEIGHT = 220;
-  const PAD_LEFT = 42;
   const PAD_RIGHT = 10;
   const PAD_TOP = 14;
   const PAD_BOTTOM = 22;
-
-  const plotWidth = $derived(WIDTH - PAD_LEFT - PAD_RIGHT);
-  const plotHeight = $derived(HEIGHT - PAD_TOP - PAD_BOTTOM);
 
   const balancePoints = $derived(
     events.flatMap((event) => {
@@ -56,15 +58,20 @@
     ),
   );
 
-  const maxRaw = $derived(Math.max(1, ...balancePoints.map((p) => p.balance)));
-  const gridValues = $derived(niceTicks(maxRaw));
-  const maxBalance = $derived(Math.max(...gridValues, 1));
+  const gridValues = $derived(curveYTicks(balancePoints.map((p) => p.balance)));
+  const gridLabels = $derived(gridValues.map(number));
+  const domainMin = $derived(gridValues[0] ?? 0);
+  const domainMax = $derived(gridValues[gridValues.length - 1] ?? 1);
+
+  const PAD_LEFT = $derived(yAxisLeftPad(gridLabels));
+  const plotWidth = $derived(WIDTH - PAD_LEFT - PAD_RIGHT);
+  const plotHeight = $derived(HEIGHT - PAD_TOP - PAD_BOTTOM);
 
   const xOf = (ms: number): number =>
     PAD_LEFT + ((ms - domainStart) / (domainEnd - domainStart || 1)) * plotWidth;
 
   const yOf = (balance: number): number =>
-    PAD_TOP + plotHeight - (balance / maxBalance) * plotHeight;
+    PAD_TOP + plotHeight - ((balance - domainMin) / (domainMax - domainMin || 1)) * plotHeight;
 
   const balanceAt = (ms: number): number => {
     let last = balancePoints[0]?.balance ?? 0;
@@ -91,7 +98,7 @@
   const areaPath = $derived(
     balancePoints.length === 0
       ? ""
-      : `${linePath} L${xOf(balancePoints[balancePoints.length - 1].ms)},${yOf(0)} L${xOf(balancePoints[0].ms)},${yOf(0)} Z`,
+      : `${linePath} L${xOf(balancePoints[balancePoints.length - 1].ms)},${yOf(domainMin)} L${xOf(balancePoints[0].ms)},${yOf(domainMin)} Z`,
   );
 
   // ! `formatDayMonth(domainEnd)` stands in for every tick's label length:
@@ -139,7 +146,12 @@
         class="stroke-border"
         stroke-width="1"
       />
-      <text x={PAD_LEFT - 6} y={yOf(grid) + 3} text-anchor="end" class="fill-current text-tiny">
+      <text
+        x={PAD_LEFT - Y_AXIS_LABEL_GAP_PX}
+        y={yOf(grid) + 3}
+        text-anchor="end"
+        class="fill-current text-tiny"
+      >
         {number(grid)}
       </text>
     {/each}
@@ -181,8 +193,13 @@
         </foreignObject>
       </g>
     {/each}
-    {#each xTicks as tick (tick)}
-      <text x={xOf(tick)} y={HEIGHT - 4} text-anchor="middle" class="fill-current text-tiny">
+    {#each xTicks as tick, i (tick)}
+      <text
+        x={xOf(tick)}
+        y={HEIGHT - 4}
+        text-anchor={xTickAnchor(i === 0, i === xTicks.length - 1)}
+        class="fill-current text-tiny"
+      >
         {formatDayMonth(tick)}
       </text>
     {/each}
