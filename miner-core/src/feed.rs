@@ -195,9 +195,8 @@ pub struct Feed<T> {
     pub state: Arc<RwLock<T>>,
     pub(crate) client: FeedClient<T>,
     fetching: tokio::sync::Mutex<()>,
-    // ! A monotonic deadline: wall time never advances under a paused test clock, which
-    // would make the background loop spin on `tick` forever once the wall clock itself
-    // is frozen.
+    // ! A monotonic deadline: a wall-clock jump (suspend, time sync) can't stall or rush the
+    // next refresh.
     next_manual: Mutex<tokio::time::Instant>,
     resync: Mutex<Duration>,
     notify: Notify,
