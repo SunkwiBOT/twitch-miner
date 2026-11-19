@@ -137,7 +137,6 @@ fn main() {
             snapshot,
             command,
             catalog,
-            refresh_catalog,
             start_login,
             check_pasted_token,
             import_tokens,

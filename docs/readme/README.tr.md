@@ -122,7 +122,7 @@ Onu diğer madencilerden ayıran şeyler. Bir maddenin altındaki “Çalışır
 
 ### Drops
 
-- **Süren tüm Drops kampanyaları.** Her kampanyanın kendi ayrıntıları vardır: ödüller, yayıncı hesabı bağlama, “Önce kaz”. Liste [Twitch Drops API](https://drops.sunkwi.com) projesinden gelir ve 10 dakikada bir yenilenir.
+- **Süren tüm Drops kampanyaları.** Her kampanyanın kendi ayrıntıları vardır: ödüller, yayıncı hesabı bağlama, “Önce kaz”. Liste [Twitch Drops API](https://drops.sunkwi.com) projesinden gelir ve 5 dakikada bir yenilenir.
 
   <details open><summary>Çalışırken görün</summary>
   <img src="../media/tr/drops-catalogue.avif" alt="Takvim görünümündeki Katalog, arama ve bir kampanyanın ayrıntıları">
@@ -333,7 +333,7 @@ Twitch, hesap başına aynı anda **bir Drops kampanyası** ve **puanlar için i
 
 Twitch, 30 dakika gerçek izleme sonrasında en üstteki kampanyanın kendi ilerlemesini hiç hareket ettirmediyse, o kampanyayı saymıyor demektir: hesap onu bir kenara bırakır, sıradaki kampanya onun yerini alır ve 6 saat sonra otomatik olarak yeniden denenir — ilerleme daha önce geri dönerse daha erken, ancak yeniden denenen kampanya yine de o sırada kazılan kampanyanın arkasında bekleyebilir. Herhangi bir ilerleme bu bekleme süresini sıfırlar ve bu, her kampanya türü için geçerlidir (Drops, rozetler, görevler). Twitch bunun yerine aynı kategorideki başka bir kampanyayı sayarsa ve o kampanya tamamlanır veya alınırsa, bir kenara bırakma tam 6 saat beklemek yerine hemen kaldırılır. Uygulamayı veya sunucuyu yeniden başlatmak her bir kenara bırakmayı unutturur: takılı kalan bir kampanya basitçe yeni bir 30 dakika alır.
 
-Kampanya listesi [Twitch Drops API](https://drops.sunkwi.com) projesinden gelir (10 dakikada bir yenilenir), çünkü Twitch onu TV istemcisinden gizler.
+Kampanya listesi [Twitch Drops API](https://drops.sunkwi.com) projesinden gelir (5 dakikada bir yenilenir), çünkü Twitch onu TV istemcisinden gizler.
 
 ## <a name="faq"></a>Sık sorulan sorular
 

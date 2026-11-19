@@ -34,6 +34,7 @@ use crate::domain::{
     BadgeRef, Campaign, CampaignKind, Channel, Game, PointsState, PredictionEvent, Repeat,
     TimedDrop,
 };
+use crate::drops_api;
 use crate::error::{Error, ErrorCode, NetworkErrorKind, Result};
 use crate::events::{BetResult, EventContext, EventKind, MinerEvent, MinerKind};
 use crate::predictions;
@@ -216,6 +217,7 @@ pub struct AccountContext {
     pub http: Arc<TwitchHttp>,
     pub catalog: Arc<RwLock<Catalog>>,
     pub badges: Arc<RwLock<BadgeCatalog>>,
+    pub install_id: String,
     pub events: broadcast::Sender<MinerEvent>,
     pub stats: AccountStats,
     pub spends: BurstSpends,
@@ -262,6 +264,9 @@ struct AccountMiner<T> {
     pubsub_left_out: usize,
     goals_at: HashMap<String, tokio::time::Instant>,
     slots: Vec<ActiveSlot>,
+    // ! Channel id to when this account last saw it offline or refused by
+    // "Drops & More": a list read after that moment is trusted again.
+    seen_offline_or_refused: HashMap<String, DateTime<Utc>>,
     // ! The login is known only when this account placed the bet itself
     // (`place_due_bets`); `None` when Twitch's own echo of an external bet
     // (`PredictionMade`) inserts the entry first.
@@ -391,6 +396,7 @@ impl<T: TwitchApi> AccountMiner<T> {
             pubsub_left_out: 0,
             goals_at: HashMap::new(),
             slots: Vec::new(),
+            seen_offline_or_refused: HashMap::new(),
             predictions_placed: HashMap::new(),
             bets_tried: HashSet::new(),
             claims: ClaimRegistry::default(),

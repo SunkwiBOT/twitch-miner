@@ -32,7 +32,7 @@ use crate::config::{AccountSettings, AccountSettingsPatch, GlobalSettings};
 use crate::domain::Channel;
 use crate::error::{Error, ErrorCode, Result};
 use crate::events::{EventContext, EventKind, MinerEvent, PauseReason};
-use crate::feed::{Feed, REFRESH_INTERVAL};
+use crate::feed::{Feed, FeedAnswer};
 use crate::logs::LogFilter;
 use crate::notifications::Notifier;
 use crate::requests::{RequestCursor, RequestFilter, RequestLog, REPORT_MAX};
@@ -223,6 +223,7 @@ pub struct Manager {
     // ! Swapped when the default proxy changes: read through `http()` at each use.
     http: std::sync::RwLock<Arc<TwitchHttp>>,
     device_id: String,
+    install_id: String,
     catalog: Feed<Catalog>,
     badges: Feed<BadgeCatalog>,
     shell: Shell,
@@ -276,6 +277,14 @@ impl Manager {
                 id
             }
         };
+        let install_id = match store.get_setting("install_id")? {
+            Some(id) => id,
+            None => {
+                let id = crate::util::random_uuid_v4();
+                store.set_setting("install_id", &id)?;
+                id
+            }
+        };
 
         let vault = store.open_default_vault()?;
 
@@ -305,9 +314,10 @@ impl Manager {
             vault: RwLock::new(vault),
             http: std::sync::RwLock::new(Arc::new(http)),
             device_id,
+            install_id: install_id.clone(),
             catalog: Feed::new(
                 catalog,
-                CatalogClient::new(requests.clone(), shell)?,
+                CatalogClient::new(requests.clone(), shell, &install_id)?,
                 changed.clone(),
             ),
             badges: Feed::new(
@@ -512,22 +522,6 @@ impl Manager {
 
     fn next_badges_manual_refresh(&self) -> chrono::DateTime<Utc> {
         self.badges.next_manual_refresh()
-    }
-
-    fn next_manual_refresh(&self) -> chrono::DateTime<Utc> {
-        self.catalog.next_manual_refresh()
-    }
-
-    pub async fn refresh_catalog(&self) -> Result<RefreshCount> {
-        let (count, changed) = self.catalog.refresh_manual(&self.store).await?;
-
-        if changed {
-            self.refresh_all().await;
-        }
-
-        Ok(RefreshCount {
-            count: u32::try_from(count).unwrap_or(u32::MAX),
-        })
     }
 
     pub async fn refresh_badges(&self) -> Result<RefreshCount> {
@@ -1065,6 +1059,7 @@ impl Manager {
             http: Arc::new(http),
             catalog: self.catalog.state.clone(),
             badges: self.badges.state.clone(),
+            install_id: self.install_id.clone(),
             events: self.events.clone(),
             stats,
             spends: self.spam.spends(&record.id),
@@ -2193,7 +2188,8 @@ impl Manager {
 
         let catalog = self.catalog.state.read().await;
         let badges = self.badges.state.read().await;
-        let interval = REFRESH_INTERVAL.as_secs();
+        let catalog_interval = Catalog::REFRESH_INTERVAL.as_secs();
+        let badges_interval = BadgeCatalog::REFRESH_INTERVAL.as_secs();
         let mut recent_events: Vec<MinerEvent> = self.recent().iter().cloned().collect();
 
         for event in &mut recent_events {
@@ -2219,15 +2215,14 @@ impl Manager {
                 updated_at: catalog.updated_at,
                 fetched_at: catalog.fetched_at,
                 problem: catalog.problem,
-                interval_seconds: interval,
-                next_manual_refresh_at: self.next_manual_refresh(),
+                interval_seconds: catalog_interval,
             },
             badges: BadgeCatalogView {
                 read_at: badges.read_at,
                 updated_at: badges.updated_at,
                 fetched_at: badges.fetched_at,
                 problem: badges.problem,
-                interval_seconds: interval,
+                interval_seconds: badges_interval,
                 next_refresh_at: badges.next_refresh_at,
                 next_manual_refresh_at: self.next_badges_manual_refresh(),
             },

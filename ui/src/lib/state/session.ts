@@ -5,7 +5,6 @@ import {
   fetchStartupProblem,
   onCloseRequested,
   requestBadgesRefresh,
-  requestCatalogRefresh,
   sendCommand,
   subscribe,
 } from "../api/client";
@@ -184,13 +183,6 @@ const refreshFeed = async (
 
   await refresh();
 };
-
-export const refreshCatalog = (): Promise<void> =>
-  refreshFeed(
-    async () => (await requestCatalogRefresh()).count,
-    t.catalogue_refreshed_title,
-    t.catalogue_refreshed,
-  );
 
 export const refreshBadges = (): Promise<void> =>
   refreshFeed(

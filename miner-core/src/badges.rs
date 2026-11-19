@@ -1,4 +1,5 @@
 use std::collections::HashSet;
+use std::time::Duration;
 
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
@@ -10,7 +11,7 @@ use crate::domain::{
     BadgeRef, Benefit, BenefitKind, Campaign, CampaignKind, Evolution, Game, Repeat,
 };
 use crate::error::{Error, ErrorCode, Result};
-use crate::feed::{FeedAnswer, FeedClient};
+use crate::feed::{FeedAnswer, FeedClient, MANUAL_REFRESH_GAP, REFRESH_INTERVAL};
 use crate::http::too_large;
 use crate::requests::{RequestKind, RequestLog};
 use crate::twitch::drops::{parse_category, parse_repeat};
@@ -171,6 +172,8 @@ impl FeedAnswer for BadgeCatalog {
     const NAME: &'static str = "badge list";
     const CACHE_KEY: &'static str = "badges_cache";
     const KIND: RequestKind = RequestKind::Badges;
+    const REFRESH_INTERVAL: Duration = REFRESH_INTERVAL;
+    const MANUAL_REFRESH_GAP: Duration = MANUAL_REFRESH_GAP;
 
     fn parse(payload: &Value) -> Result<Self> {
         parse_badges(payload)

@@ -145,7 +145,7 @@ działa.
 
 - **Wszystkie trwające kampanie Drops.** Każda kampania ma własną kartę szczegółów: nagrody,
   połączenie konta wydawcy, „Kop najpierw”. Lista pochodzi z projektu
-  [Twitch Drops API](https://drops.sunkwi.com) i odświeża się co 10 minut.
+  [Twitch Drops API](https://drops.sunkwi.com) i odświeża się co 5 minut.
 
   <details open><summary>Zobacz w akcji</summary>
   <img src="../media/pl/drops-catalogue.avif" alt="Katalog w widoku kalendarza, wyszukiwarka i szczegóły kampanii">
@@ -458,7 +458,7 @@ odłożenie jest znoszone od razu, zamiast czekać pełne 6 godzin. Restart apli
 wszystkie odłożone kampanie: zablokowana kampania po prostu dostaje nowe 30 minut.
 
 Lista kampanii pochodzi z projektu [Twitch Drops API](https://drops.sunkwi.com) (odświeżana
-co 10 minut), bo Twitch ukrywa ją przed klientem TV.
+co 5 minut), bo Twitch ukrywa ją przed klientem TV.
 
 ## <a name="faq"></a>Najczęstsze pytania
 

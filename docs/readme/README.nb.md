@@ -147,7 +147,7 @@ bruk.
 
 - **Alle pågående Drops-kampanjer.** Hver kampanje har sine egne detaljer: belønninger,
   kobling av utgiverkontoen, «Sett først i mining-rekkefølgen». Listen kommer fra prosjektet
-  [Twitch Drops API](https://drops.sunkwi.com) og oppdateres hvert 10. minutt.
+  [Twitch Drops API](https://drops.sunkwi.com) og oppdateres hvert 5. minutt.
 
   <details open><summary>Se det i aksjon</summary>
   <img src="../media/nb/drops-catalogue.avif" alt="Katalogen som kalender, søket og detaljene til en kampanje">
@@ -467,7 +467,7 @@ glemmer alle kampanjer som er satt til side: en fastlåst kampanje får rett og 
 nye minutter.
 
 Kampanjelisten kommer fra prosjektet [Twitch Drops API](https://drops.sunkwi.com)
-(oppdatert hvert 10. minutt), fordi Twitch skjuler den for TV-klienten.
+(oppdatert hvert 5. minutt), fordi Twitch skjuler den for TV-klienten.
 
 ## <a name="faq"></a>Vanlige spørsmål
 

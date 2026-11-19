@@ -146,7 +146,7 @@ arbete.
 
 - **Alla pågående Drops-kampanjer.** Varje kampanj har sina egna detaljer: belöningar,
   länkning av utgivarkontot, ”Mina först”. Listan kommer från projektet
-  [Twitch Drops API](https://drops.sunkwi.com) och uppdateras var 10:e minut.
+  [Twitch Drops API](https://drops.sunkwi.com) och uppdateras var 5:e minut.
 
   <details open><summary>Se det i aktion</summary>
   <img src="../media/sv/drops-catalogue.avif" alt="Katalogen som kalender, sökningen och en kampanjs detaljer">
@@ -461,7 +461,7 @@ kampanj i samma kategori, och den kampanjen avslutas eller hämtas ut, hävs
 alla åtsidosättningar: en fastnad kampanj får helt enkelt 30 nya minuter.
 
 Kampanjlistan kommer från projektet [Twitch Drops API](https://drops.sunkwi.com)
-(uppdateras var 10:e minut), eftersom Twitch döljer den för tv-klienten.
+(uppdateras var 5:e minut), eftersom Twitch döljer den för tv-klienten.
 
 ## <a name="faq"></a>Vanliga frågor
 

@@ -296,7 +296,6 @@
   "settings_language": "Jazyk",
   "settings_theme": "Vzhled",
   "settings_catalog": "Katalog kampaní",
-  "settings_catalog_refresh": "Obnovit nyní",
   "settings_notifications": "Oznámení",
   "settings_notifications_events": "Oznamovat při",
   "settings_notifications_targets": "Odesílat do",
@@ -474,7 +473,7 @@
   "settings_feedback_text": "U chyby přiložte protokoly ze stránky Technické protokoly: neobsahují žádné tajné údaje.",
   "feedback_discord_text": "Otevřít tiket nebo si popovídat s komunitou",
   "feedback_github_text": "Otevřít issue: chyba nebo nápad",
-  "settings_catalog_text": "Seznam kampaní pochází z drops.sunkwi.com a obnovuje se každých 10 minut.",
+  "settings_catalog_text": "Seznam kampaní pochází z drops.sunkwi.com a obnovuje se každých {minutes} minut.",
   "account_proxy": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -779,20 +778,8 @@
   "timeline_left": "zbývá {time}",
   "timeline_show_all": "Zobrazit všechny kategorie ({count})",
   "timeline_zoom": "Přiblížení",
-  "catalogue_intro": "Všechny kampaně Twitch Drops, obnovované každých 10 minut z {site}.",
+  "catalogue_intro": "Všechny kampaně Twitch Drops, obnovované každých {minutes} minut z {site}.",
   "catalogue_last_update": "Aktualizováno {time}",
-  "catalogue_refreshed": [
-    {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
-      "selectors": ["countPlural"],
-      "match": {
-        "countPlural=one": "{shown} kampaň",
-        "countPlural=few": "{shown} kampaně",
-        "countPlural=*": "{shown} kampaní"
-      }
-    }
-  ],
-  "catalogue_refreshed_title": "Katalog obnoven",
   "common_refresh_wait": "Dostupné za {time}",
   "campaign_prioritized": "Umístěno na začátek pořadí těžby",
   "campaign_ignored": "Kampaň ignorována",

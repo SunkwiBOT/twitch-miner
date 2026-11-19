@@ -147,7 +147,7 @@ brug.
 
 - **Alle igangværende Drops-kampagner.** Hver kampagne har sine egne detaljer:
   belønninger, tilknytning af udgiverkontoen, »Sæt først i mining-rækkefølgen«. Listen kommer
-  fra projektet [Twitch Drops API](https://drops.sunkwi.com) og opdateres hvert 10. minut.
+  fra projektet [Twitch Drops API](https://drops.sunkwi.com) og opdateres hvert 5. minut.
 
   <details open><summary>Se det i aktion</summary>
   <img src="../media/da/drops-catalogue.avif" alt="Kataloget som kalender, søgningen og en kampagnes detaljer">
@@ -465,7 +465,7 @@ med det samme i stedet for at vente de fulde 6 timer. Genstart af app eller serv
 kampagner sat til side: en fastlåst kampagne får simpelthen 30 friske minutter.
 
 Kampagnelisten kommer fra projektet [Twitch Drops API](https://drops.sunkwi.com)
-(opdateret hvert 10. minut), fordi Twitch skjuler den for tv-klienten.
+(opdateret hvert 5. minut), fordi Twitch skjuler den for tv-klienten.
 
 ## <a name="faq"></a>Ofte stillede spørgsmål
 

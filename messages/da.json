@@ -288,7 +288,6 @@
   "settings_language": "Sprog",
   "settings_theme": "Tema",
   "settings_catalog": "Kampagnekatalog",
-  "settings_catalog_refresh": "Opdater nu",
   "settings_notifications": "Notifikationer",
   "settings_notifications_events": "Giv besked ved",
   "settings_notifications_targets": "Send til",
@@ -464,7 +463,7 @@
   "settings_feedback_text": "Ved en fejl skal du vedhæfte logfilerne fra siden Tekniske logfiler: de indeholder ingen hemmeligheder.",
   "feedback_discord_text": "Åbn en ticket eller snak med fællesskabet",
   "feedback_github_text": "Åbn et issue: en fejl eller en idé",
-  "settings_catalog_text": "Kampagnelisten kommer fra drops.sunkwi.com, opdateret hvert 10. minut.",
+  "settings_catalog_text": "Kampagnelisten kommer fra drops.sunkwi.com, opdateret hvert {minutes}. minut.",
   "account_proxy": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -659,19 +658,8 @@
   "timeline_left": "{time} tilbage",
   "timeline_show_all": "Vis alle {count} kategorier",
   "timeline_zoom": "Zoom",
-  "catalogue_intro": "Alle Twitch Drops-kampagner, opdateret hvert 10. minut fra {site}.",
+  "catalogue_intro": "Alle Twitch Drops-kampagner, opdateret hvert {minutes}. minut fra {site}.",
   "catalogue_last_update": "Opdateret {time}",
-  "catalogue_refreshed": [
-    {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
-      "selectors": ["countPlural"],
-      "match": {
-        "countPlural=one": "{shown} kampagne",
-        "countPlural=*": "{shown} kampagner"
-      }
-    }
-  ],
-  "catalogue_refreshed_title": "Katalog opdateret",
   "common_refresh_wait": "Tilgængelig om {time}",
   "campaign_prioritized": "Placeret øverst i mining-rækkefølgen",
   "campaign_ignored": "Kampagne ignoreret",

@@ -7,7 +7,6 @@ export enum HttpMethod {
 export enum TauriCommand {
   SNAPSHOT = "snapshot",
   COMMAND = "command",
-  REFRESH_CATALOG = "refresh_catalog",
   REFRESH_BADGES = "refresh_badges",
   START_LOGIN = "start_login",
   CHECK_PASTED_TOKEN = "check_pasted_token",

@@ -84,7 +84,6 @@ type HttpBodyType = { params?: object; data?: unknown; signal?: AbortSignal };
 const ROUTES = {
   [TauriCommand.SNAPSHOT]: { route: RoutesApi.SNAPSHOT, method: HttpMethod.GET },
   [TauriCommand.COMMAND]: { route: RoutesApi.COMMAND, method: HttpMethod.POST },
-  [TauriCommand.REFRESH_CATALOG]: { route: RoutesApi.CATALOG_REFRESH, method: HttpMethod.POST },
   [TauriCommand.REFRESH_BADGES]: { route: RoutesApi.BADGES_REFRESH, method: HttpMethod.POST },
   [TauriCommand.START_LOGIN]: { route: RoutesApi.LOGIN_FLOW, method: HttpMethod.POST },
   [TauriCommand.CHECK_PASTED_TOKEN]: {
@@ -143,9 +142,6 @@ export const fetchSnapshot = async (): Promise<SnapshotType> =>
 export const sendCommand = async (command: CommandType): Promise<void> => {
   await transport(TauriCommand.COMMAND, { data: command }, { command });
 };
-
-export const requestCatalogRefresh = async (): Promise<RefreshCountType> =>
-  (await transport(TauriCommand.REFRESH_CATALOG, {})).refresh;
 
 export const requestBadgesRefresh = async (): Promise<RefreshCountType> =>
   (await transport(TauriCommand.REFRESH_BADGES, {})).refresh;

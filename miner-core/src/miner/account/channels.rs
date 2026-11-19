@@ -172,15 +172,31 @@ impl<T: TwitchApi> AccountMiner<T> {
     pub(super) async fn refresh_drops_channels(&mut self) -> Result<()> {
         let campaigns: Vec<Campaign> = self.campaigns.values().cloned().collect();
         let ranked = scheduler::rank_campaigns(&self.settings, &campaigns, Utc::now());
+        let now = Utc::now();
+
+        self.seen_offline_or_refused
+            .retain(|_, at| now - *at < drops_api::LIVE_CHANNELS_MAX_AGE);
+
         let watched = self.drops_watch();
         let chosen = self.campaigns_to_look_up(&ranked, watched.as_ref());
-        let lookup = lookup_targets(&chosen, self.category_turn);
+        let api_channels = self.fresh_api_channels(&ranked).await;
+        let need_lookup: Vec<&Campaign> = chosen
+            .iter()
+            .copied()
+            .filter(|c| !api_channels.contains_key(&c.id))
+            .collect();
+        let lookup = lookup_targets(&need_lookup, self.category_turn);
 
         self.category_turn = self.category_turn.wrapping_add(CATEGORIES_READ - 1);
 
         let directory = self.read_directories(lookup.games).await?;
-        let missing =
-            self.unlisted_watch(watched.as_ref(), &chosen, &directory, &lookup.by_directory);
+        let missing = self.unlisted_watch(
+            watched.as_ref(),
+            &chosen,
+            &directory,
+            &lookup.by_directory,
+            &api_channels,
+        );
         let allowed_logins = lookup.logins;
         let mut logins = allowed_logins.clone();
 
@@ -219,25 +235,80 @@ impl<T: TwitchApi> AccountMiner<T> {
         self.ask_offered_drops(&chosen, &directory, recheck.clone())
             .await;
 
-        let kept = missing_now.as_ref().and_then(|(campaign_id, now)| {
-            let campaign = self.campaigns.get(campaign_id)?;
-            let kept = self.still_watched(campaign, watched.as_ref(), now.as_ref())?;
+        let mut kept: Option<(String, Channel)> = None;
 
-            Some((campaign_id.clone(), kept))
-        });
+        if let Some((campaign_id, now)) = missing_now.as_ref() {
+            if let Some(campaign) = self.campaigns.get(campaign_id).cloned() {
+                let result = self.still_watched(&campaign, watched.as_ref(), now.as_ref());
+
+                if result.is_none() && now.is_some() {
+                    if let Some((_, channel)) = watched.as_ref() {
+                        self.seen_offline_or_refused
+                            .insert(channel.id.clone(), Utc::now());
+                    }
+                }
+
+                kept = result.map(|channel| (campaign_id.clone(), channel));
+            }
+        }
         let looked_up: HashSet<&str> = chosen.iter().map(|c| c.id.as_str()).collect();
 
-        self.live_by_campaign = self.live_channels(
-            &ranked,
-            &looked_up,
-            &directory,
-            &lookup.by_directory,
-            allowed.as_deref(),
-            kept.as_ref(),
-        );
+        let sources = ChannelSources {
+            directory: &directory,
+            by_directory: &lookup.by_directory,
+            allowed: allowed.as_deref(),
+            api_channels: &api_channels,
+        };
+
+        self.live_by_campaign =
+            self.live_channels(&ranked, &looked_up, &sources, missing, kept.as_ref());
         self.forget_stale_offers(&directory, recheck.as_ref());
 
         Ok(())
+    }
+
+    // ! Only a non-quest campaign: a Quest still needs the "Drops & More"
+    // cross-check (`ask_offered_drops`), which the catalogue's `liveChannels`
+    // cannot answer. Costs no Twitch call, so every ranked campaign is served,
+    // not just the ones this pass looks up.
+    async fn fresh_api_channels(
+        &self,
+        ranked: &[(&Campaign, QueueReason)],
+    ) -> HashMap<String, Vec<Channel>> {
+        let catalog = self.context.catalog.read().await;
+        let now = Utc::now();
+
+        ranked
+            .iter()
+            .map(|(c, _)| *c)
+            .filter(|c| c.kind != CampaignKind::Quest)
+            .filter_map(|c| {
+                let entry = catalog.live_channels.get(&c.id)?;
+
+                if entry.read_at > now
+                    || now - entry.read_at >= drops_api::LIVE_CHANNELS_MAX_AGE
+                    || entry.channels.is_empty()
+                {
+                    return None;
+                }
+
+                // ! A channel seen offline or refused since the list was last
+                // read is dropped until a fresher list vouches for it again:
+                // otherwise it comes right back and is watched in a loop.
+                let channels: Vec<Channel> = entry
+                    .channels
+                    .iter()
+                    .filter(|channel| {
+                        self.seen_offline_or_refused
+                            .get(&channel.id)
+                            .is_none_or(|seen_at| entry.read_at > *seen_at)
+                    })
+                    .cloned()
+                    .collect();
+
+                (!channels.is_empty()).then_some((c.id.clone(), channels))
+            })
+            .collect()
     }
 
     pub(super) fn campaigns_to_look_up<'a>(
@@ -307,19 +378,25 @@ impl<T: TwitchApi> AccountMiner<T> {
     }
 
     // ! A game's directory lists only 30 channels, by relevance: the channel the
-    // Drops slot watches can be missing from it.
+    // Drops slot watches can be missing from it. A campaign the catalogue's
+    // `liveChannels` covers skips the directory entirely, so its watched
+    // channel is verified directly every pass instead: that list only
+    // refreshes every 5 minutes and could still call it live after it drops.
     pub(super) fn unlisted_watch<'w>(
         &self,
         watched: Option<&'w (String, Channel)>,
         chosen: &[&Campaign],
         directory: &HashMap<String, Vec<Channel>>,
         by_directory: &HashSet<String>,
+        api_channels: &HashMap<String, Vec<Channel>>,
     ) -> Option<&'w (String, Channel)> {
         watched.filter(|(campaign_id, channel)| {
             chosen.iter().any(|campaign| campaign.id == *campaign_id)
                 && self.campaigns.get(campaign_id).is_some_and(|campaign| {
-                    (campaign.allowed_channels.is_empty() || by_directory.contains(&campaign.id))
-                        && listed(directory, campaign, &channel.id) == Some(false)
+                    api_channels.contains_key(&campaign.id)
+                        || ((campaign.allowed_channels.is_empty()
+                            || by_directory.contains(&campaign.id))
+                            && listed(directory, campaign, &channel.id) == Some(false))
                 })
         })
     }
@@ -344,15 +421,24 @@ impl<T: TwitchApi> AccountMiner<T> {
         &self,
         ranked: &[(&Campaign, QueueReason)],
         looked_up: &HashSet<&str>,
-        directory: &HashMap<String, Vec<Channel>>,
-        by_directory: &HashSet<String>,
-        allowed: Option<&[Channel]>,
+        sources: &ChannelSources<'_>,
+        missing: Option<&(String, Channel)>,
         kept: Option<&(String, Channel)>,
     ) -> HashMap<String, Vec<Channel>> {
+        let ChannelSources {
+            directory,
+            by_directory,
+            allowed,
+            api_channels,
+        } = *sources;
+
         let mut live_by_campaign: HashMap<String, Vec<Channel>> = HashMap::new();
 
         for (campaign, _) in ranked {
-            let fresh = if !looked_up.contains(campaign.id.as_str()) {
+            let is_api = api_channels.contains_key(&campaign.id);
+            let fresh = if let Some(channels) = api_channels.get(&campaign.id) {
+                Some(channels.clone())
+            } else if !looked_up.contains(campaign.id.as_str()) {
                 None
             } else if campaign.allowed_channels.is_empty() || by_directory.contains(&campaign.id) {
                 let mut found: Option<Vec<Channel>> = None;
@@ -387,26 +473,52 @@ impl<T: TwitchApi> AccountMiner<T> {
                 continue;
             };
 
+            // ! A campaign's `liveChannels` can still be stale about the one
+            // channel just verified above: drop any copy of it before maybe
+            // putting the verified state back.
+            if let Some((campaign_id, channel)) = missing {
+                if campaign_id == &campaign.id {
+                    live.retain(|c| c.id != channel.id);
+                }
+            }
+
             if let Some((_, channel)) = kept.filter(|(campaign_id, _)| *campaign_id == campaign.id)
             {
                 live.push(channel.clone());
             }
 
+            // ! The own read is authoritative for a login this account lists:
+            // it replaces a stale copy, and for an API list (whose entries can
+            // only be as fresh as the last catalogue fetch) removes it outright
+            // once it is no longer live on a counted category.
             for channel in self.streamer_channels.values() {
-                if !channel.live
-                    || !campaign.accepts_channel(&channel.id)
-                    || !channel
+                if !campaign.accepts_channel(&channel.id) {
+                    continue;
+                }
+
+                let counts = channel.live
+                    && channel
                         .game
                         .as_ref()
-                        .is_some_and(|game| campaign.plays(game))
-                {
+                        .is_some_and(|game| campaign.plays(game));
+
+                if !counts {
+                    if is_api {
+                        live.retain(|c| c.id != channel.id);
+                    }
+
                     continue;
                 }
 
                 let offered = self.offers(channel, &campaign.id);
 
                 match live.iter_mut().find(|c| c.id == channel.id) {
-                    Some(known) => known.drops_enabled |= offered,
+                    Some(known) => {
+                        *known = Channel {
+                            drops_enabled: offered || known.drops_enabled,
+                            ..channel.clone()
+                        };
+                    }
                     None => live.push(Channel {
                         drops_enabled: offered,
                         ..channel.clone()
@@ -421,6 +533,12 @@ impl<T: TwitchApi> AccountMiner<T> {
                     .map(|(_, channel)| channel.id.as_str());
 
                 live.retain(|c| Some(c.id.as_str()) == kept_id || self.offers(c, &campaign.id));
+            }
+
+            if !is_api {
+                live.sort_by_cached_key(|channel| {
+                    drops_api::shuffle_key(&self.context.install_id, &channel.id)
+                });
             }
 
             live_by_campaign.insert(campaign.id.clone(), live);
@@ -599,6 +717,14 @@ impl<T: TwitchApi> AccountMiner<T> {
         self.offered(channel)
             .is_some_and(|offered| offered.campaign_ids.iter().any(|id| id == campaign_id))
     }
+}
+
+#[derive(Clone, Copy)]
+pub(super) struct ChannelSources<'a> {
+    pub(super) directory: &'a HashMap<String, Vec<Channel>>,
+    pub(super) by_directory: &'a HashSet<String>,
+    pub(super) allowed: Option<&'a [Channel]>,
+    pub(super) api_channels: &'a HashMap<String, Vec<Channel>>,
 }
 
 pub(super) struct Lookup {

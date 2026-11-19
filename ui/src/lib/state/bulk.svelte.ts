@@ -8,8 +8,6 @@ import { type AccountChangeType, wouldChange } from "./bulk.utils";
 import { accountImage, toast } from "./toasts";
 import type { ToastSubjectType } from "./toasts";
 
-export type { AccountChangeType } from "./bulk.utils";
-
 type BulkStateType = { open: boolean; sourceId: string | null; changes: AccountChangeType[] };
 
 export const bulk = $state<BulkStateType>({ open: false, sourceId: null, changes: [] });

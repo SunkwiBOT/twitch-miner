@@ -149,7 +149,7 @@ im Einsatz.
 
 - **Alle laufenden Drops-Kampagnen.** Jede Kampagne hat ihre eigenen Details: Belohnungen,
   Verknüpfung des Herausgeberkontos, „Vorrangig minen“. Die Liste stammt aus dem Projekt
-  [Twitch Drops API](https://drops.sunkwi.com) und wird alle 10 Minuten aktualisiert.
+  [Twitch Drops API](https://drops.sunkwi.com) und wird alle 5 Minuten aktualisiert.
 
   <details open><summary>In Aktion ansehen</summary>
   <img src="../media/de/drops-catalogue.avif" alt="Der Katalog als Kalender, die Suche und die Details einer Kampagne">
@@ -482,7 +482,7 @@ zurückgestellte Kampagne: Eine festhängende Kampagne erhält einfach wieder fr
 30 Minuten.
 
 Die Kampagnenliste stammt aus dem Projekt [Twitch Drops API](https://drops.sunkwi.com)
-(alle 10 Minuten aktualisiert), weil Twitch sie vor dem TV-Client verbirgt.
+(alle 5 Minuten aktualisiert), weil Twitch sie vor dem TV-Client verbirgt.
 
 ## <a name="faq"></a>Häufige Fragen
 

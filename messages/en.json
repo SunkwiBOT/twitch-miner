@@ -290,7 +290,6 @@
   "settings_language": "Language",
   "settings_theme": "Theme",
   "settings_catalog": "Campaign catalogue",
-  "settings_catalog_refresh": "Refresh now",
   "settings_notifications": "Notifications",
   "settings_notifications_events": "Notify on",
   "settings_notifications_targets": "Send to",
@@ -469,7 +468,7 @@
   "settings_feedback_text": "For a bug, attach the logs from the Technical logs page: they contain no secret.",
   "feedback_discord_text": "Open a ticket or chat with the community",
   "feedback_github_text": "Open an issue: a bug or an idea",
-  "settings_catalog_text": "The campaign list comes from drops.sunkwi.com, refreshed every 10 minutes.",
+  "settings_catalog_text": "The campaign list comes from drops.sunkwi.com, refreshed every {minutes} minutes.",
   "account_proxy": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -784,19 +783,8 @@
   "timeline_left": "{time} left",
   "timeline_show_all": "Show all {count} categories",
   "timeline_zoom": "Zoom",
-  "catalogue_intro": "All Twitch Drops campaigns, refreshed every 10 minutes from {site}.",
+  "catalogue_intro": "All Twitch Drops campaigns, refreshed every {minutes} minutes from {site}.",
   "catalogue_last_update": "Updated {time}",
-  "catalogue_refreshed": [
-    {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
-      "selectors": ["countPlural"],
-      "match": {
-        "countPlural=one": "{shown} campaign",
-        "countPlural=*": "{shown} campaigns"
-      }
-    }
-  ],
-  "catalogue_refreshed_title": "Catalogue refreshed",
   "common_refresh_wait": "Available in {time}",
   "campaign_prioritized": "Placed at the top of the mining order",
   "campaign_ignored": "Campaign ignored",

@@ -288,7 +288,6 @@
   "settings_language": "Lingua",
   "settings_theme": "Tema",
   "settings_catalog": "Catalogo campagne",
-  "settings_catalog_refresh": "Aggiorna ora",
   "settings_notifications": "Notifiche",
   "settings_notifications_events": "Notifica per",
   "settings_notifications_targets": "Invia a",
@@ -464,7 +463,7 @@
   "settings_feedback_text": "Per un bug, allega i log dalla pagina Log tecnici: non contengono segreti.",
   "feedback_discord_text": "Apri un ticket o chiacchiera con la community",
   "feedback_github_text": "Apri una issue: un bug o un'idea",
-  "settings_catalog_text": "L'elenco delle campagne proviene da drops.sunkwi.com, aggiornato ogni 10 minuti.",
+  "settings_catalog_text": "L'elenco delle campagne proviene da drops.sunkwi.com, aggiornato ogni {minutes} minuti.",
   "account_proxy": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -758,19 +757,8 @@
   "timeline_left": "mancano {time}",
   "timeline_show_all": "Mostra tutte le {count} categorie",
   "timeline_zoom": "Zoom",
-  "catalogue_intro": "Tutte le campagne Twitch Drops, aggiornate ogni 10 minuti da {site}.",
+  "catalogue_intro": "Tutte le campagne Twitch Drops, aggiornate ogni {minutes} minuti da {site}.",
   "catalogue_last_update": "Aggiornato {time}",
-  "catalogue_refreshed": [
-    {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
-      "selectors": ["countPlural"],
-      "match": {
-        "countPlural=one": "{shown} campagna",
-        "countPlural=*": "{shown} campagne"
-      }
-    }
-  ],
-  "catalogue_refreshed_title": "Catalogo aggiornato",
   "common_refresh_wait": "Disponibile tra {time}",
   "campaign_prioritized": "Messa in cima all'ordine di mining",
   "campaign_ignored": "Campagna ignorata",

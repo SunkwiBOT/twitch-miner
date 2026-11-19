@@ -122,7 +122,7 @@ Hal-hal yang membedakannya dari penambang lain. “Lihat langsung” di bawah se
 
 ### Drops
 
-- **Semua kampanye Drops yang sedang berjalan.** Setiap kampanye punya detailnya sendiri: hadiah, penautan akun penerbit, “Tambang lebih dulu”. Daftarnya berasal dari proyek [Twitch Drops API](https://drops.sunkwi.com) dan diperbarui setiap 10 menit.
+- **Semua kampanye Drops yang sedang berjalan.** Setiap kampanye punya detailnya sendiri: hadiah, penautan akun penerbit, “Tambang lebih dulu”. Daftarnya berasal dari proyek [Twitch Drops API](https://drops.sunkwi.com) dan diperbarui setiap 5 menit.
 
   <details open><summary>Lihat langsung</summary>
   <img src="../media/id/drops-catalogue.avif" alt="Katalog dalam tampilan kalender, pencarian, dan detail sebuah kampanye">
@@ -346,7 +346,7 @@ Jika Twitch tidak membuat kampanye teratas maju setelah 30 menit menonton sunggu
 
 Twitch menghitung **satu kampanye Drops** dan **dua channel untuk poin** sekaligus per akun. Sejak Oktober 2026, drop hanya bisa diklaim jika akun penerbit sudah tertaut. Kampanye yang belum tertaut tetap berjalan, dan dasbor menampilkan tautan untuk menautkannya.
 
-Daftar kampanye berasal dari proyek [Twitch Drops API](https://drops.sunkwi.com) (diperbarui setiap 10 menit), karena Twitch menyembunyikannya dari klien TV.
+Daftar kampanye berasal dari proyek [Twitch Drops API](https://drops.sunkwi.com) (diperbarui setiap 5 menit), karena Twitch menyembunyikannya dari klien TV.
 
 ## <a name="faq"></a>Pertanyaan umum
 

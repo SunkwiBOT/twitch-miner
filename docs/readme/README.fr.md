@@ -147,7 +147,7 @@ Ce qui le distingue des autres mineurs. « Voir en image » montre chaque poin
 
 - **Toutes les campagnes Drops en cours.** Chaque campagne a sa fiche : récompenses,
   liaison du compte de l'éditeur, « Miner en priorité ». La liste vient du projet
-  [Twitch Drops API](https://drops.sunkwi.com) et se rafraîchit toutes les 10 minutes.
+  [Twitch Drops API](https://drops.sunkwi.com) et se rafraîchit toutes les 5 minutes.
 
   <details open><summary>Voir en image</summary>
   <img src="../media/fr/drops-catalogue.avif" alt="Le Catalogue en calendrier, la recherche et la fiche d'une campagne">
@@ -469,7 +469,7 @@ serveur oublie toute
 mise de côté : une campagne bloquée repart simplement avec 30 minutes neuves.
 
 La liste des campagnes vient du projet [Twitch Drops API](https://drops.sunkwi.com)
-(actualisée toutes les 10 minutes), parce que Twitch la cache au client TV.
+(actualisée toutes les 5 minutes), parce que Twitch la cache au client TV.
 
 ## <a name="faq"></a>Questions fréquentes
 

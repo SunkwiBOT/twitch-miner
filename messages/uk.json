@@ -316,7 +316,6 @@
   "settings_language": "Мова",
   "settings_theme": "Тема",
   "settings_catalog": "Каталог кампаній",
-  "settings_catalog_refresh": "Оновити зараз",
   "settings_notifications": "Сповіщення",
   "settings_notifications_events": "Сповіщати про",
   "settings_notifications_targets": "Куди надсилати",
@@ -494,7 +493,7 @@
   "settings_feedback_text": "Для бага додайте логи зі сторінки «Технічні логи»: у них немає секретів.",
   "feedback_discord_text": "Створіть тікет або поспілкуйтеся зі спільнотою",
   "feedback_github_text": "Відкрийте issue: баг або ідея",
-  "settings_catalog_text": "Список кампаній береться з drops.sunkwi.com і оновлюється кожні 10 хвилин.",
+  "settings_catalog_text": "Список кампаній береться з drops.sunkwi.com і оновлюється кожні {minutes} хвилин.",
   "account_proxy": [
     {
       "declarations": [
@@ -704,20 +703,8 @@
   "timeline_left": "залишилося {time}",
   "timeline_show_all": "Показати всі категорії ({count})",
   "timeline_zoom": "Масштаб",
-  "catalogue_intro": "Усі кампанії Twitch Drops із {site}, оновлення кожні 10 хвилин.",
+  "catalogue_intro": "Усі кампанії Twitch Drops із {site}, оновлення кожні {minutes} хвилин.",
   "catalogue_last_update": "Оновлено {time}",
-  "catalogue_refreshed": [
-    {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
-      "selectors": ["countPlural"],
-      "match": {
-        "countPlural=one": "{shown} кампанія",
-        "countPlural=few": "{shown} кампанії",
-        "countPlural=*": "{shown} кампаній"
-      }
-    }
-  ],
-  "catalogue_refreshed_title": "Каталог оновлено",
   "common_refresh_wait": "Доступно через {time}",
   "campaign_prioritized": "Переміщено на початок порядку майнінгу",
   "campaign_ignored": "Кампанія ігнорується",

@@ -122,7 +122,7 @@ Những gì làm nên khác biệt so với các trình đào khác. “Xem minh
 
 ### Drops
 
-- **Mọi chiến dịch Drops đang diễn ra.** Mỗi chiến dịch có phần chi tiết riêng: phần thưởng, liên kết tài khoản nhà phát hành, “Đào trước”. Danh sách lấy từ dự án [Twitch Drops API](https://drops.sunkwi.com) và được làm mới mỗi 10 phút.
+- **Mọi chiến dịch Drops đang diễn ra.** Mỗi chiến dịch có phần chi tiết riêng: phần thưởng, liên kết tài khoản nhà phát hành, “Đào trước”. Danh sách lấy từ dự án [Twitch Drops API](https://drops.sunkwi.com) và được làm mới mỗi 5 phút.
 
   <details open><summary>Xem minh họa</summary>
   <img src="../media/vi/drops-catalogue.avif" alt="Danh mục dạng lịch, ô tìm kiếm và chi tiết một chiến dịch">
@@ -333,7 +333,7 @@ Twitch chỉ tính **một chiến dịch Drops** và **hai kênh cho điểm** 
 
 Nếu tiến độ của Twitch đối với chiến dịch đứng đầu không nhúc nhích sau 30 phút xem thực sự, nghĩa là nó không tính chiến dịch đó: tài khoản gạt chiến dịch đó sang một bên, chiến dịch xếp hạng kế tiếp chiếm chỗ, và việc thử lại diễn ra tự động 6 giờ sau — sớm hơn nếu tiến độ xuất hiện trở lại trước đó, dù chiến dịch được thử lại vẫn có thể phải chờ sau chiến dịch đang được đào. Bất kỳ tiến độ nào cũng đặt lại thời gian chờ, và điều này áp dụng cho mọi loại chiến dịch (Drops, huy hiệu, nhiệm vụ). Nếu Twitch tính một chiến dịch khác cùng thể loại thay vào đó, và chiến dịch đó hoàn tất hoặc được nhận, việc gạt sang một bên sẽ được gỡ ngay lập tức thay vì chờ đủ 6 giờ. Khởi động lại ứng dụng hoặc máy chủ sẽ quên mọi lần gạt sang một bên: một chiến dịch bị kẹt đơn giản sẽ có 30 phút mới.
 
-Danh sách chiến dịch lấy từ dự án [Twitch Drops API](https://drops.sunkwi.com) (làm mới mỗi 10 phút), vì Twitch ẩn danh sách này khỏi client TV.
+Danh sách chiến dịch lấy từ dự án [Twitch Drops API](https://drops.sunkwi.com) (làm mới mỗi 5 phút), vì Twitch ẩn danh sách này khỏi client TV.
 
 ## <a name="faq"></a>Câu hỏi thường gặp
 

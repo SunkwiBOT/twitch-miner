@@ -1,7 +1,8 @@
 // ! Twitch does not show the campaign list to the TV client, so campaigns
 // come from this public catalogue.
 
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
+use std::time::Duration;
 
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
@@ -9,6 +10,7 @@ use serde_json::Value;
 
 use crate::api::Shell;
 use crate::domain::Campaign;
+use crate::drops_api::{parse_campaign_channels, CampaignChannels, CATALOG_REFRESH_INTERVAL};
 use crate::error::{Error, ErrorCode, Result};
 use crate::feed::{FeedAnswer, FeedClient};
 use crate::http::too_large;
@@ -29,12 +31,16 @@ pub struct Catalog {
     pub fetched_at: Option<DateTime<Utc>>,
     #[serde(skip)]
     pub problem: Option<ErrorCode>,
+    #[serde(skip)]
+    pub(crate) live_channels: HashMap<String, CampaignChannels>,
 }
 
 impl FeedAnswer for Catalog {
     const NAME: &'static str = "catalogue";
     const CACHE_KEY: &'static str = "catalog_cache";
     const KIND: RequestKind = RequestKind::Catalog;
+    const REFRESH_INTERVAL: Duration = CATALOG_REFRESH_INTERVAL;
+    const MANUAL_REFRESH_GAP: Duration = CATALOG_REFRESH_INTERVAL;
 
     fn parse(payload: &Value) -> Result<Self> {
         parse_catalog(payload)
@@ -55,16 +61,23 @@ impl FeedAnswer for Catalog {
     fn set_problem(&mut self, problem: Option<ErrorCode>) {
         self.problem = problem;
     }
+
+    // ! `liveChannels` refreshes every poll regardless, so only a change to
+    // the campaigns themselves counts as a meaningful update.
+    fn meaningfully_changed(&self, previous: &Self) -> bool {
+        self.campaigns != previous.campaigns
+    }
 }
 
 pub type CatalogClient = FeedClient<Catalog>;
 
 impl CatalogClient {
-    pub fn new(requests: RequestLog, shell: Shell) -> Result<Self> {
-        Self::with_url(
+    pub fn new(requests: RequestLog, shell: Shell, install_id: &str) -> Result<Self> {
+        Self::with_headers(
             &crate::drops_api::catalog_url(),
             requests,
             &crate::user_agent(shell),
+            &[("x-install-id", install_id.to_owned())],
         )
     }
 }
@@ -75,6 +88,7 @@ pub fn parse_catalog(payload: &Value) -> Result<Catalog> {
         .ok_or_else(|| Error::InvalidResponse("catalogue games must be a list".into()))?;
 
     let mut campaigns = Vec::new();
+    let mut live_channels = HashMap::new();
 
     for game in records {
         let box_art = game["gameBoxArtURL"].as_str().map(str::to_owned);
@@ -91,6 +105,10 @@ pub fn parse_catalog(payload: &Value) -> Result<Catalog> {
             if let Some(mut campaign) = parse_campaign(record, false) {
                 if campaign.game.box_art_url.is_none() {
                     campaign.game.box_art_url = box_art.clone();
+                }
+
+                if let Some(channels) = parse_campaign_channels(record) {
+                    live_channels.entry(campaign.id.clone()).or_insert(channels);
                 }
 
                 campaigns.push(campaign);
@@ -121,5 +139,6 @@ pub fn parse_catalog(payload: &Value) -> Result<Catalog> {
             .and_then(|v| v.parse::<DateTime<Utc>>().ok()),
         fetched_at: Some(now),
         problem: None,
+        live_channels,
     })
 }

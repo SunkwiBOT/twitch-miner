@@ -145,7 +145,7 @@ What sets it apart from other miners. “See it in action” under a point shows
 
 - **Every running Drops campaign.** Each campaign has its own details: rewards, publisher
   account linking, “Mine first”. The list comes from the
-  [Twitch Drops API](https://drops.sunkwi.com) project and refreshes every 10 minutes.
+  [Twitch Drops API](https://drops.sunkwi.com) project and refreshes every 5 minutes.
 
   <details open><summary>See it in action</summary>
   <img src="docs/media/en/drops-catalogue.avif" alt="The Catalogue as a calendar, the search and a campaign's details">
@@ -461,7 +461,7 @@ hours. Restarting the app or the server forgets every set-aside: a stuck campaig
 gets a fresh 30 minutes.
 
 The campaign list comes from the [Twitch Drops API](https://drops.sunkwi.com) project
-(refreshed every 10 minutes), because Twitch hides it from the TV client.
+(refreshed every 5 minutes), because Twitch hides it from the TV client.
 
 ## <a name="faq"></a>FAQ
 

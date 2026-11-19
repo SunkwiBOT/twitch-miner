@@ -144,7 +144,7 @@
 
 - **Všechny probíhající kampaně Drops.** Každá kampaň má vlastní kartu s podrobnostmi:
   odměny, propojení účtu vydavatele, „Těžit přednostně“. Seznam pochází z projektu
-  [Twitch Drops API](https://drops.sunkwi.com) a obnovuje se každých 10 minut.
+  [Twitch Drops API](https://drops.sunkwi.com) a obnovuje se každých 5 minut.
 
   <details open><summary>Ukázka v akci</summary>
   <img src="../media/cs/drops-catalogue.avif" alt="Katalog jako kalendář, vyhledávání a podrobnosti kampaně">
@@ -451,7 +451,7 @@ Restart aplikace nebo serveru zapomene všechny odložené kampaně:
 uvízlá kampaň prostě dostane nových 30 minut.
 
 Seznam kampaní pochází z projektu [Twitch Drops API](https://drops.sunkwi.com) (obnovuje
-se každých 10 minut), protože ho Twitch před klientem pro TV skrývá.
+se každých 5 minut), protože ho Twitch před klientem pro TV skrývá.
 
 ## <a name="faq"></a>Časté otázky
 

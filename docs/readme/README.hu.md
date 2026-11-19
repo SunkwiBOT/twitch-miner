@@ -148,7 +148,7 @@ láthatod, hogyan működnek.
 
 - **Minden futó Drops-kampány.** Minden kampánynak saját adatlapja van: jutalmak,
   kiadói fiók összekapcsolása, „Bányászás elsőként”. A lista a
-  [Twitch Drops API](https://drops.sunkwi.com) projektből származik, és 10 percenként
+  [Twitch Drops API](https://drops.sunkwi.com) projektből származik, és 5 percenként
   frissül.
 
   <details open><summary>Működés közben</summary>
@@ -464,7 +464,7 @@ előrehaladás nullázza a várakozást, és ez minden kampánytípusra vonatkoz
 küldetések). Ha a Twitch helyette egy másik, ugyanabba a kategóriába tartozó kampányt ír jóvá, és az befejeződik vagy be lesz gyűjtve, a félretétel azonnal feloldódik, ahelyett hogy a teljes 6 órát kivárná. Az alkalmazás vagy a szerver újraindítása elfelejti az összes félretett
 kampányt: egy beragadt kampány egyszerűen új 30 percet kap.
 
-A kampánylista a [Twitch Drops API](https://drops.sunkwi.com) projektből jön (10 percenként
+A kampánylista a [Twitch Drops API](https://drops.sunkwi.com) projektből jön (5 percenként
 frissül), mert a Twitch elrejti a TV-s kliens elől.
 
 ## <a name="faq"></a>Gyakori kérdések

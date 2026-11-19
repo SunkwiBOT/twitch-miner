@@ -288,7 +288,6 @@
   "settings_language": "Език",
   "settings_theme": "Тема",
   "settings_catalog": "Каталог на кампаниите",
-  "settings_catalog_refresh": "Обнови сега",
   "settings_notifications": "Известия",
   "settings_notifications_events": "Известявай при",
   "settings_notifications_targets": "Изпращай до",
@@ -464,7 +463,7 @@
   "settings_feedback_text": "При бъг приложете логовете от страницата „Технически логове“: те не съдържат тайни.",
   "feedback_discord_text": "Отворете тикет или разговаряйте с общността",
   "feedback_github_text": "Отворете issue: бъг или идея",
-  "settings_catalog_text": "Списъкът с кампании идва от drops.sunkwi.com, обновяван на всеки 10 минути.",
+  "settings_catalog_text": "Списъкът с кампании идва от drops.sunkwi.com, обновяван на всеки {minutes} минути.",
   "account_proxy": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -758,19 +757,8 @@
   "timeline_left": "остават {time}",
   "timeline_show_all": "Покажи всички {count} категории",
   "timeline_zoom": "Мащаб",
-  "catalogue_intro": "Всички кампании Twitch Drops, обновявани на всеки 10 минути от {site}.",
+  "catalogue_intro": "Всички кампании Twitch Drops, обновявани на всеки {minutes} минути от {site}.",
   "catalogue_last_update": "Обновено {time}",
-  "catalogue_refreshed": [
-    {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
-      "selectors": ["countPlural"],
-      "match": {
-        "countPlural=one": "{shown} кампания",
-        "countPlural=*": "{shown} кампании"
-      }
-    }
-  ],
-  "catalogue_refreshed_title": "Каталогът е обновен",
   "common_refresh_wait": "Достъпно след {time}",
   "campaign_prioritized": "Поставена начело в реда на копаене",
   "campaign_ignored": "Кампанията се игнорира",

@@ -288,7 +288,6 @@
   "settings_language": "Taal",
   "settings_theme": "Thema",
   "settings_catalog": "Campagnecatalogus",
-  "settings_catalog_refresh": "Nu vernieuwen",
   "settings_notifications": "Meldingen",
   "settings_notifications_events": "Melden bij",
   "settings_notifications_targets": "Versturen naar",
@@ -464,7 +463,7 @@
   "settings_feedback_text": "Voeg bij een bug het logboek van de pagina Technisch logboek toe: het bevat geen geheimen.",
   "feedback_discord_text": "Open een ticket of praat met de community",
   "feedback_github_text": "Open een issue: een bug of een idee",
-  "settings_catalog_text": "De campagnelijst komt van drops.sunkwi.com en wordt elke 10 minuten ververst.",
+  "settings_catalog_text": "De campagnelijst komt van drops.sunkwi.com en wordt elke {minutes} minuten ververst.",
   "account_proxy": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -758,19 +757,8 @@
   "timeline_left": "nog {time}",
   "timeline_show_all": "Alle {count} categorieën tonen",
   "timeline_zoom": "Zoom",
-  "catalogue_intro": "Alle Twitch Drops-campagnes, elke 10 minuten ververst vanaf {site}.",
+  "catalogue_intro": "Alle Twitch Drops-campagnes, elke {minutes} minuten ververst vanaf {site}.",
   "catalogue_last_update": "Bijgewerkt {time}",
-  "catalogue_refreshed": [
-    {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
-      "selectors": ["countPlural"],
-      "match": {
-        "countPlural=one": "{shown} campagne",
-        "countPlural=*": "{shown} campagnes"
-      }
-    }
-  ],
-  "catalogue_refreshed_title": "Catalogus ververst",
   "common_refresh_wait": "Beschikbaar over {time}",
   "campaign_prioritized": "Bovenaan de minevolgorde geplaatst",
   "campaign_ignored": "Campagne genegeerd",

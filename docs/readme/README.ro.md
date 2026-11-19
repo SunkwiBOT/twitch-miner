@@ -146,7 +146,7 @@ la lucru.
 
 - **Toate campaniile Drops în desfășurare.** Fiecare campanie are fișa ei: recompense,
   conectarea contului de editor, „Minează cu prioritate”. Lista vine de la proiectul
-  [Twitch Drops API](https://drops.sunkwi.com) și se reîmprospătează la fiecare 10 minute.
+  [Twitch Drops API](https://drops.sunkwi.com) și se reîmprospătează la fiecare 5 minute.
 
   <details open><summary>Vezi în acțiune</summary>
   <img src="../media/ro/drops-catalogue.avif" alt="Catalogul sub formă de calendar, căutarea și fișa unei campanii">
@@ -460,7 +460,7 @@ campanie (Drops, insigne, misiuni). Dacă Twitch creditează în schimb o altă 
 campaniile puse deoparte: o campanie blocată primește pur și simplu încă 30 de minute noi.
 
 Lista campaniilor vine de la proiectul [Twitch Drops API](https://drops.sunkwi.com)
-(reîmprospătată la fiecare 10 minute), pentru că Twitch o ascunde de clientul TV.
+(reîmprospătată la fiecare 5 minute), pentru că Twitch o ascunde de clientul TV.
 
 ## <a name="faq"></a>Întrebări frecvente
 

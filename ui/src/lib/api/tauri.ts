@@ -75,7 +75,6 @@ export type ExportCsvResultType = {
 export type TauriCommandsType = {
   [TauriCommand.SNAPSHOT]: { args: undefined; result: SnapshotResponseType };
   [TauriCommand.COMMAND]: { args: { command: CommandType }; result: null };
-  [TauriCommand.REFRESH_CATALOG]: { args: undefined; result: RefreshResponseType };
   [TauriCommand.REFRESH_BADGES]: { args: undefined; result: RefreshResponseType };
   [TauriCommand.START_LOGIN]: { args: undefined; result: LoginFlowResponseType };
   [TauriCommand.CHECK_PASTED_TOKEN]: {

@@ -147,7 +147,7 @@ ominaisuuden käytössä.
 
 - **Kaikki käynnissä olevat Drops-kampanjat.** Jokaisella kampanjalla on omat tietonsa:
   palkinnot, julkaisijatilin linkitys, ”Louhi ensin”. Lista tulee
-  [Twitch Drops API](https://drops.sunkwi.com) -projektista ja päivittyy 10 minuutin
+  [Twitch Drops API](https://drops.sunkwi.com) -projektista ja päivittyy 5 minuutin
   välein.
 
   <details open><summary>Katso toiminnassa</summary>
@@ -471,7 +471,7 @@ merkit, tehtävät). Jos Twitch hyvittää sen sijaan toisen saman kategorian ka
 siirretyt kampanjat: jumissa oleva kampanja saa yksinkertaisesti uudet 30 minuuttia.
 
 Kampanjaluettelo tulee [Twitch Drops API](https://drops.sunkwi.com) -projektista
-(päivittyy 10 minuutin välein), koska Twitch piilottaa sen TV-asiakkaalta.
+(päivittyy 5 minuutin välein), koska Twitch piilottaa sen TV-asiakkaalta.
 
 ## <a name="faq"></a>Usein kysytyt kysymykset
 

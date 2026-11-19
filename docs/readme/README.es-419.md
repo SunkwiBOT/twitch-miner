@@ -148,7 +148,7 @@ funcionando.
 
 - **Todas las campañas de Drops activas.** Cada campaña tiene su ficha: recompensas,
   vinculación de la cuenta del editor, "Minar primero". La lista viene del proyecto
-  [Twitch Drops API](https://drops.sunkwi.com) y se actualiza cada 10 minutos.
+  [Twitch Drops API](https://drops.sunkwi.com) y se actualiza cada 5 minutos.
 
   <details open><summary>Verlo en acción</summary>
   <img src="../media/es-419/drops-catalogue.avif" alt="El Catálogo en vista de calendario, la búsqueda y la ficha de una campaña">
@@ -474,7 +474,7 @@ las 6 horas completas. Reiniciar la app o el servidor olvida todas las campañas
 campaña atascada simplemente vuelve a tener 30 minutos nuevos.
 
 La lista de campañas viene del proyecto [Twitch Drops API](https://drops.sunkwi.com) (se
-actualiza cada 10 minutos), porque Twitch la oculta al cliente de TV.
+actualiza cada 5 minutos), porque Twitch la oculta al cliente de TV.
 
 ## <a name="faq"></a>Preguntas frecuentes
 

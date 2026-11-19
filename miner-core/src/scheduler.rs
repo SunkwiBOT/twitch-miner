@@ -519,10 +519,8 @@ fn pick_channel<'a>(
         .collect();
 
     let kind = |c: &Channel| (subscriber(c), preferred(c), c.drops_enabled);
-    let best = eligible
-        .iter()
-        .copied()
-        .max_by_key(|c| (kind(c), c.viewers.unwrap_or(0)))?;
+    let best_kind = eligible.iter().map(|c| kind(c)).max()?;
+    let best = eligible.iter().copied().find(|c| kind(c) == best_kind)?;
 
     watching
         .and_then(|id| eligible.iter().copied().find(|c| c.id == id))

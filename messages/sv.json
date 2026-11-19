@@ -288,7 +288,6 @@
   "settings_language": "Språk",
   "settings_theme": "Tema",
   "settings_catalog": "Kampanjkatalog",
-  "settings_catalog_refresh": "Uppdatera nu",
   "settings_notifications": "Aviseringar",
   "settings_notifications_events": "Avisera vid",
   "settings_notifications_targets": "Skicka till",
@@ -464,7 +463,7 @@
   "settings_feedback_text": "Vid en bugg bifogar du loggarna från sidan Tekniska loggar: de innehåller inga hemligheter.",
   "feedback_discord_text": "Öppna en ticket eller chatta med communityn",
   "feedback_github_text": "Öppna ett issue: en bugg eller en idé",
-  "settings_catalog_text": "Kampanjlistan kommer från drops.sunkwi.com, uppdaterad var 10:e minut.",
+  "settings_catalog_text": "Kampanjlistan kommer från drops.sunkwi.com, uppdaterad var {minutes}:e minut.",
   "account_proxy": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -659,19 +658,8 @@
   "timeline_left": "{time} kvar",
   "timeline_show_all": "Visa alla {count} kategorier",
   "timeline_zoom": "Zoom",
-  "catalogue_intro": "Alla Twitch Drops-kampanjer, uppdaterade var 10:e minut från {site}.",
+  "catalogue_intro": "Alla Twitch Drops-kampanjer, uppdaterade var {minutes}:e minut från {site}.",
   "catalogue_last_update": "Uppdaterad {time}",
-  "catalogue_refreshed": [
-    {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
-      "selectors": ["countPlural"],
-      "match": {
-        "countPlural=one": "{shown} kampanj",
-        "countPlural=*": "{shown} kampanjer"
-      }
-    }
-  ],
-  "catalogue_refreshed_title": "Katalogen uppdaterad",
   "common_refresh_wait": "Tillgänglig om {time}",
   "campaign_prioritized": "Placerad överst i miningordningen",
   "campaign_ignored": "Kampanjen ignoreras",

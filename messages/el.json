@@ -288,7 +288,6 @@
   "settings_language": "Γλώσσα",
   "settings_theme": "Θέμα",
   "settings_catalog": "Κατάλογος καμπανιών",
-  "settings_catalog_refresh": "Ανανέωση τώρα",
   "settings_notifications": "Ειδοποιήσεις",
   "settings_notifications_events": "Ειδοποίηση για",
   "settings_notifications_targets": "Αποστολή σε",
@@ -464,7 +463,7 @@
   "settings_feedback_text": "Για ένα σφάλμα, επισυνάψτε τα αρχεία καταγραφής από τη σελίδα Αρχεία καταγραφής: δεν περιέχουν μυστικά.",
   "feedback_discord_text": "Ανοίξτε ένα ticket ή συζητήστε με την κοινότητα",
   "feedback_github_text": "Ανοίξτε ένα issue: ένα σφάλμα ή μια ιδέα",
-  "settings_catalog_text": "Η λίστα καμπανιών προέρχεται από το drops.sunkwi.com, ανανέωση κάθε 10 λεπτά.",
+  "settings_catalog_text": "Η λίστα καμπανιών προέρχεται από το drops.sunkwi.com, ανανέωση κάθε {minutes} λεπτά.",
   "account_proxy": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -758,19 +757,8 @@
   "timeline_left": "απομένουν {time}",
   "timeline_show_all": "Εμφάνιση και των {count} κατηγοριών",
   "timeline_zoom": "Ζουμ",
-  "catalogue_intro": "Όλες οι καμπάνιες Twitch Drops, με ανανέωση κάθε 10 λεπτά από το {site}.",
+  "catalogue_intro": "Όλες οι καμπάνιες Twitch Drops, με ανανέωση κάθε {minutes} λεπτά από το {site}.",
   "catalogue_last_update": "Ενημερώθηκε {time}",
-  "catalogue_refreshed": [
-    {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
-      "selectors": ["countPlural"],
-      "match": {
-        "countPlural=one": "{shown} καμπάνια",
-        "countPlural=*": "{shown} καμπάνιες"
-      }
-    }
-  ],
-  "catalogue_refreshed_title": "Ο κατάλογος ανανεώθηκε",
   "common_refresh_wait": "Διαθέσιμο σε {time}",
   "campaign_prioritized": "Τοποθετήθηκε στην κορυφή της σειράς εξόρυξης",
   "campaign_ignored": "Η καμπάνια παραβλέπεται",

@@ -145,7 +145,7 @@ recurso funcionando.
 
 - **Todas as campanhas de Drops ativas.** Cada campanha tem a sua ficha: recompensas,
   vinculação da conta da editora, “Minerar primeiro”. A lista vem do projeto
-  [Twitch Drops API](https://drops.sunkwi.com) e é atualizada a cada 10 minutos.
+  [Twitch Drops API](https://drops.sunkwi.com) e é atualizada a cada 5 minutos.
 
   <details open><summary>Ver em ação</summary>
   <img src="../media/pt-BR/drops-catalogue.avif" alt="O Catálogo em formato de calendário, a busca e a ficha de uma campanha">
@@ -465,7 +465,7 @@ campanha terminar ou for resgatada, a espera é encerrada na hora, em vez de agu
 campanha travada simplesmente ganha 30 minutos novos.
 
 A lista de campanhas vem do projeto [Twitch Drops API](https://drops.sunkwi.com)
-(atualizada a cada 10 minutos), porque a Twitch a esconde do cliente de TV.
+(atualizada a cada 5 minutos), porque a Twitch a esconde do cliente de TV.
 
 ## <a name="faq"></a>Perguntas frequentes
 

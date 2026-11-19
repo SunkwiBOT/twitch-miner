@@ -146,7 +146,7 @@ all'opera.
 
 - **Tutte le campagne Drops in corso.** Ogni campagna ha i suoi dettagli: ricompense,
   collegamento dell'account editore, «Mina per prima». L'elenco arriva dal progetto
-  [Twitch Drops API](https://drops.sunkwi.com) e si aggiorna ogni 10 minuti.
+  [Twitch Drops API](https://drops.sunkwi.com) e si aggiorna ogni 5 minuti.
 
   <details open><summary>Vedilo in azione</summary>
   <img src="../media/it/drops-catalogue.avif" alt="Il Catalogo in vista calendario, la ricerca e i dettagli di una campagna">
@@ -468,7 +468,7 @@ viene revocato subito, invece di attendere le 6 ore intere. Riavviare l'app o il
 ogni accantonamento: una campagna bloccata riparte semplicemente con 30 minuti nuovi.
 
 L'elenco delle campagne arriva dal progetto [Twitch Drops API](https://drops.sunkwi.com)
-(aggiornato ogni 10 minuti), perché Twitch lo nasconde al client TV.
+(aggiornato ogni 5 minuti), perché Twitch lo nasconde al client TV.
 
 ## <a name="faq"></a>Domande frequenti
 

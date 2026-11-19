@@ -296,7 +296,6 @@
   "settings_language": "Limbă",
   "settings_theme": "Temă",
   "settings_catalog": "Catalog de campanii",
-  "settings_catalog_refresh": "Reîmprospătează acum",
   "settings_notifications": "Notificări",
   "settings_notifications_events": "Notifică la",
   "settings_notifications_targets": "Trimite către",
@@ -474,7 +473,7 @@
   "settings_feedback_text": "Pentru o eroare, atașează logurile din pagina Loguri tehnice: nu conțin niciun secret.",
   "feedback_discord_text": "Deschide un tichet sau discută cu comunitatea",
   "feedback_github_text": "Deschide un issue: o eroare sau o idee",
-  "settings_catalog_text": "Lista campaniilor vine de pe drops.sunkwi.com, reîmprospătată la fiecare 10 minute.",
+  "settings_catalog_text": "Lista campaniilor vine de pe drops.sunkwi.com, reîmprospătată la fiecare {minutes} minute.",
   "account_proxy": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -779,20 +778,8 @@
   "timeline_left": "{time} rămase",
   "timeline_show_all": "Arată toate cele {count} categorii",
   "timeline_zoom": "Zoom",
-  "catalogue_intro": "Toate campaniile Twitch Drops, reîmprospătate la fiecare 10 minute de pe {site}.",
+  "catalogue_intro": "Toate campaniile Twitch Drops, reîmprospătate la fiecare {minutes} minute de pe {site}.",
   "catalogue_last_update": "Actualizat {time}",
-  "catalogue_refreshed": [
-    {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
-      "selectors": ["countPlural"],
-      "match": {
-        "countPlural=one": "{shown} campanie",
-        "countPlural=few": "{shown} campanii",
-        "countPlural=*": "{shown} de campanii"
-      }
-    }
-  ],
-  "catalogue_refreshed_title": "Catalog reîmprospătat",
   "common_refresh_wait": "Disponibil în {time}",
   "campaign_prioritized": "Plasată în fruntea ordinii de minare",
   "campaign_ignored": "Campanie ignorată",

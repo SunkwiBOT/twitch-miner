@@ -122,7 +122,7 @@
 
 ### Drops
 
-- **所有進行中的 Drops 活動。** 每個活動都有自己的詳細資料：獎勵、發行商帳號連結、「優先挖取」。清單來自 [Twitch Drops API](https://drops.sunkwi.com) 專案，每 10 分鐘更新一次。
+- **所有進行中的 Drops 活動。** 每個活動都有自己的詳細資料：獎勵、發行商帳號連結、「優先挖取」。清單來自 [Twitch Drops API](https://drops.sunkwi.com) 專案，每 5 分鐘更新一次。
 
   <details open><summary>觀看示範</summary>
   <img src="../media/zh-TW/drops-catalogue.avif" alt="以月曆呈現的目錄、搜尋和某個活動的詳細資料">
@@ -332,7 +332,7 @@ Twitch 對每個帳號同一時間只會計入**一個 Drops 活動**和**兩個
 
 如果 Twitch 本身對排名最前面的活動的進度，在 30 分鐘真實觀看後仍未變動，表示它沒有計入這個活動：帳號會把它先擱置一旁，排名居次的活動遞補上這個名額，並在 6 小時後自動重試——如果進度先恢復，則會更早重試，不過被重試的活動仍可能排在正在挖取的那個活動之後。任何進度都會重設這段等待時間，且適用於每一種活動類型（Drops、徽章、任務）。如果 Twitch 改為計入同一類別的另一個活動，並且該活動完成或被領取，擱置會立即解除，而不必等候完整的 6 小時。重新啟動應用程式或伺服器會忘記所有被擱置的紀錄：卡住的活動只會重新獲得一段全新的 30 分鐘。
 
-活動清單來自 [Twitch Drops API](https://drops.sunkwi.com) 專案（每 10 分鐘更新一次），因為 Twitch 不會讓 TV 用戶端看到它。
+活動清單來自 [Twitch Drops API](https://drops.sunkwi.com) 專案（每 5 分鐘更新一次），因為 Twitch 不會讓 TV 用戶端看到它。
 
 ## <a name="faq"></a>常見問題
 

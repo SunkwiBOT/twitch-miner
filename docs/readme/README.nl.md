@@ -149,7 +149,7 @@ het werkt.
 
 - **Alle lopende Drops-campagnes.** Elke campagne heeft haar eigen details: beloningen,
   koppeling van het uitgeversaccount, “Eerst minen”. De lijst komt van het project
-  [Twitch Drops API](https://drops.sunkwi.com) en wordt elke 10 minuten ververst.
+  [Twitch Drops API](https://drops.sunkwi.com) en wordt elke 5 minuten ververst.
 
   <details open><summary>Bekijk het in actie</summary>
   <img src="../media/nl/drops-catalogue.avif" alt="De Catalogus als kalender, de zoekfunctie en de details van een campagne">
@@ -466,7 +466,7 @@ missies). Als Twitch in plaats daarvan een andere campagne uit dezelfde categori
 een vastzittende campagne krijgt gewoon weer 30 nieuwe minuten.
 
 De campagnelijst komt van het project [Twitch Drops API](https://drops.sunkwi.com) (elke
-10 minuten ververst), omdat Twitch die verbergt voor de tv-client.
+5 minuten ververst), omdat Twitch die verbergt voor de tv-client.
 
 ## <a name="faq"></a>Veelgestelde vragen
 

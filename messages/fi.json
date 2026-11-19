@@ -288,7 +288,6 @@
   "settings_language": "Kieli",
   "settings_theme": "Teema",
   "settings_catalog": "Kampanjaluettelo",
-  "settings_catalog_refresh": "Päivitä nyt",
   "settings_notifications": "Ilmoitukset",
   "settings_notifications_events": "Ilmoita, kun",
   "settings_notifications_targets": "Lähetä kohteeseen",
@@ -464,7 +463,7 @@
   "settings_feedback_text": "Liitä bugin mukaan lokit Tekniset lokit -sivulta: ne eivät sisällä salaisuuksia.",
   "feedback_discord_text": "Avaa tiketti tai juttele yhteisön kanssa",
   "feedback_github_text": "Avaa issue: bugi tai idea",
-  "settings_catalog_text": "Kampanjaluettelo tulee osoitteesta drops.sunkwi.com, päivitetään 10 minuutin välein.",
+  "settings_catalog_text": "Kampanjaluettelo tulee osoitteesta drops.sunkwi.com, päivitetään {minutes} minuutin välein.",
   "account_proxy": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -758,19 +757,8 @@
   "timeline_left": "{time} jäljellä",
   "timeline_show_all": "Näytä kaikki {count} kategoriaa",
   "timeline_zoom": "Zoomaus",
-  "catalogue_intro": "Kaikki Twitch Drops -kampanjat, päivitetään 10 minuutin välein lähteestä {site}.",
+  "catalogue_intro": "Kaikki Twitch Drops -kampanjat, päivitetään {minutes} minuutin välein lähteestä {site}.",
   "catalogue_last_update": "Päivitetty {time}",
-  "catalogue_refreshed": [
-    {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
-      "selectors": ["countPlural"],
-      "match": {
-        "countPlural=one": "{shown} kampanja",
-        "countPlural=*": "{shown} kampanjaa"
-      }
-    }
-  ],
-  "catalogue_refreshed_title": "Luettelo päivitetty",
   "common_refresh_wait": "Käytettävissä {time} kuluttua",
   "campaign_prioritized": "Siirretty louhintajärjestyksen kärkeen",
   "campaign_ignored": "Kampanja ohitetaan",

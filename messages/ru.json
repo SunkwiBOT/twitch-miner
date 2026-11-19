@@ -316,7 +316,6 @@
   "settings_language": "Язык",
   "settings_theme": "Тема",
   "settings_catalog": "Каталог кампаний",
-  "settings_catalog_refresh": "Обновить сейчас",
   "settings_notifications": "Уведомления",
   "settings_notifications_events": "Уведомлять о",
   "settings_notifications_targets": "Куда отправлять",
@@ -494,7 +493,7 @@
   "settings_feedback_text": "Для бага приложите логи со страницы «Технические логи»: в них нет секретов.",
   "feedback_discord_text": "Создайте тикет или пообщайтесь с сообществом",
   "feedback_github_text": "Откройте issue: баг или идея",
-  "settings_catalog_text": "Список кампаний берётся с drops.sunkwi.com и обновляется каждые 10 минут.",
+  "settings_catalog_text": "Список кампаний берётся с drops.sunkwi.com и обновляется каждые {minutes} минут.",
   "account_proxy": [
     {
       "declarations": [
@@ -704,20 +703,8 @@
   "timeline_left": "осталось {time}",
   "timeline_show_all": "Показать все категории ({count})",
   "timeline_zoom": "Масштаб",
-  "catalogue_intro": "Все кампании Twitch Drops с {site}, обновление каждые 10 минут.",
+  "catalogue_intro": "Все кампании Twitch Drops с {site}, обновление каждые {minutes} минут.",
   "catalogue_last_update": "Обновлено {time}",
-  "catalogue_refreshed": [
-    {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
-      "selectors": ["countPlural"],
-      "match": {
-        "countPlural=one": "{shown} кампания",
-        "countPlural=few": "{shown} кампании",
-        "countPlural=*": "{shown} кампаний"
-      }
-    }
-  ],
-  "catalogue_refreshed_title": "Каталог обновлён",
   "common_refresh_wait": "Доступно через {time}",
   "campaign_prioritized": "Перемещено в начало порядка майнинга",
   "campaign_ignored": "Кампания игнорируется",

@@ -42,7 +42,8 @@
   }: CheckListPropsType = $props();
 
   const chosen = $derived(new Set(selected));
-  const applicable = $derived(items.filter((item) => !item.disabled));
+  const rows = $derived(items.map((item) => ({ ...item, disabled: item.disabled ?? false })));
+  const enabled = $derived(rows.filter((item) => !item.disabled));
 
   const toggle = (value: string, checked: boolean): void =>
     onchange(checked ? [...selected, value] : selected.filter((item) => item !== value));
@@ -60,8 +61,8 @@
           variant={ButtonVariant.OUTLINE}
           size={ButtonSize.SM}
           type={ButtonType.BUTTON}
-          disabled={applicable.length === 0 || applicable.every((item) => chosen.has(item.value))}
-          onclick={() => onchange(applicable.map((item) => item.value))}
+          disabled={enabled.length === 0 || enabled.every((item) => chosen.has(item.value))}
+          onclick={() => onchange(enabled.map((item) => item.value))}
         />
         <TextButton
           label={noneLabel}
@@ -74,7 +75,7 @@
       </div>
     </div>
     <ul class="m-0 flex max-h-80 list-none flex-col overflow-y-auto p-0" aria-label={label}>
-      {#each items as item (item.value)}
+      {#each rows as item (item.value)}
         <li class="border-b last:border-b-0">
           <label
             class={cn(
@@ -98,10 +99,10 @@
             {:else}
               <Avatar url={item.image} name={item.label} size={AvatarSize.SM} />
             {/if}
-            <span class="flex-1 truncate font-semibold">{item.label}</span>
-            {#if item.hint}<span class="truncate text-xs text-muted-foreground">
-                {item.hint}
-              </span>{/if}
+            <div class="flex min-w-0 flex-1 flex-wrap items-baseline gap-x-2 gap-y-0.5">
+              <span class="font-semibold">{item.label}</span>
+              {#if item.hint}<span class="text-xs text-muted-foreground">{item.hint}</span>{/if}
+            </div>
           </label>
         </li>
       {/each}

@@ -138,11 +138,7 @@ impl<T: TwitchApi> AccountMiner<T> {
 
             self.publish(event);
 
-            let playback = slot
-                .channel
-                .broadcast_id
-                .is_some()
-                .then(|| Playback::new(&slot.channel.login));
+            let playback = Some(Playback::new(&slot.channel.login));
 
             self.slots.push(ActiveSlot {
                 channel: slot.channel,
@@ -483,6 +479,8 @@ impl<T: TwitchApi> AccountMiner<T> {
                 removed = true;
 
                 self.channels_at = None;
+                self.seen_offline_or_refused
+                    .insert(slot.channel.id.clone(), Utc::now());
 
                 if let Some(channel) = self.streamer_channels.get_mut(&slot.channel.login) {
                     channel.live = false;

@@ -84,8 +84,6 @@ pub enum ApiRoute {
     Command,
     #[serde(rename = "/api/catalog")]
     Catalog,
-    #[serde(rename = "/api/catalog/refresh")]
-    CatalogRefresh,
     #[serde(rename = "/api/updates/check")]
     UpdatesCheck,
     #[serde(rename = "/api/login-flow")]
@@ -147,7 +145,6 @@ impl ApiRoute {
             Self::Snapshot => "/api/snapshot",
             Self::Command => "/api/command",
             Self::Catalog => "/api/catalog",
-            Self::CatalogRefresh => "/api/catalog/refresh",
             Self::UpdatesCheck => "/api/updates/check",
             Self::LoginFlow => "/api/login-flow",
             Self::CheckPastedToken => "/api/login-flow/check-token",

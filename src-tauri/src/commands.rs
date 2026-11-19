@@ -282,15 +282,6 @@ pub(super) async fn history_curve(
 }
 
 #[tauri::command]
-pub(super) async fn refresh_catalog(state: tauri::State<'_, AppState>) -> Answer<RefreshResponse> {
-    unlocked(&state).await?;
-
-    Ok(RefreshResponse {
-        refresh: state.manager.refresh_catalog().await?,
-    })
-}
-
-#[tauri::command]
 pub(super) async fn refresh_badges(state: tauri::State<'_, AppState>) -> Answer<RefreshResponse> {
     unlocked(&state).await?;
 

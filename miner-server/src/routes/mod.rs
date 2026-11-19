@@ -114,7 +114,6 @@ pub fn router(state: Shared) -> Router {
         .route(ApiRoute::Snapshot.path(), get(snapshot))
         .route(ApiRoute::Command.path(), post(command))
         .route(ApiRoute::Catalog.path(), get(catalog))
-        .route(ApiRoute::CatalogRefresh.path(), post(refresh_catalog))
         .route(ApiRoute::BadgesRefresh.path(), post(refresh_badges))
         .route(ApiRoute::UpdatesCheck.path(), post(check_for_update))
         .route(ApiRoute::LoginFlow.path(), post(start_login))
@@ -365,12 +364,6 @@ async fn history_curve(
     Params(query): Params<HistoryCurveQuery>,
 ) -> Result<Json<HistoryCurveResponse>, Failure> {
     Ok(Json(state.manager.history_curve(&query).await?))
-}
-
-async fn refresh_catalog(State(state): State<Shared>) -> Result<Json<RefreshResponse>, Failure> {
-    Ok(Json(RefreshResponse {
-        refresh: state.manager.refresh_catalog().await?,
-    }))
 }
 
 async fn refresh_badges(State(state): State<Shared>) -> Result<Json<RefreshResponse>, Failure> {

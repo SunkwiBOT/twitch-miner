@@ -14,7 +14,8 @@ use crate::requests::{address_target, RequestKind, RequestLog};
 use crate::store::Store;
 use crate::util::locked;
 
-// ! Each list takes one anonymous request every 5 minutes: an automatic read every 10 leaves room for a manual one.
+// ! Badges' anonymous request: one every 10 minutes, or 5 for a manual one. The
+// catalogue keeps its own interval in `catalog.rs`.
 pub const REFRESH_INTERVAL: Duration = Duration::from_secs(600);
 pub const MANUAL_REFRESH_GAP: Duration = Duration::from_secs(300);
 
@@ -26,6 +27,8 @@ pub trait FeedAnswer: Default + Serialize + DeserializeOwned + Send + Sync + 'st
     const NAME: &'static str;
     const CACHE_KEY: &'static str;
     const KIND: RequestKind;
+    const REFRESH_INTERVAL: Duration;
+    const MANUAL_REFRESH_GAP: Duration;
 
     fn parse(payload: &Value) -> Result<Self>;
     fn count(&self) -> usize;
@@ -33,12 +36,19 @@ pub trait FeedAnswer: Default + Serialize + DeserializeOwned + Send + Sync + 'st
     fn mark_fetched(&mut self, at: DateTime<Utc>);
     fn set_problem(&mut self, problem: Option<ErrorCode>);
     fn mark_next_refresh(&mut self, _at: Option<DateTime<Utc>>) {}
+    // ! Badges have no finer-grained state to compare against, so every new
+    // answer counts as changed; `Catalog` overrides this since its embedded
+    // live lists refresh every cycle without a real change.
+    fn meaningfully_changed(&self, _previous: &Self) -> bool {
+        true
+    }
 }
 
 pub struct FeedClient<T> {
     client: reqwest::Client,
     url: String,
     requests: RequestLog,
+    headers: Vec<(&'static str, String)>,
     // ! A 304 answer costs no request of the quota.
     tag: Mutex<Option<String>>,
     answer: PhantomData<fn() -> T>,
@@ -56,9 +66,19 @@ pub struct Fetch<T> {
 
 impl<T: FeedAnswer> FeedClient<T> {
     pub(crate) fn with_url(url: &str, requests: RequestLog, agent: &str) -> Result<Self> {
+        Self::with_headers(url, requests, agent, &[])
+    }
+
+    pub(crate) fn with_headers(
+        url: &str,
+        requests: RequestLog,
+        agent: &str,
+        headers: &[(&'static str, String)],
+    ) -> Result<Self> {
         let client = reqwest::Client::builder()
             .user_agent(agent)
             .timeout(Duration::from_secs(30))
+            .redirect(reqwest::redirect::Policy::none())
             .gzip(true)
             .build()
             .map_err(|e| Error::Network(e.to_string()))?;
@@ -67,6 +87,7 @@ impl<T: FeedAnswer> FeedClient<T> {
             client,
             url: url.to_owned(),
             requests,
+            headers: headers.to_vec(),
             tag: Mutex::new(None),
             answer: PhantomData,
         })
@@ -80,6 +101,10 @@ impl<T: FeedAnswer> FeedClient<T> {
                 .client
                 .get(&self.url)
                 .header("Accept", "application/json");
+
+            for (name, value) in &self.headers {
+                request = request.header(*name, value);
+            }
 
             if let Some(tag) = &tag {
                 request = request.header("If-None-Match", tag);
@@ -150,21 +175,21 @@ pub struct Refresh {
 impl Refresh {
     // ! The automatic loop's next try: honours `retry-after` (even on a non-429 error, as
     // a floor under the regular interval), else the regular interval.
-    pub fn wait(&self) -> Duration {
+    pub fn wait(&self, refresh_interval: Duration) -> Duration {
         match self.result {
             Err(Error::CatalogRateLimited) if !self.retry_after.is_zero() => self.retry_after,
-            _ => REFRESH_INTERVAL.max(self.retry_after),
+            _ => refresh_interval.max(self.retry_after),
         }
     }
 
     // ! The manual button's own cooldown: honours `retry-after` when the API gives one,
     // otherwise floors at the regular manual gap (v1.11.0's unconditional 300 s) rather
     // than the longer automatic interval.
-    fn manual_wait(&self) -> Duration {
+    fn manual_wait(&self, manual_refresh_gap: Duration) -> Duration {
         match self.result {
             Err(Error::CatalogRateLimited) if !self.retry_after.is_zero() => self.retry_after,
-            Err(Error::CatalogRateLimited) => MANUAL_REFRESH_GAP,
-            Ok(_) => MANUAL_REFRESH_GAP.max(self.retry_after),
+            Err(Error::CatalogRateLimited) => manual_refresh_gap,
+            Ok(_) => manual_refresh_gap.max(self.retry_after),
             Err(_) => Duration::ZERO,
         }
     }
@@ -188,7 +213,8 @@ impl<T: FeedAnswer> Feed<T> {
         let next_manual = kept
             .fetched_at()
             .map_or_else(tokio::time::Instant::now, |at| {
-                let due = at + chrono::Duration::from_std(MANUAL_REFRESH_GAP).unwrap_or_default();
+                let due =
+                    at + chrono::Duration::from_std(T::MANUAL_REFRESH_GAP).unwrap_or_default();
                 let left = (due - Utc::now()).to_std().unwrap_or(Duration::ZERO);
 
                 tokio::time::Instant::now() + left
@@ -199,7 +225,7 @@ impl<T: FeedAnswer> Feed<T> {
             client,
             fetching: tokio::sync::Mutex::new(()),
             next_manual: Mutex::new(next_manual),
-            resync: Mutex::new(REFRESH_INTERVAL),
+            resync: Mutex::new(T::REFRESH_INTERVAL),
             notify: Notify::new(),
             changed,
         }
@@ -211,7 +237,7 @@ impl<T: FeedAnswer> Feed<T> {
             .await
             .fetched_at()
             .map_or(Duration::ZERO, |at| {
-                let due = at + chrono::Duration::from_std(REFRESH_INTERVAL).unwrap_or_default();
+                let due = at + chrono::Duration::from_std(T::REFRESH_INTERVAL).unwrap_or_default();
 
                 (due - Utc::now()).to_std().unwrap_or(Duration::ZERO)
             })
@@ -245,7 +271,7 @@ impl<T: FeedAnswer> Feed<T> {
             Ok((count, true)) => tracing::info!(count, "{} refreshed", T::NAME),
             Ok(_) => {}
             Err(Error::CatalogRateLimited) => tracing::info!(
-                retry_in_seconds = refresh.wait().as_secs(),
+                retry_in_seconds = refresh.wait(T::REFRESH_INTERVAL).as_secs(),
                 "{} refresh postponed: the API asks to wait, the last one is kept",
                 T::NAME
             ),
@@ -262,10 +288,11 @@ impl<T: FeedAnswer> Feed<T> {
     async fn fetch_locked(&self, store: &Store) -> Refresh {
         let refresh = self.refresh(store).await;
 
-        *locked(&self.next_manual) = tokio::time::Instant::now() + refresh.manual_wait();
+        *locked(&self.next_manual) =
+            tokio::time::Instant::now() + refresh.manual_wait(T::MANUAL_REFRESH_GAP);
 
         self.state.write().await.mark_next_refresh(
-            chrono::Duration::from_std(refresh.wait())
+            chrono::Duration::from_std(refresh.wait(T::REFRESH_INTERVAL))
                 .ok()
                 .map(|left| Utc::now() + left),
         );
@@ -286,7 +313,7 @@ impl<T: FeedAnswer> Feed<T> {
         }
 
         let refresh = self.fetch_locked(store).await;
-        let wait = refresh.wait();
+        let wait = refresh.wait(T::REFRESH_INTERVAL);
 
         (wait, Some(refresh))
     }
@@ -302,7 +329,7 @@ impl<T: FeedAnswer> Feed<T> {
 
         let refresh = self.fetch_locked(store).await;
 
-        *locked(&self.resync) = refresh.wait();
+        *locked(&self.resync) = refresh.wait(T::REFRESH_INTERVAL);
         self.notify.notify_one();
 
         refresh.result
@@ -323,13 +350,17 @@ impl<T: FeedAnswer> Feed<T> {
             }
             Ok(Fetched::New(next)) => {
                 let count = next.count();
+                let changed = next.meaningfully_changed(&state);
                 let json = serde_json::to_string(&next);
 
                 *state = next;
                 drop(state);
-                keep(store, T::CACHE_KEY, json, T::NAME).await;
 
-                Ok((count, true))
+                if changed {
+                    keep(store, T::CACHE_KEY, json, T::NAME).await;
+                }
+
+                Ok((count, changed))
             }
             Ok(Fetched::Unchanged) => {
                 state.mark_fetched(Utc::now());

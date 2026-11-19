@@ -18,6 +18,7 @@
   let count = $state(0);
   let selected = $state<string[]>([]);
   let applying = $state(false);
+  let applicableAtOpen = $state<Map<string, boolean>>(new Map());
 
   const source = $derived(account(sourceId));
   const others = $derived((app.snapshot?.accounts ?? []).filter((a) => a.id !== sourceId));
@@ -25,14 +26,14 @@
 
   const items = $derived(
     [...others]
-      .sort((a, b) => Number(applicable.get(b.id)) - Number(applicable.get(a.id)))
+      .sort((a, b) => Number(applicableAtOpen.get(b.id)) - Number(applicableAtOpen.get(a.id)))
       .map((a) => ({
         value: a.id,
         label: a.display_name,
         image: a.avatar_url,
-        hint: applicable.get(a.id) ? "" : t.bulk_nothing_to_change(),
+        hint: applicableAtOpen.get(a.id) ? "" : t.bulk_nothing_to_change(),
         channel: null,
-        disabled: !applicable.get(a.id),
+        disabled: !applicableAtOpen.get(a.id),
       })),
   );
 
@@ -44,7 +45,8 @@
       untrack(() => {
         sourceId = bulk.sourceId;
         count = bulk.changes.length;
-        selected = others.filter((a) => applicable.get(a.id)).map((a) => a.id);
+        applicableAtOpen = new Map(others.map((a) => [a.id, applicable.get(a.id) ?? false]));
+        selected = others.filter((a) => applicableAtOpen.get(a.id)).map((a) => a.id);
       });
     }
   });

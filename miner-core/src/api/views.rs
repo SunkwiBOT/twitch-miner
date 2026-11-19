@@ -170,7 +170,6 @@ pub struct CatalogView {
     #[ts(optional)]
     pub problem: Option<ErrorCode>,
     pub interval_seconds: u64,
-    pub next_manual_refresh_at: DateTime<Utc>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default, TS)]

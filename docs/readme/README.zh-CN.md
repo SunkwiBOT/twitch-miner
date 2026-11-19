@@ -122,7 +122,7 @@
 
 ### Drops
 
-- **所有进行中的 Drops 活动。** 每个活动都有自己的详情：奖励、发行商账号关联、“优先挖取”。列表来自 [Twitch Drops API](https://drops.sunkwi.com) 项目，每 10 分钟刷新一次。
+- **所有进行中的 Drops 活动。** 每个活动都有自己的详情：奖励、发行商账号关联、“优先挖取”。列表来自 [Twitch Drops API](https://drops.sunkwi.com) 项目，每 5 分钟刷新一次。
 
   <details open><summary>查看演示</summary>
   <img src="../media/zh-CN/drops-catalogue.avif" alt="日历视图的目录、搜索和某个活动的详情">
@@ -332,7 +332,7 @@ Twitch 对每个账号同时只计入**一个 Drops 活动**和**两个频道的
 
 如果 Twitch 自身对排名最前的活动的进度在 30 分钟真实观看后仍未变化，说明它没有计入这个活动：账号会把它放到一边，排名下一位的活动顶上这个位置，并在 6 小时后自动重试——如果进度先恢复，会更早重试，不过被重试的活动仍可能排在正在挖取的那个活动之后。任何进度都会重置这个等待时间，并且这适用于每一种活动类型（Drops、徽章、任务）。如果 Twitch 转而计入同一类别的另一个活动，并且该活动完成或被领取，搁置会立即解除，而不必等待完整的 6 小时。重启应用或服务器会忘记所有被搁置的记录：卡住的活动只会重新获得一段全新的 30 分钟。
 
-活动列表来自 [Twitch Drops API](https://drops.sunkwi.com) 项目（每 10 分钟刷新一次），因为 Twitch 对 TV 客户端隐藏了它。
+活动列表来自 [Twitch Drops API](https://drops.sunkwi.com) 项目（每 5 分钟刷新一次），因为 Twitch 对 TV 客户端隐藏了它。
 
 ## <a name="faq"></a>常见问题
 
