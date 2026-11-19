@@ -2710,7 +2710,7 @@ dependencies = [
 
 [[package]]
 name = "miner-core"
-version = "0.1.0"
+version = "1.13.0"
 dependencies = [
  "aes-gcm",
  "anyhow",
@@ -2745,7 +2745,7 @@ dependencies = [
 
 [[package]]
 name = "miner-server"
-version = "0.1.0"
+version = "1.13.0"
 dependencies = [
  "anyhow",
  "axum",
@@ -5769,7 +5769,7 @@ dependencies = [
 
 [[package]]
 name = "twitch-miner"
-version = "0.1.0"
+version = "1.13.0"
 dependencies = [
  "anyhow",
  "auto-launch",
