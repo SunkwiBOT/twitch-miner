@@ -224,6 +224,10 @@ działa.
   punktów dla streamera pokazuje saldo w czasie, z oznaczeniami serii, rajdów, momentów i
   prognoz oraz podpowiedzią przy każdym z nich.
 
+  <details open><summary>Zobacz w akcji</summary>
+  <img src="../media/pl/stats.avif" alt="Kafelki Statystyki za 30 dni, a potem krzywa punktów streamera ze znacznikiem">
+  </details>
+
 - **Zaplanowana pauza i codzienna pauza.** Wstrzymaj jedno konto albo wszystkie konta na
   30 minut, 1 godzinę, 4 godziny, do jutra do 9:00 albo na niestandardową datę i godzinę;
   „Wznów teraz” zdejmuje pauzę wcześniej. Plakietka pokazuje, kiedy pauza się kończy.
@@ -434,7 +438,10 @@ prawdziwy błąd zamiast strony Cloudflare.
 ## <a name="how-it-works"></a>Jak to działa
 
 Co 20 sekund każde konto wybiera swoje dwa kanały: najlepszy kanał na żywo dla pierwszej
-kampanii w swojej kolejce, a potem streamerów ze swojej listy punktów.
+kampanii w swojej kolejce, a potem streamerów ze swojej listy punktów. Kampania bez kanału
+na żywo jest pomijana na rzecz następnej, która go ma („Brak kanału na żywo” w jej
+kolejce); kanały na żywo są sprawdzane ponownie co 90 sekund, a konto wraca do niej, gdy
+tylko któryś z jego streamerów zacznie transmisję na żywo.
 
 Twitch zalicza na konto jednocześnie **jedną kampanię Drops** i **dwa kanały dla punktów**.
 Od października 2026 r. drop można odebrać tylko wtedy, gdy konto wydawcy jest połączone.

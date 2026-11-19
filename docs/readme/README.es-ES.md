@@ -227,6 +227,10 @@ funcionando.
   tiempo, con marcadores para rachas, raids, momentos y predicciones, y un tooltip en
   cada uno.
 
+  <details open><summary>Verlo en acción</summary>
+  <img src="../media/es-ES/stats.avif" alt="Los mosaicos de Estadísticas en 30 días, y luego la curva de puntos de un streamer con un marcador">
+  </details>
+
 - **Pausa programada y una pausa diaria.** Pausa una cuenta o todas durante 30 minutos, 1
   hora, 4 horas, hasta mañana a las 09:00, o hasta una fecha y hora personalizadas;
   «Reanudar ahora» la levanta antes. Una insignia muestra la hora a la que termina la
@@ -444,7 +448,10 @@ error real en lugar de la página de Cloudflare.
 ## <a name="how-it-works"></a>Cómo funciona
 
 Cada 20 segundos, cada cuenta elige sus dos canales: el mejor canal en directo para la
-primera campaña de su cola y, después, los streamers de su lista de puntos.
+primera campaña de su cola y, después, los streamers de su lista de puntos. Una campaña
+sin canal en directo se omite en favor de la siguiente que tenga uno («Ningún canal en
+directo» en su cola); los canales en directo se vuelven a comprobar cada 90 segundos, y la
+cuenta vuelve a ella en cuanto uno de sus streamers se pone en directo.
 
 Twitch acredita **una campaña de Drops** y **dos canales para puntos** a la vez por
 cuenta. Desde octubre de 2026, un drop solo se puede reclamar si la cuenta del editor está

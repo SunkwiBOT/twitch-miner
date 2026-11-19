@@ -222,6 +222,10 @@ What sets it apart from other miners. “See it in action” under a point shows
   points curve shows the balance over time, with markers for streaks, raids, moments and
   predictions and a tooltip on each.
 
+  <details open><summary>See it in action</summary>
+  <img src="docs/media/en/stats.avif" alt="The Statistics tiles over 30 days, then a streamer's points curve with a marker">
+  </details>
+
 - **Scheduled pause and a daily pause.** Pause one account or all of them for 30 minutes,
   1 hour, 4 hours, until tomorrow at 09:00, or a custom date and time; “Resume now” lifts
   it early. A badge shows the time the pause ends. A daily pause stops mining on every
@@ -437,7 +441,10 @@ happens. When Twitch or the network fails, the server answers `424`, never `502`
 ## <a name="how-it-works"></a>How it works
 
 Every 20 seconds, each account picks its two channels: the best live channel for the top
-campaign of its queue, then the streamers of its points list.
+campaign of its queue, then the streamers of its points list. A campaign with no live
+channel is skipped for the next one that has one (“No live channel” in its queue); live
+channels are checked again every 90 seconds, and the account goes back to it as soon as one
+of its streamers goes live.
 
 Twitch credits **one Drops campaign** and **two channels for points** at a time per
 account. Since October 2026, a drop can only be claimed when the publisher account is linked.

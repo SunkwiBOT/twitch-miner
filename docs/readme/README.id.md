@@ -169,6 +169,10 @@ Hal-hal yang membedakannya dari penambang lain. “Lihat langsung” di bawah se
   setiap angka. Kurva poin per streamer menunjukkan saldo dari waktu ke waktu, dengan
   penanda untuk streak, raid, momen, dan prediksi, serta tooltip pada masing-masing.
 
+  <details open><summary>Lihat langsung</summary>
+  <img src="../media/id/stats.avif" alt="Ubin halaman Statistik selama 30 hari, lalu kurva poin seorang streamer dengan penanda">
+  </details>
+
 - **Jeda terjadwal dan jeda harian.** Jeda satu akun atau semua akun selama 30 menit, 1
   jam, 4 jam, hingga besok pukul 09.00, atau tanggal dan waktu khusus; “Lanjutkan
   sekarang” mengangkat jeda lebih awal. Lencana menunjukkan kapan jeda berakhir. Jeda
@@ -336,7 +340,7 @@ Di belakang reverse proxy, atur `MINER_PUBLIC_URL`: tanpanya, permintaan pertama
 
 ## <a name="how-it-works"></a>Cara kerja
 
-Setiap 20 detik, tiap akun memilih dua channel-nya: channel live terbaik untuk kampanye teratas di antreannya, lalu streamer di daftar poinnya.
+Setiap 20 detik, tiap akun memilih dua channel-nya: channel live terbaik untuk kampanye teratas di antreannya, lalu streamer di daftar poinnya. Kampanye tanpa channel live dilewati demi kampanye berikutnya yang punya (“Tidak ada channel yang live” di antreannya); channel live dicek ulang setiap 90 detik, dan akun kembali ke kampanye itu begitu salah satu streamer-nya live.
 
 Jika Twitch tidak membuat kampanye teratas maju setelah 30 menit menonton sungguhan, berarti Twitch tidak menghitungnya: akun menyisihkannya, kampanye peringkat berikutnya mengambil slotnya, dan dicoba lagi secara otomatis 6 jam kemudian — lebih cepat jika progres muncul lebih dulu, meski kampanye yang dicoba ulang itu masih bisa menunggu di belakang kampanye yang sedang ditambang. Progres apa pun mengatur ulang waktu tunggu ini, dan ini berlaku untuk semua jenis kampanye (Drops, lencana, misi). Jika Twitch malah menghitung kampanye lain dari kategori yang sama dan kampanye itu selesai atau diklaim, penyisihan langsung dicabut, bukan menunggu 6 jam penuh. Memulai ulang aplikasi atau server melupakan semua kampanye yang disisihkan: kampanye yang macet akan langsung mendapat 30 menit baru.
 

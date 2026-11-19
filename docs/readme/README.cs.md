@@ -221,6 +221,10 @@
   číslem. Graf bodů za streamera ukazuje zůstatek v čase, se značkami pro série
   sledování, raidy, momenty a předpovědi a popiskem u každé z nich.
 
+  <details open><summary>Ukázka v akci</summary>
+  <img src="../media/cs/stats.avif" alt="Dlaždice Statistik za 30 dní, poté křivka bodů streamera se značkou">
+  </details>
+
 - **Naplánovaná pauza a denní pauza.** Pozastavte jeden účet nebo všechny na 30 minut, 1
   hodinu, 4 hodiny, do zítřka do 9:00 nebo do vlastního data a času; „Pokračovat nyní“
   pauzu ukončí dřív. Odznak ukazuje, kdy pauza končí. Denní pauza každý den mezi dvěma
@@ -427,7 +431,10 @@ skutečnou chybu místo stránky Cloudflare.
 ## <a name="how-it-works"></a>Jak to funguje
 
 Každých 20 sekund si každý účet vybere své dva kanály: nejlepší živý kanál pro první
-kampaň ve své frontě, pak streamery ze svého seznamu pro body.
+kampaň ve své frontě, pak streamery ze svého seznamu pro body. Kampaň bez živého kanálu
+se přeskočí ve prospěch další, která nějaký má („Žádný kanál nevysílá“ ve své frontě);
+živé kanály se kontrolují znovu každých 90 sekund a účet se k ní vrátí, jakmile některý
+z jeho streamerů začne vysílat.
 
 Twitch na jeden účet současně započítává **jednu kampaň Drops** a **dva kanály pro body**.
 Od října 2026 lze drop vyzvednout, jen když je účet vydavatele propojený. Nepropojené kampaně

@@ -164,6 +164,10 @@ Những gì làm nên khác biệt so với các trình đào khác. “Xem minh
 
 - **Một trang Thống kê.** Điểm kiếm được, drop đã nhận, thời gian xem và cược đã thắng trong 7, 30 hoặc 90 ngày, kèm streamer hoặc danh mục đứng đầu phía sau mỗi con số. Một đường biểu diễn điểm theo streamer cho thấy số dư theo thời gian, với các mốc đánh dấu cho streak, raid, moment và cược, cùng chú thích khi di chuột vào từng mốc.
 
+  <details open><summary>Xem minh họa</summary>
+  <img src="../media/vi/stats.avif" alt="Các ô Thống kê trong 30 ngày, rồi đường biểu diễn điểm của một streamer kèm mốc đánh dấu">
+  </details>
+
 - **Tạm dừng theo lịch và tạm dừng hằng ngày.** Tạm dừng một tài khoản hoặc tất cả trong 30 phút, 1 giờ, 4 giờ, đến 09:00 ngày mai, hoặc một ngày và giờ tùy chỉnh; “Tiếp tục ngay” sẽ dỡ bỏ tạm dừng sớm hơn. Một huy hiệu cho biết giờ kết thúc tạm dừng. Tạm dừng hằng ngày dừng việc đào của mọi tài khoản giữa hai mốc giờ mỗi ngày, theo múi giờ bạn chọn, và tiếp tục khi kết thúc, với huy hiệu riêng trên thanh trên cùng.
 - **Xuất CSV và số lượng theo danh mục.** Nhật ký xuất các drop đã nhận thành tệp CSV (ngày, tài khoản, danh mục, chiến dịch, drop, phút), lọc theo tài khoản, và một hộp thoại liệt kê số drop đã nhận trong mỗi danh mục. Ứng dụng máy tính lưu tệp qua hộp thoại lưu; bảng điều khiển web tải tệp xuống.
 
@@ -323,7 +327,7 @@ Phía sau một reverse proxy, hãy đặt `MINER_PUBLIC_URL`: nếu không, yê
 
 ## <a name="how-it-works"></a>Cách hoạt động
 
-Cứ mỗi 20 giây, mỗi tài khoản chọn hai kênh của mình: kênh đang phát tốt nhất cho chiến dịch đứng đầu hàng đợi, rồi đến các streamer trong danh sách điểm.
+Cứ mỗi 20 giây, mỗi tài khoản chọn hai kênh của mình: kênh đang phát tốt nhất cho chiến dịch đứng đầu hàng đợi, rồi đến các streamer trong danh sách điểm. Chiến dịch không có kênh đang phát sẽ bị bỏ qua để nhường cho chiến dịch kế tiếp có kênh (“Không có kênh đang phát” trong hàng đợi của nó); các kênh đang phát được kiểm tra lại mỗi 90 giây, và tài khoản quay lại chiến dịch đó ngay khi một streamer của mình bắt đầu phát.
 
 Twitch chỉ tính **một chiến dịch Drops** và **hai kênh cho điểm** cùng lúc trên mỗi tài khoản. Từ tháng 10 năm 2026, một drop chỉ nhận được khi tài khoản nhà phát hành đã được liên kết. Các chiến dịch chưa liên kết vẫn tăng tiến độ, và bảng điều khiển hiển thị đường dẫn để liên kết.
 

@@ -229,6 +229,10 @@ ominaisuuden käytössä.
   merkintöineen katseluputkista, raideista, hetkistä ja ennustuksista sekä
   työkaluvihjeellä jokaisessa.
 
+  <details open><summary>Katso toiminnassa</summary>
+  <img src="../media/fi/stats.avif" alt="Tilastot-sivun ruudut 30 päivältä, sitten streamaajan pistekäyrä merkillä">
+  </details>
+
 - **Ajastettu keskeytys ja päivittäinen tauko.** Keskeytä yksi tili tai kaikki 30
   minuutiksi, 1 tunniksi, 4 tunniksi, huomiseen klo 09.00 asti tai mukautettuun
   päivämäärään ja aikaan asti; ”Jatka nyt” päättää keskeytyksen etuajassa. Merkki näyttää,
@@ -448,7 +452,10 @@ kun mitään ei tapahdu. Kun Twitch tai verkko pettää, palvelin vastaa `424`, 
 ## <a name="how-it-works"></a>Näin se toimii
 
 Joka 20. sekunti jokainen tili valitsee kaksi kanavaansa: parhaan live-kanavan jononsa
-kärjessä olevalle kampanjalle ja sitten pistelistansa streamaajat.
+kärjessä olevalle kampanjalle ja sitten pistelistansa streamaajat. Kampanja, jolla ei ole
+live-kanavaa, ohitetaan seuraavan hyväksi, jolla sellainen on (”Ei kanavaa livenä” sen
+jonossa); live-kanavat tarkistetaan uudelleen 90 sekunnin välein, ja tili palaa kampanjaan
+heti, kun jokin sen streamaajista aloittaa livelähetyksen.
 
 Twitch hyvittää tiliä kohden kerrallaan **yhden Drops-kampanjan** ja
 **kaksi kanavaa pisteille**. Lokakuusta 2026 lähtien dropin voi lunastaa vain, kun

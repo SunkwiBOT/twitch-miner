@@ -227,6 +227,10 @@ brug.
   pointkurve pr. streamer viser saldoen over tid, med markører for seerstimer, raids,
   moments og forudsigelser og et værktøjstip på hver.
 
+  <details open><summary>Se det i aktion</summary>
+  <img src="../media/da/stats.avif" alt="Statistik-feltene over 30 dage, derefter en streamers pointkurve med en markør">
+  </details>
+
 - **Planlagt pause og en daglig pause.** Sæt en konto eller alle på pause i 30 minutter, 1
   time, 4 timer, til i morgen kl. 09:00 eller til en brugerdefineret dato og tidspunkt;
   »Genoptag nu« ophæver pausen tidligere. Et badge viser, hvornår pausen slutter. En
@@ -441,7 +445,10 @@ der ikke sker noget. Når Twitch eller netværket svigter, svarer serveren `424`
 ## <a name="how-it-works"></a>Sådan virker det
 
 Hvert 20. sekund vælger hver konto sine to kanaler: den bedste livekanal til den øverste
-kampagne i sin kø og derefter streamerne på sin pointliste.
+kampagne i sin kø og derefter streamerne på sin pointliste. En kampagne uden livekanal
+springes over til fordel for den næste, der har en (»Ingen kanal live« i dens kø);
+livekanaler tjekkes igen hvert 90. sekund, og kontoen vender tilbage til den, så snart en
+af dens streamere går live.
 
 Twitch krediterer **én Drops-kampagne** og **to kanaler til point** ad gangen pr. konto.
 Siden oktober 2026 kan et drop kun hentes, når udgiverkontoen er tilknyttet. Kampagner uden

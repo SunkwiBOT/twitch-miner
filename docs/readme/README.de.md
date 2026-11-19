@@ -232,6 +232,10 @@ im Einsatz.
   Punktestand im Zeitverlauf, mit Markierungen für Zuschauerserien, Raids, Momente und
   Vorhersagen sowie einem Tooltip zu jeder davon.
 
+  <details open><summary>In Aktion ansehen</summary>
+  <img src="../media/de/stats.avif" alt="Die Statistik-Kacheln über 30 Tage, dann die Punktekurve eines Streamers mit einer Markierung">
+  </details>
+
 - **Geplante Pause und eine tägliche Pause.** Pausieren Sie ein Konto oder alle für 30
   Minuten, 1 Stunde, 4 Stunden, bis morgen 09:00 Uhr oder bis zu einem eigenen Datum und
   einer eigenen Uhrzeit; „Jetzt fortsetzen“ hebt die Pause vorzeitig auf. Ein Abzeichen
@@ -454,7 +458,10 @@ Fehler statt der Seite von Cloudflare.
 ## <a name="how-it-works"></a>Funktionsweise
 
 Alle 20 Sekunden wählt jedes Konto seine zwei Kanäle: den besten Live-Kanal für die
-oberste Kampagne seiner Warteschlange, dann die Streamer seiner Punkteliste.
+oberste Kampagne seiner Warteschlange, dann die Streamer seiner Punkteliste. Eine Kampagne
+ohne Live-Kanal wird zugunsten der nächsten übersprungen, die einen hat („Kein Kanal live“
+in ihrer Warteschlange); Live-Kanäle werden alle 90 Sekunden erneut geprüft, und das Konto
+kehrt dorthin zurück, sobald einer seiner Streamer live geht.
 
 Twitch rechnet pro Konto gleichzeitig **eine Drops-Kampagne** und **zwei Kanäle für
 Punkte** an. Seit Oktober 2026 lässt sich ein Drop nur abholen, wenn das Herausgeberkonto

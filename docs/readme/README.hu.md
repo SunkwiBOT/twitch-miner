@@ -230,6 +230,10 @@ láthatod, hogyan működnek.
   idő múlásával, jelölőkkel a nézési sorozatokhoz, raidekhez, pillanatokhoz és
   előrejelzésekhez, és egy tooltippel mindegyiken.
 
+  <details open><summary>Működés közben</summary>
+  <img src="../media/hu/stats.avif" alt="A Statisztika oldal csempéi 30 napra, majd egy streamer pontgörbéje egy jelölővel">
+  </details>
+
 - **Ütemezett szünet és napi szünet.** Állíts szünetet egy fiókra vagy mindegyikre 30
   percre, 1 órára, 4 órára, holnap 9:00-ig vagy egyéni dátumra és időpontra; a „Folytatás
   most” korábban feloldja. Egy jelvény mutatja, mikor ér véget a szünet. A napi szünet
@@ -442,7 +446,10 @@ helyett.
 ## <a name="how-it-works"></a>Hogyan működik
 
 20 másodpercenként minden fiók kiválasztja a két csatornáját: a legjobb élő csatornát
-a sora élén álló kampányhoz, utána a pontlistája streamereit.
+a sora élén álló kampányhoz, utána a pontlistája streamereit. Az élő csatorna nélküli
+kampány helyett a sor következő, élő csatornával rendelkező kampánya kerül sorra („Nincs
+élő csatorna” a sorában); az élő csatornákat 90 másodpercenként újraellenőrzi, és a fiók
+visszatér hozzá, amint valamelyik streamere élőben jelentkezik.
 
 A Twitch fiókonként egyszerre **egy Drops-kampányt** és **két csatornát a pontokért** ír
 jóvá. 2026 októbere óta egy drop csak akkor gyűjthető be, ha a kiadói fiók össze van

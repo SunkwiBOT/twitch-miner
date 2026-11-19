@@ -230,6 +230,10 @@ het werkt.
   cijfer. Een puntencurve per streamer toont het saldo in de tijd, met markeringen voor
   kijkreeksen, raids, momenten en voorspellingen en een tooltip op elk.
 
+  <details open><summary>Bekijk het in actie</summary>
+  <img src="../media/nl/stats.avif" alt="De Statistieken-tegels over 30 dagen, daarna een streamer-puntencurve met een markering">
+  </details>
+
 - **Geplande pauze en dagelijkse pauze.** Pauzeer één account of alle accounts voor 30
   minuten, 1 uur, 4 uur, tot morgen 09:00 of een aangepaste datum en tijd; “Nu hervatten”
   heft de pauze eerder op. Een badge toont wanneer de pauze eindigt. Een dagelijkse pauze
@@ -443,7 +447,10 @@ de pagina van Cloudflare.
 ## <a name="how-it-works"></a>Hoe het werkt
 
 Elke 20 seconden kiest elk account zijn twee kanalen: het beste live kanaal voor de
-bovenste campagne in zijn wachtrij, daarna de streamers van zijn puntenlijst.
+bovenste campagne in zijn wachtrij, daarna de streamers van zijn puntenlijst. Een campagne
+zonder live kanaal wordt overgeslagen ten gunste van de volgende die er een heeft (“Geen
+kanaal live” in zijn wachtrij); live kanalen worden elke 90 seconden opnieuw gecontroleerd,
+en het account keert ernaar terug zodra een van zijn streamers live gaat.
 
 Twitch telt per account **één Drops-campagne** en **twee kanalen voor punten** tegelijk
 mee. Sinds oktober 2026 kan een drop alleen worden geclaimd als het uitgeversaccount gekoppeld

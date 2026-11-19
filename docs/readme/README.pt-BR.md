@@ -225,6 +225,10 @@ recurso funcionando.
   número. Uma curva de pontos por streamer mostra o saldo ao longo do tempo, com marcadores
   de sequências, raids, momentos e previsões e uma dica em cada um.
 
+  <details open><summary>Ver em ação</summary>
+  <img src="../media/pt-BR/stats.avif" alt="Os blocos de Estatísticas em 30 dias e, depois, a curva de pontos de um streamer com um marcador">
+  </details>
+
 - **Pausa agendada e pausa diária.** Pause uma conta ou todas as contas por 30 minutos, 1
   hora, 4 horas, até amanhã às 09:00, ou uma data e hora personalizadas; “Retomar agora”
   encerra a pausa antes. Um selo mostra o horário em que a pausa termina. Uma pausa diária
@@ -439,7 +443,10 @@ quando nada acontece. Quando a Twitch ou a rede falham, o servidor responde `424
 ## <a name="how-it-works"></a>Como funciona
 
 A cada 20 segundos, cada conta escolhe seus dois canais: o melhor canal ao vivo para a
-primeira campanha da sua fila e, depois, os streamers da sua lista de pontos.
+primeira campanha da sua fila e, depois, os streamers da sua lista de pontos. Uma campanha
+sem canal ao vivo é pulada em favor da próxima que tenha um (“Nenhum canal ao vivo” na sua
+fila); os canais ao vivo são verificados de novo a cada 90 segundos, e a conta volta a ela
+assim que um dos seus streamers entra ao vivo.
 
 A Twitch credita **uma campanha de Drops** e **dois canais para pontos** ao mesmo tempo
 por conta. Desde outubro de 2026, um drop só pode ser resgatado quando a conta da editora

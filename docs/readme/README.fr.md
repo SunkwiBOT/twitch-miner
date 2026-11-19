@@ -227,6 +227,10 @@ Ce qui le distingue des autres mineurs. « Voir en image » montre chaque poin
   Une courbe de points par streamer montre le solde dans le temps, avec des repères pour les
   streaks, raids, moments et paris, et une infobulle sur chacun.
 
+  <details open><summary>Voir en image</summary>
+  <img src="../media/fr/stats.avif" alt="Les tuiles de la page Statistiques sur 30 jours, puis la courbe de points d'un streamer avec un repère">
+  </details>
+
 - **Pause programmée et pause quotidienne.** Mettez en pause un compte ou tous les comptes
   pour 30 minutes, 1 heure, 4 heures, jusqu'à demain 09:00, ou une date et une heure
   personnalisées ; « Reprendre maintenant » lève la pause plus tôt. Un badge affiche
@@ -443,8 +447,11 @@ erreur au lieu de la page de Cloudflare.
 
 ## <a name="how-it-works"></a>Fonctionnement
 
-Toutes les 20 secondes, chaque compte choisit ses deux chaînes : la meilleure chaîne en
-direct pour la première campagne de sa file, puis les streamers de sa liste de points.
+Toutes les 20 secondes, chaque compte choisit ses deux chaînes : la meilleure chaîne en
+direct pour la première campagne de sa file, puis les streamers de sa liste de points. Une
+campagne sans chaîne en direct est passée au profit de la suivante qui en a une
+(« Aucune chaîne en direct » dans sa file) ; les chaînes en direct sont revérifiées toutes
+les 90 secondes, et le compte y revient dès qu'un de ses streamers passe en live.
 
 Twitch crédite **une campagne de Drops** et **deux chaînes pour les points** à la fois par
 compte. Depuis octobre 2026, un drop ne peut être réclamé que si le compte de l'éditeur est lié.

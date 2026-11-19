@@ -226,6 +226,10 @@ arbete.
   En poängkurva per streamer visar saldot över tid, med markörer för streaks, raids,
   moment och vadslagningar samt ett verktygstips på varje.
 
+  <details open><summary>Se det i aktion</summary>
+  <img src="../media/sv/stats.avif" alt="Statistiksidans rutor över 30 dagar, sedan en streamers poängkurva med en markering">
+  </details>
+
 - **Schemalagd paus och en daglig paus.** Pausa ett konto eller alla i 30 minuter, 1
   timme, 4 timmar, till imorgon 09:00 eller ett anpassat datum och tid; ”Återuppta nu”
   lyfter pausen tidigare. Ett märke visar när pausen slutar. En daglig paus stoppar
@@ -437,7 +441,10 @@ eller `504`: bakom Cloudflare ser du det riktiga felet i stället för Cloudflar
 ## <a name="how-it-works"></a>Så fungerar det
 
 Var 20:e sekund väljer varje konto sina två kanaler: den bästa livekanalen för den översta
-kampanjen i sin kö, sedan streamers på sin poänglista.
+kampanjen i sin kö, sedan streamers på sin poänglista. En kampanj utan livekanal hoppas
+över till förmån för nästa som har en (”Ingen kanal live” i dess kö); livekanaler
+kontrolleras igen var 90:e sekund, och kontot går tillbaka till den så fort en av dess
+streamers går live.
 
 Twitch krediterar **en Drops-kampanj** och **två kanaler för poäng** åt gången per konto.
 Sedan oktober 2026 kan en drop bara hämtas när utgivarkontot är länkat. Olänkade kampanjer

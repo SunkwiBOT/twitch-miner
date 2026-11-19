@@ -226,6 +226,10 @@ la lucru.
   bună categorie în spatele fiecărei cifre. O curbă a punctelor per streamer arată soldul
   în timp, cu marcaje pentru serii, raiduri, momente și predicții și un indiciu la fiecare.
 
+  <details open><summary>Vezi în acțiune</summary>
+  <img src="../media/ro/stats.avif" alt="Plăcile paginii Statistici pe 30 de zile, apoi curba de puncte a unui streamer cu un marcaj">
+  </details>
+
 - **Pauză programată și pauză zilnică.** Pune pauză unui cont sau tuturor pentru 30 de
   minute, 1 oră, 4 ore, până mâine la 09:00, sau o dată și oră personalizate; „Reia acum”
   o ridică mai devreme. O insignă arată ora la care se termină pauza. O pauză zilnică
@@ -438,7 +442,10 @@ Cloudflare.
 ## <a name="how-it-works"></a>Cum funcționează
 
 La fiecare 20 de secunde, fiecare cont își alege cele două canale: cel mai bun canal live
-pentru prima campanie din coada sa, apoi streamerii din lista sa de puncte.
+pentru prima campanie din coada sa, apoi streamerii din lista sa de puncte. O campanie fără
+canal live este sărită în favoarea următoarei care are unul („Niciun canal live” în coada
+ei); canalele live sunt reverificate la fiecare 90 de secunde, iar contul revine la ea
+imediat ce unul dintre streamerii săi intră live.
 
 Twitch creditează simultan, per cont, **o singură campanie Drops** și **două canale pentru
 puncte**. Din octombrie 2026, un drop poate fi revendicat doar dacă este conectat contul de

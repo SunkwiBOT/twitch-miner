@@ -164,6 +164,10 @@ Onu diğer madencilerden ayıran şeyler. Bir maddenin altındaki “Çalışır
 
 - **Bir İstatistikler sayfası.** 7, 30 veya 90 gün boyunca kazanılan puanlar, alınan drop'lar, izlenen süre ve kazanılan bahisler, her sayının arkasındaki en iyi yayıncı veya kategoriyle birlikte. Yayıncı başına bir puan eğrisi, bakiyeyi zaman içinde gösterir; seri, baskın, an ve bahisler için işaretleyicilerle ve her birinde bir araç ipucuyla birlikte.
 
+  <details open><summary>Çalışırken görün</summary>
+  <img src="../media/tr/stats.avif" alt="30 günlük İstatistikler kutucukları, ardından bir işaretleyiciyle yayıncının puan eğrisi">
+  </details>
+
 - **Zamanlanmış duraklatma ve günlük duraklatma.** Bir hesabı veya tüm hesapları 30 dakika, 1 saat, 4 saat, yarın 09:00'a kadar veya özel bir tarih ve saate kadar duraklatın; “Şimdi devam et” duraklatmayı erken kaldırır. Bir rozet duraklatmanın ne zaman biteceğini gösterir. Günlük duraklatma, her gün iki saat arasında, seçtiğiniz saat diliminde tüm hesapların madenciliğini durdurur ve süre bitince üst çubuktaki kendi rozetiyle birlikte devam ettirir.
 - **CSV dışa aktarma ve kategoriye göre sayılar.** Günlük, alınan drop'ları bir CSV dosyası olarak dışa aktarır (tarih, hesap, kategori, kampanya, drop, dakika); hesaba göre filtrelenir ve bir iletişim kutusu her kategoride kaç drop alındığını listeler. Masaüstü uygulaması dosyayı bir kaydetme iletişim kutusuyla kaydeder; web paneli indirir.
 
@@ -323,7 +327,7 @@ Bir ters proxy arkasında `MINER_PUBLIC_URL` değişkenini ayarlayın: o olmadan
 
 ## <a name="how-it-works"></a>Nasıl çalışır
 
-Her hesap 20 saniyede bir iki kanalını seçer: kuyruğunun başındaki kampanya için en iyi canlı kanal, ardından puan listesindeki yayıncılar.
+Her hesap 20 saniyede bir iki kanalını seçer: kuyruğunun başındaki kampanya için en iyi canlı kanal, ardından puan listesindeki yayıncılar. Canlı kanalı olmayan kampanya, canlı kanalı olan bir sonrakine yer vermek için atlanır (kuyruğunda “Canlı kanal yok” yazar); canlı kanallar 90 saniyede bir yeniden kontrol edilir ve hesap, yayıncılarından biri canlı yayına girer girmez o kampanyaya geri döner.
 
 Twitch, hesap başına aynı anda **bir Drops kampanyası** ve **puanlar için iki kanal** sayar. Ekim 2026'dan beri bir drop yalnızca yayıncı hesabı bağlıysa alınabilir. Bağlı olmayan kampanyalar yine de ilerler ve panel bağlantıyı gösterir.
 
