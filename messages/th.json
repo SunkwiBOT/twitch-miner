@@ -101,13 +101,8 @@
   "import_tokens_status_not_imported": "ไม่ได้นำเข้า",
   "import_tokens_configure": [
     {
-      "declarations": [
-        "input count",
-        "local countPluralExact = count"
-      ],
-      "selectors": [
-        "countPluralExact"
-      ],
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
       "match": {
         "countPluralExact=1": "ตั้งค่าบัญชี",
         "countPluralExact=*": "ตั้งค่าบัญชี"
@@ -662,6 +657,7 @@
   "bulk_changes": "เปลี่ยนแปลง {shown} รายการ",
   "bulk_hint": "การเปลี่ยนแปลงที่ทำใน {name} ({count}) จะทำซ้ำในบัญชีที่ติ๊กไว้ แต่ละบัญชียังคงการตั้งค่าอื่นไว้เหมือนเดิม",
   "bulk_no_accounts": "ไม่มีบัญชีอื่น",
+  "bulk_nothing_to_change": "ไม่มีอะไรต้องเปลี่ยนในบัญชีนี้",
   "bulk_title": "นำไปใช้กับบัญชีอื่น",
   "change_campaign_moved": "ย้าย {campaign} สำเร็จแล้ว",
   "change_copied_drops": "คัดลอกการตั้งค่า Drops ของ {source} สำเร็จแล้ว",

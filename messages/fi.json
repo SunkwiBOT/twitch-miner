@@ -20,14 +20,8 @@
   "common_live": "Live",
   "common_viewers": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} katsoja",
         "countPlural=*": "{shown} katsojaa"
@@ -116,13 +110,8 @@
   "import_tokens_status_not_imported": "Ei tuotu",
   "import_tokens_configure": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Määritä tili",
         "countPlural=*": "Määritä tilit"
@@ -417,13 +406,8 @@
   "catalogue_title": "Luettelo",
   "catalogue_rewards": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} palkinto",
         "countPlural=*": "{count} palkintoa"
@@ -432,13 +416,8 @@
   ],
   "catalogue_campaigns": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} kampanja",
         "countPlural=*": "{count} kampanjaa"
@@ -641,9 +620,7 @@
         "input channel",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "+{points} piste kanavalla {channel}",
         "countPlural=*": "+{points} pistettä kanavalla {channel}"
@@ -652,14 +629,8 @@
   ],
   "ev_points_short": [
     {
-      "declarations": [
-        "input count",
-        "input points",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input points", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "+{points} piste",
         "countPlural=*": "+{points} pistettä"
@@ -675,9 +646,7 @@
         "input reason",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "+{points} piste kanavalla {channel} · {reason}",
         "countPlural=*": "+{points} pistettä kanavalla {channel} · {reason}"
@@ -692,9 +661,7 @@
         "input reason",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "+{points} piste · {reason}",
         "countPlural=*": "+{points} pistettä · {reason}"
@@ -718,9 +685,7 @@
         "input channel",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Panos {points} piste vaihtoehdolle ”{outcome}” ({channel})",
         "countPlural=*": "Panos {points} pistettä vaihtoehdolle ”{outcome}” ({channel})"
@@ -735,9 +700,7 @@
         "input outcome",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Panos {points} piste vaihtoehdolle ”{outcome}”",
         "countPlural=*": "Panos {points} pistettä vaihtoehdolle ”{outcome}”"
@@ -746,14 +709,8 @@
   ],
   "ev_bet_won": [
     {
-      "declarations": [
-        "input count",
-        "input points",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input points", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Ennustus voitettu: +{points} piste",
         "countPlural=*": "Ennustus voitettu: +{points} pistettä"
@@ -762,14 +719,8 @@
   ],
   "ev_bet_lost": [
     {
-      "declarations": [
-        "input count",
-        "input points",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input points", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Ennustus hävitty: −{points} piste",
         "countPlural=*": "Ennustus hävitty: −{points} pistettä"
@@ -811,14 +762,8 @@
   "catalogue_last_update": "Päivitetty {time}",
   "catalogue_refreshed": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} kampanja",
         "countPlural=*": "{shown} kampanjaa"
@@ -895,6 +840,7 @@
   "bulk_changes": "{shown} muutosta",
   "bulk_hint": "Tilillä {name} tehdyt muutokset ({count}) tehdään uudelleen valituille tileille. Kukin tili säilyttää muut asetuksensa.",
   "bulk_no_accounts": "Ei muita tilejä.",
+  "bulk_nothing_to_change": "Tällä tilillä ei ole muutettavaa",
   "bulk_title": "Käytä muihin tileihin",
   "change_campaign_moved": "{campaign} siirretty onnistuneesti",
   "change_copied_drops": "Drops-asetukset kopioitu onnistuneesti tililtä {source}",
@@ -1019,13 +965,8 @@
   "updates_interval_start": "Vain käynnistyessä",
   "updates_interval_minutes": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Minuutin välein",
         "countPlural=*": "{count} minuutin välein"
@@ -1034,13 +975,8 @@
   ],
   "updates_interval_hours": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Tunnin välein",
         "countPlural=*": "{count} tunnin välein"
@@ -1062,9 +998,7 @@
         "input channel",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{points} piste annettu tavoitteelle ”{goal}” kanavalla {channel}",
         "countPlural=*": "{points} pistettä annettu tavoitteelle ”{goal}” kanavalla {channel}"
@@ -1079,9 +1013,7 @@
         "input goal",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{points} piste annettu tavoitteelle ”{goal}”",
         "countPlural=*": "{points} pistettä annettu tavoitteelle ”{goal}”"
@@ -1251,14 +1183,8 @@
   "drops_add_game_placeholder": "Kategorian nimi…",
   "game_drops_available": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} drop saatavilla",
         "countPlural=*": "{shown} droppia saatavilla"
@@ -1311,13 +1237,8 @@
   "change_streamers_edited": "Streamaajat muokattu onnistuneesti: {count}",
   "points_defaults_offer_title": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Käytetäänkö tätä valintaa myös uusien streamaajien oletuksena?",
         "countPlural=*": "Käytetäänkö näitä valintoja myös uusien streamaajien oletuksena?"
@@ -1326,13 +1247,8 @@
   ],
   "points_defaults_offer_text": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Uudet streamaajat aloittavat juuri valitsemallasi arvolla tälle valinnalle; voit muuttaa sitä kohdassa Tilin asetukset.",
         "countPlural=*": "Uudet streamaajat aloittavat juuri valitsemillasi arvoilla näille valinnoille; voit muuttaa niitä kohdassa Tilin asetukset."
@@ -1348,9 +1264,7 @@
         "input channel",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "−{points} piste kanavalla {channel}",
         "countPlural=*": "−{points} pistettä kanavalla {channel}"
@@ -1359,14 +1273,8 @@
   ],
   "ev_points_spent_short": [
     {
-      "declarations": [
-        "input count",
-        "input points",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input points", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "−{points} piste",
         "countPlural=*": "−{points} pistettä"
@@ -1410,9 +1318,7 @@
         "input to",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} pyyntö {from}–{to}",
         "countPlural=*": "{shown} pyyntöä {from}–{to}"
@@ -1504,14 +1410,8 @@
   "spam_description": "Kuvaus: {text}",
   "spam_sent_all": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Lunastettu!",
         "countPlural=*": "{shown} lähetetty!"
@@ -1525,14 +1425,8 @@
   "spam_toast": "{count} × {reward} kanavalla {channel}: {result}",
   "spam_cancelled": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} peruttiin sivulta poistuttaessa",
         "countPlural=*": "{shown} peruttiin sivulta poistuttaessa"
@@ -1562,9 +1456,7 @@
         "input points",
         "local sentPlural = sent: plural"
       ],
-      "selectors": [
-        "sentPlural"
-      ],
+      "selectors": ["sentPlural"],
       "match": {
         "sentPlural=one": "{count} × {reward} kanavalla {channel} — {shown} lähetetty, {points} pistettä",
         "sentPlural=*": "{count} × {reward} kanavalla {channel} — {shown} lähetetty, {points} pistettä"
@@ -1581,9 +1473,7 @@
         "input points",
         "local sentPlural = sent: plural"
       ],
-      "selectors": [
-        "sentPlural"
-      ],
+      "selectors": ["sentPlural"],
       "match": {
         "sentPlural=one": "{count} × {reward} — {shown} lähetetty, {points} pistettä",
         "sentPlural=*": "{count} × {reward} — {shown} lähetetty, {points} pistettä"
@@ -1594,14 +1484,8 @@
   "ev_rewards_redeemed_partial_short": "{count} × {reward} — {sent}/{total} lähetetty, {points} pistettä",
   "ev_rewards_refused": [
     {
-      "declarations": [
-        "input refused",
-        "input reason",
-        "local refusedPlural = refused: plural"
-      ],
-      "selectors": [
-        "refusedPlural"
-      ],
+      "declarations": ["input refused", "input reason", "local refusedPlural = refused: plural"],
+      "selectors": ["refusedPlural"],
       "match": {
         "refusedPlural=one": "{refused} hylätty: {reason}",
         "refusedPlural=*": "{refused} hylätty: {reason}"
@@ -1625,14 +1509,8 @@
   "badges_refreshed_title": "Merkit päivitetty",
   "badges_refreshed": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} merkki",
         "countPlural=*": "{shown} merkkiä"
@@ -1642,13 +1520,8 @@
   "badges_retry": "Uusi yritys {time} kuluttua.",
   "badges_count": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} merkki",
         "countPlural=*": "{count} merkkiä"
@@ -1657,13 +1530,8 @@
   ],
   "badges_off_calendar": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} merkki ilman päivämääriä tai jo päättynyt:",
         "countPlural=*": "{count} merkkiä ilman päivämääriä tai jo päättyneitä:"

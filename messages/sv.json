@@ -20,14 +20,8 @@
   "common_live": "Live",
   "common_viewers": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} tittare",
         "countPlural=*": "{shown} tittare"
@@ -116,13 +110,8 @@
   "import_tokens_status_not_imported": "Inte importerad",
   "import_tokens_configure": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Konfigurera kontot",
         "countPlural=*": "Konfigurera konton"
@@ -417,13 +406,8 @@
   "catalogue_title": "Katalog",
   "catalogue_rewards": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} belöning",
         "countPlural=*": "{count} belöningar"
@@ -432,13 +416,8 @@
   ],
   "catalogue_campaigns": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} kampanj",
         "countPlural=*": "{count} kampanjer"
@@ -684,14 +663,8 @@
   "catalogue_last_update": "Uppdaterad {time}",
   "catalogue_refreshed": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} kampanj",
         "countPlural=*": "{shown} kampanjer"
@@ -768,6 +741,7 @@
   "bulk_changes": "{shown} ändringar",
   "bulk_hint": "Ändringarna på {name} ({count}) görs om på de markerade kontona. Varje konto behåller resten av sina inställningar.",
   "bulk_no_accounts": "Inget annat konto.",
+  "bulk_nothing_to_change": "Inget att ändra på det här kontot",
   "bulk_title": "Tillämpa på andra konton",
   "change_campaign_moved": "{campaign} har flyttats",
   "change_copied_drops": "Drops-inställningarna från {source} har kopierats",
@@ -892,13 +866,8 @@
   "updates_interval_start": "Bara vid start",
   "updates_interval_minutes": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Varje minut",
         "countPlural=*": "Var {count}:e minut"
@@ -907,13 +876,8 @@
   ],
   "updates_interval_hours": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Varje timme",
         "countPlural=*": "Var {count}:e timme"
@@ -935,9 +899,7 @@
         "input channel",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{points} poäng given till ”{goal}” på {channel}",
         "countPlural=*": "{points} poäng givna till ”{goal}” på {channel}"
@@ -952,9 +914,7 @@
         "input goal",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{points} poäng given till ”{goal}”",
         "countPlural=*": "{points} poäng givna till ”{goal}”"
@@ -1124,14 +1084,8 @@
   "drops_add_game_placeholder": "Kategorins namn…",
   "game_drops_available": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} drop tillgänglig",
         "countPlural=*": "{shown} drops tillgängliga"
@@ -1179,13 +1133,8 @@
   "points_edit_selected": "Redigera ({count})",
   "points_group_title": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Redigera {count} streamer",
         "countPlural=*": "Redigera {count} streamers"
@@ -1198,13 +1147,8 @@
   "change_streamers_edited": "Streamers har redigerats: {count}",
   "points_defaults_offer_title": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Använda det här alternativet som standard även för nya streamers?",
         "countPlural=*": "Använda de här alternativen som standard även för nya streamers?"
@@ -1213,13 +1157,8 @@
   ],
   "points_defaults_offer_text": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Nya streamers börjar med värdet du just valde för det här alternativet; du kan ändra det under Kontoinställningar.",
         "countPlural=*": "Nya streamers börjar med värdena du just valde för de här alternativen; du kan ändra dem under Kontoinställningar."
@@ -1266,9 +1205,7 @@
         "input to",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} förfrågan från {from} till {to}",
         "countPlural=*": "{shown} förfrågningar från {from} till {to}"
@@ -1360,14 +1297,8 @@
   "spam_description": "Beskrivning: {text}",
   "spam_sent_all": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Inlöst!",
         "countPlural=*": "{shown} skickade!"
@@ -1381,14 +1312,8 @@
   "spam_toast": "{count} × {reward} på {channel}: {result}",
   "spam_cancelled": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} avbröts när sidan lämnades",
         "countPlural=*": "{shown} avbröts när sidan lämnades"
@@ -1418,9 +1343,7 @@
         "input points",
         "local sentPlural = sent: plural"
       ],
-      "selectors": [
-        "sentPlural"
-      ],
+      "selectors": ["sentPlural"],
       "match": {
         "sentPlural=one": "{count} × {reward} på {channel} — {shown} skickad, {points} poäng",
         "sentPlural=*": "{count} × {reward} på {channel} — {shown} skickade, {points} poäng"
@@ -1437,9 +1360,7 @@
         "input points",
         "local sentPlural = sent: plural"
       ],
-      "selectors": [
-        "sentPlural"
-      ],
+      "selectors": ["sentPlural"],
       "match": {
         "sentPlural=one": "{count} × {reward} — {shown} skickad, {points} poäng",
         "sentPlural=*": "{count} × {reward} — {shown} skickade, {points} poäng"
@@ -1450,14 +1371,8 @@
   "ev_rewards_redeemed_partial_short": "{count} × {reward} — {sent}/{total} skickade, {points} poäng",
   "ev_rewards_refused": [
     {
-      "declarations": [
-        "input refused",
-        "input reason",
-        "local refusedPlural = refused: plural"
-      ],
-      "selectors": [
-        "refusedPlural"
-      ],
+      "declarations": ["input refused", "input reason", "local refusedPlural = refused: plural"],
+      "selectors": ["refusedPlural"],
       "match": {
         "refusedPlural=one": "{refused} nekad: {reason}",
         "refusedPlural=*": "{refused} nekade: {reason}"
@@ -1481,14 +1396,8 @@
   "badges_refreshed_title": "Märken uppdaterade",
   "badges_refreshed": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} märke",
         "countPlural=*": "{shown} märken"
@@ -1498,13 +1407,8 @@
   "badges_retry": "Nytt försök om {time}.",
   "badges_count": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} märke",
         "countPlural=*": "{count} märken"
@@ -1513,13 +1417,8 @@
   ],
   "badges_off_calendar": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} märke utan datum eller redan avslutat:",
         "countPlural=*": "{count} märken utan datum eller redan avslutade:"

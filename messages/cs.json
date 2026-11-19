@@ -20,14 +20,8 @@
   "common_live": "Živě",
   "common_viewers": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} divák",
         "countPlural=few": "{shown} diváci",
@@ -118,13 +112,8 @@
   "import_tokens_status_not_imported": "Neimportováno",
   "import_tokens_configure": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Nastavit účet",
         "countPlural=few": "Nastavit účty",
@@ -425,13 +414,8 @@
   "catalogue_title": "Katalog",
   "catalogue_rewards": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} odměna",
         "countPlural=few": "{count} odměny",
@@ -441,13 +425,8 @@
   ],
   "catalogue_campaigns": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} kampaň",
         "countPlural=few": "{count} kampaně",
@@ -654,9 +633,7 @@
         "input channel",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "+{points} bod na {channel}",
         "countPlural=few": "+{points} body na {channel}",
@@ -666,14 +643,8 @@
   ],
   "ev_points_short": [
     {
-      "declarations": [
-        "input count",
-        "input points",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input points", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "+{points} bod",
         "countPlural=few": "+{points} body",
@@ -690,9 +661,7 @@
         "input reason",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "+{points} bod na {channel} · {reason}",
         "countPlural=few": "+{points} body na {channel} · {reason}",
@@ -708,9 +677,7 @@
         "input reason",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "+{points} bod · {reason}",
         "countPlural=few": "+{points} body · {reason}",
@@ -735,9 +702,7 @@
         "input channel",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Vsazen {points} bod na „{outcome}“ ({channel})",
         "countPlural=few": "Vsazeny {points} body na „{outcome}“ ({channel})",
@@ -753,9 +718,7 @@
         "input outcome",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Vsazen {points} bod na „{outcome}“",
         "countPlural=few": "Vsazeny {points} body na „{outcome}“",
@@ -765,14 +728,8 @@
   ],
   "ev_bet_won": [
     {
-      "declarations": [
-        "input count",
-        "input points",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input points", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Předpověď vyhrána: +{points} bod",
         "countPlural=few": "Předpověď vyhrána: +{points} body",
@@ -782,14 +739,8 @@
   ],
   "ev_bet_lost": [
     {
-      "declarations": [
-        "input count",
-        "input points",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input points", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Předpověď prohrána: −{points} bod",
         "countPlural=few": "Předpověď prohrána: −{points} body",
@@ -832,14 +783,8 @@
   "catalogue_last_update": "Aktualizováno {time}",
   "catalogue_refreshed": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} kampaň",
         "countPlural=few": "{shown} kampaně",
@@ -916,14 +861,8 @@
   "bulk_apply_others": "Použít na další účty",
   "bulk_changes": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} změna",
         "countPlural=few": "{shown} změny",
@@ -933,6 +872,7 @@
   ],
   "bulk_hint": "Změny provedené na účtu {name} ({count}) se zopakují na zaškrtnutých účtech. Každý účet si ponechá zbytek svého nastavení.",
   "bulk_no_accounts": "Žádný jiný účet.",
+  "bulk_nothing_to_change": "Na tomto účtu není co měnit",
   "bulk_title": "Použít na další účty",
   "change_campaign_moved": "Kampaň {campaign} úspěšně přesunuta",
   "change_copied_drops": "Nastavení Drops z účtu {source} úspěšně zkopírováno",
@@ -1059,13 +999,8 @@
   "updates_interval_start": "Jen při spuštění",
   "updates_interval_minutes": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Každou minutu",
         "countPlural=few": "Každé {count} minuty",
@@ -1075,13 +1010,8 @@
   ],
   "updates_interval_hours": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Každou hodinu",
         "countPlural=few": "Každé {count} hodiny",
@@ -1104,9 +1034,7 @@
         "input channel",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Vložen {points} bod do „{goal}“ na {channel}",
         "countPlural=few": "Vloženy {points} body do „{goal}“ na {channel}",
@@ -1122,9 +1050,7 @@
         "input goal",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Vložen {points} bod do „{goal}“",
         "countPlural=few": "Vloženy {points} body do „{goal}“",
@@ -1297,14 +1223,8 @@
   "drops_add_game_placeholder": "Název kategorie…",
   "game_drops_available": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} dostupný drop",
         "countPlural=few": "{shown} dostupné dropy",
@@ -1353,13 +1273,8 @@
   "points_edit_selected": "Upravit ({count})",
   "points_group_title": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Upravit {count} streamera",
         "countPlural=few": "Upravit {count} streamery",
@@ -1373,13 +1288,8 @@
   "change_streamers_edited": "Streameři úspěšně upraveni: {count}",
   "points_defaults_offer_title": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Použít tuto možnost i jako výchozí pro nové streamery?",
         "countPlural=few": "Použít tyto možnosti i jako výchozí pro nové streamery?",
@@ -1389,13 +1299,8 @@
   ],
   "points_defaults_offer_text": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Noví streameři začnou s hodnotou, kterou jste právě zvolili pro tuto možnost; změnit ji můžete v Nastavení účtu.",
         "countPlural=*": "Noví streameři začnou s hodnotami, které jste právě zvolili pro tyto možnosti; změnit je můžete v Nastavení účtu."
@@ -1411,9 +1316,7 @@
         "input channel",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "−{points} bod na {channel}",
         "countPlural=few": "−{points} body na {channel}",
@@ -1423,14 +1326,8 @@
   ],
   "ev_points_spent_short": [
     {
-      "declarations": [
-        "input count",
-        "input points",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input points", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "−{points} bod",
         "countPlural=few": "−{points} body",
@@ -1475,9 +1372,7 @@
         "input to",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} požadavek od {from} do {to}",
         "countPlural=few": "{shown} požadavky od {from} do {to}",
@@ -1570,14 +1465,8 @@
   "spam_description": "Popis: {text}",
   "spam_sent_all": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Uplatněno!",
         "countPlural=few": "Odeslány {shown}!",
@@ -1592,14 +1481,8 @@
   "spam_toast": "{count} × {reward} na kanálu {channel}: {result}",
   "spam_cancelled": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} zrušen při opuštění stránky",
         "countPlural=few": "{shown} zrušeny při opuštění stránky",
@@ -1630,9 +1513,7 @@
         "input points",
         "local sentPlural = sent: plural"
       ],
-      "selectors": [
-        "sentPlural"
-      ],
+      "selectors": ["sentPlural"],
       "match": {
         "sentPlural=one": "{count} × {reward} na kanálu {channel} — odesláno {shown}, {points} bodů",
         "sentPlural=few": "{count} × {reward} na kanálu {channel} — odeslány {shown}, {points} bodů",
@@ -1650,9 +1531,7 @@
         "input points",
         "local sentPlural = sent: plural"
       ],
-      "selectors": [
-        "sentPlural"
-      ],
+      "selectors": ["sentPlural"],
       "match": {
         "sentPlural=one": "{count} × {reward} — odesláno {shown}, {points} bodů",
         "sentPlural=few": "{count} × {reward} — odeslány {shown}, {points} bodů",
@@ -1664,14 +1543,8 @@
   "ev_rewards_redeemed_partial_short": "{count} × {reward} — odesláno {sent}/{total}, {points} bodů",
   "ev_rewards_refused": [
     {
-      "declarations": [
-        "input refused",
-        "input reason",
-        "local refusedPlural = refused: plural"
-      ],
-      "selectors": [
-        "refusedPlural"
-      ],
+      "declarations": ["input refused", "input reason", "local refusedPlural = refused: plural"],
+      "selectors": ["refusedPlural"],
       "match": {
         "refusedPlural=one": "{refused} odmítnut: {reason}",
         "refusedPlural=few": "{refused} odmítnuty: {reason}",
@@ -1696,14 +1569,8 @@
   "badges_refreshed_title": "Odznaky obnoveny",
   "badges_refreshed": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} odznak",
         "countPlural=few": "{shown} odznaky",
@@ -1714,13 +1581,8 @@
   "badges_retry": "Další pokus za {time}.",
   "badges_count": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} odznak",
         "countPlural=few": "{count} odznaky",
@@ -1730,13 +1592,8 @@
   ],
   "badges_off_calendar": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} odznak bez dat nebo už skončený:",
         "countPlural=few": "{count} odznaky bez dat nebo už skončené:",

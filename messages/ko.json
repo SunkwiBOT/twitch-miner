@@ -101,13 +101,8 @@
   "import_tokens_status_not_imported": "가져오지 않음",
   "import_tokens_configure": [
     {
-      "declarations": [
-        "input count",
-        "local countPluralExact = count"
-      ],
-      "selectors": [
-        "countPluralExact"
-      ],
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
       "match": {
         "countPluralExact=1": "계정 설정",
         "countPluralExact=*": "계정 설정"
@@ -662,6 +657,7 @@
   "bulk_changes": "변경 {shown}건",
   "bulk_hint": "{name}에서 한 변경({count}건)을 체크한 계정에도 똑같이 적용해요. 각 계정의 나머지 설정은 그대로 유지돼요.",
   "bulk_no_accounts": "다른 계정이 없어요.",
+  "bulk_nothing_to_change": "이 계정은 변경할 내용이 없어요",
   "bulk_title": "다른 계정에 적용",
   "change_campaign_moved": "{campaign}을(를) 옮겼어요",
   "change_copied_drops": "{source}의 Drops 설정을 복사했어요",

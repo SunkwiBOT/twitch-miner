@@ -101,13 +101,8 @@
   "import_tokens_status_not_imported": "Chưa được nhập",
   "import_tokens_configure": [
     {
-      "declarations": [
-        "input count",
-        "local countPluralExact = count"
-      ],
-      "selectors": [
-        "countPluralExact"
-      ],
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
       "match": {
         "countPluralExact=1": "Thiết lập tài khoản",
         "countPluralExact=*": "Thiết lập tài khoản"
@@ -662,6 +657,7 @@
   "bulk_changes": "{shown} thay đổi",
   "bulk_hint": "Các thay đổi trên {name} ({count}) được áp dụng lại cho các tài khoản đã đánh dấu. Mỗi tài khoản giữ nguyên các cài đặt còn lại.",
   "bulk_no_accounts": "Không có tài khoản khác.",
+  "bulk_nothing_to_change": "Không có gì để thay đổi trên tài khoản này",
   "bulk_title": "Áp dụng cho tài khoản khác",
   "change_campaign_moved": "Đã di chuyển {campaign} thành công",
   "change_copied_drops": "Đã sao chép cài đặt Drops của {source} thành công",

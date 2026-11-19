@@ -1,18 +1,14 @@
-import type { AccountSettingsType } from "../bindings/AccountSettingsType";
-import type { AccountSnapshotType } from "../bindings/AccountSnapshotType";
 import { number } from "../format.utils";
 import { t } from "../i18n/i18n.svelte";
 import { strong } from "../text.utils";
 import { BULK_TOAST_KEY, ToastKind } from "./state.constants";
 import { updateAccountSettings } from "./account-settings.svelte";
 import { app } from "./app.svelte";
+import { type AccountChangeType, wouldChange } from "./bulk.utils";
 import { accountImage, toast } from "./toasts";
 import type { ToastSubjectType } from "./toasts";
 
-export type AccountChangeType = (
-  settings: AccountSettingsType,
-  target: AccountSnapshotType,
-) => void;
+export type { AccountChangeType } from "./bulk.utils";
 
 type BulkStateType = { open: boolean; sourceId: string | null; changes: AccountChangeType[] };
 
@@ -65,12 +61,16 @@ export const changed = (
   bulk.changes.push(change);
 
   const count = bulk.changes.length;
+  const others = (app.snapshot?.accounts ?? []).filter((a) => a.id !== sourceId);
+  const applicable = others.some((a) => wouldChange(a, bulk.changes));
 
   toast(ToastKind.SUCCESS, t.change_settings(), {
     key: BULK_TOAST_KEY,
     description: count === 1 ? text : t.bulk_changes({ count, shown: strong(number(count)) }),
     account: count === 1 ? (subject ?? image) : image,
-    action: { label: t.bulk_apply_others(), run: () => (bulk.open = true) },
+    action: applicable
+      ? { label: t.bulk_apply_others(), run: () => (bulk.open = true) }
+      : undefined,
     onend: () => {
       if (!bulk.open) {
         closeBulk();
@@ -85,7 +85,7 @@ export const applyToAccounts = async (accountIds: string[]): Promise<void> => {
     accountIds.map((id) => {
       const target = app.snapshot?.accounts.find((a) => a.id === id);
 
-      if (!target) {
+      if (!target || !wouldChange(target, changes)) {
         return Promise.resolve(false);
       }
 

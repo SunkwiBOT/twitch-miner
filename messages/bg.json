@@ -20,14 +20,8 @@
   "common_live": "На живо",
   "common_viewers": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} зрител",
         "countPlural=*": "{shown} зрители"
@@ -116,13 +110,8 @@
   "import_tokens_status_not_imported": "Не е импортиран",
   "import_tokens_configure": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Настройка на акаунта",
         "countPlural=*": "Настройка на акаунтите"
@@ -417,13 +406,8 @@
   "catalogue_title": "Каталог",
   "catalogue_rewards": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} награда",
         "countPlural=*": "{count} награди"
@@ -432,13 +416,8 @@
   ],
   "catalogue_campaigns": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} кампания",
         "countPlural=*": "{count} кампании"
@@ -641,9 +620,7 @@
         "input channel",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "+{points} точка в {channel}",
         "countPlural=*": "+{points} точки в {channel}"
@@ -652,14 +629,8 @@
   ],
   "ev_points_short": [
     {
-      "declarations": [
-        "input count",
-        "input points",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input points", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "+{points} точка",
         "countPlural=*": "+{points} точки"
@@ -675,9 +646,7 @@
         "input reason",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "+{points} точка в {channel} · {reason}",
         "countPlural=*": "+{points} точки в {channel} · {reason}"
@@ -692,9 +661,7 @@
         "input reason",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "+{points} точка · {reason}",
         "countPlural=*": "+{points} точки · {reason}"
@@ -718,9 +685,7 @@
         "input channel",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Залог {points} точка на „{outcome}“ ({channel})",
         "countPlural=*": "Залог {points} точки на „{outcome}“ ({channel})"
@@ -735,9 +700,7 @@
         "input outcome",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Залог {points} точка на „{outcome}“",
         "countPlural=*": "Залог {points} точки на „{outcome}“"
@@ -746,14 +709,8 @@
   ],
   "ev_bet_won": [
     {
-      "declarations": [
-        "input count",
-        "input points",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input points", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Спечелена прогноза: +{points} точка",
         "countPlural=*": "Спечелена прогноза: +{points} точки"
@@ -762,14 +719,8 @@
   ],
   "ev_bet_lost": [
     {
-      "declarations": [
-        "input count",
-        "input points",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input points", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Загубена прогноза: −{points} точка",
         "countPlural=*": "Загубена прогноза: −{points} точки"
@@ -811,14 +762,8 @@
   "catalogue_last_update": "Обновено {time}",
   "catalogue_refreshed": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} кампания",
         "countPlural=*": "{shown} кампании"
@@ -895,6 +840,7 @@
   "bulk_changes": "{shown} промени",
   "bulk_hint": "Промените, направени в {name} ({count}), се повтарят в отметнатите акаунти. Всеки акаунт запазва останалите си настройки.",
   "bulk_no_accounts": "Няма друг акаунт.",
+  "bulk_nothing_to_change": "На този акаунт няма какво да се променя",
   "bulk_title": "Приложи към други акаунти",
   "change_campaign_moved": "{campaign} е преместена успешно",
   "change_copied_drops": "Настройките за Drops на {source} са копирани успешно",
@@ -1019,13 +965,8 @@
   "updates_interval_start": "Само при стартиране",
   "updates_interval_minutes": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Всяка минута",
         "countPlural=*": "На всеки {count} минути"
@@ -1034,13 +975,8 @@
   ],
   "updates_interval_hours": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Всеки час",
         "countPlural=*": "На всеки {count} часа"
@@ -1062,9 +998,7 @@
         "input channel",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{points} точка дадена за „{goal}“ в {channel}",
         "countPlural=*": "{points} точки дадени за „{goal}“ в {channel}"
@@ -1079,9 +1013,7 @@
         "input goal",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{points} точка дадена за „{goal}“",
         "countPlural=*": "{points} точки дадени за „{goal}“"
@@ -1251,14 +1183,8 @@
   "drops_add_game_placeholder": "Име на категорията…",
   "game_drops_available": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} наличен drop",
         "countPlural=*": "{shown} налични drops"
@@ -1306,13 +1232,8 @@
   "points_edit_selected": "Редактирай ({count})",
   "points_group_title": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Редактиране на {count} стриймър",
         "countPlural=*": "Редактиране на {count} стриймъри"
@@ -1325,13 +1246,8 @@
   "change_streamers_edited": "Успешно редактирани стриймъри: {count}",
   "points_defaults_offer_title": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Да се използва ли тази опция по подразбиране и за новите стриймъри?",
         "countPlural=*": "Да се използват ли тези опции по подразбиране и за новите стриймъри?"
@@ -1340,13 +1256,8 @@
   ],
   "points_defaults_offer_text": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Новите стриймъри ще започват със стойността, която току-що избрахте за тази опция; можете да я промените в Настройки на акаунта.",
         "countPlural=*": "Новите стриймъри ще започват със стойностите, които току-що избрахте за тези опции; можете да ги промените в Настройки на акаунта."
@@ -1362,9 +1273,7 @@
         "input channel",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "−{points} точка в {channel}",
         "countPlural=*": "−{points} точки в {channel}"
@@ -1373,14 +1282,8 @@
   ],
   "ev_points_spent_short": [
     {
-      "declarations": [
-        "input count",
-        "input points",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input points", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "−{points} точка",
         "countPlural=*": "−{points} точки"
@@ -1424,9 +1327,7 @@
         "input to",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} заявка от {from} до {to}",
         "countPlural=*": "{shown} заявки от {from} до {to}"
@@ -1518,14 +1419,8 @@
   "spam_description": "Описание: {text}",
   "spam_sent_all": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Разменено!",
         "countPlural=*": "Изпратени: {shown}!"
@@ -1539,14 +1434,8 @@
   "spam_toast": "{count} × {reward} в {channel}: {result}",
   "spam_cancelled": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} отменена при напускане на страницата",
         "countPlural=*": "{shown} отменени при напускане на страницата"
@@ -1576,9 +1465,7 @@
         "input points",
         "local sentPlural = sent: plural"
       ],
-      "selectors": [
-        "sentPlural"
-      ],
+      "selectors": ["sentPlural"],
       "match": {
         "sentPlural=one": "{count} × {reward} в {channel} — изпратена {shown}, {points} точки",
         "sentPlural=*": "{count} × {reward} в {channel} — изпратени {shown}, {points} точки"
@@ -1595,9 +1482,7 @@
         "input points",
         "local sentPlural = sent: plural"
       ],
-      "selectors": [
-        "sentPlural"
-      ],
+      "selectors": ["sentPlural"],
       "match": {
         "sentPlural=one": "{count} × {reward} — изпратена {shown}, {points} точки",
         "sentPlural=*": "{count} × {reward} — изпратени {shown}, {points} точки"
@@ -1608,14 +1493,8 @@
   "ev_rewards_redeemed_partial_short": "{count} × {reward} — изпратени {sent}/{total}, {points} точки",
   "ev_rewards_refused": [
     {
-      "declarations": [
-        "input refused",
-        "input reason",
-        "local refusedPlural = refused: plural"
-      ],
-      "selectors": [
-        "refusedPlural"
-      ],
+      "declarations": ["input refused", "input reason", "local refusedPlural = refused: plural"],
+      "selectors": ["refusedPlural"],
       "match": {
         "refusedPlural=one": "{refused} отказана: {reason}",
         "refusedPlural=*": "{refused} отказани: {reason}"
@@ -1639,14 +1518,8 @@
   "badges_refreshed_title": "Значките са обновени",
   "badges_refreshed": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} значка",
         "countPlural=*": "{shown} значки"
@@ -1656,13 +1529,8 @@
   "badges_retry": "Нов опит след {time}.",
   "badges_count": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} значка",
         "countPlural=*": "{count} значки"
@@ -1671,13 +1539,8 @@
   ],
   "badges_off_calendar": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} значка без дати или вече приключила:",
         "countPlural=*": "{count} значки без дати или вече приключили:"

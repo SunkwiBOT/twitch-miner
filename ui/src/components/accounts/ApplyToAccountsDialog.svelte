@@ -3,6 +3,7 @@
 
   import { t } from "../../lib/i18n/i18n.svelte";
   import { applyToAccounts, bulk, closeBulk } from "../../lib/state/bulk.svelte";
+  import { wouldChange } from "../../lib/state/bulk.utils";
   import { account, app } from "../../lib/state/app.svelte";
   import TextButton from "../ui/TextButton.svelte";
   import { personMarker, strong } from "../../lib/text.utils";
@@ -20,16 +21,22 @@
 
   const source = $derived(account(sourceId));
   const others = $derived((app.snapshot?.accounts ?? []).filter((a) => a.id !== sourceId));
+  const applicable = $derived(new Map(others.map((a) => [a.id, wouldChange(a, bulk.changes)])));
 
   const items = $derived(
-    others.map((a) => ({
-      value: a.id,
-      label: a.display_name,
-      image: a.avatar_url,
-      hint: "",
-      channel: null,
-    })),
+    [...others]
+      .sort((a, b) => Number(applicable.get(b.id)) - Number(applicable.get(a.id)))
+      .map((a) => ({
+        value: a.id,
+        label: a.display_name,
+        image: a.avatar_url,
+        hint: applicable.get(a.id) ? "" : t.bulk_nothing_to_change(),
+        channel: null,
+        disabled: !applicable.get(a.id),
+      })),
   );
+
+  const applicableCount = $derived(items.filter((item) => !item.disabled).length);
 
   // ! Kept until the dialog is gone: its closing animation must not show the emptied offer.
   $effect(() => {
@@ -37,7 +44,7 @@
       untrack(() => {
         sourceId = bulk.sourceId;
         count = bulk.changes.length;
-        selected = others.map((a) => a.id);
+        selected = others.filter((a) => applicable.get(a.id)).map((a) => a.id);
       });
     }
   });
@@ -74,7 +81,7 @@
       label={t.bulk_accounts()}
       allLabel={t.common_select_all()}
       noneLabel={t.common_select_none()}
-      countLabel={t.common_selected_count({ count: selected.length, total: items.length })}
+      countLabel={t.common_selected_count({ count: selected.length, total: applicableCount })}
       empty={t.bulk_no_accounts()}
       onchange={(value) => (selected = value)}
     />

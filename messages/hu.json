@@ -101,13 +101,8 @@
   "import_tokens_status_not_imported": "Nincs importálva",
   "import_tokens_configure": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Fiók beállítása",
         "countPlural=*": "Fiókok beállítása"
@@ -665,6 +660,7 @@
   "bulk_changes": "{shown} módosítás",
   "bulk_hint": "A(z) {name} fiókon végzett módosítások ({count}) a bejelölt fiókokon is megtörténnek. Minden fiók megtartja a többi beállítását.",
   "bulk_no_accounts": "Nincs másik fiók.",
+  "bulk_nothing_to_change": "Ezen a fiókon nincs mit módosítani",
   "bulk_title": "Alkalmazás más fiókokra",
   "change_campaign_moved": "{campaign} sikeresen áthelyezve",
   "change_copied_drops": "Drops-beállítások sikeresen átmásolva innen: {source}",
@@ -789,13 +785,8 @@
   "updates_interval_start": "Csak indításkor",
   "updates_interval_minutes": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Percenként",
         "countPlural=*": "{count} percenként"
@@ -804,13 +795,8 @@
   ],
   "updates_interval_hours": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Óránként",
         "countPlural=*": "{count} óránként"
@@ -1034,13 +1020,8 @@
   "points_defaults_offer_title": "Alapértelmezésként az új streamerekre is érvényes legyen?",
   "points_defaults_offer_text": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Az új streamerek az imént választott értékkel indulnak ennél a beállításnál; a Fiókbeállításokban módosíthatod.",
         "countPlural=*": "Az új streamerek az imént választott értékekkel indulnak ezeknél a beállításoknál; a Fiókbeállításokban módosíthatod őket."

@@ -20,14 +20,8 @@
   "common_live": "В эфире",
   "common_viewers": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} зритель",
         "countPlural=few": "{shown} зрителя",
@@ -127,10 +121,7 @@
         "local countPluralExact = count",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPluralExact",
-        "countPlural"
-      ],
+      "selectors": ["countPluralExact", "countPlural"],
       "match": {
         "countPlural=*, countPluralExact=1": "Настройка аккаунта",
         "countPlural=few, countPluralExact=*": "Настройка аккаунтов",
@@ -443,13 +434,8 @@
   "catalogue_title": "Каталог",
   "catalogue_rewards": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} награда",
         "countPlural=few": "{count} награды",
@@ -459,13 +445,8 @@
   ],
   "catalogue_campaigns": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} кампания",
         "countPlural=few": "{count} кампании",
@@ -727,14 +708,8 @@
   "catalogue_last_update": "Обновлено {time}",
   "catalogue_refreshed": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} кампания",
         "countPlural=few": "{shown} кампании",
@@ -811,14 +786,8 @@
   "bulk_apply_others": "Применить к другим аккаунтам",
   "bulk_changes": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} изменение",
         "countPlural=few": "{shown} изменения",
@@ -828,6 +797,7 @@
   ],
   "bulk_hint": "Изменения, сделанные в аккаунте {name} ({count}), повторяются в отмеченных аккаунтах. Остальные настройки каждого аккаунта не меняются.",
   "bulk_no_accounts": "Других аккаунтов нет.",
+  "bulk_nothing_to_change": "На этом аккаунте менять нечего",
   "bulk_title": "Применить к другим аккаунтам",
   "change_campaign_moved": "Кампания {campaign} успешно перемещена",
   "change_copied_drops": "Настройки Drops из {source} успешно скопированы",
@@ -870,7 +840,11 @@
   "login_setup_custom": "Свои настройки",
   "login_setup_later_hint": [
     {
-      "declarations": ["input count", "local countPluralExact = count", "local countPlural = count: plural"],
+      "declarations": [
+        "input count",
+        "local countPluralExact = count",
+        "local countPlural = count: plural"
+      ],
       "selectors": ["countPluralExact", "countPlural"],
       "match": {
         "countPlural=*, countPluralExact=1": "Аккаунт остаётся на паузе, пока вы его не запустите — сейчас или позже на его странице.",
@@ -882,7 +856,11 @@
   "login_setup_streamers_empty": "Стримеров пока нет: добавьте их ниже или позже на странице «Баллы».",
   "login_setup_streamers_hint": [
     {
-      "declarations": ["input count", "local countPluralExact = count", "local countPlural = count: plural"],
+      "declarations": [
+        "input count",
+        "local countPluralExact = count",
+        "local countPlural = count: plural"
+      ],
       "selectors": ["countPluralExact", "countPlural"],
       "match": {
         "countPlural=*, countPluralExact=1": "Каналы, которые этот аккаунт смотрит ради баллов канала, самые важные первыми.",
@@ -954,13 +932,8 @@
   "updates_interval_start": "Только при запуске",
   "updates_interval_minutes": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Каждые {count} минуту",
         "countPlural=few": "Каждые {count} минуты",
@@ -970,13 +943,8 @@
   ],
   "updates_interval_hours": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Каждые {count} час",
         "countPlural=few": "Каждые {count} часа",
@@ -1034,7 +1002,11 @@
   "login_setup_start_hint": "Начните с настроек по умолчанию или возьмите настройки аккаунта, на котором вы уже майните. Всё можно изменить на следующих шагах.",
   "login_setup_summary_hint": [
     {
-      "declarations": ["input count", "local countPluralExact = count", "local countPlural = count: plural"],
+      "declarations": [
+        "input count",
+        "local countPluralExact = count",
+        "local countPlural = count: plural"
+      ],
       "selectors": ["countPluralExact", "countPlural"],
       "match": {
         "countPlural=*, countPluralExact=1": "Всё можно изменить позже на страницах аккаунта.",
@@ -1048,7 +1020,11 @@
   "common_no": "Нет",
   "login_setup_drops_hint": [
     {
-      "declarations": ["input count", "local countPluralExact = count", "local countPlural = count: plural"],
+      "declarations": [
+        "input count",
+        "local countPluralExact = count",
+        "local countPlural = count: plural"
+      ],
       "selectors": ["countPluralExact", "countPlural"],
       "match": {
         "countPlural=*, countPluralExact=1": "Какие кампании майнит этот аккаунт и забирает ли он награды сам.",
@@ -1157,14 +1133,8 @@
   "drops_add_game_placeholder": "Название категории…",
   "game_drops_available": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} доступный дроп",
         "countPlural=few": "{shown} доступных дропа",
@@ -1213,13 +1183,8 @@
   "points_edit_selected": "Изменить ({count})",
   "points_group_title": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Изменение {count} стримера",
         "countPlural=*": "Изменение {count} стримеров"
@@ -1232,13 +1197,8 @@
   "change_streamers_edited": "Стримеры успешно изменены: {count}",
   "points_defaults_offer_title": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Использовать этот параметр по умолчанию и для новых стримеров?",
         "countPlural=few": "Использовать эти параметры по умолчанию и для новых стримеров?",
@@ -1248,13 +1208,8 @@
   ],
   "points_defaults_offer_text": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Новые стримеры начнут с только что выбранного значения этого параметра; изменить его можно в Настройках аккаунта.",
         "countPlural=*": "Новые стримеры начнут с только что выбранных значений этих параметров; изменить их можно в Настройках аккаунта."
@@ -1301,9 +1256,7 @@
         "input to",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} запрос с {from} до {to}",
         "countPlural=few": "{shown} запроса с {from} до {to}",
@@ -1396,14 +1349,8 @@
   "spam_description": "Описание: {text}",
   "spam_sent_all": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countExact = count"
-      ],
-      "selectors": [
-        "countExact"
-      ],
+      "declarations": ["input count", "input shown", "local countExact = count"],
+      "selectors": ["countExact"],
       "match": {
         "countExact=1": "Обменяно наград: {shown}!",
         "countExact=*": "Отправлено наград: {shown}!"
@@ -1417,14 +1364,8 @@
   "spam_toast": "{count} × {reward} на канале {channel}: {result}",
   "spam_cancelled": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} отменён при уходе со страницы",
         "countPlural=few": "{shown} отменено при уходе со страницы",
@@ -1455,9 +1396,7 @@
         "input points",
         "local sentPlural = sent: plural"
       ],
-      "selectors": [
-        "sentPlural"
-      ],
+      "selectors": ["sentPlural"],
       "match": {
         "sentPlural=one": "{count} × {reward} на канале {channel} — отправлено {shown}, баллов: {points}",
         "sentPlural=few": "{count} × {reward} на канале {channel} — отправлено {shown}, баллов: {points}",
@@ -1475,9 +1414,7 @@
         "input points",
         "local sentPlural = sent: plural"
       ],
-      "selectors": [
-        "sentPlural"
-      ],
+      "selectors": ["sentPlural"],
       "match": {
         "sentPlural=one": "{count} × {reward} — отправлено {shown}, баллов: {points}",
         "sentPlural=few": "{count} × {reward} — отправлено {shown}, баллов: {points}",
@@ -1489,14 +1426,8 @@
   "ev_rewards_redeemed_partial_short": "{count} × {reward} — отправлено {sent}/{total}, баллов: {points}",
   "ev_rewards_refused": [
     {
-      "declarations": [
-        "input refused",
-        "input reason",
-        "local refusedPlural = refused: plural"
-      ],
-      "selectors": [
-        "refusedPlural"
-      ],
+      "declarations": ["input refused", "input reason", "local refusedPlural = refused: plural"],
+      "selectors": ["refusedPlural"],
       "match": {
         "refusedPlural=one": "{refused} отклонён: {reason}",
         "refusedPlural=few": "{refused} отклонено: {reason}",
@@ -1521,14 +1452,8 @@
   "badges_refreshed_title": "Значки обновлены",
   "badges_refreshed": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} значок",
         "countPlural=few": "{shown} значка",
@@ -1539,13 +1464,8 @@
   "badges_retry": "Следующая попытка через {time}.",
   "badges_count": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} значок",
         "countPlural=few": "{count} значка",
@@ -1555,13 +1475,8 @@
   ],
   "badges_off_calendar": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} значок без дат или уже завершён:",
         "countPlural=few": "{count} значка без дат или уже завершены:",

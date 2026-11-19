@@ -101,13 +101,8 @@
   "import_tokens_status_not_imported": "未导入",
   "import_tokens_configure": [
     {
-      "declarations": [
-        "input count",
-        "local countPluralExact = count"
-      ],
-      "selectors": [
-        "countPluralExact"
-      ],
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
       "match": {
         "countPluralExact=1": "设置账号",
         "countPluralExact=*": "设置账号"
@@ -665,6 +660,7 @@
   "bulk_changes": "{shown} 项更改",
   "bulk_hint": "在 {name} 上做的更改（{count}）会在勾选的账号上重做。各账号的其他设置保持不变。",
   "bulk_no_accounts": "没有其他账号。",
+  "bulk_nothing_to_change": "该账号没有可更改的内容",
   "bulk_title": "应用到其他账号",
   "change_campaign_moved": "已成功移动 {campaign}",
   "change_copied_drops": "已成功复制 {source} 的 Drops 设置",

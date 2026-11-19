@@ -5,6 +5,7 @@
     image: string | undefined;
     hint: string;
     channel: { live: boolean } | null;
+    disabled?: boolean;
   };
 </script>
 
@@ -41,6 +42,7 @@
   }: CheckListPropsType = $props();
 
   const chosen = $derived(new Set(selected));
+  const applicable = $derived(items.filter((item) => !item.disabled));
 
   const toggle = (value: string, checked: boolean): void =>
     onchange(checked ? [...selected, value] : selected.filter((item) => item !== value));
@@ -58,8 +60,8 @@
           variant={ButtonVariant.OUTLINE}
           size={ButtonSize.SM}
           type={ButtonType.BUTTON}
-          disabled={items.length === 0 || items.every((item) => chosen.has(item.value))}
-          onclick={() => onchange(items.map((item) => item.value))}
+          disabled={applicable.length === 0 || applicable.every((item) => chosen.has(item.value))}
+          onclick={() => onchange(applicable.map((item) => item.value))}
         />
         <TextButton
           label={noneLabel}
@@ -76,12 +78,14 @@
         <li class="border-b last:border-b-0">
           <label
             class={cn(
-              "flex cursor-pointer items-center gap-3 px-3 py-2.5 hover:bg-accent",
+              "flex items-center gap-3 px-3 py-2.5",
+              item.disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer hover:bg-accent",
               chosen.has(item.value) && "bg-primary/5",
             )}
           >
             <Checkbox
               checked={chosen.has(item.value)}
+              disabled={item.disabled}
               onCheckedChange={(checked) => toggle(item.value, checked === true)}
             />
             {#if item.channel}

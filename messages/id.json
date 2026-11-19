@@ -101,13 +101,8 @@
   "import_tokens_status_not_imported": "Tidak diimpor",
   "import_tokens_configure": [
     {
-      "declarations": [
-        "input count",
-        "local countPluralExact = count"
-      ],
-      "selectors": [
-        "countPluralExact"
-      ],
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
       "match": {
         "countPluralExact=1": "Atur akun",
         "countPluralExact=*": "Atur akun-akun"
@@ -662,6 +657,7 @@
   "bulk_changes": "{shown} perubahan",
   "bulk_hint": "Perubahan yang dibuat pada {name} ({count}) diterapkan lagi pada akun yang dicentang. Setiap akun mempertahankan pengaturan lainnya.",
   "bulk_no_accounts": "Tidak ada akun lain.",
+  "bulk_nothing_to_change": "Tidak ada yang perlu diubah pada akun ini",
   "bulk_title": "Terapkan ke akun lain",
   "change_campaign_moved": "{campaign} berhasil dipindahkan",
   "change_copied_drops": "Pengaturan Drops {source} berhasil disalin",

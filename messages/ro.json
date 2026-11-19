@@ -20,14 +20,8 @@
   "common_live": "Live",
   "common_viewers": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} spectator",
         "countPlural=few": "{shown} spectatori",
@@ -118,13 +112,8 @@
   "import_tokens_status_not_imported": "Neimportat",
   "import_tokens_configure": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Configurează contul",
         "countPlural=few": "Configurează conturile",
@@ -425,13 +414,8 @@
   "catalogue_title": "Catalog",
   "catalogue_rewards": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} recompensă",
         "countPlural=few": "{count} recompense",
@@ -441,13 +425,8 @@
   ],
   "catalogue_campaigns": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} campanie",
         "countPlural=few": "{count} campanii",
@@ -654,9 +633,7 @@
         "input channel",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "+{points} punct pe {channel}",
         "countPlural=few": "+{points} puncte pe {channel}",
@@ -666,14 +643,8 @@
   ],
   "ev_points_short": [
     {
-      "declarations": [
-        "input count",
-        "input points",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input points", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "+{points} punct",
         "countPlural=few": "+{points} puncte",
@@ -690,9 +661,7 @@
         "input reason",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "+{points} punct pe {channel} · {reason}",
         "countPlural=few": "+{points} puncte pe {channel} · {reason}",
@@ -708,9 +677,7 @@
         "input reason",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "+{points} punct · {reason}",
         "countPlural=few": "+{points} puncte · {reason}",
@@ -735,9 +702,7 @@
         "input channel",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Pariu de {points} punct pe „{outcome}” ({channel})",
         "countPlural=few": "Pariu de {points} puncte pe „{outcome}” ({channel})",
@@ -753,9 +718,7 @@
         "input outcome",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Pariu de {points} punct pe „{outcome}”",
         "countPlural=few": "Pariu de {points} puncte pe „{outcome}”",
@@ -765,14 +728,8 @@
   ],
   "ev_bet_won": [
     {
-      "declarations": [
-        "input count",
-        "input points",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input points", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Predicție câștigată: +{points} punct",
         "countPlural=few": "Predicție câștigată: +{points} puncte",
@@ -782,14 +739,8 @@
   ],
   "ev_bet_lost": [
     {
-      "declarations": [
-        "input count",
-        "input points",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input points", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Predicție pierdută: −{points} punct",
         "countPlural=few": "Predicție pierdută: −{points} puncte",
@@ -832,14 +783,8 @@
   "catalogue_last_update": "Actualizat {time}",
   "catalogue_refreshed": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} campanie",
         "countPlural=few": "{shown} campanii",
@@ -917,6 +862,7 @@
   "bulk_changes": "{shown} modificări",
   "bulk_hint": "Modificările făcute pe {name} ({count}) sunt refăcute pe conturile bifate. Fiecare cont își păstrează restul setărilor.",
   "bulk_no_accounts": "Niciun alt cont.",
+  "bulk_nothing_to_change": "Nimic de schimbat pe acest cont",
   "bulk_title": "Aplică la alte conturi",
   "change_campaign_moved": "{campaign} mutată cu succes",
   "change_copied_drops": "Setările Drops ale lui {source} copiate cu succes",
@@ -1043,13 +989,8 @@
   "updates_interval_start": "Doar la pornire",
   "updates_interval_minutes": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "În fiecare minut",
         "countPlural=few": "La fiecare {count} minute",
@@ -1059,13 +1000,8 @@
   ],
   "updates_interval_hours": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "În fiecare oră",
         "countPlural=few": "La fiecare {count} ore",
@@ -1088,9 +1024,7 @@
         "input channel",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{points} punct dat pentru „{goal}” pe {channel}",
         "countPlural=few": "{points} puncte date pentru „{goal}” pe {channel}",
@@ -1106,9 +1040,7 @@
         "input goal",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{points} punct dat pentru „{goal}”",
         "countPlural=few": "{points} puncte date pentru „{goal}”",
@@ -1281,14 +1213,8 @@
   "drops_add_game_placeholder": "Numele categoriei…",
   "game_drops_available": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} drop disponibil",
         "countPlural=few": "{shown} drop-uri disponibile",
@@ -1337,13 +1263,8 @@
   "points_edit_selected": "Editează ({count})",
   "points_group_title": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Editează {count} streamer",
         "countPlural=few": "Editează {count} streameri",
@@ -1357,13 +1278,8 @@
   "change_streamers_edited": "Streameri editați cu succes: {count}",
   "points_defaults_offer_title": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Folosești această opțiune ca implicită și pentru streamerii noi?",
         "countPlural=few": "Folosești aceste opțiuni ca implicite și pentru streamerii noi?",
@@ -1373,13 +1289,8 @@
   ],
   "points_defaults_offer_text": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Streamerii noi vor porni cu valoarea pe care tocmai ai ales-o pentru această opțiune; o poți schimba în Setări cont.",
         "countPlural=*": "Streamerii noi vor porni cu valorile pe care tocmai le-ai ales pentru aceste opțiuni; le poți schimba în Setări cont."
@@ -1395,9 +1306,7 @@
         "input channel",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "−{points} punct pe {channel}",
         "countPlural=few": "−{points} puncte pe {channel}",
@@ -1407,14 +1316,8 @@
   ],
   "ev_points_spent_short": [
     {
-      "declarations": [
-        "input count",
-        "input points",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input points", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "−{points} punct",
         "countPlural=few": "−{points} puncte",
@@ -1459,9 +1362,7 @@
         "input to",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} cerere de la {from} la {to}",
         "countPlural=few": "{shown} cereri de la {from} la {to}",
@@ -1554,14 +1455,8 @@
   "spam_description": "Descriere: {text}",
   "spam_sent_all": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Revendicată!",
         "countPlural=few": "{shown} trimise!",
@@ -1576,14 +1471,8 @@
   "spam_toast": "{count} × {reward} pe {channel}: {result}",
   "spam_cancelled": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} anulată la ieșirea din pagină",
         "countPlural=few": "{shown} anulate la ieșirea din pagină",
@@ -1614,9 +1503,7 @@
         "input points",
         "local sentPlural = sent: plural"
       ],
-      "selectors": [
-        "sentPlural"
-      ],
+      "selectors": ["sentPlural"],
       "match": {
         "sentPlural=one": "{count} × {reward} pe {channel} — {shown} trimisă, {points} puncte",
         "sentPlural=few": "{count} × {reward} pe {channel} — {shown} trimise, {points} puncte",
@@ -1634,9 +1521,7 @@
         "input points",
         "local sentPlural = sent: plural"
       ],
-      "selectors": [
-        "sentPlural"
-      ],
+      "selectors": ["sentPlural"],
       "match": {
         "sentPlural=one": "{count} × {reward} — {shown} trimisă, {points} puncte",
         "sentPlural=few": "{count} × {reward} — {shown} trimise, {points} puncte",
@@ -1648,14 +1533,8 @@
   "ev_rewards_redeemed_partial_short": "{count} × {reward} — {sent}/{total} trimise, {points} puncte",
   "ev_rewards_refused": [
     {
-      "declarations": [
-        "input refused",
-        "input reason",
-        "local refusedPlural = refused: plural"
-      ],
-      "selectors": [
-        "refusedPlural"
-      ],
+      "declarations": ["input refused", "input reason", "local refusedPlural = refused: plural"],
+      "selectors": ["refusedPlural"],
       "match": {
         "refusedPlural=one": "{refused} refuzată: {reason}",
         "refusedPlural=few": "{refused} refuzate: {reason}",
@@ -1680,14 +1559,8 @@
   "badges_refreshed_title": "Insigne reîmprospătate",
   "badges_refreshed": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} insignă",
         "countPlural=few": "{shown} insigne",
@@ -1698,13 +1571,8 @@
   "badges_retry": "Nouă încercare peste {time}.",
   "badges_count": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} insignă",
         "countPlural=few": "{count} insigne",
@@ -1714,13 +1582,8 @@
   ],
   "badges_off_calendar": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} insignă fără date sau deja încheiată:",
         "countPlural=few": "{count} insigne fără date sau deja încheiate:",

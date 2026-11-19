@@ -20,14 +20,8 @@
   "common_live": "Live",
   "common_viewers": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} viewer",
         "countPlural=*": "{shown} viewers"
@@ -116,13 +110,8 @@
   "import_tokens_status_not_imported": "Not imported",
   "import_tokens_configure": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Configure this account",
         "countPlural=*": "Configure these accounts"
@@ -422,13 +411,8 @@
   "catalogue_title": "Catalogue",
   "catalogue_rewards": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} reward",
         "countPlural=*": "{count} rewards"
@@ -437,13 +421,8 @@
   ],
   "catalogue_campaigns": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} campaign",
         "countPlural=*": "{count} campaigns"
@@ -667,9 +646,7 @@
         "input channel",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "+{points} point on {channel}",
         "countPlural=*": "+{points} points on {channel}"
@@ -678,14 +655,8 @@
   ],
   "ev_points_short": [
     {
-      "declarations": [
-        "input count",
-        "input points",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input points", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "+{points} point",
         "countPlural=*": "+{points} points"
@@ -701,9 +672,7 @@
         "input reason",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "+{points} point on {channel} · {reason}",
         "countPlural=*": "+{points} points on {channel} · {reason}"
@@ -718,9 +687,7 @@
         "input reason",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "+{points} point · {reason}",
         "countPlural=*": "+{points} points · {reason}"
@@ -744,9 +711,7 @@
         "input channel",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Bet {points} point on “{outcome}” ({channel})",
         "countPlural=*": "Bet {points} points on “{outcome}” ({channel})"
@@ -761,9 +726,7 @@
         "input outcome",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Bet {points} point on “{outcome}”",
         "countPlural=*": "Bet {points} points on “{outcome}”"
@@ -772,14 +735,8 @@
   ],
   "ev_bet_won": [
     {
-      "declarations": [
-        "input count",
-        "input points",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input points", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Prediction won: +{points} point",
         "countPlural=*": "Prediction won: +{points} points"
@@ -788,14 +745,8 @@
   ],
   "ev_bet_lost": [
     {
-      "declarations": [
-        "input count",
-        "input points",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input points", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Prediction lost: −{points} point",
         "countPlural=*": "Prediction lost: −{points} points"
@@ -837,14 +788,8 @@
   "catalogue_last_update": "Updated {time}",
   "catalogue_refreshed": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} campaign",
         "countPlural=*": "{shown} campaigns"
@@ -943,6 +888,7 @@
   "bulk_changes": "{shown} changes",
   "bulk_hint": "The changes made on {name} ({count}) are made again on the ticked accounts. Each account keeps the rest of its settings.",
   "bulk_no_accounts": "No other account.",
+  "bulk_nothing_to_change": "Nothing to change on this account",
   "bulk_title": "Apply to other accounts",
   "change_campaign_moved": "{campaign} moved successfully",
   "change_copied_drops": "Drops settings of {source} copied successfully",
@@ -1067,13 +1013,8 @@
   "updates_interval_start": "Only at startup",
   "updates_interval_minutes": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Every minute",
         "countPlural=*": "Every {count} minutes"
@@ -1082,13 +1023,8 @@
   ],
   "updates_interval_hours": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Every hour",
         "countPlural=*": "Every {count} hours"
@@ -1110,9 +1046,7 @@
         "input channel",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{points} point given to “{goal}” on {channel}",
         "countPlural=*": "{points} points given to “{goal}” on {channel}"
@@ -1127,9 +1061,7 @@
         "input goal",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{points} point given to “{goal}”",
         "countPlural=*": "{points} points given to “{goal}”"
@@ -1299,14 +1231,8 @@
   "drops_add_game_placeholder": "Category name…",
   "game_drops_available": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} drop available",
         "countPlural=*": "{shown} drops available"
@@ -1354,13 +1280,8 @@
   "points_edit_selected": "Edit ({count})",
   "points_group_title": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Edit {count} streamer",
         "countPlural=*": "Edit {count} streamers"
@@ -1373,13 +1294,8 @@
   "change_streamers_edited": "Streamers edited successfully: {count}",
   "points_defaults_offer_title": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Also use this option by default for new streamers?",
         "countPlural=*": "Also use these options by default for new streamers?"
@@ -1388,13 +1304,8 @@
   ],
   "points_defaults_offer_text": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "New streamers will start with the value you just chose for this option; you can change it in Account settings.",
         "countPlural=*": "New streamers will start with the values you just chose for these options; you can change them in Account settings."
@@ -1410,9 +1321,7 @@
         "input channel",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "−{points} point on {channel}",
         "countPlural=*": "−{points} points on {channel}"
@@ -1421,14 +1330,8 @@
   ],
   "ev_points_spent_short": [
     {
-      "declarations": [
-        "input count",
-        "input points",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input points", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "−{points} point",
         "countPlural=*": "−{points} points"
@@ -1472,9 +1375,7 @@
         "input to",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} request from {from} to {to}",
         "countPlural=*": "{shown} requests from {from} to {to}"
@@ -1566,14 +1467,8 @@
   "spam_description": "Description: {text}",
   "spam_sent_all": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Redeemed!",
         "countPlural=*": "{shown} sent!"
@@ -1587,14 +1482,8 @@
   "spam_toast": "{count} × {reward} on {channel}: {result}",
   "spam_cancelled": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} cancelled on leaving the page",
         "countPlural=*": "{shown} cancelled on leaving the page"
@@ -1624,9 +1513,7 @@
         "input points",
         "local sentPlural = sent: plural"
       ],
-      "selectors": [
-        "sentPlural"
-      ],
+      "selectors": ["sentPlural"],
       "match": {
         "sentPlural=one": "{count} × {reward} on {channel} — {shown} sent, {points} points",
         "sentPlural=*": "{count} × {reward} on {channel} — {shown} sent, {points} points"
@@ -1643,9 +1530,7 @@
         "input points",
         "local sentPlural = sent: plural"
       ],
-      "selectors": [
-        "sentPlural"
-      ],
+      "selectors": ["sentPlural"],
       "match": {
         "sentPlural=one": "{count} × {reward} — {shown} sent, {points} points",
         "sentPlural=*": "{count} × {reward} — {shown} sent, {points} points"
@@ -1656,14 +1541,8 @@
   "ev_rewards_redeemed_partial_short": "{count} × {reward} — {sent}/{total} sent, {points} points",
   "ev_rewards_refused": [
     {
-      "declarations": [
-        "input refused",
-        "input reason",
-        "local refusedPlural = refused: plural"
-      ],
-      "selectors": [
-        "refusedPlural"
-      ],
+      "declarations": ["input refused", "input reason", "local refusedPlural = refused: plural"],
+      "selectors": ["refusedPlural"],
       "match": {
         "refusedPlural=one": "{refused} refused: {reason}",
         "refusedPlural=*": "{refused} refused: {reason}"
@@ -1687,14 +1566,8 @@
   "badges_refreshed_title": "Badges refreshed",
   "badges_refreshed": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} badge",
         "countPlural=*": "{shown} badges"
@@ -1704,13 +1577,8 @@
   "badges_retry": "Next try in {time}.",
   "badges_count": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} badge",
         "countPlural=*": "{count} badges"
@@ -1719,13 +1587,8 @@
   ],
   "badges_off_calendar": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} badge with no dates or already over:",
         "countPlural=*": "{count} badges with no dates or already over:"

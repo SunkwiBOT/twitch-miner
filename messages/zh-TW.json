@@ -101,13 +101,8 @@
   "import_tokens_status_not_imported": "未匯入",
   "import_tokens_configure": [
     {
-      "declarations": [
-        "input count",
-        "local countPluralExact = count"
-      ],
-      "selectors": [
-        "countPluralExact"
-      ],
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
       "match": {
         "countPluralExact=1": "設定帳號",
         "countPluralExact=*": "設定帳號"
@@ -665,6 +660,7 @@
   "bulk_changes": "{shown} 項變更",
   "bulk_hint": "在 {name} 上做的變更（{count}）會在勾選的帳號上重做。各帳號的其他設定維持不變。",
   "bulk_no_accounts": "沒有其他帳號。",
+  "bulk_nothing_to_change": "此帳號沒有可變更的內容",
   "bulk_title": "套用到其他帳號",
   "change_campaign_moved": "已成功移動 {campaign}",
   "change_copied_drops": "已成功複製 {source} 的 Drops 設定",

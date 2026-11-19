@@ -101,13 +101,8 @@
   "import_tokens_status_not_imported": "インポートされませんでした",
   "import_tokens_configure": [
     {
-      "declarations": [
-        "input count",
-        "local countPluralExact = count"
-      ],
-      "selectors": [
-        "countPluralExact"
-      ],
+      "declarations": ["input count", "local countPluralExact = count"],
+      "selectors": ["countPluralExact"],
       "match": {
         "countPluralExact=1": "アカウントを設定",
         "countPluralExact=*": "アカウントを設定"
@@ -662,6 +657,7 @@
   "bulk_changes": "{shown} 件の変更",
   "bulk_hint": "{name} で行った変更（{count} 件）を、チェックしたアカウントにも適用します。各アカウントのその他の設定はそのままです。",
   "bulk_no_accounts": "ほかのアカウントはありません。",
+  "bulk_nothing_to_change": "このアカウントは変更するものがありません",
   "bulk_title": "ほかのアカウントに適用",
   "change_campaign_moved": "{campaign} を移動しました",
   "change_copied_drops": "{source} の Drops 設定をコピーしました",

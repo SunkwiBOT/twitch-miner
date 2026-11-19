@@ -20,14 +20,8 @@
   "common_live": "В ефірі",
   "common_viewers": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} глядач",
         "countPlural=few": "{shown} глядачі",
@@ -127,10 +121,7 @@
         "local countPluralExact = count",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPluralExact",
-        "countPlural"
-      ],
+      "selectors": ["countPluralExact", "countPlural"],
       "match": {
         "countPlural=*, countPluralExact=1": "Налаштування акаунта",
         "countPlural=few, countPluralExact=*": "Налаштування акаунтів",
@@ -443,13 +434,8 @@
   "catalogue_title": "Каталог",
   "catalogue_rewards": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} нагорода",
         "countPlural=few": "{count} нагороди",
@@ -459,13 +445,8 @@
   ],
   "catalogue_campaigns": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} кампанія",
         "countPlural=few": "{count} кампанії",
@@ -727,14 +708,8 @@
   "catalogue_last_update": "Оновлено {time}",
   "catalogue_refreshed": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} кампанія",
         "countPlural=few": "{shown} кампанії",
@@ -811,14 +786,8 @@
   "bulk_apply_others": "Застосувати до інших облікових записів",
   "bulk_changes": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} зміна",
         "countPlural=few": "{shown} зміни",
@@ -828,6 +797,7 @@
   ],
   "bulk_hint": "Зміни, зроблені в {name} ({count}), повторюються в позначених облікових записах. Решта налаштувань кожного облікового запису не змінюється.",
   "bulk_no_accounts": "Інших облікових записів немає.",
+  "bulk_nothing_to_change": "На цьому обліковому записі нічого змінювати",
   "bulk_title": "Застосувати до інших облікових записів",
   "change_campaign_moved": "Кампанію {campaign} успішно переміщено",
   "change_copied_drops": "Налаштування Drops з {source} успішно скопійовано",
@@ -870,7 +840,11 @@
   "login_setup_custom": "Власні налаштування",
   "login_setup_later_hint": [
     {
-      "declarations": ["input count", "local countPluralExact = count", "local countPlural = count: plural"],
+      "declarations": [
+        "input count",
+        "local countPluralExact = count",
+        "local countPlural = count: plural"
+      ],
       "selectors": ["countPluralExact", "countPlural"],
       "match": {
         "countPlural=*, countPluralExact=1": "Акаунт залишається на паузі, доки ви його не запустите — зараз або пізніше на його сторінці.",
@@ -882,7 +856,11 @@
   "login_setup_streamers_empty": "Стримерів поки немає: додайте їх нижче або пізніше на сторінці «Бали».",
   "login_setup_streamers_hint": [
     {
-      "declarations": ["input count", "local countPluralExact = count", "local countPlural = count: plural"],
+      "declarations": [
+        "input count",
+        "local countPluralExact = count",
+        "local countPlural = count: plural"
+      ],
       "selectors": ["countPluralExact", "countPlural"],
       "match": {
         "countPlural=*, countPluralExact=1": "Канали, які цей обліковий запис дивиться заради балів каналу, найважливіші першими.",
@@ -954,13 +932,8 @@
   "updates_interval_start": "Лише під час запуску",
   "updates_interval_minutes": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Кожні {count} хвилину",
         "countPlural=few": "Кожні {count} хвилини",
@@ -970,13 +943,8 @@
   ],
   "updates_interval_hours": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Кожні {count} годину",
         "countPlural=few": "Кожні {count} години",
@@ -1034,7 +1002,11 @@
   "login_setup_start_hint": "Почніть із типових налаштувань або візьміть налаштування облікового запису, на якому ви вже майните. Усе можна змінити на наступних кроках.",
   "login_setup_summary_hint": [
     {
-      "declarations": ["input count", "local countPluralExact = count", "local countPlural = count: plural"],
+      "declarations": [
+        "input count",
+        "local countPluralExact = count",
+        "local countPlural = count: plural"
+      ],
       "selectors": ["countPluralExact", "countPlural"],
       "match": {
         "countPlural=*, countPluralExact=1": "Усе можна змінити пізніше на сторінках облікового запису.",
@@ -1048,7 +1020,11 @@
   "common_no": "Ні",
   "login_setup_drops_hint": [
     {
-      "declarations": ["input count", "local countPluralExact = count", "local countPlural = count: plural"],
+      "declarations": [
+        "input count",
+        "local countPluralExact = count",
+        "local countPlural = count: plural"
+      ],
       "selectors": ["countPluralExact", "countPlural"],
       "match": {
         "countPlural=*, countPluralExact=1": "Які кампанії майнить цей обліковий запис і чи забирає він нагороди сам.",
@@ -1157,14 +1133,8 @@
   "drops_add_game_placeholder": "Назва категорії…",
   "game_drops_available": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} доступний дроп",
         "countPlural=few": "{shown} доступні дропи",
@@ -1213,13 +1183,8 @@
   "points_edit_selected": "Редагувати ({count})",
   "points_group_title": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Редагування {count} стримера",
         "countPlural=*": "Редагування {count} стримерів"
@@ -1232,13 +1197,8 @@
   "change_streamers_edited": "Стримерів успішно змінено: {count}",
   "points_defaults_offer_title": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Використовувати цей параметр як типовий і для нових стримерів?",
         "countPlural=few": "Використовувати ці параметри як типові й для нових стримерів?",
@@ -1248,13 +1208,8 @@
   ],
   "points_defaults_offer_text": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Нові стримери починатимуть із щойно вибраного значення цього параметра; змінити його можна в Налаштуваннях облікового запису.",
         "countPlural=*": "Нові стримери починатимуть із щойно вибраних значень цих параметрів; змінити їх можна в Налаштуваннях облікового запису."
@@ -1301,9 +1256,7 @@
         "input to",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} запит з {from} до {to}",
         "countPlural=few": "{shown} запити з {from} до {to}",
@@ -1396,14 +1349,8 @@
   "spam_description": "Опис: {text}",
   "spam_sent_all": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countExact = count"
-      ],
-      "selectors": [
-        "countExact"
-      ],
+      "declarations": ["input count", "input shown", "local countExact = count"],
+      "selectors": ["countExact"],
       "match": {
         "countExact=1": "Обміняно нагород: {shown}!",
         "countExact=*": "Надіслано нагород: {shown}!"
@@ -1417,14 +1364,8 @@
   "spam_toast": "{count} × {reward} на каналі {channel}: {result}",
   "spam_cancelled": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} скасовано під час виходу зі сторінки",
         "countPlural=few": "{shown} скасовано під час виходу зі сторінки",
@@ -1455,9 +1396,7 @@
         "input points",
         "local sentPlural = sent: plural"
       ],
-      "selectors": [
-        "sentPlural"
-      ],
+      "selectors": ["sentPlural"],
       "match": {
         "sentPlural=one": "{count} × {reward} на каналі {channel} — надіслано {shown}, балів: {points}",
         "sentPlural=few": "{count} × {reward} на каналі {channel} — надіслано {shown}, балів: {points}",
@@ -1475,9 +1414,7 @@
         "input points",
         "local sentPlural = sent: plural"
       ],
-      "selectors": [
-        "sentPlural"
-      ],
+      "selectors": ["sentPlural"],
       "match": {
         "sentPlural=one": "{count} × {reward} — надіслано {shown}, балів: {points}",
         "sentPlural=few": "{count} × {reward} — надіслано {shown}, балів: {points}",
@@ -1489,14 +1426,8 @@
   "ev_rewards_redeemed_partial_short": "{count} × {reward} — надіслано {sent}/{total}, балів: {points}",
   "ev_rewards_refused": [
     {
-      "declarations": [
-        "input refused",
-        "input reason",
-        "local refusedPlural = refused: plural"
-      ],
-      "selectors": [
-        "refusedPlural"
-      ],
+      "declarations": ["input refused", "input reason", "local refusedPlural = refused: plural"],
+      "selectors": ["refusedPlural"],
       "match": {
         "refusedPlural=one": "{refused} відхилено: {reason}",
         "refusedPlural=few": "{refused} відхилено: {reason}",
@@ -1521,14 +1452,8 @@
   "badges_refreshed_title": "Значки оновлено",
   "badges_refreshed": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} значок",
         "countPlural=few": "{shown} значки",
@@ -1539,13 +1464,8 @@
   "badges_retry": "Наступна спроба через {time}.",
   "badges_count": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} значок",
         "countPlural=few": "{count} значки",
@@ -1555,13 +1475,8 @@
   ],
   "badges_off_calendar": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} значок без дат або вже завершений:",
         "countPlural=few": "{count} значки без дат або вже завершені:",

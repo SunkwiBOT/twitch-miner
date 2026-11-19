@@ -20,14 +20,8 @@
   "common_live": "Live",
   "common_viewers": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} θεατής",
         "countPlural=*": "{shown} θεατές"
@@ -116,13 +110,8 @@
   "import_tokens_status_not_imported": "Δεν εισήχθη",
   "import_tokens_configure": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Ρύθμιση λογαριασμού",
         "countPlural=*": "Ρύθμιση λογαριασμών"
@@ -417,13 +406,8 @@
   "catalogue_title": "Κατάλογος",
   "catalogue_rewards": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} ανταμοιβή",
         "countPlural=*": "{count} ανταμοιβές"
@@ -432,13 +416,8 @@
   ],
   "catalogue_campaigns": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} καμπάνια",
         "countPlural=*": "{count} καμπάνιες"
@@ -641,9 +620,7 @@
         "input channel",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "+{points} πόντος στο {channel}",
         "countPlural=*": "+{points} πόντοι στο {channel}"
@@ -652,14 +629,8 @@
   ],
   "ev_points_short": [
     {
-      "declarations": [
-        "input count",
-        "input points",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input points", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "+{points} πόντος",
         "countPlural=*": "+{points} πόντοι"
@@ -675,9 +646,7 @@
         "input reason",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "+{points} πόντος στο {channel} · {reason}",
         "countPlural=*": "+{points} πόντοι στο {channel} · {reason}"
@@ -692,9 +661,7 @@
         "input reason",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "+{points} πόντος · {reason}",
         "countPlural=*": "+{points} πόντοι · {reason}"
@@ -718,9 +685,7 @@
         "input channel",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Στοίχημα {points} πόντου στο «{outcome}» ({channel})",
         "countPlural=*": "Στοίχημα {points} πόντων στο «{outcome}» ({channel})"
@@ -735,9 +700,7 @@
         "input outcome",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Στοίχημα {points} πόντου στο «{outcome}»",
         "countPlural=*": "Στοίχημα {points} πόντων στο «{outcome}»"
@@ -746,14 +709,8 @@
   ],
   "ev_bet_won": [
     {
-      "declarations": [
-        "input count",
-        "input points",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input points", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Κερδισμένη πρόβλεψη: +{points} πόντος",
         "countPlural=*": "Κερδισμένη πρόβλεψη: +{points} πόντοι"
@@ -762,14 +719,8 @@
   ],
   "ev_bet_lost": [
     {
-      "declarations": [
-        "input count",
-        "input points",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input points", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Χαμένη πρόβλεψη: −{points} πόντος",
         "countPlural=*": "Χαμένη πρόβλεψη: −{points} πόντοι"
@@ -811,14 +762,8 @@
   "catalogue_last_update": "Ενημερώθηκε {time}",
   "catalogue_refreshed": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} καμπάνια",
         "countPlural=*": "{shown} καμπάνιες"
@@ -895,6 +840,7 @@
   "bulk_changes": "{shown} αλλαγές",
   "bulk_hint": "Οι αλλαγές του {name} ({count}) επαναλαμβάνονται στους επιλεγμένους λογαριασμούς. Κάθε λογαριασμός κρατά τις υπόλοιπες ρυθμίσεις του.",
   "bulk_no_accounts": "Κανένας άλλος λογαριασμός.",
+  "bulk_nothing_to_change": "Τίποτα για αλλαγή σε αυτόν τον λογαριασμό",
   "bulk_title": "Εφαρμογή σε άλλους λογαριασμούς",
   "change_campaign_moved": "Η καμπάνια {campaign} μετακινήθηκε επιτυχώς",
   "change_copied_drops": "Οι ρυθμίσεις Drops του {source} αντιγράφηκαν επιτυχώς",
@@ -1019,13 +965,8 @@
   "updates_interval_start": "Μόνο κατά την εκκίνηση",
   "updates_interval_minutes": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Κάθε λεπτό",
         "countPlural=*": "Κάθε {count} λεπτά"
@@ -1034,13 +975,8 @@
   ],
   "updates_interval_hours": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Κάθε ώρα",
         "countPlural=*": "Κάθε {count} ώρες"
@@ -1062,9 +998,7 @@
         "input channel",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{points} πόντος δόθηκε στο «{goal}» στο {channel}",
         "countPlural=*": "{points} πόντοι δόθηκαν στο «{goal}» στο {channel}"
@@ -1079,9 +1013,7 @@
         "input goal",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{points} πόντος δόθηκε στο «{goal}»",
         "countPlural=*": "{points} πόντοι δόθηκαν στο «{goal}»"
@@ -1251,14 +1183,8 @@
   "drops_add_game_placeholder": "Όνομα κατηγορίας…",
   "game_drops_available": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} διαθέσιμο drop",
         "countPlural=*": "{shown} διαθέσιμα drops"
@@ -1306,13 +1232,8 @@
   "points_edit_selected": "Επεξεργασία ({count})",
   "points_group_title": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Επεξεργασία {count} streamer",
         "countPlural=*": "Επεξεργασία {count} streamers"
@@ -1325,13 +1246,8 @@
   "change_streamers_edited": "Επιτυχής επεξεργασία streamers: {count}",
   "points_defaults_offer_title": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Να χρησιμοποιείται αυτή η επιλογή ως προεπιλογή και για τους νέους streamers;",
         "countPlural=*": "Να χρησιμοποιούνται αυτές οι επιλογές ως προεπιλογή και για τους νέους streamers;"
@@ -1340,13 +1256,8 @@
   ],
   "points_defaults_offer_text": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Οι νέοι streamers θα ξεκινούν με την τιμή που μόλις επιλέξατε για αυτή την επιλογή· μπορείτε να την αλλάξετε στις Ρυθμίσεις λογαριασμού.",
         "countPlural=*": "Οι νέοι streamers θα ξεκινούν με τις τιμές που μόλις επιλέξατε για αυτές τις επιλογές· μπορείτε να τις αλλάξετε στις Ρυθμίσεις λογαριασμού."
@@ -1362,9 +1273,7 @@
         "input channel",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "−{points} πόντος στο {channel}",
         "countPlural=*": "−{points} πόντοι στο {channel}"
@@ -1373,14 +1282,8 @@
   ],
   "ev_points_spent_short": [
     {
-      "declarations": [
-        "input count",
-        "input points",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input points", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "−{points} πόντος",
         "countPlural=*": "−{points} πόντοι"
@@ -1424,9 +1327,7 @@
         "input to",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} αίτημα από {from} έως {to}",
         "countPlural=*": "{shown} αιτήματα από {from} έως {to}"
@@ -1518,14 +1419,8 @@
   "spam_description": "Περιγραφή: {text}",
   "spam_sent_all": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Εξαργυρώθηκε!",
         "countPlural=*": "Στάλθηκαν {shown}!"
@@ -1539,14 +1434,8 @@
   "spam_toast": "{count} × {reward} στο {channel}: {result}",
   "spam_cancelled": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} ακυρώθηκε με την έξοδο από τη σελίδα",
         "countPlural=*": "{shown} ακυρώθηκαν με την έξοδο από τη σελίδα"
@@ -1576,9 +1465,7 @@
         "input points",
         "local sentPlural = sent: plural"
       ],
-      "selectors": [
-        "sentPlural"
-      ],
+      "selectors": ["sentPlural"],
       "match": {
         "sentPlural=one": "{count} × {reward} στο {channel} — στάλθηκε {shown}, {points} πόντοι",
         "sentPlural=*": "{count} × {reward} στο {channel} — στάλθηκαν {shown}, {points} πόντοι"
@@ -1595,9 +1482,7 @@
         "input points",
         "local sentPlural = sent: plural"
       ],
-      "selectors": [
-        "sentPlural"
-      ],
+      "selectors": ["sentPlural"],
       "match": {
         "sentPlural=one": "{count} × {reward} — στάλθηκε {shown}, {points} πόντοι",
         "sentPlural=*": "{count} × {reward} — στάλθηκαν {shown}, {points} πόντοι"
@@ -1608,14 +1493,8 @@
   "ev_rewards_redeemed_partial_short": "{count} × {reward} — στάλθηκαν {sent}/{total}, {points} πόντοι",
   "ev_rewards_refused": [
     {
-      "declarations": [
-        "input refused",
-        "input reason",
-        "local refusedPlural = refused: plural"
-      ],
-      "selectors": [
-        "refusedPlural"
-      ],
+      "declarations": ["input refused", "input reason", "local refusedPlural = refused: plural"],
+      "selectors": ["refusedPlural"],
       "match": {
         "refusedPlural=one": "{refused} απορρίφθηκε: {reason}",
         "refusedPlural=*": "{refused} απορρίφθηκαν: {reason}"
@@ -1639,14 +1518,8 @@
   "badges_refreshed_title": "Τα σήματα ανανεώθηκαν",
   "badges_refreshed": [
     {
-      "declarations": [
-        "input count",
-        "input shown",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{shown} σήμα",
         "countPlural=*": "{shown} σήματα"
@@ -1656,13 +1529,8 @@
   "badges_retry": "Νέα προσπάθεια σε {time}.",
   "badges_count": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} σήμα",
         "countPlural=*": "{count} σήματα"
@@ -1671,13 +1539,8 @@
   ],
   "badges_off_calendar": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "{count} σήμα χωρίς ημερομηνίες ή που έχει ήδη λήξει:",
         "countPlural=*": "{count} σήματα χωρίς ημερομηνίες ή που έχουν ήδη λήξει:"
