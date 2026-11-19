@@ -35,6 +35,14 @@ const PRUNE_PAUSE: Duration = Duration::from_millis(5);
 const FOREIGN_DATA: &str =
     "the data folder was written by another version of the app: delete it, then sign in again";
 
+// ! `secure_delete`: a deleted row (an old sealed credential) is
+// overwritten, not left in a free page. `temp_store = MEMORY`: the Docker
+// image has no writable temp directory, so a sort that spills to a temp
+// file fails with "disk I/O error".
+const SETUP_PRAGMAS: &str =
+    "PRAGMA journal_mode = WAL; PRAGMA foreign_keys = ON; PRAGMA busy_timeout = 5000;
+     PRAGMA secure_delete = ON; PRAGMA temp_store = MEMORY;";
+
 const SCHEMA: &str = "
 CREATE TABLE IF NOT EXISTS setting (
     key   TEXT PRIMARY KEY,
@@ -177,12 +185,11 @@ impl Store {
 
         let connection = Connection::open(&path)?;
 
-        // ! `secure_delete`: a deleted row (an old sealed credential) is
-        // overwritten, not left in a free page.
-        connection.execute_batch(
-            "PRAGMA journal_mode = WAL; PRAGMA foreign_keys = ON; PRAGMA busy_timeout = 5000;
-             PRAGMA secure_delete = ON;",
-        )?;
+        Self::finish_open(dir, connection)
+    }
+
+    fn finish_open(dir: &Path, connection: Connection) -> Result<Self> {
+        connection.execute_batch(SETUP_PRAGMAS)?;
         connection.execute_batch(SCHEMA)?;
 
         let store = Self {
