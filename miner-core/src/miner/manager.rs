@@ -322,7 +322,7 @@ impl Manager {
             ),
             badges: Feed::new(
                 badges,
-                BadgeCatalogClient::new(requests.clone(), shell)?,
+                BadgeCatalogClient::new(requests.clone(), shell, &install_id)?,
                 changed.clone(),
             ),
             shell,

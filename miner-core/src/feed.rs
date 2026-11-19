@@ -65,10 +65,6 @@ pub struct Fetch<T> {
 }
 
 impl<T: FeedAnswer> FeedClient<T> {
-    pub(crate) fn with_url(url: &str, requests: RequestLog, agent: &str) -> Result<Self> {
-        Self::with_headers(url, requests, agent, &[])
-    }
-
     pub(crate) fn with_headers(
         url: &str,
         requests: RequestLog,

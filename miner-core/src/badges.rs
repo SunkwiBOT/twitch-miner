@@ -1,4 +1,4 @@
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 use std::time::Duration;
 
 use chrono::{DateTime, Utc};
@@ -10,6 +10,7 @@ use crate::api::Shell;
 use crate::domain::{
     BadgeRef, Benefit, BenefitKind, Campaign, CampaignKind, Evolution, Game, Repeat,
 };
+use crate::drops_api::{parse_campaign_channels, CampaignChannels};
 use crate::error::{Error, ErrorCode, Result};
 use crate::feed::{FeedAnswer, FeedClient, MANUAL_REFRESH_GAP, REFRESH_INTERVAL};
 use crate::http::too_large;
@@ -166,6 +167,8 @@ pub struct BadgeCatalog {
     pub problem: Option<ErrorCode>,
     #[serde(skip)]
     pub next_refresh_at: Option<DateTime<Utc>>,
+    #[serde(skip)]
+    pub(crate) live_channels: HashMap<String, CampaignChannels>,
 }
 
 impl FeedAnswer for BadgeCatalog {
@@ -198,16 +201,21 @@ impl FeedAnswer for BadgeCatalog {
     fn mark_next_refresh(&mut self, at: Option<DateTime<Utc>>) {
         self.next_refresh_at = at;
     }
+
+    fn meaningfully_changed(&self, previous: &Self) -> bool {
+        self.badges != previous.badges
+    }
 }
 
 pub type BadgeCatalogClient = FeedClient<BadgeCatalog>;
 
 impl BadgeCatalogClient {
-    pub fn new(requests: RequestLog, shell: Shell) -> Result<Self> {
-        Self::with_url(
+    pub fn new(requests: RequestLog, shell: Shell, install_id: &str) -> Result<Self> {
+        Self::with_headers(
             &crate::drops_api::badges_url(),
             requests,
             &crate::user_agent(shell),
+            &[("x-install-id", install_id.to_owned())],
         )
     }
 }
@@ -264,9 +272,21 @@ pub fn parse_badges(payload: &Value) -> Result<BadgeCatalog> {
     }
 
     let mut seen: HashSet<String> = HashSet::new();
+    let mut live_channels: HashMap<String, CampaignChannels> = HashMap::new();
     let badges: Vec<GlobalBadge> = records
         .iter()
         .filter_map(|record| {
+            let requirement = record.get("requirement").filter(|r| r.is_object());
+
+            if let Some(requirement) = requirement {
+                if let (Some(campaign_id), Some(channels)) = (
+                    text(&requirement["campaignId"]),
+                    parse_campaign_channels(requirement),
+                ) {
+                    live_channels.entry(campaign_id).or_insert(channels);
+                }
+            }
+
             Some(GlobalBadge {
                 set_id: text(&record["setId"])?,
                 version_id: text(&record["versionId"])?,
@@ -278,10 +298,7 @@ pub fn parse_badges(payload: &Value) -> Result<BadgeCatalog> {
                 click_url: text(&record["clickUrl"]),
                 web_url: crate::drops_api::valid_web_url(text(&record["webUrl"])),
                 first_seen_at: parse_time(&record["firstSeenAt"]),
-                requirement: record
-                    .get("requirement")
-                    .filter(|r| r.is_object())
-                    .and_then(parse_requirement),
+                requirement: requirement.and_then(parse_requirement),
             })
         })
         .filter(|badge| seen.insert(badge.key()))
@@ -298,6 +315,7 @@ pub fn parse_badges(payload: &Value) -> Result<BadgeCatalog> {
         fetched_at: Some(now),
         problem: None,
         next_refresh_at: None,
+        live_channels,
     })
 }
 

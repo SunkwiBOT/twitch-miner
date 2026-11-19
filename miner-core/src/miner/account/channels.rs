@@ -276,6 +276,7 @@ impl<T: TwitchApi> AccountMiner<T> {
         ranked: &[(&Campaign, QueueReason)],
     ) -> HashMap<String, Vec<Channel>> {
         let catalog = self.context.catalog.read().await;
+        let badges = self.context.badges.read().await;
         let now = Utc::now();
 
         ranked
@@ -283,32 +284,52 @@ impl<T: TwitchApi> AccountMiner<T> {
             .map(|(c, _)| *c)
             .filter(|c| c.kind != CampaignKind::Quest)
             .filter_map(|c| {
-                let entry = catalog.live_channels.get(&c.id)?;
-
-                if entry.read_at > now
-                    || now - entry.read_at >= drops_api::LIVE_CHANNELS_MAX_AGE
-                    || entry.channels.is_empty()
-                {
-                    return None;
-                }
-
-                // ! A channel seen offline or refused since the list was last
-                // read is dropped until a fresher list vouches for it again:
-                // otherwise it comes right back and is watched in a loop.
-                let channels: Vec<Channel> = entry
-                    .channels
-                    .iter()
-                    .filter(|channel| {
-                        self.seen_offline_or_refused
-                            .get(&channel.id)
-                            .is_none_or(|seen_at| entry.read_at > *seen_at)
+                let channels = catalog
+                    .live_channels
+                    .get(&c.id)
+                    .and_then(|entry| {
+                        self.fresh_entry_channels(entry, now, drops_api::LIVE_CHANNELS_MAX_AGE)
                     })
-                    .cloned()
-                    .collect();
+                    .or_else(|| {
+                        badges.live_channels.get(&c.id).and_then(|entry| {
+                            self.fresh_entry_channels(
+                                entry,
+                                now,
+                                drops_api::BADGE_LIVE_CHANNELS_MAX_AGE,
+                            )
+                        })
+                    })?;
 
                 (!channels.is_empty()).then_some((c.id.clone(), channels))
             })
             .collect()
+    }
+
+    // ! A channel seen offline or refused since the list was last read is
+    // dropped until a fresher list vouches for it again: otherwise it comes
+    // right back and is watched in a loop.
+    fn fresh_entry_channels(
+        &self,
+        entry: &drops_api::CampaignChannels,
+        now: DateTime<Utc>,
+        max_age: chrono::Duration,
+    ) -> Option<Vec<Channel>> {
+        if entry.read_at > now || now - entry.read_at >= max_age || entry.channels.is_empty() {
+            return None;
+        }
+
+        let channels: Vec<Channel> = entry
+            .channels
+            .iter()
+            .filter(|channel| {
+                self.seen_offline_or_refused
+                    .get(&channel.id)
+                    .is_none_or(|seen_at| entry.read_at > *seen_at)
+            })
+            .cloned()
+            .collect();
+
+        Some(channels)
     }
 
     pub(super) fn campaigns_to_look_up<'a>(

@@ -12,10 +12,17 @@ const BADGES_PATH: &str = "api/twitch/badges";
 // ! The anonymous limit of `/drops`: one call every 5 minutes.
 pub const CATALOG_REFRESH_INTERVAL: std::time::Duration = std::time::Duration::from_secs(5 * 60);
 
-// ! Above the refresh interval, so a list read just before the next fetch is
-// still trusted for almost one more cycle.
-pub const LIVE_CHANNELS_MAX_AGE: chrono::Duration =
-    chrono::Duration::seconds(CATALOG_REFRESH_INTERVAL.as_secs() as i64 + 60);
+// ! Above each list's own refresh interval, so a list read just before the
+// next fetch is still trusted for almost one more cycle.
+const LIVE_CHANNELS_FRESH_MARGIN: std::time::Duration = std::time::Duration::from_secs(60);
+
+pub const LIVE_CHANNELS_MAX_AGE: chrono::Duration = chrono::Duration::seconds(
+    (CATALOG_REFRESH_INTERVAL.as_secs() + LIVE_CHANNELS_FRESH_MARGIN.as_secs()) as i64,
+);
+
+pub const BADGE_LIVE_CHANNELS_MAX_AGE: chrono::Duration = chrono::Duration::seconds(
+    (crate::feed::REFRESH_INTERVAL.as_secs() + LIVE_CHANNELS_FRESH_MARGIN.as_secs()) as i64,
+);
 
 pub(crate) fn catalog_url() -> String {
     format!("{BASE_URL}/{CATALOG_PATH}")
