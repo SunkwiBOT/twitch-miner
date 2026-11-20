@@ -132,6 +132,14 @@ impl QuestGroup {
         }
     }
 
+    // ! `earned` alone calls a claimable grant done, though the miner still
+    // has to send the claim for it; a repeated group also stays open once a
+    // new period began, even while its status still names the last one.
+    pub fn open(&self) -> bool {
+        self.status != QuestStatus::Unknown
+            && (!self.earned() || self.status == QuestStatus::Claimable)
+    }
+
     pub fn label(&self) -> &str {
         if self.name.is_empty() {
             self.rewards
@@ -193,8 +201,11 @@ impl Quest {
     }
 
     // ! Only a sitewide quest names the categories its watch counts on.
+    // Twitch's `completedRewardCampaigns` marks the whole campaign once one
+    // of its tracks (subs, say) is done: a sibling group (a watch lane) can
+    // still be open, so a group's own state decides.
     pub fn mined_at(&self, now: DateTime<Utc>) -> bool {
-        self.sitewide && !self.completed && self.active_at(now)
+        self.sitewide && self.active_at(now) && self.groups.iter().any(QuestGroup::open)
     }
 
     pub fn claim_instance(&self, user_id: &str, group: &QuestGroup) -> String {

@@ -361,7 +361,7 @@ export const accountBadges = (account: AccountSnapshotType, now: number): Accoun
   }
 
   for (const quest of account.quests) {
-    if (quest.completed || time(quest.ends_at) <= now) {
+    if (time(quest.ends_at) <= now) {
       continue;
     }
 
