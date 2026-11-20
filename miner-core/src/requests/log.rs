@@ -494,6 +494,7 @@ impl RequestLog {
         filter: &RequestFilter,
         logins: &HashMap<String, String>,
         limit: usize,
+        zone: chrono_tz::Tz,
     ) -> Result<String> {
         let page = self.page(filter, RequestCursor::default(), limit)?;
 
@@ -508,7 +509,7 @@ impl RequestLog {
                     .and_then(|id| logins.get(id))
                     .map(String::as_str);
 
-                entry.report_line(login)
+                entry.report_line(login, zone)
             })
             .collect::<Vec<_>>()
             .join("\n"))

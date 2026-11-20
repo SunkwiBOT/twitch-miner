@@ -84,13 +84,13 @@ impl LogBuffer {
         self.page(filter, None, limit).lines
     }
 
-    pub fn export(&self, filter: &LogFilter, limit: usize) -> String {
+    pub fn export(&self, filter: &LogFilter, limit: usize, zone: chrono_tz::Tz) -> String {
         self.lines(filter, limit)
             .iter()
             .map(|l| {
                 format!(
                     "{} {:<5} {}{}",
-                    l.at.format("%Y-%m-%d %H:%M:%S"),
+                    crate::util::format_local(l.at, zone),
                     l.level,
                     l.account
                         .as_ref()

@@ -71,6 +71,42 @@ pub fn local_minutes_of_day(now: chrono::DateTime<chrono::Utc>, time_zone: &str)
     (local.hour() * 60 + local.minute()) as u16
 }
 
+// ! The process's own zone, from the `TZ` env var or the system tzdata:
+// what `AUTO` (the display-only sentinel for `GlobalSettings::time_zone`)
+// resolves to. This is what makes the published Docker image's `TZ=`
+// reach exported reports.
+fn auto_time_zone() -> chrono_tz::Tz {
+    std::env::var("TZ")
+        .ok()
+        .and_then(|name| parse_time_zone(&name))
+        .or_else(|| {
+            iana_time_zone::get_timezone()
+                .ok()
+                .and_then(|name| parse_time_zone(&name))
+        })
+        .unwrap_or(chrono_tz::Tz::UTC)
+}
+
+// ! The zone exported reports are formatted in: `AUTO` resolves through
+// the process's own zone, any other value is parsed as an IANA name,
+// falling back to UTC when unparsable (the display preference is never
+// validated as strictly as `GlobalSettings::quiet_window.time_zone`).
+pub fn display_time_zone(time_zone: &str) -> chrono_tz::Tz {
+    if time_zone == crate::config::AUTO_TIME_ZONE {
+        auto_time_zone()
+    } else {
+        parse_time_zone(time_zone).unwrap_or(chrono_tz::Tz::UTC)
+    }
+}
+
+// ! Carries the UTC offset so exported lines stay unambiguous across a
+// daylight-saving change.
+pub fn format_local(at: chrono::DateTime<chrono::Utc>, zone: chrono_tz::Tz) -> String {
+    at.with_timezone(&zone)
+        .format("%Y-%m-%d %H:%M:%S %:z")
+        .to_string()
+}
+
 // ! A folder another user owns (a mount shared on purpose) keeps its mode: only its owner may change it.
 pub fn private_dir(dir: &Path) -> std::io::Result<()> {
     std::fs::create_dir_all(dir)?;

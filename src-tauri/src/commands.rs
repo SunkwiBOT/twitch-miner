@@ -321,7 +321,7 @@ pub(super) async fn logs_report(
 ) -> Answer<LogsReportResponse> {
     unlocked(&state).await?;
 
-    Ok(state.manager.logs_report(&query))
+    Ok(state.manager.logs_report(&query).await)
 }
 
 #[tauri::command]

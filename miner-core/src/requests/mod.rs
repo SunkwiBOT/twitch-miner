@@ -201,8 +201,8 @@ impl RequestEntry {
         self.outcome != RequestOutcome::Ok
     }
 
-    pub fn report_line(&self, login: Option<&str>) -> String {
-        let mut line = format!("{} ", self.at.format("%Y-%m-%d %H:%M:%S"));
+    pub fn report_line(&self, login: Option<&str>, zone: chrono_tz::Tz) -> String {
+        let mut line = format!("{} ", crate::util::format_local(self.at, zone));
 
         if let Some(login) = login {
             line.push_str(&format!("[{login}] "));
@@ -234,7 +234,7 @@ impl RequestEntry {
             Some(group) => line.push_str(&format!(
                 " ×{} until {}, mean {} ms, max {} ms",
                 group.count,
-                group.until.format("%H:%M"),
+                group.until.with_timezone(&zone).format("%H:%M"),
                 self.duration_ms,
                 group.max_ms
             )),

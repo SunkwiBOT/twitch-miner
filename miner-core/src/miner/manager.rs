@@ -572,13 +572,13 @@ impl Manager {
         }
     }
 
-    pub fn logs_report(&self, query: &LogsQuery) -> LogsReportResponse {
+    pub async fn logs_report(&self, query: &LogsQuery) -> LogsReportResponse {
         let limit = query
             .limit
             .map_or(crate::logs::CAPACITY, |limit| limit as usize);
 
         LogsReportResponse {
-            report: self.logs_export(query, limit),
+            report: self.logs_export(query, limit).await,
         }
     }
 
@@ -781,6 +781,7 @@ impl Manager {
     pub async fn requests_report(&self, query: RequestsQuery) -> Result<LogsReportResponse> {
         let requests = self.requests.clone();
         let store = self.store.clone();
+        let zone = crate::util::display_time_zone(&self.settings.read().await.time_zone);
 
         blocking(move || {
             let limit = query
@@ -796,8 +797,8 @@ impl Manager {
             Ok(LogsReportResponse {
                 report: format!(
                     "{}\n{}",
-                    report_header(),
-                    requests.report(&request_filter(&query), &logins, limit)?
+                    report_header(zone),
+                    requests.report(&request_filter(&query), &logins, limit, zone)?
                 ),
             })
         })
@@ -2090,18 +2091,19 @@ impl Manager {
         })
     }
 
-    fn logs_export(&self, query: &LogsQuery, limit: usize) -> String {
+    async fn logs_export(&self, query: &LogsQuery, limit: usize) -> String {
         let logins = self.log_logins(query.account_ids.as_deref());
         let filter = LogFilter {
             accounts: logins.as_deref(),
             levels: query.levels.as_deref(),
         };
+        let zone = crate::util::display_time_zone(&self.settings.read().await.time_zone);
 
         format!(
             "{}\n{}",
-            report_header(),
+            report_header(zone),
             self.logs
-                .export(&filter, limit.clamp(1, crate::logs::CAPACITY))
+                .export(&filter, limit.clamp(1, crate::logs::CAPACITY), zone)
         )
     }
 
@@ -2917,13 +2919,14 @@ fn failed_start_status(code: ErrorCode) -> AccountStatus {
     }
 }
 
-fn report_header() -> String {
+fn report_header(zone: chrono_tz::Tz) -> String {
     format!(
-        "{} {} ({}, {})",
+        "{} {} ({}, {}) — time zone: {}",
         crate::APP_NAME,
         crate::VERSION,
         std::env::consts::OS,
         std::env::consts::ARCH,
+        zone,
     )
 }
 

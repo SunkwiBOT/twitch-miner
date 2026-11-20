@@ -398,7 +398,7 @@ async fn logs_report(
     State(state): State<Shared>,
     Params(query): Params<LogsQuery>,
 ) -> Json<LogsReportResponse> {
-    Json(state.manager.logs_report(&query))
+    Json(state.manager.logs_report(&query).await)
 }
 
 async fn requests(
