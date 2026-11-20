@@ -355,7 +355,7 @@ Stáhněte si soubor pro svůj systém z
 
 | Systém | Balíček |
 |---|---|
-| **Windows** · x64 | Instalátor (`setup.exe`) nebo [přenosná verze](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/TwitchMiner-portable.exe) |
+| **Windows** · x64 | Instalátor (`setup.exe`) nebo [přenosná verze](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
 | **macOS** 13 nebo novější · Intel a Apple Silicon | Obraz disku (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) nebo `.rpm` (Fedora, openSUSE) |
 

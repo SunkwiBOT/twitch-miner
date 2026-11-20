@@ -369,7 +369,7 @@ Download het bestand voor je systeem uit de
 
 | Systeem | Pakket |
 |---|---|
-| **Windows** · x64 | Installatieprogramma (`setup.exe`) of [portable versie](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/TwitchMiner-portable.exe) |
+| **Windows** · x64 | Installatieprogramma (`setup.exe`) of [portable versie](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
 | **macOS** 13 of nieuwer · Intel en Apple Silicon | Schijfkopie (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) of `.rpm` (Fedora, openSUSE) |
 

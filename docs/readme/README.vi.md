@@ -264,7 +264,7 @@ Tải tệp cho hệ thống của bạn từ [bản phát hành mới nhất](h
 
 | Hệ thống | Gói |
 |---|---|
-| **Windows** · x64 | Trình cài đặt (`setup.exe`) hoặc [tệp thực thi portable](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/TwitchMiner-portable.exe) |
+| **Windows** · x64 | Trình cài đặt (`setup.exe`) hoặc [tệp thực thi portable](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
 | **macOS** 13 trở lên · Intel và Apple Silicon | Ảnh đĩa (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) hoặc `.rpm` (Fedora, openSUSE) |
 

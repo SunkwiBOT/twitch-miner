@@ -364,7 +364,7 @@ Descarcă fișierul pentru sistemul tău din
 
 | Sistem | Pachet |
 |---|---|
-| **Windows** · x64 | Program de instalare (`setup.exe`) sau [executabil portabil](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/TwitchMiner-portable.exe) |
+| **Windows** · x64 | Program de instalare (`setup.exe`) sau [executabil portabil](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
 | **macOS** 13 sau mai nou · Intel și Apple Silicon | Imagine de disc (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) sau `.rpm` (Fedora, openSUSE) |
 

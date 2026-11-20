@@ -374,7 +374,7 @@ Lataa järjestelmällesi sopiva tiedosto
 
 | Järjestelmä | Paketti |
 |---|---|
-| **Windows** · x64 | Asennusohjelma (`setup.exe`) tai [siirrettävä suoritettava tiedosto](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/TwitchMiner-portable.exe) |
+| **Windows** · x64 | Asennusohjelma (`setup.exe`) tai [siirrettävä suoritettava tiedosto](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
 | **macOS** 13 tai uudempi · Intel ja Apple Silicon | Levykuva (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) tai `.rpm` (Fedora, openSUSE) |
 

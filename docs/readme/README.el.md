@@ -268,7 +268,7 @@
 
 | Σύστημα | Πακέτο |
 |---|---|
-| **Windows** · x64 | Πρόγραμμα εγκατάστασης (`setup.exe`) ή [φορητό εκτελέσιμο](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/TwitchMiner-portable.exe) |
+| **Windows** · x64 | Πρόγραμμα εγκατάστασης (`setup.exe`) ή [φορητό εκτελέσιμο](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
 | **macOS** 13 ή νεότερο · Intel και Apple Silicon | Εικόνα δίσκου (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) ή `.rpm` (Fedora, openSUSE) |
 

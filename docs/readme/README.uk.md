@@ -368,7 +368,7 @@
 
 | Система | Пакет |
 |---|---|
-| **Windows** · x64 | Інсталятор (`setup.exe`) або [портативна версія](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/TwitchMiner-portable.exe) |
+| **Windows** · x64 | Інсталятор (`setup.exe`) або [портативна версія](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
 | **macOS** 13 або новіша · Intel і Apple Silicon | Образ диска (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) або `.rpm` (Fedora, openSUSE) |
 

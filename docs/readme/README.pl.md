@@ -361,7 +361,7 @@ Pobierz plik dla swojego systemu z
 
 | System | Pakiet |
 |---|---|
-| **Windows** · x64 | Instalator (`setup.exe`) lub [wersja przenośna](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/TwitchMiner-portable.exe) |
+| **Windows** · x64 | Instalator (`setup.exe`) lub [wersja przenośna](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
 | **macOS** 13 lub nowszy · Intel i Apple Silicon | Obraz dysku (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) lub `.rpm` (Fedora, openSUSE) |
 

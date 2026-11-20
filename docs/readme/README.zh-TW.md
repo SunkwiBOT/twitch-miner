@@ -263,7 +263,7 @@
 
 | 系統 | 套件 |
 |---|---|
-| **Windows** · x64 | 安裝程式（`setup.exe`）或[免安裝執行檔](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/TwitchMiner-portable.exe) |
+| **Windows** · x64 | 安裝程式（`setup.exe`）或[免安裝執行檔](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
 | **macOS** 13 或以上版本 · Intel 和 Apple Silicon | 磁碟映像檔（`.dmg`） |
 | **Linux** · x86-64 | `.AppImage`、`.deb`（Debian、Ubuntu）或 `.rpm`（Fedora、openSUSE） |
 

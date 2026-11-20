@@ -264,7 +264,7 @@
 
 | 시스템 | 패키지 |
 |---|---|
-| **Windows** · x64 | 설치 프로그램(`setup.exe`) 또는 [포터블 실행 파일](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/TwitchMiner-portable.exe) |
+| **Windows** · x64 | 설치 프로그램(`setup.exe`) 또는 [포터블 실행 파일](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
 | **macOS** 13 이상 · Intel 및 Apple Silicon | 디스크 이미지(`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb`(Debian, Ubuntu) 또는 `.rpm`(Fedora, openSUSE) |
 

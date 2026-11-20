@@ -277,7 +277,7 @@ Unduh file untuk sistem Anda dari [rilis terbaru](https://github.com/SunkwiBOT/t
 
 | Sistem | Paket |
 |---|---|
-| **Windows** · x64 | Penginstal (`setup.exe`) atau [executable portabel](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/TwitchMiner-portable.exe) |
+| **Windows** · x64 | Penginstal (`setup.exe`) atau [executable portabel](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
 | **macOS** 13 atau lebih baru · Intel dan Apple Silicon | Image disk (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu), atau `.rpm` (Fedora, openSUSE) |
 

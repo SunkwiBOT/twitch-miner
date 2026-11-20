@@ -156,7 +156,7 @@ jobs:
             # ! The macOS updater installs the signed `.app.tar.gz` that only the `app`
             # bundle produces.
             args: --bundles app,dmg --target universal-apple-darwin -- --locked
-            assets: "twitch-miner_[version]_[platform]_[arch][setup][ext]"
+            assets: "twitch-miner_[version]_macos_[arch][setup][ext]"
     runs-on: ${{ matrix.platform }}
     permissions:
       contents: write
@@ -197,7 +197,7 @@ jobs:
         with:
           tagName: v${{ needs.version.outputs.version }}
           releaseName: "v${{ needs.version.outputs.version }} - Twitch Miner"
-          releaseBody: "Download the installer for your system, or run the Docker image ${{ needs.version.outputs.image }}:${{ needs.version.outputs.version }} (also tagged latest) on a home server. macOS builds are not notarized: the first time, open the app, then allow it in System Settings › Privacy & Security › Open Anyway. TwitchMiner-portable.exe runs on Windows without installing; it updates itself like the other builds."
+          releaseBody: "Download the installer for your system, or run the Docker image ${{ needs.version.outputs.image }}:${{ needs.version.outputs.version }} (also tagged latest) on a home server. macOS builds are not notarized: the first time, open the app, then allow it in System Settings › Privacy & Security › Open Anyway. twitch-miner_windows_x64_portable.exe runs on Windows without installing; it updates itself like the other builds."
           releaseDraft: true
           prerelease: false
           uploadUpdaterJson: true
@@ -215,8 +215,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cp target/release/twitchminer.exe TwitchMiner-portable.exe
-          gh release upload "v${{ needs.version.outputs.version }}" TwitchMiner-portable.exe --clobber
+          cp target/release/twitchminer.exe twitch-miner_windows_x64_portable.exe
+          gh release upload "v${{ needs.version.outputs.version }}" twitch-miner_windows_x64_portable.exe --clobber
 
   # ! Only the versioned image here: `latest` moves in `finalize`, once the
   # release is out, so a withdrawn run never moves it.
@@ -267,7 +267,7 @@ jobs:
         run: |
           tag="v$RELEASE_VERSION"
           base="https://github.com/$GH_REPO/releases/download/$tag"
-          gh release download "$tag" --pattern latest.json --pattern TwitchMiner-portable.exe --dir draft
+          gh release download "$tag" --pattern latest.json --pattern twitch-miner_windows_x64_portable.exe --dir draft
           gh release view "$tag" --json assets \
             --jq '[.assets[] | {key: (.apiUrl | split("/") | last), value: .name}] | from_entries' \
             > draft/names.json
@@ -279,9 +279,9 @@ jobs:
           # it is signed here instead, against the same version, so the app can verify it like
           # every other platform. `--app-version` is what `requireSignedVersion` checks against.
           cli_version="$(jq -r '.packages["node_modules/@tauri-apps/cli"].version' package-lock.json)"
-          npx --yes "@tauri-apps/cli@$cli_version" signer sign --app-version "$RELEASE_VERSION" draft/TwitchMiner-portable.exe
-          jq --arg url "$base/TwitchMiner-portable.exe" \
-            --arg signature "$(cat draft/TwitchMiner-portable.exe.sig)" \
+          npx --yes "@tauri-apps/cli@$cli_version" signer sign --app-version "$RELEASE_VERSION" draft/twitch-miner_windows_x64_portable.exe
+          jq --arg url "$base/twitch-miner_windows_x64_portable.exe" \
+            --arg signature "$(cat draft/twitch-miner_windows_x64_portable.exe.sig)" \
             '.platforms["windows-x86_64-portable"] = {url: $url, signature: $signature}' \
             draft/rewritten.json > latest.json
 
