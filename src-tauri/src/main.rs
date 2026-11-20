@@ -125,7 +125,7 @@ fn main() {
         }))
         .plugin(tauri_plugin_autostart::init(
             tauri_plugin_autostart::MacosLauncher::LaunchAgent,
-            Some(vec!["--minimized"]),
+            None,
         ))
         .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_opener::init())
@@ -222,8 +222,7 @@ fn main() {
                     manager.vault_status().await.unlocked,
                 )
             });
-            let hidden = unlocked
-                && (settings.start_minimized || std::env::args().any(|a| a == "--minimized"));
+            let hidden = unlocked && settings.start_minimized;
             let handle = app.handle().clone();
 
             tauri::async_runtime::spawn(async move {
