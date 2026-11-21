@@ -84,7 +84,7 @@ fn hash(session: &str) -> [u8; 32] {
 impl Sessions {
     pub async fn create(&self) -> String {
         let mut raw = [0u8; SESSION_BYTES];
-        rand::RngCore::fill_bytes(&mut rand::rng(), &mut raw);
+        rand::fill(&mut raw);
         let session = base64::engine::general_purpose::URL_SAFE_NO_PAD.encode(raw);
         let now = Instant::now();
 

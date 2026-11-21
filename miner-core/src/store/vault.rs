@@ -2,7 +2,6 @@ use aes_gcm::aead::Aead;
 use aes_gcm::{Aes256Gcm, KeyInit, Nonce};
 use argon2::{Algorithm, Argon2, Params, Version};
 use base64::Engine;
-use rand::RngCore;
 use serde::{Deserialize, Serialize};
 use std::path::Path;
 use ts_rs::TS;
@@ -68,7 +67,7 @@ fn unb64(value: &str) -> Result<Vec<u8>> {
 pub fn random_salt() -> String {
     let mut salt = [0u8; SALT_LENGTH];
 
-    rand::rng().fill_bytes(&mut salt);
+    rand::fill(&mut salt);
 
     b64(&salt)
 }
@@ -120,7 +119,7 @@ impl Vault {
 
         let mut key = Zeroizing::new([0u8; KEY_LENGTH]);
 
-        rand::rng().fill_bytes(key.as_mut());
+        rand::fill(&mut key[..]);
         write_private(&path, Zeroizing::new(hex::encode(key.as_ref())).as_bytes())?;
 
         Ok(Self { key })
@@ -131,10 +130,10 @@ impl Vault {
             Aes256Gcm::new_from_slice(self.key.as_ref()).map_err(|_| Error::InvalidVault)?;
         let mut nonce = [0u8; NONCE_LENGTH];
 
-        rand::rng().fill_bytes(&mut nonce);
+        rand::fill(&mut nonce);
 
         let ciphertext = cipher
-            .encrypt(Nonce::from_slice(&nonce), plaintext)
+            .encrypt(&Nonce::from(nonce), plaintext)
             .map_err(|_| Error::InvalidVault)?;
 
         Ok(Sealed {
@@ -148,18 +147,14 @@ impl Vault {
     }
 
     fn decrypt(&self, sealed: &Sealed) -> Result<Option<Zeroizing<Vec<u8>>>> {
-        let nonce = unb64(&sealed.nonce)?;
-
-        if nonce.len() != NONCE_LENGTH {
-            return Err(Error::InvalidVault);
-        }
-
+        let nonce =
+            Nonce::try_from(unb64(&sealed.nonce)?.as_slice()).map_err(|_| Error::InvalidVault)?;
         let ciphertext = unb64(&sealed.ciphertext)?;
         let cipher =
             Aes256Gcm::new_from_slice(self.key.as_ref()).map_err(|_| Error::InvalidVault)?;
 
         Ok(cipher
-            .decrypt(Nonce::from_slice(&nonce), ciphertext.as_ref())
+            .decrypt(&nonce, ciphertext.as_ref())
             .ok()
             .map(Zeroizing::new))
     }

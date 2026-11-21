@@ -2,8 +2,6 @@ use std::path::Path;
 use std::str::FromStr;
 use std::sync::{Mutex, MutexGuard, PoisonError, RwLock, RwLockReadGuard, RwLockWriteGuard};
 
-use rand::RngCore;
-
 // ! A panic while the lock was held leaves plain data behind: it is used as is.
 pub fn locked<T: ?Sized>(mutex: &Mutex<T>) -> MutexGuard<'_, T> {
     mutex.lock().unwrap_or_else(PoisonError::into_inner)
@@ -19,7 +17,7 @@ pub fn write_locked<T: ?Sized>(lock: &RwLock<T>) -> RwLockWriteGuard<'_, T> {
 
 pub fn random_hex(bytes: usize) -> String {
     let mut buffer = vec![0u8; bytes];
-    rand::rng().fill_bytes(&mut buffer);
+    rand::fill(&mut buffer[..]);
     hex::encode(buffer)
 }
 
@@ -31,7 +29,7 @@ pub fn random_device_id() -> String {
 pub fn random_uuid_v4() -> String {
     let mut bytes = [0u8; 16];
 
-    rand::rng().fill_bytes(&mut bytes);
+    rand::fill(&mut bytes);
     bytes[6] = (bytes[6] & 0x0f) | 0x40;
     bytes[8] = (bytes[8] & 0x3f) | 0x80;
 

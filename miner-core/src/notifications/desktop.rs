@@ -59,16 +59,14 @@ impl DesktopNotifier {
 
         tokio::spawn(async move {
             let image = this.image(&event).await;
-            let shown =
-                tokio::task::spawn_blocking(move || this.show(&event, image.as_deref())).await;
 
-            if let Ok(Err(error)) = shown {
+            if let Err(error) = this.show(&event, image.as_deref()).await {
                 tracing::warn!(%error, "desktop notification failed");
             }
         });
     }
 
-    pub fn show(&self, event: &MinerEvent, image: Option<&Path>) -> Result<()> {
+    pub async fn show(&self, event: &MinerEvent, image: Option<&Path>) -> Result<()> {
         let mut notification = notify_rust::Notification::new();
 
         notification
@@ -90,7 +88,7 @@ impl DesktopNotifier {
             notification.app_id(app_id);
         }
 
-        deliver(&notification)
+        deliver(notification).await
     }
 
     async fn image(&self, event: &MinerEvent) -> Option<PathBuf> {
@@ -152,16 +150,20 @@ fn image_path(path: &Path) -> Option<String> {
 
 // ! Linux and the BSDs send on one long-lived bus connection, since GNOME
 // closes a notification once the connection that sent it goes away.
-fn deliver(notification: &notify_rust::Notification) -> Result<()> {
+async fn deliver(notification: notify_rust::Notification) -> Result<()> {
     #[cfg(all(unix, not(target_os = "macos"), feature = "zbus"))]
-    if bus::send(notification) {
+    if bus::send(&notification).await {
         return Ok(());
     }
 
-    notification
-        .show()
-        .map(drop)
-        .map_err(|error| Error::Notification(format!("desktop notification: {error}")))
+    tokio::task::spawn_blocking(move || notification.show().map(drop))
+        .await
+        .map_err(failed)?
+        .map_err(failed)
+}
+
+fn failed(error: impl std::fmt::Display) -> Error {
+    Error::Notification(format!("desktop notification: {error}"))
 }
 
 // ! macOS shows notifications under one application, chosen once. A dev run
@@ -200,54 +202,54 @@ fn installed() -> bool {
 #[cfg(all(unix, not(target_os = "macos"), feature = "zbus"))]
 mod bus {
     use std::collections::HashMap;
-    use std::sync::OnceLock;
 
     use notify_rust::Hint;
-    use zbus::zvariant::Value;
+    use tokio::sync::OnceCell;
+    use zbus::Variant;
 
     const NAME: &str = "org.freedesktop.Notifications";
     const PATH: &str = "/org/freedesktop/Notifications";
 
-    fn connection() -> Option<&'static zbus::blocking::Connection> {
-        static CONNECTION: OnceLock<zbus::blocking::Connection> = OnceLock::new();
+    // ! Built on the app's Tokio runtime, which keeps driving it between notifications.
+    async fn connection() -> Option<&'static zbus::Connection> {
+        static CONNECTION: OnceCell<zbus::Connection> = OnceCell::const_new();
 
-        if let Some(connection) = CONNECTION.get() {
-            return Some(connection);
-        }
-
-        let connection = zbus::blocking::Connection::session().ok()?;
-
-        Some(CONNECTION.get_or_init(|| connection))
+        CONNECTION
+            .get_or_try_init(zbus::Connection::session)
+            .await
+            .ok()
     }
 
-    pub fn send(notification: &notify_rust::Notification) -> bool {
-        let Some(connection) = connection() else {
+    pub async fn send(notification: &notify_rust::Notification) -> bool {
+        let Some(connection) = connection().await else {
             return false;
         };
-        let hints: HashMap<&str, Value<'_>> = notification
+        let hints: HashMap<&str, Variant<'_>> = notification
             .hints
             .iter()
             .filter_map(|hint| match hint {
-                Hint::ImagePath(path) => Some(("image-path", Value::from(path.as_str()))),
+                Hint::ImagePath(path) => Some(("image-path", Variant::from(path.as_str()))),
                 _ => None,
             })
             .collect();
-        let sent = connection.call_method(
-            Some(NAME),
-            PATH,
-            Some(NAME),
-            "Notify",
-            &(
-                &notification.appname,
-                0u32,
-                &notification.icon,
-                &notification.summary,
-                &notification.body,
-                &notification.actions,
-                hints,
-                -1i32,
-            ),
-        );
+        let sent = connection
+            .call_method(
+                Some(NAME),
+                PATH,
+                Some(NAME),
+                "Notify",
+                &(
+                    &notification.appname,
+                    0u32,
+                    &notification.icon,
+                    &notification.summary,
+                    &notification.body,
+                    &notification.actions,
+                    hints,
+                    -1i32,
+                ),
+            )
+            .await;
 
         if let Err(error) = &sent {
             tracing::debug!(%error, "notification bus refused, retrying on a new connection");
