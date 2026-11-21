@@ -7,6 +7,7 @@
   import type { SpamPointsSettingsType } from "../../../lib/bindings/SpamPointsSettingsType";
   import type { SpamRewardType } from "../../../lib/bindings/SpamRewardType";
   import { ensureBanners, knownBanners } from "../../../lib/channels/channels.svelte";
+  import { gameArt, gameUrl } from "../../../lib/catalogue/games.utils";
   import { describeError } from "../../../lib/errors/errors.utils";
   import { channelUrl } from "../../../lib/links/twitch.utils";
   import { number } from "../../../lib/format.utils";
@@ -24,6 +25,7 @@
   import { secondClock } from "../../../lib/time/clock.svelte";
   import { SECOND_MS } from "../../../lib/time/time.constants";
   import Badge from "../../ui/Badge.svelte";
+  import GameName from "../../ui/GameName.svelte";
   import ChannelAvatar from "../../ui/ChannelAvatar.svelte";
   import EmptyState from "../../ui/EmptyState.svelte";
   import LinkPair from "../../ui/LinkPair.svelte";
@@ -31,7 +33,7 @@
   import TextLink from "../../ui/TextLink.svelte";
   import IconButton from "../../ui/IconButton.svelte";
   import ViewerCount from "../../ui/ViewerCount.svelte";
-  import { AvatarSize } from "../../ui/picture.constants";
+  import { AvatarSize, ThumbSize } from "../../ui/picture.constants";
   import { BadgeTone } from "../../../lib/tones.constants";
   import { ButtonSize, ButtonVariant } from "../../ui/button.constants";
   import { IconName } from "../../../lib/icons.constants";
@@ -232,7 +234,13 @@
         </h2>
         <span class="flex min-w-0 flex-wrap items-center gap-x-2 text-xs text-muted-foreground">
           {#if channel.live}
-            {#if channel.game}<span class="truncate">{channel.game}</span>{/if}
+            {#if channel.game}<GameName
+                name={channel.game.name}
+                url={gameUrl(channel.game.name, channel.game.slug)}
+                art={gameArt(channel.game.name, channel.game.box_art_url)}
+                size={ThumbSize.XS}
+                inSentence={false}
+              />{/if}
             {#if channel.viewers !== undefined}<ViewerCount count={channel.viewers} />{/if}
           {:else}
             <span>{t.points_offline_hint()}</span>

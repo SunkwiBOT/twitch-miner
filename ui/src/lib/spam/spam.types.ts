@@ -1,3 +1,4 @@
+import type { GameType } from "../bindings/GameType";
 import type { SpamRewardType } from "../bindings/SpamRewardType";
 import type { RewardStatus } from "./spam.constants";
 
@@ -16,7 +17,7 @@ export type SpamChannelType = {
   name: string;
   avatar: string | undefined;
   live: boolean;
-  game: string | undefined;
+  game: GameType | undefined;
   viewers: number | undefined;
 };
 

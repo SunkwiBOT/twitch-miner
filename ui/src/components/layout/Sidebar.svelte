@@ -212,6 +212,8 @@
       {/if}
     {/each}
     <span id={REORDER_HINT_ID} class="sr-only">{t.nav_account_reorder_hint()}</span>
+  </div>
+  <div class="px-2.5 pt-1.5 pb-2">
     <TextButton
       label={t.accounts_add()}
       icon={IconName.PLUS}
@@ -219,7 +221,7 @@
       size={ButtonSize.MD}
       type={ButtonType.BUTTON}
       disabled={!app.snapshot?.vault.unlocked}
-      class="mt-1.5 w-full"
+      class="w-full"
       onclick={() => {
         app.navDrawer = false;
         app.loginDialog = true;
@@ -230,8 +232,8 @@
     <span class="h-px flex-1 bg-border"></span>
     <TextLink
       text={`v${app.snapshot?.version ?? app.info?.version ?? ""}`}
-      target={{ url: REPO_URL, mark: LinkMark.END }}
-      size={LinkSize.MD}
+      target={{ url: REPO_URL, mark: LinkMark.OVERLAY }}
+      size={LinkSize.SM}
     />
     {#if !app.connected}<span class="text-destructive">· {t.topbar_disconnected()}</span>{/if}
     <span class="h-px flex-1 bg-border"></span>

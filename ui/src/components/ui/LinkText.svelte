@@ -14,8 +14,8 @@
   <span
     class={cn(
       "shrink-0 text-link",
-      mark === LinkMark.SENTENCE_END
-        ? "ml-1 hidden align-[-0.125em] link-active:inline-block"
+      mark === LinkMark.OVERLAY
+        ? "absolute bottom-0 left-full ml-1.5 hidden link-active:inline-block"
         : "opacity-0 transition-opacity link-active:opacity-100",
     )}
   >
@@ -25,9 +25,11 @@
 
 {#if mark === LinkMark.START}{@render icon()}{/if}<span
   class={cn(
-    "font-semibold text-foreground underline decoration-link decoration-1 underline-offset-3 transition-colors link-active:text-link link-active:decoration-2",
+    "underline decoration-link decoration-1 underline-offset-3 transition-colors link-active:text-link link-active:decoration-2",
+    LINK_SIZES[size].label,
+    mark === LinkMark.OVERLAY && "relative",
     fit && LINK_SIZES[size].fit,
   )}
 >
-  {text}
-</span>{#if mark === LinkMark.END || mark === LinkMark.SENTENCE_END}{@render icon()}{/if}
+  {text}{#if mark === LinkMark.OVERLAY}{@render icon()}{/if}
+</span>{#if mark === LinkMark.END}{@render icon()}{/if}

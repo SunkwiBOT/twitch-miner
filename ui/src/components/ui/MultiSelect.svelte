@@ -192,7 +192,9 @@
       bottom: overlay.bottom + MENU_EDGE_GAP,
     }}
   >
+    <!-- ! The list takes the popover's room, the screen's available height minus the search field. -->
     <Command
+      class="min-h-0"
       bind:value={highlighted}
       filter={matchOption}
       label={t.select_search()}
@@ -201,7 +203,7 @@
       {#if options.length >= SELECT_SEARCH_FROM}
         <CommandInput placeholder={t.select_search()} />
       {/if}
-      <CommandList bind:ref={list} class="max-h-80 p-1" aria-label={label}>
+      <CommandList bind:ref={list} class="max-h-none min-h-0 flex-1 p-1" aria-label={label}>
         <CommandEmpty>{t.select_empty()}</CommandEmpty>
         <CommandItem
           value={MULTI_ALL_VALUE}

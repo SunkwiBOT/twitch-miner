@@ -1,6 +1,8 @@
 <script lang="ts">
   import { CommandName } from "../../lib/bindings/CommandName";
-  import { PauseScope } from "../../lib/accounts/account-state.constants";
+  import { AccountState, PauseScope } from "../../lib/accounts/account-state.constants";
+  import { accountState } from "../../lib/accounts/account-state.utils";
+  import { ticker } from "../../lib/state/ticker.svelte";
   import { AccountStatus } from "../../lib/bindings/AccountStatus";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { BETA_PAGES, Page } from "../../lib/state/state.constants";
@@ -29,6 +31,10 @@
 
   const current = $derived(isAccountPage(app.page) ? account(app.selectedAccount) : null);
 
+  const paused = $derived(
+    current !== null && accountState(current, ticker.now) === AccountState.PAUSED,
+  );
+
   let refreshing = $state(false);
 
   const refreshAccount = async (id: string): Promise<void> => {
@@ -39,7 +45,7 @@
 </script>
 
 <header
-  class="@container flex min-h-14 items-center gap-2.5 border-b bg-card px-6 py-2.5 max-md:gap-2 max-md:px-3"
+  class="@container flex min-h-14 flex-wrap items-center gap-2.5 border-b bg-card px-6 py-2.5 max-md:gap-2 max-md:px-3"
 >
   {#if !wideLayout.current}
     <IconButton
@@ -66,7 +72,10 @@
   <UpdateBadge />
   {#if app.page !== Page.HOME}<QuietWindowBadge class="@max-[50rem]:hidden" />{/if}
   {#if current}
-    {#if wideLayout.current}<span class="contents @max-[65rem]:hidden">
+    {#if paused}<span class="contents @max-[40rem]:order-last @max-[40rem]:flex @max-[40rem]:basis-full">
+        <AccountStatusBadges account={current} />
+      </span>
+    {:else if wideLayout.current}<span class="contents @max-[65rem]:hidden">
         <AccountStatusBadges account={current} />
       </span>{/if}
     {#if current.status === AccountStatus.LOGIN_REQUIRED}

@@ -9,7 +9,6 @@
   import { channelUrl } from "../../../lib/links/twitch.utils";
   import { t } from "../../../lib/i18n/i18n.svelte";
   import { ticker } from "../../../lib/state/ticker.svelte";
-  import { wideLayout } from "../../../lib/state/viewport.svelte";
   import { strong } from "../../../lib/text.utils";
   import { relativeTime } from "../../../lib/time/time.utils";
   import Badge from "../../ui/Badge.svelte";
@@ -55,61 +54,63 @@
   {/if}
 {/snippet}
 
-<div
-  class={["flex min-w-0 flex-1 items-center gap-3 transition", !streamer.enabled && "grayscale"]}
->
-  <LinkPair>
-    <span class={["inline-flex transition", !streamer.enabled && "opacity-50"]}>
-      <LinkTwin target={{ url: channelUrl(streamer.login) }} live={isLive(streamer.login)}>
-        <ChannelAvatar
-          url={channel?.avatar_url}
-          name={channel?.display_name ?? streamer.login}
-          size={AvatarSize.MD}
-          live={isLive(streamer.login)}
-        />
-      </LinkTwin>
-    </span>
-    <div class="flex min-w-0 flex-1 flex-col gap-0.5">
-      <span class="flex min-w-0 flex-wrap items-center gap-1.5">
-        <TextLink
-          text={channel?.display_name ?? streamer.login}
-          target={{ url: channelUrl(streamer.login), mark: LinkMark.END }}
-          size={LinkSize.MD}
-        />
-        {#if view?.watching}<Badge
-            text={t.streamer_watching()}
-            tone={BadgeTone.SUCCESS}
-            dot={false}
-            icon={IconName.PLAY}
-            hint={t.badge_hint_watching()}
-          />{/if}
-        {#if view?.streak_at_risk}<Badge
-            text={t.points_reason_streak_at_risk()}
-            tone={POINTS_REASON_TONES[PointsReason.STREAK_AT_RISK]}
-            dot={false}
-            hint={t.badge_hint_streak_risk()}
-            icon={POINTS_REASON_ICONS[PointsReason.STREAK_AT_RISK]}
-          />{/if}
+<div class="@container/streamer flex min-w-0 flex-1">
+  <div
+    class={["flex min-w-0 flex-1 items-center gap-3 transition", !streamer.enabled && "grayscale"]}
+  >
+    <LinkPair>
+      <span class={["inline-flex transition", !streamer.enabled && "opacity-50"]}>
+        <LinkTwin target={{ url: channelUrl(streamer.login) }} live={isLive(streamer.login)}>
+          <ChannelAvatar
+            url={channel?.avatar_url}
+            name={channel?.display_name ?? streamer.login}
+            size={AvatarSize.MD}
+            live={isLive(streamer.login)}
+          />
+        </LinkTwin>
       </span>
-      <span
-        class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-muted-foreground"
-      >
-        {#if channel?.live}
-          {#if channel.game}<GameName
-              name={channel.game.name}
-              url={gameUrl(channel.game.name, channel.game.slug)}
-              art={gameArt(channel.game.name, channel.game.box_art_url)}
-              size={ThumbSize.XS}
-              inSentence={false}
+      <div class="flex min-w-0 flex-1 flex-col gap-0.5">
+        <span class="flex min-w-0 flex-wrap items-center gap-1.5">
+          <TextLink
+            text={channel?.display_name ?? streamer.login}
+            target={{ url: channelUrl(streamer.login), mark: LinkMark.END }}
+            size={LinkSize.MD}
+          />
+          {#if view?.watching}<Badge
+              text={t.streamer_watching()}
+              tone={BadgeTone.SUCCESS}
+              dot={false}
+              icon={IconName.PLAY}
+              hint={t.badge_hint_watching()}
             />{/if}
-          {#if channel.viewers !== undefined}<ViewerCount count={channel.viewers} />{/if}
-        {:else if !channel}
-          <span class="truncate">{t.points_offline_hint()}</span>
-        {/if}
-      </span>
-      <!-- ! On a phone the balance goes under the name: on the right it left the name a few letters. -->
-      {#if !wideLayout.current}{@render balance(BalanceAlign.START)}{/if}
-    </div>
-    {#if wideLayout.current}{@render balance(BalanceAlign.END)}{/if}
-  </LinkPair>
+          {#if view?.streak_at_risk}<Badge
+              text={t.points_reason_streak_at_risk()}
+              tone={POINTS_REASON_TONES[PointsReason.STREAK_AT_RISK]}
+              dot={false}
+              hint={t.badge_hint_streak_risk()}
+              icon={POINTS_REASON_ICONS[PointsReason.STREAK_AT_RISK]}
+            />{/if}
+        </span>
+        <span
+          class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-muted-foreground"
+        >
+          {#if channel?.live}
+            {#if channel.game}<GameName
+                name={channel.game.name}
+                url={gameUrl(channel.game.name, channel.game.slug)}
+                art={gameArt(channel.game.name, channel.game.box_art_url)}
+                size={ThumbSize.XS}
+                inSentence={false}
+              />{/if}
+            {#if channel.viewers !== undefined}<ViewerCount count={channel.viewers} />{/if}
+          {:else if !channel}
+            <span class="truncate">{t.points_offline_hint()}</span>
+          {/if}
+        </span>
+        <!-- ! In a narrow row the balance goes under the name: on the right it left the name and its category a few letters. -->
+        <div class="@min-[36rem]/streamer:hidden">{@render balance(BalanceAlign.START)}</div>
+      </div>
+      <div class="@max-[36rem]/streamer:hidden">{@render balance(BalanceAlign.END)}</div>
+    </LinkPair>
+  </div>
 </div>

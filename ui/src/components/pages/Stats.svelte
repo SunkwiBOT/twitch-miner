@@ -208,7 +208,7 @@
   </PageHeader>
 
   {#if loading && stats === null && !problem}
-    <div class="grid grid-cols-2 gap-3 @lg:grid-cols-4">
+    <div class="grid grid-cols-2 gap-3 @3xl:grid-cols-4">
       {#each { length: 4 }, index (index)}
         <Card class="gap-2.5 p-4">
           <Skeleton class="h-7 w-16" />
@@ -229,7 +229,7 @@
   {:else if stats === null || empty}
     <EmptyState text={t.stats_empty()} icon={IconName.CHART} />
   {:else}
-    <div class="grid grid-cols-2 gap-3 @lg:grid-cols-4">
+    <div class="grid grid-cols-2 gap-3 @3xl:grid-cols-4">
       <StatsTile
         icon={IconName.CHANNEL_POINTS}
         value={number(pointsTotal)}

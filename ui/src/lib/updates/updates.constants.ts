@@ -40,8 +40,5 @@ export const BINARY_ASSET_PREFIX = "twitch-miner-server_";
 export const BINARY_PATH = "/usr/local/bin/twitch-miner";
 export const BINARY_SERVICE = "twitch-miner";
 
-export const UPDATE_BADGE_CLASSES =
-  "rounded-full border-info-emphasis/40 bg-info text-info-foreground hover:bg-info/80 hover:text-info-foreground";
-
 export const MEGABYTE_UNIT = "megabyte";
 export const BYTES_PER_MEGABYTE = 1_000_000;

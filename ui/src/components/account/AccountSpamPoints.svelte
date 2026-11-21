@@ -84,7 +84,7 @@
       name: channel?.display_name ?? selected,
       avatar: channel?.avatar_url,
       live: channel?.live === true,
-      game: channel?.game?.name,
+      game: channel?.game,
       viewers: channel?.viewers,
     };
   });

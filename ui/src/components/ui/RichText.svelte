@@ -47,7 +47,7 @@
       target={"url" in part.link
         ? {
             url: part.link.url,
-            mark: part.endsSentence ? LinkMark.SENTENCE_END : LinkMark.NONE,
+            mark: part.endsSentence ? LinkMark.OVERLAY : LinkMark.NONE,
           }
         : part.link}
       size={LinkSize.MD}
