@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Linux, Windows ve macOS için bir masaüstü uygulaması ya da ev sunucusunda veya Raspberry Pi üzerinde çalıştırmak için aynı web paneline sahip bir Docker imajı. Sunucu hesap başına yaklaşık 3 MB bellek kullanır ve işlemciyi neredeyse hiç yormaz.
+  Linux, Windows ve macOS için bir masaüstü uygulaması ya da ev sunucusunda veya Raspberry Pi üzerinde çalıştırmak için aynı web paneline sahip bir Docker imajı. Her hesap yaklaşık 3 MB bellek kullanır ve işlemciyi neredeyse hiç yormaz.
 </p>
 
 <p align="center">

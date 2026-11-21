@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  En skrivebordsapp til Linux, Windows og macOS eller et Docker-image med den samme weboversigt, der kan køre på en hjemmeserver eller på en Raspberry Pi. Serveren bruger omkring 3 MB hukommelse pr. konto og næsten ingen CPU.
+  En skrivebordsapp til Linux, Windows og macOS eller et Docker-image med den samme weboversigt, der kan køre på en hjemmeserver eller på en Raspberry Pi. Hver konto bruger omkring 3 MB hukommelse og næsten ingen CPU.
 </p>
 
 <p align="center">

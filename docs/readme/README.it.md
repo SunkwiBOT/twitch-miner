@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Un'app desktop per Linux, Windows e macOS, oppure un'immagine Docker con la stessa dashboard web, da eseguire su un server domestico o su un Raspberry Pi. Il server usa circa 3 MB di memoria per account e quasi niente CPU.
+  Un'app desktop per Linux, Windows e macOS, oppure un'immagine Docker con la stessa dashboard web, da eseguire su un server domestico o su un Raspberry Pi. Ogni account usa circa 3 MB di memoria e quasi niente CPU.
 </p>
 
 <p align="center">

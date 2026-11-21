@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Ứng dụng máy tính cho Linux, Windows và macOS, hoặc image Docker có cùng bảng điều khiển web, để chạy trên máy chủ tại nhà hay trên Raspberry Pi. Máy chủ dùng khoảng 3 MB bộ nhớ cho mỗi tài khoản và gần như không tốn CPU.
+  Ứng dụng máy tính cho Linux, Windows và macOS, hoặc image Docker có cùng bảng điều khiển web, để chạy trên máy chủ tại nhà hay trên Raspberry Pi. Mỗi tài khoản dùng khoảng 3 MB bộ nhớ và gần như không tốn CPU.
 </p>
 
 <p align="center">

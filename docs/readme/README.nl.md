@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Een desktop-app voor Linux, Windows en macOS, of een Docker-image met hetzelfde webdashboard, om te draaien op een thuisserver of op een Raspberry Pi. De server gebruikt ongeveer 3 MB geheugen per account en bijna geen CPU.
+  Een desktop-app voor Linux, Windows en macOS, of een Docker-image met hetzelfde webdashboard, om te draaien op een thuisserver of op een Raspberry Pi. Elk account gebruikt ongeveer 3 MB geheugen en bijna geen CPU.
 </p>
 
 <p align="center">

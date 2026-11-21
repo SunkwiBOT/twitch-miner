@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Desktopová aplikace pro Linux, Windows a macOS, nebo obraz pro Docker se stejným webovým panelem, který spustíte na domácím serveru nebo na Raspberry Pi. Server zabere asi 3 MB paměti na účet a procesor téměř nezatěžuje.
+  Desktopová aplikace pro Linux, Windows a macOS, nebo obraz pro Docker se stejným webovým panelem, který spustíte na domácím serveru nebo na Raspberry Pi. Každý účet zabere asi 3 MB paměti a procesor téměř nezatěžuje.
 </p>
 
 <p align="center">

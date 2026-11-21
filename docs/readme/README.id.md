@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Aplikasi desktop untuk Linux, Windows, dan macOS, atau image Docker dengan dasbor web yang sama, untuk dijalankan di server rumahan atau di Raspberry Pi. Server memakai sekitar 3 MB memori per akun dan hampir tidak memakai CPU.
+  Aplikasi desktop untuk Linux, Windows, dan macOS, atau image Docker dengan dasbor web yang sama, untuk dijalankan di server rumahan atau di Raspberry Pi. Setiap akun memakai sekitar 3 MB memori dan hampir tidak memakai CPU.
 </p>
 
 <p align="center">

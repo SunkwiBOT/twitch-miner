@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Asztali alkalmazás Linuxra, Windowsra és macOS-re, vagy Docker-image ugyanazzal a webes irányítópulttal, otthoni szerveren vagy Raspberry Pi-on való futtatásra. A szerver fiókonként nagyjából 3 MB memóriát használ, és alig terheli a processzort.
+  Asztali alkalmazás Linuxra, Windowsra és macOS-re, vagy Docker-image ugyanazzal a webes irányítópulttal, otthoni szerveren vagy Raspberry Pi-on való futtatásra. Minden fiók nagyjából 3 MB memóriát használ, és alig terheli a processzort.
 </p>
 
 <p align="center">

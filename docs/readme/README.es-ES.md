@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Una aplicación de escritorio para Linux, Windows y macOS, o una imagen de Docker con el mismo panel web, para ejecutarla en un servidor doméstico o en una Raspberry Pi. El servidor usa unos 3 MB de memoria por cuenta y casi nada de CPU.
+  Una aplicación de escritorio para Linux, Windows y macOS, o una imagen de Docker con el mismo panel web, para ejecutarla en un servidor doméstico o en una Raspberry Pi. Cada cuenta usa unos 3 MB de memoria y casi nada de CPU.
 </p>
 
 <p align="center">

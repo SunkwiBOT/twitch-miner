@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Linux, Windows, macOS용 데스크톱 앱이에요. 같은 웹 대시보드를 담은 Docker 이미지도 있어서 홈 서버나 Raspberry Pi에서 돌릴 수 있어요. 서버는 계정당 메모리를 약 3 MB 쓰고 CPU는 거의 쓰지 않아요.
+  Linux, Windows, macOS용 데스크톱 앱이에요. 같은 웹 대시보드를 담은 Docker 이미지도 있어서 홈 서버나 Raspberry Pi에서 돌릴 수 있어요. 계정마다 메모리를 약 3 MB 쓰고 CPU는 거의 쓰지 않아요.
 </p>
 
 <p align="center">

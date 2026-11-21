@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  O aplicație desktop pentru Linux, Windows și macOS sau o imagine Docker cu același panou web, de rulat pe un server de acasă sau pe un Raspberry Pi. Serverul folosește în jur de 3 MB de memorie pe cont și aproape deloc procesor.
+  O aplicație desktop pentru Linux, Windows și macOS sau o imagine Docker cu același panou web, de rulat pe un server de acasă sau pe un Raspberry Pi. Fiecare cont folosește în jur de 3 MB de memorie și aproape deloc procesor.
 </p>
 
 <p align="center">

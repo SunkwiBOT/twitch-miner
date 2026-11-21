@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Uma app para computador com Linux, Windows e macOS, ou uma imagem Docker com o mesmo painel web, para executar num servidor doméstico ou num Raspberry Pi. O servidor usa cerca de 3 MB de memória por conta e quase nada de CPU.
+  Uma app para computador com Linux, Windows e macOS, ou uma imagem Docker com o mesmo painel web, para executar num servidor doméstico ou num Raspberry Pi. Cada conta usa cerca de 3 MB de memória e quase nada de CPU.
 </p>
 
 <p align="center">

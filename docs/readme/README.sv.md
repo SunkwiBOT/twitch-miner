@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  En skrivbordsapp för Linux, Windows och macOS, eller en Docker-avbild med samma webböversikt, att köra på en hemserver eller på en Raspberry Pi. Servern använder cirka 3 MB minne per konto och nästan ingen CPU.
+  En skrivbordsapp för Linux, Windows och macOS, eller en Docker-avbild med samma webböversikt, att köra på en hemserver eller på en Raspberry Pi. Varje konto använder cirka 3 MB minne och nästan ingen CPU.
 </p>
 
 <p align="center">

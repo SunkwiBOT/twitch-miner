@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Une application de bureau pour Linux, Windows et macOS, ou une image Docker avec le même tableau de bord web, à lancer sur un serveur à la maison ou sur un Raspberry Pi. Le serveur utilise environ 3 Mo de mémoire par compte et presque pas de processeur.
+  Une application de bureau pour Linux, Windows et macOS, ou une image Docker avec le même tableau de bord web, à lancer sur un serveur à la maison ou sur un Raspberry Pi. Chaque compte utilise environ 3 Mo de mémoire et presque pas de processeur.
 </p>
 
 <p align="center">

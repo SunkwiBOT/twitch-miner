@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  适用于 Linux、Windows 和 macOS 的桌面应用；也可以使用带有相同网页仪表盘的 Docker 镜像，在家用服务器或 Raspberry Pi 上运行。服务器每个账号约占用 3 MB 内存，几乎不占用 CPU。
+  适用于 Linux、Windows 和 macOS 的桌面应用；也可以使用带有相同网页仪表盘的 Docker 镜像，在家用服务器或 Raspberry Pi 上运行。每个账号约占用 3 MB 内存，几乎不占用 CPU。
 </p>
 
 <p align="center">

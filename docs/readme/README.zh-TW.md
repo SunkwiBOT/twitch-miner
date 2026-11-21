@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  支援 Linux、Windows 和 macOS 的桌面應用程式；也有內含相同網頁儀表板的 Docker 映像檔，可在家用伺服器或 Raspberry Pi 上執行。伺服器每個帳號約使用 3 MB 記憶體，幾乎不佔用 CPU。
+  支援 Linux、Windows 和 macOS 的桌面應用程式；也有內含相同網頁儀表板的 Docker 映像檔，可在家用伺服器或 Raspberry Pi 上執行。每個帳號約使用 3 MB 記憶體，幾乎不佔用 CPU。
 </p>
 
 <p align="center">

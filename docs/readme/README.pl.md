@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Aplikacja desktopowa na Linuksa, Windows i macOS albo obraz Dockera z tym samym panelem WWW, do uruchomienia na domowym serwerze lub na Raspberry Pi. Serwer zużywa około 3 MB pamięci na konto i prawie nie obciąża procesora.
+  Aplikacja desktopowa na Linuksa, Windows i macOS albo obraz Dockera z tym samym panelem WWW, do uruchomienia na domowym serwerze lub na Raspberry Pi. Każde konto zużywa około 3 MB pamięci i prawie nie obciąża procesora.
 </p>
 
 <p align="center">

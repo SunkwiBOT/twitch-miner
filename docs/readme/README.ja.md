@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Linux、Windows、macOS 向けのデスクトップアプリです。同じ Web ダッシュボードを備えた Docker イメージもあり、自宅サーバーや Raspberry Pi で動かせます。サーバーのメモリ使用量はアカウントごとに約 3 MB で、CPU はほとんど使いません。
+  Linux、Windows、macOS 向けのデスクトップアプリです。同じ Web ダッシュボードを備えた Docker イメージもあり、自宅サーバーや Raspberry Pi で動かせます。メモリ使用量はアカウントごとに約 3 MB で、CPU はほとんど使いません。
 </p>
 
 <p align="center">

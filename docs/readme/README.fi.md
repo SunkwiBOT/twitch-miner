@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Työpöytäsovellus Linuxille, Windowsille ja macOS:lle tai Docker-image, jossa on sama verkkohallintapaneeli ja jota voi ajaa kotipalvelimella tai Raspberry Pi:llä. Palvelin käyttää noin 3 Mt muistia per tili eikä juuri lainkaan suoritinta.
+  Työpöytäsovellus Linuxille, Windowsille ja macOS:lle tai Docker-image, jossa on sama verkkohallintapaneeli ja jota voi ajaa kotipalvelimella tai Raspberry Pi:llä. Jokainen tili käyttää noin 3 Mt muistia eikä juuri lainkaan suoritinta.
 </p>
 
 <p align="center">

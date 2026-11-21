@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Eine Desktop-App für Linux, Windows und macOS oder ein Docker-Image mit demselben Web-Dashboard, für den Betrieb auf einem Heimserver oder auf einem Raspberry Pi. Der Server braucht etwa 3 MB Arbeitsspeicher pro Konto und kaum CPU.
+  Eine Desktop-App für Linux, Windows und macOS oder ein Docker-Image mit demselben Web-Dashboard, für den Betrieb auf einem Heimserver oder auf einem Raspberry Pi. Jedes Konto braucht etwa 3 MB Arbeitsspeicher und kaum CPU.
 </p>
 
 <p align="center">
