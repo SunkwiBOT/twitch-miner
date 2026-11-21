@@ -265,11 +265,13 @@
   </details>
 
 - **Signerede opdateringer, aldrig automatiske.** Mærket »Opdatering« vises med
-  versionsnummeret i den øverste bjælke. »Installer og genstart« beder dig først bekræfte,
-  derefter installerer appen versionen og genstarter. Med en appadgangskode genstarter den
-  låst: indtast den igen for at fortsætte med at mine. Kun en version, der er signeret af
-  projektet, bliver installeret. Docker-versionen giver også besked, med de
-  kommandoer, der skal køres.
+  versionsnummeret i den øverste bjælke, og en skrivebordsnotifikation giver også besked,
+  slået til som standard (en kontakt i **Indstillinger › Notifikationer** slår den fra; i en
+  browser klikker du »Tillad«, når den spørger). »Installer og genstart« beder dig først
+  bekræfte, derefter installerer appen versionen og genstarter. Med en appadgangskode
+  genstarter den låst: indtast den igen for at fortsætte med at mine. Kun en version, der
+  er signeret af projektet, bliver installeret. Docker-oversigten og systemd-binæren giver
+  også besked, med de kommandoer, der skal køres.
 
   <details open><summary>Se det i aktion</summary>
   <img src="../media/da/updates.avif" alt="Mærket »Opdatering«, bekræftelsen og derefter installationen">
@@ -449,10 +451,12 @@ der ikke sker noget. Når Twitch eller netværket svigter, svarer serveren `424`
 På en Linux-server uden Docker har udgivelsen også serveren som en enkelt fil, med
 oversigten indbygget: `twitch-miner-server_<version>_linux_x64` eller
 `twitch-miner-server_<version>_linux_arm64`. Det er det samme program, Docker-imaget
-kører, statisk linket: intet andet at installere. Den tager de samme variabler.
+kører, statisk linket: intet andet at installere, bortset fra systemets CA-certifikater,
+som den læser til HTTPS (Docker-imaget kopierer dem af samme grund). Den tager de samme
+variabler.
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 på ARM64
+sudo install -m 755 twitch-miner-server_<version>_linux_* /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -496,7 +500,7 @@ Denne fil opdaterer ikke sig selv. Når oversigten viser en ny version, skal du 
 nye fil fra udgivelsen, erstatte den gamle og genstarte:
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 på ARM64
+sudo install -m 755 twitch-miner-server_<version>_linux_* /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 
@@ -561,7 +565,8 @@ et badge, der skal ses hver dag, venter på næste dag, intet bliver minet, før
 starter, og et drop, der følger efter et andet, venter, til det første er færdigt. I
 tilstanden **Kun point** vælger mineren ingen kampagne. »Sæt først i
 mining-rækkefølgen« i en kampagnes detaljer sætter den øverst; en ignoreret kampagne kan
-komme tilbage med »Medtag i mining igen« på fanen **Udelukkelser**.
+komme tilbage med »Medtag i mining igen« på fanen **Udelukkelser**. Fanen **Kampagner**
+viser de samme grunde i gruppen **Blokerede**.
 
 **Skal jeg tilknytte udgiverkontoen?**\
 For at hente, ja: siden oktober 2026 lader Twitch dig kun hente et drop, når udgiverkontoen
@@ -588,9 +593,11 @@ der ikke er sat en appadgangskode) og logfilerne.
 
 **Hvordan opdaterer jeg?**\
 Skrivebordsappen søger efter en ny version, når den starter, og derefter hver time (kan
-ændres i **Indstillinger › Om**). Klik på mærket »Opdatering« og derefter på
-»Installer og genstart«. Med Docker giver oversigten besked: kør `docker compose pull` og
-derefter `docker compose up -d`.
+ændres i **Indstillinger › Om**), og kan give dig besked, når den finder en. Klik på
+mærket »Opdatering« og derefter på »Installer og genstart«. Med Docker giver oversigten
+besked: kør `docker compose pull` og derefter `docker compose up -d`. Uden Docker giver
+oversigten besked på samme måde: se [Uden Docker](#systemd) for at udskifte filen og
+genstarte tjenesten.
 
 **Jeg har glemt appadgangskoden.**\
 Den kan ikke gendannes: det er den, der krypterer dine Twitch-sessioner. Luk appen, slet

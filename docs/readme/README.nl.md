@@ -267,11 +267,14 @@
   </details>
 
 - **Ondertekende updates, nooit automatisch.** In de bovenste balk verschijnt een badge
-  “Update” met het versienummer. “Installeren en herstarten” vraagt eerst om bevestiging,
-  daarna installeert de app de versie en start ze opnieuw op. Met een app-wachtwoord start
-  ze vergrendeld op: voer het opnieuw in om verder te minen. Alleen een door het project
-  ondertekende versie wordt geïnstalleerd. De Docker-versie laat het ook weten, met de
-  commando's die je moet uitvoeren.
+  “Update” met het versienummer, en een desktopmelding laat het ook weten, standaard
+  ingeschakeld (een schakelaar in **Instellingen › Meldingen** zet hem uit; in een browser
+  klik je op “Toestaan” als erom gevraagd wordt). “Installeren en herstarten” vraagt
+  eerst om bevestiging, daarna installeert de app de versie en start ze opnieuw op. Met
+  een app-wachtwoord start ze vergrendeld op: voer het opnieuw in om verder te minen.
+  Alleen een door het project ondertekende versie wordt geïnstalleerd. Het
+  Docker-dashboard en de systemd-binary laten het ook weten, met de commando's die je
+  moet uitvoeren.
 
   <details open><summary>Bekijk het in actie</summary>
   <img src="../media/nl/updates.avif" alt="De badge “Update”, de bevestiging, daarna de installatie">
@@ -448,13 +451,14 @@ de pagina van Cloudflare.
 ### <a name="systemd"></a>Zonder Docker (systemd)
 
 Op een Linux-server zonder Docker bevat de release de server ook als één enkel bestand,
-met het dashboard erin: `twitch-miner-server_<version>_linux_x64` of
-`twitch-miner-server_<version>_linux_arm64`. Dit is hetzelfde programma dat de
-Docker-image draait, statisch gelinkt: er is verder niets te installeren. Hij gebruikt
-dezelfde variabelen.
+met het dashboard erin: `twitch-miner-server_<versie>_linux_x64` of
+`twitch-miner-server_<versie>_linux_arm64`. Dit is hetzelfde programma dat de
+Docker-image draait, statisch gelinkt: er is verder niets te installeren, behalve de
+CA-certificaten van het systeem die hij voor HTTPS leest (de Docker-image kopieert ze om
+dezelfde reden). Hij gebruikt dezelfde variabelen.
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 op ARM64
+sudo install -m 755 twitch-miner-server_<versie>_linux_* /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -498,7 +502,7 @@ Dit bestand werkt zichzelf niet bij. Zodra het dashboard een nieuwe versie toont
 je het nieuwe bestand uit de release, vervang je het oude en start je opnieuw op:
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 op ARM64
+sudo install -m 755 twitch-miner-server_<versie>_linux_* /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 
@@ -562,7 +566,8 @@ zelf een abonnement hebt genomen, een badge die je elke dag moet kijken, wacht o
 volgende dag, vóór de start van de campagne wordt niets gemined, en een drop die op een
 andere volgt, wacht tot de eerste klaar is. In de modus **Alleen punten** kiest de miner
 geen campagne. “Eerst minen”, in de details van een campagne, zet haar bovenaan; een
-genegeerde campagne komt terug met “Weer minen”, op het tabblad **Uitsluitingen**.
+genegeerde campagne komt terug met “Weer minen”, op het tabblad **Uitsluitingen**. Het
+tabblad **Campagnes** toont dezelfde redenen in de groep **Geblokkeerd**.
 
 **Moet ik het uitgeversaccount koppelen?**\
 Om te claimen wel: sinds oktober 2026 laat Twitch je een drop alleen claimen als het
@@ -589,9 +594,11 @@ er geen app-wachtwoord is ingesteld) en het logboek in.
 
 **Hoe werk ik bij?**\
 De desktop-app zoekt bij het starten naar een nieuwe versie, en daarna elk uur (aan te
-passen in **Instellingen › Over**). Klik op de badge “Update” en daarna op
-“Installeren en herstarten”. Bij Docker meldt het dashboard het: voer
-`docker compose pull` uit en daarna `docker compose up -d`.
+passen in **Instellingen › Over**), en kan je waarschuwen als er een gevonden is. Klik
+op de badge “Update” en daarna op “Installeren en herstarten”. Bij Docker meldt het
+dashboard het: voer `docker compose pull` uit en daarna `docker compose up -d`. Zonder
+Docker meldt het dashboard het op dezelfde manier: zie [Zonder Docker](#systemd) om het
+bestand te vervangen en de dienst opnieuw te starten.
 
 **Ik ben het app-wachtwoord vergeten.**\
 Het kan niet worden hersteld: juist dit wachtwoord versleutelt je Twitch-sessies. Sluit de

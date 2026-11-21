@@ -269,11 +269,13 @@
   </details>
 
 - **Allekirjoitetut päivitykset, ei koskaan automaattisesti.** Yläpalkkiin ilmestyy
-  ”Päivitys”-merkki ja versionumero. ”Asenna ja käynnistä uudelleen” pyytää ensin
-  vahvistuksen, minkä jälkeen sovellus asentaa version ja käynnistyy uudelleen. Jos
-  sovelluksen salasana on asetettu, se käynnistyy lukittuna: kirjoita salasana uudelleen
-  jatkaaksesi louhintaa. Vain projektin allekirjoittama versio asennetaan. Docker-versio
-  ilmoittaa myös ja kertoo suoritettavat komennot.
+  ”Päivitys”-merkki ja versionumero, ja työpöytäilmoitus kertoo samasta asiasta, oletuksena
+  käytössä (kytkin kohdassa **Asetukset › Ilmoitukset** sulkee sen; selaimessa napsauta
+  ”Salli”, kun sitä kysytään). ”Asenna ja käynnistä uudelleen” pyytää ensin vahvistuksen,
+  minkä jälkeen sovellus asentaa version ja käynnistyy uudelleen. Jos sovelluksen salasana
+  on asetettu, se käynnistyy lukittuna: kirjoita salasana uudelleen jatkaaksesi louhintaa.
+  Vain projektin allekirjoittama versio asennetaan. Docker-hallintapaneeli ja
+  systemd-binääri ilmoittavat myös ja kertovat suoritettavat komennot.
 
   <details open><summary>Katso toiminnassa</summary>
   <img src="../media/fi/updates.avif" alt="”Päivitys”-merkki, vahvistus ja sitten asennus">
@@ -454,13 +456,14 @@ kun mitään ei tapahdu. Kun Twitch tai verkko pettää, palvelin vastaa `424`, 
 ### <a name="systemd"></a>Ilman Dockeria (systemd)
 
 Linux-palvelimella ilman Dockeria julkaisu sisältää palvelimen myös yhtenä tiedostona,
-hallintapaneeli mukana: `twitch-miner-server_<version>_linux_x64` tai
-`twitch-miner-server_<version>_linux_arm64`. Se on sama ohjelma, jota Docker-image
-ajaa, staattisesti linkitettynä: mitään muuta ei tarvitse asentaa. Se käyttää samoja
-muuttujia.
+hallintapaneeli mukana: `twitch-miner-server_<versio>_linux_x64` tai
+`twitch-miner-server_<versio>_linux_arm64`. Se on sama ohjelma, jota Docker-image
+ajaa, staattisesti linkitettynä: mitään muuta ei tarvitse asentaa, lukuun ottamatta
+järjestelmän CA-varmenteita, joita se lukee HTTPS:ää varten (Docker-image kopioi ne samasta
+syystä). Se käyttää samoja muuttujia.
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 ARM64:llä
+sudo install -m 755 twitch-miner-server_<versio>_linux_* /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -504,7 +507,7 @@ Tämä tiedosto ei päivitä itseään. Kun hallintapaneeli näyttää uuden ver
 tiedosto julkaisusta, korvaa sillä vanha ja käynnistä uudelleen:
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 ARM64:llä
+sudo install -m 755 twitch-miner-server_<versio>_linux_* /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 
@@ -568,7 +571,7 @@ joka päivä katsottava merkki odottaa seuraavaa päivää, mitään ei louhita 
 alkua, ja toista seuraava drop odottaa, kunnes ensimmäinen on valmis. **Vain pisteet**
 -tilassa louhija ei valitse kampanjaa. ”Louhi ensin” kampanjan tiedoissa nostaa sen
 kärkeen; ohitetun kampanjan saa takaisin valinnalla ”Louhi taas”
-**Ohitukset**-välilehdellä.
+**Ohitukset**-välilehdellä. **Kampanjat**-välilehden **Estetyt**-ryhmä näyttää samat syyt.
 
 **Pitääkö julkaisijatili linkittää?**\
 Lunastamista varten kyllä: lokakuusta 2026 lähtien Twitch antaa lunastaa dropin vain, kun
@@ -595,9 +598,11 @@ salasanaa ei ole asetettu) ja lokit.
 
 **Miten päivitän?**\
 Työpöytäsovellus tarkistaa uuden version käynnistyessään ja sen jälkeen tunnin välein
-(muutettavissa kohdassa **Asetukset › Tietoja**). Napsauta ”Päivitys”-merkkiä ja sitten
-”Asenna ja käynnistä uudelleen”. Dockerilla hallintapaneeli ilmoittaa asiasta: suorita
-`docker compose pull` ja sitten `docker compose up -d`.
+(muutettavissa kohdassa **Asetukset › Tietoja**), ja se voi ilmoittaa siitä sinulle.
+Napsauta ”Päivitys”-merkkiä ja sitten ”Asenna ja käynnistä uudelleen”. Dockerilla
+hallintapaneeli ilmoittaa asiasta: suorita `docker compose pull` ja sitten
+`docker compose up -d`. Ilman Dockeria hallintapaneeli ilmoittaa samalla tavalla: katso
+[Ilman Dockeria](#systemd), miten tiedosto vaihdetaan ja palvelu käynnistetään uudelleen.
 
 **Unohdin sovelluksen salasanan.**\
 Sitä ei voi palauttaa: juuri se salaa Twitch-istuntosi. Sulje sovellus, poista datakansio

@@ -263,10 +263,13 @@
   </details>
 
 - **Actualizări semnate, niciodată automate.** În bara de sus apare o insignă „Actualizare”
-  cu numărul versiunii. „Instalează și repornește” cere întâi o confirmare, apoi aplicația
-  instalează versiunea și repornește. Dacă are o parolă a aplicației, repornește blocată:
-  introdu-o din nou ca să reiei minarea. Se instalează doar o versiune semnată de proiect.
-  Și versiunea Docker te anunță, cu comenzile de rulat.
+  cu numărul versiunii, iar o notificare de pe desktop te anunță și ea, activă implicit
+  (un comutator din **Setări › Notificări** o dezactivează; într-un browser, dă clic pe
+  „Permite” când întreabă). „Instalează și repornește” cere întâi o confirmare, apoi
+  aplicația instalează versiunea și repornește. Dacă are o parolă a aplicației,
+  repornește blocată: introdu-o din nou ca să reiei minarea. Se instalează doar o
+  versiune semnată de proiect. Și panoul Docker, și binarul systemd te anunță, cu
+  comenzile de rulat.
 
   <details open><summary>Vezi în acțiune</summary>
   <img src="../media/ro/updates.avif" alt="Insigna „Actualizare”, confirmarea, apoi instalarea">
@@ -446,11 +449,12 @@ Cloudflare.
 Pe un server Linux fără Docker, versiunea publicată conține și serverul ca un singur
 fișier, cu panoul inclus: `twitch-miner-server_<versiune>_linux_x64` sau
 `twitch-miner-server_<versiune>_linux_arm64`. Este programul pe care îl rulează imaginea
-Docker, compilat static: nu mai e nevoie să instalezi altceva. Folosește aceleași
-variabile.
+Docker, compilat static: nu mai e nevoie să instalezi altceva, cu excepția
+certificatelor CA ale sistemului pe care le citește pentru HTTPS (imaginea Docker le
+copiază din același motiv). Folosește aceleași variabile.
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 pe ARM64
+sudo install -m 755 twitch-miner-server_<versiune>_linux_* /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -494,7 +498,7 @@ Acest fișier nu se actualizează singur. Când panoul arată o versiune nouă, 
 fișier din versiunea publicată, apoi înlocuiește-l pe cel vechi și repornește:
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 pe ARM64
+sudo install -m 755 twitch-miner-server_<versiune>_linux_* /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 
@@ -556,7 +560,8 @@ insignă de urmărit în fiecare zi așteaptă ziua următoare, nimic nu este mi
 începutul campaniei, iar un drop care urmează după altul așteaptă ca primul să se
 termine. În modul **Doar puncte**, minerul nu alege nicio campanie. „Minează cu
 prioritate”, în fișa unei campanii, o pune pe primul loc; o campanie ignorată poate
-reveni cu „Minează din nou”, din fila **Excluderi**.
+reveni cu „Minează din nou”, din fila **Excluderi**. Fila **Campanii** arată aceleași
+motive în grupul **Blocate**.
 
 **Trebuie să conectez contul de editor?**\
 Pentru revendicare, da: din octombrie 2026, Twitch permite revendicarea unui drop doar
@@ -583,9 +588,11 @@ aplicației) și logurile.
 
 **Cum actualizez?**\
 Aplicația desktop verifică la pornire dacă există o versiune nouă, apoi la fiecare oră
-(poți schimba asta în **Setări › Despre**). Dă clic pe insigna „Actualizare”, apoi pe
-„Instalează și repornește”. Cu Docker, panoul te anunță: rulează `docker compose pull`,
-apoi `docker compose up -d`.
+(poți schimba asta în **Setări › Despre**), și te poate anunța când găsește una. Dă clic
+pe insigna „Actualizare”, apoi pe „Instalează și repornește”. Cu Docker, panoul te
+anunță: rulează `docker compose pull`, apoi `docker compose up -d`. Fără Docker, panoul
+te anunță la fel: vezi [Fără Docker](#systemd) ca să înlocuiești fișierul și să repornești
+serviciul.
 
 **Am uitat parola aplicației.**\
 Nu poate fi recuperată: ea criptează sesiunile tale Twitch. Închide aplicația, șterge

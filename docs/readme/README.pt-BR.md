@@ -264,10 +264,13 @@
   </details>
 
 - **Atualizações assinadas, nunca automáticas.** Um selo “Atualização” com o número da
-  versão aparece na barra superior. “Instalar e reiniciar” primeiro pede confirmação;
-  depois, o app instala a versão e reinicia. Com uma senha do app, ele reinicia bloqueado:
-  digite a senha de novo para retomar a mineração. Só uma versão assinada pelo projeto é
-  instalada. A versão Docker também avisa, com os comandos a rodar.
+  versão aparece na barra superior, e uma notificação do desktop também avisa, ativada por
+  padrão (um interruptor em **Configurações › Notificações** a desativa; no navegador,
+  clique em “Permitir” quando for perguntado). “Instalar e reiniciar” primeiro pede
+  confirmação; depois, o app instala a versão e reinicia. Com uma senha do app, ele
+  reinicia bloqueado: digite a senha de novo para retomar a mineração. Só uma versão
+  assinada pelo projeto é instalada. O painel do Docker e o binário do systemd também
+  avisam, com os comandos a rodar.
 
   <details open><summary>Ver em ação</summary>
   <img src="../media/pt-BR/updates.avif" alt="O selo “Atualização”, a confirmação e, depois, a instalação">
@@ -444,13 +447,14 @@ quando nada acontece. Quando a Twitch ou a rede falham, o servidor responde `424
 ### <a name="systemd"></a>Sem Docker (systemd)
 
 Em um servidor Linux sem Docker, o lançamento também traz o servidor como um único
-arquivo, com o painel embutido: `twitch-miner-server_<version>_linux_x64` ou
-`twitch-miner-server_<version>_linux_arm64`. É o mesmo programa que a imagem Docker
-executa, vinculado estaticamente: não há mais nada para instalar. Ele usa as mesmas
-variáveis.
+arquivo, com o painel embutido: `twitch-miner-server_<versão>_linux_x64` ou
+`twitch-miner-server_<versão>_linux_arm64`. É o mesmo programa que a imagem Docker
+executa, vinculado estaticamente: não há mais nada para instalar, exceto os certificados
+CA do sistema que lê para o HTTPS (a imagem Docker também os copia pelo mesmo motivo).
+Ele usa as mesmas variáveis.
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 em ARM64
+sudo install -m 755 twitch-miner-server_<versão>_linux_* /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -494,7 +498,7 @@ Esse arquivo não se atualiza sozinho. Quando o painel mostrar uma versão nova,
 arquivo novo do lançamento, substitua o antigo e reinicie:
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 em ARM64
+sudo install -m 755 twitch-miner-server_<versão>_linux_* /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 
@@ -562,7 +566,7 @@ a assistir todo dia espera o dia seguinte, nada é minerado antes do início da 
 um drop que vem depois de outro espera o primeiro terminar. No modo **Só pontos**, o
 minerador não escolhe nenhuma campanha. “Minerar primeiro”, na ficha de uma campanha,
 coloca-a no topo; uma campanha ignorada pode voltar com “Minerar novamente”, na aba
-**Exclusões**.
+**Exclusões**. A aba **Campanhas** mostra os mesmos motivos no grupo **Bloqueadas**.
 
 **Preciso vincular a conta da editora?**\
 Para resgatar, sim: desde outubro de 2026, a Twitch só deixa resgatar um drop quando a
@@ -589,9 +593,11 @@ quando nenhuma senha do app está definida) e os logs.
 
 **Como atualizar?**\
 O app para desktop verifica se há uma nova versão ao iniciar e depois a cada hora (dá
-para mudar isso em **Configurações › Sobre**). Clique no selo “Atualização” e depois em
-“Instalar e reiniciar”. No Docker, o painel avisa: rode `docker compose pull` e depois
-`docker compose up -d`.
+para mudar isso em **Configurações › Sobre**), e pode avisar você quando encontrar uma.
+Clique no selo “Atualização” e depois em “Instalar e reiniciar”. No Docker, o painel
+avisa: rode `docker compose pull` e depois `docker compose up -d`. Sem Docker, o painel
+avisa do mesmo jeito: veja [Sem Docker](#systemd) para substituir o arquivo e reiniciar
+o serviço.
 
 **Esqueci a senha do app.**\
 Ela não pode ser recuperada: é ela que criptografa as suas sessões da Twitch. Feche o app,

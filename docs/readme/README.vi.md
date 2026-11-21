@@ -183,7 +183,7 @@
   <img src="../media/vi/security-lock.avif" alt="Ổ khóa: ứng dụng bị khóa, rồi được mở bằng mật khẩu">
   </details>
 
-- **Cập nhật có chữ ký, không bao giờ tự động.** Huy hiệu “Cập nhật” kèm số phiên bản xuất hiện trên thanh trên cùng. “Cài đặt và khởi động lại” trước tiên hỏi xác nhận, rồi ứng dụng cài phiên bản đó và khởi động lại. Nếu có mật khẩu ứng dụng, ứng dụng khởi động lại ở trạng thái khóa: nhập lại mật khẩu để tiếp tục đào. Chỉ phiên bản do dự án ký mới được cài. Bản Docker cũng báo cho bạn, kèm các lệnh cần chạy.
+- **Cập nhật có chữ ký, không bao giờ tự động.** Huy hiệu “Cập nhật” kèm số phiên bản xuất hiện trên thanh trên cùng, và thông báo trên máy tính cũng báo cho bạn, bật sẵn theo mặc định (công tắc trong **Cài đặt › Thông báo** có thể tắt nó; trên trình duyệt, nhấp “Cho phép” khi được hỏi). “Cài đặt và khởi động lại” trước tiên hỏi xác nhận, rồi ứng dụng cài phiên bản đó và khởi động lại. Nếu có mật khẩu ứng dụng, ứng dụng khởi động lại ở trạng thái khóa: nhập lại mật khẩu để tiếp tục đào. Chỉ phiên bản do dự án ký mới được cài. Bảng điều khiển Docker và tệp nhị phân systemd cũng báo cho bạn, kèm các lệnh cần chạy.
 
   <details open><summary>Xem minh họa</summary>
   <img src="../media/vi/updates.avif" alt="Huy hiệu “Cập nhật”, bước xác nhận, rồi quá trình cài đặt">
@@ -331,10 +331,12 @@ Phía sau một reverse proxy, hãy đặt `MINER_PUBLIC_URL`: nếu không, yê
 Trên một máy chủ Linux không dùng Docker, bản phát hành cũng có sẵn máy chủ dưới dạng
 một tệp duy nhất, kèm bảng điều khiển bên trong: `twitch-miner-server_<phiên bản>_linux_x64`
 hoặc `twitch-miner-server_<phiên bản>_linux_arm64`. Đây chính là chương trình mà image
-Docker chạy, được liên kết tĩnh: không cần cài thêm gì khác. Nó dùng cùng các biến.
+Docker chạy, được liên kết tĩnh: không cần cài thêm gì khác, trừ các chứng chỉ CA của hệ
+thống mà nó đọc để dùng HTTPS (image Docker cũng sao chép chúng vì lý do tương tự). Nó
+dùng cùng các biến.
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 trên ARM64
+sudo install -m 755 twitch-miner-server_<phiên bản>_linux_* /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -378,7 +380,7 @@ Tệp này không tự cập nhật. Khi bảng điều khiển hiển thị phi
 từ bản phát hành, rồi thay thế tệp cũ và khởi động lại:
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 trên ARM64
+sudo install -m 755 twitch-miner-server_<phiên bản>_linux_* /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 
@@ -408,7 +410,7 @@ Không, không có video nào được tải về. Với Drops, cứ mỗi 15 gi
 ### Drops
 
 **Một chiến dịch không được đào, hoặc một drop không tăng tiến độ.**\
-Mở trang **Drops** của tài khoản. Trong “Thứ tự đào”, mỗi chiến dịch đang chờ đều ghi lý do: “Không có kênh đang phát” hoặc “Đang chờ (mỗi lần một chiến dịch)”. “Twitch không tính — thử lại sau …” nghĩa là 30 phút xem thực sự không mang lại tiến độ nào về phía Twitch: chiến dịch bị gạt sang một bên và được thử lại tự động trong khoảng thời gian hiển thị, hoặc sớm hơn nếu tiến độ xuất hiện trở lại trước đó. Chiến dịch không xuất hiện trong danh sách đó đã bị gạt ra: do “Đào gì, theo thứ tự”, do cài đặt “Chiến dịch nào”, do một quy tắc trong tab **Loại trừ**, hoặc vì không thể hoàn thành kịp. Phần thưởng yêu cầu đăng ký kênh sẽ chờ đến khi chính bạn đăng ký, huy hiệu cần xem mỗi ngày sẽ chờ ngày hôm sau, không có gì được đào trước khi chiến dịch bắt đầu, và một drop nối tiếp drop khác sẽ chờ drop đầu tiên xong. Ở chế độ **Chỉ điểm**, trình đào không chọn chiến dịch nào. “Đào trước”, trong chi tiết của một chiến dịch, đưa chiến dịch đó lên đầu; chiến dịch đã bỏ qua có thể quay lại bằng “Đào lại”, trong tab **Loại trừ**.
+Mở trang **Drops** của tài khoản. Trong “Thứ tự đào”, mỗi chiến dịch đang chờ đều ghi lý do: “Không có kênh đang phát” hoặc “Đang chờ (mỗi lần một chiến dịch)”. “Twitch không tính — thử lại sau …” nghĩa là 30 phút xem thực sự không mang lại tiến độ nào về phía Twitch: chiến dịch bị gạt sang một bên và được thử lại tự động trong khoảng thời gian hiển thị, hoặc sớm hơn nếu tiến độ xuất hiện trở lại trước đó. Chiến dịch không xuất hiện trong danh sách đó đã bị gạt ra: do “Đào gì, theo thứ tự”, do cài đặt “Chiến dịch nào”, do một quy tắc trong tab **Loại trừ**, hoặc vì không thể hoàn thành kịp. Phần thưởng yêu cầu đăng ký kênh sẽ chờ đến khi chính bạn đăng ký, huy hiệu cần xem mỗi ngày sẽ chờ ngày hôm sau, không có gì được đào trước khi chiến dịch bắt đầu, và một drop nối tiếp drop khác sẽ chờ drop đầu tiên xong. Ở chế độ **Chỉ điểm**, trình đào không chọn chiến dịch nào. “Đào trước”, trong chi tiết của một chiến dịch, đưa chiến dịch đó lên đầu; chiến dịch đã bỏ qua có thể quay lại bằng “Đào lại”, trong tab **Loại trừ**. Tab **Chiến dịch** hiển thị cùng lý do trong nhóm **Bị chặn**.
 
 **Tôi có cần liên kết tài khoản nhà phát hành không?**\
 Để nhận thì có: từ tháng 10 năm 2026, Twitch chỉ cho nhận drop khi tài khoản nhà phát hành đã được liên kết. Theo mặc định, chiến dịch chưa liên kết vẫn tăng tiến độ và việc nhận sẽ chờ đến khi liên kết. Huy hiệu “Chưa liên kết” đánh dấu điều đó, và “Liên kết tài khoản nhà phát hành”, trong chi tiết chiến dịch, mở trang liên kết. Để chỉ đào danh mục đã liên kết, hãy chọn “Chỉ danh mục đã liên kết tài khoản nhà phát hành”.
@@ -422,7 +424,7 @@ Mở trang **Drops** của tài khoản. Trong “Thứ tự đào”, mỗi chi
 Trong thư mục dữ liệu: `~/.local/share/twitch-miner` trên Linux, `%APPDATA%\twitch-miner` trên Windows, `~/Library/Application Support/twitch-miner` trên macOS, và volume `/data` với Docker. Trên máy tính, **Cài đặt › Máy tính** mở thư mục này chỉ với một cú nhấp. Thư mục chứa `miner.db` (tài khoản, cài đặt, nhật ký), `master.key` (khóa của các phiên, khi không đặt mật khẩu ứng dụng) và log.
 
 **Làm sao để cập nhật?**\
-Ứng dụng máy tính kiểm tra phiên bản mới khi khởi động, rồi mỗi giờ một lần (bạn có thể đổi trong **Cài đặt › Giới thiệu**). Nhấp vào huy hiệu “Cập nhật”, rồi “Cài đặt và khởi động lại”. Với Docker, bảng điều khiển sẽ báo cho bạn: chạy `docker compose pull`, rồi `docker compose up -d`.
+Ứng dụng máy tính kiểm tra phiên bản mới khi khởi động, rồi mỗi giờ một lần (bạn có thể đổi trong **Cài đặt › Giới thiệu**, và nó có thể báo cho bạn khi tìm thấy phiên bản mới). Nhấp vào huy hiệu “Cập nhật”, rồi “Cài đặt và khởi động lại”. Với Docker, bảng điều khiển sẽ báo cho bạn: chạy `docker compose pull`, rồi `docker compose up -d`. Không dùng Docker, bảng điều khiển cũng báo tương tự: xem [Không cần Docker](#systemd) để thay tệp và khởi động lại dịch vụ.
 
 **Tôi quên mật khẩu ứng dụng.**\
 Không thể khôi phục: chính mật khẩu này mã hóa các phiên Twitch của bạn. Thoát ứng dụng, xóa thư mục dữ liệu, rồi thêm lại tài khoản; cài đặt của chúng cũng phải làm lại từ đầu. Với Docker, mật khẩu bảng điều khiển được đổi trong `MINER_PASSWORD`, rồi chạy `docker compose up -d`.

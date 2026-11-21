@@ -258,10 +258,12 @@
   </details>
 
 - **Podepsané aktualizace, nikdy automatické.** V horní liště se objeví odznak
-  „Aktualizace“ s číslem verze. „Nainstalovat a restartovat“ si nejdřív vyžádá potvrzení,
+  „Aktualizace“ s číslem verze, a totéž vám oznámí i desktopové oznámení, ve výchozím
+  stavu zapnuté (přepínač v **Nastavení › Oznámení** ho vypne; v prohlížeči klikněte na
+  „Povolit“, až se zeptá). „Nainstalovat a restartovat“ si nejdřív vyžádá potvrzení,
   pak aplikace verzi nainstaluje a restartuje se. S heslem aplikace se restartuje zamčená:
   zadejte ho znovu a těžba bude pokračovat. Nainstaluje se jen verze podepsaná projektem.
-  Verze pro Docker vám to také oznámí, i s příkazy, které je třeba spustit.
+  Panel Dockeru i binárka pro systemd vám to také oznámí, i s příkazy, které je třeba spustit.
 
   <details open><summary>Ukázka v akci</summary>
   <img src="../media/cs/updates.avif" alt="Odznak „Aktualizace“, potvrzení a pak instalace">
@@ -434,12 +436,14 @@ skutečnou chybu místo stránky Cloudflare.
 ### <a name="systemd"></a>Bez Dockeru (systemd)
 
 Na linuxovém serveru bez Dockeru má vydání server i jako jediný soubor, s panelem uvnitř:
-`twitch-miner-server_<version>_linux_x64` nebo
-`twitch-miner-server_<version>_linux_arm64`. Je to stejný program, který spouští Docker
-obraz, staticky slinkovaný: není třeba nic dalšího instalovat. Přijímá stejné proměnné.
+`twitch-miner-server_<verze>_linux_x64` nebo
+`twitch-miner-server_<verze>_linux_arm64`. Je to stejný program, který spouští Docker
+obraz, staticky slinkovaný: není třeba nic dalšího instalovat, kromě systémových
+certifikátů CA, které čte pro HTTPS (Docker obraz je ze stejného důvodu kopíruje také).
+Přijímá stejné proměnné.
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 na ARM64
+sudo install -m 755 twitch-miner-server_<verze>_linux_* /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -483,7 +487,7 @@ Tento soubor se sám neaktualizuje. Když panel zobrazí novou verzi, stáhněte
 vydání, pak nahraďte starý a restartujte:
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 na ARM64
+sudo install -m 755 twitch-miner-server_<verze>_linux_* /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 
@@ -545,7 +549,8 @@ Odměna, která vyžaduje předplatné, čeká, dokud si ho sami nepředplatíte
 třeba sledovat každý den, čeká na další den, před začátkem kampaně se nic netěží, a drop,
 který navazuje na jiný, čeká, dokud není ten první hotový. V režimu **Jen body** miner
 nevybírá žádnou kampaň. „Těžit přednostně“ v podrobnostech kampaně ji přesune na začátek;
-ignorovaná kampaň se může vrátit přes „Znovu těžit“ na kartě **Vyloučení**.
+ignorovaná kampaň se může vrátit přes „Znovu těžit“ na kartě **Vyloučení**. Karta
+**Kampaně** ve skupině **Blokované** ukazuje stejné důvody.
 
 **Musím propojit účet vydavatele?**\
 Kvůli vyzvednutí ano: od října 2026 Twitch dovolí vyzvednout drop, jen když je účet vydavatele
@@ -572,9 +577,11 @@ heslo aplikace) a protokoly.
 
 **Jak aktualizovat?**\
 Desktopová aplikace kontroluje novou verzi při spuštění a pak každou hodinu (lze změnit
-v **Nastavení › O aplikaci**). Klikněte na odznak „Aktualizace“ a pak na
-„Nainstalovat a restartovat“. U Dockeru vám to oznámí panel: spusťte `docker compose pull`
-a pak `docker compose up -d`.
+v **Nastavení › O aplikaci**) a umí vás na novou verzi upozornit. Klikněte na odznak
+„Aktualizace“ a pak na „Nainstalovat a restartovat“. U Dockeru vám to oznámí panel:
+spusťte `docker compose pull` a pak `docker compose up -d`. Bez Dockeru vám to panel
+oznámí stejně: podívejte se na [Bez Dockeru](#systemd), jak nahradit soubor a restartovat
+službu.
 
 **Nepamatuji si heslo aplikace.**\
 Nelze ho obnovit: právě ono šifruje vaše relace Twitch. Ukončete aplikaci, smažte složku

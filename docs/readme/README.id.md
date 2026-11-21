@@ -198,7 +198,7 @@
   <img src="../media/id/security-lock.avif" alt="Gembok: aplikasi terkunci, lalu dibuka dengan kata sandinya">
   </details>
 
-- **Pembaruan bertanda tangan, tidak pernah otomatis.** Lencana “Pembaruan” beserta nomor versinya muncul di bilah atas. “Pasang dan mulai ulang” meminta konfirmasi dulu, lalu aplikasi memasang versi itu dan memulai ulang. Jika ada kata sandi aplikasi, aplikasi dimulai ulang dalam keadaan terkunci: ketik lagi kata sandinya untuk melanjutkan penambangan. Hanya versi yang ditandatangani proyek yang dipasang. Versi Docker juga memberi tahu, lengkap dengan perintah yang perlu dijalankan.
+- **Pembaruan bertanda tangan, tidak pernah otomatis.** Lencana “Pembaruan” beserta nomor versinya muncul di bilah atas, dan notifikasi desktop juga memberi tahu Anda, aktif secara default (sakelar di **Pengaturan › Notifikasi** mematikannya; di browser, klik “Izinkan” saat diminta). “Pasang dan mulai ulang” meminta konfirmasi dulu, lalu aplikasi memasang versi itu dan memulai ulang. Jika ada kata sandi aplikasi, aplikasi dimulai ulang dalam keadaan terkunci: ketik lagi kata sandinya untuk melanjutkan penambangan. Hanya versi yang ditandatangani proyek yang dipasang. Dasbor Docker dan biner systemd juga memberi tahu, lengkap dengan perintah yang perlu dijalankan.
 
   <details open><summary>Lihat langsung</summary>
   <img src="../media/id/updates.avif" alt="Lencana “Pembaruan”, konfirmasi, lalu pemasangan">
@@ -344,13 +344,14 @@ Di belakang reverse proxy, atur `MINER_PUBLIC_URL`: tanpanya, permintaan pertama
 ### <a name="systemd"></a>Tanpa Docker (systemd)
 
 Pada server Linux tanpa Docker, rilis juga menyediakan server sebagai satu file saja,
-dengan dasbor di dalamnya: `twitch-miner-server_<version>_linux_x64` atau
-`twitch-miner-server_<version>_linux_arm64`. Ini adalah program yang sama yang dijalankan
-image Docker, ditaut secara statis: tidak ada apa pun lagi yang perlu dipasang. Server ini
-memakai variabel yang sama.
+dengan dasbor di dalamnya: `twitch-miner-server_<versi>_linux_x64` atau
+`twitch-miner-server_<versi>_linux_arm64`. Ini adalah program yang sama yang dijalankan
+image Docker, ditaut secara statis: tidak ada apa pun lagi yang perlu dipasang, kecuali
+sertifikat CA sistem yang dibacanya untuk HTTPS (image Docker juga menyalinnya untuk
+alasan yang sama). Server ini memakai variabel yang sama.
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 di ARM64
+sudo install -m 755 twitch-miner-server_<versi>_linux_* /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -394,7 +395,7 @@ File ini tidak memperbarui dirinya sendiri. Saat dasbor menampilkan versi baru, 
 baru dari rilis, lalu ganti yang lama dan mulai ulang:
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 di ARM64
+sudo install -m 755 twitch-miner-server_<versi>_linux_* /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 
@@ -424,7 +425,7 @@ Itu batas dari Twitch: Twitch hanya menghitung dua channel yang ditonton bersama
 ### Drops
 
 **Sebuah kampanye tidak ditambang, atau sebuah drop tidak maju.**\
-Buka halaman **Drops** akun tersebut. Di “Urutan penambangan”, setiap kampanye yang menunggu menyebutkan alasannya: “Tidak ada channel yang live” atau “Menunggu (satu kampanye sekaligus)”. “Twitch tidak menghitungnya — coba lagi dalam …” berarti 30 menit menonton sungguhan tidak membawa progres di sisi Twitch: kampanye tersebut disisihkan dan dicoba lagi secara otomatis dalam waktu yang ditampilkan, atau lebih cepat jika progres muncul lebih dulu. Kampanye yang tidak muncul di daftar itu sudah disisihkan: oleh “Apa yang ditambang, berurutan”, oleh pengaturan “Kampanye mana”, oleh aturan di tab **Pengecualian**, atau karena tidak bisa selesai tepat waktu. Hadiah yang membutuhkan langganan menunggu sampai Anda sendiri berlangganan, lencana yang harus ditonton setiap hari menunggu hari berikutnya, tidak ada yang ditambang sebelum kampanyenya dimulai, dan drop yang menyusul drop lain menunggu sampai drop pertama selesai. Di mode **Hanya poin**, penambang tidak memilih kampanye apa pun. “Tambang lebih dulu”, di detail sebuah kampanye, menaruhnya di urutan teratas; kampanye yang diabaikan bisa kembali lewat “Tambang lagi”, di tab **Pengecualian**.
+Buka halaman **Drops** akun tersebut. Di “Urutan penambangan”, setiap kampanye yang menunggu menyebutkan alasannya: “Tidak ada channel yang live” atau “Menunggu (satu kampanye sekaligus)”. “Twitch tidak menghitungnya — coba lagi dalam …” berarti 30 menit menonton sungguhan tidak membawa progres di sisi Twitch: kampanye tersebut disisihkan dan dicoba lagi secara otomatis dalam waktu yang ditampilkan, atau lebih cepat jika progres muncul lebih dulu. Kampanye yang tidak muncul di daftar itu sudah disisihkan: oleh “Apa yang ditambang, berurutan”, oleh pengaturan “Kampanye mana”, oleh aturan di tab **Pengecualian**, atau karena tidak bisa selesai tepat waktu. Hadiah yang membutuhkan langganan menunggu sampai Anda sendiri berlangganan, lencana yang harus ditonton setiap hari menunggu hari berikutnya, tidak ada yang ditambang sebelum kampanyenya dimulai, dan drop yang menyusul drop lain menunggu sampai drop pertama selesai. Di mode **Hanya poin**, penambang tidak memilih kampanye apa pun. “Tambang lebih dulu”, di detail sebuah kampanye, menaruhnya di urutan teratas; kampanye yang diabaikan bisa kembali lewat “Tambang lagi”, di tab **Pengecualian**. Tab **Kampanye** menampilkan alasan yang sama di grup **Diblokir**.
 
 **Apakah saya perlu menautkan akun penerbit?**\
 Untuk mengklaim, ya: sejak Oktober 2026, Twitch hanya mengizinkan klaim drop jika akun penerbit sudah tertaut. Secara default, kampanye yang belum tertaut tetap berjalan dan klaimnya menunggu penautan. Lencana “Belum tertaut” menandainya, dan “Tautkan akun penerbit”, di detail kampanye, membuka halaman penautan. Untuk menambang kategori yang tertaut saja, pilih “Hanya kategori yang akun penerbitnya tertaut”.
@@ -438,7 +439,7 @@ Aplikasi desktop menambang selama PC Anda menyala, dengan ikon tray, kata sandi 
 Di folder data: `~/.local/share/twitch-miner` di Linux, `%APPDATA%\twitch-miner` di Windows, `~/Library/Application Support/twitch-miner` di macOS, dan volume `/data` dengan Docker. Di desktop, **Pengaturan › Desktop** membukanya dengan sekali klik. Isinya `miner.db` (akun, pengaturan, jurnal), `master.key` (kunci sesi, jika kata sandi aplikasi tidak diatur), dan log.
 
 **Bagaimana cara memperbarui?**\
-Aplikasi desktop memeriksa versi baru saat dimulai, lalu setiap jam (Anda bisa mengubahnya di **Pengaturan › Tentang**). Klik lencana “Pembaruan”, lalu “Pasang dan mulai ulang”. Dengan Docker, dasbor memberi tahu Anda: jalankan `docker compose pull`, lalu `docker compose up -d`.
+Aplikasi desktop memeriksa versi baru saat dimulai, lalu setiap jam (Anda bisa mengubahnya di **Pengaturan › Tentang**), dan bisa memberi tahu Anda saat menemukannya. Klik lencana “Pembaruan”, lalu “Pasang dan mulai ulang”. Dengan Docker, dasbor memberi tahu Anda: jalankan `docker compose pull`, lalu `docker compose up -d`. Tanpa Docker, dasbor memberi tahu dengan cara yang sama: lihat [Tanpa Docker](#systemd) untuk mengganti file dan memulai ulang layanannya.
 
 **Saya lupa kata sandi aplikasi.**\
 Kata sandi itu tidak bisa dipulihkan: justru kata sandi itulah yang mengenkripsi sesi Twitch Anda. Tutup aplikasi, hapus folder data, lalu tambahkan lagi akun Anda; pengaturannya harus dibuat ulang. Dengan Docker, kata sandi dasbor diubah di `MINER_PASSWORD`, lalu `docker compose up -d`.

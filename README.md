@@ -260,10 +260,12 @@
   </details>
 
 - **Signed updates, never automatic.** An “Update” badge with the version number appears
-  in the top bar. “Install and restart” first asks you to confirm, then the app installs
-  the version and restarts. With an app password, it restarts locked: type it again to
-  resume mining. Only a version signed by the project is installed. The Docker version
-  tells you too, with the commands to run.
+  in the top bar, and a desktop notification tells you too, on by default (a switch in
+  **Settings › Notifications** turns it off; in a browser, click “Allow” when it asks).
+  “Install and restart” first asks you to confirm, then the app installs the version and
+  restarts. With an app password, it restarts locked: type it again to resume mining. Only
+  a version signed by the project is installed. The Docker dashboard and the systemd
+  binary tell you too, with the commands to run.
 
   <details open><summary>See it in action</summary>
   <img src="docs/media/en/updates.avif" alt="The “Update” badge, the confirmation, then the install">
@@ -446,10 +448,11 @@ happens. When Twitch or the network fails, the server answers `424`, never `502`
 On a Linux server without Docker, the release also has the server as a single file, with
 the dashboard inside: `twitch-miner-server_<version>_linux_x64` or
 `twitch-miner-server_<version>_linux_arm64`. It is the program the Docker image runs,
-statically linked: nothing else to install. It takes the same variables.
+statically linked: nothing else to install, besides the system's CA certificates it reads
+for HTTPS (the Docker image copies them in for the same reason). It takes the same variables.
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 on ARM64
+sudo install -m 755 twitch-miner-server_<version>_linux_* /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -493,7 +496,7 @@ This file does not update itself. When the dashboard shows a new version, downlo
 file from the release, then replace the old one and restart:
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 on ARM64
+sudo install -m 755 twitch-miner-server_<version>_linux_* /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 
@@ -550,7 +553,8 @@ Open the account's **Drops** page. In “Mining order”, each waiting campaign 
 “No live channel” or “Waiting (one campaign at a time)”. “Twitch isn't crediting it —
 retrying …” means 30 minutes of real watching brought no progress on Twitch's side: the
 campaign is set aside and tried again automatically in the time shown, or sooner if
-progress reappears first. A campaign that does not appear in that list was left out: by
+progress reappears first. A campaign that does not appear in that list was left out —
+open the **Campaigns** tab's **Blocked** group to see why: by
 “What to mine, in order”, by the “Which campaigns”
 setting, by a rule in the **Exclusions** tab, or because it cannot finish in time. A
 reward that needs a subscription waits until you have subscribed yourself, a badge watched
@@ -584,8 +588,11 @@ password is set) and the logs.
 
 **How do I update?**\
 The desktop app checks for a new version when it starts, then every hour (you can change
-this in **Settings › About**). Click the “Update” badge, then “Install and restart”. With
-Docker, the dashboard tells you: run `docker compose pull`, then `docker compose up -d`.
+this in **Settings › About**), and can notify you when it finds one. Click the “Update”
+badge, then “Install and restart”. With Docker, the dashboard tells you too: run
+`docker compose pull`, then `docker compose up -d`. Without Docker, the dashboard tells
+you the same way: see [Without Docker](#systemd) to replace the file and restart the
+service.
 
 **I forgot the app password.**\
 It cannot be recovered: it is what encrypts your Twitch sessions. Quit the app, delete the

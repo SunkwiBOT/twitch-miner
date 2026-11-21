@@ -266,10 +266,13 @@
   </details>
 
 - **Signerte oppdateringer, aldri automatiske.** Merket «Oppdatering» vises med
-  versjonsnummeret i den øverste linjen. «Installer og start på nytt» ber deg først
-  bekrefte, deretter installerer appen versjonen og starter på nytt. Med app-passord
-  starter den låst: skriv det inn igjen for å fortsette å mine. Bare en versjon signert av
-  prosjektet blir installert. Docker-versjonen sier også fra, med kommandoene som skal kjøres.
+  versjonsnummeret i den øverste linjen, og et skrivebordsvarsel sier også fra, slått på
+  som standard (en bryter i **Innstillinger › Varsler** slår den av; i en nettleser
+  klikker du «Tillat» når den spør). «Installer og start på nytt» ber deg først bekrefte,
+  deretter installerer appen versjonen og starter på nytt. Med app-passord starter den
+  låst: skriv det inn igjen for å fortsette å mine. Bare en versjon signert av prosjektet
+  blir installert. Docker-oversikten og systemd-binæren sier også fra, med kommandoene
+  som skal kjøres.
 
   <details open><summary>Se det i aksjon</summary>
   <img src="../media/nb/updates.avif" alt="Merket «Oppdatering», bekreftelsen, deretter installasjonen">
@@ -448,13 +451,14 @@ skjer. Når Twitch eller nettverket svikter, svarer serveren `424`, aldri `502` 
 ### <a name="systemd"></a>Uten Docker (systemd)
 
 På en Linux-server uten Docker har utgivelsen også serveren som én enkelt fil, med
-oversikten innebygd: `twitch-miner-server_<version>_linux_x64` eller
-`twitch-miner-server_<version>_linux_arm64`. Det er det samme programmet som
-Docker-imaget kjører, statisk lenket: ingenting annet å installere. Den tar de samme
-variablene.
+oversikten innebygd: `twitch-miner-server_<versjon>_linux_x64` eller
+`twitch-miner-server_<versjon>_linux_arm64`. Det er det samme programmet som
+Docker-imaget kjører, statisk lenket: ingenting annet å installere, bortsett fra
+systemets CA-sertifikater, som den leser for HTTPS (Docker-avbildet kopierer dem av
+samme grunn). Den tar de samme variablene.
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 på ARM64
+sudo install -m 755 twitch-miner-server_<versjon>_linux_* /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -497,7 +501,7 @@ Denne filen oppdaterer seg ikke selv. Når oversikten viser en ny versjon, laste
 den nye filen fra utgivelsen, erstatter den gamle og starter på nytt:
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 på ARM64
+sudo install -m 755 twitch-miner-server_<versjon>_linux_* /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 
@@ -563,7 +567,8 @@ abonnert, et merke som skal ses hver dag, venter på neste dag, ingenting mines 
 kampanjen starter, og en drop som følger etter en annen, venter til den første er ferdig.
 I modusen **Bare poeng** velger mineren ingen kampanje. «Sett først i
 mining-rekkefølgen», i detaljene til en kampanje, setter den øverst; en ignorert kampanje
-kan komme tilbake med «Ta med i mining igjen», i fanen **Unntak**.
+kan komme tilbake med «Ta med i mining igjen», i fanen **Unntak**. Fanen **Kampanjer**
+viser de samme grunnene i gruppen **Blokkerte**.
 
 **Må jeg koble utgiverkontoen?**\
 For å hente, ja: siden oktober 2026 lar Twitch deg bare hente en drop når utgiverkontoen er
@@ -590,9 +595,11 @@ ikke noe app-passord er satt) og loggene.
 
 **Hvordan oppdaterer jeg?**\
 Skrivebordsappen ser etter en ny versjon når den starter, og deretter hver time (kan
-endres i **Innstillinger › Om**). Klikk på merket «Oppdatering», deretter på
-«Installer og start på nytt». Med Docker sier oversikten fra: kjør `docker compose pull`
-og deretter `docker compose up -d`.
+endres i **Innstillinger › Om**), og kan varsle deg når den finner en. Klikk på merket
+«Oppdatering», deretter på «Installer og start på nytt». Med Docker sier oversikten fra:
+kjør `docker compose pull` og deretter `docker compose up -d`. Uten Docker sier
+oversikten fra på samme måte: se [Uten Docker](#systemd) for å bytte ut filen og starte
+tjenesten på nytt.
 
 **Jeg har glemt app-passordet.**\
 Det kan ikke gjenopprettes: det er det som krypterer Twitch-øktene dine. Avslutt appen,

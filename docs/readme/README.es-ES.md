@@ -266,10 +266,13 @@
   </details>
 
 - **Actualizaciones firmadas, nunca automáticas.** En la barra superior aparece una
-  insignia «Actualización» con el número de versión. «Instalar y reiniciar» primero te
-  pide confirmación; luego la app instala la versión y se reinicia. Si tiene contraseña de
-  la app, se reinicia bloqueada: vuelve a escribirla para seguir minando. Solo se instala
-  una versión firmada por el proyecto. La versión de Docker también te avisa, con los
+  insignia «Actualización» con el número de versión, y una notificación de escritorio
+  también te avisa, activada de forma predeterminada (un interruptor en
+  **Ajustes › Notificaciones** la desactiva; en el navegador, haz clic en «Permitir»
+  cuando te lo pida). «Instalar y reiniciar» primero te pide confirmación; luego la app
+  instala la versión y se reinicia. Si tiene contraseña de la app, se reinicia bloqueada:
+  vuelve a escribirla para seguir minando. Solo se instala una versión firmada por el
+  proyecto. El panel de Docker y el binario de systemd también te avisan, con los
   comandos que hay que ejecutar.
 
   <details open><summary>Verlo en acción</summary>
@@ -450,13 +453,14 @@ error real en lugar de la página de Cloudflare.
 ### <a name="systemd"></a>Sin Docker (systemd)
 
 En un servidor Linux sin Docker, la versión también incluye el servidor como un único
-archivo, con el panel dentro: `twitch-miner-server_<version>_linux_x64` o
-`twitch-miner-server_<version>_linux_arm64`. Es el mismo programa que ejecuta la imagen
-de Docker, enlazado estáticamente: no hay nada más que instalar. Toma las mismas
-variables.
+archivo, con el panel dentro: `twitch-miner-server_<versión>_linux_x64` o
+`twitch-miner-server_<versión>_linux_arm64`. Es el mismo programa que ejecuta la imagen
+de Docker, enlazado estáticamente: no hay nada más que instalar, salvo los certificados
+CA del sistema que lee para HTTPS (la imagen de Docker los copia por el mismo motivo).
+Toma las mismas variables.
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 en ARM64
+sudo install -m 755 twitch-miner-server_<versión>_linux_* /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -500,7 +504,7 @@ Este archivo no se actualiza solo. Cuando el panel muestre una versión nueva, d
 archivo nuevo de la versión, sustituye el anterior y reinicia:
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 en ARM64
+sudo install -m 755 twitch-miner-server_<versión>_linux_* /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 
@@ -564,7 +568,8 @@ ver cada día espera al día siguiente, no se mina nada antes de que empiece su 
 drop que va después de otro espera a que el primero termine. En el modo **Solo puntos**, el
 minero no elige ninguna campaña. «Minar primero», en la ficha de una campaña, la pone en
 cabeza; una campaña ignorada puede volver con «Volver a minar», en la pestaña
-**Exclusiones**.
+**Exclusiones**. La pestaña **Campañas** muestra los mismos motivos en el grupo
+**Bloqueadas**.
 
 **¿Tengo que vincular la cuenta del editor?**\
 Para reclamar, sí: desde octubre de 2026, Twitch solo deja reclamar un drop si la cuenta
@@ -591,9 +596,11 @@ hay contraseña de la app) y los registros.
 
 **¿Cómo actualizo?**\
 La app de escritorio busca una versión nueva al arrancar y luego cada hora (puedes
-cambiarlo en **Ajustes › Acerca de**). Haz clic en la insignia «Actualización» y después
-en «Instalar y reiniciar». Con Docker, el panel te avisa: ejecuta `docker compose pull` y
-luego `docker compose up -d`.
+cambiarlo en **Ajustes › Acerca de**), y puede avisarte cuando encuentre una. Haz clic en
+la insignia «Actualización» y después en «Instalar y reiniciar». Con Docker, el panel te
+avisa: ejecuta `docker compose pull` y luego `docker compose up -d`. Sin Docker, el panel
+te avisa igual: consulta [Sin Docker](#systemd) para reemplazar el archivo y reiniciar el
+servicio.
 
 **He olvidado la contraseña de la app.**\
 No se puede recuperar: es lo que cifra tus sesiones de Twitch. Cierra la app, borra la

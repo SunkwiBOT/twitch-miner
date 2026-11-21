@@ -261,11 +261,13 @@
   </details>
 
 - **Podpisane aktualizacje, nigdy automatyczne.** Na górnym pasku pojawia się plakietka
-  „Aktualizacja” z numerem wersji. „Zainstaluj i uruchom ponownie” najpierw prosi o
-  potwierdzenie, a potem aplikacja instaluje wersję i uruchamia się ponownie. Z hasłem
-  aplikacji uruchamia się zablokowana: wpisz je ponownie, aby wznowić kopanie. Instalowana
-  jest tylko wersja podpisana przez projekt. Wersja Docker też o tym informuje i podaje
-  polecenia do uruchomienia.
+  „Aktualizacja” z numerem wersji, a o tym samym informuje też powiadomienie na pulpicie,
+  domyślnie włączone (przełącznik w **Ustawienia › Powiadomienia** je wyłącza; w
+  przeglądarce kliknij „Zezwól”, gdy o to zapyta). „Zainstaluj i uruchom ponownie”
+  najpierw prosi o potwierdzenie, a potem aplikacja instaluje wersję i uruchamia się
+  ponownie. Z hasłem aplikacji uruchamia się zablokowana: wpisz je ponownie, aby wznowić
+  kopanie. Instalowana jest tylko wersja podpisana przez projekt. Panel Dockera i binarka
+  systemd też o tym informują i podają polecenia do uruchomienia.
 
   <details open><summary>Zobacz w akcji</summary>
   <img src="../media/pl/updates.avif" alt="Plakietka „Aktualizacja”, potwierdzenie, a potem instalacja">
@@ -440,13 +442,14 @@ prawdziwy błąd zamiast strony Cloudflare.
 ### <a name="systemd"></a>Bez Dockera (systemd)
 
 Na serwerze z Linuksem bez Dockera wydanie zawiera też serwer jako pojedynczy plik, z
-panelem w środku: `twitch-miner-server_<version>_linux_x64` lub
-`twitch-miner-server_<version>_linux_arm64`. To ten sam program, który uruchamia obraz
-Dockera, zlinkowany statycznie: nie trzeba instalować niczego więcej. Przyjmuje te same
-zmienne.
+panelem w środku: `twitch-miner-server_<wersja>_linux_x64` lub
+`twitch-miner-server_<wersja>_linux_arm64`. To ten sam program, który uruchamia obraz
+Dockera, zlinkowany statycznie: nie trzeba instalować niczego więcej, poza certyfikatami
+CA systemu, które odczytuje do HTTPS (obraz Dockera kopiuje je z tego samego powodu).
+Przyjmuje te same zmienne.
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 na ARM64
+sudo install -m 755 twitch-miner-server_<wersja>_linux_* /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -490,7 +493,7 @@ Ten plik nie aktualizuje się sam. Gdy panel pokaże nową wersję, pobierz nowy
 wydania, zastąp nim stary i uruchom ponownie:
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 na ARM64
+sudo install -m 755 twitch-miner-server_<wersja>_linux_* /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 
@@ -556,7 +559,8 @@ aż sam ją wykupisz, odznaka do oglądania codziennie czeka na kolejny dzień, 
 kampanii nic nie jest kopane, a drop, który następuje po innym, czeka, aż pierwszy
 zostanie ukończony. W trybie **Tylko punkty** miner nie wybiera żadnej kampanii.
 „Kop najpierw” w szczegółach kampanii przenosi ją na górę; ignorowana kampania może
-wrócić dzięki „Kop ponownie” na karcie **Wykluczenia**.
+wrócić dzięki „Kop ponownie” na karcie **Wykluczenia**. Karta **Kampanie** pokazuje te
+same powody w grupie **Zablokowane**.
 
 **Czy muszę połączyć konto wydawcy?**\
 Żeby odebrać nagrodę, tak: od października 2026 r. Twitch pozwala odebrać drop tylko
@@ -583,9 +587,11 @@ hasła aplikacji) i logi.
 
 **Jak zaktualizować?**\
 Aplikacja desktopowa sprawdza dostępność nowej wersji przy uruchomieniu, a potem co godzinę
-(zmienisz to w sekcji **Ustawienia › O programie**). Kliknij plakietkę „Aktualizacja”,
-a potem „Zainstaluj i uruchom ponownie”. W Dockerze panel o tym informuje: uruchom
-`docker compose pull`, a potem `docker compose up -d`.
+(zmienisz to w sekcji **Ustawienia › O programie**), i może cię o tym powiadomić. Kliknij
+plakietkę „Aktualizacja”, a potem „Zainstaluj i uruchom ponownie”. W Dockerze panel o tym
+informuje: uruchom `docker compose pull`, a potem `docker compose up -d`. Bez Dockera
+panel informuje tak samo: zobacz [Bez Dockera](#systemd), jak podmienić plik i ponownie
+uruchomić usługę.
 
 **Nie pamiętam hasła aplikacji.**\
 Nie da się go odzyskać: to ono szyfruje Twoje sesje Twitch. Zamknij aplikację, usuń folder

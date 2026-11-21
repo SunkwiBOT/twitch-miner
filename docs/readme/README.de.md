@@ -274,11 +274,14 @@
   </details>
 
 - **Signierte Updates, nie automatisch.** In der oberen Leiste erscheint ein Badge
-  „Update“ mit der Versionsnummer. „Installieren und neu starten“ fragt zuerst nach einer
-  Bestätigung, dann installiert die App die Version und startet neu. Mit App-Passwort
-  startet sie gesperrt neu: Geben Sie es erneut ein, um das Mining fortzusetzen. Installiert
-  wird nur eine vom Projekt signierte Version. Die Docker-Version meldet sich ebenfalls,
-  mit den passenden Befehlen.
+  „Update“ mit der Versionsnummer, und eine Desktop-Benachrichtigung meldet es ebenfalls,
+  standardmäßig aktiviert (ein Schalter unter **Einstellungen › Benachrichtigungen**
+  schaltet sie ab; im Browser klicken Sie auf „Erlauben“, wenn danach gefragt wird).
+  „Installieren und neu starten“ fragt zuerst nach einer Bestätigung, dann installiert die
+  App die Version und startet neu. Mit App-Passwort startet sie gesperrt neu: Geben Sie es
+  erneut ein, um das Mining fortzusetzen. Installiert wird nur eine vom Projekt signierte
+  Version. Das Docker-Dashboard und die systemd-Binärdatei melden sich ebenfalls, mit den
+  passenden Befehlen.
 
   <details open><summary>In Aktion ansehen</summary>
   <img src="../media/de/updates.avif" alt="Das Badge „Update“, die Bestätigung, dann die Installation">
@@ -461,13 +464,14 @@ Fehler statt der Seite von Cloudflare.
 ### <a name="systemd"></a>Ohne Docker (systemd)
 
 Auf einem Linux-Server ohne Docker enthält das Release den Server auch als einzelne
-Datei, mit dem Dashboard darin: `twitch-miner-server_<version>_linux_x64` oder
-`twitch-miner-server_<version>_linux_arm64`. Es ist dasselbe Programm, das das
-Docker-Image ausführt, statisch gelinkt: nichts weiter zu installieren. Es verwendet
-dieselben Variablen.
+Datei, mit dem Dashboard darin: `twitch-miner-server_<Version>_linux_x64` oder
+`twitch-miner-server_<Version>_linux_arm64`. Es ist dasselbe Programm, das das
+Docker-Image ausführt, statisch gelinkt: nichts weiter zu installieren, außer den
+System-CA-Zertifikaten, die es für HTTPS liest (das Docker-Image kopiert sie aus demselben
+Grund). Es verwendet dieselben Variablen.
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 auf ARM64
+sudo install -m 755 twitch-miner-server_<Version>_linux_* /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -511,7 +515,7 @@ Diese Datei aktualisiert sich nicht selbst. Wenn das Dashboard eine neue Version
 laden Sie die neue Datei aus dem Release herunter, ersetzen die alte und starten neu:
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 auf ARM64
+sudo install -m 755 twitch-miner-server_<Version>_linux_* /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 
@@ -583,7 +587,8 @@ geschaut werden muss, wartet auf den nächsten Tag, vor dem Start seiner Kampagn
 nichts gemint, und ein Drop, der auf einen anderen folgt, wartet, bis der erste fertig
 ist. Im Modus **Nur Punkte** wählt der Miner keine Kampagne. „Vorrangig minen“ in den
 Details einer Kampagne setzt sie an die Spitze; eine ignorierte Kampagne lässt sich im Tab
-**Ausschlüsse** mit „Wieder minen“ zurückholen.
+**Ausschlüsse** mit „Wieder minen“ zurückholen. Der Tab **Kampagnen** zeigt in der Gruppe
+**Blockiert** dieselben Gründe.
 
 **Muss ich das Herausgeberkonto verknüpfen?**\
 Zum Abholen ja: Seit Oktober 2026 lässt Twitch einen Drop nur abholen, wenn das Herausgeberkonto
@@ -610,9 +615,11 @@ Sitzungsschlüssel, wenn kein App-Passwort gesetzt ist) und die Logs.
 
 **Wie aktualisiere ich?**\
 Die Desktop-App sucht beim Start nach einer neuen Version, danach jede Stunde (änderbar
-unter **Einstellungen › Über**). Klicken Sie auf das Badge „Update“, dann auf
-„Installieren und neu starten“. Bei Docker meldet es das Dashboard: Führen Sie
-`docker compose pull` und dann `docker compose up -d` aus.
+unter **Einstellungen › Über**), und kann Sie benachrichtigen, sobald sie eine findet.
+Klicken Sie auf das Badge „Update“, dann auf „Installieren und neu starten“. Bei Docker
+meldet es das Dashboard: Führen Sie `docker compose pull` und dann `docker compose up -d`
+aus. Ohne Docker meldet es das Dashboard genauso: siehe [Ohne Docker](#systemd), um die
+Datei zu ersetzen und den Dienst neu zu starten.
 
 **Ich habe das App-Passwort vergessen.**\
 Es lässt sich nicht wiederherstellen: Mit ihm werden Ihre Twitch-Sitzungen verschlüsselt.

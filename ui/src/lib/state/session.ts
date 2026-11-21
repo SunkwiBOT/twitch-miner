@@ -145,7 +145,7 @@ export const reportFailure = (e: unknown): boolean => {
   return true;
 };
 
-// ! An account command waits for the pending save, then drops the copy kept: some (Mine first) change the settings.
+// ! An account command waits for the pending save, then drops the copy kept: some (`SET_ACCOUNT_SETTINGS`) change the settings.
 export const run = async (command: CommandType, success?: string): Promise<boolean> => {
   try {
     if ("account_id" in command) {

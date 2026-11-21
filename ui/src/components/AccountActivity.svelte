@@ -96,7 +96,6 @@
 {/snippet}
 
 {#snippet streamer(slot: SlotViewType)}
-  <!-- ! Capped by the row's width, not a fixed size: the name gets its full width whenever the row has room. -->
   <span class="flex max-w-[45cqi] shrink-0 flex-col items-end gap-1.5 text-right">
     <LinkPair>
       <LinkTwin target={{ url: channelUrl(slot.channel.login) }} live={slot.channel.live}>

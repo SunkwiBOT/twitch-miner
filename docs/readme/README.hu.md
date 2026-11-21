@@ -268,10 +268,13 @@
   </details>
 
 - **Aláírt frissítések, sosem automatikusan.** A felső sávban megjelenik egy „Frissítés”
-  jelvény a verziószámmal. A „Telepítés és újraindítás” először megerősítést kér, majd az
-  alkalmazás telepíti a verziót és újraindul. Alkalmazásjelszóval zárolva indul újra: írd
-  be újra, hogy folytatódjon a bányászat. Csak a projekt által aláírt verzió települ.
-  A Docker-verzió is szól, a futtatandó parancsokkal együtt.
+  jelvény a verziószámmal, és egy asztali értesítés is szól róla, alapértelmezetten
+  bekapcsolva (a **Beállítások › Értesítések** alatti kapcsoló kikapcsolja; böngészőben
+  kattints az „Engedélyezés” gombra, ha rákérdez). A „Telepítés és újraindítás” először
+  megerősítést kér, majd az alkalmazás telepíti a verziót és újraindul.
+  Alkalmazásjelszóval zárolva indul újra: írd be újra, hogy folytatódjon a bányászat.
+  Csak a projekt által aláírt verzió települ. A Docker-irányítópult és a systemd
+  bináris is szól, a futtatandó parancsokkal együtt.
 
   <details open><summary>Működés közben</summary>
   <img src="../media/hu/updates.avif" alt="A „Frissítés” jelvény, a megerősítés, majd a telepítés">
@@ -448,13 +451,14 @@ helyett.
 ### <a name="systemd"></a>Docker nélkül (systemd)
 
 Docker nélküli Linux szerveren a kiadás a szervert egyetlen fájlként is tartalmazza,
-benne az irányítópulttal: `twitch-miner-server_<version>_linux_x64` vagy
-`twitch-miner-server_<version>_linux_arm64`. Ugyanaz a program, amit a Docker image
-futtat, statikusan linkelve: semmi mást nem kell telepíteni. Ugyanazokat a változókat
-fogadja.
+benne az irányítópulttal: `twitch-miner-server_<verzió>_linux_x64` vagy
+`twitch-miner-server_<verzió>_linux_arm64`. Ugyanaz a program, amit a Docker image
+futtat, statikusan linkelve: semmi mást nem kell telepíteni, leszámítva a rendszer
+CA-tanúsítványait, amelyeket HTTPS-hez olvas (a Docker image is ezért másolja be őket).
+Ugyanazokat a változókat fogadja.
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 ARM64-en
+sudo install -m 755 twitch-miner-server_<verzió>_linux_* /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -498,7 +502,7 @@ Ez a fájl nem frissíti magát. Amikor az irányítópult új verziót mutat, t
 fájlt a kiadásból, cseréld le a régit, és indítsd újra:
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 ARM64-en
+sudo install -m 755 twitch-miner-server_<verzió>_linux_* /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 
@@ -562,6 +566,7 @@ nézendő jelvény a következő napot várja, a kampány kezdete előtt semmit 
 másikat követő drop pedig megvárja, amíg az első elkészül. **Csak pontok** módban a bányász
 nem választ kampányt. A kampány adatlapján a „Bányászás elsőként” a lista élére teszi; egy
 mellőzött kampány az „Újbóli bányászás” gombbal térhet vissza, a **Kizárások** lapon.
+A **Kampányok** fül **Blokkolt** csoportja ugyanezeket az okokat mutatja.
 
 **Össze kell kapcsolnom a kiadói fiókot?**\
 A begyűjtéshez igen: 2026 októbere óta a Twitch csak akkor enged begyűjteni egy dropot, ha
@@ -589,9 +594,11 @@ alkalmazásjelszó beállítva) és a logok.
 
 **Hogyan frissíthetek?**\
 Az asztali alkalmazás induláskor, majd óránként keres új verziót (ez a
-**Beállítások › Névjegy** alatt módosítható). Kattints a „Frissítés” jelvényre, majd a
-„Telepítés és újraindítás” gombra. Dockerrel az irányítópult szól: futtasd a
-`docker compose pull`, majd a `docker compose up -d` parancsot.
+**Beállítások › Névjegy** alatt módosítható), és értesíthet, ha talál egyet. Kattints a
+„Frissítés” jelvényre, majd a „Telepítés és újraindítás” gombra. Dockerrel az
+irányítópult szól: futtasd a `docker compose pull`, majd a `docker compose up -d`
+parancsot. Docker nélkül az irányítópult ugyanígy szól: lásd a
+[Docker nélkül](#systemd) részt a fájl cseréjéhez és a szolgáltatás újraindításához.
 
 **Elfelejtettem az alkalmazásjelszót.**\
 Nem állítható vissza: épp ez titkosítja a Twitch-munkameneteidet. Lépj ki az

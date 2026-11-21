@@ -268,11 +268,14 @@
   </details>
 
 - **Des mises à jour signées, jamais automatiques.** Un badge « Mise à jour » et son numéro
-  de version apparaissent dans la barre du haut. « Installer et redémarrer » demande
-  d'abord une confirmation, puis l'application installe la version et redémarre. Avec un
-  mot de passe de l'application, elle redémarre verrouillée : retapez-le pour reprendre le
-  minage. Seule une version signée par le projet est installée. La version Docker prévient
-  aussi, avec les commandes à lancer.
+  de version apparaissent dans la barre du haut, et une notification de bureau prévient
+  aussi, activée par défaut (un interrupteur dans **Paramètres › Notifications** la
+  désactive ; dans un navigateur, cliquez sur « Autoriser » quand il le demande).
+  « Installer et redémarrer » demande d'abord une confirmation, puis l'application installe
+  la version et redémarre. Avec un mot de passe de l'application, elle redémarre
+  verrouillée : retapez-le pour reprendre le minage. Seule une version signée par le projet
+  est installée. Le tableau de bord Docker et le binaire systemd préviennent aussi, avec
+  les commandes à lancer.
 
   <details open><summary>Voir en image</summary>
   <img src="../media/fr/updates.avif" alt="Le badge « Mise à jour », la confirmation, puis l'installation">
@@ -453,10 +456,12 @@ erreur au lieu de la page de Cloudflare.
 Sur un serveur Linux sans Docker, chaque version publiée contient aussi le serveur en un
 seul fichier, tableau de bord compris : `twitch-miner-server_<version>_linux_x64` ou
 `twitch-miner-server_<version>_linux_arm64`. C'est le programme que lance l'image Docker,
-lié statiquement : rien d'autre à installer. Il prend les mêmes variables.
+lié statiquement : rien d'autre à installer, à part les certificats CA du système qu'il
+lit pour le HTTPS (l'image Docker les copie pour la même raison). Il prend les mêmes
+variables.
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 sur ARM64
+sudo install -m 755 twitch-miner-server_<version>_linux_* /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -501,7 +506,7 @@ version, téléchargez le nouveau fichier depuis la version publiée, puis rempl
 et redémarrez :
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 sur ARM64
+sudo install -m 755 twitch-miner-server_<version>_linux_* /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 
@@ -569,7 +574,8 @@ chaque jour attend le jour suivant, rien n'est miné avant le début de sa campa
 drop qui en suit un autre attend que le premier soit fini. En mode **Points uniquement**,
 le mineur ne choisit aucune campagne. « Miner en priorité », dans la fiche d'une campagne,
 la met en tête ; une campagne ignorée peut revenir avec « Miner à nouveau », dans l'onglet
-**Exclusions**.
+**Exclusions**. L'onglet **Campagnes** montre les mêmes raisons dans le groupe
+**Bloquées**.
 
 **Faut-il lier le compte de l'éditeur ?**\
 Pour réclamer, oui : depuis octobre 2026, Twitch ne laisse réclamer un drop que si le
@@ -596,9 +602,11 @@ de passe de l'application n'est défini) et les logs.
 
 **Comment mettre à jour ?**\
 L'application de bureau cherche une nouvelle version au démarrage, puis toutes les heures
-(réglable dans **Paramètres › À propos**). Cliquez sur le badge « Mise à jour », puis sur
-« Installer et redémarrer ». Avec Docker, le tableau de bord prévient : lancez
-`docker compose pull`, puis `docker compose up -d`.
+(réglable dans **Paramètres › À propos**), et peut vous prévenir quand elle en trouve une.
+Cliquez sur le badge « Mise à jour », puis sur « Installer et redémarrer ». Avec Docker, le
+tableau de bord prévient : lancez `docker compose pull`, puis `docker compose up -d`. Sans
+Docker, le tableau de bord prévient de la même façon : voyez [Sans Docker](#systemd) pour
+remplacer le fichier et redémarrer le service.
 
 **J'ai oublié le mot de passe de l'application.**\
 Il ne peut pas être récupéré : c'est lui qui chiffre vos sessions Twitch. Quittez

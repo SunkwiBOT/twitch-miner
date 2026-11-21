@@ -183,7 +183,7 @@
   <img src="../media/tr/security-lock.avif" alt="Asma kilit: kilitli uygulama, ardından şifresiyle açılması">
   </details>
 
-- **İmzalı güncellemeler, asla otomatik değil.** Üst çubukta sürüm numarasıyla birlikte bir “Güncelleme” rozeti belirir. “Yükle ve yeniden başlat” önce onay ister, ardından uygulama sürümü yükler ve yeniden başlar. Uygulama şifresi varsa uygulama kilitli olarak yeniden başlar: kazmaya devam etmek için şifreyi yeniden yazın. Yalnızca proje tarafından imzalanmış bir sürüm yüklenir. Docker sürümü de çalıştırılacak komutlarla birlikte haber verir.
+- **İmzalı güncellemeler, asla otomatik değil.** Üst çubukta sürüm numarasıyla birlikte bir “Güncelleme” rozeti belirir, ayrıca bir masaüstü bildirimi de aynısını haber verir; bu varsayılan olarak açıktır (**Ayarlar › Bildirimler** içindeki bir anahtar onu kapatır; tarayıcıda sorduğunda “İzin ver”e tıklayın). “Yükle ve yeniden başlat” önce onay ister, ardından uygulama sürümü yükler ve yeniden başlar. Uygulama şifresi varsa uygulama kilitli olarak yeniden başlar: kazmaya devam etmek için şifreyi yeniden yazın. Yalnızca proje tarafından imzalanmış bir sürüm yüklenir. Docker paneli ve systemd ikili dosyası da çalıştırılacak komutlarla birlikte haber verir.
 
   <details open><summary>Çalışırken görün</summary>
   <img src="../media/tr/updates.avif" alt="“Güncelleme” rozeti, onay, ardından yükleme">
@@ -331,11 +331,12 @@ Bir ters proxy arkasında `MINER_PUBLIC_URL` değişkenini ayarlayın: o olmadan
 Docker'sız bir Linux sunucusunda, yayınlanan sürüm sunucuyu tek bir dosya olarak da
 içerir, panel içinde gömülü: `twitch-miner-server_<sürüm>_linux_x64` veya
 `twitch-miner-server_<sürüm>_linux_arm64`. Docker imajının çalıştırdığı programın
-kendisidir, statik olarak derlenmiştir: başka hiçbir şey kurmanız gerekmez. Aynı
+kendisidir, statik olarak derlenmiştir: HTTPS için okuduğu sistem CA sertifikaları hariç
+başka hiçbir şey kurmanız gerekmez (Docker imajı da aynı nedenle bunları kopyalar). Aynı
 değişkenleri kabul eder.
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # ARM64'te _linux_arm64
+sudo install -m 755 twitch-miner-server_<sürüm>_linux_* /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -379,7 +380,7 @@ Bu dosya kendini güncellemez. Panel yeni bir sürüm gösterdiğinde, yeni dosy
 indirin, ardından eskisinin yerine koyup yeniden başlatın:
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # ARM64'te _linux_arm64
+sudo install -m 755 twitch-miner-server_<sürüm>_linux_* /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 
@@ -409,7 +410,7 @@ Twitch'in sınırı bu: hesap başına yalnızca aynı anda izlenen iki kanalı 
 ### Drops
 
 **Bir kampanya kazılmıyor veya bir drop ilerlemiyor.**\
-Hesabın **Drops** sayfasını açın. “Kazma sırası” bölümünde bekleyen her kampanya nedenini söyler: “Canlı kanal yok” veya “Bekliyor (tek seferde bir kampanya)”. “Twitch bunu saymıyor — … tekrar denenecek” ifadesi, 30 dakikalık gerçek izlemenin Twitch tarafında hiçbir ilerleme getirmediği anlamına gelir: kampanya bir kenara bırakılır ve gösterilen sürede, ya da ilerleme daha önce geri dönerse daha erken, otomatik olarak yeniden denenir. Bu listede görünmeyen bir kampanya dışarıda bırakılmıştır: “Ne kazılacak, sırayla”, “Hangi kampanyalar” ayarı ya da **Hariç tutmalar** sekmesindeki bir kural yüzünden veya zamanında bitemeyeceği için. Abonelik gerektiren bir ödül, aboneliği kendiniz yapana kadar bekler; her gün izlenmesi gereken bir rozet ertesi günü bekler; kampanyası başlamadan hiçbir şey kazılmaz ve başka bir drop'un ardından gelen bir drop, ilki bitene kadar bekler. **Yalnızca puan** modunda madenci hiçbir kampanya seçmez. Bir kampanyanın ayrıntılarındaki “Önce kaz” onu en başa taşır; yok sayılan bir kampanya, **Hariç tutmalar** sekmesindeki “Yeniden kaz” ile geri gelebilir.
+Hesabın **Drops** sayfasını açın. “Kazma sırası” bölümünde bekleyen her kampanya nedenini söyler: “Canlı kanal yok” veya “Bekliyor (tek seferde bir kampanya)”. “Twitch bunu saymıyor — … tekrar denenecek” ifadesi, 30 dakikalık gerçek izlemenin Twitch tarafında hiçbir ilerleme getirmediği anlamına gelir: kampanya bir kenara bırakılır ve gösterilen sürede, ya da ilerleme daha önce geri dönerse daha erken, otomatik olarak yeniden denenir. Bu listede görünmeyen bir kampanya dışarıda bırakılmıştır: “Ne kazılacak, sırayla”, “Hangi kampanyalar” ayarı ya da **Hariç tutmalar** sekmesindeki bir kural yüzünden veya zamanında bitemeyeceği için. Abonelik gerektiren bir ödül, aboneliği kendiniz yapana kadar bekler; her gün izlenmesi gereken bir rozet ertesi günü bekler; kampanyası başlamadan hiçbir şey kazılmaz ve başka bir drop'un ardından gelen bir drop, ilki bitene kadar bekler. **Yalnızca puan** modunda madenci hiçbir kampanya seçmez. Bir kampanyanın ayrıntılarındaki “Önce kaz” onu en başa taşır; yok sayılan bir kampanya, **Hariç tutmalar** sekmesindeki “Yeniden kaz” ile geri gelebilir. **Kampanyalar** sekmesindeki **Engelli** grubu aynı nedenleri gösterir.
 
 **Yayıncı hesabını bağlamam gerekiyor mu?**\
 Ödülü almak için evet: Ekim 2026'dan beri Twitch, bir drop yalnızca yayıncı hesabı bağlıysa alınmasına izin veriyor. Varsayılan olarak bağlı olmayan bir kampanya yine de ilerler ve alma işlemi bağlantıyı bekler. “Bağlı değil” rozeti bunu belirtir; kampanyanın ayrıntılarındaki “Yayıncı hesabını bağla” da bağlama sayfasını açar. Yalnızca bağlı kategorileri kazmak için “Yalnızca yayıncı hesabı bağlı kategoriler” seçeneğini seçin.
@@ -423,7 +424,7 @@ Masaüstü uygulaması bilgisayarınız açıkken kazar; sistem tepsisi simgesi,
 Veri klasöründe: Linux'ta `~/.local/share/twitch-miner`, Windows'ta `%APPDATA%\twitch-miner`, macOS'ta `~/Library/Application Support/twitch-miner`, Docker'da ise `/data` birimi. Masaüstünde **Ayarlar › Masaüstü** onu tek tıkla açar. İçinde `miner.db` (hesaplar, ayarlar, günlük), `master.key` (uygulama şifresi ayarlanmamışsa oturum anahtarı) ve kayıtlar bulunur.
 
 **Nasıl güncellerim?**\
-Masaüstü uygulaması açılışta, ardından saatte bir yeni sürüm olup olmadığını denetler (bunu **Ayarlar › Hakkında** bölümünden değiştirebilirsiniz). “Güncelleme” rozetine, ardından “Yükle ve yeniden başlat” düğmesine tıklayın. Docker'da panel size haber verir: `docker compose pull`, ardından `docker compose up -d` komutunu çalıştırın.
+Masaüstü uygulaması açılışta, ardından saatte bir yeni sürüm olup olmadığını denetler (bunu **Ayarlar › Hakkında** bölümünden değiştirebilirsiniz ve bulduğunda size haber verebilir). “Güncelleme” rozetine, ardından “Yükle ve yeniden başlat” düğmesine tıklayın. Docker'da panel size haber verir: `docker compose pull`, ardından `docker compose up -d` komutunu çalıştırın. Docker olmadan da panel aynı şekilde haber verir: dosyayı değiştirip hizmeti yeniden başlatmak için [Docker olmadan](#systemd) bölümüne bakın.
 
 **Uygulama şifresini unuttum.**\
 Kurtarılamaz: Twitch oturumlarınızı şifreleyen odur. Uygulamadan çıkın, veri klasörünü silin, ardından hesaplarınızı yeniden ekleyin; ayarlarını da baştan yapmanız gerekir. Docker'da panel şifresi `MINER_PASSWORD` içinde değiştirilir, ardından `docker compose up -d` çalıştırılır.

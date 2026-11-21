@@ -82,7 +82,7 @@ jobs:
           git push origin "refs/tags/$version"
           echo "tagged=true" >> "$GITHUB_OUTPUT"
 
-  # The same checks `npm run verify` and `cargo clippy` run during
+  # ! The same checks `npm run verify` and `cargo clippy` run during
   # development (AGENTS.md), plus `cargo audit` and `npm audit`, on every
   # system the release builds for: a Rust warning or a known vulnerability
   # only on Windows or macOS must still block the release. An ARM64 build
@@ -351,7 +351,10 @@ jobs:
           GH_REPO: ${{ github.repository }}
           RUN_ID: ${{ github.run_id }}
         run: |
-          names="$(gh api --paginate "repos/$GH_REPO/actions/runs/$RUN_ID/artifacts" --jq '.artifacts[].name' | sort)"
+          # ! The rename of the ARM64 AppImage only patches a real release's assets: normalize
+          # the name here too, so a dry run lists the same files a release would get.
+          names="$(gh api --paginate "repos/$GH_REPO/actions/runs/$RUN_ID/artifacts" --jq '.artifacts[].name' \
+            | sed 's/_aarch64\.AppImage/_arm64.AppImage/' | sort)"
           echo "$names"
           {
             echo "### Files a release would get"

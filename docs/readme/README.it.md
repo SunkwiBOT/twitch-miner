@@ -266,11 +266,13 @@
   </details>
 
 - **Aggiornamenti firmati, mai automatici.** Nella barra in alto compare un badge
-  «Aggiornamento» con il numero di versione. «Installa e riavvia» chiede prima una
-  conferma, poi l'app installa la versione e si riavvia. Con una password dell'app, si
-  riavvia bloccata: reinseriscila per riprendere il mining. Viene installata solo una
-  versione firmata dal progetto. Anche la versione Docker avvisa, con i comandi da
-  eseguire.
+  «Aggiornamento» con il numero di versione, e anche una notifica desktop avvisa,
+  attiva per impostazione predefinita (un interruttore in
+  **Impostazioni › Notifiche** la disattiva; nel browser, fai clic su «Consenti»
+  quando lo chiede). «Installa e riavvia» chiede prima una conferma, poi l'app installa
+  la versione e si riavvia. Con una password dell'app, si riavvia bloccata: reinseriscila
+  per riprendere il mining. Viene installata solo una versione firmata dal progetto. Anche
+  la dashboard Docker e il binario systemd avvisano, con i comandi da eseguire.
 
   <details open><summary>Vedilo in azione</summary>
   <img src="../media/it/updates.avif" alt="Il badge «Aggiornamento», la conferma, poi l'installazione">
@@ -449,13 +451,14 @@ Cloudflare.
 ### <a name="systemd"></a>Senza Docker (systemd)
 
 Su un server Linux senza Docker, la release include anche il server come file unico, con
-la dashboard al suo interno: `twitch-miner-server_<version>_linux_x64` o
-`twitch-miner-server_<version>_linux_arm64`. È lo stesso programma eseguito
-dall'immagine Docker, collegato staticamente: non c'è nient'altro da installare. Prende
-le stesse variabili.
+la dashboard al suo interno: `twitch-miner-server_<versione>_linux_x64` o
+`twitch-miner-server_<versione>_linux_arm64`. È lo stesso programma eseguito
+dall'immagine Docker, collegato staticamente: non c'è nient'altro da installare, a parte
+i certificati CA di sistema che legge per l'HTTPS (anche l'immagine Docker li copia per lo
+stesso motivo). Prende le stesse variabili.
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 su ARM64
+sudo install -m 755 twitch-miner-server_<versione>_linux_* /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -499,7 +502,7 @@ Questo file non si aggiorna da solo. Quando la dashboard segnala una nuova versi
 scarica il nuovo file dalla release, poi sostituisci quello vecchio e riavvia:
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 su ARM64
+sudo install -m 755 twitch-miner-server_<versione>_linux_* /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 
@@ -565,7 +568,8 @@ ti sia abbonato, un badge da guardare ogni giorno aspetta il giorno dopo, niente
 minato prima dell'inizio della sua campagna, e un drop che ne segue un altro aspetta che
 il primo sia completato. In modalità **Solo punti**, il miner non sceglie alcuna
 campagna. «Mina per prima», nei dettagli di una campagna, la porta in cima; una campagna
-ignorata può tornare con «Mina di nuovo», nella scheda **Esclusioni**.
+ignorata può tornare con «Mina di nuovo», nella scheda **Esclusioni**. La scheda
+**Campagne** mostra gli stessi motivi nel gruppo **Bloccate**.
 
 **Devo collegare l'account editore?**\
 Per riscattare, sì: da ottobre 2026 Twitch permette di riscattare un drop solo se
@@ -593,9 +597,11 @@ quando non è impostata alcuna password dell'app) e i log.
 
 **Come si aggiorna?**\
 L'app desktop controlla se c'è una nuova versione all'avvio, poi ogni ora (si può cambiare
-in **Impostazioni › Informazioni**). Fai clic sul badge «Aggiornamento», poi su
-«Installa e riavvia». Con Docker, la dashboard ti avvisa: esegui `docker compose pull`,
-poi `docker compose up -d`.
+in **Impostazioni › Informazioni**), e può avvisarti quando ne trova una. Fai clic sul
+badge «Aggiornamento», poi su «Installa e riavvia». Con Docker, la dashboard ti avvisa:
+esegui `docker compose pull`, poi `docker compose up -d`. Senza Docker, la dashboard
+avvisa allo stesso modo: vedi [Senza Docker](#systemd) per sostituire il file e
+riavviare il servizio.
 
 **Ho dimenticato la password dell'app.**\
 Non si può recuperare: è proprio lei a cifrare le tue sessioni Twitch. Chiudi l'app,

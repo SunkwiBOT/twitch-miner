@@ -263,10 +263,13 @@
   </details>
 
 - **Signerade uppdateringar, aldrig automatiska.** Märket ”Uppdatering” visas med
-  versionsnumret i det övre fältet. ”Installera och starta om” ber dig först bekräfta,
-  sedan installerar appen versionen och startar om. Med ett applösenord startar den om
-  låst: skriv in det igen för att fortsätta mina. Bara en version som signerats av
-  projektet installeras. Docker-versionen säger också till, med kommandona som ska köras.
+  versionsnumret i det övre fältet, och en skrivbordsavisering säger också till, påslagen
+  som standard (en brytare i **Inställningar › Aviseringar** stänger av den; i en webbläsare
+  klickar du på ”Tillåt” när den frågar). ”Installera och starta om” ber dig först
+  bekräfta, sedan installerar appen versionen och startar om. Med ett applösenord startar
+  den om låst: skriv in det igen för att fortsätta mina. Bara en version som signerats av
+  projektet installeras. Docker-översikten och systemd-binären säger också till, med
+  kommandona som ska köras.
 
   <details open><summary>Se det i aktion</summary>
   <img src="../media/sv/updates.avif" alt="Märket ”Uppdatering”, bekräftelsen och sedan installationen">
@@ -445,10 +448,12 @@ eller `504`: bakom Cloudflare ser du det riktiga felet i stället för Cloudflar
 På en Linux-server utan Docker innehåller utgåvan också servern som en enda fil, med
 översikten inbyggd: `twitch-miner-server_<version>_linux_x64` eller
 `twitch-miner-server_<version>_linux_arm64`. Det är samma program som Docker-avbilden
-kör, statiskt länkat: inget annat behöver installeras. Den tar samma variabler.
+kör, statiskt länkat: inget annat behöver installeras, förutom systemets CA-certifikat
+som den läser för HTTPS (Docker-avbilden kopierar in dem av samma skäl). Den tar samma
+variabler.
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 på ARM64
+sudo install -m 755 twitch-miner-server_<version>_linux_* /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -492,7 +497,7 @@ Den här filen uppdaterar inte sig själv. När översikten visar en ny version 
 den nya filen från utgåvan, ersätter sedan den gamla och startar om:
 
 ```bash
-sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 på ARM64
+sudo install -m 755 twitch-miner-server_<version>_linux_* /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 
@@ -557,7 +562,7 @@ märke som ska tittas på varje dag väntar på nästa dag, inget minas innan ka
 börjat, och en drop som följer efter en annan väntar tills den första är klar. I läget
 **Endast poäng** väljer minern ingen kampanj. ”Mina först”, i en kampanjs detaljer,
 sätter den överst; en ignorerad kampanj kan komma tillbaka med ”Mina igen”, på fliken
-**Undantag**.
+**Undantag**. Fliken **Kampanjer** visar samma anledningar i gruppen **Blockerade**.
 
 **Måste jag länka utgivarkontot?**\
 För att hämta, ja: sedan oktober 2026 låter Twitch dig bara hämta en drop när utgivarkontot
@@ -584,9 +589,11 @@ när inget applösenord har angetts) och loggarna.
 
 **Hur uppdaterar jag?**\
 Skrivbordsappen söker efter en ny version när den startar och sedan varje timme (kan
-ändras i **Inställningar › Om**). Klicka på märket ”Uppdatering” och sedan på
-”Installera och starta om”. Med Docker säger översikten till: kör `docker compose pull`
-och sedan `docker compose up -d`.
+ändras i **Inställningar › Om**), och kan meddela dig när den hittar en. Klicka på märket
+”Uppdatering” och sedan på ”Installera och starta om”. Med Docker säger översikten till:
+kör `docker compose pull` och sedan `docker compose up -d`. Utan Docker säger översikten
+till på samma sätt: se [Utan Docker](#systemd) för att byta ut filen och starta om
+tjänsten.
 
 **Jag har glömt applösenordet.**\
 Det går inte att återställa: det är det som krypterar dina Twitch-sessioner. Avsluta
