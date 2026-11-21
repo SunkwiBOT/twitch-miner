@@ -80,6 +80,9 @@
       <TagInput
         id="badges-exclude-games"
         items={account.settings.badges.exclude_games}
+        key={(game) => game}
+        label={(game) => game}
+        make={(suggestion) => suggestion.label}
         suggestions={games}
         placeholder={t.account_drops_priority_placeholder()}
         addLabel={t.common_add()}
@@ -98,6 +101,9 @@
       <TagInput
         id="badges-exclude-names"
         items={account.settings.badges.exclude_names}
+        key={(word) => word}
+        label={(word) => word}
+        make={(suggestion) => suggestion.label}
         suggestions={[]}
         placeholder={t.drops_exclude_names_placeholder()}
         addLabel={t.common_add()}

@@ -22,11 +22,11 @@
     open: boolean;
     catalogue: { game: GameType; drops: number }[];
     taken: string[];
-    onadd: (name: string) => void;
+    onadd: (offer: { id: string | undefined; name: string; art: string | undefined }) => void;
     onclose: () => void;
   };
 
-  type OfferType = { name: string; art: string | undefined; drops: number };
+  type OfferType = { id: string | undefined; name: string; art: string | undefined; drops: number };
 
   let { open, catalogue, taken, onadd, onclose }: GameDialogPropsType = $props();
 
@@ -64,23 +64,25 @@
 
     catalogue
       .filter(({ game }) => matchesSearch(game.name, needle))
-      .forEach(({ game, drops }) => push({ name: game.name, art: game.box_art_url, drops }));
+      .forEach(({ game, drops }) =>
+        push({ id: game.id, name: game.name, art: game.box_art_url, drops }),
+      );
 
     const dropsOf = (name: string): number =>
       catalogue.find(({ game }) => game.name.toLowerCase() === name.toLowerCase())?.drops ?? 0;
 
     twitch.results.games.forEach((game) =>
-      push({ name: game.name, art: game.box_art_url, drops: dropsOf(game.name) }),
+      push({ id: game.id, name: game.name, art: game.box_art_url, drops: dropsOf(game.name) }),
     );
 
     return out.slice(0, SEARCH_SHOWN_MAX);
   });
 
-  const add = (name: string): void => {
-    const game = name.trim();
+  const add = (offer: OfferType): void => {
+    const name = offer.name.trim();
 
-    if (game && !isTaken(game)) {
-      onadd(game);
+    if (name && !isTaken(name)) {
+      onadd({ id: offer.id, name, art: offer.art });
     }
   };
 </script>
@@ -101,7 +103,7 @@
       const first = offers.find((offer) => !isTaken(offer.name));
 
       if (first) {
-        add(first.name);
+        add(first);
       }
     }}
   >
@@ -125,7 +127,7 @@
                 : "",
               already ? t.import_entry_already() : "",
             ].filter(Boolean)}
-            onopen={already ? undefined : () => add(offer.name)}
+            onopen={already ? undefined : () => add(offer)}
             muted={already}
           >
             {#snippet lead()}
@@ -146,7 +148,7 @@
                   size={ButtonSize.SM}
                   type={ButtonType.BUTTON}
                   disabled={false}
-                  onclick={() => add(offer.name)}
+                  onclick={() => add(offer)}
                 />
               {/if}
             {/snippet}

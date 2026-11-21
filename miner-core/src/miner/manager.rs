@@ -29,7 +29,7 @@ use crate::api::{
 use crate::badges::{BadgeCatalog, BadgeCatalogClient};
 use crate::catalog::{Catalog, CatalogClient};
 use crate::config::{AccountSettings, AccountSettingsPatch, GlobalSettings};
-use crate::domain::Channel;
+use crate::domain::{Campaign, Channel};
 use crate::error::{Error, ErrorCode, Result};
 use crate::events::{EventContext, EventKind, MinerEvent, PauseReason};
 use crate::feed::{Feed, FeedAnswer};
@@ -70,6 +70,41 @@ fn read_recent(store: &Store) -> Result<Vec<MinerEvent>> {
 
     Ok(store.history(&filter, None, RECENT_EVENTS)?.0)
 }
+
+// ! Only reads the catalogue already fetched: never a Twitch request of its own.
+fn complete_account_game_entries(store: &Store, campaigns: &[Campaign]) -> Vec<AccountRecord> {
+    let accounts = match store.accounts() {
+        Ok(accounts) => accounts,
+        Err(error) => {
+            tracing::warn!(%error, "category entries not completed");
+
+            return Vec::new();
+        }
+    };
+
+    accounts
+        .into_iter()
+        .filter_map(|mut record| {
+            let drops = &mut record.settings.drops;
+            let priority = crate::catalog::complete_game_entries(&mut drops.priority_games, campaigns);
+            let excluded = crate::catalog::complete_game_entries(&mut drops.exclude_games, campaigns);
+
+            if !priority && !excluded {
+                return None;
+            }
+
+            match store.save_account_settings(&record.id, &record.settings) {
+                Ok(()) => Some(record),
+                Err(error) => {
+                    tracing::warn!(%error, account = %record.id, "completed category entries not saved");
+
+                    None
+                }
+            }
+        })
+        .collect()
+}
+
 // ! Twitch's search suggests nothing under this many letters.
 const SEARCH_MIN_CHARS: usize = 2;
 const SEARCH_MAX_CHARS: usize = 60;
@@ -289,6 +324,7 @@ impl Manager {
         let vault = store.open_default_vault()?;
 
         let catalog: Catalog = crate::feed::cached(&store);
+        complete_account_game_entries(&store, &catalog.campaigns);
         let badges: BadgeCatalog = crate::feed::cached(&store);
         let recent = read_recent(&store)?;
         let (events, _) = broadcast::channel(512);
@@ -491,11 +527,31 @@ impl Manager {
 
         if let Some(refresh) = refresh {
             if matches!(refresh.result, Ok((_, true))) {
+                self.complete_catalog_game_entries().await;
                 self.refresh_all().await;
             }
         }
 
         wait
+    }
+
+    async fn complete_catalog_game_entries(&self) {
+        let campaigns = self.catalog.state.read().await.campaigns.clone();
+
+        for record in complete_account_game_entries(&self.store, &campaigns) {
+            let commands = self
+                .accounts
+                .lock()
+                .await
+                .get(&record.id)
+                .map(|handle| handle.commands.clone());
+
+            if let Some(commands) = commands {
+                let _ = commands
+                    .send(AccountCommand::Settings(Box::new(record.settings)))
+                    .await;
+            }
+        }
     }
 
     async fn badges_loop(self: Arc<Self>) {

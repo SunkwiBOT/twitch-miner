@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
 use crate::config::{
-    AccountSettings, DropsOrder, DropsScope, MiningLaneKind, Mode, StreamerSettings,
+    AccountSettings, DropsOrder, DropsScope, GameEntry, MiningLaneKind, Mode, StreamerSettings,
 };
 use crate::domain::{BenefitKind, Campaign, CampaignKind, Channel, PointsState};
 
@@ -202,29 +202,39 @@ fn game_matches(campaign: &Campaign, name: &str) -> bool {
         || (!slug.is_empty() && campaign.game.slug().eq_ignore_ascii_case(&slug))
 }
 
-fn filtered(games: &[String], names: &[String], campaign: &Campaign) -> bool {
-    games.iter().any(|g| game_matches(campaign, g))
-        || names.iter().any(|needle| {
-            !needle.trim().is_empty()
-                && (contains_ci(&campaign.name, needle)
-                    || campaign.drops.iter().any(|d| contains_ci(&d.name, needle)))
-        })
+// ! An id, carried from search, matches exactly and never falls back to the
+// name match below: a category renamed on Twitch keeps matching by id.
+fn game_entry_matches(campaign: &Campaign, entry: &GameEntry) -> bool {
+    match entry.id.as_deref().filter(|id| !id.is_empty()) {
+        Some(id) => campaign.game.id == id,
+        None => game_matches(campaign, &entry.name),
+    }
+}
+
+fn names_match(names: &[String], campaign: &Campaign) -> bool {
+    names.iter().any(|needle| {
+        !needle.trim().is_empty()
+            && (contains_ci(&campaign.name, needle)
+                || campaign.drops.iter().any(|d| contains_ci(&d.name, needle)))
+    })
 }
 
 fn drops_filtered(settings: &AccountSettings, campaign: &Campaign) -> bool {
-    filtered(
-        &settings.drops.exclude_games,
-        &settings.drops.exclude_names,
-        campaign,
-    )
+    settings
+        .drops
+        .exclude_games
+        .iter()
+        .any(|g| game_entry_matches(campaign, g))
+        || names_match(&settings.drops.exclude_names, campaign)
 }
 
 fn badges_filtered(settings: &AccountSettings, campaign: &Campaign) -> bool {
-    filtered(
-        &settings.badges.exclude_games,
-        &settings.badges.exclude_names,
-        campaign,
-    )
+    settings
+        .badges
+        .exclude_games
+        .iter()
+        .any(|g| game_matches(campaign, g))
+        || names_match(&settings.badges.exclude_names, campaign)
 }
 
 // ! The Drops filters and the badge filters each keep a campaign out of their
@@ -267,7 +277,7 @@ fn priority_index(settings: &AccountSettings, campaign: &Campaign) -> Option<usi
         .drops
         .priority_games
         .iter()
-        .position(|g| game_matches(campaign, g))
+        .position(|g| game_entry_matches(campaign, g))
 }
 
 type RankKey = (u8, i64, u8, i64, usize);

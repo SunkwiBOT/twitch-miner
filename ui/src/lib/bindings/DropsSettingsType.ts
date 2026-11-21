@@ -2,16 +2,17 @@
 import type { BenefitKind } from "./BenefitKind";
 import type { DropsOrder } from "./DropsOrder";
 import type { DropsScope } from "./DropsScope";
+import type { GameEntryType } from "./GameEntryType";
 import type { MiningLaneType } from "./MiningLaneType";
 
 export type DropsSettingsType = {
   scope: DropsScope;
   mining_order: Array<MiningLaneType>;
   campaign_order: Array<string>;
-  priority_games: Array<string>;
+  priority_games: Array<GameEntryType>;
   linked_first: boolean;
   order: DropsOrder;
-  exclude_games: Array<string>;
+  exclude_games: Array<GameEntryType>;
   exclude_names: Array<string>;
   exclude_campaign_ids: Array<string>;
   exclude_drop_ids: Array<string>;

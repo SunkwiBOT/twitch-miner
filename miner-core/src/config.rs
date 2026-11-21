@@ -78,6 +78,73 @@ pub fn default_mining_order() -> Vec<MiningLane> {
         .collect()
 }
 
+// ! An entry remembers the Twitch category id and image from search so the
+// scheduler can match by id and the interface can show art even without a
+// running campaign; a legacy stored list of plain names still deserializes,
+// with no id or image, to be completed from the catalogue (see `catalog.rs`).
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, TS)]
+#[ts(rename = "GameEntryType")]
+pub struct GameEntry {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub id: Option<String>,
+    pub name: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub box_art_url: Option<String>,
+}
+
+impl From<&str> for GameEntry {
+    fn from(name: &str) -> Self {
+        GameEntry {
+            id: None,
+            name: name.to_owned(),
+            box_art_url: None,
+        }
+    }
+}
+
+impl<'de> Deserialize<'de> for GameEntry {
+    fn deserialize<D>(deserializer: D) -> std::result::Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        #[derive(Deserialize)]
+        #[serde(deny_unknown_fields)]
+        struct Entry {
+            #[serde(default)]
+            id: Option<String>,
+            name: String,
+            #[serde(default)]
+            box_art_url: Option<String>,
+        }
+
+        #[derive(Deserialize)]
+        #[serde(untagged)]
+        enum Repr {
+            Name(String),
+            Entry(Entry),
+        }
+
+        Ok(match Repr::deserialize(deserializer)? {
+            Repr::Name(name) => GameEntry {
+                id: None,
+                name,
+                box_art_url: None,
+            },
+            Repr::Entry(Entry {
+                id,
+                name,
+                box_art_url,
+            }) => GameEntry {
+                id,
+                name,
+                box_art_url,
+            },
+        })
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
 #[serde(default)]
 #[ts(rename = "DropsSettingsType")]
@@ -85,10 +152,10 @@ pub struct DropsSettings {
     pub scope: DropsScope,
     pub mining_order: Vec<MiningLane>,
     pub campaign_order: Vec<String>,
-    pub priority_games: Vec<String>,
+    pub priority_games: Vec<GameEntry>,
     pub linked_first: bool,
     pub order: DropsOrder,
-    pub exclude_games: Vec<String>,
+    pub exclude_games: Vec<GameEntry>,
     pub exclude_names: Vec<String>,
     pub exclude_campaign_ids: Vec<String>,
     pub exclude_drop_ids: Vec<String>,
@@ -390,8 +457,6 @@ impl AccountSettings {
 
         for (name, list) in [
             ("campaign_order", &drops.campaign_order),
-            ("priority_games", &drops.priority_games),
-            ("exclude_games", &drops.exclude_games),
             ("exclude_names", &drops.exclude_names),
             ("exclude_campaign_ids", &drops.exclude_campaign_ids),
             ("exclude_drop_ids", &drops.exclude_drop_ids),
@@ -400,6 +465,14 @@ impl AccountSettings {
             ("badges.exclude_names", &self.badges.exclude_names),
         ] {
             list.iter().try_for_each(|entry| short(name, entry))?;
+        }
+
+        for (name, list) in [
+            ("priority_games", &drops.priority_games),
+            ("exclude_games", &drops.exclude_games),
+        ] {
+            list.iter()
+                .try_for_each(|entry| short_game_entry(name, entry))?;
         }
 
         self.points
@@ -564,6 +637,20 @@ fn within<T: PartialOrd>(field: &str, value: T, bounds: &RangeInclusive<T>) -> R
 fn short(field: &str, text: &str) -> Result<()> {
     if text.chars().count() > TEXT_MAX_CHARS {
         return invalid(field);
+    }
+
+    Ok(())
+}
+
+fn short_game_entry(field: &str, entry: &GameEntry) -> Result<()> {
+    short(field, &entry.name)?;
+
+    if let Some(id) = &entry.id {
+        short(field, id)?;
+    }
+
+    if let Some(box_art_url) = &entry.box_art_url {
+        short(field, box_art_url)?;
     }
 
     Ok(())
@@ -923,10 +1010,10 @@ strict_input!(DropsSettingsInput => DropsSettings {
     scope: DropsScope,
     mining_order: Vec<MiningLane>,
     campaign_order: Vec<String>,
-    priority_games: Vec<String>,
+    priority_games: Vec<GameEntry>,
     linked_first: bool,
     order: DropsOrder,
-    exclude_games: Vec<String>,
+    exclude_games: Vec<GameEntry>,
     exclude_names: Vec<String>,
     exclude_campaign_ids: Vec<String>,
     exclude_drop_ids: Vec<String>,

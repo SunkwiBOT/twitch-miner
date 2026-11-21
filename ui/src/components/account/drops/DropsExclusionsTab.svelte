@@ -1,11 +1,16 @@
 <script lang="ts">
   import PanelColumns from "../../ui/PanelColumns.svelte";
-  import { DropsList } from "../../../lib/accounts/accounts.constants";
-  import { editDropsList, setIgnored } from "../../../lib/accounts/drops-edits.utils";
+  import { DropsGameList, DropsList } from "../../../lib/accounts/accounts.constants";
+  import {
+    editDropsGames,
+    editDropsList,
+    setIgnored,
+  } from "../../../lib/accounts/drops-edits.utils";
   import type { IgnoredType } from "../../../lib/accounts/drops.utils";
   import type { AccountSnapshotType } from "../../../lib/bindings/AccountSnapshotType";
   import type { CampaignType } from "../../../lib/bindings/CampaignType";
   import { catalogue } from "../../../lib/catalogue/catalogue.svelte";
+  import { gameEntryKey } from "../../../lib/catalogue/games.utils";
   import { BoxArtSize } from "../../../lib/format.constants";
   import { boxArt } from "../../../lib/format.utils";
   import { t } from "../../../lib/i18n/i18n.svelte";
@@ -82,13 +87,20 @@
       <TagInput
         id="drops-exclude-games"
         items={drops.exclude_games}
+        key={gameEntryKey}
+        label={(game) => game.name}
+        make={(suggestion) => ({
+          id: suggestion.id,
+          name: suggestion.label,
+          box_art_url: suggestion.image,
+        })}
         suggestions={games}
         placeholder={t.account_drops_priority_placeholder()}
         addLabel={t.common_add()}
         removeLabel={t.common_remove()}
         confirmTitle={t.confirm_remove_excluded_game_title()}
-        confirmText={(game) => t.confirm_remove_excluded_game_text({ name: strong(game) })}
-        onchange={(list) => editDropsList(account, DropsList.EXCLUDE_GAMES, list)}
+        confirmText={(game) => t.confirm_remove_excluded_game_text({ name: strong(game.name) })}
+        onchange={(list) => editDropsGames(account, DropsGameList.EXCLUDE_GAMES, list)}
         remote={true}
       />
     </FormField>
@@ -100,6 +112,9 @@
       <TagInput
         id="drops-exclude-names"
         items={drops.exclude_names}
+        key={(word) => word}
+        label={(word) => word}
+        make={(suggestion) => suggestion.label}
         suggestions={[]}
         placeholder={t.drops_exclude_names_placeholder()}
         addLabel={t.common_add()}

@@ -1,12 +1,14 @@
 import type { AccountSettingsType } from "../bindings/AccountSettingsType";
 import type { AccountSnapshotType } from "../bindings/AccountSnapshotType";
 import type { DropsSettingsType } from "../bindings/DropsSettingsType";
+import type { GameEntryType } from "../bindings/GameEntryType";
 import { campaignOf } from "../catalogue/catalogue.svelte";
+import { gameEntryKey } from "../catalogue/games.utils";
 import { t } from "../i18n/i18n.svelte";
 import { changedWhenSaved } from "../state/bulk.svelte";
 import { updateAccountSettings } from "../state/account-settings.svelte";
 import { strong } from "../text.utils";
-import type { BadgesList, DropsList } from "./accounts.constants";
+import type { BadgesList, DropsGameList, DropsList } from "./accounts.constants";
 import {
   applyDelta,
   deltaOf,
@@ -14,6 +16,7 @@ import {
   moveLike,
   pinnedPrefix,
   placeOf,
+  reorderBy,
   setCampaignIgnoredIn,
   setCampaignSelectedIn,
   setDropIgnoredIn,
@@ -38,6 +41,33 @@ export const editDropsList = (
     t.change_settings(),
     (settings) => {
       settings.drops[field] = applyDelta(settings.drops[field], delta);
+    },
+  );
+};
+
+export const editDropsGames = (
+  account: AccountSnapshotType,
+  field: DropsGameList,
+  next: GameEntryType[],
+): void => {
+  const before = account.settings.drops[field].map(gameEntryKey);
+  const after = next.map(gameEntryKey);
+  const delta = deltaOf(before, after);
+
+  void changedWhenSaved(
+    saveDrops(account, (drops) => (drops[field] = next)),
+    account.id,
+    t.change_settings(),
+    (settings) => {
+      const current = settings.drops[field];
+      const byKey = new Map(next.map((entry) => [gameEntryKey(entry), entry]));
+      const keys = applyDelta(current.map(gameEntryKey), delta);
+
+      settings.drops[field] = keys.flatMap((key) => {
+        const kept = current.find((entry) => gameEntryKey(entry) === key) ?? byKey.get(key);
+
+        return kept ? [kept] : [];
+      });
     },
   );
 };
@@ -80,20 +110,28 @@ export const setSelected = (
 
 export const movePriorityGame = (
   account: AccountSnapshotType,
-  list: string[],
-  moved: string,
+  list: GameEntryType[],
+  moved: GameEntryType,
 ): void => {
-  const place = placeOf(list, moved);
+  const place = placeOf(list.map(gameEntryKey), gameEntryKey(moved));
 
   void changedWhenSaved(
     saveDrops(account, (drops) => (drops.priority_games = list)),
     account.id,
     t.change_settings(),
     (settings) => {
-      const next = moveLike(settings.drops.priority_games, moved, place);
+      const next = moveLike(
+        settings.drops.priority_games.map(gameEntryKey),
+        gameEntryKey(moved),
+        place,
+      );
 
       if (next) {
-        settings.drops.priority_games = next;
+        settings.drops.priority_games = reorderBy(
+          settings.drops.priority_games,
+          gameEntryKey,
+          next,
+        );
       }
     },
   );

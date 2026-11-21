@@ -9,6 +9,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
 use crate::api::Shell;
+use crate::config::GameEntry;
 use crate::domain::Campaign;
 use crate::drops_api::{parse_campaign_channels, CampaignChannels, CATALOG_REFRESH_INTERVAL};
 use crate::error::{Error, ErrorCode, Result};
@@ -141,4 +142,37 @@ pub fn parse_catalog(payload: &Value) -> Result<Catalog> {
         problem: None,
         live_channels,
     })
+}
+
+// ! Fills in the id and image a legacy name-only entry (or one added before
+// its category ever ran a campaign) is still missing, and refreshes a
+// stored image once the catalogue's own differs: never a new request, only
+// what the catalogue already holds from its regular refresh.
+pub fn complete_game_entries(entries: &mut [GameEntry], campaigns: &[Campaign]) -> bool {
+    let mut changed = false;
+
+    for entry in entries.iter_mut() {
+        let found = match entry.id.as_deref().filter(|id| !id.is_empty()) {
+            Some(id) => campaigns.iter().find(|c| c.game.id == id),
+            None => campaigns
+                .iter()
+                .find(|c| c.game.name.eq_ignore_ascii_case(entry.name.trim())),
+        };
+
+        let Some(campaign) = found else {
+            continue;
+        };
+
+        if entry.id.is_none() {
+            entry.id = Some(campaign.game.id.clone());
+            changed = true;
+        }
+
+        if campaign.game.box_art_url.is_some() && entry.box_art_url != campaign.game.box_art_url {
+            entry.box_art_url = campaign.game.box_art_url.clone();
+            changed = true;
+        }
+    }
+
+    changed
 }

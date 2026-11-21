@@ -1,6 +1,6 @@
 <script lang="ts">
   import { cn } from "$lib/utils";
-  import { DropsList } from "../../../lib/accounts/accounts.constants";
+  import { DropsGameList } from "../../../lib/accounts/accounts.constants";
   import {
     queueBlockHint,
     queueBlockLabel,
@@ -8,9 +8,9 @@
     QUEUE_REASON_LABELS,
   } from "../../../lib/accounts/accounts.utils";
   import { miningOrder, reorderBy } from "../../../lib/accounts/changes.utils";
-  import { catalogueGame, runningGames } from "../../../lib/catalogue/games.utils";
+  import { catalogueGame, gameEntryKey, runningGames } from "../../../lib/catalogue/games.utils";
   import {
-    editDropsList,
+    editDropsGames,
     movePriorityGame,
     reorderWithin,
     resetQueue,
@@ -21,6 +21,7 @@
   import { campaignOf } from "../../../lib/catalogue/catalogue.svelte";
   import { minesCampaign } from "../../../lib/catalogue/campaign-progress.utils";
   import type { AccountSnapshotType } from "../../../lib/bindings/AccountSnapshotType";
+  import type { GameEntryType } from "../../../lib/bindings/GameEntryType";
   import type { CampaignType } from "../../../lib/bindings/CampaignType";
   import {
     campaignArtUrl,
@@ -68,7 +69,7 @@
   const running = $derived(runningGames(ticker.now));
 
   let adding = $state(false);
-  let removing = $state<string | null>(null);
+  let removing = $state<GameEntryType | null>(null);
 </script>
 
 <div class="grid items-start gap-5 xl:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
@@ -86,23 +87,26 @@
     {/snippet}
     <SortableList
       items={drops.priority_games}
-      key={(game) => game}
+      key={gameEntryKey}
       empty={t.drops_priority_empty()}
       upLabel={t.common_up()}
       downLabel={t.common_down()}
       onreorder={(list, moved) => movePriorityGame(account, list, moved)}
     >
       {#snippet background(game)}
-        {@const art = boxArt(catalogueGame(game)?.box_art_url, BoxArtSize.ROW)}
+        {@const art = boxArt(
+          catalogueGame(game.name)?.box_art_url ?? game.box_art_url,
+          BoxArtSize.ROW,
+        )}
         {#if art}<TiledArt url={art} shape={ThumbShape.BOX_ART} grey={false} />{/if}
       {/snippet}
       {#snippet row(game)}
-        {@const known = catalogueGame(game)}
+        {@const known = catalogueGame(game.name)}
         <span class="flex min-w-0 flex-1">
           <GameName
-            name={game}
-            url={categoryUrl(game, known?.slug)}
-            art={known?.box_art_url}
+            name={game.name}
+            url={categoryUrl(game.name, known?.slug)}
+            art={known?.box_art_url ?? game.box_art_url}
             size={ThumbSize.SM}
             inSentence={false}
           />
@@ -239,7 +243,7 @@
 <ConfirmDialog
   open={removing !== null}
   title={t.confirm_remove_game_title()}
-  text={t.confirm_remove_game_text({ name: strong(removing ?? "") })}
+  text={t.confirm_remove_game_text({ name: strong(removing?.name ?? "") })}
   confirmLabel={t.confirm_remove()}
   busyLabel={t.confirm_removing()}
   busy={false}
@@ -248,10 +252,10 @@
     removing = null;
 
     if (game) {
-      editDropsList(
+      editDropsGames(
         account,
-        DropsList.PRIORITY_GAMES,
-        drops.priority_games.filter((g) => g !== game),
+        DropsGameList.PRIORITY_GAMES,
+        drops.priority_games.filter((g) => gameEntryKey(g) !== gameEntryKey(game)),
       );
     }
   }}
@@ -261,10 +265,13 @@
 <GameDialog
   open={adding}
   catalogue={running}
-  taken={drops.priority_games}
-  onadd={(game) => {
+  taken={drops.priority_games.map((game) => game.name)}
+  onadd={(offer) => {
     adding = false;
-    editDropsList(account, DropsList.PRIORITY_GAMES, [...drops.priority_games, game]);
+    editDropsGames(account, DropsGameList.PRIORITY_GAMES, [
+      ...drops.priority_games,
+      { id: offer.id, name: offer.name, box_art_url: offer.art },
+    ]);
   }}
   onclose={() => (adding = false)}
 />

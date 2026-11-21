@@ -1,13 +1,37 @@
+import type { GameEntryType } from "../bindings/GameEntryType";
 import type { GameType } from "../bindings/GameType";
+import { app } from "../state/app.svelte";
 import { catalogue } from "./catalogue.svelte";
 
 export type RunningGameType = { game: GameType; drops: number };
 
+export const gameEntryKey = (entry: GameEntryType): string => entry.id ?? entry.name;
+
 export const catalogueGame = (name: string): GameType | undefined =>
   catalogue.campaigns.find((c) => c.game.name.toLowerCase() === name.toLowerCase())?.game;
 
+// ! The image an account kept for a priority or excluded category from the
+// search it was added through, shared across every account so a category
+// without a running campaign still shows art once any account knows it.
+const knownGameArt = (name: string): string | undefined => {
+  const needle = name.toLowerCase();
+
+  for (const account of app.snapshot?.accounts ?? []) {
+    for (const entry of [
+      ...account.settings.drops.priority_games,
+      ...account.settings.drops.exclude_games,
+    ]) {
+      if (entry.box_art_url && entry.name.toLowerCase() === needle) {
+        return entry.box_art_url;
+      }
+    }
+  }
+
+  return undefined;
+};
+
 export const gameArt = (name: string, art: string | undefined): string | undefined =>
-  art ?? catalogueGame(name)?.box_art_url;
+  art ?? catalogueGame(name)?.box_art_url ?? knownGameArt(name);
 
 export const runningGames = (now: number): RunningGameType[] => {
   const byName = new Map<string, RunningGameType>();

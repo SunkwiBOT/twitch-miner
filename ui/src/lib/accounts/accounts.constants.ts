@@ -81,9 +81,12 @@ export enum SetupEnd {
   LATER = "LATER",
 }
 
-export enum DropsList {
+export enum DropsGameList {
   PRIORITY_GAMES = "priority_games",
   EXCLUDE_GAMES = "exclude_games",
+}
+
+export enum DropsList {
   EXCLUDE_NAMES = "exclude_names",
 }
 
