@@ -18,9 +18,11 @@ import { describeError, toApiError } from "../errors/errors.utils";
 import { eventText } from "../events/event-text.utils";
 import { EVENT_KIND_LABELS } from "../events/labels.utils";
 import { number } from "../format.utils";
+import { IconName } from "../icons.constants";
 import { t } from "../i18n/i18n.svelte";
 import { noteBurstProgress } from "../spam/spam.svelte";
 import { strong } from "../text.utils";
+import { notifyUpdate } from "../updates/update-notification.utils";
 import {
   forgetSavedSettings,
   keepPendingSettings,
@@ -75,7 +77,7 @@ const followServerBuild = (snapshot: SnapshotType): void => {
   toast(ToastKind.INFO, t.dashboard_updated_title(), {
     description: t.dashboard_updated({ version: strong(snapshot.version) }),
     key: "dashboard-updated",
-    action: { label: t.dashboard_reload(), run: () => location.reload() },
+    action: { label: t.dashboard_reload(), icon: IconName.REFRESH, run: () => location.reload() },
   });
 
   clearInterval(reloadWait);
@@ -114,6 +116,8 @@ export const sessionEnded = (): void => {
   app.statsCurveTarget = null;
   app.loginDialog = false;
   app.feedbackDialog = false;
+  app.campaignSheet = null;
+  app.badgeSheet = null;
   app.navDrawer = false;
   dismissToasts();
 };
@@ -219,6 +223,10 @@ export const connect = async (): Promise<void> => {
     onSnapshot: applySnapshot,
     onEvent: (event) => {
       app.liveEvents = [event, ...app.liveEvents].slice(0, LIVE_EVENTS_MAX);
+
+      if (event.kind === EventKind.UPDATE_AVAILABLE) {
+        notifyUpdate(event);
+      }
 
       const kind = TOAST_EVENT_KINDS[event.kind];
 

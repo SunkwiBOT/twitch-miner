@@ -39,6 +39,7 @@
   {#snippet footer()}
     <TextButton
       label={t.star_prompt_no()}
+      icon={IconName.X}
       variant={ButtonVariant.OUTLINE}
       size={ButtonSize.MD}
       type={ButtonType.BUTTON}

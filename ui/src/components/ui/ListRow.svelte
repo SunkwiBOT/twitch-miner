@@ -4,6 +4,7 @@
   import { cn } from "$lib/utils";
   import DetailLine from "./DetailLine.svelte";
   import RichText from "./RichText.svelte";
+  import { STRETCHED_BUTTON_CLASSES } from "./ui.constants";
 
   type ListRowPropsType = {
     title: string;
@@ -22,28 +23,6 @@
 </script>
 
 {#snippet body()}
-  {#if lead}{@render lead()}{/if}
-  <span class="flex min-w-0 flex-1 flex-col gap-0.5">
-    <span class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
-      <span class={cn("truncate font-semibold", onopen && "text-link")}>{title}</span>
-      {#if badges}{@render badges()}{/if}
-    </span>
-    {#if subtitle}<span class="truncate text-xs text-muted-foreground">
-        <RichText text={subtitle} />
-      </span>{/if}
-    {#if details}<DetailLine parts={details} />{/if}
-    {#if below}<span class="mt-1 block">{@render below()}</span>{/if}
-  </span>
-{/snippet}
-
-<div
-  class={cn(
-    "flex min-h-13 gap-3 border-b px-3 py-2.5 transition-colors last:border-b-0",
-    below ? "items-start" : "items-center",
-    onopen && "hover:bg-accent",
-  )}
-  role="listitem"
->
   <span
     class={cn(
       "flex min-w-0 flex-1 gap-3",
@@ -51,17 +30,41 @@
       muted && "opacity-55 grayscale",
     )}
   >
-    {#if onopen}
-      <button
-        class={cn("flex min-w-0 flex-1 gap-3 text-left", below ? "items-start" : "items-center")}
-        type="button"
-        onclick={onopen}
-      >
-        {@render body()}
-      </button>
-    {:else}
-      {@render body()}
-    {/if}
+    {#if lead}{@render lead()}{/if}
+    <span class="flex min-w-0 flex-1 flex-col gap-0.5">
+      <span class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
+        <span class={cn("truncate font-semibold", onopen && "text-link")}>{title}</span>
+        {#if badges}{@render badges()}{/if}
+      </span>
+      {#if subtitle}<span class="truncate text-xs text-muted-foreground">
+          <RichText text={subtitle} />
+        </span>{/if}
+      {#if details}<DetailLine parts={details} />{/if}
+      {#if below}<span class="mt-1 block">{@render below()}</span>{/if}
+    </span>
   </span>
-  {#if trailing}<span class="flex shrink-0 items-center gap-1.5">{@render trailing()}</span>{/if}
+{/snippet}
+
+<div
+  class={cn(
+    "relative flex min-h-13 gap-3 border-b px-3 py-2.5 transition-colors last:border-b-0",
+    below ? "items-start" : "items-center",
+    onopen && "hover:bg-accent",
+  )}
+  role="listitem"
+>
+  {#if onopen}
+    <button
+      class={cn(STRETCHED_BUTTON_CLASSES, "flex min-w-0 flex-1")}
+      type="button"
+      onclick={onopen}
+    >
+      {@render body()}
+    </button>
+  {:else}
+    {@render body()}
+  {/if}
+  {#if trailing}<span class="relative z-10 flex shrink-0 items-center gap-1.5">
+      {@render trailing()}
+    </span>{/if}
 </div>

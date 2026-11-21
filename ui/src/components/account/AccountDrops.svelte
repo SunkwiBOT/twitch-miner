@@ -1,13 +1,20 @@
 <script lang="ts">
   import AccountSaveBar from "./AccountSaveBar.svelte";
-  import { CopySection, DROPS_TAB_SLUGS, DropsTab } from "../../lib/accounts/accounts.constants";
-  import { ignoredItems, ongoingCampaigns } from "../../lib/accounts/drops.utils";
+  import {
+    CopySection,
+    DROPS_PAGE_TABS,
+    DROPS_TAB_SLUGS,
+    DropsTab,
+  } from "../../lib/accounts/accounts.constants";
+  import { accountCampaigns } from "../../lib/accounts/campaign-groups.utils";
+  import { groupOptions } from "../../lib/accounts/campaign-states.utils";
+  import { ignoredItems } from "../../lib/accounts/drops.utils";
   import type { AccountSnapshotType } from "../../lib/bindings/AccountSnapshotType";
   import type { CampaignType } from "../../lib/bindings/CampaignType";
+  import { campaignsOf } from "../../lib/catalogue/catalogue.svelte";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { app } from "../../lib/state/app.svelte";
   import { openTab, showTab } from "../../lib/state/router";
-  import { ticker } from "../../lib/state/ticker.svelte";
   import TextButton from "../ui/TextButton.svelte";
   import CampaignDialog from "../catalogue/CampaignDialog.svelte";
   import PageBody from "../ui/PageBody.svelte";
@@ -15,10 +22,10 @@
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import { IconName } from "../../lib/icons.constants";
   import CopyFromDialog from "./CopyFromDialog.svelte";
-  import DropsCampaignsTab from "./drops/DropsCampaignsTab.svelte";
   import DropsExclusionsTab from "./drops/DropsExclusionsTab.svelte";
   import DropsOrderTab from "./drops/DropsOrderTab.svelte";
   import DropsSettingsTab from "./drops/DropsSettingsTab.svelte";
+  import RewardsTab from "./rewards/RewardsTab.svelte";
 
   type AccountDropsPropsType = { account: AccountSnapshotType };
 
@@ -27,9 +34,9 @@
   const drops = $derived(account.settings.drops);
   const hasOthers = $derived((app.snapshot?.accounts.length ?? 0) > 1);
   const ignored = $derived(ignoredItems(account));
-  const ongoing = $derived(ongoingCampaigns(account, ticker.now));
+  const groups = $derived(accountCampaigns(account, campaignsOf(account)));
 
-  const tab = $derived(openTab(Object.values(DropsTab), DROPS_TAB_SLUGS, DropsTab.ORDER));
+  const tab = $derived(openTab(DROPS_PAGE_TABS, DROPS_TAB_SLUGS, DropsTab.ORDER));
   let copying = $state(false);
   let open = $state<CampaignType | null>(null);
 
@@ -58,12 +65,7 @@
           icon: IconName.EYE_OFF,
           count: ignored.length + drops.exclude_games.length + drops.exclude_names.length,
         },
-        {
-          value: DropsTab.CAMPAIGNS,
-          label: t.drops_tab_campaigns(),
-          icon: IconName.GRID,
-          count: ongoing.length,
-        },
+        ...groupOptions(groups),
       ]}
     />
     {#if hasOthers}
@@ -86,7 +88,15 @@
   {:else if tab === DropsTab.EXCLUSIONS}
     <DropsExclusionsTab {account} {ignored} onopen={openCampaign} />
   {:else}
-    <DropsCampaignsTab {account} campaigns={ongoing} onopen={openCampaign} />
+    {#key tab}
+      <RewardsTab
+        {account}
+        group={tab}
+        entries={groups[tab]}
+        icon={IconName.GIFT}
+        onopen={openCampaign}
+      />
+    {/key}
   {/if}
   <AccountSaveBar {account} />
 </PageBody>

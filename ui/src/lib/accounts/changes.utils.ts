@@ -107,3 +107,14 @@ export const setCampaignSelectedIn = (
 
   settings.drops.selected_campaign_ids = selected ? [...others, campaignId] : others;
 };
+
+// ! Also selected: with "only my selection" on, a campaign mined first must not be left out.
+export const prioritizeIn = (settings: AccountSettingsType, campaignId: string): void => {
+  const drops = settings.drops;
+
+  drops.campaign_order = [campaignId, ...drops.campaign_order.filter((id) => id !== campaignId)];
+
+  if (!drops.selected_campaign_ids.includes(campaignId)) {
+    drops.selected_campaign_ids = [...drops.selected_campaign_ids, campaignId];
+  }
+};

@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { ChannelType } from "../../lib/bindings/ChannelType";
-  import { gameArt } from "../../lib/catalogue/games.utils";
+  import { gameArt, gameUrl } from "../../lib/catalogue/games.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import ChannelAvatar from "../ui/ChannelAvatar.svelte";
   import GameName from "../ui/GameName.svelte";
@@ -8,6 +8,7 @@
   import ViewerCount from "../ui/ViewerCount.svelte";
   import { AvatarSize, ThumbSize } from "../ui/picture.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   type StreamerChannelCardPropsType = {
     channel: ChannelType | null;
@@ -33,7 +34,7 @@
       <span class="flex min-w-0 items-center gap-2 text-xs text-muted-foreground">
         {#if channel.game}<GameName
             name={channel.game.name}
-            url={null}
+            url={gameUrl(channel.game.name, channel.game.slug)}
             art={gameArt(channel.game.name, channel.game.box_art_url)}
             size={ThumbSize.XS}
             inSentence={false}
@@ -45,6 +46,7 @@
   {#if onchange}
     <TextButton
       label={t.streamer_change()}
+      icon={IconName.EDIT}
       variant={ButtonVariant.OUTLINE}
       size={ButtonSize.SM}
       type={ButtonType.BUTTON}

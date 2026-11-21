@@ -178,6 +178,7 @@
             {#if editing}
               <TextButton
                 label={t.common_cancel()}
+                icon={IconName.X}
                 variant={ButtonVariant.OUTLINE}
                 size={ButtonSize.MD}
                 type={ButtonType.BUTTON}
@@ -212,6 +213,7 @@
           />
           <TextButton
             label={t.security_change()}
+            icon={IconName.EDIT}
             variant={ButtonVariant.OUTLINE}
             size={ButtonSize.MD}
             type={ButtonType.BUTTON}

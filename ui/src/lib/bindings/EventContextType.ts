@@ -46,6 +46,7 @@ export type EventContextType = {
   refusals?: Array<string>;
   failures?: Array<ErrorApiMessage>;
   badge?: string;
+  badge_key?: string;
   pause_until?: string;
   pause_reason?: PauseReason;
 };

@@ -28,6 +28,7 @@ export const campaignProgress = (
       current: 0,
       required: 0,
       minable: false,
+      subRequired: false,
       ready: [],
       linked: undefined,
       setAsideUntil: null,
@@ -67,10 +68,6 @@ export const campaignProgress = (
       return ProgressState.IGNORED;
     }
 
-    if (wanted.every(subsMissing)) {
-      return ProgressState.SUB_ONLY;
-    }
-
     if (queued?.blocked === QueueBlock.SET_ASIDE) {
       return ProgressState.SET_ASIDE;
     }
@@ -92,9 +89,9 @@ export const campaignProgress = (
     minable: open.some(
       (drop) =>
         !(drop.instance_id && !drop.claimed) &&
-        !subsMissing(drop) &&
         !evolutionBlocked(drop.evolution, account.settings.badges.evolutions),
     ),
+    subRequired: wanted.length > 0 && wanted.every(subsMissing),
     ready: waiting,
     linked: campaign.linked,
     setAsideUntil: queued?.set_aside_until ?? null,

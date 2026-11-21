@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { DropsByCategoryType } from "../../lib/bindings/DropsByCategoryType";
-  import { gameArt } from "../../lib/catalogue/games.utils";
+  import { gameArt, gameUrl } from "../../lib/catalogue/games.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import GameName from "../ui/GameName.svelte";
   import { ThumbSize } from "../ui/picture.constants";
@@ -15,7 +15,7 @@
 {:else if topCategory.category}
   <GameName
     name={topCategory.category}
-    url={null}
+    url={gameUrl(topCategory.category, undefined)}
     art={gameArt(topCategory.category, undefined)}
     size={ThumbSize.XS}
     inSentence={false}

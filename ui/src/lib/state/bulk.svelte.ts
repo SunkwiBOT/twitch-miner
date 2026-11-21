@@ -1,4 +1,7 @@
+import type { AccountSettingsType } from "../bindings/AccountSettingsType";
+import { sameValue } from "../compare.utils";
 import { number } from "../format.utils";
+import { IconName } from "../icons.constants";
 import { t } from "../i18n/i18n.svelte";
 import { strong } from "../text.utils";
 import { BULK_TOAST_KEY, ToastKind } from "./state.constants";
@@ -8,13 +11,13 @@ import { type AccountChangeType, wouldChange } from "./bulk.utils";
 import { accountImage, toast } from "./toasts";
 import type { ToastSubjectType } from "./toasts";
 
-type BulkStateType = { open: boolean; sourceId: string | null; changes: AccountChangeType[] };
+type BulkStateType = { open: boolean; sourceIds: string[]; changes: AccountChangeType[] };
 
-export const bulk = $state<BulkStateType>({ open: false, sourceId: null, changes: [] });
+export const bulk = $state<BulkStateType>({ open: false, sourceIds: [], changes: [] });
 
 export const closeBulk = (): void => {
   bulk.open = false;
-  bulk.sourceId = null;
+  bulk.sourceIds = [];
   bulk.changes = [];
 };
 
@@ -29,20 +32,34 @@ export const changedWhenSaved = async (
     return false;
   }
 
-  changed(sourceId, text, change, subject);
+  changed([sourceId], text, change, subject);
 
   return true;
 };
 
+export const changeAccounts = async (
+  accountIds: string[],
+  text: string,
+  change: (settings: AccountSettingsType) => void,
+): Promise<void> => {
+  const saved = await Promise.all(accountIds.map((id) => updateAccountSettings(id, change)));
+  const sources = accountIds.filter((_, index) => saved[index]);
+
+  if (sources.length > 0) {
+    changed(sources, text, change);
+  }
+};
+
 export const changed = (
-  sourceId: string,
+  sourceIds: string[],
   text: string | undefined,
   change: AccountChangeType,
   subject?: ToastSubjectType,
 ): void => {
-  const image = accountImage(sourceId, "");
+  const image = sourceIds.length === 1 ? accountImage(sourceIds[0], "") : undefined;
+  const others = (app.snapshot?.accounts ?? []).filter((a) => !sourceIds.includes(a.id));
 
-  if ((app.snapshot?.accounts.length ?? 0) < 2) {
+  if (others.length === 0) {
     toast(ToastKind.SUCCESS, t.change_settings(), {
       description: text,
       account: subject ?? image,
@@ -51,15 +68,14 @@ export const changed = (
     return;
   }
 
-  if (bulk.sourceId !== sourceId) {
-    bulk.sourceId = sourceId;
+  if (!sameValue(bulk.sourceIds, sourceIds)) {
+    bulk.sourceIds = sourceIds;
     bulk.changes = [];
   }
 
   bulk.changes.push(change);
 
   const count = bulk.changes.length;
-  const others = (app.snapshot?.accounts ?? []).filter((a) => a.id !== sourceId);
   const applicable = others.some((a) => wouldChange(a, bulk.changes));
 
   toast(ToastKind.SUCCESS, t.change_settings(), {
@@ -67,7 +83,7 @@ export const changed = (
     description: count === 1 ? text : t.bulk_changes({ count, shown: strong(number(count)) }),
     account: count === 1 ? (subject ?? image) : image,
     action: applicable
-      ? { label: t.bulk_apply_others(), run: () => (bulk.open = true) }
+      ? { label: t.bulk_apply_others(), icon: IconName.USERS, run: () => (bulk.open = true) }
       : undefined,
     onend: () => {
       if (!bulk.open) {

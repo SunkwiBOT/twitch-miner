@@ -48,11 +48,6 @@ pub enum Command {
         passphrase: String,
     },
     Lock {},
-    OrderCampaign {
-        account_id: String,
-        campaign_id: String,
-        position: Option<u32>,
-    },
     AddSpamChannel {
         account_id: String,
         login: String,
@@ -94,7 +89,6 @@ pub enum CommandName {
     SetPassphrase,
     Unlock,
     Lock,
-    OrderCampaign,
     AddSpamChannel,
     ForgetSpamChannel,
     CancelBurst,
@@ -144,16 +138,6 @@ impl std::fmt::Debug for Command {
             Self::SetPassphrase { .. } => f.debug_struct("SetPassphrase").finish_non_exhaustive(),
             Self::Unlock { .. } => f.debug_struct("Unlock").finish_non_exhaustive(),
             Self::Lock {} => f.write_str("Lock"),
-            Self::OrderCampaign {
-                account_id,
-                campaign_id,
-                position,
-            } => f
-                .debug_struct("OrderCampaign")
-                .field("account_id", account_id)
-                .field("campaign_id", campaign_id)
-                .field("position", position)
-                .finish(),
             Self::AddSpamChannel { account_id, login } => f
                 .debug_struct("AddSpamChannel")
                 .field("account_id", account_id)
@@ -197,7 +181,6 @@ impl Command {
             Self::SetPassphrase { .. } => CommandName::SetPassphrase,
             Self::Unlock { .. } => CommandName::Unlock,
             Self::Lock {} => CommandName::Lock,
-            Self::OrderCampaign { .. } => CommandName::OrderCampaign,
             Self::AddSpamChannel { .. } => CommandName::AddSpamChannel,
             Self::ForgetSpamChannel { .. } => CommandName::ForgetSpamChannel,
             Self::CancelBurst { .. } => CommandName::CancelBurst,

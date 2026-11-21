@@ -5,6 +5,7 @@
   import { CommandName } from "../../lib/bindings/CommandName";
   import { untrack } from "svelte";
 
+  import { PauseScope } from "../../lib/accounts/account-state.constants";
   import { maskProxyCredentials } from "../../lib/accounts/accounts.utils";
   import {
     copyOptions,
@@ -28,7 +29,7 @@
   import Meta from "../ui/Meta.svelte";
   import AccountHeading from "../ui/AccountHeading.svelte";
   import PageBody from "../ui/PageBody.svelte";
-  import PauseButton from "../ui/PauseButton.svelte";
+  import PauseControl from "../ui/PauseControl.svelte";
   import Panel from "../ui/Panel.svelte";
   import Setting from "../ui/Setting.svelte";
   import AccountSettingsForm from "./AccountSettingsForm.svelte";
@@ -36,6 +37,7 @@
   import StreamerOptions from "./StreamerOptions.svelte";
   import { PROXY_EXAMPLE } from "./account.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { MenuAlign } from "../ui/menu.constants";
   import { CopyLayout, MetaLayout, PanelWidth } from "../ui/ui.constants";
   import { IconName } from "../../lib/icons.constants";
 
@@ -113,7 +115,12 @@
         : t.account_state_running_hint()}
     >
       {#snippet actions()}
-        <PauseButton {account} size={ButtonSize.MD} />
+        <PauseControl
+          accounts={[account]}
+          scope={PauseScope.ACCOUNT}
+          align={MenuAlign.LEFT}
+          size={ButtonSize.MD}
+        />
         <TextButton
           label={t.accounts_login_again()}
           icon={IconName.REFRESH}

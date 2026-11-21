@@ -13,6 +13,7 @@
   import ProgressLine from "../ui/ProgressLine.svelte";
   import { AvatarSize } from "../ui/picture.constants";
   import { PROGRESS_BADGES } from "./progress.utils";
+  import SubRequiredBadge from "./SubRequiredBadge.svelte";
 
   type AccountProgressListPropsType = {
     entries: T[];
@@ -44,6 +45,7 @@
               icon={badge.icon}
               hint={badge.hint?.(entry, ticker.now)}
             />
+            {#if entry.subRequired}<SubRequiredBadge />{/if}
             {@render tags?.(entry)}
           </span>
           {#if entry.required > 0 && !NO_BAR_STATES.has(entry.state)}

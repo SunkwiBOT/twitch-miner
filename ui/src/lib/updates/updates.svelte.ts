@@ -13,6 +13,7 @@ import { ErrorApiMessage } from "../bindings/ErrorApiMessage";
 import { describeCode, toApiError } from "../errors/errors.utils";
 import { percent } from "../format.utils";
 import { t } from "../i18n/i18n.svelte";
+import { IconName } from "../icons.constants";
 import { Page, ToastKind } from "../state/state.constants";
 import { app } from "../state/app.svelte";
 import { navigate } from "../state/router";
@@ -181,7 +182,7 @@ const offer = (found: UpdateInfoType): void => {
   toast(ToastKind.INFO, t.updates_available_title(), {
     description: t.updates_available({ version: strong(found.version) }),
     key: UPDATE_TOAST_KEY,
-    action: { label: t.updates_install(), run: askInstall },
+    action: { label: t.updates_install(), icon: IconName.IMPORT, run: askInstall },
   });
 };
 

@@ -6,6 +6,7 @@ import type { GameType } from "../bindings/GameType";
 import type { RepeatType } from "../bindings/RepeatType";
 import type { TimedDropType } from "../bindings/TimedDropType";
 import { t } from "../i18n/i18n.svelte";
+import { matchesSearch } from "../search/search.utils";
 import { TWITCH_CATEGORY_URL, TWITCH_SEARCH_URL } from "../partners.constants";
 import { strong } from "../text.utils";
 import { DAY_HOURS } from "../time/time.constants";
@@ -124,3 +125,19 @@ export const onDropsPage = (campaign: CampaignType): boolean =>
   campaign.drops.some((drop) =>
     drop.benefits.some((benefit) => benefit.kind !== BenefitKind.BADGE),
   );
+
+// ! Same rule as `Campaign::needs_link` in the core: Twitch hands chat badges out itself.
+export const needsLink = (campaign: CampaignType): boolean => {
+  const benefits = campaign.drops.flatMap((drop) => drop.benefits);
+
+  return benefits.length === 0 || benefits.some((benefit) => benefit.kind !== BenefitKind.BADGE);
+};
+
+export const dropGivesBadge = (drop: TimedDropType): boolean =>
+  drop.benefits.some((benefit) => benefit.kind === BenefitKind.BADGE);
+
+export const campaignGivesBadge = (campaign: CampaignType): boolean =>
+  campaign.kind === CampaignKind.QUEST || campaign.drops.some(dropGivesBadge);
+
+export const campaignMatches = (campaign: CampaignType, needle: string): boolean =>
+  !needle || matchesSearch(campaign.game.name, needle) || matchesSearch(campaign.name, needle);

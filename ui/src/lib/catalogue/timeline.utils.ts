@@ -3,9 +3,11 @@ import type { CampaignType } from "../bindings/CampaignType";
 import { BoxArtSize } from "../format.constants";
 import { boxArt } from "../format.utils";
 import { t } from "../i18n/i18n.svelte";
+import type { IconName } from "../icons.constants";
 import { LABEL_CHARACTER_PX } from "../text-metrics.utils";
 import { DAY_MS } from "../time/time.constants";
 import { zoneOffsetMs } from "../time/time.utils";
+import type { BadgeTone } from "../tones.constants";
 import {
   BarKey,
   BarLabelPlacement,
@@ -163,12 +165,14 @@ export const getBarGeometry = (
 export const estimateLabelWidth = (
   name: string,
   endLabel: string,
-  pill: string,
+  pills: readonly string[],
   image: boolean,
 ): number =>
   name.length * NAME_CHARACTER_PX +
   endLabel.length * END_CHARACTER_PX +
-  (pill ? pill.length * PILL_CHARACTER_PX + PILL_EXTRA_PX : 0) +
+  pills
+    .filter((pill) => pill !== "")
+    .reduce((sum, pill) => sum + pill.length * PILL_CHARACTER_PX + PILL_EXTRA_PX, 0) +
   (image ? LABEL_IMAGE_PX : 0) +
   LABEL_PADDING_PX;
 
@@ -198,6 +202,15 @@ export const getLabelPlacement = (
   return BarLabelPlacement.INSIDE;
 };
 
+// ! `muted` dims a bar whose campaign is not mined, the tag saying why.
+export type TimelineTagType = {
+  text: string;
+  tone: BadgeTone;
+  icon: IconName;
+  hint: string;
+  muted: boolean;
+};
+
 export type TimelineItemType<T> = {
   key: string;
   name: string;
@@ -205,6 +218,7 @@ export type TimelineItemType<T> = {
   start: number;
   end: number;
   value: T;
+  tag?: TimelineTagType;
 };
 
 export type TimelineHeadType = { key: string; name: string; art: string | null; contain: boolean };
@@ -244,6 +258,7 @@ export const toTimelineRows = <T>(
 
 export const campaignTimelineRows = (
   campaigns: readonly CampaignType[],
+  tagOf: (campaign: CampaignType) => TimelineTagType | undefined,
 ): TimelineRowType<CampaignType>[] =>
   toTimelineRows(
     campaigns.map((campaign) => ({
@@ -260,6 +275,7 @@ export const campaignTimelineRows = (
         start: Date.parse(campaign.starts_at),
         end: Date.parse(campaign.ends_at),
         value: campaign,
+        tag: tagOf(campaign),
       },
     })),
     (items) =>

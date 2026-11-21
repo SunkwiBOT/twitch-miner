@@ -18,7 +18,7 @@
 <header class="flex flex-col gap-3">
   <div class="flex flex-wrap items-start justify-between gap-x-6 gap-y-3">
     {#if intro}
-      <div class="flex max-w-[80ch] min-w-0 flex-[1_1_20rem] flex-col gap-0.5">
+      <div class="flex min-w-0 flex-[1_1_20rem] flex-col gap-0.5">
         <p class="text-hint text-muted-foreground"><RichText text={intro} {links} /></p>
         {#if meta}<span class="text-xs text-muted-foreground">{@render meta()}</span>{/if}
       </div>

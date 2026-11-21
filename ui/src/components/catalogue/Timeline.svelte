@@ -10,6 +10,7 @@
   import { timePreferences } from "../../lib/time/time.svelte";
   import TextButton from "../ui/TextButton.svelte";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
   import TimelineAxis from "./TimelineAxis.svelte";
   import TimelineRow from "./TimelineRow.svelte";
   import {
@@ -64,6 +65,7 @@
     <div class="flex">
       <TextButton
         label={moreLabel}
+        icon={IconName.DOWN}
         variant={ButtonVariant.OUTLINE}
         size={ButtonSize.MD}
         type={ButtonType.BUTTON}

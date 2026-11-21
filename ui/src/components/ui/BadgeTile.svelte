@@ -4,15 +4,17 @@
     BADGE_TILE_CLASSES,
     BADGE_TILE_INTERACTIVE_CLASSES,
   } from "../../lib/badges/badges.constants";
+  import { t } from "../../lib/i18n/i18n.svelte";
   import { IconName } from "../../lib/icons.constants";
+  import Icon from "./Icon.svelte";
   import Thumb from "./Thumb.svelte";
   import { ThumbShape, ThumbSize } from "./picture.constants";
 
   type BadgeTilePropsType = {
     image: string | null | undefined;
     title: string;
+    detail?: string;
     small?: boolean;
-    link?: boolean;
     tooltip?: boolean;
     onclick?: () => void;
   };
@@ -20,15 +22,11 @@
   let {
     image,
     title,
+    detail,
     small = false,
-    link = false,
     tooltip = false,
     onclick,
   }: BadgeTilePropsType = $props();
-
-  const label = $derived(
-    cn("min-w-0 truncate font-semibold", small ? "text-xs" : "text-sm", link && "text-link"),
-  );
 </script>
 
 {#snippet content()}
@@ -40,7 +38,18 @@
     shape={ThumbShape.SQUARE}
     fallback={IconName.AWARD}
   />
-  <span class={label}>{title}</span>
+  <span class="flex min-w-0 flex-col">
+    <span
+      class={cn(
+        "min-w-0 truncate font-semibold",
+        small ? "text-xs" : "text-sm",
+        onclick && "text-link",
+      )}
+    >
+      {title}
+    </span>
+    {#if detail}<span class="min-w-0 truncate text-xs text-muted-foreground">{detail}</span>{/if}
+  </span>
 {/snippet}
 
 {#if onclick}
@@ -51,6 +60,12 @@
     {onclick}
   >
     {@render content()}
+    <span
+      class="absolute inset-y-0 right-0 flex items-center gap-1 rounded-r-lg bg-linear-to-l from-accent from-75% to-transparent pr-2.5 pl-6 text-xs font-semibold text-link opacity-0 transition-opacity group-hover/tile:opacity-100 group-focus-visible/tile:opacity-100"
+      aria-hidden="true"
+    >
+      <Icon name={IconName.EYE} size={13} />{t.campaign_details()}
+    </span>
   </button>
 {:else}
   <div class={BADGE_TILE_CLASSES} title={tooltip ? title : undefined}>

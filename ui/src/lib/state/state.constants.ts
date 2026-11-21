@@ -1,4 +1,5 @@
 import { AutoLock } from "../bindings/AutoLock";
+import { IconName } from "../icons.constants";
 
 export enum Page {
   HOME = "HOME",
@@ -36,6 +37,25 @@ export const BETA_PAGES: ReadonlySet<Page> = new Set([
   Page.STATS,
   Page.STATS_STREAMER,
 ]);
+
+export const PAGE_ICONS: Record<Page, IconName> = {
+  [Page.HOME]: IconName.HOME,
+  [Page.CATALOGUE]: IconName.GIFT,
+  [Page.BADGES]: IconName.AWARD,
+  [Page.HISTORY]: IconName.HISTORY,
+  [Page.STATS]: IconName.CHART,
+  [Page.STATS_STREAMER]: IconName.CHART,
+  [Page.LOGS]: IconName.FILE,
+  [Page.SETTINGS]: IconName.SETTINGS,
+  [Page.ACCOUNT]: IconName.DASHBOARD,
+  [Page.ACCOUNT_DROPS]: IconName.GIFT,
+  [Page.ACCOUNT_POINTS]: IconName.CHANNEL_POINTS,
+  [Page.ACCOUNT_SPAM]: IconName.ZAP,
+  [Page.ACCOUNT_INVENTORY]: IconName.PACKAGE,
+  [Page.ACCOUNT_BADGES]: IconName.AWARD,
+  [Page.ACCOUNT_HISTORY]: IconName.HISTORY,
+  [Page.ACCOUNT_SETTINGS]: IconName.SETTINGS,
+};
 
 export const PAGE_PATHS: Record<Page, string> = {
   [Page.HOME]: "/",

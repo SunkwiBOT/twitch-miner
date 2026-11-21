@@ -7,7 +7,7 @@ use ts_rs::TS;
 use crate::config::{
     AccountSettings, DropsOrder, DropsScope, GameEntry, MiningLaneKind, Mode, StreamerSettings,
 };
-use crate::domain::{BenefitKind, Campaign, CampaignKind, Channel, PointsState};
+use crate::domain::{BenefitKind, Campaign, CampaignKind, Channel, PointsState, TimedDrop};
 
 // ! Declared in rank order: the derived `Ord` ranks the reasons.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, TS)]
@@ -118,6 +118,41 @@ pub enum QueueBlock {
     SetAside,
 }
 
+// ! Why a campaign of the account stays out of the queue. `Finished` and
+// `Owned` say its rewards are earned; the others what keeps it from being mined.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+#[ts(repr(enum = name))]
+pub enum LeftOutReason {
+    Finished,
+    Owned,
+    NotActive,
+    Ignored,
+    EvolutionsOff,
+    Filtered,
+    PointsOnly,
+    SubRequired,
+    EvolutionLocked,
+    Waiting,
+    Unfinishable,
+    NotSelected,
+    NotLinked,
+    LaneOff,
+}
+
+impl LeftOutReason {
+    pub fn earned(self) -> bool {
+        matches!(self, Self::Finished | Self::Owned)
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[ts(rename = "LeftOutCampaignType")]
+pub struct LeftOutCampaign {
+    pub campaign_id: String,
+    pub reason: LeftOutReason,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
 #[ts(rename = "QueueItemType")]
 pub struct QueueItem {
@@ -136,12 +171,17 @@ pub struct QueueItem {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
     pub set_aside_stall_minutes: Option<u32>,
+    // ! An estimate: the minutes the campaigns ahead still hold the drop slot, as planned now.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub expected_start: Option<DateTime<Utc>>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]
 pub struct Plan {
     pub slots: Vec<Slot>,
     pub queue: Vec<QueueItem>,
+    pub left_out: Vec<LeftOutCampaign>,
 }
 
 // ! Twitch pays the watch streak bonus a few minutes into the watch of a new
@@ -233,42 +273,83 @@ fn badges_filtered(settings: &AccountSettings, campaign: &Campaign) -> bool {
         .badges
         .exclude_games
         .iter()
-        .any(|g| game_matches(campaign, g))
+        .any(|g| game_entry_matches(campaign, g))
         || names_match(&settings.badges.exclude_names, campaign)
 }
 
 // ! The Drops filters and the badge filters each keep a campaign out of their
 // own kinds only: a badge campaign is out once both filter it.
 pub fn excluded(settings: &AccountSettings, campaign: &Campaign, now: DateTime<Utc>) -> bool {
-    left_out(
+    exclusion(
         settings,
         campaign,
         campaign.gives_badge(now, &settings.drops.exclude_drop_ids),
     )
+    .is_some()
 }
 
 // ! A badge mined to the end no longer "gives" one, but its claim still follows the badge filters.
 pub fn claim_excluded(settings: &AccountSettings, campaign: &Campaign) -> bool {
-    left_out(settings, campaign, campaign.has_badge())
+    exclusion(settings, campaign, campaign.has_badge()).is_some()
 }
 
-fn left_out(settings: &AccountSettings, campaign: &Campaign, badge: bool) -> bool {
+fn exclusion(
+    settings: &AccountSettings,
+    campaign: &Campaign,
+    badge: bool,
+) -> Option<LeftOutReason> {
     if settings
         .drops
         .exclude_campaign_ids
         .iter()
         .any(|id| id == &campaign.id)
-        || (!settings.badges.evolutions && campaign.evolves())
     {
-        return true;
+        return Some(LeftOutReason::Ignored);
+    }
+
+    if !settings.badges.evolutions && campaign.evolves() {
+        return Some(LeftOutReason::EvolutionsOff);
     }
 
     let by_drops = campaign.kind == CampaignKind::Quest || drops_filtered(settings, campaign);
-
-    if badge {
+    let filtered = if badge {
         by_drops && badges_filtered(settings, campaign)
     } else {
         by_drops
+    };
+
+    filtered.then_some(LeftOutReason::Filtered)
+}
+
+// ! Why no reward of the campaign can be watched now. A reward still earnable
+// later waits; otherwise the most telling block of its open rewards wins.
+fn idle_reason(campaign: &Campaign, now: DateTime<Utc>, excluded: &[String]) -> LeftOutReason {
+    if campaign.finished(now, excluded) {
+        return LeftOutReason::Finished;
+    }
+
+    let open: Vec<&TimedDrop> = campaign
+        .drops
+        .iter()
+        .filter(|d| !d.complete() && d.ends_at > now)
+        .collect();
+
+    if open.iter().any(|d| d.earnable(now, excluded)) {
+        return LeftOutReason::Waiting;
+    }
+
+    let blocked = |test: fn(&TimedDrop) -> bool| open.iter().copied().any(test);
+
+    if blocked(|d| !d.badge_owned && !d.subs_met()) {
+        LeftOutReason::SubRequired
+    } else if blocked(|d| !d.badge_owned && d.evolution.as_ref().is_some_and(|e| !e.ready())) {
+        LeftOutReason::EvolutionLocked
+    } else if blocked(|d| d.badge_owned) {
+        LeftOutReason::Owned
+    } else if open.is_empty() {
+        LeftOutReason::NotActive
+    } else {
+        LeftOutReason::Ignored
     }
 }
 
@@ -309,41 +390,73 @@ fn held_back(settings: &AccountSettings, campaign: &Campaign, now: DateTime<Utc>
                 && campaign.gives_badge(now, &settings.drops.exclude_drop_ids)))
 }
 
+// ! Whether a lane takes the campaign: `None` when the lane is not meant for
+// its kind, the reason when it is meant for it but refuses it.
+fn lane_fit(
+    settings: &AccountSettings,
+    campaign: &Campaign,
+    now: DateTime<Utc>,
+    kind: MiningLaneKind,
+) -> Option<Result<(), LeftOutReason>> {
+    let drops = &settings.drops;
+    let chosen = selected(settings, campaign);
+    let check = |scope: DropsScope, filtered: bool, selection_only: bool| {
+        if !in_scope(scope, campaign) {
+            Err(LeftOutReason::NotLinked)
+        } else if filtered {
+            Err(LeftOutReason::Filtered)
+        } else if selection_only && !chosen {
+            Err(LeftOutReason::NotSelected)
+        } else {
+            Ok(())
+        }
+    };
+
+    match kind {
+        MiningLaneKind::PriorityGames => (campaign.kind == CampaignKind::Drops
+            && priority_index(settings, campaign).is_some())
+        .then(|| check(drops.scope, drops_filtered(settings, campaign), false)),
+        MiningLaneKind::Badges => campaign.gives_badge(now, &drops.exclude_drop_ids).then(|| {
+            check(
+                settings.badges.scope,
+                badges_filtered(settings, campaign),
+                settings.badges.selection_only,
+            )
+        }),
+        MiningLaneKind::OtherCampaigns => (campaign.kind == CampaignKind::Drops).then(|| {
+            check(
+                drops.scope,
+                drops_filtered(settings, campaign),
+                drops.selection_only,
+            )
+        }),
+    }
+}
+
+// ! The first enabled lane taking the campaign; else the refusal of the first
+// enabled lane meant for it, or `LaneOff` when none of those is enabled.
 pub fn lane_of(
     settings: &AccountSettings,
     campaign: &Campaign,
     now: DateTime<Utc>,
-) -> Option<(MiningLaneKind, usize)> {
-    let drops = &settings.drops;
-    let priority = priority_index(settings, campaign);
-    let chosen = selected(settings, campaign);
+) -> Result<(MiningLaneKind, usize), LeftOutReason> {
+    let mut refusal = None;
 
-    drops
-        .mining_order
-        .iter()
-        .enumerate()
-        .filter(|(_, lane)| lane.enabled)
-        .find(|(_, lane)| match lane.kind {
-            MiningLaneKind::PriorityGames => {
-                campaign.kind == CampaignKind::Drops
-                    && priority.is_some()
-                    && in_scope(drops.scope, campaign)
-                    && !drops_filtered(settings, campaign)
+    for (position, lane) in settings.drops.mining_order.iter().enumerate() {
+        if !lane.enabled {
+            continue;
+        }
+
+        match lane_fit(settings, campaign, now, lane.kind) {
+            Some(Ok(())) => return Ok((lane.kind, position)),
+            Some(Err(reason)) => {
+                refusal.get_or_insert(reason);
             }
-            MiningLaneKind::Badges => {
-                campaign.gives_badge(now, &drops.exclude_drop_ids)
-                    && in_scope(settings.badges.scope, campaign)
-                    && !badges_filtered(settings, campaign)
-                    && (chosen || !settings.badges.selection_only)
-            }
-            MiningLaneKind::OtherCampaigns => {
-                campaign.kind == CampaignKind::Drops
-                    && in_scope(drops.scope, campaign)
-                    && !drops_filtered(settings, campaign)
-                    && (chosen || !drops.selection_only)
-            }
-        })
-        .map(|(position, lane)| (lane.kind, position))
+            None => {}
+        }
+    }
+
+    Err(refusal.unwrap_or(LeftOutReason::LaneOff))
 }
 
 fn automatic_key(
@@ -395,78 +508,114 @@ fn reward_tie_break(
         })
 }
 
+// ! A campaign is ranked (`Ok`) or left out for one reason: its rewards earned
+// first, then a setting that excludes it, then what keeps it from being watched.
+fn rank_key(
+    settings: &AccountSettings,
+    campaign: &Campaign,
+    now: DateTime<Utc>,
+) -> Result<(QueueReason, RankKey), LeftOutReason> {
+    let drops = &settings.drops;
+    let excluded = &drops.exclude_drop_ids;
+    let idle = campaign
+        .next_drop(now, excluded, &drops.reward_priority)
+        .is_none()
+        .then(|| idle_reason(campaign, now, excluded));
+
+    if let Some(reason) = idle.filter(|reason| reason.earned()) {
+        return Err(reason);
+    }
+
+    if let Some(reason) = exclusion(settings, campaign, campaign.gives_badge(now, excluded)) {
+        return Err(reason);
+    }
+
+    if let Some(reason) = idle {
+        return Err(reason);
+    }
+
+    if !campaign.active_at(now) {
+        return Err(LeftOutReason::NotActive);
+    }
+
+    if drops.skip_unfinishable && !campaign.can_finish(now, excluded) {
+        return Err(LeftOutReason::Unfinishable);
+    }
+
+    let pinned = drops
+        .campaign_order
+        .iter()
+        .position(|id| id == &campaign.id);
+    let lane = lane_of(settings, campaign, now);
+    let reward_rank = reward_tie_break(campaign, now, excluded, &drops.reward_priority);
+
+    match (pinned, lane) {
+        (Some(_), Err(_)) if held_back(settings, campaign, now) => Err(LeftOutReason::NotSelected),
+        (Some(index), _) => Ok((QueueReason::Ordered, (0u8, index as i64, 0, 0, 0))),
+        (None, Err(reason)) => Err(reason),
+        (None, Ok((kind, position))) => {
+            let tier = 1 + position as u8;
+
+            Ok(match kind {
+                MiningLaneKind::PriorityGames => (
+                    QueueReason::Priority,
+                    (
+                        tier,
+                        priority_index(settings, campaign).unwrap_or(0) as i64,
+                        0,
+                        0,
+                        reward_rank,
+                    ),
+                ),
+                MiningLaneKind::Badges => {
+                    let badges = &settings.badges;
+                    let (_, linked, value) =
+                        automatic_key(badges.linked_first, badges.order, campaign, now, excluded);
+
+                    (QueueReason::Badge, (tier, 0, linked, value, reward_rank))
+                }
+                MiningLaneKind::OtherCampaigns => {
+                    let (reason, linked, value) =
+                        automatic_key(drops.linked_first, drops.order, campaign, now, excluded);
+
+                    (reason, (tier, 0, linked, value, reward_rank))
+                }
+            })
+        }
+    }
+}
+
+type Tiers<'a> = (Vec<(&'a Campaign, QueueReason, u8)>, Vec<LeftOutCampaign>);
+
 // ! A tier per campaign: 0 for the campaigns placed by hand, then one per
-// lane of the mining order, in its order.
+// lane of the mining order, in its order. A campaign already over is neither
+// ranked nor left out.
 fn rank_tiers<'a>(
     settings: &AccountSettings,
     campaigns: &'a [Campaign],
     now: DateTime<Utc>,
-) -> Vec<(&'a Campaign, QueueReason, u8)> {
-    let drops = &settings.drops;
-    let mut ranked: Vec<(&Campaign, QueueReason, RankKey)> = campaigns
-        .iter()
-        .filter(|c| {
-            c.active_at(now)
-                && c.next_drop(now, &drops.exclude_drop_ids, &drops.reward_priority)
-                    .is_some()
-        })
-        .filter(|c| !excluded(settings, c, now))
-        .filter(|c| !drops.skip_unfinishable || c.can_finish(now, &drops.exclude_drop_ids))
-        .filter_map(|c| {
-            let pinned = drops.campaign_order.iter().position(|id| id == &c.id);
-            let lane = lane_of(settings, c, now);
+) -> Tiers<'a> {
+    let mut ranked: Vec<(&Campaign, QueueReason, RankKey)> = Vec::new();
+    let mut left_out = Vec::new();
 
-            if lane.is_none() && (pinned.is_none() || held_back(settings, c, now)) {
-                return None;
-            }
-
-            let excluded = &drops.exclude_drop_ids;
-            let reward_rank = reward_tie_break(c, now, excluded, &drops.reward_priority);
-
-            let key = match (pinned, lane) {
-                (Some(index), _) => (QueueReason::Ordered, (0u8, index as i64, 0, 0, 0)),
-                (None, Some((kind, position))) => {
-                    let tier = 1 + position as u8;
-
-                    match kind {
-                        MiningLaneKind::PriorityGames => (
-                            QueueReason::Priority,
-                            (
-                                tier,
-                                priority_index(settings, c).unwrap_or(0) as i64,
-                                0,
-                                0,
-                                reward_rank,
-                            ),
-                        ),
-                        MiningLaneKind::Badges => {
-                            let badges = &settings.badges;
-                            let (_, linked, value) =
-                                automatic_key(badges.linked_first, badges.order, c, now, excluded);
-
-                            (QueueReason::Badge, (tier, 0, linked, value, reward_rank))
-                        }
-                        MiningLaneKind::OtherCampaigns => {
-                            let (reason, linked, value) =
-                                automatic_key(drops.linked_first, drops.order, c, now, excluded);
-
-                            (reason, (tier, 0, linked, value, reward_rank))
-                        }
-                    }
-                }
-                (None, None) => return None,
-            };
-
-            Some((c, key.0, key.1))
-        })
-        .collect();
+    for campaign in campaigns.iter().filter(|c| c.ends_at > now) {
+        match rank_key(settings, campaign, now) {
+            Ok((reason, key)) => ranked.push((campaign, reason, key)),
+            Err(reason) => left_out.push(LeftOutCampaign {
+                campaign_id: campaign.id.clone(),
+                reason,
+            }),
+        }
+    }
 
     ranked.sort_by(|a, b| a.2.cmp(&b.2).then_with(|| a.0.id.cmp(&b.0.id)));
 
-    ranked
+    let ranked = ranked
         .into_iter()
         .map(|(c, reason, key)| (c, reason, key.0))
-        .collect()
+        .collect();
+
+    (ranked, left_out)
 }
 
 pub fn rank_campaigns<'a>(
@@ -475,6 +624,7 @@ pub fn rank_campaigns<'a>(
     now: DateTime<Utc>,
 ) -> Vec<(&'a Campaign, QueueReason)> {
     rank_tiers(settings, campaigns, now)
+        .0
         .into_iter()
         .map(|(c, reason, _)| (c, reason))
         .collect()
@@ -582,6 +732,29 @@ pub fn rank_streamers<'a>(
         .collect()
 }
 
+// ! An account mining points only mines no campaign, but still tells the earned ones apart.
+fn points_only(
+    ranked: &[(&Campaign, QueueReason, u8)],
+    left_out: Vec<LeftOutCampaign>,
+) -> Vec<LeftOutCampaign> {
+    let points_only = |campaign_id: String| LeftOutCampaign {
+        campaign_id,
+        reason: LeftOutReason::PointsOnly,
+    };
+
+    ranked
+        .iter()
+        .map(|(campaign, _, _)| points_only(campaign.id.clone()))
+        .chain(left_out.into_iter().map(|item| {
+            if item.reason.earned() {
+                item
+            } else {
+                points_only(item.campaign_id)
+            }
+        }))
+        .collect()
+}
+
 pub fn plan(
     settings: &AccountSettings,
     campaigns: &[Campaign],
@@ -595,8 +768,13 @@ pub fn plan(
     let mut plan = Plan::default();
     let mut used: Vec<String> = Vec::new();
 
-    if settings.mode != Mode::Points {
-        let mut ranked = rank_tiers(settings, campaigns, now);
+    let (mut ranked, left_out) = rank_tiers(settings, campaigns, now);
+
+    if settings.mode == Mode::Points {
+        plan.left_out = points_only(&ranked, left_out);
+    } else {
+        plan.left_out = left_out;
+
         let subscribed: Vec<&str> = streamers
             .iter()
             .filter(|s| s.points.subscribed)
@@ -654,6 +832,7 @@ pub fn plan(
         }
 
         let mut mining = false;
+        let mut held: u32 = 0;
 
         for (campaign, reason, _) in ranked {
             let live = live_by_campaign
@@ -671,6 +850,7 @@ pub fn plan(
                 blocked: None,
                 set_aside_until: None,
                 set_aside_stall_minutes: None,
+                expected_start: None,
             };
 
             if let Some(retry_at) = aside.get(&campaign.id).copied() {
@@ -694,6 +874,7 @@ pub fn plan(
             ) {
                 (false, Some(channel), Some(drop)) => {
                     mining = true;
+                    held = campaign.hold_minutes(now, &settings.drops.exclude_drop_ids);
                     used.push(channel.id.clone());
                     plan.slots.push(Slot {
                         channel: channel.clone(),
@@ -703,7 +884,14 @@ pub fn plan(
                         },
                     });
                 }
-                (true, _, _) => item.blocked = Some(QueueBlock::OneCampaignAtATime),
+                (true, Some(_), _) => {
+                    item.blocked = Some(QueueBlock::OneCampaignAtATime);
+                    item.expected_start = Some(now + chrono::Duration::minutes(i64::from(held)));
+                    held = held.saturating_add(
+                        campaign.hold_minutes(now, &settings.drops.exclude_drop_ids),
+                    );
+                }
+                (true, None, _) => item.blocked = Some(QueueBlock::OneCampaignAtATime),
                 (false, _, _) => item.blocked = Some(QueueBlock::NoLiveChannel),
             }
 

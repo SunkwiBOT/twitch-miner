@@ -1,5 +1,6 @@
 <script lang="ts">
   import { CommandName } from "../../lib/bindings/CommandName";
+  import { PauseScope } from "../../lib/accounts/account-state.constants";
   import { AccountStatus } from "../../lib/bindings/AccountStatus";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { BETA_PAGES, Page } from "../../lib/state/state.constants";
@@ -12,9 +13,8 @@
   import IconButton from "../ui/IconButton.svelte";
   import AccountStatusBadges from "../ui/AccountStatusBadges.svelte";
   import Badge from "../ui/Badge.svelte";
-  import PauseButton from "../ui/PauseButton.svelte";
-  import PauseMenu from "../ui/PauseMenu.svelte";
   import PauseBadge from "../ui/PauseBadge.svelte";
+  import PauseControl from "../ui/PauseControl.svelte";
   import QuietWindowBadge from "../ui/QuietWindowBadge.svelte";
   import { AvatarSize } from "../ui/picture.constants";
   import { BadgeTone } from "../../lib/tones.constants";
@@ -38,12 +38,6 @@
     await run({ command: CommandName.REFRESH_ACCOUNT, account_id: id });
     refreshing = false;
   };
-
-  const pauseAccount = (id: string, until: string): Promise<boolean> =>
-    run({ command: CommandName.PAUSE_ACCOUNT, account_id: id, until });
-
-  const resumeAccount = (id: string): Promise<boolean> =>
-    run({ command: CommandName.PAUSE_ACCOUNT, account_id: id });
 </script>
 
 <header
@@ -84,6 +78,7 @@
     {#if current.status === AccountStatus.LOGIN_REQUIRED}
       <TextButton
         label={t.accounts_login_again()}
+        icon={IconName.LOG_IN}
         variant={ButtonVariant.PRIMARY}
         size={ButtonSize.MD}
         type={ButtonType.BUTTON}
@@ -91,17 +86,13 @@
         onclick={() => (app.loginDialog = true)}
       />
     {:else}
-      <PauseButton account={current} size={ButtonSize.MD} />
-      <PauseBadge account={current} class="@max-[50rem]:hidden" />
-      <PauseMenu
-        pausedUntil={current.settings.paused_until}
-        label={t.pause_menu_label()}
+      <PauseControl
+        accounts={[current]}
+        scope={PauseScope.ACCOUNT}
         align={MenuAlign.RIGHT}
         size={ButtonSize.MD}
-        compact={!wideLayout.current}
-        onpause={(until) => pauseAccount(current.id, until)}
-        onresume={() => resumeAccount(current.id)}
       />
+      <PauseBadge account={current} class="@max-[50rem]:hidden" />
       <IconButton
         icon={IconName.REFRESH}
         label={t.account_refresh()}

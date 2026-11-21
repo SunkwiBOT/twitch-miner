@@ -204,7 +204,7 @@ pub struct BadgeSettings {
     pub scope: DropsScope,
     pub linked_first: bool,
     pub order: DropsOrder,
-    pub exclude_games: Vec<String>,
+    pub exclude_games: Vec<GameEntry>,
     pub exclude_names: Vec<String>,
     pub selection_only: bool,
     pub evolutions: bool,
@@ -403,9 +403,9 @@ pub struct AccountSettings {
     // ! Twitch credits at most two channels per account at a time.
     pub slots: u8,
     pub proxy: String,
-    // ! A scheduled pause: set by "Pause for…", cleared automatically once
-    // past, by hand with "Resume now", or replaced by a new one. Independent
-    // from `enabled`, which is the manual switch.
+    // ! A timed pause: cleared automatically once past, by hand on resume, or
+    // replaced by a new one. Independent from `enabled`, the manual switch
+    // that "until I resume" turns off.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
     pub paused_until: Option<DateTime<Utc>>,
@@ -461,7 +461,6 @@ impl AccountSettings {
             ("exclude_campaign_ids", &drops.exclude_campaign_ids),
             ("exclude_drop_ids", &drops.exclude_drop_ids),
             ("selected_campaign_ids", &drops.selected_campaign_ids),
-            ("badges.exclude_games", &self.badges.exclude_games),
             ("badges.exclude_names", &self.badges.exclude_names),
         ] {
             list.iter().try_for_each(|entry| short(name, entry))?;
@@ -470,6 +469,7 @@ impl AccountSettings {
         for (name, list) in [
             ("priority_games", &drops.priority_games),
             ("exclude_games", &drops.exclude_games),
+            ("badges.exclude_games", &self.badges.exclude_games),
         ] {
             list.iter()
                 .try_for_each(|entry| short_game_entry(name, entry))?;
@@ -731,6 +731,8 @@ pub struct NotificationSettings {
     pub telegram: TelegramSettings,
     pub webhook: WebhookSettings,
     pub system: bool,
+    // ! A new version shows on the desktop even with `system` off: only this switch hides it.
+    pub system_update: bool,
     pub events: NotificationEvents,
     // ! The server's own language is per viewer: `AUTO` here is the container's, rarely set.
     pub language: String,
@@ -743,6 +745,7 @@ impl Default for NotificationSettings {
             telegram: TelegramSettings::default(),
             webhook: WebhookSettings::default(),
             system: false,
+            system_update: true,
             events: NotificationEvents::default(),
             language: crate::i18n::AUTO.into(),
         }
@@ -1031,7 +1034,7 @@ strict_input!(BadgeSettingsInput => BadgeSettings {
     scope: DropsScope,
     linked_first: bool,
     order: DropsOrder,
-    exclude_games: Vec<String>,
+    exclude_games: Vec<GameEntry>,
     exclude_names: Vec<String>,
     selection_only: bool,
     evolutions: bool,
@@ -1149,6 +1152,7 @@ strict_input!(NotificationSettingsInput => NotificationSettings {
     telegram: TelegramSettingsInput,
     webhook: WebhookSettingsInput,
     system: bool,
+    system_update: bool,
     events: NotificationEventsInput,
     language: String,
 });

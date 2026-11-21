@@ -1,10 +1,14 @@
 import type { AccountSnapshotType } from "../bindings/AccountSnapshotType";
 import type { AppInfoType } from "../bindings/AppInfoType";
 import type { AuthStatusType } from "../bindings/AuthStatusType";
+import type { CampaignType } from "../bindings/CampaignType";
+import type { GlobalBadgeType } from "../bindings/GlobalBadgeType";
 import type { MinerEventType } from "../bindings/MinerEventType";
 import type { SnapshotType } from "../bindings/SnapshotType";
 import type { StartupProblemType } from "../bindings/StartupProblemType";
 import { Page } from "./state.constants";
+
+type SheetType<T> = { item: T; accountId: string | null };
 
 type AuthStateType = AuthStatusType & { checked: boolean };
 
@@ -19,6 +23,8 @@ type AppStateType = {
   loginDialog: boolean;
   closeDialog: boolean;
   feedbackDialog: boolean;
+  campaignSheet: SheetType<CampaignType> | null;
+  badgeSheet: SheetType<GlobalBadgeType> | null;
   navDrawer: boolean;
   liveEvents: MinerEventType[];
   logsAccount: string | null;
@@ -38,6 +44,8 @@ export const app = $state<AppStateType>({
   loginDialog: false,
   closeDialog: false,
   feedbackDialog: false,
+  campaignSheet: null,
+  badgeSheet: null,
   navDrawer: false,
   liveEvents: [],
   logsAccount: null,

@@ -49,6 +49,7 @@ impl<T: TwitchApi> AccountMiner<T> {
         }
 
         self.last_queue = plan.queue.clone();
+        self.last_left_out = plan.left_out.clone();
         self.equip_for(&plan).await;
 
         // ! Twitch pays the streak bonus to a Drops watch too: the bonus window counts
@@ -255,6 +256,7 @@ impl<T: TwitchApi> AccountMiner<T> {
 
         let context = EventContext {
             badge: Some(badge.title.clone()),
+            badge_key: Some(key.clone()),
             drop_name: Some(drop_name.clone()),
             miner: Some(MinerKind::Badges),
             ..EventContext::drop(&campaign_id, &drop_id)

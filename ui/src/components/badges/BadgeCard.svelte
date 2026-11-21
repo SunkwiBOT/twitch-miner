@@ -21,7 +21,7 @@
   import Thumb from "../ui/Thumb.svelte";
   import { BadgeTone } from "../../lib/tones.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
-  import { CARD_LIFT_CLASSES } from "../ui/ui.constants";
+  import { CARD_LIFT_CLASSES, STRETCHED_BUTTON_CLASSES } from "../ui/ui.constants";
   import { IconName } from "../../lib/icons.constants";
   import { ThumbShape, ThumbSize } from "../ui/picture.constants";
 
@@ -60,7 +60,7 @@
     <div class="flex min-w-0 flex-1 flex-col gap-1.5">
       <h3 class="truncate text-sm font-semibold" title={badge.title}>
         <button
-          class="text-left outline-hidden after:absolute after:inset-0 after:rounded-lg focus-visible:after:outline-2 focus-visible:after:outline-ring focus-visible:after:outline-solid"
+          class={[STRETCHED_BUTTON_CLASSES, "after:rounded-lg"]}
           type="button"
           onclick={onopen}
         >
@@ -69,6 +69,7 @@
       </h3>
       <TextButton
         label={t.campaign_details()}
+        icon={IconName.EYE}
         name={t.badge_card_details({ badge: badge.title })}
         variant={ButtonVariant.OUTLINE}
         size={ButtonSize.SM}
@@ -77,7 +78,9 @@
         class="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 group-has-focus-visible:opacity-100"
         onclick={onopen}
       />
-      <div class="relative z-10 flex flex-wrap gap-1.5 empty:hidden">
+      <div
+        class="pointer-events-none relative z-10 flex flex-wrap gap-1.5 empty:hidden *:pointer-events-auto"
+      >
         {#if badgeMinable(badge, now)}
           <Badge
             text={t.badges_minable()}

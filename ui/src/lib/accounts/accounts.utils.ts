@@ -1,16 +1,18 @@
 import { AccountStatus } from "../bindings/AccountStatus";
+import type { AccountSnapshotType } from "../bindings/AccountSnapshotType";
 import { Mode } from "../bindings/Mode";
 import { PointsReason } from "../bindings/PointsReason";
 import { QueueBlock } from "../bindings/QueueBlock";
 import type { QueueItemType } from "../bindings/QueueItemType";
 import { QueueReason } from "../bindings/QueueReason";
-import { BadgeTone } from "../tones.constants";
+import { describeCode } from "../errors/errors.utils";
 import { relativeTime } from "../time/time.utils";
 import { IconName } from "../icons.constants";
 import { t } from "../i18n/i18n.svelte";
+import { AccountState, PauseScope } from "./account-state.constants";
 import { PROXY_CREDENTIALS_MASK } from "./accounts.constants";
 
-export const STATUS_LABELS: Record<AccountStatus, () => string> = {
+const STATUS_LABELS: Record<AccountStatus, () => string> = {
   [AccountStatus.STARTING]: () => t.status_starting(),
   [AccountStatus.MINING]: () => t.status_mining(),
   [AccountStatus.IDLE]: () => t.status_idle(),
@@ -24,20 +26,41 @@ export const MODE_LABELS: Record<Mode, () => string> = {
   [Mode.POINTS]: () => t.mode_points_title(),
 };
 
-export const STATUS_TONES: Record<AccountStatus, BadgeTone> = {
-  [AccountStatus.STARTING]: BadgeTone.INFO,
-  [AccountStatus.MINING]: BadgeTone.SUCCESS,
-  [AccountStatus.IDLE]: BadgeTone.WARNING,
-  [AccountStatus.PAUSED]: BadgeTone.MUTED,
-  [AccountStatus.LOGIN_REQUIRED]: BadgeTone.DANGER,
-};
-
-export const STATUS_HINTS: Record<AccountStatus, (() => string) | null> = {
+const STATUS_HINTS: Record<AccountStatus, (() => string) | null> = {
   [AccountStatus.STARTING]: null,
   [AccountStatus.MINING]: () => t.badge_hint_mining(),
   [AccountStatus.IDLE]: null,
   [AccountStatus.PAUSED]: () => t.badge_hint_paused(),
   [AccountStatus.LOGIN_REQUIRED]: () => t.badge_hint_login_required(),
+};
+
+export const accountStateLabel = (account: AccountSnapshotType, state: AccountState): string => {
+  if (state === AccountState.PROBLEM && account.status !== AccountStatus.LOGIN_REQUIRED) {
+    return t.status_problem();
+  }
+
+  return state === AccountState.PAUSED ? t.status_paused() : STATUS_LABELS[account.status]();
+};
+
+export const accountStateHint = (
+  account: AccountSnapshotType,
+  state: AccountState,
+): string | undefined => {
+  if (account.problem && account.status !== AccountStatus.LOGIN_REQUIRED) {
+    return describeCode(account.problem);
+  }
+
+  return state === AccountState.PAUSED ? t.badge_hint_paused() : STATUS_HINTS[account.status]?.();
+};
+
+export const PAUSE_LABELS: Record<PauseScope, () => string> = {
+  [PauseScope.ACCOUNT]: () => t.action_pause(),
+  [PauseScope.ALL]: () => t.pause_all_label(),
+};
+
+export const RESUME_LABELS: Record<PauseScope, () => string> = {
+  [PauseScope.ACCOUNT]: () => t.action_resume(),
+  [PauseScope.ALL]: () => t.pause_resume_all_label(),
 };
 
 export const POINTS_REASON_LABELS: Record<PointsReason, () => string> = {

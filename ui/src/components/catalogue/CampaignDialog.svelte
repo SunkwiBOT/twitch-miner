@@ -119,6 +119,7 @@
   {#if view && accounts.length}
     <CampaignActions
       campaignId={view.id}
+      name={view.name}
       {selected}
       minable={progress.some((entry) => entry.minable)}
       bind:busy

@@ -202,7 +202,6 @@
     open = null;
     campaign = next;
   }}
-  onopenbadge={(next) => (open = next)}
   onclose={() => (open = null)}
 />
 <CampaignDialog {campaign} contextAccountId={null} onclose={() => (campaign = null)} />

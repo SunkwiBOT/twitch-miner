@@ -14,6 +14,7 @@
   import TextButton from "../../ui/TextButton.svelte";
   import { BADGE_VARIANTS, BadgeVariant } from "../../ui/badge.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "../../ui/button.constants";
+  import { IconName } from "../../../lib/icons.constants";
   import StreamerOptions from "../StreamerOptions.svelte";
 
   type GroupEditDialogPropsType = {
@@ -113,6 +114,7 @@
   {#snippet footer()}
     <TextButton
       label={t.common_cancel()}
+      icon={IconName.X}
       variant={ButtonVariant.OUTLINE}
       size={ButtonSize.MD}
       type={ButtonType.BUTTON}
@@ -121,6 +123,7 @@
     />
     <TextButton
       label={t.common_save()}
+      icon={IconName.CHECK}
       variant={ButtonVariant.PRIMARY}
       size={ButtonSize.MD}
       type={ButtonType.BUTTON}

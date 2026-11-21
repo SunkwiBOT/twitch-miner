@@ -19,6 +19,7 @@
   import StreamerOptions from "./StreamerOptions.svelte";
   import StreamerSearchForm from "./StreamerSearchForm.svelte";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   type StreamerDialogPropsType = {
     open: boolean;
@@ -228,6 +229,7 @@
   {#snippet footer()}
     <TextButton
       label={t.common_cancel()}
+      icon={IconName.X}
       variant={ButtonVariant.OUTLINE}
       size={ButtonSize.MD}
       type={ButtonType.BUTTON}
@@ -237,6 +239,7 @@
     {#if draft}
       <TextButton
         label={login ? t.common_save() : t.common_add()}
+        icon={login ? IconName.CHECK : IconName.PLUS}
         variant={ButtonVariant.PRIMARY}
         size={ButtonSize.MD}
         type={ButtonType.BUTTON}

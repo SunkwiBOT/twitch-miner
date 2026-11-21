@@ -9,6 +9,7 @@ export type NotificationSettingsType = {
   telegram: TelegramSettingsType;
   webhook: WebhookSettingsType;
   system: boolean;
+  system_update: boolean;
   events: NotificationEventsType;
   language: string;
 };

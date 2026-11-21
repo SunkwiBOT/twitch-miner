@@ -72,6 +72,7 @@ const watchedProgress = (
     current: totals.current,
     required: totals.required,
     minable: false,
+    subRequired: false,
     done: item.periods.done,
     repeat: item.periods.repeat,
     setAsideUntil: queued?.set_aside_until ?? null,
@@ -83,10 +84,6 @@ const watchedProgress = (
 
   if (item.done) {
     return { ...entry, state: ProgressState.OWNED };
-  }
-
-  if (item.subs) {
-    return { ...entry, state: ProgressState.SUB_ONLY };
   }
 
   const minable =
@@ -119,7 +116,7 @@ const watchedProgress = (
     return item.started ? ProgressState.IN_PROGRESS : ProgressState.NOT_STARTED;
   };
 
-  return { ...entry, state: state(), minable };
+  return { ...entry, state: state(), minable, subRequired: item.subs };
 };
 
 export const badgeProgress = (
@@ -132,6 +129,7 @@ export const badgeProgress = (
     current: 0,
     required: 0,
     minable: false,
+    subRequired: false,
     done: 0,
     repeat: undefined,
     setAsideUntil: null,

@@ -1,10 +1,15 @@
 <script lang="ts">
   import { BadgesList } from "../../../lib/accounts/accounts.constants";
-  import { editBadgesList, setIgnored } from "../../../lib/accounts/drops-edits.utils";
+  import {
+    editBadgesExcludedGames,
+    editBadgesList,
+    setIgnored,
+  } from "../../../lib/accounts/drops-edits.utils";
   import type { AccountBadgesType } from "../../../lib/badges/badges.utils";
   import type { AccountSnapshotType } from "../../../lib/bindings/AccountSnapshotType";
   import type { CampaignType } from "../../../lib/bindings/CampaignType";
   import { catalogue } from "../../../lib/catalogue/catalogue.svelte";
+  import { gameEntryKey } from "../../../lib/catalogue/games.utils";
   import { t } from "../../../lib/i18n/i18n.svelte";
   import { escapeEmphasis, strong } from "../../../lib/text.utils";
   import EmptyState from "../../ui/EmptyState.svelte";
@@ -80,16 +85,20 @@
       <TagInput
         id="badges-exclude-games"
         items={account.settings.badges.exclude_games}
-        key={(game) => game}
-        label={(game) => game}
-        make={(suggestion) => suggestion.label}
+        key={gameEntryKey}
+        label={(game) => game.name}
+        make={(suggestion) => ({
+          id: suggestion.id,
+          name: suggestion.label,
+          box_art_url: suggestion.image,
+        })}
         suggestions={games}
         placeholder={t.account_drops_priority_placeholder()}
         addLabel={t.common_add()}
         removeLabel={t.common_remove()}
         confirmTitle={t.confirm_remove_excluded_game_title()}
-        confirmText={(game) => t.confirm_remove_excluded_game_text({ name: strong(game) })}
-        onchange={(list) => editBadgesList(account, BadgesList.EXCLUDE_GAMES, list)}
+        confirmText={(game) => t.confirm_remove_excluded_game_text({ name: strong(game.name) })}
+        onchange={(list) => editBadgesExcludedGames(account, list)}
         remote={true}
       />
     </FormField>

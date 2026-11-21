@@ -171,6 +171,7 @@
               <Spinner size={14} />
               {t.spam_redeeming({ done: sending.done, total: sending.total })}
             {:else}
+              <Icon name={IconName.ZAP} size={14} />
               {t.spam_redeem()}
               {#if !free}<span
                   class="inline-flex items-center gap-1 border-l border-primary-foreground/40 pl-2 font-semibold tabular-nums"

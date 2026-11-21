@@ -11,6 +11,7 @@
   import { strong } from "../../lib/text.utils";
   import { formatClock, formatDayMonth, formatWeekdayDayMonth } from "../../lib/time/time.utils";
   import { BarLabelPlacement, TIMELINE_PILL_MS } from "../../lib/catalogue/timeline.constants";
+  import Badge from "../ui/Badge.svelte";
   import RichText from "../ui/RichText.svelte";
   import TimeLeftTag from "./TimeLeftTag.svelte";
 
@@ -68,7 +69,12 @@
       ? getLabelPlacement(
           geometry,
           laneWidth,
-          estimateLabelWidth(item.name, endLabel.replaceAll("**", ""), pill, image !== null),
+          estimateLabelWidth(
+            item.name,
+            endLabel.replaceAll("**", ""),
+            [pill, item.tag?.text ?? ""],
+            image !== null,
+          ),
         )
       : BarLabelPlacement.INSIDE,
   );
@@ -109,6 +115,13 @@
   <span class="min-w-0 truncate">{item.name}</span>
   <span class="shrink-0 font-medium text-muted-foreground"><RichText text={endLabel} /></span>
   {#if pill}<TimeLeftTag text={pill} urgent={true} />{/if}
+  {#if item.tag}<Badge
+      text={item.tag.text}
+      tone={item.tag.tone}
+      dot={false}
+      icon={item.tag.icon}
+      hint={item.tag.hint}
+    />{/if}
 {/snippet}
 
 {#if geometry}
@@ -117,6 +130,7 @@
     class:cut-left={geometry.isCutLeft}
     class:cut-right={geometry.isCutRight}
     class:outside={placement !== BarLabelPlacement.INSIDE}
+    class:muted={item.tag?.muted}
     data-bar
     type="button"
     title={`${rowName} · ${item.name}`}
@@ -154,6 +168,10 @@
     text-align: left;
     white-space: nowrap;
     cursor: pointer;
+  }
+  .bar.muted {
+    background: var(--muted);
+    color: var(--muted-foreground);
   }
   .bar::after {
     content: "";

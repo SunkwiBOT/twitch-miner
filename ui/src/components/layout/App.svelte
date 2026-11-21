@@ -33,6 +33,7 @@
   import FeedbackDialog from "../feedback/FeedbackDialog.svelte";
   import { APP_TITLE, LockKind } from "./layout.constants";
   import LockScreen from "./LockScreen.svelte";
+  import SheetHost from "./SheetHost.svelte";
   import StarPromptDialog from "./StarPromptDialog.svelte";
   import NavDrawer from "./NavDrawer.svelte";
   import Sidebar from "./Sidebar.svelte";
@@ -103,6 +104,8 @@
       closeBulk();
       app.loginDialog = false;
       app.feedbackDialog = false;
+      app.campaignSheet = null;
+      app.badgeSheet = null;
       app.navDrawer = false;
     }
   });
@@ -202,6 +205,7 @@
     <LoginDialog />
     <ApplyToAccountsDialog />
     <StarPromptDialog />
+    <SheetHost />
   {/if}
 
   <CloseDialog />

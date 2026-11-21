@@ -95,6 +95,7 @@
   {#snippet footer()}
     <TextButton
       label={t.common_cancel()}
+      icon={IconName.X}
       variant={ButtonVariant.OUTLINE}
       size={ButtonSize.MD}
       type={ButtonType.BUTTON}

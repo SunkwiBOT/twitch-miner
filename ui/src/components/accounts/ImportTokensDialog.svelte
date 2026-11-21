@@ -731,6 +731,7 @@
     {#if checking}
       <TextButton
         label={t.common_cancel()}
+        icon={IconName.X}
         variant={ButtonVariant.OUTLINE}
         size={ButtonSize.MD}
         type={ButtonType.BUTTON}
@@ -740,6 +741,7 @@
     {:else}
       <TextButton
         label={t.common_back()}
+        icon={IconName.ARROW_LEFT}
         variant={ButtonVariant.OUTLINE}
         size={ButtonSize.MD}
         type={ButtonType.BUTTON}
@@ -772,6 +774,7 @@
   {:else if step === ImportStep.SETTINGS}
     <TextButton
       label={t.common_back()}
+      icon={IconName.ARROW_LEFT}
       variant={ButtonVariant.OUTLINE}
       size={ButtonSize.MD}
       type={ButtonType.BUTTON}
@@ -792,6 +795,7 @@
   {:else if importRunning}
     <TextButton
       label={t.import_tokens_cancel()}
+      icon={IconName.X}
       variant={ButtonVariant.OUTLINE}
       size={ButtonSize.MD}
       type={ButtonType.BUTTON}
@@ -813,6 +817,7 @@
     {#if wizardAccounts.length > 0}
       <TextButton
         label={t.common_close()}
+        icon={IconName.X}
         variant={ButtonVariant.OUTLINE}
         size={ButtonSize.MD}
         type={ButtonType.BUTTON}
@@ -833,6 +838,7 @@
     {:else}
       <TextButton
         label={t.common_close()}
+        icon={IconName.X}
         variant={ButtonVariant.PRIMARY}
         size={ButtonSize.MD}
         type={ButtonType.BUTTON}

@@ -1,5 +1,4 @@
 import type { AccountSnapshotType } from "../bindings/AccountSnapshotType";
-import { CampaignStatus } from "../bindings/CampaignStatus";
 import type { CampaignType } from "../bindings/CampaignType";
 import { dropTotals, subsMissing } from "../catalogue/campaign.utils";
 import { campaignOf, campaignsOf } from "../catalogue/catalogue.svelte";
@@ -51,9 +50,3 @@ export const ignoredItems = (account: AccountSnapshotType): IgnoredType[] => [
       : [];
   }),
 ];
-
-export const ongoingCampaigns = (account: AccountSnapshotType, now: number): CampaignType[] =>
-  campaignsOf(account).filter(
-    (c) =>
-      new Date(c.ends_at).getTime() > now && (c.in_inventory || c.status === CampaignStatus.ACTIVE),
-  );

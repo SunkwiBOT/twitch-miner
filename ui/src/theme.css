@@ -256,6 +256,11 @@
     @apply rounded-sm outline-2 outline-offset-2 outline-ring;
   }
 
+  /* ! An open sheet sets `pointer-events: none` on the body: a toast's action stays clickable over it. */
+  [data-sonner-toast] {
+    pointer-events: auto;
+  }
+
   input[type="search"]::-webkit-search-cancel-button,
   input[type="search"]::-webkit-search-decoration {
     appearance: none;

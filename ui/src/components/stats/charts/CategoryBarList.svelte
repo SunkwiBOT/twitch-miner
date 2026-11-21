@@ -1,5 +1,7 @@
 <script lang="ts">
   import { number } from "../../../lib/format.utils";
+  import ExternalLink from "../../ui/ExternalLink.svelte";
+  import { LinkLook, LinkMark, LinkSize } from "../../ui/link.constants";
   import { categoryTone } from "../stats.utils";
   import type { StatsBarRowType } from "../stats.types";
 
@@ -16,7 +18,19 @@
   <ul class="flex flex-col gap-2.5" aria-label={ariaLabel}>
     {#each rows as row, index (row.key)}
       <li class="flex items-center gap-2.5">
-        <span class="w-32 shrink-0 truncate text-hint" title={row.label}>{row.label}</span>
+        <span class="flex w-32 shrink-0 text-hint" title={row.label}>
+          {#if row.url}
+            <ExternalLink
+              url={row.url}
+              text={row.label}
+              mark={LinkMark.END}
+              look={LinkLook.ALWAYS}
+              size={LinkSize.MD}
+            />
+          {:else}
+            <span class="truncate">{row.label}</span>
+          {/if}
+        </span>
         <span class="h-2 flex-1 overflow-hidden rounded-full bg-muted">
           <span
             class={`block h-full rounded-full ${categoryTone(index)}`}

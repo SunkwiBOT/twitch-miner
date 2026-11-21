@@ -15,7 +15,7 @@
   type TextButtonPropsType = {
     label: string;
     name?: string;
-    icon?: IconName;
+    icon: IconName;
     variant: ButtonVariant;
     size: ButtonSize;
     type: ButtonType;
@@ -48,6 +48,6 @@
   {disabled}
   {onclick}
 >
-  {#if icon}<Icon name={icon} size={iconSize} />{/if}
+  <Icon name={icon} size={iconSize} />
   {label}
 </Button>

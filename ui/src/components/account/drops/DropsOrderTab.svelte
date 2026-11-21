@@ -51,6 +51,7 @@
   import { ButtonSize, ButtonType, ButtonVariant } from "../../ui/button.constants";
   import { IconName } from "../../../lib/icons.constants";
   import { ThumbShape, ThumbSize } from "../../ui/picture.constants";
+  import { STRETCHED_BUTTON_CLASSES } from "../../ui/ui.constants";
   import GameDialog from "../GameDialog.svelte";
 
   type DropsOrderTabPropsType = {
@@ -164,7 +165,7 @@
           fallback={IconName.GIFT}
         />
         <button
-          class="flex min-w-0 flex-1 flex-col gap-0.5 text-left"
+          class={cn(STRETCHED_BUTTON_CLASSES, "flex min-w-0 flex-1 flex-col gap-0.5")}
           type="button"
           onclick={() => c && onopen(c)}
         >

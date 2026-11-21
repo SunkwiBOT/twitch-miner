@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { Snippet } from "svelte";
+
   import type { CampaignType } from "../../lib/bindings/CampaignType";
   import { BoxArtSize } from "../../lib/format.constants";
   import { boxArt, shortDuration } from "../../lib/format.utils";
@@ -15,10 +17,12 @@
   type CampaignCardPropsType = {
     campaign: CampaignType;
     ordered: boolean;
+    cover?: Snippet;
+    tags?: Snippet;
     onopen: (campaign: CampaignType) => void;
   };
 
-  let { campaign, ordered, onopen }: CampaignCardPropsType = $props();
+  let { campaign, ordered, cover, tags, onopen }: CampaignCardPropsType = $props();
 
   const left = $derived(new Date(campaign.ends_at).getTime() - ticker.now);
   const isNew = $derived(ticker.now - new Date(campaign.starts_at).getTime() < NEW_MS);
@@ -32,6 +36,7 @@
 >
   <span class="relative block aspect-[3/4] overflow-hidden rounded-lg bg-muted {CARD_LIFT_CLASSES}">
     {#if art}<img class="block size-full object-cover" src={art} alt="" loading="lazy" />{/if}
+    {@render cover?.()}
     <span class="absolute bottom-1.5 left-1.5">
       <TimeLeftTag
         text={left > 0 ? shortDuration(left) : t.campaign_ended()}
@@ -67,5 +72,6 @@
       dot={false}
     />
     <LinkBadge linked={campaign.linked} />
+    {@render tags?.()}
   </span>
 </button>

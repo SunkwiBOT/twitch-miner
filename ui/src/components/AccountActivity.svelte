@@ -6,6 +6,8 @@
     periodsText,
   } from "../lib/catalogue/campaign.utils";
   import Badge from "./ui/Badge.svelte";
+  import { ACCOUNT_STATE_ICONS, AccountState } from "../lib/accounts/account-state.constants";
+  import { userPaused } from "../lib/accounts/account-state.utils";
   import {
     POINTS_REASON_HINTS,
     POINTS_REASON_ICONS,
@@ -18,7 +20,7 @@
   import type { AccountSnapshotType } from "../lib/bindings/AccountSnapshotType";
   import type { CampaignType } from "../lib/bindings/CampaignType";
   import { campaignOf } from "../lib/catalogue/catalogue.svelte";
-  import { gameArt } from "../lib/catalogue/games.utils";
+  import { gameArt, gameUrl } from "../lib/catalogue/games.utils";
   import { Mode } from "../lib/bindings/Mode";
   import { MinerKind } from "../lib/bindings/MinerKind";
   import { SlotPurposeKind } from "../lib/bindings/SlotPurposeKind";
@@ -27,7 +29,7 @@
   import { boxArt, number } from "../lib/format.utils";
   import { t } from "../lib/i18n/i18n.svelte";
   import { strong } from "../lib/text.utils";
-  import { Page } from "../lib/state/state.constants";
+  import { PAGE_ICONS, Page } from "../lib/state/state.constants";
   import { navigate } from "../lib/state/router";
   import { ticker } from "../lib/state/ticker.svelte";
   import { formatClock, relativeTime } from "../lib/time/time.utils";
@@ -93,7 +95,8 @@
 {/snippet}
 
 {#snippet streamer(slot: SlotViewType)}
-  <span class="flex max-w-36 shrink-0 flex-col items-end gap-1.5 text-right">
+  <!-- ! Capped by the row's width, not a fixed size: the name gets its full width whenever the row has room. -->
+  <span class="flex max-w-[45cqi] shrink-0 flex-col items-end gap-1.5 text-right">
     <LinkTwin url={channelUrl(slot.channel.login)} live={slot.channel.live}>
       <ChannelAvatar
         url={slot.channel.avatar_url}
@@ -167,7 +170,7 @@
       </div>
     {/snippet}
     <div
-      class="group/game grid grid-cols-[auto_minmax(0,1fr)_auto] items-start gap-x-3.5 gap-y-1.5 border-b px-5 py-4 last:border-b-0"
+      class="group/game @container grid grid-cols-[auto_minmax(0,1fr)_auto] items-start gap-x-3.5 gap-y-1.5 border-b px-5 py-4 last:border-b-0"
     >
       {#if c}
         {@const known = c}
@@ -242,7 +245,7 @@
         <span class="flex min-w-0 items-center gap-2 text-hint text-muted-foreground">
           {#if slot.channel.game}<GameName
               name={slot.channel.game.name}
-              url={null}
+              url={gameUrl(slot.channel.game.name, slot.channel.game.slug)}
               art={gameArt(slot.channel.game.name, slot.channel.game.box_art_url)}
               size={ThumbSize.XS}
               inSentence={false}
@@ -265,14 +268,15 @@
 <div
   class="flex flex-wrap items-center gap-2.5 px-5 py-4 text-hint text-muted-foreground empty:hidden"
 >
-  {#if !account.settings.enabled}
-    {@render idle(IconName.PAUSE, t.activity_paused())}
+  {#if userPaused(account.settings, ticker.now)}
+    {@render idle(ACCOUNT_STATE_ICONS[AccountState.PAUSED], t.activity_paused())}
   {:else if account.status === AccountStatus.LOGIN_REQUIRED}
-    {@render idle(IconName.ALERT, t.status_login_required())}
+    {@render idle(ACCOUNT_STATE_ICONS[AccountState.PROBLEM], t.status_login_required())}
   {:else if account.slots.length === 0}
     {@render idle(IconName.CLOCK, t.activity_nothing())}
     <TextButton
       label={t.nav_account_drops()}
+      icon={PAGE_ICONS[Page.ACCOUNT_DROPS]}
       variant={ButtonVariant.OUTLINE}
       size={ButtonSize.SM}
       type={ButtonType.BUTTON}
@@ -281,6 +285,7 @@
     />
     <TextButton
       label={t.nav_account_points()}
+      icon={PAGE_ICONS[Page.ACCOUNT_POINTS]}
       variant={ButtonVariant.OUTLINE}
       size={ButtonSize.SM}
       type={ButtonType.BUTTON}
@@ -296,6 +301,7 @@
     )}
     <TextButton
       label={t.nav_account_points()}
+      icon={PAGE_ICONS[Page.ACCOUNT_POINTS]}
       variant={ButtonVariant.OUTLINE}
       size={ButtonSize.SM}
       type={ButtonType.BUTTON}

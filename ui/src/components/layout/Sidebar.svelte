@@ -4,24 +4,23 @@
   import { CommandName } from "../../lib/bindings/CommandName";
   import TextButton from "../ui/TextButton.svelte";
   import { cn } from "$lib/utils";
-  import { STATUS_LABELS, STATUS_TONES } from "../../lib/accounts/accounts.utils";
   import { badgeList } from "../../lib/badges/badges.svelte";
   import { minableBadgeCount } from "../../lib/badges/badges.utils";
   import { runningCampaigns } from "../../lib/catalogue/timeline.utils";
   import { catalogue } from "../../lib/catalogue/catalogue.svelte";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { REPO_URL } from "../../lib/partners.constants";
-  import { BETA_PAGES, Page } from "../../lib/state/state.constants";
+  import { BETA_PAGES, PAGE_ICONS, Page } from "../../lib/state/state.constants";
   import { followLink } from "../../lib/links/links.utils";
   import { app } from "../../lib/state/app.svelte";
   import { isAccountPage, navigate } from "../../lib/state/router";
   import { run } from "../../lib/state/session";
   import { ticker } from "../../lib/state/ticker.svelte";
   import { number } from "../../lib/format.utils";
+  import AccountStateIcon from "../ui/AccountStateIcon.svelte";
   import Avatar from "../ui/Avatar.svelte";
   import Badge from "../ui/Badge.svelte";
   import Icon from "../ui/Icon.svelte";
-  import StatusDot from "../ui/StatusDot.svelte";
   import { AvatarSize } from "../ui/picture.constants";
   import { BadgeTone } from "../../lib/tones.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
@@ -30,7 +29,7 @@
   import { APP_TITLE, REORDER_HINT_ID } from "./layout.constants";
   import PoweredBy from "./PoweredBy.svelte";
 
-  type NavItemType = { page: Page; icon: IconName; label: string; count?: number };
+  type NavItemType = { page: Page; label: string; count?: number };
 
   type SidebarPropsType = { controls?: Snippet };
 
@@ -58,38 +57,32 @@
   const inAccount = $derived(isAccountPage(app.page));
 
   const main = $derived<NavItemType[]>([
-    { page: Page.HOME, icon: IconName.HOME, label: t.nav_home() },
+    { page: Page.HOME, label: t.nav_home() },
     {
       page: Page.CATALOGUE,
-      icon: IconName.GIFT,
       label: t.nav_catalogue(),
       count: runningCampaigns(catalogue.campaigns, ticker.now).length,
     },
     {
       page: Page.BADGES,
-      icon: IconName.AWARD,
       label: t.nav_badges(),
       count: minableBadgeCount(badgeList.badges, ticker.now),
     },
-    { page: Page.HISTORY, icon: IconName.HISTORY, label: t.nav_history() },
-    { page: Page.STATS, icon: IconName.CHART, label: t.nav_stats() },
-    { page: Page.LOGS, icon: IconName.FILE, label: t.nav_logs() },
-    { page: Page.SETTINGS, icon: IconName.SETTINGS, label: t.nav_settings() },
+    { page: Page.HISTORY, label: t.nav_history() },
+    { page: Page.STATS, label: t.nav_stats() },
+    { page: Page.LOGS, label: t.nav_logs() },
+    { page: Page.SETTINGS, label: t.nav_settings() },
   ]);
 
   const sub = $derived<NavItemType[]>([
-    { page: Page.ACCOUNT, icon: IconName.DASHBOARD, label: t.nav_account_overview() },
-    { page: Page.ACCOUNT_DROPS, icon: IconName.GIFT, label: t.nav_account_drops() },
-    {
-      page: Page.ACCOUNT_INVENTORY,
-      icon: IconName.PACKAGE,
-      label: t.nav_account_inventory(),
-    },
-    { page: Page.ACCOUNT_BADGES, icon: IconName.AWARD, label: t.nav_account_badges() },
-    { page: Page.ACCOUNT_POINTS, icon: IconName.CHANNEL_POINTS, label: t.nav_account_points() },
-    { page: Page.ACCOUNT_SPAM, icon: IconName.ZAP, label: t.nav_account_spam() },
-    { page: Page.ACCOUNT_HISTORY, icon: IconName.HISTORY, label: t.nav_account_history() },
-    { page: Page.ACCOUNT_SETTINGS, icon: IconName.SETTINGS, label: t.nav_account_settings() },
+    { page: Page.ACCOUNT, label: t.nav_account_overview() },
+    { page: Page.ACCOUNT_DROPS, label: t.nav_account_drops() },
+    { page: Page.ACCOUNT_INVENTORY, label: t.nav_account_inventory() },
+    { page: Page.ACCOUNT_BADGES, label: t.nav_account_badges() },
+    { page: Page.ACCOUNT_POINTS, label: t.nav_account_points() },
+    { page: Page.ACCOUNT_SPAM, label: t.nav_account_spam() },
+    { page: Page.ACCOUNT_HISTORY, label: t.nav_account_history() },
+    { page: Page.ACCOUNT_SETTINGS, label: t.nav_account_settings() },
   ]);
 
   const itemClass = (active: boolean, nested: boolean): string =>
@@ -125,7 +118,7 @@
         aria-current={navActive(item.page) ? "page" : undefined}
         onclick={() => navigate(item.page)}
       >
-        <Icon name={item.icon} size={18} /><span class="truncate">{item.label}</span>
+        <Icon name={PAGE_ICONS[item.page]} size={18} /><span class="truncate">{item.label}</span>
         {#if BETA_PAGES.has(item.page)}<Badge
             text={t.common_beta()}
             tone={BadgeTone.NEUTRAL}
@@ -197,11 +190,7 @@
       >
         <Avatar url={a.avatar_url} name={a.display_name} size={AvatarSize.SM} />
         <span class="truncate">{a.display_name}</span>
-        <span class="ml-auto">
-          <StatusDot tone={STATUS_TONES[a.status]} /><span class="sr-only">
-            {STATUS_LABELS[a.status]()}
-          </span>
-        </span>
+        <span class="ml-auto flex"><AccountStateIcon account={a} /></span>
       </button>
       {#if selected}
         <div class="mt-0.5 mb-1.5 ml-5.5 flex flex-col gap-0.5 border-l border-input pl-2.5">
@@ -212,7 +201,7 @@
               aria-current={app.page === item.page ? "page" : undefined}
               onclick={() => navigate(item.page, a.id)}
             >
-              <Icon name={item.icon} size={16} class="shrink-0" /><span
+              <Icon name={PAGE_ICONS[item.page]} size={16} class="shrink-0" /><span
                 class="min-w-0 py-1 leading-tight break-words"
               >
                 {item.label}

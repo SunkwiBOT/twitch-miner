@@ -9,4 +9,4 @@ export type StatsDayBucketType = {
 
 export type StatsReasonToneType = { bg: string; fill: string; text: string };
 
-export type StatsBarRowType = { key: string; label: string; value: number };
+export type StatsBarRowType = { key: string; label: string; url: string | null; value: number };

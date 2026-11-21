@@ -6,7 +6,7 @@ use crate::config::{AccountSettings, AccountSettingsPatch, GlobalSettings};
 use crate::domain::{BadgeRef, Campaign, Channel, PointsState};
 use crate::error::ErrorCode;
 use crate::events::{MinerEvent, MinerKind};
-use crate::scheduler::{QueueItem, SlotPurpose};
+use crate::scheduler::{LeftOutCampaign, QueueItem, SlotPurpose};
 use crate::spam::SpamChannelEntry;
 use crate::store::{AccountSource, VaultStatus};
 use crate::twitch::identity::ClientPersona;
@@ -102,6 +102,9 @@ pub struct AccountSnapshot {
     pub problem: Option<ErrorCode>,
     pub slots: Vec<SlotView>,
     pub queue: Vec<QueueItem>,
+    // ! From the same plan as `queue`: every running campaign out of it, with why.
+    #[serde(default)]
+    pub left_out: Vec<LeftOutCampaign>,
     pub streamers: Vec<StreamerView>,
     // ! A catalogue campaign comes as this account's state only: the interface adds the catalogue.
     pub progress: Vec<CampaignProgress>,
@@ -110,6 +113,9 @@ pub struct AccountSnapshot {
     pub quests: Vec<Quest>,
     #[serde(default)]
     pub owned_badges: Vec<BadgeRef>,
+    // ! The drops whose claim Twitch refused, until their link state changes.
+    #[serde(default)]
+    pub refused_claims: Vec<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
     pub badges_read_at: Option<DateTime<Utc>>,

@@ -6,7 +6,6 @@ export enum ProgressState {
   SET_ASIDE = "SET_ASIDE",
   IN_PROGRESS = "IN_PROGRESS",
   NOT_STARTED = "NOT_STARTED",
-  SUB_ONLY = "SUB_ONLY",
   NOT_MINABLE = "NOT_MINABLE",
   IGNORED = "IGNORED",
   CLAIMED = "CLAIMED",
@@ -15,7 +14,6 @@ export enum ProgressState {
 }
 
 export const NO_BAR_STATES: ReadonlySet<ProgressState> = new Set([
-  ProgressState.SUB_ONLY,
   ProgressState.CLAIMED,
   ProgressState.OWNED,
   ProgressState.NOT_OFFERED,
@@ -27,5 +25,6 @@ export type AccountProgressType = {
   current: number;
   required: number;
   minable: boolean;
+  subRequired: boolean;
   setAsideUntil: string | null;
 };

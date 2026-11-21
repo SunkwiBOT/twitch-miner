@@ -42,6 +42,7 @@
     {#if action}
       <TextButton
         label={action.label}
+        icon={action.icon}
         variant={ButtonVariant.PRIMARY}
         size={ButtonSize.SM}
         type={ButtonType.BUTTON}

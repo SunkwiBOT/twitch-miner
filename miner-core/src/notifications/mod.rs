@@ -119,6 +119,13 @@ pub fn wanted(events: &NotificationEvents, kind: EventKind) -> bool {
     }
 }
 
+pub fn desktop_wanted(settings: &NotificationSettings, kind: EventKind) -> bool {
+    match kind {
+        EventKind::UpdateAvailable => settings.system_update,
+        _ => settings.system && wanted(&settings.events, kind),
+    }
+}
+
 pub(crate) struct Shared {
     client: reqwest::Client,
     settings: RwLock<NotificationSettings>,

@@ -18,6 +18,7 @@
   import EmptyState from "./EmptyState.svelte";
   import { AvatarSize } from "./picture.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "./button.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   type CheckListPropsType = {
     items: CheckItemType[];
@@ -58,6 +59,7 @@
       <div class="flex gap-1.5">
         <TextButton
           label={allLabel}
+          icon={IconName.CHECK}
           variant={ButtonVariant.OUTLINE}
           size={ButtonSize.SM}
           type={ButtonType.BUTTON}
@@ -66,6 +68,7 @@
         />
         <TextButton
           label={noneLabel}
+          icon={IconName.X}
           variant={ButtonVariant.OUTLINE}
           size={ButtonSize.SM}
           type={ButtonType.BUTTON}

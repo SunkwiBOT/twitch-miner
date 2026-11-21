@@ -1,23 +1,18 @@
 <script lang="ts">
-  import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
-
+  import { PauseScope } from "../../lib/accounts/account-state.constants";
   import { MODE_LABELS } from "../../lib/accounts/accounts.utils";
   import { AccountStatus } from "../../lib/bindings/AccountStatus";
-  import { CommandName } from "../../lib/bindings/CommandName";
   import { EventKind } from "../../lib/bindings/EventKind";
   import type { SnapshotType } from "../../lib/bindings/SnapshotType";
   import { recentEvents } from "../../lib/events/events.utils";
   import { number } from "../../lib/format.utils";
   import { strong } from "../../lib/text.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
-  import { Page } from "../../lib/state/state.constants";
+  import { PAGE_ICONS, Page } from "../../lib/state/state.constants";
   import { app } from "../../lib/state/app.svelte";
   import { navigate } from "../../lib/state/router";
-  import { run } from "../../lib/state/session";
-  import { ticker } from "../../lib/state/ticker.svelte";
   import AccountActivity from "../AccountActivity.svelte";
   import ActivityFeed from "../ActivityFeed.svelte";
-  import { Button } from "$lib/components/ui/button";
   import TextButton from "../ui/TextButton.svelte";
   import { Card } from "$lib/components/ui/card";
   import AccountHeading from "../ui/AccountHeading.svelte";
@@ -25,18 +20,11 @@
   import PageBody from "../ui/PageBody.svelte";
   import PageHeader from "../ui/PageHeader.svelte";
   import Panel from "../ui/Panel.svelte";
-  import PauseButton from "../ui/PauseButton.svelte";
   import PauseBadge from "../ui/PauseBadge.svelte";
-  import PauseMenu from "../ui/PauseMenu.svelte";
+  import PauseControl from "../ui/PauseControl.svelte";
   import QuietWindowBadge from "../ui/QuietWindowBadge.svelte";
   import RichText from "../ui/RichText.svelte";
-  import {
-    BUTTON_SIZES,
-    BUTTON_VARIANTS,
-    ButtonSize,
-    ButtonType,
-    ButtonVariant,
-  } from "../ui/button.constants";
+  import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import { IconName } from "../../lib/icons.constants";
   import { MenuAlign } from "../ui/menu.constants";
   import { RECENT_MAX } from "./home.constants";
@@ -69,19 +57,6 @@
           })
         : "",
     ].filter(Boolean);
-
-  const latestPausedUntil = $derived.by(() => {
-    void ticker.now;
-
-    return snapshot.accounts
-      .map((a) => a.settings.paused_until)
-      .filter((until): until is string => until !== undefined && new Date(until) > new Date())
-      .sort()
-      .at(-1);
-  });
-
-  const pauseAll = (until: string): Promise<boolean> =>
-    run({ command: CommandName.PAUSE_ALL_ACCOUNTS, until });
 </script>
 
 <PageBody>
@@ -107,13 +82,11 @@
     <PageHeader intro={t.home_rules()}>
       {#snippet actions()}
         <QuietWindowBadge />
-        <PauseMenu
-          pausedUntil={latestPausedUntil}
-          label={t.pause_all_label()}
+        <PauseControl
+          accounts={snapshot.accounts}
+          scope={PauseScope.ALL}
           align={MenuAlign.RIGHT}
           size={ButtonSize.MD}
-          onpause={pauseAll}
-          onresume={() => run({ command: CommandName.PAUSE_ALL_ACCOUNTS })}
         />
       {/snippet}
     </PageHeader>
@@ -126,6 +99,7 @@
                 {#if a.status === AccountStatus.LOGIN_REQUIRED}
                   <TextButton
                     label={t.accounts_login_again()}
+                    icon={IconName.LOG_IN}
                     variant={ButtonVariant.PRIMARY}
                     size={ButtonSize.SM}
                     type={ButtonType.BUTTON}
@@ -133,18 +107,23 @@
                     onclick={() => (app.loginDialog = true)}
                   />
                 {:else}
-                  <PauseButton account={a} size={ButtonSize.SM} />
+                  <PauseControl
+                    accounts={[a]}
+                    scope={PauseScope.ACCOUNT}
+                    align={MenuAlign.RIGHT}
+                    size={ButtonSize.SM}
+                  />
                   <PauseBadge account={a} />
                 {/if}
-                <Button
-                  variant={BUTTON_VARIANTS[ButtonVariant.OUTLINE]}
-                  size={BUTTON_SIZES[ButtonSize.SM]}
+                <TextButton
+                  label={t.home_open()}
+                  icon={PAGE_ICONS[Page.ACCOUNT]}
+                  variant={ButtonVariant.OUTLINE}
+                  size={ButtonSize.SM}
                   type={ButtonType.BUTTON}
+                  disabled={false}
                   onclick={() => navigate(Page.ACCOUNT, a.id)}
-                >
-                  {t.home_open()}
-                  <ChevronRightIcon />
-                </Button>
+                />
               {/snippet}
             </AccountHeading>
           </header>
@@ -162,6 +141,7 @@
       {#snippet actions()}
         <TextButton
           label={t.nav_history()}
+          icon={PAGE_ICONS[Page.HISTORY]}
           variant={ButtonVariant.OUTLINE}
           size={ButtonSize.SM}
           type={ButtonType.BUTTON}

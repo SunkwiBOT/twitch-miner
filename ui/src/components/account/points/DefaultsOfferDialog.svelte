@@ -5,6 +5,7 @@
   import Dialog from "../../ui/Dialog.svelte";
   import TextButton from "../../ui/TextButton.svelte";
   import { ButtonSize, ButtonType, ButtonVariant } from "../../ui/button.constants";
+  import { IconName } from "../../../lib/icons.constants";
 
   type DefaultsOfferDialogPropsType = {
     open: boolean;
@@ -39,6 +40,7 @@
   {#snippet footer()}
     <TextButton
       label={t.common_no()}
+      icon={IconName.X}
       variant={ButtonVariant.OUTLINE}
       size={ButtonSize.MD}
       type={ButtonType.BUTTON}
@@ -47,6 +49,7 @@
     />
     <TextButton
       label={t.common_yes()}
+      icon={IconName.CHECK}
       variant={ButtonVariant.PRIMARY}
       size={ButtonSize.MD}
       type={ButtonType.BUTTON}

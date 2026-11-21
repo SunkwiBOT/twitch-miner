@@ -40,7 +40,12 @@ export const NOTICE_TONE_ICONS: Record<NoticeTone, IconName> = {
 export enum PanelWidth {
   MD = "420px",
   LG = "460px",
+  XL = "560px",
 }
 
 export const CARD_LIFT_CLASSES =
   "transition-[translate,box-shadow] duration-150 group-hover:translate-x-0.75 group-hover:-translate-y-0.75 group-hover:shadow-[-4px_4px_0_var(--primary)] group-focus-visible:translate-x-0.75 group-focus-visible:-translate-y-0.75 group-focus-visible:shadow-[-4px_4px_0_var(--primary)] group-has-focus-visible:translate-x-0.75 group-has-focus-visible:-translate-y-0.75 group-has-focus-visible:shadow-[-4px_4px_0_var(--primary)]";
+
+// ! The button's `::after` covers its nearest positioned row or card, so all of it opens; the other controls there need `relative z-10`.
+export const STRETCHED_BUTTON_CLASSES =
+  "text-left outline-hidden after:absolute after:inset-0 focus-visible:after:outline-2 focus-visible:after:-outline-offset-2 focus-visible:after:outline-ring focus-visible:after:outline-solid";

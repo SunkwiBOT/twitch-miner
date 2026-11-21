@@ -1,4 +1,4 @@
-export type TextLinkType = { label: string; url: string };
+export type TextLinkType = { label: string; url: string } | { label: string; open: () => void };
 
 export const LINK_DELIMITER = "\uE000";
 

@@ -1,6 +1,7 @@
 <script lang="ts">
   import TextButton from "./TextButton.svelte";
   import { ButtonSize, ButtonType, ButtonVariant } from "./button.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   type LoadMoreSentinelPropsType = {
     label: string;
@@ -28,6 +29,7 @@
   {#if !busy && more}
     <TextButton
       {label}
+      icon={IconName.DOWN}
       variant={ButtonVariant.OUTLINE}
       size={ButtonSize.SM}
       type={ButtonType.BUTTON}

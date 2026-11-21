@@ -14,14 +14,14 @@
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import { IconName } from "../../lib/icons.constants";
 
-  let sourceId = $state<string | null>(null);
+  let sourceIds = $state<string[]>([]);
   let count = $state(0);
   let selected = $state<string[]>([]);
   let applying = $state(false);
   let applicableAtOpen = $state<Map<string, boolean>>(new Map());
 
-  const source = $derived(account(sourceId));
-  const others = $derived((app.snapshot?.accounts ?? []).filter((a) => a.id !== sourceId));
+  const source = $derived(sourceIds.length === 1 ? account(sourceIds[0]) : null);
+  const others = $derived((app.snapshot?.accounts ?? []).filter((a) => !sourceIds.includes(a.id)));
   const applicable = $derived(new Map(others.map((a) => [a.id, wouldChange(a, bulk.changes)])));
 
   const items = $derived(
@@ -43,7 +43,7 @@
   $effect(() => {
     if (bulk.open) {
       untrack(() => {
-        sourceId = bulk.sourceId;
+        sourceIds = bulk.sourceIds;
         count = bulk.changes.length;
         applicableAtOpen = new Map(others.map((a) => [a.id, applicable.get(a.id) ?? false]));
         selected = others.filter((a) => applicableAtOpen.get(a.id)).map((a) => a.id);
@@ -69,13 +69,17 @@
 >
   <div class="flex flex-col gap-3">
     <p class="text-hint text-muted-foreground">
-      <RichText
-        text={t.bulk_hint({
-          count: strong(count),
-          name: personMarker(0),
-        })}
-        people={[{ name: source?.display_name ?? "", avatar: source?.avatar_url, channel: null }]}
-      />
+      {#if source}
+        <RichText
+          text={t.bulk_hint({
+            count: strong(count),
+            name: personMarker(0),
+          })}
+          people={[{ name: source.display_name, avatar: source.avatar_url, channel: null }]}
+        />
+      {:else}
+        <RichText text={t.bulk_hint_chosen({ count: strong(count) })} />
+      {/if}
     </p>
     <CheckList
       {items}
@@ -91,6 +95,7 @@
   {#snippet footer()}
     <TextButton
       label={t.common_cancel()}
+      icon={IconName.X}
       variant={ButtonVariant.OUTLINE}
       size={ButtonSize.MD}
       type={ButtonType.BUTTON}

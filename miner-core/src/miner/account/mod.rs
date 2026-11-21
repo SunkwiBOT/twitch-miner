@@ -38,7 +38,9 @@ use crate::drops_api;
 use crate::error::{Error, ErrorCode, NetworkErrorKind, Result};
 use crate::events::{BetResult, EventContext, EventKind, MinerEvent, MinerKind};
 use crate::predictions;
-use crate::scheduler::{self, QueueItem, QueueReason, SlotPurpose, StreakBonus, StreamerState};
+use crate::scheduler::{
+    self, LeftOutCampaign, QueueItem, QueueReason, SlotPurpose, StreakBonus, StreamerState,
+};
 use crate::spam::BurstSpends;
 use crate::store::vault::Vault;
 use crate::store::{AccountRecord, AccountSource, Credential, Store};
@@ -283,6 +285,7 @@ struct AccountMiner<T> {
     raid_joins: RaidJoins,
     pending_bets: Vec<(PredictionEvent, DateTime<Utc>)>,
     last_queue: Vec<QueueItem>,
+    last_left_out: Vec<LeftOutCampaign>,
     snapshot: watch::Sender<AccountSnapshot>,
     pubsub: Option<PubSub>,
     chat: Option<Chat>,
@@ -345,11 +348,13 @@ impl<T: TwitchApi> AccountMiner<T> {
             problem: None,
             slots: vec![],
             queue: vec![],
+            left_out: vec![],
             streamers: vec![],
             progress: vec![],
             other_campaigns: vec![],
             quests: vec![],
             owned_badges: vec![],
+            refused_claims: vec![],
             badges_read_at: None,
             stats: context.stats.clone(),
             updated_at: Utc::now(),
@@ -408,6 +413,7 @@ impl<T: TwitchApi> AccountMiner<T> {
             raid_joins: RaidJoins::default(),
             pending_bets: Vec::new(),
             last_queue: Vec::new(),
+            last_left_out: Vec::new(),
             snapshot,
             pubsub: None,
             chat: None,

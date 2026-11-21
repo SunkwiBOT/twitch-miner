@@ -38,6 +38,7 @@ export enum IconName {
   CLOCK = "CLOCK",
   ARROW_UP = "ARROW_UP",
   ARROW_DOWN = "ARROW_DOWN",
+  ARROW_LEFT = "ARROW_LEFT",
   GRIP = "GRIP",
   LOADER = "LOADER",
   VIEWERS = "VIEWERS",

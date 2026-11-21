@@ -127,6 +127,7 @@
   {#if shown?.status === LoginFlowStatus.COMPLETED}
     <TextButton
       label={t.common_close()}
+      icon={IconName.X}
       variant={ButtonVariant.PRIMARY}
       size={ButtonSize.MD}
       type={ButtonType.BUTTON}
@@ -136,6 +137,7 @@
   {:else if failure !== null || (shown && shown.status !== LoginFlowStatus.PENDING)}
     <TextButton
       label={t.common_close()}
+      icon={IconName.X}
       variant={ButtonVariant.OUTLINE}
       size={ButtonSize.MD}
       type={ButtonType.BUTTON}

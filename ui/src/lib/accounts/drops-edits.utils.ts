@@ -45,32 +45,67 @@ export const editDropsList = (
   );
 };
 
-export const editDropsGames = (
+type GameListType = {
+  read: (settings: AccountSettingsType) => GameEntryType[];
+  write: (settings: AccountSettingsType, list: GameEntryType[]) => void;
+};
+
+const editGames = (
   account: AccountSnapshotType,
-  field: DropsGameList,
+  list: GameListType,
   next: GameEntryType[],
 ): void => {
-  const before = account.settings.drops[field].map(gameEntryKey);
+  const before = list.read(account.settings).map(gameEntryKey);
   const after = next.map(gameEntryKey);
   const delta = deltaOf(before, after);
 
   void changedWhenSaved(
-    saveDrops(account, (drops) => (drops[field] = next)),
+    updateAccountSettings(account.id, (settings) => list.write(settings, next)),
     account.id,
     t.change_settings(),
     (settings) => {
-      const current = settings.drops[field];
+      const current = list.read(settings);
       const byKey = new Map(next.map((entry) => [gameEntryKey(entry), entry]));
       const keys = applyDelta(current.map(gameEntryKey), delta);
 
-      settings.drops[field] = keys.flatMap((key) => {
-        const kept = current.find((entry) => gameEntryKey(entry) === key) ?? byKey.get(key);
+      list.write(
+        settings,
+        keys.flatMap((key) => {
+          const kept = current.find((entry) => gameEntryKey(entry) === key) ?? byKey.get(key);
 
-        return kept ? [kept] : [];
-      });
+          return kept ? [kept] : [];
+        }),
+      );
     },
   );
 };
+
+export const editDropsGames = (
+  account: AccountSnapshotType,
+  field: DropsGameList,
+  next: GameEntryType[],
+): void =>
+  editGames(
+    account,
+    {
+      read: (settings) => settings.drops[field],
+      write: (settings, list) => (settings.drops[field] = list),
+    },
+    next,
+  );
+
+export const editBadgesExcludedGames = (
+  account: AccountSnapshotType,
+  next: GameEntryType[],
+): void =>
+  editGames(
+    account,
+    {
+      read: (settings) => settings.badges.exclude_games,
+      write: (settings, list) => (settings.badges.exclude_games = list),
+    },
+    next,
+  );
 
 export const editBadgesList = (
   account: AccountSnapshotType,

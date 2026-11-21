@@ -10,6 +10,7 @@
   import { toast } from "../../lib/state/toasts";
   import { escapeEmphasis, strong } from "../../lib/text.utils";
   import { Input } from "$lib/components/ui/input";
+  import BrowserNotificationsAccess from "./BrowserNotificationsAccess.svelte";
   import ActionButton from "../ui/ActionButton.svelte";
   import FieldActions from "../ui/FieldActions.svelte";
   import FormField from "../ui/FormField.svelte";
@@ -239,7 +240,20 @@
             disabled={false}
             onchange={(enabled) => (draft.notifications.system = enabled)}
           />
-        {:else}
+        {/if}
+        <div class="flex flex-col">
+          <Setting
+            title={t.settings_update_notifications()}
+            lead={settings_system_notificationsMark}
+            checked={draft.notifications.system_update}
+            disabled={false}
+            onchange={(enabled) => (draft.notifications.system_update = enabled)}
+          />
+          {#if !isTauri() && draft.notifications.system_update}
+            <BrowserNotificationsAccess />
+          {/if}
+        </div>
+        {#if !isTauri()}
           <div class="pt-3">
             <FormField id="n-language" label={t.settings_notifications_language()}>
               <Select

@@ -1,5 +1,6 @@
 import type { DropsByCategoryType } from "../../lib/bindings/DropsByCategoryType";
 import type { PointsByDayType } from "../../lib/bindings/PointsByDayType";
+import { gameUrl } from "../../lib/catalogue/games.utils";
 import { t } from "../../lib/i18n/i18n.svelte";
 import { DAY_MS, HOUR_MS } from "../../lib/time/time.constants";
 import { timePreferences } from "../../lib/time/time.svelte";
@@ -131,6 +132,7 @@ export const categoryRows = (rows: DropsByCategoryType[]): StatsBarRowType[] =>
     .map((row) => ({
       key: row.category ?? "",
       label: row.category ?? t.stats_category_unknown(),
+      url: row.category ? gameUrl(row.category, undefined) : null,
       value: row.count,
     }));
 

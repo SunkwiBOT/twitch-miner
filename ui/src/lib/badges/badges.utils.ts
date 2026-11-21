@@ -10,7 +10,7 @@ import { QuestStatus } from "../bindings/QuestStatus";
 import type { QuestType } from "../bindings/QuestType";
 import type { RepeatType } from "../bindings/RepeatType";
 import type { TimedDropType } from "../bindings/TimedDropType";
-import { dropDone, periodTotals, subsMissing } from "../catalogue/campaign.utils";
+import { dropDone, dropGivesBadge, periodTotals, subsMissing } from "../catalogue/campaign.utils";
 import { campaignOf, campaignsOf } from "../catalogue/catalogue.svelte";
 import { gameArt } from "../catalogue/games.utils";
 import {
@@ -187,9 +187,6 @@ export type AccountBadgesType = {
   notMined: AccountBadgeType[];
   ignored: AccountBadgeType[];
 };
-
-const dropGivesBadge = (drop: TimedDropType): boolean =>
-  drop.benefits.some((benefit) => benefit.kind === BenefitKind.BADGE);
 
 // ! An evolution is mined only once the badge it evolves from is named and owned, and only with evolutions switched on.
 const evolutionHold = (

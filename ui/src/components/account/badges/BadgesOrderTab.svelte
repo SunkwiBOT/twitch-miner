@@ -33,6 +33,7 @@
   import { ButtonSize, ButtonVariant } from "../../ui/button.constants";
   import { IconName } from "../../../lib/icons.constants";
   import { ThumbShape, ThumbSize } from "../../ui/picture.constants";
+  import { STRETCHED_BUTTON_CLASSES } from "../../ui/ui.constants";
   import BadgeStateBadges from "./BadgeStateBadges.svelte";
 
   type BadgesOrderTabPropsType = {
@@ -119,7 +120,7 @@
       {@render thumb(first)}
       {#if campaign}
         <button
-          class="flex min-w-0 flex-1 flex-col gap-0.5 text-left"
+          class={[STRETCHED_BUTTON_CLASSES, "flex min-w-0 flex-1 flex-col gap-0.5"]}
           type="button"
           onclick={() => onopen(campaign)}
         >

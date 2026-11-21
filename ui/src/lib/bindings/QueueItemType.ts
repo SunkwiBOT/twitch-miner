@@ -12,4 +12,5 @@ export type QueueItemType = {
   blocked?: QueueBlock;
   set_aside_until?: string;
   set_aside_stall_minutes?: number;
+  expected_start?: string;
 };

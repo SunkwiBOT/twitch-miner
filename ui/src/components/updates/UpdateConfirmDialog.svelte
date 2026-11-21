@@ -85,6 +85,7 @@
   {#snippet footer()}
     <TextButton
       label={t.updates_later()}
+      icon={IconName.CLOCK}
       variant={ButtonVariant.OUTLINE}
       size={ButtonSize.MD}
       type={ButtonType.BUTTON}

@@ -2,7 +2,7 @@
   import type { ChannelType } from "../../../lib/bindings/ChannelType";
   import type { StreamerSettingsType } from "../../../lib/bindings/StreamerSettingsType";
   import type { StreamerViewType } from "../../../lib/bindings/StreamerViewType";
-  import { gameArt } from "../../../lib/catalogue/games.utils";
+  import { gameArt, gameUrl } from "../../../lib/catalogue/games.utils";
   import { isLive } from "../../../lib/channels/channels.svelte";
   import { channelUrl } from "../../../lib/links/twitch.utils";
   import { t } from "../../../lib/i18n/i18n.svelte";
@@ -94,7 +94,7 @@
       {#if channel?.live}
         {#if channel.game}<GameName
             name={channel.game.name}
-            url={null}
+            url={gameUrl(channel.game.name, channel.game.slug)}
             art={gameArt(channel.game.name, channel.game.box_art_url)}
             size={ThumbSize.XS}
             inSentence={false}

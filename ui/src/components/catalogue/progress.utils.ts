@@ -41,11 +41,6 @@ export const PROGRESS_BADGES: Record<ProgressState, ProgressBadgeType> = {
     text: () => t.badge_progress_not_started(),
     tone: BadgeTone.MUTED,
   },
-  [ProgressState.SUB_ONLY]: {
-    text: () => t.reward_sub_only(),
-    tone: BadgeTone.WARNING,
-    hint: () => t.badge_hint_sub_only(),
-  },
   [ProgressState.NOT_MINABLE]: {
     text: () => t.quest_not_minable(),
     tone: BadgeTone.MUTED,

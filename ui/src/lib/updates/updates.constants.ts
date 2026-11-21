@@ -14,6 +14,22 @@ export enum UpdateStage {
 
 export const UPDATE_TOAST_KEY = "update";
 
+export const UPDATE_NOTIFIED_STORAGE_KEY = "updates:notifiedVersion";
+
+export const APP_ICON_URL = "/app-icon.png";
+
+export enum BrowserPermission {
+  DEFAULT = "default",
+  GRANTED = "granted",
+  DENIED = "denied",
+}
+
+export const BROWSER_PERMISSIONS: Record<NotificationPermission, BrowserPermission> = {
+  default: BrowserPermission.DEFAULT,
+  granted: BrowserPermission.GRANTED,
+  denied: BrowserPermission.DENIED,
+};
+
 export const IMAGE_UPDATE_COMMANDS: readonly string[] = [
   "docker compose pull",
   "docker compose up -d",

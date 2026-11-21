@@ -1,17 +1,12 @@
 import { sendCommand } from "../api/client";
-import {
-  setCampaignIgnoredIn,
-  setCampaignSelectedIn,
-  setDropIgnoredIn,
-} from "../accounts/changes.utils";
+import { setDropIgnoredIn } from "../accounts/changes.utils";
 import type { AccountSettingsType } from "../bindings/AccountSettingsType";
 import { CommandName } from "../bindings/CommandName";
 import type { SnapshotType } from "../bindings/SnapshotType";
 import { t } from "../i18n/i18n.svelte";
 import { app } from "./app.svelte";
 import { refresh, reportFailure, run } from "./session";
-import { SETTINGS_SAVE_DELAY_MS, SETTINGS_SETTLE_MS, ToastKind } from "./state.constants";
-import { toast } from "./toasts";
+import { SETTINGS_SAVE_DELAY_MS, SETTINGS_SETTLE_MS } from "./state.constants";
 
 type PendingSaveType = {
   settings: AccountSettingsType;
@@ -190,70 +185,6 @@ export const saveAccountSettings = (
     { command: CommandName.SET_ACCOUNT_SETTINGS, account_id: id, settings: rest },
     success,
   );
-};
-
-export const prioritizeCampaign = async (
-  accountIds: string[],
-  campaignId: string,
-): Promise<void> => {
-  let applied = 0;
-
-  for (const accountId of accountIds) {
-    const done = await run({
-      command: CommandName.ORDER_CAMPAIGN,
-      account_id: accountId,
-      campaign_id: campaignId,
-      position: 0,
-    });
-
-    applied += done ? 1 : 0;
-  }
-
-  if (applied > 0) {
-    toast(ToastKind.SUCCESS, t.campaign_prioritized(), {
-      key: `campaign-prioritized-${campaignId}`,
-    });
-  }
-};
-
-export const setCampaignIgnored = async (
-  accountIds: string[],
-  campaignId: string,
-  ignored: boolean,
-): Promise<void> => {
-  const results = await Promise.all(
-    accountIds.map((accountId) =>
-      updateAccountSettings(accountId, (settings) =>
-        setCampaignIgnoredIn(settings, campaignId, ignored),
-      ),
-    ),
-  );
-
-  if (results.some(Boolean)) {
-    toast(ToastKind.SUCCESS, ignored ? t.campaign_ignored() : t.campaign_unignored(), {
-      key: `campaign-ignored-${campaignId}`,
-    });
-  }
-};
-
-export const setCampaignSelected = async (
-  accountIds: string[],
-  campaignId: string,
-  selected: boolean,
-): Promise<void> => {
-  const results = await Promise.all(
-    accountIds.map((accountId) =>
-      updateAccountSettings(accountId, (settings) =>
-        setCampaignSelectedIn(settings, campaignId, selected),
-      ),
-    ),
-  );
-
-  if (results.some(Boolean)) {
-    toast(ToastKind.SUCCESS, selected ? t.campaign_selected() : t.campaign_unselected(), {
-      key: `campaign-selected-${campaignId}`,
-    });
-  }
 };
 
 export const setDropIgnored = (

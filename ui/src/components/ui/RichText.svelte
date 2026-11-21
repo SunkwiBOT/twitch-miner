@@ -78,13 +78,19 @@
       >
         {part.text}
       </strong>
-    </span>{:else if part.link}<ExternalLink
+    </span>{:else if part.link && "url" in part.link}<ExternalLink
       url={part.link.url}
       text={part.text}
       mark={LinkMark.NONE}
       look={LinkLook.SENTENCE}
       size={LinkSize.MD}
-    />{:else if part.strong}<strong
+    />{:else if part.link}<button
+      class="inline text-left font-semibold text-foreground underline decoration-link underline-offset-3 transition-colors hover:text-link focus-visible:text-link"
+      type="button"
+      onclick={part.link.open}
+    >
+      {part.text}
+    </button>{:else if part.strong}<strong
       class="font-semibold in-[.text-muted-foreground]:text-foreground"
     >
       {part.text}

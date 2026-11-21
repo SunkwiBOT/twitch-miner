@@ -13,6 +13,7 @@
   import VerifiedBadge from "../ui/VerifiedBadge.svelte";
   import { AvatarSize } from "../ui/picture.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   type StreamerSearchFormPropsType = {
     query: string;
@@ -95,6 +96,7 @@
             {#if !listed(s.login)}
               <TextButton
                 label={t.search_pick()}
+                icon={IconName.PLUS}
                 variant={ButtonVariant.OUTLINE}
                 size={ButtonSize.SM}
                 type={ButtonType.BUTTON}

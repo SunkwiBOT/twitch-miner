@@ -85,11 +85,17 @@ fn complete_account_game_entries(store: &Store, campaigns: &[Campaign]) -> Vec<A
     accounts
         .into_iter()
         .filter_map(|mut record| {
-            let drops = &mut record.settings.drops;
-            let priority = crate::catalog::complete_game_entries(&mut drops.priority_games, campaigns);
-            let excluded = crate::catalog::complete_game_entries(&mut drops.exclude_games, campaigns);
+            let settings = &mut record.settings;
+            let changed = [
+                &mut settings.drops.priority_games,
+                &mut settings.drops.exclude_games,
+                &mut settings.badges.exclude_games,
+            ]
+            .into_iter()
+            .map(|entries| crate::catalog::complete_game_entries(entries, campaigns))
+            .fold(false, |changed, completed| changed | completed);
 
-            if !priority && !excluded {
+            if !changed {
                 return None;
             }
 
@@ -1183,46 +1189,6 @@ impl Manager {
         self.spawn_account(record, &vault).await
     }
 
-    pub async fn order_campaign(
-        self: &Arc<Self>,
-        account_id: &str,
-        campaign_id: &str,
-        position: Option<usize>,
-    ) -> Result<()> {
-        let record = self
-            .store
-            .account(account_id)?
-            .ok_or_else(|| Error::UnknownAccount(account_id.to_owned()))?;
-        let mut settings = record.settings;
-
-        settings.drops.campaign_order.retain(|id| id != campaign_id);
-
-        if let Some(position) = position {
-            let position = position.min(settings.drops.campaign_order.len());
-
-            settings
-                .drops
-                .campaign_order
-                .insert(position, campaign_id.to_owned());
-
-            // ! "Mine first" is a choice: with "only my selection" on, it must
-            // not leave the campaign out.
-            if !settings
-                .drops
-                .selected_campaign_ids
-                .iter()
-                .any(|id| id == campaign_id)
-            {
-                settings
-                    .drops
-                    .selected_campaign_ids
-                    .push(campaign_id.to_owned());
-            }
-        }
-
-        self.set_account_settings(account_id, settings).await
-    }
-
     async fn refresh_all(&self) {
         let accounts = self.accounts.lock().await;
 
@@ -2219,11 +2185,13 @@ impl Manager {
                         problem,
                         slots: vec![],
                         queue: vec![],
+                        left_out: vec![],
                         streamers: vec![],
                         progress: vec![],
                         other_campaigns: vec![],
                         quests: vec![],
                         owned_badges: vec![],
+                        refused_claims: vec![],
                         badges_read_at: None,
                         stats: Default::default(),
                         updated_at: Utc::now(),
@@ -2323,14 +2291,6 @@ impl Manager {
             }
             Command::Unlock { passphrase } => self.unlock(&passphrase).await?,
             Command::Lock {} => self.lock().await?,
-            Command::OrderCampaign {
-                account_id,
-                campaign_id,
-                position,
-            } => {
-                self.order_campaign(&account_id, &campaign_id, position.map(|p| p as usize))
-                    .await?
-            }
             Command::AddSpamChannel { account_id, login } => {
                 self.add_spam_channel(&account_id, &login)?
             }

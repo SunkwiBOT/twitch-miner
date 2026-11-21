@@ -8,6 +8,7 @@ import {
 } from "../api/client";
 import { isTauri } from "../api/tauri";
 import { describeError } from "../errors/errors.utils";
+import type { IconName } from "../icons.constants";
 import { t } from "../i18n/i18n.svelte";
 import { strong } from "../text.utils";
 import { app } from "./app.svelte";
@@ -21,7 +22,7 @@ import {
 
 export type ToastSubjectType = { url: string | undefined; name: string; channel: string | null };
 
-export type ToastActionType = { label: string; run: () => void };
+export type ToastActionType = { label: string; icon: IconName; run: () => void };
 
 export type ToastCardPropsType = {
   kind: ToastKind;

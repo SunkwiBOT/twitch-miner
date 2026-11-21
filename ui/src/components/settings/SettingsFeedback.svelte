@@ -3,7 +3,7 @@
   import { isTauri } from "../../lib/api/tauri";
   import { describeError } from "../../lib/errors/errors.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
-  import { Page, ToastKind } from "../../lib/state/state.constants";
+  import { PAGE_ICONS, Page, ToastKind } from "../../lib/state/state.constants";
   import { navigate } from "../../lib/state/router";
   import { toast } from "../../lib/state/toasts";
   import FeedbackChoices from "../feedback/FeedbackChoices.svelte";
@@ -26,7 +26,7 @@
   <div class="flex flex-wrap gap-2">
     <TextButton
       label={t.nav_logs()}
-      icon={IconName.FILE}
+      icon={PAGE_ICONS[Page.LOGS]}
       variant={ButtonVariant.OUTLINE}
       size={ButtonSize.MD}
       type={ButtonType.BUTTON}

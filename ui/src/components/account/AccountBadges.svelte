@@ -2,7 +2,13 @@
   import PanelColumns from "../ui/PanelColumns.svelte";
   import { untrack } from "svelte";
 
-  import { BADGES_TAB_SLUGS, BadgesTab } from "../../lib/accounts/accounts.constants";
+  import {
+    BADGES_PAGE_TABS,
+    BADGES_TAB_SLUGS,
+    BadgesTab,
+  } from "../../lib/accounts/accounts.constants";
+  import { accountCampaigns } from "../../lib/accounts/campaign-groups.utils";
+  import { groupOptions } from "../../lib/accounts/campaign-states.utils";
   import { laneEnabled } from "../../lib/accounts/mining-order.utils";
   import { accountBadges, ownedBadges } from "../../lib/badges/badges.utils";
   import { badgeList } from "../../lib/badges/badges.svelte";
@@ -10,20 +16,18 @@
   import type { CampaignType } from "../../lib/bindings/CampaignType";
   import type { GlobalBadgeType } from "../../lib/bindings/GlobalBadgeType";
   import { MiningLaneKind } from "../../lib/bindings/MiningLaneKind";
+  import { campaignGivesBadge } from "../../lib/catalogue/campaign.utils";
+  import { campaignsOf } from "../../lib/catalogue/catalogue.svelte";
   import { t } from "../../lib/i18n/i18n.svelte";
-  import { matchesSearch, normalizeSearch } from "../../lib/search/search.utils";
   import { editsOf } from "../../lib/state/edits.svelte";
   import { AccountField } from "../../lib/state/state.constants";
   import { openTab, showTab } from "../../lib/state/router";
   import { ticker } from "../../lib/state/ticker.svelte";
   import CampaignDialog from "../catalogue/CampaignDialog.svelte";
-  import EmptyState from "../ui/EmptyState.svelte";
   import BadgeDialog from "../badges/BadgeDialog.svelte";
-  import BadgeTile from "../ui/BadgeTile.svelte";
   import Notice from "../ui/Notice.svelte";
   import PageBody from "../ui/PageBody.svelte";
   import Panel from "../ui/Panel.svelte";
-  import SearchField from "../ui/SearchField.svelte";
   import Segmented from "../ui/Segmented.svelte";
   import Setting from "../ui/Setting.svelte";
   import { IconName } from "../../lib/icons.constants";
@@ -31,8 +35,10 @@
   import AccountSaveBar from "./AccountSaveBar.svelte";
   import BadgesExclusionsTab from "./badges/BadgesExclusionsTab.svelte";
   import BadgesOrderTab from "./badges/BadgesOrderTab.svelte";
+  import OwnedBadgesTab from "./badges/OwnedBadgesTab.svelte";
   import CampaignScopeFields from "./drops/CampaignScopeFields.svelte";
   import MiningOrderList from "./drops/MiningOrderList.svelte";
+  import RewardsTab from "./rewards/RewardsTab.svelte";
 
   type AccountBadgesPropsType = { account: AccountSnapshotType };
 
@@ -43,19 +49,15 @@
 
   const sections = $derived(accountBadges(account, ticker.now));
   const owned = $derived(ownedBadges(account, badgeList.badges));
+  const groups = $derived(
+    accountCampaigns(account, campaignsOf(account).filter(campaignGivesBadge)),
+  );
 
-  let query = $state("");
-
-  const ownedShown = $derived.by(() => {
-    const needle = normalizeSearch(query);
-
-    return owned.filter((badge) => !needle || matchesSearch(badge.title, needle));
-  });
   const badgesOn = $derived(
     laneEnabled(account.settings.drops.mining_order, MiningLaneKind.BADGES),
   );
 
-  const tab = $derived(openTab(Object.values(BadgesTab), BADGES_TAB_SLUGS, BadgesTab.ORDER));
+  const tab = $derived(openTab(BADGES_PAGE_TABS, BADGES_TAB_SLUGS, BadgesTab.ORDER));
 
   let open = $state<CampaignType | null>(null);
   let openBadge = $state<GlobalBadgeType | null>(null);
@@ -84,6 +86,7 @@
             account.settings.badges.exclude_games.length +
             account.settings.badges.exclude_names.length,
         },
+        ...groupOptions(groups),
         {
           value: BadgesTab.OWNED,
           label: t.account_badges_owned(),
@@ -138,37 +141,18 @@
         />
       </Panel>
     </PanelColumns>
+  {:else if tab === BadgesTab.OWNED}
+    <OwnedBadgesTab {account} {owned} onopen={(badge) => (openBadge = badge)} />
   {:else}
-    <Panel title={t.account_badges_owned()} count={owned.length}>
-      {#if owned.length === 0}
-        <EmptyState text={t.account_badges_empty_owned()} />
-      {:else}
-        <div class="w-full max-w-96">
-          <SearchField
-            placeholder={t.account_badges_search_placeholder()}
-            aria-label={t.account_badges_search_placeholder()}
-            bind:value={query}
-            busy={false}
-          />
-        </div>
-        {#if ownedShown.length === 0}
-          <EmptyState text={t.badges_empty()} />
-        {:else}
-          <ul class="grid grid-cols-[repeat(auto-fill,minmax(min(170px,100%),1fr))] gap-2.5">
-            {#each ownedShown as badge (badge.key)}
-              <li class="grid">
-                <BadgeTile
-                  image={badge.image}
-                  title={badge.title}
-                  tooltip={true}
-                  onclick={badge.badge ? () => (openBadge = badge.badge!) : undefined}
-                />
-              </li>
-            {/each}
-          </ul>
-        {/if}
-      {/if}
-    </Panel>
+    {#key tab}
+      <RewardsTab
+        {account}
+        group={tab}
+        entries={groups[tab]}
+        icon={IconName.AWARD}
+        onopen={(campaign) => (open = campaign)}
+      />
+    {/key}
   {/if}
   <AccountSaveBar {account} />
 </PageBody>
@@ -182,6 +166,5 @@
     openBadge = null;
     open = next;
   }}
-  onopenbadge={(next) => (openBadge = next)}
   onclose={() => (openBadge = null)}
 />

@@ -347,6 +347,22 @@ impl Campaign {
             .unwrap_or(0)
     }
 
+    // ! The minutes the campaign keeps the drop slot from now on: its rewards
+    // progress together, and a repeated one only holds it for its open period.
+    pub fn hold_minutes(&self, now: DateTime<Utc>, excluded: &[String]) -> u32 {
+        self.drops
+            .iter()
+            .filter(|d| d.earnable(now, excluded) && d.active_at(now) && !d.earned_for_now(now))
+            .map(|d| {
+                let window = (d.ends_at.min(self.ends_at) - now).num_minutes();
+
+                d.remaining_minutes()
+                    .min(u32::try_from(window.max(0)).unwrap_or(u32::MAX))
+            })
+            .max()
+            .unwrap_or(0)
+    }
+
     // ! Kept while one reward still fits in its window: the shorter ones are not lost.
     // A repeated one needs its last period to open and be watched before the end.
     pub fn can_finish(&self, now: DateTime<Utc>, excluded: &[String]) -> bool {

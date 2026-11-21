@@ -55,6 +55,7 @@
 {#if stepIndex > 0}
   <TextButton
     label={t.common_back()}
+    icon={IconName.ARROW_LEFT}
     variant={ButtonVariant.OUTLINE}
     size={ButtonSize.MD}
     type={ButtonType.BUTTON}

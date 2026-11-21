@@ -20,7 +20,7 @@
   import { boxArt } from "../../lib/format.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { escapeEmphasis, strong } from "../../lib/text.utils";
-  import { Page } from "../../lib/state/state.constants";
+  import { PAGE_ICONS, Page } from "../../lib/state/state.constants";
   import { setDropIgnored } from "../../lib/state/account-settings.svelte";
   import { app } from "../../lib/state/app.svelte";
   import { navigate } from "../../lib/state/router";
@@ -79,11 +79,13 @@
 
   <Card class="gap-0 py-0"><AccountActivity {account} /></Card>
 
-  <PanelColumns width={PanelWidth.MD}>
+  <!-- ! Wide enough for a queue row's details on one line before the panels sit side by side. -->
+  <PanelColumns width={PanelWidth.XL}>
     <Panel title={t.overview_queue()}>
       {#snippet actions()}
         <TextButton
           label={t.overview_manage_queue()}
+          icon={PAGE_ICONS[Page.ACCOUNT_DROPS]}
           variant={ButtonVariant.OUTLINE}
           size={ButtonSize.SM}
           type={ButtonType.BUTTON}
@@ -131,6 +133,7 @@
         {#if current}
           <TextButton
             label={t.campaign_details()}
+            icon={IconName.EYE}
             variant={ButtonVariant.OUTLINE}
             size={ButtonSize.SM}
             type={ButtonType.BUTTON}
@@ -156,6 +159,7 @@
     {#snippet actions()}
       <TextButton
         label={t.nav_history()}
+        icon={PAGE_ICONS[Page.ACCOUNT_HISTORY]}
         variant={ButtonVariant.OUTLINE}
         size={ButtonSize.SM}
         type={ButtonType.BUTTON}

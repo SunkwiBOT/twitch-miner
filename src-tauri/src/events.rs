@@ -78,7 +78,7 @@ pub(super) async fn forward_events(
                 Ok(event) => {
                     let settings = manager.global_settings().await;
 
-                    if settings.notifications.system && miner_core::notifications::wanted(&settings.notifications.events, event.kind) {
+                    if miner_core::notifications::desktop_wanted(&settings.notifications, event.kind) {
                         desktop.notify(event.clone(), settings.notification_language());
                     }
 

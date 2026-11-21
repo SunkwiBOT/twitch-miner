@@ -1,6 +1,7 @@
 import type { GameEntryType } from "../bindings/GameEntryType";
 import type { GameType } from "../bindings/GameType";
 import { app } from "../state/app.svelte";
+import { categoryUrl } from "./campaign.utils";
 import { catalogue } from "./catalogue.svelte";
 
 export type RunningGameType = { game: GameType; drops: number };
@@ -20,6 +21,7 @@ const knownGameArt = (name: string): string | undefined => {
     for (const entry of [
       ...account.settings.drops.priority_games,
       ...account.settings.drops.exclude_games,
+      ...account.settings.badges.exclude_games,
     ]) {
       if (entry.box_art_url && entry.name.toLowerCase() === needle) {
         return entry.box_art_url;
@@ -32,6 +34,9 @@ const knownGameArt = (name: string): string | undefined => {
 
 export const gameArt = (name: string, art: string | undefined): string | undefined =>
   art ?? catalogueGame(name)?.box_art_url ?? knownGameArt(name);
+
+export const gameUrl = (name: string, slug: string | undefined): string =>
+  categoryUrl(name, slug ?? catalogueGame(name)?.slug);
 
 export const runningGames = (now: number): RunningGameType[] => {
   const byName = new Map<string, RunningGameType>();

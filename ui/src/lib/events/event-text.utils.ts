@@ -3,12 +3,14 @@ import { EventKind } from "../bindings/EventKind";
 import type { MinerEventType } from "../bindings/MinerEventType";
 import { PointsReason } from "../bindings/PointsReason";
 import { PauseReason } from "../bindings/PauseReason";
-import { onDropsPage } from "../catalogue/campaign.utils";
-import { catalogueCampaign } from "../catalogue/catalogue.svelte";
+import { badgeList } from "../badges/badges.svelte";
+import { badgeKey } from "../badges/badges.utils";
+import { campaignOf, catalogueCampaign } from "../catalogue/catalogue.svelte";
 import { POINTS_EARNED_REASON_TEXT, reasonLabel } from "./event-reasons.utils";
 import { number } from "../format.utils";
 import { t } from "../i18n/i18n.svelte";
-import { campaignUrl, channelUrl } from "../links/twitch.utils";
+import { channelUrl } from "../links/twitch.utils";
+import { account, app } from "../state/app.svelte";
 import { relativeTime } from "../time/time.utils";
 import { escapeEmphasis, linkMarker, strong, type TextLinkType } from "../text.utils";
 
@@ -27,10 +29,25 @@ const WATCH_POINTS_TEXTS: Record<PointsReason, ShortLongTextType> = {
   [PointsReason.LIST_ORDER]: [t.ev_watch_points_list_order_short, t.ev_watch_points_list_order],
 };
 
-const dropsPageUrl = (campaignId: string | undefined): string | null => {
-  const known = campaignId === undefined ? undefined : catalogueCampaign(campaignId);
+type LinkTargetType = { url: string } | { open: () => void } | null;
 
-  return known && onDropsPage(known) ? campaignUrl(known.id) : null;
+const campaignSheet = (event: MinerEventType): LinkTargetType => {
+  const id = event.context.campaign_id;
+  const owner = account(event.account_id);
+  const campaign =
+    id === undefined ? undefined : owner ? campaignOf(owner, id) : catalogueCampaign(id);
+
+  return campaign
+    ? { open: () => (app.campaignSheet = { item: campaign, accountId: owner?.id ?? null }) }
+    : null;
+};
+
+const badgeSheet = (event: MinerEventType): LinkTargetType => {
+  const key = event.context.badge_key;
+  const badge = badgeList.badges.find((item) => badgeKey(item.set_id, item.version_id) === key);
+  const accountId = account(event.account_id)?.id ?? null;
+
+  return badge ? { open: () => (app.badgeSheet = { item: badge, accountId }) } : null;
 };
 
 export type EventTextType = { text: string; links: TextLinkType[] };
@@ -47,13 +64,13 @@ export const eventText = (
   const context = event.context;
   const links: TextLinkType[] = [];
 
-  const named = (label: string | undefined, url: string | null): string | undefined => {
+  const named = (label: string | undefined, target: LinkTargetType): string | undefined => {
     if (label === undefined) {
       return undefined;
     }
 
-    if (linked && url) {
-      links.push({ label, url });
+    if (linked && target) {
+      links.push({ label, ...target });
 
       return linkMarker(links.length - 1);
     }
@@ -64,13 +81,16 @@ export const eventText = (
   const bold = (value: string | number | undefined): string | undefined =>
     value === undefined ? undefined : strong(typeof value === "number" ? number(value) : value);
 
-  const campaignLink = dropsPageUrl(context.campaign_id);
+  const campaignTarget = linked ? campaignSheet(event) : null;
   const channel = named(
     context.channel_name ?? context.channel,
-    context.channel ? channelUrl(context.channel) : null,
+    context.channel ? { url: channelUrl(context.channel) } : null,
   );
-  const drop = named(context.drop_name, campaignLink);
-  const campaign = drop ? bold(context.campaign_name) : named(context.campaign_name, campaignLink);
+  const drop = named(context.drop_name, campaignTarget);
+  const campaign = drop
+    ? bold(context.campaign_name)
+    : named(context.campaign_name, campaignTarget);
+  const badge = named(context.badge, linked ? badgeSheet(event) : null);
   const fallback = escapeEmphasis(event.title);
 
   const channelOnly = ([short, long]: ShortLongTextType): string =>
@@ -125,8 +145,8 @@ export const eventText = (
               required: bold(context.required) ?? "",
             });
       case EventKind.ERROR:
-        if (context.badge && drop) {
-          return t.ev_badge_equip_failed({ badge: strong(context.badge), drop });
+        if (badge && drop) {
+          return t.ev_badge_equip_failed({ badge, drop });
         }
 
         return drop && context.drop_id && context.status
@@ -265,9 +285,7 @@ export const eventText = (
           chatter: strong(context.chatter),
         });
       case EventKind.INFO:
-        return context.badge && drop
-          ? t.ev_badge_equipped({ badge: strong(context.badge), drop })
-          : fallback;
+        return badge && drop ? t.ev_badge_equipped({ badge, drop }) : fallback;
       case EventKind.PAUSED:
         if (context.pause_reason === PauseReason.QUIET_WINDOW) {
           return t.ev_paused_quiet_window();

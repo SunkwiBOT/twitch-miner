@@ -125,7 +125,8 @@
   };
 </script>
 
-<div class="grid grid-cols-[repeat(auto-fill,minmax(116px,1fr))] gap-2.5">
+<!-- ! The tile's floor is the width its badges and claim button need on one line in every language. -->
+<div class="grid grid-cols-[repeat(auto-fill,minmax(136px,1fr))] gap-2.5">
   {#each campaign.drops as d (d.id)}
     {@const state = stateOf(d)}
     {@const benefit = d.benefits.at(0)}

@@ -63,6 +63,19 @@ impl ClaimRegistry {
         });
     }
 
+    pub fn refused_drops(&self) -> Vec<String> {
+        let mut ids: Vec<String> = self
+            .refused
+            .keys()
+            .chain(self.refused_windows.keys())
+            .cloned()
+            .collect();
+
+        ids.sort();
+
+        ids
+    }
+
     pub fn finish(&mut self, campaign_id: &str) -> bool {
         self.finished.insert(campaign_id.to_owned())
     }
