@@ -2,8 +2,8 @@ import { isTauri } from "../api/tauri";
 import type { SnapshotType } from "../bindings/SnapshotType";
 import { account, app } from "./app.svelte";
 import { parseRoute, routePath } from "./routes.utils";
-import { ACCOUNT_PAGES, HistoryMode, MouseButton, Page, PAGE_PATHS } from "./state.constants";
-import { KEY_STORAGE_ACCOUNT, KEY_STORAGE_PAGE, KEY_STORAGE_TABS } from "./storage.constants";
+import { ACCOUNT_PAGES, HistoryMode, MouseButton, Page } from "./state.constants";
+import { KEY_STORAGE_ACCOUNT, KEY_STORAGE_TABS } from "./storage.constants";
 import { recall, remember } from "./storage.utils";
 import { joinTabs, pickTab, readSavedTabs, tabParts, withTab } from "./tabs.utils";
 import type { SavedTabsType } from "./tabs.utils";
@@ -39,9 +39,6 @@ export const showTab = <T extends string | number>(slugs: Record<T, string>, tab
   remember(KEY_STORAGE_TABS, JSON.stringify(savedTabs));
   writeHash();
 };
-
-const PAGES: ReadonlySet<string> = new Set(Object.values(Page));
-const isPage = (value: string | null): value is Page => value !== null && PAGES.has(value);
 
 let pendingLogin: string | null = null;
 
@@ -87,7 +84,6 @@ const followAddress = (): void => {
   }
 
   app.tab = addressTab() || pageTabs(app.page);
-  remember(KEY_STORAGE_PAGE, app.page);
 
   if (app.selectedAccount) {
     remember(KEY_STORAGE_ACCOUNT, app.selectedAccount);
@@ -126,7 +122,6 @@ export const navigate = (page: Page, accountId?: string): void => {
 
   app.page = next;
   app.navDrawer = false;
-  remember(KEY_STORAGE_PAGE, next);
 
   if (accountId !== undefined) {
     app.selectedAccount = accountId;
@@ -156,18 +151,7 @@ export const startRouting = (): void => {
     app.selectedAccount = selected;
   }
 
-  if (location.pathname === PAGE_PATHS[Page.HOME]) {
-    const page = recall(KEY_STORAGE_PAGE);
-
-    if (isPage(page) && (!isAccountPage(page) || selected)) {
-      app.page = page;
-    }
-
-    app.tab = addressTab() || pageTabs(app.page);
-    writeHash();
-  } else {
-    followAddress();
-  }
+  followAddress();
 
   window.addEventListener("popstate", followAddress);
   window.addEventListener("hashchange", () => (app.tab = addressTab()));
