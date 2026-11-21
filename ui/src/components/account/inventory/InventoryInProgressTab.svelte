@@ -12,7 +12,7 @@
   import { t } from "../../../lib/i18n/i18n.svelte";
   import { ticker } from "../../../lib/state/ticker.svelte";
   import { escapeEmphasis } from "../../../lib/text.utils";
-  import Badge from "../../ui/Badge.svelte";
+  import SubRequiredBadge from "../../catalogue/SubRequiredBadge.svelte";
   import EmptyState from "../../ui/EmptyState.svelte";
   import List from "../../ui/List.svelte";
   import ListRow from "../../ui/ListRow.svelte";
@@ -20,7 +20,6 @@
   import ProgressLine from "../../ui/ProgressLine.svelte";
   import RewardThumb from "../../ui/RewardThumb.svelte";
   import Thumb from "../../ui/Thumb.svelte";
-  import { BadgeTone } from "../../../lib/tones.constants";
   import { IconName } from "../../../lib/icons.constants";
   import { ThumbShape, ThumbSize } from "../../ui/picture.constants";
 
@@ -70,12 +69,7 @@
                       {#if drop.repeat}<span class="shrink-0 text-hint text-muted-foreground">
                           {periodsText(drop.periods_done, drop.repeat)}
                         </span>{/if}
-                      {#if subsMissing(drop)}<Badge
-                          text={t.reward_sub_only()}
-                          tone={BadgeTone.WARNING}
-                          dot={false}
-                          hint={t.badge_hint_sub_only()}
-                        />{/if}
+                      {#if subsMissing(drop)}<SubRequiredBadge />{/if}
                     </span>
                     {#if !subsMissing(drop)}
                       {@const totals = dropTotals(drop)}

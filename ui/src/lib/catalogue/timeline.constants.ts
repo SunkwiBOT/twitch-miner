@@ -50,6 +50,7 @@ export enum BarLabelPlacement {
   INSIDE = "INSIDE",
   LEFT = "LEFT",
   RIGHT = "RIGHT",
+  BELOW = "BELOW",
 }
 
 export enum BarKey {

@@ -4,6 +4,7 @@
   import { followBadgeLink, followCampaignLink, followLink } from "../../lib/links/links.utils";
   import Icon from "./Icon.svelte";
   import {
+    BUTTON_ICON_SIZES,
     BUTTON_SIZES,
     BUTTON_VARIANTS,
     BUTTON_VARIANT_CLASSES,
@@ -44,7 +45,7 @@
     onfollow,
   }: ExternalButtonPropsType = $props();
 
-  const iconSize = $derived(size === ButtonSize.SM ? 13 : 14);
+  const iconSize = $derived(BUTTON_ICON_SIZES[size]);
 
   const follow = (event: MouseEvent): void => {
     if (resolve?.kind === ResolveKind.CAMPAIGN) {

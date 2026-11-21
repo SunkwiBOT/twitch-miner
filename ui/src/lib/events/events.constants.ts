@@ -50,7 +50,7 @@ export const EVENT_TONES: Record<EventKind, BadgeTone> = {
   [EventKind.LOGIN_COMPLETED]: BadgeTone.NEUTRAL,
   [EventKind.UPDATE_AVAILABLE]: BadgeTone.INFO,
   [EventKind.VERSION_UPDATED]: BadgeTone.INFO,
-  [EventKind.PAUSED]: BadgeTone.WARNING,
+  [EventKind.PAUSED]: BadgeTone.MUTED,
   [EventKind.RESUMED]: BadgeTone.SUCCESS,
 };
 

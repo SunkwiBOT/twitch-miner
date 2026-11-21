@@ -1,5 +1,7 @@
 <script lang="ts">
+  import { POINTS_REASON_ICONS, POINTS_REASON_TONES } from "../../../lib/accounts/accounts.utils";
   import type { ChannelType } from "../../../lib/bindings/ChannelType";
+  import { PointsReason } from "../../../lib/bindings/PointsReason";
   import type { StreamerSettingsType } from "../../../lib/bindings/StreamerSettingsType";
   import type { StreamerViewType } from "../../../lib/bindings/StreamerViewType";
   import { gameArt, gameUrl } from "../../../lib/catalogue/games.utils";
@@ -77,15 +79,16 @@
         {#if view?.watching}<Badge
             text={t.streamer_watching()}
             tone={BadgeTone.SUCCESS}
-            dot={true}
+            dot={false}
+            icon={IconName.PLAY}
             hint={t.badge_hint_watching()}
           />{/if}
         {#if view?.streak_at_risk}<Badge
-            text={t.streamer_streak_risk()}
-            tone={BadgeTone.WARNING}
+            text={t.points_reason_streak_at_risk()}
+            tone={POINTS_REASON_TONES[PointsReason.STREAK_AT_RISK]}
             dot={false}
             hint={t.badge_hint_streak_risk()}
-            icon={IconName.WATCH_STREAK}
+            icon={POINTS_REASON_ICONS[PointsReason.STREAK_AT_RISK]}
           />{/if}
       </span>
       <span

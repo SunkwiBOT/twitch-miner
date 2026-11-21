@@ -8,6 +8,7 @@
     setCampaignSelectedIn,
   } from "../../lib/accounts/changes.utils";
   import type { AccountSettingsType } from "../../lib/bindings/AccountSettingsType";
+  import type { AccountSnapshotType } from "../../lib/bindings/AccountSnapshotType";
   import { app } from "../../lib/state/app.svelte";
   import { changeAccounts } from "../../lib/state/bulk.svelte";
   import { strong } from "../../lib/text.utils";
@@ -19,7 +20,7 @@
   import { busyLabel } from "./catalogue.utils";
 
   type CampaignActionsPropsType = {
-    campaignId: string;
+    campaignId: string | null;
     name: string;
     selected: string[];
     minable: boolean;
@@ -39,25 +40,30 @@
   const accounts = $derived(app.snapshot?.accounts ?? []);
   const chosen = $derived(accounts.filter((a) => selected.includes(a.id)));
   const campaignOrReward = $derived(strong(name));
-  const unminable = $derived(minable ? undefined : t.campaign_nothing_to_mine());
+  const idle = $derived(campaignId === null ? t.badge_no_running_campaign() : undefined);
+  const unminable = $derived(idle ?? (minable ? undefined : t.campaign_nothing_to_mine()));
 
-  const allIgnore = $derived(
+  const allOf = (ids: (account: AccountSnapshotType) => string[]): boolean =>
+    campaignId !== null &&
     chosen.length > 0 &&
-      chosen.every((a) => a.settings.drops.exclude_campaign_ids.includes(campaignId)),
-  );
+    chosen.every((account) => ids(account).includes(campaignId));
 
-  const allSelected = $derived(
-    chosen.length > 0 &&
-      chosen.every((a) => a.settings.drops.selected_campaign_ids.includes(campaignId)),
-  );
+  const allIgnore = $derived(allOf((a) => a.settings.drops.exclude_campaign_ids));
+  const allSelected = $derived(allOf((a) => a.settings.drops.selected_campaign_ids));
 
   const act = async (
     key: CampaignAction,
     text: string,
-    change: (settings: AccountSettingsType) => void,
+    change: (settings: AccountSettingsType, id: string) => void,
   ): Promise<void> => {
+    if (campaignId === null) {
+      return;
+    }
+
+    const id = campaignId;
+
     busy = key;
-    await changeAccounts(selected, text, change);
+    await changeAccounts(selected, text, (settings) => change(settings, id));
     busy = null;
   };
 </script>
@@ -80,16 +86,17 @@
   busyLabel={busy ? busyLabel(busy) : ""}
   busy={busy === CampaignAction.IGNORE || busy === CampaignAction.RESTORE}
   disabled={busy !== null || selected.length === 0}
+  reason={idle}
   variant={ButtonVariant.DEFAULT}
   size={ButtonSize.MD}
   type={ButtonType.BUTTON}
   onclick={() =>
     allIgnore
-      ? act(CampaignAction.RESTORE, t.change_unignored({ campaignOrReward }), (settings) =>
-          setCampaignIgnoredIn(settings, campaignId, false),
+      ? act(CampaignAction.RESTORE, t.change_unignored({ campaignOrReward }), (settings, id) =>
+          setCampaignIgnoredIn(settings, id, false),
         )
-      : act(CampaignAction.IGNORE, t.change_ignored({ campaignOrReward }), (settings) =>
-          setCampaignIgnoredIn(settings, campaignId, true),
+      : act(CampaignAction.IGNORE, t.change_ignored({ campaignOrReward }), (settings, id) =>
+          setCampaignIgnoredIn(settings, id, true),
         )}
 />
 <ActionButton
@@ -104,11 +111,11 @@
   type={ButtonType.BUTTON}
   onclick={() =>
     allSelected
-      ? act(CampaignAction.UNSELECT, t.change_unselected({ campaignOrReward }), (settings) =>
-          setCampaignSelectedIn(settings, campaignId, false),
+      ? act(CampaignAction.UNSELECT, t.change_unselected({ campaignOrReward }), (settings, id) =>
+          setCampaignSelectedIn(settings, id, false),
         )
-      : act(CampaignAction.SELECT, t.change_selected({ campaignOrReward }), (settings) =>
-          setCampaignSelectedIn(settings, campaignId, true),
+      : act(CampaignAction.SELECT, t.change_selected({ campaignOrReward }), (settings, id) =>
+          setCampaignSelectedIn(settings, id, true),
         )}
 />
 <ActionButton
@@ -122,7 +129,7 @@
   size={ButtonSize.MD}
   type={ButtonType.BUTTON}
   onclick={() =>
-    act(CampaignAction.FIRST, t.change_prioritized({ campaignOrReward }), (settings) =>
-      prioritizeIn(settings, campaignId),
+    act(CampaignAction.FIRST, t.change_prioritized({ campaignOrReward }), (settings, id) =>
+      prioritizeIn(settings, id),
     )}
 />

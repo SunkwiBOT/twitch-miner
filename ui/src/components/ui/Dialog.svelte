@@ -122,7 +122,7 @@
       >
         <DialogTitle class="flex items-center gap-2.5 pr-8 text-base font-semibold">
           {#if lead}{@render lead()}{/if}
-          <span class="truncate">{title}</span>
+          <span class="line-clamp-2 min-w-0 break-words">{title}</span>
         </DialogTitle>
       </DialogHeader>
       <div class="absolute top-[18px] right-4">

@@ -34,6 +34,7 @@
   import CampaignActions from "../catalogue/CampaignActions.svelte";
   import { CampaignAction } from "../catalogue/catalogue.constants";
   import Badge from "../ui/Badge.svelte";
+  import SubRequiredBadge from "../catalogue/SubRequiredBadge.svelte";
   import ChannelLink from "../ui/ChannelLink.svelte";
   import Dialog from "../ui/Dialog.svelte";
   import ExternalButton from "../ui/ExternalButton.svelte";
@@ -107,7 +108,6 @@
 
     return id && ends && Date.parse(ends) > ticker.now ? id : null;
   });
-  const actionable = $derived(running !== null && accounts.length > 0);
   const categories = $derived(
     requirement?.categories.length
       ? requirement.categories
@@ -204,7 +204,7 @@
 {/snippet}
 
 {#snippet actions()}
-  {#if running && shown && accounts.length}
+  {#if shown}
     <CampaignActions
       campaignId={running}
       name={campaign?.name ?? requirement?.campaign_name ?? shown.title}
@@ -223,7 +223,7 @@
   closable={busy === null}
   closeLabel={t.common_close()}
   onclose={close}
-  footer={actionable ? actions : undefined}
+  footer={accounts.length > 0 ? actions : undefined}
 >
   <div class="contents" bind:this={body}>
     {#if shown}
@@ -271,12 +271,7 @@
               />
             {/if}
             {#if badgeNeedsSub(shown)}
-              <Badge
-                text={t.reward_sub_only()}
-                tone={BadgeTone.WARNING}
-                dot={false}
-                hint={t.badge_hint_sub_only()}
-              />
+              <SubRequiredBadge />
             {/if}
             {#if requirement?.ends_at && badgeEnded(shown, ticker.now)}
               <Badge text={t.campaign_ended()} tone={BadgeTone.MUTED} dot={false} />
@@ -458,6 +453,7 @@
                 text={t.badge_evolution_locked({ badge: evolution.from.title })}
                 tone={BadgeTone.WARNING}
                 dot={false}
+                icon={IconName.LOCK}
                 hint={t.badge_hint_evolution_locked({ badge: strong(evolution.from.title) })}
               />
             {/if}

@@ -1,7 +1,9 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
 
+  import { queueReasonView } from "../../lib/accounts/campaign-states.utils";
   import type { CampaignType } from "../../lib/bindings/CampaignType";
+  import { QueueReason } from "../../lib/bindings/QueueReason";
   import { BoxArtSize } from "../../lib/format.constants";
   import { boxArt, shortDuration } from "../../lib/format.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
@@ -9,7 +11,6 @@
   import { NEW_MS, URGENT_MS } from "./catalogue.constants";
   import Badge from "../ui/Badge.svelte";
   import { BadgeTone } from "../../lib/tones.constants";
-  import { IconName } from "../../lib/icons.constants";
   import { CARD_LIFT_CLASSES } from "../ui/ui.constants";
   import LinkBadge from "./LinkBadge.svelte";
   import TimeLeftTag from "./TimeLeftTag.svelte";
@@ -40,20 +41,15 @@
     <span class="absolute bottom-1.5 left-1.5">
       <TimeLeftTag
         text={left > 0 ? shortDuration(left) : t.campaign_ended()}
-        urgent={left < URGENT_MS}
+        urgent={left > 0 && left < URGENT_MS}
       />
     </span>
     {#if ordered || isNew}
-      <span class="absolute top-1.5 right-1.5">
+      <span class="absolute top-1.5 right-1.5 rounded-4xl bg-background">
         {#if ordered}
-          <Badge
-            text={t.queue_reason_pinned()}
-            tone={BadgeTone.PRIMARY}
-            dot={false}
-            icon={IconName.PIN}
-          />
+          <Badge {...queueReasonView(QueueReason.ORDERED)} dot={false} />
         {:else}
-          <Badge text={t.catalogue_new()} tone={BadgeTone.PRIMARY} dot={false} />
+          <Badge text={t.catalogue_new()} tone={BadgeTone.INFO} dot={false} />
         {/if}
       </span>
     {/if}

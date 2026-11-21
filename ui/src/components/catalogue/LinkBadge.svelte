@@ -4,9 +4,10 @@
   import { BadgeTone } from "../../lib/tones.constants";
   import { IconName } from "../../lib/icons.constants";
 
-  type LinkBadgePropsType = { linked: boolean | null | undefined };
+  // ! `needed` with no known `linked`: the campaign asks for a link, no account says whether it has one.
+  type LinkBadgePropsType = { linked: boolean | null | undefined; needed?: boolean };
 
-  let { linked }: LinkBadgePropsType = $props();
+  let { linked, needed = false }: LinkBadgePropsType = $props();
 </script>
 
 {#if linked === true}
@@ -24,5 +25,13 @@
     dot={false}
     icon={IconName.ALERT}
     hint={t.badge_hint_not_linked()}
+  />
+{:else if needed}
+  <Badge
+    text={t.catalogue_link_required()}
+    tone={BadgeTone.MUTED}
+    dot={false}
+    icon={IconName.LINK}
+    hint={t.badge_hint_link_required()}
   />
 {/if}

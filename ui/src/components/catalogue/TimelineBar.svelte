@@ -19,7 +19,6 @@
     item: TimelineItemType<T>;
     rowName: string;
     range: TimelineRangeType;
-    top: number;
     height: number;
     laneWidth: number;
     now: number;
@@ -27,17 +26,8 @@
     onopen: (value: T) => void;
   };
 
-  let {
-    item,
-    rowName,
-    range,
-    top,
-    height,
-    laneWidth,
-    now,
-    todayEnd,
-    onopen,
-  }: TimelineBarPropsType = $props();
+  let { item, rowName, range, height, laneWidth, now, todayEnd, onopen }: TimelineBarPropsType =
+    $props();
 
   let brokenImage = $state<string | null>(null);
 
@@ -64,30 +54,30 @@
     left > 0 && left < TIMELINE_PILL_MS ? t.timeline_left({ time: shortDuration(left) }) : "",
   );
 
+  const labelWidth = $derived(
+    estimateLabelWidth(
+      item.name,
+      endLabel.replaceAll("**", ""),
+      [pill, item.tag?.text ?? ""],
+      image !== null,
+    ),
+  );
+
   const placement = $derived(
-    geometry
-      ? getLabelPlacement(
-          geometry,
-          laneWidth,
-          estimateLabelWidth(
-            item.name,
-            endLabel.replaceAll("**", ""),
-            [pill, item.tag?.text ?? ""],
-            image !== null,
-          ),
-        )
-      : BarLabelPlacement.INSIDE,
+    geometry ? getLabelPlacement(geometry, laneWidth, labelWidth) : BarLabelPlacement.INSIDE,
   );
 
   const onkeydown = (event: KeyboardEvent): void => {
     const track =
-      event.currentTarget instanceof HTMLElement ? event.currentTarget.parentElement : null;
+      event.currentTarget instanceof HTMLElement
+        ? event.currentTarget.closest("[data-track]")
+        : null;
 
     if (!track) {
       return;
     }
 
-    const bars = Array.from(track.querySelectorAll<HTMLButtonElement>(":scope > [data-bar]"));
+    const bars = Array.from(track.querySelectorAll<HTMLButtonElement>("[data-bar]"));
     const next = getNextBarIndex(
       bars.findIndex((bar) => bar === event.currentTarget),
       event.key,
@@ -112,7 +102,7 @@
       decoding="async"
       onerror={() => (brokenImage = image)}
     />{/if}
-  <span class="min-w-0 truncate">{item.name}</span>
+  <span class="name min-w-0 truncate">{item.name}</span>
   <span class="shrink-0 font-medium text-muted-foreground"><RichText text={endLabel} /></span>
   {#if pill}<TimeLeftTag text={pill} urgent={true} />{/if}
   {#if item.tag}<Badge
@@ -125,36 +115,76 @@
 {/snippet}
 
 {#if geometry}
-  <button
-    class="bar text-hint font-semibold text-foreground"
-    class:cut-left={geometry.isCutLeft}
-    class:cut-right={geometry.isCutRight}
-    class:outside={placement !== BarLabelPlacement.INSIDE}
-    class:muted={item.tag?.muted}
-    data-bar
-    type="button"
-    title={`${rowName} · ${item.name}`}
-    style:left="{geometry.left}%"
-    style:width="{geometry.width}%"
-    style:top="{top}px"
-    style:height="{height}px"
-    style:--p="{geometry.progress}%"
-    onclick={() => onopen(item.value)}
-    {onkeydown}
-  >
-    {#if placement === BarLabelPlacement.INSIDE}
-      {@render label()}
-    {:else}
-      <span class="beside" class:left={placement === BarLabelPlacement.LEFT}>
+  <div class="item">
+    <button
+      class="lane-hit"
+      type="button"
+      tabindex="-1"
+      aria-hidden="true"
+      onclick={() => onopen(item.value)}
+    ></button>
+    <div class="line" style:height="{height}px">
+      <button
+        class="bar text-hint font-semibold text-foreground"
+        class:cut-left={geometry.isCutLeft}
+        class:cut-right={geometry.isCutRight}
+        class:outside={placement !== BarLabelPlacement.INSIDE}
+        class:muted={item.tag?.muted}
+        data-bar
+        type="button"
+        title={`${rowName} · ${item.name}`}
+        style:left="{geometry.left}%"
+        style:width="{geometry.width}%"
+        style:--p="{geometry.progress}%"
+        onclick={() => onopen(item.value)}
+        {onkeydown}
+      >
+        {#if placement === BarLabelPlacement.INSIDE}
+          {@render label()}
+        {:else if placement === BarLabelPlacement.BELOW}
+          <span class="sr-only">{@render label()}</span>
+        {:else}
+          <span class="beside" class:left={placement === BarLabelPlacement.LEFT}>
+            {@render label()}
+          </span>
+        {/if}
+      </button>
+    </div>
+    {#if placement === BarLabelPlacement.BELOW}
+      <!-- ! A copy for the eye: the bar carries the label for the keyboard and screen readers. -->
+      <div
+        class="below text-hint font-semibold text-foreground"
+        inert
+        style:padding-left="min({geometry.left}%, max(0px, calc(100% - {Math.min(
+          labelWidth,
+          laneWidth / 2,
+        )}px)))"
+      >
         {@render label()}
-      </span>
+      </div>
     {/if}
-  </button>
+  </div>
 {/if}
 
 <style>
+  .item {
+    position: relative;
+  }
+  .line {
+    position: relative;
+  }
+  .lane-hit {
+    position: absolute;
+    inset: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
   .bar {
     position: absolute;
+    top: 0;
+    bottom: 0;
     z-index: 3;
     display: flex;
     align-items: center;
@@ -189,7 +219,8 @@
     transition: opacity 0.12s ease;
     pointer-events: none;
   }
-  .bar:hover::after {
+  .bar:hover::after,
+  .item:has(.lane-hit:hover) .bar::after {
     opacity: 0.1;
   }
   .bar:focus-visible {
@@ -222,5 +253,20 @@
   .beside.left {
     left: auto;
     right: calc(100% + 8px);
+  }
+  /* ! Clicks fall through to the lane's own target. */
+  .below {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 6px;
+    padding-top: 4px;
+    line-height: 1.2;
+    pointer-events: none;
+  }
+  .below .name {
+    max-width: 100%;
   }
 </style>

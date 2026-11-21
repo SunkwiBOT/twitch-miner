@@ -19,7 +19,7 @@ import {
 } from "../catalogue/campaign.utils";
 import { campaignOf, catalogueCampaign } from "../catalogue/catalogue.svelte";
 import { ProgressState, type AccountProgressType } from "../catalogue/progress.constants";
-import { badgeKey } from "./badges.utils";
+import { badgeKey, badgeNeedsSub } from "./badges.utils";
 
 export type BadgeProgressType = AccountProgressType & {
   done: number;
@@ -168,7 +168,7 @@ export const badgeProgress = (
   const drop = campaign && badgeDrop(campaign, badge);
 
   if (!campaign || !drop) {
-    return { ...none, state: ProgressState.NOT_OFFERED };
+    return { ...none, state: ProgressState.NOT_OFFERED, subRequired: badgeNeedsSub(badge) };
   }
 
   return watchedProgress(account, campaign.id, {

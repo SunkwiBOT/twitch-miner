@@ -29,6 +29,7 @@
   import Spinner from "./Spinner.svelte";
   import TextButton from "./TextButton.svelte";
   import {
+    BUTTON_ICON_SIZES,
     BUTTON_SIZES,
     BUTTON_VARIANTS,
     ButtonSize,
@@ -42,10 +43,12 @@
     accounts: AccountSnapshotType[];
     scope: PauseScope;
     align: MenuAlign;
-    size: ButtonSize;
   };
 
-  let { accounts, scope, align, size }: PauseControlPropsType = $props();
+  let { accounts, scope, align }: PauseControlPropsType = $props();
+
+  const size = ButtonSize.MD;
+  const iconSize = BUTTON_ICON_SIZES[size];
 
   let open = $state(false);
   let pausing = $state(false);
@@ -72,8 +75,6 @@
   const customValid = $derived(customUntil !== null && customUntil > new Date());
   const busy = $derived(pausing || resuming);
   const busyLabel = $derived(resuming ? t.action_resuming() : t.action_pausing());
-
-  const iconSize = $derived(size === ButtonSize.SM ? 13 : 14);
 
   const pause = async (until: Date | null): Promise<boolean> => {
     open = false;

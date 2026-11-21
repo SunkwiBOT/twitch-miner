@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { queueBlockHint, queueBlockLabel } from "../../../lib/accounts/accounts.utils";
+  import { queueStateView } from "../../../lib/accounts/campaign-states.utils";
   import { miningOrder } from "../../../lib/accounts/changes.utils";
   import {
     reorderWithin,
@@ -16,7 +16,6 @@
   import type { CampaignType } from "../../../lib/bindings/CampaignType";
   import type { QueueItemType } from "../../../lib/bindings/QueueItemType";
   import { campaignEnd } from "../../../lib/catalogue/campaign.utils";
-  import { minesCampaign } from "../../../lib/catalogue/campaign-progress.utils";
   import { t } from "../../../lib/i18n/i18n.svelte";
   import { ticker } from "../../../lib/state/ticker.svelte";
   import { escapeEmphasis } from "../../../lib/text.utils";
@@ -87,24 +86,19 @@
       {@const first = row.items[0]}
       {@const item = queued(row.campaignId)}
       {@const campaign = row.campaign}
+      {@const state = item ? queueStateView(account, item, ticker.now) : null}
       {#snippet body()}
         <span class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
           <span class={["truncate font-semibold", campaign && "text-link"]}>{titleOf(row)}</span>
           <span class="inline-flex max-w-full flex-wrap items-center gap-1.5">
-            {#if minesCampaign(account, row.campaignId)}<Badge
-                text={t.queue_mining()}
-                tone={BadgeTone.SUCCESS}
-                dot={true}
-                hint={t.badge_hint_queue_mining()}
-              />{:else if item?.blocked}<Badge
-                text={queueBlockLabel(item, ticker.now)}
-                tone={BadgeTone.WARNING}
+            {#if state}<Badge
+                {...state}
                 dot={false}
-                hint={queueBlockHint(item, ticker.now)}
               />{:else if account.settings.badges.selection_only && !chosen(row.campaignId)}<Badge
                 text={t.selection_not_selected()}
-                tone={BadgeTone.MUTED}
+                tone={BadgeTone.NEUTRAL}
                 dot={false}
+                icon={IconName.STAR}
                 hint={t.badges_not_selected_hint()}
               />{/if}
             <BadgeStateBadges item={first} watch={row.current === 0} />

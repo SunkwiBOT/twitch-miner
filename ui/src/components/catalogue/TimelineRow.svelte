@@ -1,5 +1,5 @@
 <script lang="ts" generics="T">
-  import { getLaneLayout, getLaneTop } from "../../lib/catalogue/timeline.utils";
+  import { getLaneLayout } from "../../lib/catalogue/timeline.utils";
   import type { TimelineRangeType, TimelineRowType } from "../../lib/catalogue/timeline.utils";
   import TimelineBar from "./TimelineBar.svelte";
 
@@ -32,7 +32,7 @@
       {@const art = row.art}
       <img
         class={[
-          "block h-10 w-7.5 shrink-0 rounded-md bg-muted",
+          "block h-10 w-7.5 shrink-0 rounded-md bg-muted max-md:hidden",
           row.contain ? "object-contain p-0.5" : "object-cover",
         ]}
         src={art}
@@ -42,41 +42,27 @@
         onerror={() => (brokenArt = art)}
       />
     {:else}
-      <span class="block h-10 w-7.5 shrink-0 rounded-md bg-muted"></span>
+      <span class="block h-10 w-7.5 shrink-0 rounded-md bg-muted max-md:hidden"></span>
     {/if}
     <span class="flex min-w-0 flex-col">
-      <span class="truncate font-semibold">{row.name}</span>
+      <span class="line-clamp-2 font-semibold break-words">{row.name}</span>
       <span class="truncate text-xs text-muted-foreground max-[860px]:hidden">{row.detail}</span>
     </span>
   </button>
-  <div class="lane transition-colors group-hover:bg-accent" style:min-height="{layout.height}px">
-    <div class="track" style:height="{layout.height}px">
+  <div class="lane transition-colors group-hover:bg-accent">
+    <div class="track" data-track style:padding="{layout.padding}px 0" style:gap="{layout.gap}px">
       <button
         class="lane-hit"
         type="button"
         tabindex="-1"
         aria-hidden="true"
-        style:top="0"
-        style:height="{layout.height}px"
         onclick={() => onopen(first)}
       ></button>
-      {#each row.items as item, index (item.key)}
-        <button
-          class="lane-hit"
-          type="button"
-          tabindex="-1"
-          aria-hidden="true"
-          style:top="{getLaneTop(layout, index)}px"
-          style:height="{layout.laneHeight}px"
-          onclick={() => onopen(item.value)}
-        ></button>
-      {/each}
-      {#each row.items as item, index (item.key)}
+      {#each row.items as item (item.key)}
         <TimelineBar
           {item}
           rowName={row.name}
           {range}
-          top={getLaneTop(layout, index)}
           height={layout.laneHeight}
           {laneWidth}
           {now}
@@ -107,12 +93,13 @@
   }
   .track {
     position: relative;
+    display: flex;
+    flex-direction: column;
     width: 100%;
   }
   .lane-hit {
     position: absolute;
-    left: 0;
-    right: 0;
+    inset: 0;
     padding: 0;
     border: 0;
     background: transparent;

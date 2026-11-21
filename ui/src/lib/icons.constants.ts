@@ -70,4 +70,7 @@ export enum IconName {
   WATCH_STREAK = "WATCH_STREAK",
   GITHUB = "GITHUB",
   CHART = "CHART",
+  FLAG = "FLAG",
+  HOURGLASS = "HOURGLASS",
+  TIMER = "TIMER",
 }

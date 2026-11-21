@@ -1,5 +1,9 @@
+import type { AccountSnapshotType } from "../bindings/AccountSnapshotType";
 import { BenefitKind } from "../bindings/BenefitKind";
 import type { CampaignType } from "../bindings/CampaignType";
+import type { QueueItemType } from "../bindings/QueueItemType";
+import type { QueueReason } from "../bindings/QueueReason";
+import { minesCampaign } from "../catalogue/campaign-progress.utils";
 import { shortDuration } from "../format.utils";
 import { t } from "../i18n/i18n.svelte";
 import { IconName } from "../icons.constants";
@@ -7,9 +11,16 @@ import type { TimelineTagType } from "../catalogue/timeline.utils";
 import { relativeTime } from "../time/time.utils";
 import { strong } from "../text.utils";
 import { BadgeTone } from "../tones.constants";
-import { QUEUE_REASON_LABELS } from "./accounts.utils";
+import {
+  QUEUE_REASON_HINTS,
+  QUEUE_REASON_ICONS,
+  QUEUE_REASON_LABELS,
+  queueBlockHint,
+  queueBlockLabel,
+} from "./accounts.utils";
 import {
   facetKey,
+  QUEUE_BLOCK_STATES,
   type AccountCampaignType,
   type CampaignGroupsType,
   type FacetValueType,
@@ -211,6 +222,44 @@ export const campaignStateView = (
   return { text: view.text(), tone: view.tone, icon: view.icon, hint: view.hint(entry, now) };
 };
 
+// ! The queue's own wording (the set-aside retry time), with the icon and tone of the same campaign state.
+export const queueStateView = (
+  account: AccountSnapshotType,
+  item: QueueItemType,
+  now: number,
+): CampaignStateViewType | null => {
+  if (minesCampaign(account, item.campaign_id)) {
+    const view = STATE_VIEWS[CampaignState.MINING];
+
+    return {
+      text: view.text(),
+      tone: view.tone,
+      icon: view.icon,
+      hint: t.badge_hint_queue_mining(),
+    };
+  }
+
+  if (!item.blocked) {
+    return null;
+  }
+
+  const view = STATE_VIEWS[QUEUE_BLOCK_STATES[item.blocked]];
+
+  return {
+    text: queueBlockLabel(item, now),
+    tone: view.tone,
+    icon: view.icon,
+    hint: queueBlockHint(item, now),
+  };
+};
+
+export const queueReasonView = (reason: QueueReason): CampaignStateViewType => ({
+  text: QUEUE_REASON_LABELS[reason](),
+  tone: BadgeTone.MUTED,
+  icon: QUEUE_REASON_ICONS[reason],
+  hint: QUEUE_REASON_HINTS[reason](),
+});
+
 // ! A campaign out of the queue is blurred under its state; one in it stays clear.
 export const overlaid = (state: CampaignState): boolean =>
   STATE_GROUPS[state] !== CampaignGroup.TO_MINE;
@@ -301,7 +350,7 @@ const facetLabel = (option: FacetValueType): { label: string; icon?: IconName } 
     case CampaignFacet.STATE:
       return { label: stateLabel(option.value), icon: STATE_VIEWS[option.value].icon };
     case CampaignFacet.REASON:
-      return { label: QUEUE_REASON_LABELS[option.value]() };
+      return { label: QUEUE_REASON_LABELS[option.value](), icon: QUEUE_REASON_ICONS[option.value] };
     case CampaignFacet.LINK:
       return { label: LINK_LABELS[option.value](), icon: LINK_ICONS[option.value] };
     case CampaignFacet.REQUIREMENT:

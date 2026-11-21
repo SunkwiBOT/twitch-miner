@@ -116,12 +116,7 @@
         : t.account_state_running_hint()}
     >
       {#snippet actions()}
-        <PauseControl
-          accounts={[account]}
-          scope={PauseScope.ACCOUNT}
-          align={MenuAlign.LEFT}
-          size={ButtonSize.MD}
-        />
+        <PauseControl accounts={[account]} scope={PauseScope.ACCOUNT} align={MenuAlign.LEFT} />
         <TextButton
           label={t.accounts_login_again()}
           icon={IconName.REFRESH}

@@ -18,11 +18,13 @@ import ExternalLinkIcon from "@lucide/svelte/icons/external-link";
 import EyeIcon from "@lucide/svelte/icons/eye";
 import EyeOffIcon from "@lucide/svelte/icons/eye-off";
 import FileTextIcon from "@lucide/svelte/icons/file-text";
+import FlagIcon from "@lucide/svelte/icons/flag";
 import FlameIcon from "@lucide/svelte/icons/flame";
 import FolderOpenIcon from "@lucide/svelte/icons/folder-open";
 import GiftIcon from "@lucide/svelte/icons/gift";
 import GlobeIcon from "@lucide/svelte/icons/globe";
 import GripVerticalIcon from "@lucide/svelte/icons/grip-vertical";
+import HourglassIcon from "@lucide/svelte/icons/hourglass";
 import HouseIcon from "@lucide/svelte/icons/house";
 import InfinityIcon from "@lucide/svelte/icons/infinity";
 import InfoIcon from "@lucide/svelte/icons/info";
@@ -53,6 +55,7 @@ import SettingsIcon from "@lucide/svelte/icons/settings";
 import StarIcon from "@lucide/svelte/icons/star";
 import SunIcon from "@lucide/svelte/icons/sun";
 import TargetIcon from "@lucide/svelte/icons/target";
+import TimerIcon from "@lucide/svelte/icons/timer";
 import TrashIcon from "@lucide/svelte/icons/trash";
 import TriangleExclamationPointIcon from "@lucide/svelte/icons/triangle-exclamation-point";
 import TrophyIcon from "@lucide/svelte/icons/trophy";
@@ -135,6 +138,9 @@ export const ICONS: Record<IconName, LucideIconType | IconDrawingType> = {
   [IconName.IMPORT]: DownloadIcon,
   [IconName.LIST_ORDERED]: ListOrderedIcon,
   [IconName.CHART]: ChartColumnIcon,
+  [IconName.FLAG]: FlagIcon,
+  [IconName.HOURGLASS]: HourglassIcon,
+  [IconName.TIMER]: TimerIcon,
   // ! Lucide has no brand logos and none of Twitch's own glyphs: these few are drawn here, filled.
   [IconName.CHANNEL_POINTS]: {
     viewBox: "0 0 20 20",

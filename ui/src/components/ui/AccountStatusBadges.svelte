@@ -31,10 +31,10 @@
 {#each miners as kind (kind)}<MiningBadge {kind} />{/each}
 {#if miners.length === 0 || current === AccountState.PROBLEM}
   <Badge
-    text={accountStateLabel(account, current)}
+    text={accountStateLabel(account, current, ticker.now)}
     tone={ACCOUNT_STATE_TONES[current]}
     dot={false}
     icon={ACCOUNT_STATE_ICONS[current]}
-    hint={accountStateHint(account, current)}
+    hint={accountStateHint(account, current, ticker.now)}
   />
 {/if}

@@ -39,6 +39,11 @@ export const BUTTON_SIZES: Record<ButtonSize, "default" | "sm"> = {
   [ButtonSize.SM]: "sm",
 };
 
+export const BUTTON_ICON_SIZES: Record<ButtonSize, number> = {
+  [ButtonSize.MD]: 14,
+  [ButtonSize.SM]: 13,
+};
+
 export const ICON_BUTTON_SIZES: Record<ButtonSize, "icon" | "icon-sm"> = {
   [ButtonSize.MD]: "icon",
   [ButtonSize.SM]: "icon-sm",

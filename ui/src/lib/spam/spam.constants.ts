@@ -1,3 +1,5 @@
+import { IconName } from "../icons.constants";
+
 export const SPAM_DELAY_STEP_MS = 50;
 
 export const SPAM_POLL_MS = 2_500;
@@ -27,10 +29,16 @@ export const UNAVAILABLE_STATUSES: ReadonlySet<RewardStatus> = new Set([
   RewardStatus.OUT_OF_STOCK,
 ]);
 
-export const BALANCE_DOTS: Record<BalanceTracking, string> = {
-  [BalanceTracking.LIVE]: "bg-success-emphasis",
-  [BalanceTracking.PAUSED]: "bg-muted-foreground",
-  [BalanceTracking.FAILING]: "bg-destructive",
+export const BALANCE_ICONS: Record<BalanceTracking, IconName> = {
+  [BalanceTracking.LIVE]: IconName.RADIO,
+  [BalanceTracking.PAUSED]: IconName.PAUSE,
+  [BalanceTracking.FAILING]: IconName.ALERT,
+};
+
+export const BALANCE_ICON_CLASSES: Record<BalanceTracking, string> = {
+  [BalanceTracking.LIVE]: "text-success-emphasis",
+  [BalanceTracking.PAUSED]: "text-muted-foreground",
+  [BalanceTracking.FAILING]: "text-destructive",
 };
 
 export const SPAM_SKELETON_CARDS = 6;

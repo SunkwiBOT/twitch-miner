@@ -1,12 +1,7 @@
 <script lang="ts">
   import { cn } from "$lib/utils";
   import { DropsGameList } from "../../../lib/accounts/accounts.constants";
-  import {
-    queueBlockHint,
-    queueBlockLabel,
-    QUEUE_REASON_HINTS,
-    QUEUE_REASON_LABELS,
-  } from "../../../lib/accounts/accounts.utils";
+  import { queueReasonView, queueStateView } from "../../../lib/accounts/campaign-states.utils";
   import { miningOrder, reorderBy } from "../../../lib/accounts/changes.utils";
   import { catalogueGame, gameEntryKey, runningGames } from "../../../lib/catalogue/games.utils";
   import {
@@ -19,7 +14,6 @@
   } from "../../../lib/accounts/drops-edits.utils";
   import { ignoredCampaign, queueProgress } from "../../../lib/accounts/drops.utils";
   import { campaignOf } from "../../../lib/catalogue/catalogue.svelte";
-  import { minesCampaign } from "../../../lib/catalogue/campaign-progress.utils";
   import type { AccountSnapshotType } from "../../../lib/bindings/AccountSnapshotType";
   import type { GameEntryType } from "../../../lib/bindings/GameEntryType";
   import type { CampaignType } from "../../../lib/bindings/CampaignType";
@@ -47,7 +41,6 @@
   import SortableList from "../../ui/SortableList.svelte";
   import Thumb from "../../ui/Thumb.svelte";
   import TiledArt from "../../ui/TiledArt.svelte";
-  import { BadgeTone } from "../../../lib/tones.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "../../ui/button.constants";
   import { IconName } from "../../../lib/icons.constants";
   import { ThumbShape, ThumbSize } from "../../ui/picture.constants";
@@ -174,22 +167,10 @@
               {c ? campaignHeading(c) : item.campaign_id}
             </span>
             <span class="inline-flex max-w-full flex-wrap items-center gap-1.5">
-              {#if minesCampaign(account, item.campaign_id)}<Badge
-                  text={t.queue_mining()}
-                  tone={BadgeTone.SUCCESS}
-                  dot={true}
-                  hint={t.badge_hint_queue_mining()}
-                />{:else if item.blocked}<Badge
-                  text={queueBlockLabel(item, ticker.now)}
-                  tone={BadgeTone.WARNING}
-                  dot={false}
-                  hint={queueBlockHint(item, ticker.now)}
-                />{:else}<Badge
-                  text={QUEUE_REASON_LABELS[item.reason]()}
-                  tone={BadgeTone.MUTED}
-                  dot={false}
-                  hint={QUEUE_REASON_HINTS[item.reason]()}
-                />{/if}
+              <Badge
+                {...queueStateView(account, item, ticker.now) ?? queueReasonView(item.reason)}
+                dot={false}
+              />
               {#if item.linked === false}<LinkBadge linked={false} />{/if}
             </span>
           </span>

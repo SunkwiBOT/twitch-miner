@@ -22,6 +22,7 @@ export const PROGRESS_BADGES: Record<ProgressState, ProgressBadgeType> = {
   [ProgressState.MINING]: {
     text: () => t.queue_mining(),
     tone: BadgeTone.SUCCESS,
+    icon: IconName.PLAY,
     hint: () => t.badge_hint_queue_mining(),
   },
   [ProgressState.SET_ASIDE]: {
@@ -69,3 +70,10 @@ export const PROGRESS_BADGES: Record<ProgressState, ProgressBadgeType> = {
     tone: BadgeTone.MUTED,
   },
 };
+
+export type ProgressCountType = { state: ProgressState; count: number };
+
+export const progressSummary = (entries: readonly AccountProgressType[]): ProgressCountType[] =>
+  Object.values(ProgressState)
+    .map((state) => ({ state, count: entries.filter((entry) => entry.state === state).length }))
+    .filter((item) => item.count > 0);

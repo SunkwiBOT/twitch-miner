@@ -142,103 +142,103 @@
   {#if view}
     {@const art = boxArt(campaignArtUrl(view), BoxArtSize.CARD)}
     {@const id = view.id}
-    <div class="flex items-start gap-4">
-      {#if art}<img
-          class="block w-24 shrink-0 rounded-lg object-cover"
-          style:aspect-ratio="3 / 4"
-          src={art}
-          alt=""
-        />{/if}
-      <div class="flex min-w-0 flex-1 flex-col gap-2.5">
-        <div class="flex flex-wrap gap-1.5">
-          <Badge
-            text={left(view) > 0
-              ? t.campaign_time_left({ time: shortDuration(left(view)) })
-              : t.campaign_ended()}
-            tone={left(view) < URGENT_MS ? URGENT_TONE : BadgeTone.NEUTRAL}
-            dot={false}
-            icon={IconName.CLOCK}
-          />
-          <Badge
-            text={t.catalogue_rewards({ count: view.drops.length })}
-            tone={BadgeTone.NEUTRAL}
-            dot={false}
-            icon={IconName.GIFT}
-          />
-          {#if view.linked === undefined && view.link_url}
+    <div class="@container">
+      <div class="flex items-start gap-4 @max-[26rem]:flex-col @max-[26rem]:items-stretch">
+        {#if art}<img
+            class="block w-24 shrink-0 rounded-lg object-cover"
+            style:aspect-ratio="3 / 4"
+            src={art}
+            alt=""
+          />{/if}
+        <div class="flex min-w-0 flex-1 flex-col gap-2.5">
+          <div class="flex flex-wrap gap-1.5">
             <Badge
-              text={t.catalogue_link_required()}
-              tone={BadgeTone.MUTED}
+              text={left(view) > 0
+                ? t.campaign_time_left({ time: shortDuration(left(view)) })
+                : t.campaign_ended()}
+              tone={left(view) <= 0
+                ? BadgeTone.MUTED
+                : left(view) < URGENT_MS
+                  ? URGENT_TONE
+                  : BadgeTone.NEUTRAL}
               dot={false}
-              hint={t.badge_hint_link_required()}
-              icon={IconName.LINK}
+              icon={IconName.CLOCK}
             />
-          {:else}
-            <LinkBadge linked={view.linked} />
-          {/if}
-          {#if view.in_inventory}<Badge
-              text={t.campaigns_filter_in_progress()}
-              tone={BadgeTone.ACCENT}
+            <Badge
+              text={t.catalogue_rewards({ count: view.drops.length })}
+              tone={BadgeTone.NEUTRAL}
               dot={false}
-              hint={t.badge_hint_in_progress()}
-            />{/if}
-        </div>
-        <span class="text-hint text-muted-foreground">
-          <RichText
-            text={view.allowed_channels.length
-              ? t.campaign_channels_some({ count: strong(view.allowed_channels.length) })
-              : view.categories.length > 1
-                ? t.campaign_channels_categories({ count: strong(view.categories.length) })
-                : t.campaign_channels_any()}
-          />{" · "}<RichText text={campaignEnd(view.ends_at, ticker.now)} />
-        </span>
-        {#if !view.allowed_channels.length && view.categories.length > 1}
-          <span class="line-clamp-2 text-hint text-muted-foreground">
-            {categoryNames(view.categories)}
+              icon={IconName.GIFT}
+            />
+            <LinkBadge linked={view.linked} needed={view.link_url !== undefined} />
+            {#if view.in_inventory}<Badge
+                text={t.campaigns_filter_in_progress()}
+                tone={BadgeTone.ACCENT}
+                dot={false}
+                hint={t.badge_hint_in_progress()}
+              />{/if}
+          </div>
+          <span class="text-hint text-muted-foreground">
+            <RichText
+              text={view.allowed_channels.length
+                ? t.campaign_channels_some({ count: strong(view.allowed_channels.length) })
+                : view.categories.length > 1
+                  ? t.campaign_channels_categories({ count: strong(view.categories.length) })
+                  : t.campaign_channels_any()}
+            />{" · "}<RichText text={campaignEnd(view.ends_at, ticker.now)} />
           </span>
-        {/if}
-        <div class="flex flex-wrap gap-2">
-          {#if onDropsPage(view)}
-            <ExternalButton
-              url={campaignUrl(id)}
-              label={t.campaign_open_twitch()}
-              variant={ButtonVariant.PRIMARY}
-              size={ButtonSize.SM}
-            />
+          {#if !view.allowed_channels.length && view.categories.length > 1}
+            <span class="line-clamp-2 text-hint text-muted-foreground">
+              {categoryNames(view.categories)}
+            </span>
           {/if}
-          {#if view.link_url && view.linked !== true}
-            {@const link = view.link_url}
-            <ExternalButton
-              url={link}
-              resolve={{ kind: ResolveKind.CAMPAIGN, accountId: linker?.id ?? "", campaignId: id }}
-              label={t.campaign_link_game()}
-              variant={ButtonVariant.OUTLINE}
-              size={ButtonSize.SM}
-              icon={IconName.LINK}
-              onfollow={linker ? () => linker && refreshWhenBack(linker.id) : undefined}
-            />
-          {/if}
-          {#if view.web_url}
-            {@const webUrl = view.web_url}
-            <ExternalButton
-              url={webUrl}
-              label={t.campaign_view_details()}
-              ariaLabel={t.campaign_view_details_web({ domain: DROPS_WEB_HOST })}
-              variant={ButtonVariant.OUTLINE}
-              size={ButtonSize.SM}
-              icon={IconName.GLOBE}
-            />
-          {/if}
-          {#if view.game.slug && !sitewideQuest(view)}
-            {@const slug = view.game.slug}
-            <ExternalButton
-              url={`${TWITCH_CATEGORY_URL}/${slug}`}
-              label={t.campaign_view_category()}
-              variant={onDropsPage(view) ? ButtonVariant.OUTLINE : ButtonVariant.PRIMARY}
-              size={ButtonSize.SM}
-              icon={IconName.TV}
-            />
-          {/if}
+          <div class="flex flex-wrap gap-2">
+            {#if onDropsPage(view)}
+              <ExternalButton
+                url={campaignUrl(id)}
+                label={t.campaign_open_twitch()}
+                variant={ButtonVariant.PRIMARY}
+                size={ButtonSize.SM}
+              />
+            {/if}
+            {#if view.link_url && view.linked !== true}
+              {@const link = view.link_url}
+              <ExternalButton
+                url={link}
+                resolve={{
+                  kind: ResolveKind.CAMPAIGN,
+                  accountId: linker?.id ?? "",
+                  campaignId: id,
+                }}
+                label={t.campaign_link_game()}
+                variant={ButtonVariant.OUTLINE}
+                size={ButtonSize.SM}
+                icon={IconName.LINK}
+                onfollow={linker ? () => linker && refreshWhenBack(linker.id) : undefined}
+              />
+            {/if}
+            {#if view.web_url}
+              {@const webUrl = view.web_url}
+              <ExternalButton
+                url={webUrl}
+                label={t.campaign_view_details()}
+                ariaLabel={t.campaign_view_details_web({ domain: DROPS_WEB_HOST })}
+                variant={ButtonVariant.OUTLINE}
+                size={ButtonSize.SM}
+                icon={IconName.GLOBE}
+              />
+            {/if}
+            {#if view.game.slug && !sitewideQuest(view)}
+              {@const slug = view.game.slug}
+              <ExternalButton
+                url={`${TWITCH_CATEGORY_URL}/${slug}`}
+                label={t.campaign_view_category()}
+                variant={onDropsPage(view) ? ButtonVariant.OUTLINE : ButtonVariant.PRIMARY}
+                size={ButtonSize.SM}
+                icon={IconName.TV}
+              />
+            {/if}
+          </div>
         </div>
       </div>
     </div>

@@ -6,6 +6,7 @@
   import Spinner from "./Spinner.svelte";
   import Tip from "./Tip.svelte";
   import {
+    BUTTON_ICON_SIZES,
     BUTTON_SIZES,
     BUTTON_VARIANT_CLASSES,
     BUTTON_VARIANTS,
@@ -47,7 +48,7 @@
     onclick,
   }: ActionButtonPropsType = $props();
 
-  const iconSize = $derived(size === ButtonSize.SM ? 13 : 14);
+  const iconSize = $derived(BUTTON_ICON_SIZES[size]);
 </script>
 
 {#snippet button(props: Record<string, unknown>)}

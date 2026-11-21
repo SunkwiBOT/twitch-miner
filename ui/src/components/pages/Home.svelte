@@ -7,7 +7,8 @@
   import type { SnapshotType } from "../../lib/bindings/SnapshotType";
   import { recentEvents } from "../../lib/events/events.utils";
   import { number } from "../../lib/format.utils";
-  import { strong } from "../../lib/text.utils";
+  import { TWITCH_ACTIVATE_ADDRESS } from "../../lib/partners.constants";
+  import { code, strong } from "../../lib/text.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { PAGE_ICONS, Page } from "../../lib/state/state.constants";
   import { app } from "../../lib/state/app.svelte";
@@ -21,7 +22,6 @@
   import PageBody from "../ui/PageBody.svelte";
   import PageHeader from "../ui/PageHeader.svelte";
   import Panel from "../ui/Panel.svelte";
-  import PauseBadge from "../ui/PauseBadge.svelte";
   import PauseControl from "../ui/PauseControl.svelte";
   import QuietWindowBadge from "../ui/QuietWindowBadge.svelte";
   import RichText from "../ui/RichText.svelte";
@@ -65,7 +65,7 @@
   {#if snapshot.accounts.length === 0}
     <EmptyState
       title={t.dashboard_no_accounts_title()}
-      text={t.dashboard_no_accounts_text()}
+      text={t.dashboard_no_accounts_text({ activateAddress: code(TWITCH_ACTIVATE_ADDRESS) })}
       icon={IconName.USERS}
     >
       {#snippet action()}
@@ -84,18 +84,14 @@
     <PageHeader intro={t.home_rules(maxWatchedChannelsParams())}>
       {#snippet actions()}
         <QuietWindowBadge />
-        <PauseControl
-          accounts={snapshot.accounts}
-          scope={PauseScope.ALL}
-          align={MenuAlign.RIGHT}
-          size={ButtonSize.MD}
-        />
+        <PauseControl accounts={snapshot.accounts} scope={PauseScope.ALL} align={MenuAlign.RIGHT} />
       {/snippet}
     </PageHeader>
     <UpdateNotificationsBanner />
-    <div class="grid grid-cols-[repeat(auto-fit,minmax(min(460px,100%),1fr))] items-start gap-5">
+    <!-- ! Columns, not a grid: each card keeps its own height instead of the tallest of its row. -->
+    <div class="columns-[460px] gap-5">
       {#each snapshot.accounts as a (a.id)}
-        <Card class="min-w-0 gap-0 py-0">
+        <Card class="mb-5 min-w-0 break-inside-avoid gap-0 py-0 last:mb-0">
           <header class="border-b px-5 py-4">
             <AccountHeading account={a} subtitle={MODE_LABELS[a.settings.mode]()}>
               {#snippet actions()}
@@ -104,25 +100,19 @@
                     label={t.accounts_login_again()}
                     icon={IconName.LOG_IN}
                     variant={ButtonVariant.PRIMARY}
-                    size={ButtonSize.SM}
+                    size={ButtonSize.MD}
                     type={ButtonType.BUTTON}
                     disabled={false}
                     onclick={() => (app.loginDialog = true)}
                   />
                 {:else}
-                  <PauseControl
-                    accounts={[a]}
-                    scope={PauseScope.ACCOUNT}
-                    align={MenuAlign.RIGHT}
-                    size={ButtonSize.SM}
-                  />
-                  <PauseBadge account={a} />
+                  <PauseControl accounts={[a]} scope={PauseScope.ACCOUNT} align={MenuAlign.RIGHT} />
                 {/if}
                 <TextButton
                   label={t.home_open()}
                   icon={PAGE_ICONS[Page.ACCOUNT]}
                   variant={ButtonVariant.OUTLINE}
-                  size={ButtonSize.SM}
+                  size={ButtonSize.MD}
                   type={ButtonType.BUTTON}
                   disabled={false}
                   onclick={() => navigate(Page.ACCOUNT, a.id)}

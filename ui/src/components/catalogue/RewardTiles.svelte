@@ -17,6 +17,7 @@
   import { cn } from "$lib/utils";
   import ActionButton from "../ui/ActionButton.svelte";
   import Badge from "../ui/Badge.svelte";
+  import SubRequiredBadge from "./SubRequiredBadge.svelte";
   import Icon from "../ui/Icon.svelte";
   import IconButton from "../ui/IconButton.svelte";
   import ProgressLine from "../ui/ProgressLine.svelte";
@@ -158,13 +159,7 @@
           <span
             class="absolute top-1.5 left-1.5 flex max-w-[calc(100%-0.75rem)] flex-col items-start gap-1"
           >
-            {#if subsMissing(d)}<Badge
-                text={t.reward_sub_only()}
-                tone={BadgeTone.WARNING}
-                dot={false}
-                hint={t.badge_hint_sub_only()}
-                class={TILE_BADGE_CLASS}
-              />{/if}
+            {#if subsMissing(d)}<SubRequiredBadge class={TILE_BADGE_CLASS} />{/if}
             {#if state === RewardState.CLAIMED}<Badge
                 text={t.reward_state_claimed()}
                 tone={BadgeTone.SUCCESS}

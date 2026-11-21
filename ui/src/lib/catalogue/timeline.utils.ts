@@ -199,7 +199,7 @@ export const getLabelPlacement = (
     return BarLabelPlacement.LEFT;
   }
 
-  return BarLabelPlacement.INSIDE;
+  return BarLabelPlacement.BELOW;
 };
 
 // ! `muted` dims a bar whose campaign is not mined, the tag saying why.
@@ -285,7 +285,6 @@ export const campaignTimelineRows = (
   );
 
 export type LaneLayoutType = {
-  height: number;
   laneHeight: number;
   padding: number;
   gap: number;
@@ -293,20 +292,13 @@ export type LaneLayoutType = {
 
 export const getLaneLayout = (campaignCount: number): LaneLayoutType => {
   const isSingle = campaignCount <= 1;
-  const laneHeight = isSingle ? SINGLE_LANE_HEIGHT : STACKED_LANE_HEIGHT;
-  const padding = isSingle ? SINGLE_LANE_PADDING : STACKED_LANE_PADDING;
-  const lanes = Math.max(1, campaignCount);
 
   return {
-    height: padding * 2 + lanes * laneHeight + (lanes - 1) * LANE_GAP,
-    laneHeight,
-    padding,
+    laneHeight: isSingle ? SINGLE_LANE_HEIGHT : STACKED_LANE_HEIGHT,
+    padding: isSingle ? SINGLE_LANE_PADDING : STACKED_LANE_PADDING,
     gap: LANE_GAP,
   };
 };
-
-export const getLaneTop = (layout: LaneLayoutType, index: number): number =>
-  layout.padding + index * (layout.laneHeight + layout.gap);
 
 export const getNextBarIndex = (index: number, key: string, count: number): number | null => {
   if (index < 0 || count === 0) {

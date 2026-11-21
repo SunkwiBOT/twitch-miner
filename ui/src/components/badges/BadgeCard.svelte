@@ -16,6 +16,7 @@
   import { strong } from "../../lib/text.utils";
   import { formatDate } from "../../lib/time/time.utils";
   import Badge from "../ui/Badge.svelte";
+  import SubRequiredBadge from "../catalogue/SubRequiredBadge.svelte";
   import TextButton from "../ui/TextButton.svelte";
   import ChannelLink from "../ui/ChannelLink.svelte";
   import GameName from "../ui/GameName.svelte";
@@ -92,12 +93,7 @@
           />
         {/if}
         {#if badgeNeedsSub(badge)}
-          <Badge
-            text={t.reward_sub_only()}
-            tone={BadgeTone.WARNING}
-            dot={false}
-            hint={t.badge_hint_sub_only()}
-          />
+          <SubRequiredBadge />
         {/if}
         {#if evolvesFrom}
           <Badge

@@ -28,3 +28,5 @@ export type AccountProgressType = {
   subRequired: boolean;
   setAsideUntil: string | null;
 };
+
+export const ALL_PROGRESS = "ALL";

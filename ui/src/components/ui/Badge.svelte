@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { on } from "svelte/events";
-
   import { Badge as BadgeRoot } from "$lib/components/ui/badge";
   import { cn } from "$lib/utils";
   import Icon from "./Icon.svelte";
@@ -9,7 +7,6 @@
   import { BADGE_TONE_CLASSES, BADGE_VARIANTS, BadgeVariant } from "./badge.constants";
   import { BadgeTone } from "../../lib/tones.constants";
   import { IconName } from "../../lib/icons.constants";
-  import { escapeEmphasis } from "../../lib/text.utils";
 
   type BadgePropsType = {
     text: string;
@@ -22,54 +19,33 @@
 
   let { text, tone, dot, icon, hint, class: className }: BadgePropsType = $props();
 
-  let cut = $state(false);
-
-  // ! scrollWidth is rounded: a label cut by less than a pixel would read as whole.
-  const measure = (label: HTMLElement): void => {
-    const range = document.createRange();
-    const style = getComputedStyle(label);
-
-    range.selectNodeContents(label);
-
-    const room =
-      label.getBoundingClientRect().width -
-      parseFloat(style.paddingLeft) -
-      parseFloat(style.paddingRight);
-
-    cut = range.getBoundingClientRect().width > room + 0.01;
-  };
+  // ! A badge narrower than its text wraps it rather than cutting it.
+  const classes = $derived(
+    cn(BADGE_TONE_CLASSES[tone], "h-auto min-h-5 max-w-full whitespace-normal", className),
+  );
 </script>
 
 {#snippet content()}
   {#if dot}<StatusDot {tone} />{/if}
-  {#if icon}<Icon name={icon} size={12} />{/if}
+  {#if icon}<Icon name={icon} size={12} class="shrink-0" />{/if}
   <!-- ! The padding leaves room for ink past the line box (Thai marks): only the badge clips it. -->
-  <span
-    class="-m-0.5 min-w-0 overflow-hidden p-0.5 leading-3.5 text-ellipsis"
-    title={cut && !hint ? text : undefined}
-    {@attach (label) => on(label, "pointerenter", () => measure(label))}
-  >
-    {text}
-  </span>
+  <span class="-m-0.5 min-w-0 p-0.5 leading-3.5 break-words">{text}</span>
 {/snippet}
 
 {#if hint}
-  <Tip text={cut ? `${escapeEmphasis(text)} · ${hint}` : hint}>
+  <Tip text={hint}>
     {#snippet children(props)}
       <BadgeRoot
         {...props}
         variant={BADGE_VARIANTS[BadgeVariant.TONE]}
-        class={cn(BADGE_TONE_CLASSES[tone], "max-w-full cursor-help", className)}
+        class={cn(classes, "cursor-help")}
       >
         {@render content()}
       </BadgeRoot>
     {/snippet}
   </Tip>
 {:else}
-  <BadgeRoot
-    variant={BADGE_VARIANTS[BadgeVariant.TONE]}
-    class={cn(BADGE_TONE_CLASSES[tone], "max-w-full", className)}
-  >
+  <BadgeRoot variant={BADGE_VARIANTS[BadgeVariant.TONE]} class={classes}>
     {@render content()}
   </BadgeRoot>
 {/if}

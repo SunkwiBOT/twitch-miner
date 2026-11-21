@@ -12,12 +12,10 @@
   import Avatar from "../ui/Avatar.svelte";
   import IconButton from "../ui/IconButton.svelte";
   import AccountStatusBadges from "../ui/AccountStatusBadges.svelte";
-  import Badge from "../ui/Badge.svelte";
-  import PauseBadge from "../ui/PauseBadge.svelte";
+  import BetaBadge from "../ui/BetaBadge.svelte";
   import PauseControl from "../ui/PauseControl.svelte";
   import QuietWindowBadge from "../ui/QuietWindowBadge.svelte";
   import { AvatarSize } from "../ui/picture.constants";
-  import { BadgeTone } from "../../lib/tones.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import { IconName } from "../../lib/icons.constants";
   import { MenuAlign } from "../ui/menu.constants";
@@ -63,11 +61,7 @@
         · {section}
       </span>{/if}
   </h1>
-  {#if BETA_PAGES.has(app.page)}<Badge
-      text={t.common_beta()}
-      tone={BadgeTone.ACCENT}
-      dot={false}
-    />{/if}
+  {#if BETA_PAGES.has(app.page)}<BetaBadge />{/if}
   <span class="flex-1"></span>
   <UpdateBadge />
   {#if app.page !== Page.HOME}<QuietWindowBadge class="@max-[50rem]:hidden" />{/if}
@@ -86,13 +80,7 @@
         onclick={() => (app.loginDialog = true)}
       />
     {:else}
-      <PauseControl
-        accounts={[current]}
-        scope={PauseScope.ACCOUNT}
-        align={MenuAlign.RIGHT}
-        size={ButtonSize.MD}
-      />
-      <PauseBadge account={current} class="@max-[50rem]:hidden" />
+      <PauseControl accounts={[current]} scope={PauseScope.ACCOUNT} align={MenuAlign.RIGHT} />
       <IconButton
         icon={IconName.REFRESH}
         label={t.account_refresh()}

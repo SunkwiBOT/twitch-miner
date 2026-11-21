@@ -33,5 +33,9 @@ export const accountState = (
     return AccountState.PAUSED;
   }
 
-  return AccountState.RUNNING;
+  if (account.status === AccountStatus.STARTING) {
+    return AccountState.STARTING;
+  }
+
+  return account.status === AccountStatus.IDLE ? AccountState.IDLE : AccountState.RUNNING;
 };

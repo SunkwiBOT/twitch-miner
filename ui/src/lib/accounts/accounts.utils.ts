@@ -6,11 +6,13 @@ import { QueueBlock } from "../bindings/QueueBlock";
 import type { QueueItemType } from "../bindings/QueueItemType";
 import { QueueReason } from "../bindings/QueueReason";
 import { describeCode } from "../errors/errors.utils";
-import { relativeTime } from "../time/time.utils";
+import { formatClock, formatDate, formatShortDateTime, relativeTime } from "../time/time.utils";
 import { IconName } from "../icons.constants";
 import { t } from "../i18n/i18n.svelte";
 import { strong } from "../text.utils";
+import { BadgeTone } from "../tones.constants";
 import { AccountState, PauseScope } from "./account-state.constants";
+import { scheduledPause } from "./account-state.utils";
 import { PROXY_CREDENTIALS_MASK } from "./accounts.constants";
 
 const STATUS_LABELS: Record<AccountStatus, () => string> = {
@@ -35,23 +37,57 @@ const STATUS_HINTS: Record<AccountStatus, (() => string) | null> = {
   [AccountStatus.LOGIN_REQUIRED]: () => t.badge_hint_login_required(),
 };
 
-export const accountStateLabel = (account: AccountSnapshotType, state: AccountState): string => {
+// ! A pause for a while names its end; one until resumed is the switch alone.
+const pausedUntil = (account: AccountSnapshotType, now: number): string | null =>
+  account.settings.enabled && scheduledPause(account.settings, now)
+    ? (account.settings.paused_until ?? null)
+    : null;
+
+export const accountStateLabel = (
+  account: AccountSnapshotType,
+  state: AccountState,
+  now: number,
+): string => {
   if (state === AccountState.PROBLEM && account.status !== AccountStatus.LOGIN_REQUIRED) {
     return t.status_problem();
   }
 
-  return state === AccountState.PAUSED ? t.status_paused() : STATUS_LABELS[account.status]();
+  if (state !== AccountState.PAUSED) {
+    return STATUS_LABELS[account.status]();
+  }
+
+  const until = pausedUntil(account, now);
+
+  if (!until) {
+    return t.status_paused();
+  }
+
+  return t.pause_badge({
+    time:
+      formatDate(until, true) === formatDate(now, true)
+        ? formatClock(until)
+        : formatShortDateTime(until),
+  });
 };
 
 export const accountStateHint = (
   account: AccountSnapshotType,
   state: AccountState,
+  now: number,
 ): string | undefined => {
   if (account.problem && account.status !== AccountStatus.LOGIN_REQUIRED) {
     return describeCode(account.problem);
   }
 
-  return state === AccountState.PAUSED ? t.badge_hint_paused() : STATUS_HINTS[account.status]?.();
+  if (state !== AccountState.PAUSED) {
+    return STATUS_HINTS[account.status]?.();
+  }
+
+  const until = pausedUntil(account, now);
+
+  return until
+    ? t.pause_badge_hint({ time: strong(formatShortDateTime(until)) })
+    : t.badge_hint_paused();
 };
 
 export const PAUSE_LABELS: Record<PauseScope, () => string> = {
@@ -83,6 +119,13 @@ export const POINTS_REASON_ICONS: Record<PointsReason, IconName> = {
   [PointsReason.STREAK_AT_RISK]: IconName.WATCH_STREAK,
   [PointsReason.SUBSCRIBED]: IconName.STAR,
   [PointsReason.LIST_ORDER]: IconName.LIST_ORDERED,
+};
+
+export const POINTS_REASON_TONES: Record<PointsReason, BadgeTone> = {
+  [PointsReason.STREAK_BONUS]: BadgeTone.NEUTRAL,
+  [PointsReason.STREAK_AT_RISK]: BadgeTone.WARNING,
+  [PointsReason.SUBSCRIBED]: BadgeTone.NEUTRAL,
+  [PointsReason.LIST_ORDER]: BadgeTone.NEUTRAL,
 };
 
 export const cleanLogin = (value: string): string => {
@@ -129,6 +172,14 @@ export const QUEUE_REASON_HINTS: Record<QueueReason, () => string> = {
   [QueueReason.BADGE]: () => t.badge_hint_reason_badge(),
   [QueueReason.ENDING_SOON]: () => t.badge_hint_reason_ending_soon(),
   [QueueReason.LOWEST_REMAINING]: () => t.badge_hint_reason_lowest_remaining(),
+};
+
+export const QUEUE_REASON_ICONS: Record<QueueReason, IconName> = {
+  [QueueReason.ORDERED]: IconName.PIN,
+  [QueueReason.PRIORITY]: IconName.FLAG,
+  [QueueReason.BADGE]: IconName.AWARD,
+  [QueueReason.ENDING_SOON]: IconName.TIMER,
+  [QueueReason.LOWEST_REMAINING]: IconName.TARGET,
 };
 
 export const setAsideLabel = (until: string | null | undefined, now: number): string =>

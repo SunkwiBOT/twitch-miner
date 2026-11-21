@@ -12,6 +12,7 @@
     POINTS_REASON_HINTS,
     POINTS_REASON_ICONS,
     POINTS_REASON_LABELS,
+    POINTS_REASON_TONES,
   } from "../lib/accounts/accounts.utils";
   import { maxWatchedChannelsParams } from "../lib/accounts/slots.utils";
   import { coreLimits } from "../lib/state/limits";
@@ -47,7 +48,6 @@
   import Thumb from "./ui/Thumb.svelte";
   import ViewerCount from "./ui/ViewerCount.svelte";
   import { AvatarSize, ThumbShape, ThumbSize } from "./ui/picture.constants";
-  import { BadgeTone } from "../lib/tones.constants";
   import { BalanceAlign } from "./ui/ui.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "./ui/button.constants";
   import { IconName } from "../lib/icons.constants";
@@ -87,7 +87,7 @@
   <span class="flex flex-wrap gap-1.5">
     <MiningBadge kind={MinerKind.POINTS} />{#if reason}<Badge
         text={POINTS_REASON_LABELS[reason]()}
-        tone={BadgeTone.NEUTRAL}
+        tone={POINTS_REASON_TONES[reason]}
         dot={false}
         icon={POINTS_REASON_ICONS[reason]}
         hint={POINTS_REASON_HINTS[reason]()}

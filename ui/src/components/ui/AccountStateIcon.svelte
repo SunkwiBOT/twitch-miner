@@ -16,8 +16,8 @@
   let { account }: AccountStateIconPropsType = $props();
 
   const current = $derived(accountState(account, ticker.now));
-  const label = $derived(accountStateLabel(account, current));
-  const hint = $derived(accountStateHint(account, current));
+  const label = $derived(accountStateLabel(account, current, ticker.now));
+  const hint = $derived(accountStateHint(account, current, ticker.now));
 </script>
 
 <!-- ! Never focusable: it sits inside the account's row button, whose name already reads the label. -->

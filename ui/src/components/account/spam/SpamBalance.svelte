@@ -1,7 +1,12 @@
 <script lang="ts">
+  import { cn } from "$lib/utils";
   import { number } from "../../../lib/format.utils";
   import { t } from "../../../lib/i18n/i18n.svelte";
-  import { BALANCE_DOTS, BalanceTracking } from "../../../lib/spam/spam.constants";
+  import {
+    BALANCE_ICON_CLASSES,
+    BALANCE_ICONS,
+    BalanceTracking,
+  } from "../../../lib/spam/spam.constants";
   import { BALANCE_HINTS, changedAgo } from "../../../lib/spam/spam.utils";
   import Icon from "../../ui/Icon.svelte";
   import Tip from "../../ui/Tip.svelte";
@@ -16,8 +21,6 @@
   };
 
   let { balance, changedAt, tracking, free, now }: SpamBalancePropsType = $props();
-
-  const live = $derived(tracking === BalanceTracking.LIVE);
 
   const status = $derived.by(() => {
     switch (tracking) {
@@ -49,13 +52,11 @@
         type="button"
         class="inline-flex cursor-help items-center gap-1.5 text-xs text-muted-foreground"
       >
-        <span class="relative inline-flex size-1.5 shrink-0" aria-hidden="true">
-          {#if live}<span
-              class="absolute inset-0 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite] rounded-full bg-success-emphasis opacity-60"
-            ></span>{/if}
-          <span class={["relative inline-flex size-1.5 rounded-full", BALANCE_DOTS[tracking]]}
-          ></span>
-        </span>
+        <Icon
+          name={BALANCE_ICONS[tracking]}
+          size={12}
+          class={cn("shrink-0", BALANCE_ICON_CLASSES[tracking])}
+        />
         {status}
       </button>
     {/snippet}

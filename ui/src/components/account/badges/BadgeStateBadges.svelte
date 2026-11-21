@@ -9,6 +9,7 @@
   import Badge from "../../ui/Badge.svelte";
   import { BadgeTone } from "../../../lib/tones.constants";
   import { IconName } from "../../../lib/icons.constants";
+  import SubRequiredBadge from "../../catalogue/SubRequiredBadge.svelte";
 
   type BadgeStateBadgesPropsType = { item: AccountBadgeType; watch: boolean };
 
@@ -49,17 +50,13 @@
     hint={t.badge_hint_quest_not_minable()}
   />
 {:else if item.state === AccountBadgeState.SUB_ONLY}
-  <Badge
-    text={t.reward_sub_only()}
-    tone={BadgeTone.WARNING}
-    dot={false}
-    hint={t.badge_hint_sub_only()}
-  />
+  <SubRequiredBadge />
 {:else if item.state === AccountBadgeState.EVOLUTION_UNKNOWN}
   <Badge
     text={t.badge_evolution_unknown()}
-    tone={BadgeTone.MUTED}
+    tone={BadgeTone.WARNING}
     dot={false}
+    icon={IconName.LOCK}
     hint={t.badge_hint_evolution_unknown()}
   />
 {:else if item.state === AccountBadgeState.EVOLUTION_LOCKED}
@@ -67,13 +64,15 @@
     text={t.badge_evolution_locked({ badge: from })}
     tone={BadgeTone.WARNING}
     dot={false}
+    icon={IconName.LOCK}
     hint={t.badge_hint_evolution_locked({ badge: strong(from) })}
   />
 {:else if item.state === AccountBadgeState.EVOLUTION_OFF}
   <Badge
     text={t.badge_evolution_off()}
-    tone={BadgeTone.MUTED}
+    tone={BadgeTone.NEUTRAL}
     dot={false}
+    icon={IconName.SETTINGS}
     hint={t.badge_hint_evolution_off()}
   />
 {:else}
@@ -88,7 +87,7 @@
   {#if item.state === AccountBadgeState.WAITING && item.nextAt}
     <Badge
       text={t.quest_next_window({ time: relativeTime(item.nextAt, ticker.now) })}
-      tone={BadgeTone.MUTED}
+      tone={BadgeTone.INFO}
       dot={false}
       icon={IconName.CLOCK}
     />

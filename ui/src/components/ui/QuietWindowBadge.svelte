@@ -20,7 +20,7 @@
     class={className}
     text={t.quiet_window_active_badge()}
     tone={BadgeTone.INFO}
-    dot={true}
+    dot={false}
     icon={IconName.MOON}
     hint={t.quiet_window_active_hint({
       start: strong(minutesToClock(quietWindow.start_minutes)),

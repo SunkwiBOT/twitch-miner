@@ -3,11 +3,10 @@
   import { MiningLaneKind } from "../../../lib/bindings/MiningLaneKind";
   import type { MiningLaneType } from "../../../lib/bindings/MiningLaneType";
   import { t } from "../../../lib/i18n/i18n.svelte";
-  import Badge from "../../ui/Badge.svelte";
+  import BetaBadge from "../../ui/BetaBadge.svelte";
   import Icon from "../../ui/Icon.svelte";
   import SortableList from "../../ui/SortableList.svelte";
   import Toggle from "../../ui/Toggle.svelte";
-  import { BadgeTone } from "../../../lib/tones.constants";
   import { IconName } from "../../../lib/icons.constants";
 
   type MiningOrderListPropsType = {
@@ -51,7 +50,7 @@
         {MINING_LANE_LABELS[lane.kind]()}{#if lane.kind === MiningLaneKind.BADGES}<span
             class="ms-1.5 align-middle"
           >
-            <Badge text={t.common_beta()} tone={BadgeTone.ACCENT} dot={false} />
+            <BetaBadge />
           </span>{/if}
       </span>
       <span class="text-xs text-muted-foreground">{MINING_LANE_HINTS[lane.kind]()}</span>

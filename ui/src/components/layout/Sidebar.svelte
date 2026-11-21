@@ -20,6 +20,7 @@
   import AccountStateIcon from "../ui/AccountStateIcon.svelte";
   import Avatar from "../ui/Avatar.svelte";
   import Badge from "../ui/Badge.svelte";
+  import BetaBadge from "../ui/BetaBadge.svelte";
   import Icon from "../ui/Icon.svelte";
   import TextLink from "../ui/TextLink.svelte";
   import { AvatarSize } from "../ui/picture.constants";
@@ -121,11 +122,7 @@
         onclick={() => navigate(item.page)}
       >
         <Icon name={PAGE_ICONS[item.page]} size={18} /><span class="truncate">{item.label}</span>
-        {#if BETA_PAGES.has(item.page)}<Badge
-            text={t.common_beta()}
-            tone={BadgeTone.NEUTRAL}
-            dot={false}
-          />{/if}
+        {#if BETA_PAGES.has(item.page)}<BetaBadge />{/if}
         {#if item.count}<span class="ml-auto">
             <Badge text={number(item.count)} tone={BadgeTone.NEUTRAL} dot={false} />
           </span>{/if}
@@ -208,11 +205,7 @@
               >
                 {item.label}
               </span>
-              {#if BETA_PAGES.has(item.page)}<Badge
-                  text={t.common_beta()}
-                  tone={BadgeTone.NEUTRAL}
-                  dot={false}
-                />{/if}
+              {#if BETA_PAGES.has(item.page)}<BetaBadge />{/if}
             </button>
           {/each}
         </div>
