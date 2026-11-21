@@ -68,8 +68,6 @@
 
 ## <a name="features"></a>Funkce
 
-Čím se liší od ostatních minerů. „Ukázka v akci“ pod každým bodem předvede, jak funguje.
-
 ### Účty a streameři
 
 - **Libovolný počet účtů v jedné aplikaci.** Každý účet těží samostatně, ve vlastním režimu:
@@ -225,9 +223,11 @@
   <img src="../media/cs/stats.avif" alt="Dlaždice Statistik za 30 dní, poté křivka bodů streamera se značkou">
   </details>
 
-- **Naplánovaná pauza a denní pauza.** Pozastavte jeden účet nebo všechny na 30 minut, 1
-  hodinu, 4 hodiny, do zítřka do 9:00 nebo do vlastního data a času; „Pokračovat nyní“
-  pauzu ukončí dřív. Odznak ukazuje, kdy pauza končí. Denní pauza každý den mezi dvěma
+- **Pauza a denní pauza.** Jedno tlačítko pauzy, pro jeden účet nebo pro všechny: pauza,
+  dokud nepokračujete, nebo na 30 minut, 1 hodinu, 4 hodiny, do zítřka do 9:00 nebo do
+  vlastního data a času; při pauze se stejné tlačítko jmenuje „Pokračovat“. Odznak
+  ukazuje, kdy časovaná pauza končí, a každý účet v postranním panelu ukazuje svůj stav:
+  běží, pozastaven, nebo problém, na který se podívat. Denní pauza každý den mezi dvěma
   časy v zvoleném časovém pásmu zastaví těžbu všech účtů a po svém konci ji obnoví, se
   svým vlastním odznakem v horní liště.
 - **Export CSV a počty podle kategorie.** Deník exportuje vyzvednuté dropy jako soubor CSV

@@ -68,9 +68,6 @@
 
 ## <a name="features"></a>Funkciók
 
-Ami megkülönbözteti a többi bányásztól. Az egyes pontok alatt a „Működés közben” résznél
-láthatod, hogyan működnek.
-
 ### Fiókok és streamerek
 
 - **Annyi fiók egy alkalmazásban, amennyit csak akarsz.** Minden fiók önállóan bányászik, a saját módjában:
@@ -234,11 +231,13 @@ láthatod, hogyan működnek.
   <img src="../media/hu/stats.avif" alt="A Statisztika oldal csempéi 30 napra, majd egy streamer pontgörbéje egy jelölővel">
   </details>
 
-- **Ütemezett szünet és napi szünet.** Állíts szünetet egy fiókra vagy mindegyikre 30
-  percre, 1 órára, 4 órára, holnap 9:00-ig vagy egyéni dátumra és időpontra; a „Folytatás
-  most” korábban feloldja. Egy jelvény mutatja, mikor ér véget a szünet. A napi szünet
-  minden nap két időpont között, a választott időzónában leállítja minden fiók
-  bányászatát, majd a végén folytatja, saját jelvénnyel a felső sávban.
+- **Szünet és napi szünet.** Egyetlen szünet gomb, egy fiókhoz vagy az összeshez: szünet,
+  amíg nem folytatod, vagy 30 percre, 1 órára, 4 órára, holnap 9:00-ig vagy egyéni
+  dátumra és időpontra; szünet közben ugyanez a gomb „Folytatás” feliratú. Egy jelvény
+  mutatja, mikor ér véget az időzített szünet, és az oldalsávban minden fiók mutatja az
+  állapotát: fut, szünetel, vagy figyelmet igénylő hiba. A napi szünet minden nap két
+  időpont között, a választott időzónában leállítja minden fiók bányászatát, majd a végén
+  folytatja, saját jelvénnyel a felső sávban.
 - **CSV-exportálás és kategóriánkénti számlálás.** A Napló a bevett dropokat CSV-fájlba
   exportálja (dátum, fiók, kategória, kampány, drop, perc), fiók szerint szűrve, és egy
   párbeszédablak felsorolja, hány dropot vettek be kategóriánként. Az asztali alkalmazás

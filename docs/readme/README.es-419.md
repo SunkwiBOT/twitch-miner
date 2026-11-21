@@ -68,9 +68,6 @@
 
 ## <a name="features"></a>Funciones
 
-Lo que lo diferencia de otros mineros. “Verlo en acción”, debajo de un punto, lo muestra
-funcionando.
-
 ### Cuentas y streamers
 
 - **Tantas cuentas como quieras en una sola app.** Cada cuenta mina de forma independiente, en su
@@ -235,12 +232,14 @@ funcionando.
   <img src="../media/es-419/stats.avif" alt="Los mosaicos de Estadísticas en 30 días, luego la curva de puntos de un streamer con un marcador">
   </details>
 
-- **Pausa programada y una pausa diaria.** Pausa una cuenta o todas por 30 minutos, 1
-  hora, 4 horas, hasta mañana a las 09:00, o hasta una fecha y hora personalizadas;
-  “Reanudar ahora” la levanta antes. Una insignia muestra la hora en que termina la pausa.
-  Una pausa diaria detiene la minería de todas las cuentas cada día entre dos horas, en la
-  zona horaria elegida, y la reanuda cuando termina, con su propia insignia en la barra
-  superior.
+- **Pausa y una pausa diaria.** Un botón de pausa, para una cuenta o para todas: pausa
+  hasta que reanudes, o por 30 minutos, 1 hora, 4 horas, hasta mañana a las 09:00, o
+  hasta una fecha y hora personalizadas; mientras está en pausa, el mismo botón dice
+  “Reanudar”. Una insignia muestra la hora en que termina una pausa temporizada, y cada
+  cuenta en la barra lateral muestra su estado: en marcha, en pausa o con un problema que
+  revisar. Una pausa diaria detiene la minería de todas las cuentas cada día entre dos
+  horas, en la zona horaria elegida, y la reanuda cuando termina, con su propia insignia
+  en la barra superior.
 - **Exportación CSV y conteos por categoría.** La Bitácora exporta los drops reclamados
   como un archivo CSV (fecha, cuenta, categoría, campaña, drop, minutos), filtrados por
   cuenta, y un diálogo lista cuántos drops se reclamaron en cada categoría. La aplicación

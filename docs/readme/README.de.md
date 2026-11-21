@@ -68,9 +68,6 @@
 
 ## <a name="features"></a>Funktionen
 
-Was ihn von anderen Minern abhebt. „In Aktion ansehen“ unter einem Punkt zeigt die Funktion
-im Einsatz.
-
 ### Konten und Streamer
 
 - **So viele Konten, wie Sie möchten, in einer App.** Jedes Konto mint für sich, in seinem eigenen Modus:
@@ -236,12 +233,15 @@ im Einsatz.
   <img src="../media/de/stats.avif" alt="Die Statistik-Kacheln über 30 Tage, dann die Punktekurve eines Streamers mit einer Markierung">
   </details>
 
-- **Geplante Pause und eine tägliche Pause.** Pausieren Sie ein Konto oder alle für 30
-  Minuten, 1 Stunde, 4 Stunden, bis morgen 09:00 Uhr oder bis zu einem eigenen Datum und
-  einer eigenen Uhrzeit; „Jetzt fortsetzen“ hebt die Pause vorzeitig auf. Ein Abzeichen
-  zeigt, wann die Pause endet. Eine tägliche Pause hält das Mining aller Konten jeden Tag
-  zwischen zwei Uhrzeiten in der gewählten Zeitzone an und setzt es nach deren Ende wieder
-  fort, mit eigenem Abzeichen in der oberen Leiste.
+- **Pause und eine tägliche Pause.** Eine Pause-Schaltfläche, für ein Konto oder für alle:
+  pausieren, bis Sie fortsetzen, oder für 30 Minuten, 1 Stunde, 4 Stunden, bis morgen
+  09:00 Uhr oder bis zu einem eigenen Datum und einer eigenen Uhrzeit; solange pausiert
+  ist, steht auf derselben Schaltfläche „Fortsetzen“. Ein Abzeichen zeigt, wann eine
+  zeitlich begrenzte Pause endet, und jedes Konto in der Seitenleiste zeigt seinen
+  Zustand: läuft, pausiert oder ein Problem, das man sich ansehen sollte. Eine tägliche
+  Pause hält das Mining aller Konten jeden Tag zwischen zwei Uhrzeiten in der gewählten
+  Zeitzone an und setzt es nach deren Ende wieder fort, mit eigenem Abzeichen in der
+  oberen Leiste.
 - **CSV-Export und Anzahl nach Kategorie.** Das Journal exportiert die eingelösten Drops
   als CSV-Datei (Datum, Konto, Kategorie, Kampagne, Drop, Minuten), gefiltert nach Konto,
   und ein Dialog listet auf, wie viele Drops in welcher Kategorie eingelöst wurden. Die

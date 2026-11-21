@@ -68,8 +68,6 @@
 
 ## <a name="features"></a>Özellikler
 
-Onu diğer madencilerden ayıran şeyler. Bir maddenin altındaki “Çalışırken görün”, o özelliği iş başında gösterir.
-
 ### Hesaplar ve yayıncılar
 
 - **Tek uygulamada istediğiniz kadar hesap.** Her hesap kendi başına, kendi modunda kazar: **Drops ve puan** (bir kanal en iyi kampanya için, diğeri yayıncılarınız için), **Yalnızca Drops** veya **Yalnızca puan**.
@@ -168,7 +166,7 @@ Onu diğer madencilerden ayıran şeyler. Bir maddenin altındaki “Çalışır
   <img src="../media/tr/stats.avif" alt="30 günlük İstatistikler kutucukları, ardından bir işaretleyiciyle yayıncının puan eğrisi">
   </details>
 
-- **Zamanlanmış duraklatma ve günlük duraklatma.** Bir hesabı veya tüm hesapları 30 dakika, 1 saat, 4 saat, yarın 09:00'a kadar veya özel bir tarih ve saate kadar duraklatın; “Şimdi devam et” duraklatmayı erken kaldırır. Bir rozet duraklatmanın ne zaman biteceğini gösterir. Günlük duraklatma, her gün iki saat arasında, seçtiğiniz saat diliminde tüm hesapların madenciliğini durdurur ve süre bitince üst çubuktaki kendi rozetiyle birlikte devam ettirir.
+- **Duraklatma ve günlük duraklatma.** Tek bir duraklatma düğmesi, bir hesap veya tüm hesaplar için: siz devam ettirene kadar duraklatın, ya da 30 dakika, 1 saat, 4 saat, yarın 09:00'a kadar veya özel bir tarih ve saate kadar; duraklatılmışken aynı düğme “Devam et” yazar. Bir rozet süreli duraklatmanın ne zaman biteceğini gösterir ve kenar çubuğundaki her hesap durumunu gösterir: çalışıyor, duraklatıldı veya bakılması gereken bir sorun. Günlük duraklatma, her gün iki saat arasında, seçtiğiniz saat diliminde tüm hesapların madenciliğini durdurur ve süre bitince üst çubuktaki kendi rozetiyle birlikte devam ettirir.
 - **CSV dışa aktarma ve kategoriye göre sayılar.** Günlük, alınan drop'ları bir CSV dosyası olarak dışa aktarır (tarih, hesap, kategori, kampanya, drop, dakika); hesaba göre filtrelenir ve bir iletişim kutusu her kategoride kaç drop alındığını listeler. Masaüstü uygulaması dosyayı bir kaydetme iletişim kutusuyla kaydeder; web paneli indirir.
 
 ### Masaüstünde veya bir sunucuda

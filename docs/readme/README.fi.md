@@ -68,9 +68,6 @@
 
 ## <a name="features"></a>Ominaisuudet
 
-Nämä erottavat sen muista louhijoista. ”Katso toiminnassa” kohdan alla näyttää
-ominaisuuden käytössä.
-
 ### Tilit ja streamaajat
 
 - **Niin monta tiliä kuin haluat yhdessä sovelluksessa.** Jokainen tili louhii omillaan, omassa
@@ -233,12 +230,14 @@ ominaisuuden käytössä.
   <img src="../media/fi/stats.avif" alt="Tilastot-sivun ruudut 30 päivältä, sitten streamaajan pistekäyrä merkillä">
   </details>
 
-- **Ajastettu keskeytys ja päivittäinen tauko.** Keskeytä yksi tili tai kaikki 30
-  minuutiksi, 1 tunniksi, 4 tunniksi, huomiseen klo 09.00 asti tai mukautettuun
-  päivämäärään ja aikaan asti; ”Jatka nyt” päättää keskeytyksen etuajassa. Merkki näyttää,
-  milloin keskeytys päättyy. Päivittäinen tauko pysäyttää kaikkien tilien louhinnan joka
-  päivä kahden kellonajan välillä valitsemassasi aikavyöhykkeessä ja jatkaa sitä sen
-  päätyttyä, omalla merkillään yläpalkissa.
+- **Keskeytys ja päivittäinen tauko.** Yksi keskeytyspainike, yhdelle tilille tai kaikille:
+  keskeytä, kunnes jatkat, tai 30 minuutiksi, 1 tunniksi, 4 tunniksi, huomiseen klo 09.00
+  asti tai mukautettuun päivämäärään ja aikaan asti; keskeytyksen aikana sama painike on
+  ”Jatka”. Merkki näyttää, milloin ajastettu keskeytys päättyy, ja jokainen tili
+  sivupalkissa näyttää tilansa: käynnissä, keskeytetty tai ongelma, jota kannattaa katsoa.
+  Päivittäinen tauko pysäyttää kaikkien tilien louhinnan joka päivä kahden kellonajan
+  välillä valitsemassasi aikavyöhykkeessä ja jatkaa sitä sen päätyttyä, omalla merkillään
+  yläpalkissa.
 - **CSV-vienti ja määrät kategorioittain.** Päiväkirja vie lunastetut dropit
   CSV-tiedostona (päivämäärä, tili, kategoria, kampanja, drop, minuutit) tilin mukaan
   suodatettuna, ja valintaikkuna listaa, montako droppia lunastettiin kussakin

@@ -68,9 +68,6 @@
 
 ## <a name="features"></a>Funciones
 
-Lo que lo diferencia de otros mineros. «Verlo en acción», debajo de un punto, lo muestra
-funcionando.
-
 ### Cuentas y streamers
 
 - **Tantas cuentas como quieras en una sola app.** Cada cuenta mina de forma independiente, en su
@@ -231,10 +228,12 @@ funcionando.
   <img src="../media/es-ES/stats.avif" alt="Los mosaicos de Estadísticas en 30 días, y luego la curva de puntos de un streamer con un marcador">
   </details>
 
-- **Pausa programada y una pausa diaria.** Pausa una cuenta o todas durante 30 minutos, 1
-  hora, 4 horas, hasta mañana a las 09:00, o hasta una fecha y hora personalizadas;
-  «Reanudar ahora» la levanta antes. Una insignia muestra la hora a la que termina la
-  pausa. Una pausa diaria detiene la minería de todas las cuentas cada día entre dos
+- **Pausa y una pausa diaria.** Un botón de pausa, para una cuenta o para todas: pausa
+  hasta que reanudes, o durante 30 minutos, 1 hora, 4 horas, hasta mañana a las 09:00, o
+  hasta una fecha y hora personalizadas; mientras está en pausa, el mismo botón dice
+  «Reanudar». Una insignia muestra la hora a la que termina una pausa temporizada, y cada
+  cuenta en la barra lateral muestra su estado: en marcha, en pausa o con un problema que
+  revisar. Una pausa diaria detiene la minería de todas las cuentas cada día entre dos
   horas, en la zona horaria elegida, y la reanuda al terminar, con su propia insignia en
   la barra superior.
 - **Exportación CSV y recuentos por categoría.** El Diario exporta los drops reclamados

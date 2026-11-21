@@ -68,9 +68,6 @@
 
 ## <a name="features"></a>Funktioner
 
-Det her adskiller den fra andre minere. »Se det i aktion« under et punkt viser funktionen i
-brug.
-
 ### Konti og streamere
 
 - **Så mange konti, du vil, i én app.** Hver konto miner for sig selv, i sin egen tilstand:
@@ -231,9 +228,11 @@ brug.
   <img src="../media/da/stats.avif" alt="Statistik-feltene over 30 dage, derefter en streamers pointkurve med en markør">
   </details>
 
-- **Planlagt pause og en daglig pause.** Sæt en konto eller alle på pause i 30 minutter, 1
-  time, 4 timer, til i morgen kl. 09:00 eller til en brugerdefineret dato og tidspunkt;
-  »Genoptag nu« ophæver pausen tidligere. Et badge viser, hvornår pausen slutter. En
+- **Pause og en daglig pause.** Én pauseknap, for én konto eller for alle: sæt på pause,
+  indtil du genoptager, eller i 30 minutter, 1 time, 4 timer, til i morgen kl. 09:00 eller
+  til en brugerdefineret dato og tidspunkt; mens der er pause, står der »Genoptag« på den
+  samme knap. Et badge viser, hvornår en tidsbegrænset pause slutter, og hver konto i
+  sidepanelet viser sin tilstand: kører, på pause eller et problem, der skal ses på. En
   daglig pause stopper miningen på alle konti hver dag mellem to tidspunkter i den valgte
   tidszone og genoptager den, når pausen slutter, med sit eget badge i den øverste bjælke.
 - **CSV-eksport og antal pr. kategori.** Journalen eksporterer de hentede drops som en

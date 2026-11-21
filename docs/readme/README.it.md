@@ -68,9 +68,6 @@
 
 ## <a name="features"></a>Funzionalità
 
-Cosa lo distingue dagli altri miner. «Vedilo in azione», sotto un punto, lo mostra
-all'opera.
-
 ### Account e streamer
 
 - **Tutti gli account che vuoi in un'unica app.** Ogni account mina per conto suo, nella sua modalità:
@@ -231,9 +228,11 @@ all'opera.
   <img src="../media/it/stats.avif" alt="I riquadri della pagina Statistiche su 30 giorni, poi la curva dei punti di uno streamer con un indicatore">
   </details>
 
-- **Pausa programmata e finestra silenziosa.** Metti in pausa un account o tutti per 30
-  minuti, 1 ora, 4 ore, fino a domani alle 09:00, o una data e un'ora personalizzate;
-  «Riprendi ora» la toglie prima. Un badge mostra l'ora in cui finisce la pausa. Una
+- **Pausa e finestra silenziosa.** Un solo pulsante di pausa, per un account o per tutti:
+  pausa finché non riprendi, oppure per 30 minuti, 1 ora, 4 ore, fino a domani alle 09:00,
+  o una data e un'ora personalizzate; durante la pausa lo stesso pulsante dice «Riprendi».
+  Un badge mostra l'ora in cui finisce una pausa a tempo, e ogni account nella barra
+  laterale mostra il suo stato: attivo, in pausa o con un problema da controllare. Una
   finestra silenziosa giornaliera ferma il mining di tutti gli account ogni giorno tra due
   orari, nel fuso orario scelto, e lo riprende quando termina, con il suo badge nella
   barra in alto.

@@ -68,8 +68,6 @@
 
 ## <a name="features"></a>Tính năng
 
-Những gì làm nên khác biệt so với các trình đào khác. “Xem minh họa” bên dưới mỗi mục cho thấy tính năng đó hoạt động ra sao.
-
 ### Tài khoản và streamer
 
 - **Bao nhiêu tài khoản tùy bạn trong một ứng dụng.** Mỗi tài khoản đào độc lập, theo chế độ riêng: **Drops và điểm** (một kênh cho chiến dịch tốt nhất, kênh còn lại cho các streamer của bạn), **Chỉ Drops** hoặc **Chỉ điểm**.
@@ -168,7 +166,7 @@ Những gì làm nên khác biệt so với các trình đào khác. “Xem minh
   <img src="../media/vi/stats.avif" alt="Các ô Thống kê trong 30 ngày, rồi đường biểu diễn điểm của một streamer kèm mốc đánh dấu">
   </details>
 
-- **Tạm dừng theo lịch và tạm dừng hằng ngày.** Tạm dừng một tài khoản hoặc tất cả trong 30 phút, 1 giờ, 4 giờ, đến 09:00 ngày mai, hoặc một ngày và giờ tùy chỉnh; “Tiếp tục ngay” sẽ dỡ bỏ tạm dừng sớm hơn. Một huy hiệu cho biết giờ kết thúc tạm dừng. Tạm dừng hằng ngày dừng việc đào của mọi tài khoản giữa hai mốc giờ mỗi ngày, theo múi giờ bạn chọn, và tiếp tục khi kết thúc, với huy hiệu riêng trên thanh trên cùng.
+- **Tạm dừng và tạm dừng hằng ngày.** Một nút tạm dừng, cho một tài khoản hoặc tất cả: tạm dừng cho đến khi bạn tiếp tục, hoặc trong 30 phút, 1 giờ, 4 giờ, đến 09:00 ngày mai, hoặc một ngày và giờ tùy chỉnh; khi đang tạm dừng, chính nút đó hiển thị “Tiếp tục”. Một huy hiệu cho biết giờ kết thúc của tạm dừng có thời hạn, và mỗi tài khoản trong thanh bên hiển thị trạng thái: đang chạy, tạm dừng, hoặc có vấn đề cần xem. Tạm dừng hằng ngày dừng việc đào của mọi tài khoản giữa hai mốc giờ mỗi ngày, theo múi giờ bạn chọn, và tiếp tục khi kết thúc, với huy hiệu riêng trên thanh trên cùng.
 - **Xuất CSV và số lượng theo danh mục.** Nhật ký xuất các drop đã nhận thành tệp CSV (ngày, tài khoản, danh mục, chiến dịch, drop, phút), lọc theo tài khoản, và một hộp thoại liệt kê số drop đã nhận trong mỗi danh mục. Ứng dụng máy tính lưu tệp qua hộp thoại lưu; bảng điều khiển web tải tệp xuống.
 
 ### Trên máy tính hoặc trên máy chủ

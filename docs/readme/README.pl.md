@@ -68,9 +68,6 @@
 
 ## <a name="features"></a>Funkcje
 
-Co wyróżnia go na tle innych minerów. „Zobacz w akcji” pod każdym punktem pokazuje, jak to
-działa.
-
 ### Konta i streamerzy
 
 - **Tyle kont, ile chcesz, w jednej aplikacji.** Każde konto kopie samodzielnie, we własnym trybie:
@@ -228,12 +225,14 @@ działa.
   <img src="../media/pl/stats.avif" alt="Kafelki Statystyki za 30 dni, a potem krzywa punktów streamera ze znacznikiem">
   </details>
 
-- **Zaplanowana pauza i codzienna pauza.** Wstrzymaj jedno konto albo wszystkie konta na
-  30 minut, 1 godzinę, 4 godziny, do jutra do 9:00 albo na niestandardową datę i godzinę;
-  „Wznów teraz” zdejmuje pauzę wcześniej. Plakietka pokazuje, kiedy pauza się kończy.
-  Codzienna pauza wstrzymuje kopanie na wszystkich kontach każdego dnia między dwiema
-  godzinami, w wybranej strefie czasowej, i wznawia je po swoim zakończeniu, z własną
-  plakietką na górnym pasku.
+- **Pauza i codzienna pauza.** Jeden przycisk pauzy, dla jednego konta albo wszystkich
+  kont: pauza, dopóki jej nie wznowisz, albo na 30 minut, 1 godzinę, 4 godziny, do jutra
+  do 9:00 albo na niestandardową datę i godzinę; w czasie pauzy ten sam przycisk nazywa
+  się „Wznów”. Plakietka pokazuje, kiedy kończy się pauza czasowa, a każde konto na pasku
+  bocznym pokazuje swój stan: działa, wstrzymane albo problem do sprawdzenia. Codzienna
+  pauza wstrzymuje kopanie na wszystkich kontach każdego dnia między dwiema godzinami, w
+  wybranej strefie czasowej, i wznawia je po swoim zakończeniu, z własną plakietką na
+  górnym pasku.
 - **Eksport CSV i liczby według kategorii.** Dziennik eksportuje odebrane dropy jako plik
   CSV (data, konto, kategoria, kampania, drop, minuty), przefiltrowane według konta, a
   okno dialogowe wyświetla, ile dropów odebrano w każdej kategorii. Aplikacja desktopowa

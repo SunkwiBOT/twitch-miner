@@ -68,9 +68,6 @@
 
 ## <a name="features"></a>Functies
 
-Wat hem onderscheidt van andere miners. “Bekijk het in actie” onder een punt laat zien hoe
-het werkt.
-
 ### Accounts en streamers
 
 - **Zoveel accounts als je wilt in één app.** Elk account mint zelfstandig, in zijn eigen modus:
@@ -234,12 +231,13 @@ het werkt.
   <img src="../media/nl/stats.avif" alt="De Statistieken-tegels over 30 dagen, daarna een streamer-puntencurve met een markering">
   </details>
 
-- **Geplande pauze en dagelijkse pauze.** Pauzeer één account of alle accounts voor 30
-  minuten, 1 uur, 4 uur, tot morgen 09:00 of een aangepaste datum en tijd; “Nu hervatten”
-  heft de pauze eerder op. Een badge toont wanneer de pauze eindigt. Een dagelijkse pauze
-  stopt het minen van alle accounts elke dag tussen twee tijdstippen, in de gekozen
-  tijdzone, en hervat het zodra die pauze eindigt, met een eigen badge in de bovenste
-  balk.
+- **Pauze en dagelijkse pauze.** Eén pauzeknop, voor één account of voor alle accounts:
+  pauzeer tot je hervat, of voor 30 minuten, 1 uur, 4 uur, tot morgen 09:00 of een
+  aangepaste datum en tijd; tijdens de pauze staat op dezelfde knop “Hervatten”. Een badge
+  toont wanneer een tijdelijke pauze eindigt, en elk account in de zijbalk toont zijn
+  status: actief, gepauzeerd of een probleem om naar te kijken. Een dagelijkse pauze stopt
+  het minen van alle accounts elke dag tussen twee tijdstippen, in de gekozen tijdzone,
+  en hervat het zodra die pauze eindigt, met een eigen badge in de bovenste balk.
 - **CSV-export en aantallen per categorie.** Het Journaal exporteert de geclaimde drops
   als CSV-bestand (datum, account, categorie, campagne, drop, minuten), gefilterd op
   account, en een dialoogvenster toont hoeveel drops in elke categorie geclaimd zijn. De

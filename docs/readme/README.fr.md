@@ -68,8 +68,6 @@
 
 ## <a name="features"></a>Fonctionnalités
 
-Ce qui le distingue des autres mineurs. « Voir en image » montre chaque point en action.
-
 ### Comptes et streamers
 
 - **Autant de comptes que vous voulez dans une seule application.** Chaque compte mine de son côté, dans
@@ -231,12 +229,14 @@ Ce qui le distingue des autres mineurs. « Voir en image » montre chaque poin
   <img src="../media/fr/stats.avif" alt="Les tuiles de la page Statistiques sur 30 jours, puis la courbe de points d'un streamer avec un repère">
   </details>
 
-- **Pause programmée et pause quotidienne.** Mettez en pause un compte ou tous les comptes
-  pour 30 minutes, 1 heure, 4 heures, jusqu'à demain 09:00, ou une date et une heure
-  personnalisées ; « Reprendre maintenant » lève la pause plus tôt. Un badge affiche
-  l'heure de fin de la pause. Une pause quotidienne arrête le minage de tous les comptes
-  chaque jour entre deux heures, dans le fuseau horaire choisi, et le reprend une fois
-  celle-ci terminée, avec son propre badge dans la barre du haut.
+- **Pause et pause quotidienne.** Un seul bouton de pause, pour un compte ou pour tous :
+  pause jusqu'à ce que vous repreniez, ou pour 30 minutes, 1 heure, 4 heures, jusqu'à
+  demain 09:00, ou une date et une heure personnalisées ; pendant la pause, le même bouton
+  affiche « Reprendre ». Un badge affiche l'heure de fin d'une pause programmée, et chaque
+  compte dans la barre latérale indique son état : en marche, en pause ou un problème à
+  regarder. Une pause quotidienne arrête le minage de tous les comptes chaque jour entre
+  deux heures, dans le fuseau horaire choisi, et le reprend une fois celle-ci terminée,
+  avec son propre badge dans la barre du haut.
 - **Export CSV et comptage par catégorie.** Le Journal exporte les drops réclamés en
   fichier CSV (date, compte, catégorie, campagne, drop, minutes), filtrés par compte, et
   une boîte de dialogue liste combien de drops ont été réclamés dans chaque catégorie.

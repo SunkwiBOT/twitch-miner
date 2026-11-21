@@ -68,9 +68,6 @@
 
 ## <a name="features"></a>Funktioner
 
-Det här skiljer den från andra miners. ”Se det i aktion” under en punkt visar funktionen i
-arbete.
-
 ### Konton och streamers
 
 - **Så många konton du vill i en app.** Varje konto minar för sig, i sitt eget läge:
@@ -230,11 +227,13 @@ arbete.
   <img src="../media/sv/stats.avif" alt="Statistiksidans rutor över 30 dagar, sedan en streamers poängkurva med en markering">
   </details>
 
-- **Schemalagd paus och en daglig paus.** Pausa ett konto eller alla i 30 minuter, 1
-  timme, 4 timmar, till imorgon 09:00 eller ett anpassat datum och tid; ”Återuppta nu”
-  lyfter pausen tidigare. Ett märke visar när pausen slutar. En daglig paus stoppar
-  utvinningen på alla konton varje dag mellan två tider, i den tidszon du väljer, och
-  återupptar den när pausen är slut, med ett eget märke i det övre fältet.
+- **Paus och en daglig paus.** En pausknapp, för ett konto eller alla: pausa tills du
+  återupptar, eller i 30 minuter, 1 timme, 4 timmar, till imorgon 09:00 eller ett anpassat
+  datum och tid; medan det är pausat står det ”Återuppta” på samma knapp. Ett märke visar
+  när en tidsbestämd paus slutar, och varje konto i sidofältet visar sitt tillstånd: körs,
+  pausat eller ett problem att titta på. En daglig paus stoppar utvinningen på alla konton
+  varje dag mellan två tider, i den tidszon du väljer, och återupptar den när pausen är
+  slut, med ett eget märke i det övre fältet.
 - **CSV-export och antal per kategori.** Journalen exporterar de hämtade dropparna som en
   CSV-fil (datum, konto, kategori, kampanj, drop, minuter), filtrerade efter konto, och en
   dialogruta listar hur många drops som hämtats i varje kategori. Skrivbordsappen sparar

@@ -68,9 +68,6 @@
 
 ## <a name="features"></a>Recursos
 
-O que o diferencia de outros mineradores. “Ver em ação”, abaixo de um item, mostra o
-recurso funcionando.
-
 ### Contas e streamers
 
 - **Quantas contas você quiser em um só app.** Cada conta minera por conta própria, no seu próprio
@@ -229,12 +226,13 @@ recurso funcionando.
   <img src="../media/pt-BR/stats.avif" alt="Os blocos de Estatísticas em 30 dias e, depois, a curva de pontos de um streamer com um marcador">
   </details>
 
-- **Pausa agendada e pausa diária.** Pause uma conta ou todas as contas por 30 minutos, 1
-  hora, 4 horas, até amanhã às 09:00, ou uma data e hora personalizadas; “Retomar agora”
-  encerra a pausa antes. Um selo mostra o horário em que a pausa termina. Uma pausa diária
-  interrompe a mineração de todas as contas todos os dias entre dois horários, no fuso
-  horário escolhido, e a retoma assim que ela termina, com seu próprio selo na barra
-  superior.
+- **Pausa e pausa diária.** Um botão de pausa, para uma conta ou para todas: pause até
+  você retomar, ou por 30 minutos, 1 hora, 4 horas, até amanhã às 09:00, ou uma data e
+  hora personalizadas; enquanto está pausado, o mesmo botão diz “Retomar”. Um selo mostra
+  o horário em que uma pausa com prazo termina, e cada conta na barra lateral mostra seu
+  estado: rodando, pausada ou com um problema para ver. Uma pausa diária interrompe a
+  mineração de todas as contas todos os dias entre dois horários, no fuso horário
+  escolhido, e a retoma assim que ela termina, com seu próprio selo na barra superior.
 - **Exportação de CSV e contagens por categoria.** O Diário exporta os drops resgatados
   como um arquivo CSV (data, conta, categoria, campanha, drop, minutos), filtrados por
   conta, e uma caixa de diálogo lista quantos drops foram resgatados em cada categoria. O

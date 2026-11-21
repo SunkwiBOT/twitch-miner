@@ -68,9 +68,6 @@
 
 ## <a name="features"></a>Funksjoner
 
-Dette skiller den fra andre minere. «Se det i aksjon» under et punkt viser funksjonen i
-bruk.
-
 ### Kontoer og streamere
 
 - **Så mange kontoer du vil i én app.** Hver konto miner på egen hånd, i sin egen modus:
@@ -230,12 +227,14 @@ bruk.
   <img src="../media/nb/stats.avif" alt="Statistikk-flisene over 30 dager, deretter en streamers poengkurve med en markør">
   </details>
 
-- **Planlagt pause og daglig pause.** Sett en konto eller alle kontoer på pause i 30
-  minutter, 1 time, 4 timer, til i morgen kl. 09:00 eller en egendefinert dato og
-  klokkeslett; «Fortsett nå» opphever pausen tidligere. Et merke viser når pausen slutter.
-  En daglig pause stopper utvinningen på alle kontoer hver dag mellom to tidspunkter, i
-  tidssonen du velger, og fortsetter den når pausen er over, med sitt eget merke i den
-  øverste linjen.
+- **Pause og daglig pause.** Én pauseknapp, for én konto eller for alle kontoer: pause
+  til du fortsetter, eller i 30 minutter, 1 time, 4 timer, til i morgen kl. 09:00 eller
+  en egendefinert dato og klokkeslett; mens det er pause, står det «Fortsett» på den
+  samme knappen. Et merke viser når en tidsbestemt pause slutter, og hver konto i
+  sidepanelet viser tilstanden sin: kjører, på pause eller et problem å se på. En daglig
+  pause stopper utvinningen på alle kontoer hver dag mellom to tidspunkter, i tidssonen
+  du velger, og fortsetter den når pausen er over, med sitt eget merke i den øverste
+  linjen.
 - **CSV-eksport og antall per kategori.** Journalen eksporterer de hentede dropsene som en
   CSV-fil (dato, konto, kategori, kampanje, drop, minutter), filtrert etter konto, og en
   dialog viser hvor mange drops som er hentet i hver kategori. Skrivebordsappen lagrer

@@ -68,8 +68,6 @@
 
 ## <a name="features"></a>Features
 
-What sets it apart from other miners. “See it in action” under a point shows it at work.
-
 ### Accounts and streamers
 
 - **As many accounts as you want in one app.** Each account mines on its own, in its own mode:
@@ -226,11 +224,13 @@ What sets it apart from other miners. “See it in action” under a point shows
   <img src="docs/media/en/stats.avif" alt="The Statistics tiles over 30 days, then a streamer's points curve with a marker">
   </details>
 
-- **Scheduled pause and a daily pause.** Pause one account or all of them for 30 minutes,
-  1 hour, 4 hours, until tomorrow at 09:00, or a custom date and time; “Resume now” lifts
-  it early. A badge shows the time the pause ends. A daily pause stops mining on every
-  account every day between two times, in the time zone you choose, and resumes it once it
-  ends, with its own badge in the top bar.
+- **Pause and a daily pause.** One pause button, for one account or for all of them: pause
+  until you resume, or for 30 minutes, 1 hour, 4 hours, until tomorrow at 09:00, or a custom
+  date and time; while paused, the same button reads “Resume”. A badge shows the time a
+  timed pause ends, and each account in the sidebar shows its state: running, paused, or a
+  problem to look at. A daily pause stops mining on every account every day between two
+  times, in the time zone you choose, and resumes it once it ends, with its own badge in the
+  top bar.
 - **CSV export and counts by category.** The Journal exports the claimed drops as a CSV
   file (date, account, category, campaign, drop, minutes), filtered by account, and a
   dialog lists how many drops were claimed in each category. The desktop app saves the

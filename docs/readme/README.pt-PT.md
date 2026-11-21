@@ -68,9 +68,6 @@
 
 ## <a name="features"></a>Funcionalidades
 
-O que o distingue de outros mineradores. «Ver em ação», por baixo de um ponto, mostra-o a
-funcionar.
-
 ### Contas e streamers
 
 - **Quantas contas quiser numa só app.** Cada conta minera de forma independente, no seu próprio
@@ -230,9 +227,11 @@ funcionar.
   <img src="../media/pt-PT/stats.avif" alt="Os blocos de Estatísticas em 30 dias e, depois, a curva de pontos de um streamer com um marcador">
   </details>
 
-- **Pausa agendada e pausa diária.** Pause uma conta ou todas durante 30 minutos, 1 hora,
-  4 horas, até amanhã às 09:00, ou uma data e hora personalizadas; «Retomar agora» levanta
-  a pausa mais cedo. Um emblema mostra a hora a que a pausa termina. Uma pausa diária
+- **Pausa e pausa diária.** Um botão de pausa, para uma conta ou para todas: pause até
+  retomar, ou durante 30 minutos, 1 hora, 4 horas, até amanhã às 09:00, ou uma data e
+  hora personalizadas; enquanto está em pausa, o mesmo botão diz «Retomar». Um emblema
+  mostra a hora a que termina uma pausa temporizada, e cada conta na barra lateral mostra
+  o seu estado: a funcionar, em pausa ou com um problema para ver. Uma pausa diária
   interrompe a mineração de todas as contas todos os dias entre duas horas, no fuso
   horário escolhido, e retoma-a assim que esta termina, com o seu próprio emblema na barra
   superior.

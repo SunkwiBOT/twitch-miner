@@ -68,9 +68,6 @@
 
 ## <a name="features"></a>Funcționalități
 
-Ce îl deosebește de alte instrumente de minare. „Vezi în acțiune”, sub un punct, îl arată
-la lucru.
-
 ### Conturi și streameri
 
 - **Oricâte conturi într-o singură aplicație.** Fiecare cont minează independent, în
@@ -230,11 +227,13 @@ la lucru.
   <img src="../media/ro/stats.avif" alt="Plăcile paginii Statistici pe 30 de zile, apoi curba de puncte a unui streamer cu un marcaj">
   </details>
 
-- **Pauză programată și pauză zilnică.** Pune pauză unui cont sau tuturor pentru 30 de
-  minute, 1 oră, 4 ore, până mâine la 09:00, sau o dată și oră personalizate; „Reia acum”
-  o ridică mai devreme. O insignă arată ora la care se termină pauza. O pauză zilnică
-  oprește minarea tuturor conturilor în fiecare zi între două ore, în fusul orar ales, și
-  o reia după ce se termină, cu propria insignă în bara de sus.
+- **Pauză și pauză zilnică.** Un singur buton de pauză, pentru un cont sau pentru toate:
+  pauză până reiei, sau pentru 30 de minute, 1 oră, 4 ore, până mâine la 09:00, sau o dată
+  și oră personalizate; cât timp e în pauză, același buton scrie „Reia”. O insignă arată
+  ora la care se termină o pauză cu durată, iar fiecare cont din bara laterală își arată
+  starea: rulează, în pauză sau o problemă de verificat. O pauză zilnică oprește minarea
+  tuturor conturilor în fiecare zi între două ore, în fusul orar ales, și o reia după ce
+  se termină, cu propria insignă în bara de sus.
 - **Export CSV și numărători pe categorie.** Jurnalul exportă drops revendicate ca fișier
   CSV (data, contul, categoria, campania, drop, minute), filtrate după cont, iar o
   fereastră de dialog arată câte drops au fost revendicate în fiecare categorie. Aplicația

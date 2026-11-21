@@ -68,8 +68,6 @@
 
 ## <a name="features"></a>Fitur
 
-Hal-hal yang membedakannya dari penambang lain. “Lihat langsung” di bawah sebuah butir memperlihatkan fitur itu saat bekerja.
-
 ### Akun dan streamer
 
 - **Sebanyak apa pun akun yang Anda mau dalam satu aplikasi.** Setiap akun menambang sendiri-sendiri, dengan modenya masing-masing: **Drops dan poin** (satu channel untuk kampanye terbaik, satu lagi untuk streamer Anda), **Hanya Drops**, atau **Hanya poin**.
@@ -173,12 +171,14 @@ Hal-hal yang membedakannya dari penambang lain. “Lihat langsung” di bawah se
   <img src="../media/id/stats.avif" alt="Ubin halaman Statistik selama 30 hari, lalu kurva poin seorang streamer dengan penanda">
   </details>
 
-- **Jeda terjadwal dan jeda harian.** Jeda satu akun atau semua akun selama 30 menit, 1
-  jam, 4 jam, hingga besok pukul 09.00, atau tanggal dan waktu khusus; “Lanjutkan
-  sekarang” mengangkat jeda lebih awal. Lencana menunjukkan kapan jeda berakhir. Jeda
-  harian menghentikan penambangan semua akun setiap hari di antara dua waktu, dalam zona
-  waktu yang Anda pilih, dan melanjutkannya setelah selesai, dengan lencananya sendiri di
-  bilah atas.
+- **Jeda dan jeda harian.** Satu tombol jeda, untuk satu akun atau semua akun: jeda sampai
+  Anda melanjutkan, atau selama 30 menit, 1 jam, 4 jam, hingga besok pukul 09.00, atau
+  tanggal dan waktu khusus; saat dijeda, tombol yang sama bertuliskan “Lanjutkan”. Lencana
+  menunjukkan kapan jeda berjangka berakhir, dan setiap akun di bilah samping menampilkan
+  statusnya: berjalan, dijeda, atau ada masalah yang perlu dilihat. Jeda harian
+  menghentikan penambangan semua akun setiap hari di antara dua waktu, dalam zona waktu
+  yang Anda pilih, dan melanjutkannya setelah selesai, dengan lencananya sendiri di bilah
+  atas.
 - **Ekspor CSV dan jumlah per kategori.** Jurnal mengekspor drop yang diklaim sebagai file
   CSV (tanggal, akun, kategori, kampanye, drop, menit), disaring menurut akun, dan sebuah
   dialog mencantumkan berapa banyak drop yang diklaim di setiap kategori. Aplikasi desktop
