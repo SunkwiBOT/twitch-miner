@@ -4,6 +4,12 @@ export enum BadgeFilter {
   SUB = "SUB",
 }
 
+export const BADGE_FILTER_SLUGS: Record<BadgeFilter, string> = {
+  [BadgeFilter.ALL]: "all",
+  [BadgeFilter.WATCH]: "watch-time",
+  [BadgeFilter.SUB]: "subscription",
+};
+
 // ! Every channel owner has the Broadcaster badge: listing it says nothing.
 export const HIDDEN_BADGE_SETS: ReadonlySet<string> = new Set(["broadcaster"]);
 

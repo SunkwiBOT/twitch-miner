@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { BadgeFilter } from "../../lib/badges/badges.constants";
+  import { BADGE_FILTER_SLUGS, BadgeFilter } from "../../lib/badges/badges.constants";
   import { badgeList } from "../../lib/badges/badges.svelte";
   import { badgeKey, badgeTimelineRows, visibleBadges } from "../../lib/badges/badges.utils";
   import type { CampaignType } from "../../lib/bindings/CampaignType";
@@ -7,6 +7,8 @@
   import type { SnapshotType } from "../../lib/bindings/SnapshotType";
   import {
     TIMELINE_VIEW_SLUGS,
+    TIMELINE_ZOOM_SLUGS,
+    TIMELINE_ZOOMS,
     TimelineView,
     TimelineZoom,
   } from "../../lib/catalogue/timeline.constants";
@@ -41,8 +43,10 @@
   let { snapshot }: BadgesPropsType = $props();
 
   let query = $state("");
-  let filter = $state(BadgeFilter.WATCH);
-  let zoom = $state(TimelineZoom.TWO_WEEKS);
+  const filter = $derived(
+    openTab(Object.values(BadgeFilter), BADGE_FILTER_SLUGS, BadgeFilter.WATCH),
+  );
+  const zoom = $derived(openTab(TIMELINE_ZOOMS, TIMELINE_ZOOM_SLUGS, TimelineZoom.TWO_WEEKS));
   let open = $state<GlobalBadgeType | null>(null);
   let campaign = $state<CampaignType | null>(null);
 
@@ -137,14 +141,14 @@
       value={filter}
       options={filters}
       label={t.badges_filter()}
-      onchange={(next) => (filter = next)}
+      onchange={(next) => showTab(BADGE_FILTER_SLUGS, next)}
     />
     {#if view === TimelineView.TIMELINE}
       <Segmented
         value={zoom}
         options={zoomOptions()}
         label={t.timeline_zoom()}
-        onchange={(next) => (zoom = next)}
+        onchange={(next) => showTab(TIMELINE_ZOOM_SLUGS, next)}
       />
     {/if}
   </div>

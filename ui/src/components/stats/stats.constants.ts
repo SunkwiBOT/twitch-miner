@@ -3,6 +3,12 @@ import type { StatsPeriodDaysType, StatsReasonToneType } from "./stats.types";
 
 export const STATS_PERIODS: StatsPeriodDaysType[] = [7, 30, 90];
 
+export const STATS_PERIOD_SLUGS: Record<StatsPeriodDaysType, string> = {
+  7: "7d",
+  30: "30d",
+  90: "90d",
+};
+
 export const STATS_REASON_TONES: StatsReasonToneType[] = [
   { bg: "bg-primary", fill: "fill-primary", text: "text-primary" },
   { bg: "bg-warning-emphasis", fill: "fill-warning-emphasis", text: "text-warning-emphasis" },

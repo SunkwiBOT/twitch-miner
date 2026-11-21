@@ -58,6 +58,8 @@ export const PAGE_PATHS: Record<Page, string> = {
 
 export const ACCOUNT_PATH = "/account";
 
+export const TAB_SEPARATOR = "+";
+
 export enum HistoryMode {
   PUSH = "PUSH",
   REPLACE = "REPLACE",

@@ -15,6 +15,8 @@
   import Timeline from "../catalogue/Timeline.svelte";
   import {
     TIMELINE_VIEW_SLUGS,
+    TIMELINE_ZOOM_SLUGS,
+    TIMELINE_ZOOMS,
     TimelineView,
     TimelineZoom,
   } from "../../lib/catalogue/timeline.constants";
@@ -25,7 +27,7 @@
   import SearchField from "../ui/SearchField.svelte";
   import Segmented from "../ui/Segmented.svelte";
   import { IconName } from "../../lib/icons.constants";
-  import { CatalogueSort } from "../catalogue/catalogue.constants";
+  import { CATALOGUE_SORT_SLUGS, CatalogueSort } from "../catalogue/catalogue.constants";
   import { viewOptions, zoomOptions } from "../catalogue/catalogue.utils";
   import { catalogue } from "../../lib/catalogue/catalogue.svelte";
 
@@ -37,7 +39,9 @@
   const view = $derived(
     openTab(Object.values(TimelineView), TIMELINE_VIEW_SLUGS, TimelineView.TIMELINE),
   );
-  let sort = $state(CatalogueSort.ENDING);
+  const sort = $derived(
+    openTab(Object.values(CatalogueSort), CATALOGUE_SORT_SLUGS, CatalogueSort.ENDING),
+  );
   let open = $state<CampaignType | null>(null);
 
   const time = (iso: string): number => new Date(iso).getTime();
@@ -67,7 +71,7 @@
     }
   });
 
-  let zoom = $state(TimelineZoom.TWO_WEEKS);
+  const zoom = $derived(openTab(TIMELINE_ZOOMS, TIMELINE_ZOOM_SLUGS, TimelineZoom.TWO_WEEKS));
 
   const sorts = $derived([
     { value: CatalogueSort.ENDING, label: t.catalogue_sort_ending() },
@@ -120,14 +124,14 @@
       value={sort}
       options={sorts}
       label={t.catalogue_sort()}
-      onchange={(next) => (sort = next)}
+      onchange={(next) => showTab(CATALOGUE_SORT_SLUGS, next)}
     />
   {:else}
     <Segmented
       value={zoom}
       options={zoomOptions()}
       label={t.timeline_zoom()}
-      onchange={(next) => (zoom = next)}
+      onchange={(next) => showTab(TIMELINE_ZOOM_SLUGS, next)}
     />
   {/if}
 

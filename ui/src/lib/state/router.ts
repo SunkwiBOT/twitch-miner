@@ -3,22 +3,41 @@ import type { SnapshotType } from "../bindings/SnapshotType";
 import { account, app } from "./app.svelte";
 import { parseRoute, routePath } from "./routes.utils";
 import { ACCOUNT_PAGES, HistoryMode, MouseButton, Page, PAGE_PATHS } from "./state.constants";
-import { KEY_STORAGE_ACCOUNT, KEY_STORAGE_PAGE } from "./storage.constants";
+import { KEY_STORAGE_ACCOUNT, KEY_STORAGE_PAGE, KEY_STORAGE_TABS } from "./storage.constants";
 import { recall, remember } from "./storage.utils";
+import { joinTabs, pickTab, readSavedTabs, tabParts, withTab } from "./tabs.utils";
+import type { SavedTabsType } from "./tabs.utils";
 
 export const isAccountPage = (page: Page): boolean => ACCOUNT_PAGES.has(page);
 
 const addressTab = (): string => location.hash.slice(1);
 
-export const openTab = <T extends string>(
+let savedTabs: SavedTabsType = {};
+
+const pageTabs = (page: Page): string => joinTabs(savedTabs[page] ?? []);
+
+const writeHash = (): void => {
+  const hash = app.tab ? `#${app.tab}` : "";
+
+  if (hash !== location.hash) {
+    history.replaceState(history.state, "", `${location.pathname}${location.search}${hash}`);
+  }
+};
+
+export const openTab = <T extends string | number>(
   tabs: readonly T[],
   slugs: Record<T, string>,
   fallback: T,
-): T => tabs.find((tab) => slugs[tab] === app.tab) ?? fallback;
+): T =>
+  pickTab(tabParts(app.tab), tabs, slugs) ??
+  pickTab(savedTabs[app.page] ?? [], tabs, slugs) ??
+  fallback;
 
-export const showTab = <T extends string>(slugs: Record<T, string>, tab: T): void => {
-  app.tab = slugs[tab];
-  history.replaceState(history.state, "", `${location.pathname}${location.search}#${app.tab}`);
+export const showTab = <T extends string | number>(slugs: Record<T, string>, tab: T): void => {
+  app.tab = joinTabs(withTab(tabParts(app.tab), slugs, tab));
+  savedTabs = { ...savedTabs, [app.page]: withTab(savedTabs[app.page] ?? [], slugs, tab) };
+  remember(KEY_STORAGE_TABS, JSON.stringify(savedTabs));
+  writeHash();
 };
 
 const PAGES: ReadonlySet<string> = new Set(Object.values(Page));
@@ -39,12 +58,14 @@ const writeAddress = (mode: HistoryMode): void => {
     return;
   }
 
-  app.tab = "";
+  app.tab = pageTabs(app.page);
+
+  const address = app.tab ? `${path}#${app.tab}` : path;
 
   if (mode === HistoryMode.PUSH) {
-    history.pushState(null, "", path);
+    history.pushState(null, "", address);
   } else {
-    history.replaceState(null, "", path);
+    history.replaceState(null, "", address);
   }
 };
 
@@ -52,7 +73,6 @@ const followAddress = (): void => {
   const route = parseRoute(location.pathname) ?? { page: Page.HOME, login: null };
 
   app.page = route.page;
-  app.tab = addressTab();
 
   if (route.login !== null) {
     const found = app.snapshot?.accounts.find((a) => a.login === route.login);
@@ -66,6 +86,7 @@ const followAddress = (): void => {
     }
   }
 
+  app.tab = addressTab() || pageTabs(app.page);
   remember(KEY_STORAGE_PAGE, app.page);
 
   if (app.selectedAccount) {
@@ -73,6 +94,7 @@ const followAddress = (): void => {
   }
 
   writeAddress(HistoryMode.REPLACE);
+  writeHash();
 };
 
 export const followSnapshotAccounts = (snapshot: SnapshotType): void => {
@@ -128,6 +150,8 @@ const followMouseButtons = (event: MouseEvent): void => {
 export const startRouting = (): void => {
   const selected = recall(KEY_STORAGE_ACCOUNT);
 
+  savedTabs = readSavedTabs(recall(KEY_STORAGE_TABS));
+
   if (selected) {
     app.selectedAccount = selected;
   }
@@ -138,11 +162,13 @@ export const startRouting = (): void => {
     if (isPage(page) && (!isAccountPage(page) || selected)) {
       app.page = page;
     }
+
+    app.tab = addressTab() || pageTabs(app.page);
+    writeHash();
   } else {
     followAddress();
   }
 
-  app.tab = addressTab();
   window.addEventListener("popstate", followAddress);
   window.addEventListener("hashchange", () => (app.tab = addressTab()));
 

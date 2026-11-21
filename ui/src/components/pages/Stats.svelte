@@ -10,7 +10,7 @@
   import { IconName } from "../../lib/icons.constants";
   import { MINUTE_MS } from "../../lib/time/time.constants";
   import { app } from "../../lib/state/app.svelte";
-  import { navigate } from "../../lib/state/router";
+  import { navigate, openTab, showTab } from "../../lib/state/router";
   import { Page } from "../../lib/state/state.constants";
   import { Card } from "$lib/components/ui/card";
   import { Skeleton } from "$lib/components/ui/skeleton";
@@ -27,7 +27,7 @@
   import StatsTopCategory from "../stats/StatsTopCategory.svelte";
   import StatsTopStreamer from "../stats/StatsTopStreamer.svelte";
   import TopStreamersList from "../stats/TopStreamersList.svelte";
-  import type { StatsPeriodDaysType } from "../stats/stats.types";
+  import { STATS_PERIOD_SLUGS, STATS_PERIODS } from "../stats/stats.constants";
   import {
     buildDayBuckets,
     categoryRows,
@@ -41,7 +41,7 @@
   let { snapshot }: StatsPropsType = $props();
 
   let hiddenAccounts = $state<string[]>([]);
-  let selectedPeriod = $state<StatsPeriodDaysType>(7);
+  const selectedPeriod = $derived(openTab(STATS_PERIODS, STATS_PERIOD_SLUGS, STATS_PERIODS[0]));
   let stats = $state<HistoryStatsResponseType | null>(null);
   let loading = $state(true);
   let problem = $state<string | null>(null);
@@ -203,7 +203,7 @@
       value={period}
       retention={snapshot.settings.history_retention}
       {retentionDays}
-      onchange={(next) => (selectedPeriod = next)}
+      onchange={(next) => showTab(STATS_PERIOD_SLUGS, next)}
     />
   </PageHeader>
 

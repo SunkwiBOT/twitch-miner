@@ -22,6 +22,12 @@ export const TIMELINE_ZOOMS: readonly TimelineZoom[] = [
   TimelineZoom.TWO_WEEKS,
 ];
 
+export const TIMELINE_ZOOM_SLUGS: Record<TimelineZoom, string> = {
+  [TimelineZoom.DAY]: "24h",
+  [TimelineZoom.THREE_DAYS]: "3d",
+  [TimelineZoom.TWO_WEEKS]: "2w",
+};
+
 export type ZoomFrameType = { lead: number; align: number; span: number; tick: number };
 
 export const ZOOM_FRAMES: Record<TimelineZoom, ZoomFrameType> = {
