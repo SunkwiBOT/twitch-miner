@@ -3,7 +3,7 @@ import type { AccountSnapshotType } from "../bindings/AccountSnapshotType";
 import type { DropsSettingsType } from "../bindings/DropsSettingsType";
 import type { GameEntryType } from "../bindings/GameEntryType";
 import { campaignOf } from "../catalogue/catalogue.svelte";
-import { gameEntryKey } from "../catalogue/games.utils";
+import { gameEntryKey, gameKeysLike, sameGame } from "../catalogue/games.utils";
 import { t } from "../i18n/i18n.svelte";
 import { changedWhenSaved } from "../state/bulk.svelte";
 import { updateAccountSettings } from "../state/account-settings.svelte";
@@ -16,7 +16,6 @@ import {
   moveLike,
   pinnedPrefix,
   placeOf,
-  reorderBy,
   setCampaignIgnoredIn,
   setCampaignSelectedIn,
   setDropIgnoredIn,
@@ -55,9 +54,9 @@ const editGames = (
   list: GameListType,
   next: GameEntryType[],
 ): void => {
-  const before = list.read(account.settings).map(gameEntryKey);
-  const after = next.map(gameEntryKey);
-  const delta = deltaOf(before, after);
+  const before = list.read(account.settings);
+  const added = next.filter((entry) => !before.some((other) => sameGame(other, entry)));
+  const removed = before.filter((entry) => !next.some((other) => sameGame(other, entry)));
 
   void changedWhenSaved(
     updateAccountSettings(account.id, (settings) => list.write(settings, next)),
@@ -65,17 +64,11 @@ const editGames = (
     t.change_settings(),
     (settings) => {
       const current = list.read(settings);
-      const byKey = new Map(next.map((entry) => [gameEntryKey(entry), entry]));
-      const keys = applyDelta(current.map(gameEntryKey), delta);
 
-      list.write(
-        settings,
-        keys.flatMap((key) => {
-          const kept = current.find((entry) => gameEntryKey(entry) === key) ?? byKey.get(key);
-
-          return kept ? [kept] : [];
-        }),
-      );
+      list.write(settings, [
+        ...current.filter((entry) => !removed.some((other) => sameGame(other, entry))),
+        ...added.filter((entry) => !current.some((other) => sameGame(other, entry))),
+      ]);
     },
   );
 };
@@ -155,18 +148,14 @@ export const movePriorityGame = (
     account.id,
     t.change_settings(),
     (settings) => {
-      const next = moveLike(
-        settings.drops.priority_games.map(gameEntryKey),
-        gameEntryKey(moved),
-        place,
-      );
+      const current = settings.drops.priority_games;
+      const keys = gameKeysLike(current, list);
+      const next = moveLike(keys, gameEntryKey(moved), place);
 
       if (next) {
-        settings.drops.priority_games = reorderBy(
-          settings.drops.priority_games,
-          gameEntryKey,
-          next,
-        );
+        const byKey = new Map(current.map((entry, index) => [keys[index], entry]));
+
+        settings.drops.priority_games = next.flatMap((key) => byKey.get(key) ?? []);
       }
     },
   );

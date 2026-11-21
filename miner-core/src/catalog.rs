@@ -147,8 +147,10 @@ pub fn parse_catalog(payload: &Value) -> Result<Catalog> {
 // ! Fills in the id and image a legacy name-only entry (or one added before
 // its category ever ran a campaign) is still missing, and refreshes a
 // stored image once the catalogue's own differs: never a new request, only
-// what the catalogue already holds from its regular refresh.
-pub fn complete_game_entries(entries: &mut [GameEntry], campaigns: &[Campaign]) -> bool {
+// what the catalogue already holds from its regular refresh. A name-only
+// entry that turns out to be a category already listed by id is dropped,
+// the first one kept, so a list never holds the same category twice.
+pub fn complete_game_entries(entries: &mut Vec<GameEntry>, campaigns: &[Campaign]) -> bool {
     let mut changed = false;
 
     for entry in entries.iter_mut() {
@@ -174,5 +176,13 @@ pub fn complete_game_entries(entries: &mut [GameEntry], campaigns: &[Campaign]) 
         }
     }
 
-    changed
+    let before = entries.len();
+    let mut seen = HashSet::new();
+
+    entries.retain(|entry| match entry.id.as_deref().filter(|id| !id.is_empty()) {
+        Some(id) => seen.insert(id.to_owned()),
+        None => true,
+    });
+
+    changed || entries.len() != before
 }

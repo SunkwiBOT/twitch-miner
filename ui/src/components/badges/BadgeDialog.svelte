@@ -91,6 +91,15 @@
   let chosen = $state<string[] | null>(null);
   let busy = $state<CampaignAction | null>(null);
 
+  // ! The state belongs to one opening: whatever closes or replaces the sheet (its button, a page
+  // change, the session ending), the next one starts over.
+  $effect.pre(() => {
+    void badge;
+    void contextAccountId;
+    chosen = null;
+    visited = { root: null, trail: [] };
+  });
+
   const selected = $derived(chosen ?? (context ? [context.id] : accounts.map((a) => a.id)));
   const progress = $derived(
     shown
@@ -175,21 +184,6 @@
     return focus(`[data-badge="${CSS.escape(left)}"] button`);
   };
 
-  const leave = (): void => {
-    chosen = null;
-    visited = { root: null, trail: [] };
-  };
-
-  const close = (): void => {
-    leave();
-    onclose();
-  };
-
-  const openCampaign = (next: CampaignType): void => {
-    leave();
-    onopencampaign(next);
-  };
-
   let failedImage = $state<string | null>(null);
 </script>
 
@@ -222,7 +216,7 @@
   wide={true}
   closable={busy === null}
   closeLabel={t.common_close()}
-  onclose={close}
+  {onclose}
   footer={accounts.length > 0 ? actions : undefined}
 >
   <div class="contents" bind:this={body}>
@@ -321,7 +315,7 @@
                 size={ButtonSize.SM}
                 type={ButtonType.BUTTON}
                 disabled={false}
-                onclick={() => openCampaign(linked)}
+                onclick={() => onopencampaign(linked)}
               />
             {/if}
             {#if shown.click_url}

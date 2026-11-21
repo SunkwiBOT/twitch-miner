@@ -13,6 +13,7 @@ import type { UnsubscribeType } from "../api/tauri";
 import type { CommandType } from "../bindings/CommandType";
 import { ErrorApiMessage } from "../bindings/ErrorApiMessage";
 import { EventKind } from "../bindings/EventKind";
+import { forgetChannelLookups } from "../channels/channels.svelte";
 import type { SnapshotType } from "../bindings/SnapshotType";
 import { describeError, toApiError } from "../errors/errors.utils";
 import { eventText } from "../events/event-text.utils";
@@ -112,6 +113,7 @@ export const sessionEnded = (): void => {
   unsubscribe?.();
   unsubscribe = null;
   app.snapshot = null;
+  forgetChannelLookups();
   app.liveEvents = [];
   app.logsAccount = null;
   app.statsCurveTarget = null;

@@ -36,20 +36,31 @@ export const searchedChannel = (found: SearchChannelType): ChannelType => ({
 const flush = async (): Promise<void> => {
   flushing = true;
 
-  while (queued.length > 0) {
-    const batch = queued.splice(0, coreLimits().channels_lookup_max);
+  try {
+    while (queued.length > 0) {
+      const batch = queued.splice(0, coreLimits().channels_lookup_max);
 
-    try {
-      rememberChannels((await lookupChannels(batch)).channels);
-    } catch (e: any) {
-      // ! Pictures are a nicety: the names show anyway.
-      for (const login of batch) {
-        asked.delete(login);
+      try {
+        rememberChannels((await lookupChannels(batch)).channels);
+      } catch (e: unknown) {
+        // ! Pictures are a nicety: the names show anyway.
+        for (const login of batch) {
+          asked.delete(login);
+        }
       }
     }
+  } finally {
+    flushing = false;
+  }
+};
+
+// ! A session that ends drops what it still had to look up: the next one asks again.
+export const forgetChannelLookups = (): void => {
+  for (const login of queued) {
+    asked.delete(login);
   }
 
-  flushing = false;
+  queued = [];
 };
 
 // ! A channel known only from a search (no id) is read in full: its game and viewers.

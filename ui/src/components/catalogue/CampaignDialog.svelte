@@ -59,6 +59,14 @@
   let claiming = $state<string | null>(null);
   let busy = $state<CampaignAction | null>(null);
 
+  // ! The state belongs to one opening: whatever closes or replaces the sheet, the next one starts over.
+  $effect.pre(() => {
+    void campaign;
+    void contextAccountId;
+    chosen = null;
+    claimed = [];
+  });
+
   const selected = $derived(chosen ?? (context ? [context.id] : accounts.map((a) => a.id)));
   const picked = $derived(accounts.filter((a) => selected.includes(a.id)));
   const linker = $derived(picked.at(0) ?? context);
@@ -107,12 +115,6 @@
 
     claiming = null;
   };
-
-  const close = (): void => {
-    chosen = null;
-    claimed = [];
-    onclose();
-  };
 </script>
 
 {#snippet actions()}
@@ -136,7 +138,7 @@
   wide={true}
   closable={busy === null && claiming === null}
   closeLabel={t.common_close()}
-  onclose={close}
+  {onclose}
   footer={actionable ? actions : undefined}
 >
   {#if view}

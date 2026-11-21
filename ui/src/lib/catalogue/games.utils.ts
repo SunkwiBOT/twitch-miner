@@ -9,6 +9,14 @@ export type RunningGameType = { game: GameType; drops: number };
 
 export const gameEntryKey = (entry: GameEntryType): string => entry.id ?? entry.name;
 
+// ! Two accounts can hold one category differently: by id, or by name only (an entry saved before ids).
+export const sameGame = (a: GameEntryType, b: GameEntryType): boolean =>
+  a.id && b.id ? a.id === b.id : a.name.trim().toLowerCase() === b.name.trim().toLowerCase();
+
+// ! Each entry keyed as its match in `reference`, so two lists that hold one category differently line up.
+export const gameKeysLike = (entries: GameEntryType[], reference: GameEntryType[]): string[] =>
+  entries.map((entry) => gameEntryKey(reference.find((other) => sameGame(other, entry)) ?? entry));
+
 export const catalogueGame = (name: string): GameType | undefined =>
   catalogue.campaigns.find((c) => c.game.name.toLowerCase() === name.toLowerCase())?.game;
 
