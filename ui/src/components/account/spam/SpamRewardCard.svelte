@@ -5,9 +5,11 @@
   import type { SpamRewardType } from "../../../lib/bindings/SpamRewardType";
   import { number } from "../../../lib/format.utils";
   import { t } from "../../../lib/i18n/i18n.svelte";
-  import { RewardStatus, SPAM_MAX_COUNT, SPAM_MESSAGE_MAX } from "../../../lib/spam/spam.constants";
+  import { RewardStatus } from "../../../lib/spam/spam.constants";
+  import { coreLimits } from "../../../lib/state/limits";
   import { burstKey, burstProgress, runningBursts } from "../../../lib/spam/spam.svelte";
   import { countdown, maxCount, UNAVAILABLE_BADGES } from "../../../lib/spam/spam.utils";
+  import { escapeEmphasis } from "../../../lib/text.utils";
   import Badge from "../../ui/Badge.svelte";
   import Icon from "../../ui/Icon.svelte";
   import Spinner from "../../ui/Spinner.svelte";
@@ -41,8 +43,8 @@
   );
 
   const badge = $derived(UNAVAILABLE_BADGES[status]);
-  // ! On the account's own channel Twitch takes no points: only the 25 cap holds.
-  const max = $derived(free ? SPAM_MAX_COUNT : maxCount(reward.cost, balance));
+  // ! On the account's own channel Twitch takes no points: only the burst cap holds.
+  const max = $derived(free ? coreLimits().spam_burst_max : maxCount(reward.cost, balance));
   const quantity = $derived(Math.min(count, Math.max(1, max)));
   const cooling = $derived(status === RewardStatus.COOLDOWN);
   const missing = $derived(max === 0 && !sending ? reward.cost - balance : 0);
@@ -97,13 +99,13 @@
   {#if reward.prompt}
     {@const prompt = reward.prompt}
     <span class="absolute top-1.5 right-1.5">
-      <Tip text={prompt}>
+      <Tip text={escapeEmphasis(prompt)}>
         {#snippet children(props)}
           <button
             {...props}
             type="button"
             class="grid size-6 cursor-help place-items-center rounded-md bg-background/85 text-muted-foreground transition-colors hover:bg-background hover:text-foreground"
-            aria-label={t.spam_description({ text: prompt })}
+            aria-label={t.spam_description({ description: prompt })}
           >
             <Icon name={IconName.INFO} size={14} />
           </button>
@@ -144,7 +146,7 @@
           class="h-8 text-hint"
           placeholder={t.spam_message_placeholder()}
           aria-label={t.spam_message_label({ reward: reward.title })}
-          maxlength={SPAM_MESSAGE_MAX}
+          maxlength={coreLimits().spam_redeem_text_max_chars}
           disabled={blocked}
           bind:value={message}
           onkeydown={(event) => {

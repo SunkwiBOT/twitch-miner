@@ -70,11 +70,10 @@
       return "";
     }
 
-    const error = t.badges_error({ error: describeCode(list.problem) });
+    const error = t.badges_error({ error: strong(describeCode(list.problem)) });
+    const retry = strong(retryIn < HOUR_MS ? mmss(retryIn) : shortDuration(retryIn));
 
-    return retryIn > 0
-      ? `${error} ${t.badges_retry({ time: retryIn < HOUR_MS ? mmss(retryIn) : shortDuration(retryIn) })}`
-      : error;
+    return retryIn > 0 ? `${error} ${t.badges_retry({ time: retry })}` : error;
   });
   const shown = $derived(
     visibleBadges(badgeList.badges, filter, normalizeSearch(query), ticker.now),
@@ -158,7 +157,12 @@
   {:else if view === TimelineView.TIMELINE}
     {#if offCalendar > 0}
       <p class="text-hint text-muted-foreground">
-        {t.badges_off_calendar({ count: offCalendar })}
+        <RichText
+          text={t.badges_off_calendar({
+            count: offCalendar,
+            formattedCount: strong(offCalendar),
+          })}
+        />
         <TextLink
           text={t.badges_show_cards()}
           target={{ open: () => showTab(TIMELINE_VIEW_SLUGS, TimelineView.CARDS) }}

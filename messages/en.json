@@ -20,11 +20,11 @@
   "common_live": "Live",
   "common_viewers": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} viewer",
-        "countPlural=*": "{shown} viewers"
+        "countPlural=one": "{formattedCount} viewer",
+        "countPlural=*": "{formattedCount} viewers"
       }
     }
   ],
@@ -69,8 +69,8 @@
   "common_accounts_count": "Accounts: {count}",
   "common_accounts_none": "No account",
   "accounts_remove_title": "Remove this account?",
-  "accounts_remove_text": "The session of {name} is revoked on Twitch and deleted here. Drops already claimed stay in its Twitch inventory.",
-  "accounts_remove_text_imported_token": "The session of {name} is deleted here. Drops already claimed stay in its Twitch inventory; use the switch below to also revoke it on Twitch.",
+  "accounts_remove_text": "The session of {account} is revoked on Twitch and deleted here. Drops already claimed stay in its Twitch inventory.",
+  "accounts_remove_text_imported_token": "The session of {account} is deleted here. Drops already claimed stay in its Twitch inventory; use the switch below to also revoke it on Twitch.",
   "accounts_login_again": "Sign in again",
   "accounts_stats_drops": "Drops claimed: {count}",
   "accounts_stats_points": "Points earned: {count}",
@@ -151,21 +151,21 @@
   ],
   "import_tokens_result_count": [
     {
-      "declarations": ["input count", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{count} token imported",
-        "countPlural=*": "{count} tokens imported"
+        "countPlural=one": "{formattedCount} token imported",
+        "countPlural=*": "{formattedCount} tokens imported"
       }
     }
   ],
   "import_tokens_result_cancelled": [
     {
-      "declarations": ["input count", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "Import cancelled — {count} token imported",
-        "countPlural=*": "Import cancelled — {count} tokens imported"
+        "countPlural=one": "Import cancelled — {formattedCount} token imported",
+        "countPlural=*": "Import cancelled — {formattedCount} tokens imported"
       }
     }
   ],
@@ -310,9 +310,9 @@
   "settings_update_notifications_allow": "Allow notifications in this browser",
   "settings_update_notifications_blocked": "This browser blocks notifications from this site: allow them in its site settings.",
   "settings_update_notifications_unsupported": "This browser shows no notifications on this address: open the dashboard over HTTPS.",
-  "settings_test_ok": "{target}: sent",
+  "settings_test_ok": "{service}: sent",
   "settings_test_ok_title": "Test sent",
-  "settings_test_failed": "{target}: {error}",
+  "settings_test_failed": "{service}: {error}",
   "settings_test_failed_title": "Test failed",
   "notify_drop_claimed": "Drop claimed",
   "notify_drop_progress": "Drop progress",
@@ -336,7 +336,7 @@
   "settings_about": "About",
   "settings_about_text": "Open source, MIT licence. Not affiliated with Twitch.",
   "settings_about_repo": "Source code",
-  "settings_dashboard_password_hint": "Set in {variable} on the server: change it there, then restart the server.",
+  "settings_dashboard_password_hint": "Set in {passwordVariable} on the server: change it there, then restart the server.",
   "settings_auto_lock": "Lock after inactivity",
   "settings_auto_lock_hint": "Asks for the password again after this long without using the dashboard, also in a tab left open. Mining goes on.",
   "settings_auto_lock_never": "Never",
@@ -366,7 +366,7 @@
   "error_wrong_passphrase": "Wrong password",
   "error_unknown_account": "Unknown account",
   "error_invalid_proxy": "This proxy address is not valid.",
-  "error_unknown": "Something went wrong: {code}",
+  "error_unknown": "Something went wrong: {errorCode}",
   "time_now": "just now",
   "time_minutes_ago": "{count} min ago",
   "time_hours_ago": "{count} h ago",
@@ -475,7 +475,7 @@
   "settings_feedback_text": "For a bug, attach the logs from the Technical logs page: they contain no secret.",
   "feedback_discord_text": "Open a ticket or chat with the community",
   "feedback_github_text": "Open an issue: a bug or an idea",
-  "settings_catalog_text": "The campaign list comes from drops.sunkwi.com, refreshed every {minutes} minutes.",
+  "settings_catalog_text": "The campaign list comes from {domain}, refreshed every {minutes} minutes.",
   "account_proxy": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -601,13 +601,13 @@
   "security_off_text": "Anyone using this computer can open the app. Set a password to lock it at launch and encrypt the Twitch sessions with it.",
   "security_new": "New password",
   "security_confirm": "Confirm",
-  "security_rules": "At least 4 characters. It cannot be recovered: if you lose it, add the accounts again.",
+  "security_rules": "At least {minLength} characters. It cannot be recovered: if you lose it, add the accounts again.",
   "security_enable": "Set the password",
   "security_enabling": "Setting the password…",
   "security_change": "Change the password",
   "security_changing": "Changing the password…",
   "security_disable": "Remove the password",
-  "security_access_local": "Over plain HTTP: keep this dashboard on your own network, or put it behind an HTTPS reverse proxy with {variable}.",
+  "security_access_local": "Over plain HTTP: keep this dashboard on your own network, or put it behind an HTTPS reverse proxy with {publicUrlVariable}.",
   "security_access_public": "Behind an HTTPS reverse proxy, at {host}.",
   "settings_close_action": "Close button",
   "settings_unsaved": "You have unsaved changes.",
@@ -615,7 +615,7 @@
   "slots_two_hint": "The most Twitch credits per account: one for Drops, one for points, or two for points.",
   "slots_one_title": "One channel",
   "slots_one_hint": "Quieter: a single channel at a time.",
-  "streamer_claim_bonus_hint": "Claims the bonus chest that appears every 15 minutes.",
+  "streamer_claim_bonus_hint": "Claims the bonus chest that appears every {minutes} minutes.",
   "streamer_claim_moments_hint": "Claims moment badges when the streamer starts one.",
   "streamer_follow_raids_hint": "Follows the streamer when they raid another channel.",
   "streamer_predictions_stealth_hint": "Never bets more than the current top bettor.",
@@ -801,9 +801,9 @@
   "reward_chest": "1 random badge out of {count}",
   "reward_chest_hint": "Twitch gives one of these badges: {badges}",
   "campaign_channels_categories": "Any channel in one of {count} categories",
-  "badges_collection": "Part of the {name} collection",
-  "badges_collection_chest": "Part of the {name} collection, 1 badge out of {count}",
-  "badges_collection_all": "Badge for the whole {name} collection, subscriptions included",
+  "badges_collection": "Part of the {collection} collection",
+  "badges_collection_chest": "Part of the {collection} collection, 1 badge out of {count}",
+  "badges_collection_all": "Badge for the whole {collection} collection, subscriptions included",
   "reward_watch_stream": "Watch the stream",
   "reward_subscribe": "Subscribe yourself",
   "reward_kind_badge": "Badge",
@@ -864,29 +864,29 @@
   "login_setup_title": "Set up the account",
   "login_setup_from": "Start from",
   "login_setup_defaults": "Default settings",
-  "login_setup_copy_from": "Settings of {name}",
+  "login_setup_copy_from": "Settings of {account}",
   "login_setup_copy_hint": "Copies the chosen account's settings as they are (the mining order of Drops campaigns, exclusions, the streamer list), except the proxy.",
   "login_setup_finish": "Start mining",
   "login_setup_starting": "Starting mining…",
   "login_setup_later": "Save and start later",
   "error_not_supported": "Not available in this version of the app.",
-  "common_copy_named": "Copy {name}",
+  "common_copy_named": "Copy {copiedItem}",
   "bulk_accounts": "Accounts",
   "bulk_applying": "Applying…",
   "bulk_applied_title": "Accounts updated",
   "bulk_apply": "Apply ({count})",
   "bulk_apply_others": "Apply to other accounts",
-  "bulk_changes": "{shown} changes",
-  "bulk_hint": "The changes made on {name} ({count}) are made again on the ticked accounts. Each account keeps the rest of its settings.",
+  "bulk_changes": "{formattedCount} changes",
+  "bulk_hint": "The changes made on {account} ({count}) are made again on the ticked accounts. Each account keeps the rest of its settings.",
   "bulk_hint_chosen": "The changes made on the chosen accounts ({count}) are made again on the ticked accounts. Each account keeps the rest of its settings.",
   "bulk_no_accounts": "No other account.",
   "bulk_nothing_to_change": "Nothing to change on this account",
   "bulk_title": "Apply to other accounts",
   "change_campaign_moved": "{campaign} moved successfully",
-  "change_copied_drops": "Drops settings of {source} copied successfully",
-  "change_copied_points": "Points settings of {source} copied successfully",
-  "change_ignored": "Ignored successfully: {item}",
-  "change_unignored": "Mined again: {item}",
+  "change_copied_drops": "Drops settings of {sourceAccount} copied successfully",
+  "change_copied_points": "Points settings of {sourceAccount} copied successfully",
+  "change_ignored": "Ignored successfully: {campaignOrReward}",
+  "change_unignored": "Mined again: {campaignOrReward}",
   "change_settings": "Settings saved successfully",
   "change_streamer_added": "{streamer} added successfully",
   "change_streamer_disabled": "{streamer} paused successfully",
@@ -901,14 +901,14 @@
   "common_select_all": "Select all",
   "common_select_none": "Select none",
   "common_selected_count": "Selected: {count} / {total}",
-  "copy_drops_hint": "Replaces the Drops settings of {name}: mining order, priorities, exclusions, scope and claiming.",
+  "copy_drops_hint": "Replaces the Drops settings of {account}: mining order, priorities, exclusions, scope and claiming.",
   "copy_drops_title": "Copy the Drops settings",
-  "copy_points_hint": "Replaces the streamers of {name}, with the options of each one, the default options for new streamers and the priorities.",
+  "copy_points_hint": "Replaces the streamers of {account}, with the options of each one, the default options for new streamers and the priorities.",
   "copy_points_title": "Copy the points settings",
   "import_add": "Add ({count})",
   "import_already": "Already in the list: {count}",
   "import_check": "Check",
-  "import_follows_hint": "The channels {name} follows on Twitch.",
+  "import_follows_hint": "The channels {account} follows on Twitch.",
   "import_from": "From",
   "import_no_account": "No other account to copy from.",
   "import_none_new": "Nothing new: these channels are already in the list.",
@@ -1201,16 +1201,16 @@
   "confirm_remove": "Remove",
   "confirm_removing": "Removing…",
   "confirm_remove_streamer_title": "Remove this streamer?",
-  "confirm_remove_streamer_text": "{name} will no longer be watched by this account for channel points, and its options are lost.",
+  "confirm_remove_streamer_text": "{streamer} will no longer be watched by this account for channel points, and its options are lost.",
   "confirm_remove_game_title": "Remove this priority category?",
-  "confirm_remove_game_text": "{name} is still mined, but its campaigns no longer go before the others.",
+  "confirm_remove_game_text": "{category} is still mined, but its campaigns no longer go before the others.",
   "confirm_remove_excluded_game_title": "Remove this excluded category?",
-  "confirm_remove_excluded_game_text": "{name} can be mined again: its campaigns are no longer skipped.",
+  "confirm_remove_excluded_game_text": "{category} can be mined again: its campaigns are no longer skipped.",
   "confirm_remove_excluded_word_title": "Remove this excluded word?",
-  "confirm_remove_excluded_word_text": "Campaigns and drop items whose name contains {name} are no longer ignored.",
-  "confirm_remove_setup_streamer_text": "{name} leaves the list: this account will not watch it for channel points.",
+  "confirm_remove_excluded_word_text": "Campaigns and drop items whose name contains {word} are no longer ignored.",
+  "confirm_remove_setup_streamer_text": "{streamer} leaves the list: this account will not watch it for channel points.",
   "search_verified": "Verified Partner",
-  "login_setup_for": "Account: {name}",
+  "login_setup_for": "Account: {account}",
   "login_setup_for_many": "Accounts: {count}",
   "search_pick": "Choose",
   "search_no_result": "No result for {query}.",
@@ -1252,10 +1252,10 @@
   "campaign_hint_claim_failed": "Twitch refused the claim of one of its rewards: “{journal}” tells why",
   "campaign_hint_ignored": "Ignored by hand: restore it from the “{tab}” tab",
   "campaign_hint_filtered": "Kept out by “{setting}”",
-  "campaign_hint_points_only": "“{setting}” is “{value}”: no campaign is mined",
+  "campaign_hint_points_only": "“{setting}” is “{settingValue}”: no campaign is mined",
   "campaign_hint_unfinishable": "“{setting}” is on",
   "campaign_hint_not_selected": "“{setting}” is on: mark it with a star to mine it",
-  "campaign_hint_not_linked": "“{setting}” is “{value}”: link the publisher account to mine it",
+  "campaign_hint_not_linked": "“{setting}” is “{settingValue}”: link the publisher account to mine it",
   "campaign_hint_lane_off": "Its line is off in “{setting}”",
   "campaign_hint_waiting": "No reward can be watched right now: the next one opens later (a new period, an earlier reward to finish, or a later start)",
   "campaign_hint_not_active": "Twitch does not run this campaign right now",
@@ -1267,11 +1267,11 @@
   "drops_add_game_placeholder": "Category name…",
   "game_drops_available": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} drop available",
-        "countPlural=*": "{shown} drops available"
+        "countPlural=one": "{formattedCount} drop available",
+        "countPlural=*": "{formattedCount} drops available"
       }
     }
   ],
@@ -1291,7 +1291,7 @@
   "tray_sign_in_required": "sign in required",
   "notify_sent_by": "Sent by",
   "points_subscriber_priority": "Subscribed channels first",
-  "points_subscriber_priority_hint": "Twitch gives more points per minute on channels where this account is subscribed (×1.2 to ×2 depending on the tier): they come before the rest of your list.",
+  "points_subscriber_priority_hint": "Twitch gives more points per minute on channels where this account is subscribed (×{minMultiplier} to ×{maxMultiplier} depending on the tier): they come before the rest of your list.",
   "drops_streamers_first": "My streamers first for Drops and badges",
   "drops_streamers_first_hint": "For a campaign or a badge, a channel of your list that counts for it (the right category with Drops, or a category of the Twitch event) comes before an unknown channel: Drops, badges and points in the same place.",
   "points_streamer_defaults": "Default options for new streamers",
@@ -1326,7 +1326,7 @@
   ],
   "points_group_hint": "Only the options you change apply to these streamers; an option marked “Mixed” keeps each one's own value until you change it.",
   "streamer_option_mixed": "Mixed",
-  "setting_with_mark": "{option} ({mark})",
+  "setting_with_mark": "{option} ({optionNote})",
   "change_streamers_edited": "Streamers edited successfully: {count}",
   "points_defaults_offer_title": [
     {
@@ -1389,7 +1389,7 @@
   "logs_level_error": "Error",
   "logs_level_warn": "Warning",
   "logs_level_info": "Info",
-  "requests_subtitle": "Requests sent to Twitch and the other services, without any token or secret. Failures are kept one by one, the others counted per 10 minutes, as long as the journal.",
+  "requests_subtitle": "Requests sent to Twitch and the other services, without any token or secret. Failures are kept one by one, the others counted per {minutes} minutes, as long as the journal.",
   "requests_copied": "Requests copied",
   "requests_types": "Request types",
   "requests_types_all": "All types",
@@ -1406,15 +1406,15 @@
     {
       "declarations": [
         "input count",
-        "input shown",
+        "input formattedCount",
         "input from",
         "input to",
         "local countPlural = count: plural"
       ],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} request from {from} to {to}",
-        "countPlural=*": "{shown} requests from {from} to {to}"
+        "countPlural=one": "{formattedCount} request from {from} to {to}",
+        "countPlural=*": "{formattedCount} requests from {from} to {to}"
       }
     }
   ],
@@ -1466,17 +1466,17 @@
   "spam_balance": "Channel points balance: {points}",
   "spam_balance_unlimited": "Unlimited channel points: Twitch takes none on your own channel",
   "spam_balance_changed": "updated {time}",
-  "spam_balance_live_hint": "Read again every 2 to 3 s while this page is open. The time is the balance's last change.",
+  "spam_balance_live_hint": "Read again every {seconds} s while this page is open. The time is the balance's last change.",
   "spam_balance_paused": "tracking paused",
   "spam_balance_paused_hint": "The balance is read again as soon as the window has the focus.",
   "spam_balance_failing": "reading failed",
-  "spam_balance_failing_hint": "The last reads of the balance failed. It is read again every 2 to 3 s.",
+  "spam_balance_failing_hint": "The last reads of the balance failed. It is read again every {seconds} s.",
   "spam_seconds_ago": "{count} s ago",
   "spam_settings": "Spam Points settings",
   "spam_show_disabled": "Show disabled and paused rewards",
   "spam_show_out_of_stock": "Show out-of-stock rewards",
   "spam_delay": "Delay between requests",
-  "spam_delay_hint": "Between two redemptions of one burst, 0 to 5,000 ms.",
+  "spam_delay_hint": "Between two redemptions of one burst, {minDelay} to {maxDelay} ms.",
   "spam_delay_unit": "ms",
   "spam_refresh": "Refresh the rewards",
   "spam_load_failed": "The rewards could not be read",
@@ -1496,18 +1496,18 @@
   "spam_decrease": "Decrease",
   "spam_increase": "Increase",
   "spam_max_balance": "Your balance allows no more",
-  "spam_max_count": "25 at most per burst",
+  "spam_max_count": "{maxCount} at most per burst",
   "spam_redeem": "Redeem",
   "spam_redeeming": "Sending {done}/{total}…",
   "spam_missing": "Short by",
-  "spam_description": "Description: {text}",
+  "spam_description": "Description: {description}",
   "spam_sent_all": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Redeemed!",
-        "countPlural=*": "{shown} sent!"
+        "countPlural=*": "{formattedCount} sent!"
       }
     }
   ],
@@ -1518,11 +1518,11 @@
   "spam_toast": "{count} × {reward} on {channel}: {result}",
   "spam_cancelled": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} cancelled on leaving the page",
-        "countPlural=*": "{shown} cancelled on leaving the page"
+        "countPlural=one": "{formattedCount} cancelled on leaving the page",
+        "countPlural=*": "{formattedCount} cancelled on leaving the page"
       }
     }
   ],
@@ -1533,7 +1533,7 @@
   "spam_reason_paused": "reward paused",
   "spam_reason_out_of_stock": "reward out of stock",
   "spam_reason_text_required": "message missing",
-  "spam_reason_unknown": "refused by Twitch ({code})",
+  "spam_reason_unknown": "refused by Twitch ({refusalCode})",
   "spam_no_rewards": "No reward available for now.",
   "error_unknown_reward": "This reward is no longer on the channel.",
   "error_reward_not_redeemable": "Nothing was sent: the reward needs a message, is unavailable or on cooldown, or the balance is too low.",
@@ -1542,7 +1542,7 @@
     {
       "declarations": [
         "input sent",
-        "input shown",
+        "input formattedSent",
         "input count",
         "input reward",
         "input channel",
@@ -1551,8 +1551,8 @@
       ],
       "selectors": ["sentPlural"],
       "match": {
-        "sentPlural=one": "{count} × {reward} on {channel} — {shown} sent, {points} points",
-        "sentPlural=*": "{count} × {reward} on {channel} — {shown} sent, {points} points"
+        "sentPlural=one": "{count} × {reward} on {channel} — {formattedSent} sent, {points} points",
+        "sentPlural=*": "{count} × {reward} on {channel} — {formattedSent} sent, {points} points"
       }
     }
   ],
@@ -1560,7 +1560,7 @@
     {
       "declarations": [
         "input sent",
-        "input shown",
+        "input formattedSent",
         "input count",
         "input reward",
         "input points",
@@ -1568,8 +1568,8 @@
       ],
       "selectors": ["sentPlural"],
       "match": {
-        "sentPlural=one": "{count} × {reward} — {shown} sent, {points} points",
-        "sentPlural=*": "{count} × {reward} — {shown} sent, {points} points"
+        "sentPlural=one": "{count} × {reward} — {formattedSent} sent, {points} points",
+        "sentPlural=*": "{count} × {reward} — {formattedSent} sent, {points} points"
       }
     }
   ],
@@ -1602,11 +1602,11 @@
   "badges_refreshed_title": "Badges refreshed",
   "badges_refreshed": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} badge",
-        "countPlural=*": "{shown} badges"
+        "countPlural=one": "{formattedCount} badge",
+        "countPlural=*": "{formattedCount} badges"
       }
     }
   ],
@@ -1623,11 +1623,11 @@
   ],
   "badges_off_calendar": [
     {
-      "declarations": ["input count", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{count} badge with no dates or already over:",
-        "countPlural=*": "{count} badges with no dates or already over:"
+        "countPlural=one": "{formattedCount} badge with no dates or already over:",
+        "countPlural=*": "{formattedCount} badges with no dates or already over:"
       }
     }
   ],
@@ -1695,9 +1695,9 @@
   "campaign_selecting": "Adding…",
   "campaign_unselect": "Remove from my selection",
   "campaign_unselecting": "Removing…",
-  "change_selected": "Added to the selection: {item}",
-  "change_unselected": "Removed from the selection: {item}",
-  "change_prioritized": "Placed at the top of the mining order: {item}",
+  "change_selected": "Added to the selection: {campaignOrReward}",
+  "change_unselected": "Removed from the selection: {campaignOrReward}",
+  "change_prioritized": "Placed at the top of the mining order: {campaignOrReward}",
   "selection_not_selected": "Not selected",
   "badges_not_selected_hint": "“Only my selection” is on: mark this badge with a star to mine it.",
   "account_badges_mining_off": "Badges are switched off in this account's “What to mine, in order”: they are shown, not mined.",

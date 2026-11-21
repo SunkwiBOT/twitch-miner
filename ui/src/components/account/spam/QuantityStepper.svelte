@@ -2,10 +2,11 @@
   import { cn } from "$lib/utils";
   import { t } from "../../../lib/i18n/i18n.svelte";
   import { boundedInteger, boundNumberInput } from "../../../lib/input.utils";
-  import { SPAM_MAX_COUNT } from "../../../lib/spam/spam.constants";
+  import { coreLimits } from "../../../lib/state/limits";
   import Icon from "../../ui/Icon.svelte";
   import Tip from "../../ui/Tip.svelte";
   import { FOCUS_INSIDE_CLASSES } from "../../ui/field.constants";
+  import { strong } from "../../../lib/text.utils";
   import { IconName } from "../../../lib/icons.constants";
 
   type QuantityStepperPropsType = {
@@ -18,7 +19,11 @@
   let { value, max, disabled, onchange }: QuantityStepperPropsType = $props();
 
   const highest = $derived(Math.max(1, max));
-  const limit = $derived(max < SPAM_MAX_COUNT ? t.spam_max_balance() : t.spam_max_count());
+  const limit = $derived(
+    max < coreLimits().spam_burst_max
+      ? t.spam_max_balance()
+      : t.spam_max_count({ maxCount: strong(coreLimits().spam_burst_max) }),
+  );
 
   const step = (by: number): void => onchange(boundedInteger(value + by, 1, highest));
 

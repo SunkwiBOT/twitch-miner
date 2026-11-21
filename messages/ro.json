@@ -20,12 +20,12 @@
   "common_live": "Live",
   "common_viewers": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} spectator",
-        "countPlural=few": "{shown} spectatori",
-        "countPlural=*": "{shown} de spectatori"
+        "countPlural=one": "{formattedCount} spectator",
+        "countPlural=few": "{formattedCount} spectatori",
+        "countPlural=*": "{formattedCount} de spectatori"
       }
     }
   ],
@@ -70,8 +70,8 @@
   "common_accounts_count": "Conturi: {count}",
   "common_accounts_none": "Niciun cont",
   "accounts_remove_title": "Elimini acest cont?",
-  "accounts_remove_text": "Sesiunea {name} este revocată pe Twitch și ștearsă aici. Drop-urile revendicate rămân în inventarul Twitch.",
-  "accounts_remove_text_imported_token": "Sesiunea {name} este ștearsă aici. Drop-urile revendicate rămân în inventarul Twitch; folosește comutatorul de mai jos pentru a o revoca și pe Twitch.",
+  "accounts_remove_text": "Sesiunea {account} este revocată pe Twitch și ștearsă aici. Drop-urile revendicate rămân în inventarul Twitch.",
+  "accounts_remove_text_imported_token": "Sesiunea {account} este ștearsă aici. Drop-urile revendicate rămân în inventarul Twitch; folosește comutatorul de mai jos pentru a o revoca și pe Twitch.",
   "accounts_login_again": "Autentifică-te din nou",
   "accounts_stats_drops": "Drops revendicate: {count}",
   "accounts_stats_points": "Puncte câștigate: {count}",
@@ -157,23 +157,23 @@
   ],
   "import_tokens_result_count": [
     {
-      "declarations": ["input count", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{count} token importat",
-        "countPlural=few": "{count} tokenuri importate",
-        "countPlural=*": "{count} de tokenuri importate"
+        "countPlural=one": "{formattedCount} token importat",
+        "countPlural=few": "{formattedCount} tokenuri importate",
+        "countPlural=*": "{formattedCount} de tokenuri importate"
       }
     }
   ],
   "import_tokens_result_cancelled": [
     {
-      "declarations": ["input count", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "Import anulat — {count} token importat",
-        "countPlural=few": "Import anulat — {count} tokenuri importate",
-        "countPlural=*": "Import anulat — {count} de tokenuri importate"
+        "countPlural=one": "Import anulat — {formattedCount} token importat",
+        "countPlural=few": "Import anulat — {formattedCount} tokenuri importate",
+        "countPlural=*": "Import anulat — {formattedCount} de tokenuri importate"
       }
     }
   ],
@@ -313,9 +313,9 @@
   "settings_update_notifications_allow": "Permite notificările în acest browser",
   "settings_update_notifications_blocked": "Acest browser blochează notificările acestui site: permite-le în setările site-ului.",
   "settings_update_notifications_unsupported": "Acest browser nu afișează notificări la această adresă: deschide panoul prin HTTPS.",
-  "settings_test_ok": "{target}: trimis",
+  "settings_test_ok": "{service}: trimis",
   "settings_test_ok_title": "Test trimis",
-  "settings_test_failed": "{target}: {error}",
+  "settings_test_failed": "{service}: {error}",
   "settings_test_failed_title": "Test eșuat",
   "notify_drop_claimed": "Drop revendicat",
   "notify_drop_progress": "Progres drop",
@@ -339,7 +339,7 @@
   "settings_about": "Despre",
   "settings_about_text": "Open source, licență MIT. Neafiliat cu Twitch.",
   "settings_about_repo": "Cod sursă",
-  "settings_dashboard_password_hint": "Se setează prin {variable} pe server: schimb-o acolo, apoi repornește serverul.",
+  "settings_dashboard_password_hint": "Se setează prin {passwordVariable} pe server: schimb-o acolo, apoi repornește serverul.",
   "settings_auto_lock": "Blochează după inactivitate",
   "settings_auto_lock_hint": "Cere din nou parola după acest timp fără folosirea panoului, inclusiv într-o filă lăsată deschisă. Minarea continuă.",
   "settings_auto_lock_never": "Niciodată",
@@ -369,7 +369,7 @@
   "error_wrong_passphrase": "Parolă greșită",
   "error_unknown_account": "Cont necunoscut",
   "error_invalid_proxy": "Această adresă de proxy nu este validă.",
-  "error_unknown": "Ceva n-a mers bine: {code}",
+  "error_unknown": "Ceva n-a mers bine: {errorCode}",
   "time_now": "chiar acum",
   "time_minutes_ago": "acum {count} min",
   "time_hours_ago": "acum {count} h",
@@ -480,7 +480,7 @@
   "settings_feedback_text": "Pentru o eroare, atașează logurile din pagina Loguri tehnice: nu conțin niciun secret.",
   "feedback_discord_text": "Deschide un tichet sau discută cu comunitatea",
   "feedback_github_text": "Deschide un issue: o eroare sau o idee",
-  "settings_catalog_text": "Lista campaniilor vine de pe drops.sunkwi.com, reîmprospătată la fiecare {minutes} minute.",
+  "settings_catalog_text": "Lista campaniilor vine de pe {domain}, reîmprospătată la fiecare {minutes} minute.",
   "account_proxy": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -593,13 +593,13 @@
   "security_off_text": "Oricine folosește acest computer poate deschide aplicația. Setează o parolă ca s-o blochezi la pornire și să criptezi cu ea sesiunile Twitch.",
   "security_new": "Parolă nouă",
   "security_confirm": "Confirmare",
-  "security_rules": "Cel puțin 4 caractere. Nu poate fi recuperată: dacă o pierzi, adaugă din nou conturile.",
+  "security_rules": "Cel puțin {minLength} caractere. Nu poate fi recuperată: dacă o pierzi, adaugă din nou conturile.",
   "security_enable": "Setează parola",
   "security_enabling": "Se setează parola…",
   "security_change": "Schimbă parola",
   "security_changing": "Se schimbă parola…",
   "security_disable": "Elimină parola",
-  "security_access_local": "Prin HTTP simplu: păstrează acest panou în rețeaua ta sau pune-l în spatele unui reverse proxy HTTPS cu {variable}.",
+  "security_access_local": "Prin HTTP simplu: păstrează acest panou în rețeaua ta sau pune-l în spatele unui reverse proxy HTTPS cu {publicUrlVariable}.",
   "security_access_public": "În spatele unui reverse proxy HTTPS, la {host}.",
   "settings_close_action": "Butonul de închidere",
   "settings_unsaved": "Ai modificări nesalvate.",
@@ -607,7 +607,7 @@
   "slots_two_hint": "Maximul creditat de Twitch per cont: unul pentru Drops și unul pentru puncte, sau două pentru puncte.",
   "slots_one_title": "Un canal",
   "slots_one_hint": "Mai discret: un singur canal odată.",
-  "streamer_claim_bonus_hint": "Revendică cufărul bonus care apare la fiecare 15 minute.",
+  "streamer_claim_bonus_hint": "Revendică cufărul bonus care apare la fiecare {minutes} minute.",
   "streamer_claim_moments_hint": "Revendică insignele de moment când streamerul pornește unul.",
   "streamer_follow_raids_hint": "Urmează streamerul când face raid pe alt canal.",
   "streamer_predictions_stealth_hint": "Nu pariază niciodată mai mult decât cel mai mare pariu actual.",
@@ -797,9 +797,9 @@
   "reward_chest": "1 insignă la întâmplare din {count}",
   "reward_chest_hint": "Twitch dă una dintre aceste insigne: {badges}",
   "campaign_channels_categories": "Orice canal dintr-una dintre cele {count} categorii",
-  "badges_collection": "Face parte din colecția {name}",
-  "badges_collection_chest": "Face parte din colecția {name}, 1 insignă din {count}",
-  "badges_collection_all": "Insigna întregii colecții {name}, cu abonamente cu tot",
+  "badges_collection": "Face parte din colecția {collection}",
+  "badges_collection_chest": "Face parte din colecția {collection}, 1 insignă din {count}",
+  "badges_collection_all": "Insigna întregii colecții {collection}, cu abonamente cu tot",
   "reward_watch_stream": "Urmărește streamul",
   "reward_subscribe": "Abonează-te singur",
   "reward_kind_badge": "Insignă",
@@ -838,29 +838,29 @@
   "login_setup_title": "Configurează contul",
   "login_setup_from": "Pornește de la",
   "login_setup_defaults": "Setări implicite",
-  "login_setup_copy_from": "Setările lui {name}",
+  "login_setup_copy_from": "Setările lui {account}",
   "login_setup_copy_hint": "Copiază întocmai setările contului ales (ordinea de minare a campaniilor Drops, excluderile, lista de streameri), fără proxy.",
   "login_setup_finish": "Începe minarea",
   "login_setup_starting": "Se începe minarea…",
   "login_setup_later": "Salvează și pornește mai târziu",
   "error_not_supported": "Indisponibil în această versiune a aplicației.",
-  "common_copy_named": "Copiază {name}",
+  "common_copy_named": "Copiază {copiedItem}",
   "bulk_accounts": "Conturi",
   "bulk_applying": "Se aplică…",
   "bulk_applied_title": "Conturi actualizate",
   "bulk_apply": "Aplică ({count})",
   "bulk_apply_others": "Aplică la alte conturi",
-  "bulk_changes": "{shown} modificări",
-  "bulk_hint": "Modificările făcute pe {name} ({count}) sunt refăcute pe conturile bifate. Fiecare cont își păstrează restul setărilor.",
+  "bulk_changes": "{formattedCount} modificări",
+  "bulk_hint": "Modificările făcute pe {account} ({count}) sunt refăcute pe conturile bifate. Fiecare cont își păstrează restul setărilor.",
   "bulk_hint_chosen": "Modificările făcute pe conturile alese ({count}) sunt refăcute pe conturile bifate. Fiecare cont își păstrează restul setărilor.",
   "bulk_no_accounts": "Niciun alt cont.",
   "bulk_nothing_to_change": "Nimic de schimbat pe acest cont",
   "bulk_title": "Aplică la alte conturi",
   "change_campaign_moved": "{campaign} mutată cu succes",
-  "change_copied_drops": "Setările Drops ale lui {source} copiate cu succes",
-  "change_copied_points": "Setările de puncte ale lui {source} copiate cu succes",
-  "change_ignored": "Ignorat cu succes: {item}",
-  "change_unignored": "Minat din nou: {item}",
+  "change_copied_drops": "Setările Drops ale lui {sourceAccount} copiate cu succes",
+  "change_copied_points": "Setările de puncte ale lui {sourceAccount} copiate cu succes",
+  "change_ignored": "Ignorat cu succes: {campaignOrReward}",
+  "change_unignored": "Minat din nou: {campaignOrReward}",
   "change_settings": "Setări salvate cu succes",
   "change_streamer_added": "{streamer} adăugat cu succes",
   "change_streamer_disabled": "{streamer} pus pe pauză cu succes",
@@ -875,14 +875,14 @@
   "common_select_all": "Selectează tot",
   "common_select_none": "Deselectează tot",
   "common_selected_count": "Selecție: {count} / {total}",
-  "copy_drops_hint": "Înlocuiește setările Drops ale lui {name}: ordinea de minare, prioritățile, excluderile, domeniul și revendicarea.",
+  "copy_drops_hint": "Înlocuiește setările Drops ale lui {account}: ordinea de minare, prioritățile, excluderile, domeniul și revendicarea.",
   "copy_drops_title": "Copiază setările Drops",
-  "copy_points_hint": "Înlocuiește streamerii lui {name}, cu opțiunile fiecăruia, opțiunile implicite pentru streamerii noi și prioritățile.",
+  "copy_points_hint": "Înlocuiește streamerii lui {account}, cu opțiunile fiecăruia, opțiunile implicite pentru streamerii noi și prioritățile.",
   "copy_points_title": "Copiază setările de puncte",
   "import_add": "Adaugă ({count})",
   "import_already": "Deja în listă: {count}",
   "import_check": "Verifică",
-  "import_follows_hint": "Canalele pe care {name} le urmărește pe Twitch.",
+  "import_follows_hint": "Canalele pe care {account} le urmărește pe Twitch.",
   "import_from": "De la",
   "import_no_account": "Niciun alt cont de la care să copiezi.",
   "import_none_new": "Nimic nou: aceste canale sunt deja în listă.",
@@ -1183,16 +1183,16 @@
   "confirm_remove": "Elimină",
   "confirm_removing": "Se elimină…",
   "confirm_remove_streamer_title": "Elimini acest streamer?",
-  "confirm_remove_streamer_text": "Acest cont nu va mai urmări {name} pentru puncte de canal, iar opțiunile lui se pierd.",
+  "confirm_remove_streamer_text": "Acest cont nu va mai urmări {streamer} pentru puncte de canal, iar opțiunile lui se pierd.",
   "confirm_remove_game_title": "Elimini această categorie prioritară?",
-  "confirm_remove_game_text": "{name} este minat în continuare, dar campaniile lui nu mai trec înaintea celorlalte.",
+  "confirm_remove_game_text": "{category} este minat în continuare, dar campaniile lui nu mai trec înaintea celorlalte.",
   "confirm_remove_excluded_game_title": "Elimini această categorie exclusă?",
-  "confirm_remove_excluded_game_text": "{name} poate fi minat din nou: campaniile lui nu mai sunt sărite.",
+  "confirm_remove_excluded_game_text": "{category} poate fi minat din nou: campaniile lui nu mai sunt sărite.",
   "confirm_remove_excluded_word_title": "Elimini acest cuvânt exclus?",
-  "confirm_remove_excluded_word_text": "Campaniile și obiectele drop al căror nume conține {name} nu mai sunt ignorate.",
-  "confirm_remove_setup_streamer_text": "{name} iese din listă: acest cont nu îl va urmări pentru puncte de canal.",
+  "confirm_remove_excluded_word_text": "Campaniile și obiectele drop al căror nume conține {word} nu mai sunt ignorate.",
+  "confirm_remove_setup_streamer_text": "{streamer} iese din listă: acest cont nu îl va urmări pentru puncte de canal.",
   "search_verified": "Partener verificat",
-  "login_setup_for": "Cont: {name}",
+  "login_setup_for": "Cont: {account}",
   "login_setup_for_many": "Conturi: {count}",
   "search_pick": "Alege",
   "search_no_result": "Niciun rezultat pentru {query}.",
@@ -1234,10 +1234,10 @@
   "campaign_hint_claim_failed": "Twitch a refuzat revendicarea uneia dintre recompensele ei: „{journal}” spune de ce",
   "campaign_hint_ignored": "Ignorată manual: restaureaz-o din fila „{tab}”",
   "campaign_hint_filtered": "Exclusă prin „{setting}”",
-  "campaign_hint_points_only": "„{setting}” e „{value}”: nu se minează nicio campanie",
+  "campaign_hint_points_only": "„{setting}” e „{settingValue}”: nu se minează nicio campanie",
   "campaign_hint_unfinishable": "„{setting}” e activat",
   "campaign_hint_not_selected": "„{setting}” e activat: marcheaz-o cu o stea ca să fie minată",
-  "campaign_hint_not_linked": "„{setting}” e „{value}”: leagă contul de editor ca să fie minată",
+  "campaign_hint_not_linked": "„{setting}” e „{settingValue}”: leagă contul de editor ca să fie minată",
   "campaign_hint_lane_off": "Linia ei e dezactivată în „{setting}”",
   "campaign_hint_waiting": "Acum nu se poate viziona nicio recompensă: următoarea se deschide mai târziu (o perioadă nouă, întâi o recompensă anterioară sau un start mai târziu)",
   "campaign_hint_not_active": "Twitch nu rulează această campanie acum",
@@ -1249,12 +1249,12 @@
   "drops_add_game_placeholder": "Numele categoriei…",
   "game_drops_available": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} drop disponibil",
-        "countPlural=few": "{shown} drop-uri disponibile",
-        "countPlural=*": "{shown} de drop-uri disponibile"
+        "countPlural=one": "{formattedCount} drop disponibil",
+        "countPlural=few": "{formattedCount} drop-uri disponibile",
+        "countPlural=*": "{formattedCount} de drop-uri disponibile"
       }
     }
   ],
@@ -1274,7 +1274,7 @@
   "tray_sign_in_required": "autentificare necesară",
   "notify_sent_by": "Trimis de",
   "points_subscriber_priority": "Canalele cu abonament mai întâi",
-  "points_subscriber_priority_hint": "Twitch dă mai multe puncte pe minut pe canalele la care acest cont e abonat (între ×1,2 și ×2, în funcție de nivel): ele vin înaintea restului listei tale.",
+  "points_subscriber_priority_hint": "Twitch dă mai multe puncte pe minut pe canalele la care acest cont e abonat (între ×{minMultiplier} și ×{maxMultiplier}, în funcție de nivel): ele vin înaintea restului listei tale.",
   "drops_streamers_first": "Streamerii mei mai întâi pentru Drops și insigne",
   "drops_streamers_first_hint": "Pentru o campanie sau o insignă, un canal din lista ta care contează pentru ea (categoria potrivită cu Drops sau o categorie a evenimentului Twitch) vine înaintea unui canal necunoscut: Drops, insigne și puncte în același loc.",
   "points_streamer_defaults": "Opțiuni implicite pentru streamerii noi",
@@ -1310,7 +1310,7 @@
   ],
   "points_group_hint": "Se aplică doar opțiunile pe care le schimbi; o opțiune marcată „Mixt” păstrează valoarea fiecărui streamer până când o schimbi.",
   "streamer_option_mixed": "Mixt",
-  "setting_with_mark": "{option} ({mark})",
+  "setting_with_mark": "{option} ({optionNote})",
   "change_streamers_edited": "Streameri editați cu succes: {count}",
   "points_defaults_offer_title": [
     {
@@ -1376,7 +1376,7 @@
   "logs_level_error": "Eroare",
   "logs_level_warn": "Avertisment",
   "logs_level_info": "Informație",
-  "requests_subtitle": "Cereri trimise către Twitch și celelalte servicii, fără niciun token sau secret. Cele eșuate sunt păstrate una câte una, celelalte numărate la fiecare 10 minute, la fel de mult timp ca jurnalul.",
+  "requests_subtitle": "Cereri trimise către Twitch și celelalte servicii, fără niciun token sau secret. Cele eșuate sunt păstrate una câte una, celelalte numărate la fiecare {minutes} minute, la fel de mult timp ca jurnalul.",
   "requests_copied": "Cereri copiate",
   "requests_types": "Tipuri de cereri",
   "requests_types_all": "Toate tipurile",
@@ -1393,16 +1393,16 @@
     {
       "declarations": [
         "input count",
-        "input shown",
+        "input formattedCount",
         "input from",
         "input to",
         "local countPlural = count: plural"
       ],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} cerere de la {from} la {to}",
-        "countPlural=few": "{shown} cereri de la {from} la {to}",
-        "countPlural=*": "{shown} de cereri de la {from} la {to}"
+        "countPlural=one": "{formattedCount} cerere de la {from} la {to}",
+        "countPlural=few": "{formattedCount} cereri de la {from} la {to}",
+        "countPlural=*": "{formattedCount} de cereri de la {from} la {to}"
       }
     }
   ],
@@ -1454,17 +1454,17 @@
   "spam_balance": "Soldul punctelor de canal: {points}",
   "spam_balance_unlimited": "Puncte de canal nelimitate: pe propriul canal Twitch nu ia niciun punct",
   "spam_balance_changed": "actualizat {time}",
-  "spam_balance_live_hint": "Recitit la fiecare 2–3 s cât timp pagina e deschisă. Ora este cea a ultimei schimbări a soldului.",
+  "spam_balance_live_hint": "Recitit la fiecare {seconds} s cât timp pagina e deschisă. Ora este cea a ultimei schimbări a soldului.",
   "spam_balance_paused": "urmărire în pauză",
   "spam_balance_paused_hint": "Soldul este recitit imediat ce fereastra primește focusul.",
   "spam_balance_failing": "citire eșuată",
-  "spam_balance_failing_hint": "Ultimele citiri ale soldului au eșuat. Este recitit la fiecare 2–3 s.",
+  "spam_balance_failing_hint": "Ultimele citiri ale soldului au eșuat. Este recitit la fiecare {seconds} s.",
   "spam_seconds_ago": "acum {count} s",
   "spam_settings": "Setări Spam Points",
   "spam_show_disabled": "Afișează-le pe cele dezactivate și în pauză",
   "spam_show_out_of_stock": "Afișează-le pe cele epuizate",
   "spam_delay": "Pauză între cereri",
-  "spam_delay_hint": "Între două revendicări din aceeași serie, de la 0 la 5.000 ms.",
+  "spam_delay_hint": "Între două revendicări din aceeași serie, de la {minDelay} la {maxDelay} ms.",
   "spam_delay_unit": "ms",
   "spam_refresh": "Reîmprospătează recompensele",
   "spam_load_failed": "Recompensele nu au putut fi citite",
@@ -1484,19 +1484,19 @@
   "spam_decrease": "Scade",
   "spam_increase": "Crește",
   "spam_max_balance": "Soldul tău nu permite mai mult",
-  "spam_max_count": "Cel mult 25 pe serie",
+  "spam_max_count": "Cel mult {maxCount} pe serie",
   "spam_redeem": "Revendică",
   "spam_redeeming": "Se trimite {done}/{total}…",
   "spam_missing": "Lipsesc",
-  "spam_description": "Descriere: {text}",
+  "spam_description": "Descriere: {description}",
   "spam_sent_all": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Revendicată!",
-        "countPlural=few": "{shown} trimise!",
-        "countPlural=*": "{shown} de trimise!"
+        "countPlural=few": "{formattedCount} trimise!",
+        "countPlural=*": "{formattedCount} de trimise!"
       }
     }
   ],
@@ -1507,12 +1507,12 @@
   "spam_toast": "{count} × {reward} pe {channel}: {result}",
   "spam_cancelled": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} anulată la ieșirea din pagină",
-        "countPlural=few": "{shown} anulate la ieșirea din pagină",
-        "countPlural=*": "{shown} de anulate la ieșirea din pagină"
+        "countPlural=one": "{formattedCount} anulată la ieșirea din pagină",
+        "countPlural=few": "{formattedCount} anulate la ieșirea din pagină",
+        "countPlural=*": "{formattedCount} de anulate la ieșirea din pagină"
       }
     }
   ],
@@ -1523,7 +1523,7 @@
   "spam_reason_paused": "recompensă în pauză",
   "spam_reason_out_of_stock": "recompensă epuizată",
   "spam_reason_text_required": "mesaj lipsă",
-  "spam_reason_unknown": "refuzat de Twitch ({code})",
+  "spam_reason_unknown": "refuzat de Twitch ({refusalCode})",
   "spam_no_rewards": "Nicio recompensă disponibilă deocamdată.",
   "error_unknown_reward": "Această recompensă nu mai există pe canal.",
   "error_reward_not_redeemable": "Nu s-a trimis nimic: recompensa cere un mesaj, nu este disponibilă sau e în reîncărcare, ori soldul nu ajunge.",
@@ -1532,7 +1532,7 @@
     {
       "declarations": [
         "input sent",
-        "input shown",
+        "input formattedSent",
         "input count",
         "input reward",
         "input channel",
@@ -1541,9 +1541,9 @@
       ],
       "selectors": ["sentPlural"],
       "match": {
-        "sentPlural=one": "{count} × {reward} pe {channel} — {shown} trimisă, {points} puncte",
-        "sentPlural=few": "{count} × {reward} pe {channel} — {shown} trimise, {points} puncte",
-        "sentPlural=*": "{count} × {reward} pe {channel} — {shown} de trimise, {points} puncte"
+        "sentPlural=one": "{count} × {reward} pe {channel} — {formattedSent} trimisă, {points} puncte",
+        "sentPlural=few": "{count} × {reward} pe {channel} — {formattedSent} trimise, {points} puncte",
+        "sentPlural=*": "{count} × {reward} pe {channel} — {formattedSent} de trimise, {points} puncte"
       }
     }
   ],
@@ -1551,7 +1551,7 @@
     {
       "declarations": [
         "input sent",
-        "input shown",
+        "input formattedSent",
         "input count",
         "input reward",
         "input points",
@@ -1559,9 +1559,9 @@
       ],
       "selectors": ["sentPlural"],
       "match": {
-        "sentPlural=one": "{count} × {reward} — {shown} trimisă, {points} puncte",
-        "sentPlural=few": "{count} × {reward} — {shown} trimise, {points} puncte",
-        "sentPlural=*": "{count} × {reward} — {shown} de trimise, {points} puncte"
+        "sentPlural=one": "{count} × {reward} — {formattedSent} trimisă, {points} puncte",
+        "sentPlural=few": "{count} × {reward} — {formattedSent} trimise, {points} puncte",
+        "sentPlural=*": "{count} × {reward} — {formattedSent} de trimise, {points} puncte"
       }
     }
   ],
@@ -1595,12 +1595,12 @@
   "badges_refreshed_title": "Insigne reîmprospătate",
   "badges_refreshed": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} insignă",
-        "countPlural=few": "{shown} insigne",
-        "countPlural=*": "{shown} de insigne"
+        "countPlural=one": "{formattedCount} insignă",
+        "countPlural=few": "{formattedCount} insigne",
+        "countPlural=*": "{formattedCount} de insigne"
       }
     }
   ],
@@ -1618,12 +1618,12 @@
   ],
   "badges_off_calendar": [
     {
-      "declarations": ["input count", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{count} insignă fără date sau deja încheiată:",
-        "countPlural=few": "{count} insigne fără date sau deja încheiate:",
-        "countPlural=*": "{count} de insigne fără date sau deja încheiate:"
+        "countPlural=one": "{formattedCount} insignă fără date sau deja încheiată:",
+        "countPlural=few": "{formattedCount} insigne fără date sau deja încheiate:",
+        "countPlural=*": "{formattedCount} de insigne fără date sau deja încheiate:"
       }
     }
   ],
@@ -1689,9 +1689,9 @@
   "campaign_selecting": "Se adaugă…",
   "campaign_unselect": "Scoate din selecția mea",
   "campaign_unselecting": "Se scoate…",
-  "change_selected": "Adăugat în selecție: {item}",
-  "change_unselected": "Scos din selecție: {item}",
-  "change_prioritized": "Plasat în fruntea ordinii de minare: {item}",
+  "change_selected": "Adăugat în selecție: {campaignOrReward}",
+  "change_unselected": "Scos din selecție: {campaignOrReward}",
+  "change_prioritized": "Plasat în fruntea ordinii de minare: {campaignOrReward}",
   "selection_not_selected": "Neselectată",
   "badges_not_selected_hint": "„Doar selecția mea” este activat: marchează această insignă cu o stea ca să fie minată.",
   "account_badges_mining_off": "Insignele sunt dezactivate în „Ce să se mineze, în ordine” al acestui cont: sunt afișate, dar nu sunt minate.",

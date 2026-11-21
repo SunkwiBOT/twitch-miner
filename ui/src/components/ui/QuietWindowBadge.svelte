@@ -1,6 +1,7 @@
 <script lang="ts">
   import { t } from "../../lib/i18n/i18n.svelte";
   import { app } from "../../lib/state/app.svelte";
+  import { strong } from "../../lib/text.utils";
   import { minutesToClock } from "../../lib/time/quiet-window.utils";
   import Badge from "./Badge.svelte";
   import { BadgeTone } from "../../lib/tones.constants";
@@ -22,8 +23,8 @@
     dot={true}
     icon={IconName.MOON}
     hint={t.quiet_window_active_hint({
-      start: minutesToClock(quietWindow.start_minutes),
-      end: minutesToClock(quietWindow.end_minutes),
+      start: strong(minutesToClock(quietWindow.start_minutes)),
+      end: strong(minutesToClock(quietWindow.end_minutes)),
     })}
   />
 {/if}

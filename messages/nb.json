@@ -20,11 +20,11 @@
   "common_live": "Direkte",
   "common_viewers": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} seer",
-        "countPlural=*": "{shown} seere"
+        "countPlural=one": "{formattedCount} seer",
+        "countPlural=*": "{formattedCount} seere"
       }
     }
   ],
@@ -69,8 +69,8 @@
   "common_accounts_count": "Kontoer: {count}",
   "common_accounts_none": "Ingen konto",
   "accounts_remove_title": "Fjerne denne kontoen?",
-  "accounts_remove_text": "Økten til {name} tilbakekalles på Twitch og slettes her. Hentede drops blir i Twitch-beholdningen.",
-  "accounts_remove_text_imported_token": "Økten til {name} slettes her. Hentede drops blir i Twitch-beholdningen; bruk bryteren nedenfor for å også tilbakekalle den på Twitch.",
+  "accounts_remove_text": "Økten til {account} tilbakekalles på Twitch og slettes her. Hentede drops blir i Twitch-beholdningen.",
+  "accounts_remove_text_imported_token": "Økten til {account} slettes her. Hentede drops blir i Twitch-beholdningen; bruk bryteren nedenfor for å også tilbakekalle den på Twitch.",
   "accounts_login_again": "Logg inn på nytt",
   "accounts_stats_drops": "Hentede drops: {count}",
   "accounts_stats_points": "Opptjente poeng: {count}",
@@ -151,21 +151,21 @@
   ],
   "import_tokens_result_count": [
     {
-      "declarations": ["input count", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{count} token importert",
-        "countPlural=*": "{count} tokens importert"
+        "countPlural=one": "{formattedCount} token importert",
+        "countPlural=*": "{formattedCount} tokens importert"
       }
     }
   ],
   "import_tokens_result_cancelled": [
     {
-      "declarations": ["input count", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "Import avbrutt — {count} token importert",
-        "countPlural=*": "Import avbrutt — {count} tokens importert"
+        "countPlural=one": "Import avbrutt — {formattedCount} token importert",
+        "countPlural=*": "Import avbrutt — {formattedCount} tokens importert"
       }
     }
   ],
@@ -305,9 +305,9 @@
   "settings_update_notifications_allow": "Tillat varsler i denne nettleseren",
   "settings_update_notifications_blocked": "Denne nettleseren blokkerer varsler fra dette nettstedet: tillat dem i nettstedsinnstillingene.",
   "settings_update_notifications_unsupported": "Denne nettleseren viser ingen varsler på denne adressen: åpne dashbordet over HTTPS.",
-  "settings_test_ok": "{target}: sendt",
+  "settings_test_ok": "{service}: sendt",
   "settings_test_ok_title": "Test sendt",
-  "settings_test_failed": "{target}: {error}",
+  "settings_test_failed": "{service}: {error}",
   "settings_test_failed_title": "Testen mislyktes",
   "notify_drop_claimed": "Drop hentet",
   "notify_drop_progress": "Drop-fremgang",
@@ -331,7 +331,7 @@
   "settings_about": "Om",
   "settings_about_text": "Åpen kildekode, MIT-lisens. Ikke tilknyttet Twitch.",
   "settings_about_repo": "Kildekode",
-  "settings_dashboard_password_hint": "Settes med {variable} på serveren: endre det der, og start deretter serveren på nytt.",
+  "settings_dashboard_password_hint": "Settes med {passwordVariable} på serveren: endre det der, og start deretter serveren på nytt.",
   "settings_auto_lock": "Lås etter inaktivitet",
   "settings_auto_lock_hint": "Ber om passordet igjen etter så lang tid uten bruk av oversikten, også i en fane som er latt åpen. Appen fortsetter å mine.",
   "settings_auto_lock_never": "Aldri",
@@ -361,7 +361,7 @@
   "error_wrong_passphrase": "Feil passord",
   "error_unknown_account": "Ukjent konto",
   "error_invalid_proxy": "Denne proxyadressen er ikke gyldig.",
-  "error_unknown": "Noe gikk galt: {code}",
+  "error_unknown": "Noe gikk galt: {errorCode}",
   "time_now": "akkurat nå",
   "time_minutes_ago": "for {count} min siden",
   "time_hours_ago": "for {count} t siden",
@@ -470,7 +470,7 @@
   "settings_feedback_text": "Ved en feil legger du ved loggene fra siden Tekniske logger: de inneholder ingen hemmeligheter.",
   "feedback_discord_text": "Åpne en ticket eller prat med fellesskapet",
   "feedback_github_text": "Åpne et issue: en feil eller en idé",
-  "settings_catalog_text": "Kampanjelisten kommer fra drops.sunkwi.com, oppdatert hvert {minutes}. minutt.",
+  "settings_catalog_text": "Kampanjelisten kommer fra {domain}, oppdatert hvert {minutes}. minutt.",
   "account_proxy": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -580,13 +580,13 @@
   "security_off_text": "Alle som bruker denne datamaskinen kan åpne appen. Angi et passord for å låse den ved oppstart og kryptere Twitch-øktene med det.",
   "security_new": "Nytt passord",
   "security_confirm": "Bekreft",
-  "security_rules": "Minst 4 tegn. Det kan ikke gjenopprettes: mister du det, må du legge til kontoene på nytt.",
+  "security_rules": "Minst {minLength} tegn. Det kan ikke gjenopprettes: mister du det, må du legge til kontoene på nytt.",
   "security_enable": "Angi passordet",
   "security_enabling": "Angir passordet…",
   "security_change": "Endre passordet",
   "security_changing": "Endrer passordet…",
   "security_disable": "Fjern passordet",
-  "security_access_local": "Over vanlig HTTP: hold dette dashbordet på ditt eget nettverk, eller sett det bak en omvendt HTTPS-proxy med {variable}.",
+  "security_access_local": "Over vanlig HTTP: hold dette dashbordet på ditt eget nettverk, eller sett det bak en omvendt HTTPS-proxy med {publicUrlVariable}.",
   "security_access_public": "Bak en omvendt HTTPS-proxy, på {host}.",
   "settings_close_action": "Lukkeknapp",
   "settings_unsaved": "Du har ulagrede endringer.",
@@ -594,7 +594,7 @@
   "slots_two_hint": "Det meste Twitch godskriver per konto: én for Drops og én for poeng, eller to for poeng.",
   "slots_one_title": "Én kanal",
   "slots_one_hint": "Roligere: én kanal om gangen.",
-  "streamer_claim_bonus_hint": "Henter bonuskisten som dukker opp hvert 15. minutt.",
+  "streamer_claim_bonus_hint": "Henter bonuskisten som dukker opp hvert {minutes}. minutt.",
   "streamer_claim_moments_hint": "Henter øyeblikksmerker når streameren starter et øyeblikk.",
   "streamer_follow_raids_hint": "Følger streameren når de raider en annen kanal.",
   "streamer_predictions_stealth_hint": "Satser aldri mer enn den som satser mest akkurat nå.",
@@ -677,9 +677,9 @@
   "reward_chest": "1 tilfeldig merke av {count}",
   "reward_chest_hint": "Twitch gir ett av disse merkene: {badges}",
   "campaign_channels_categories": "Alle kanaler i en av {count} kategorier",
-  "badges_collection": "Del av samlingen {name}",
-  "badges_collection_chest": "Del av samlingen {name}, 1 merke av {count}",
-  "badges_collection_all": "Merke for hele samlingen {name}, abonnementer medregnet",
+  "badges_collection": "Del av samlingen {collection}",
+  "badges_collection_chest": "Del av samlingen {collection}, 1 merke av {count}",
+  "badges_collection_all": "Merke for hele samlingen {collection}, abonnementer medregnet",
   "reward_watch_stream": "Se streamen",
   "reward_subscribe": "Abonner selv",
   "reward_kind_badge": "Merke",
@@ -718,29 +718,29 @@
   "login_setup_title": "Sett opp kontoen",
   "login_setup_from": "Ta utgangspunkt i",
   "login_setup_defaults": "Standardinnstillinger",
-  "login_setup_copy_from": "Innstillingene til {name}",
+  "login_setup_copy_from": "Innstillingene til {account}",
   "login_setup_copy_hint": "Kopierer innstillingene til den valgte kontoen slik de er (mining-rekkefølgen for Drops-kampanjer, unntak, streamerlisten), bortsett fra proxyen.",
   "login_setup_finish": "Begynn å mine",
   "login_setup_starting": "Begynner å mine…",
   "login_setup_later": "Lagre og start senere",
   "error_not_supported": "Ikke tilgjengelig i denne versjonen av appen.",
-  "common_copy_named": "Kopier {name}",
+  "common_copy_named": "Kopier {copiedItem}",
   "bulk_accounts": "Kontoer",
   "bulk_applying": "Bruker…",
   "bulk_applied_title": "Kontoer oppdatert",
   "bulk_apply": "Bruk ({count})",
   "bulk_apply_others": "Bruk på andre kontoer",
-  "bulk_changes": "{shown} endringer",
-  "bulk_hint": "Endringene på {name} ({count}) gjentas på de avkryssede kontoene. Hver konto beholder resten av innstillingene sine.",
+  "bulk_changes": "{formattedCount} endringer",
+  "bulk_hint": "Endringene på {account} ({count}) gjentas på de avkryssede kontoene. Hver konto beholder resten av innstillingene sine.",
   "bulk_hint_chosen": "Endringene på de valgte kontoene ({count}) gjentas på de avkryssede kontoene. Hver konto beholder resten av innstillingene sine.",
   "bulk_no_accounts": "Ingen annen konto.",
   "bulk_nothing_to_change": "Ingenting å endre på denne kontoen",
   "bulk_title": "Bruk på andre kontoer",
   "change_campaign_moved": "{campaign} er flyttet",
-  "change_copied_drops": "Drops-innstillingene fra {source} er kopiert",
-  "change_copied_points": "Poenginnstillingene fra {source} er kopiert",
-  "change_ignored": "Ignoreres nå: {item}",
-  "change_unignored": "Mines igjen: {item}",
+  "change_copied_drops": "Drops-innstillingene fra {sourceAccount} er kopiert",
+  "change_copied_points": "Poenginnstillingene fra {sourceAccount} er kopiert",
+  "change_ignored": "Ignoreres nå: {campaignOrReward}",
+  "change_unignored": "Mines igjen: {campaignOrReward}",
   "change_settings": "Innstillingene er lagret",
   "change_streamer_added": "{streamer} er lagt til",
   "change_streamer_disabled": "{streamer} er satt på pause",
@@ -755,14 +755,14 @@
   "common_select_all": "Velg alle",
   "common_select_none": "Velg ingen",
   "common_selected_count": "Valgt: {count} / {total}",
-  "copy_drops_hint": "Erstatter Drops-innstillingene til {name}: mining-rekkefølge, prioriteringer, unntak, omfang og henting.",
+  "copy_drops_hint": "Erstatter Drops-innstillingene til {account}: mining-rekkefølge, prioriteringer, unntak, omfang og henting.",
   "copy_drops_title": "Kopier Drops-innstillingene",
-  "copy_points_hint": "Erstatter streamerne til {name}, med alternativene for hver av dem, standardalternativene for nye streamere og prioriteringene.",
+  "copy_points_hint": "Erstatter streamerne til {account}, med alternativene for hver av dem, standardalternativene for nye streamere og prioriteringene.",
   "copy_points_title": "Kopier poenginnstillingene",
   "import_add": "Legg til ({count})",
   "import_already": "Allerede i listen: {count}",
   "import_check": "Kontroller",
-  "import_follows_hint": "Kanalene {name} følger på Twitch.",
+  "import_follows_hint": "Kanalene {account} følger på Twitch.",
   "import_from": "Fra",
   "import_no_account": "Ingen annen konto å kopiere fra.",
   "import_none_new": "Ikke noe nytt: disse kanalene er allerede i listen.",
@@ -1026,16 +1026,16 @@
   "confirm_remove": "Fjern",
   "confirm_removing": "Fjerner…",
   "confirm_remove_streamer_title": "Fjerne denne strømmeren?",
-  "confirm_remove_streamer_text": "Denne kontoen ser ikke lenger {name} for kanalpoeng, og innstillingene går tapt.",
+  "confirm_remove_streamer_text": "Denne kontoen ser ikke lenger {streamer} for kanalpoeng, og innstillingene går tapt.",
   "confirm_remove_game_title": "Fjerne denne prioriterte kategorien?",
-  "confirm_remove_game_text": "{name} mines fortsatt, men kampanjene kommer ikke lenger før de andre.",
+  "confirm_remove_game_text": "{category} mines fortsatt, men kampanjene kommer ikke lenger før de andre.",
   "confirm_remove_excluded_game_title": "Fjerne denne ekskluderte kategorien?",
-  "confirm_remove_excluded_game_text": "{name} kan mines igjen: kampanjene hoppes ikke lenger over.",
+  "confirm_remove_excluded_game_text": "{category} kan mines igjen: kampanjene hoppes ikke lenger over.",
   "confirm_remove_excluded_word_title": "Fjerne dette utelukkede ordet?",
-  "confirm_remove_excluded_word_text": "Kampanjer og drop-gjenstander der navnet inneholder {name}, hoppes ikke lenger over.",
-  "confirm_remove_setup_streamer_text": "{name} fjernes fra listen: denne kontoen ser den ikke for kanalpoeng.",
+  "confirm_remove_excluded_word_text": "Kampanjer og drop-gjenstander der navnet inneholder {word}, hoppes ikke lenger over.",
+  "confirm_remove_setup_streamer_text": "{streamer} fjernes fra listen: denne kontoen ser den ikke for kanalpoeng.",
   "search_verified": "Verifisert partner",
-  "login_setup_for": "Konto: {name}",
+  "login_setup_for": "Konto: {account}",
   "login_setup_for_many": "Kontoer: {count}",
   "search_pick": "Velg",
   "search_no_result": "Ingen treff for {query}.",
@@ -1077,10 +1077,10 @@
   "campaign_hint_claim_failed": "Twitch avviste hentingen av en av belønningene: «{journal}» forteller hvorfor",
   "campaign_hint_ignored": "Ignorert for hånd: gjenopprett den fra fanen «{tab}»",
   "campaign_hint_filtered": "Utelatt av «{setting}»",
-  "campaign_hint_points_only": "«{setting}» er «{value}»: ingen kampanje mines",
+  "campaign_hint_points_only": "«{setting}» er «{settingValue}»: ingen kampanje mines",
   "campaign_hint_unfinishable": "«{setting}» er på",
   "campaign_hint_not_selected": "«{setting}» er på: gi den en stjerne for å mine den",
-  "campaign_hint_not_linked": "«{setting}» er «{value}»: koble utgiverkontoen for å mine den",
+  "campaign_hint_not_linked": "«{setting}» er «{settingValue}»: koble utgiverkontoen for å mine den",
   "campaign_hint_lane_off": "Linjen er slått av i «{setting}»",
   "campaign_hint_waiting": "Ingen belønning kan ses akkurat nå: den neste åpner senere (en ny periode, en tidligere belønning først eller en senere start)",
   "campaign_hint_not_active": "Twitch kjører ikke denne kampanjen nå",
@@ -1092,11 +1092,11 @@
   "drops_add_game_placeholder": "Kategorinavn…",
   "game_drops_available": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} drop tilgjengelig",
-        "countPlural=*": "{shown} drops tilgjengelige"
+        "countPlural=one": "{formattedCount} drop tilgjengelig",
+        "countPlural=*": "{formattedCount} drops tilgjengelige"
       }
     }
   ],
@@ -1116,7 +1116,7 @@
   "tray_sign_in_required": "pålogging kreves",
   "notify_sent_by": "Sendt av",
   "points_subscriber_priority": "Abonnerte kanaler først",
-  "points_subscriber_priority_hint": "Twitch gir flere poeng per minutt på kanaler denne kontoen abonnerer på (×1,2 til ×2 avhengig av nivået): de kommer før resten av listen din.",
+  "points_subscriber_priority_hint": "Twitch gir flere poeng per minutt på kanaler denne kontoen abonnerer på (×{minMultiplier} til ×{maxMultiplier} avhengig av nivået): de kommer før resten av listen din.",
   "drops_streamers_first": "Mine streamere først for Drops og merker",
   "drops_streamers_first_hint": "For en kampanje eller et merke kommer en kanal fra listen din som teller for den (riktig kategori med Drops eller en kategori i Twitch-hendelsen), før en ukjent kanal: Drops, merker og poeng på samme sted.",
   "points_streamer_defaults": "Standardalternativer for nye streamere",
@@ -1151,7 +1151,7 @@
   ],
   "points_group_hint": "Bare alternativene du endrer, gjelder for disse streamerne; et alternativ merket «Blandet» beholder verdien til hver enkelt til du endrer det.",
   "streamer_option_mixed": "Blandet",
-  "setting_with_mark": "{option} ({mark})",
+  "setting_with_mark": "{option} ({optionNote})",
   "change_streamers_edited": "Streamere er redigert: {count}",
   "points_defaults_offer_title": [
     {
@@ -1191,7 +1191,7 @@
   "logs_level_error": "Feil",
   "logs_level_warn": "Advarsel",
   "logs_level_info": "Info",
-  "requests_subtitle": "Forespørsler sendt til Twitch og de andre tjenestene, uten token eller hemmeligheter. Mislykkede lagres én og én, de andre telles per 10 minutter, like lenge som journalen.",
+  "requests_subtitle": "Forespørsler sendt til Twitch og de andre tjenestene, uten token eller hemmeligheter. Mislykkede lagres én og én, de andre telles per {minutes} minutter, like lenge som journalen.",
   "requests_copied": "Forespørsler kopiert",
   "requests_types": "Forespørselstyper",
   "requests_types_all": "Alle typer",
@@ -1208,15 +1208,15 @@
     {
       "declarations": [
         "input count",
-        "input shown",
+        "input formattedCount",
         "input from",
         "input to",
         "local countPlural = count: plural"
       ],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} forespørsel fra {from} til {to}",
-        "countPlural=*": "{shown} forespørsler fra {from} til {to}"
+        "countPlural=one": "{formattedCount} forespørsel fra {from} til {to}",
+        "countPlural=*": "{formattedCount} forespørsler fra {from} til {to}"
       }
     }
   ],
@@ -1268,17 +1268,17 @@
   "spam_balance": "Saldo av kanalpoeng: {points}",
   "spam_balance_unlimited": "Ubegrensede kanalpoeng: Twitch trekker ingen poeng på din egen kanal",
   "spam_balance_changed": "oppdatert {time}",
-  "spam_balance_live_hint": "Leses på nytt hvert 2.–3. sekund mens siden er åpen. Tidspunktet er saldoens siste endring.",
+  "spam_balance_live_hint": "Leses på nytt hvert {seconds} sekund mens siden er åpen. Tidspunktet er saldoens siste endring.",
   "spam_balance_paused": "sporing satt på pause",
   "spam_balance_paused_hint": "Saldoen leses igjen så snart vinduet har fokus.",
   "spam_balance_failing": "lesing mislyktes",
-  "spam_balance_failing_hint": "De siste lesingene av saldoen mislyktes. Den leses på nytt hvert 2.–3. sekund.",
+  "spam_balance_failing_hint": "De siste lesingene av saldoen mislyktes. Den leses på nytt hvert {seconds} sekund.",
   "spam_seconds_ago": "for {count} s siden",
   "spam_settings": "Innstillinger for Spam Points",
   "spam_show_disabled": "Vis deaktiverte og de på pause",
   "spam_show_out_of_stock": "Vis utsolgte",
   "spam_delay": "Pause mellom forespørslene",
-  "spam_delay_hint": "Mellom to innløsninger i samme serie, 0 til 5 000 ms.",
+  "spam_delay_hint": "Mellom to innløsninger i samme serie, {minDelay} til {maxDelay} ms.",
   "spam_delay_unit": "ms",
   "spam_refresh": "Oppdater belønningene",
   "spam_load_failed": "Belønningene kunne ikke leses",
@@ -1298,18 +1298,18 @@
   "spam_decrease": "Reduser",
   "spam_increase": "Øk",
   "spam_max_balance": "Saldoen din rekker ikke til flere",
-  "spam_max_count": "Høyst 25 per serie",
+  "spam_max_count": "Høyst {maxCount} per serie",
   "spam_redeem": "Løs inn",
   "spam_redeeming": "Sender {done}/{total}…",
   "spam_missing": "Det mangler",
-  "spam_description": "Beskrivelse: {text}",
+  "spam_description": "Beskrivelse: {description}",
   "spam_sent_all": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Løst inn!",
-        "countPlural=*": "{shown} sendt!"
+        "countPlural=*": "{formattedCount} sendt!"
       }
     }
   ],
@@ -1320,11 +1320,11 @@
   "spam_toast": "{count} × {reward} på {channel}: {result}",
   "spam_cancelled": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} avbrutt da siden ble forlatt",
-        "countPlural=*": "{shown} avbrutt da siden ble forlatt"
+        "countPlural=one": "{formattedCount} avbrutt da siden ble forlatt",
+        "countPlural=*": "{formattedCount} avbrutt da siden ble forlatt"
       }
     }
   ],
@@ -1335,7 +1335,7 @@
   "spam_reason_paused": "belønningen er på pause",
   "spam_reason_out_of_stock": "belønningen er utsolgt",
   "spam_reason_text_required": "meldingen mangler",
-  "spam_reason_unknown": "avvist av Twitch ({code})",
+  "spam_reason_unknown": "avvist av Twitch ({refusalCode})",
   "spam_no_rewards": "Ingen belønning er tilgjengelig akkurat nå.",
   "error_unknown_reward": "Denne belønningen finnes ikke lenger på kanalen.",
   "error_reward_not_redeemable": "Ingenting ble sendt: belønningen krever en melding, er ikke tilgjengelig eller har nedkjøling, eller saldoen strekker ikke til.",
@@ -1344,7 +1344,7 @@
     {
       "declarations": [
         "input sent",
-        "input shown",
+        "input formattedSent",
         "input count",
         "input reward",
         "input channel",
@@ -1353,8 +1353,8 @@
       ],
       "selectors": ["sentPlural"],
       "match": {
-        "sentPlural=one": "{count} × {reward} på {channel} — {shown} sendt, {points} poeng",
-        "sentPlural=*": "{count} × {reward} på {channel} — {shown} sendt, {points} poeng"
+        "sentPlural=one": "{count} × {reward} på {channel} — {formattedSent} sendt, {points} poeng",
+        "sentPlural=*": "{count} × {reward} på {channel} — {formattedSent} sendt, {points} poeng"
       }
     }
   ],
@@ -1362,7 +1362,7 @@
     {
       "declarations": [
         "input sent",
-        "input shown",
+        "input formattedSent",
         "input count",
         "input reward",
         "input points",
@@ -1370,8 +1370,8 @@
       ],
       "selectors": ["sentPlural"],
       "match": {
-        "sentPlural=one": "{count} × {reward} — {shown} sendt, {points} poeng",
-        "sentPlural=*": "{count} × {reward} — {shown} sendt, {points} poeng"
+        "sentPlural=one": "{count} × {reward} — {formattedSent} sendt, {points} poeng",
+        "sentPlural=*": "{count} × {reward} — {formattedSent} sendt, {points} poeng"
       }
     }
   ],
@@ -1404,11 +1404,11 @@
   "badges_refreshed_title": "Merker oppdatert",
   "badges_refreshed": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} merke",
-        "countPlural=*": "{shown} merker"
+        "countPlural=one": "{formattedCount} merke",
+        "countPlural=*": "{formattedCount} merker"
       }
     }
   ],
@@ -1425,11 +1425,11 @@
   ],
   "badges_off_calendar": [
     {
-      "declarations": ["input count", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{count} merke uten datoer eller allerede avsluttet:",
-        "countPlural=*": "{count} merker uten datoer eller allerede avsluttet:"
+        "countPlural=one": "{formattedCount} merke uten datoer eller allerede avsluttet:",
+        "countPlural=*": "{formattedCount} merker uten datoer eller allerede avsluttet:"
       }
     }
   ],
@@ -1495,9 +1495,9 @@
   "campaign_selecting": "Legger til…",
   "campaign_unselect": "Fjern fra utvalget mitt",
   "campaign_unselecting": "Fjerner…",
-  "change_selected": "Lagt til i utvalget: {item}",
-  "change_unselected": "Fjernet fra utvalget: {item}",
-  "change_prioritized": "Plassert øverst i mining-rekkefølgen: {item}",
+  "change_selected": "Lagt til i utvalget: {campaignOrReward}",
+  "change_unselected": "Fjernet fra utvalget: {campaignOrReward}",
+  "change_prioritized": "Plassert øverst i mining-rekkefølgen: {campaignOrReward}",
   "selection_not_selected": "Ikke valgt",
   "badges_not_selected_hint": "«Bare mitt utvalg» er på: gi dette merket en stjerne for å mine det.",
   "account_badges_mining_off": "Merker er slått av i «Hva som skal mines, i rekkefølge» for denne kontoen: de vises, men mines ikke.",

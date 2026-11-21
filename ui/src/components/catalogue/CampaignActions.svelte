@@ -38,7 +38,7 @@
 
   const accounts = $derived(app.snapshot?.accounts ?? []);
   const chosen = $derived(accounts.filter((a) => selected.includes(a.id)));
-  const item = $derived(strong(name));
+  const campaignOrReward = $derived(strong(name));
   const unminable = $derived(minable ? undefined : t.campaign_nothing_to_mine());
 
   const allIgnore = $derived(
@@ -85,10 +85,10 @@
   type={ButtonType.BUTTON}
   onclick={() =>
     allIgnore
-      ? act(CampaignAction.RESTORE, t.change_unignored({ item }), (settings) =>
+      ? act(CampaignAction.RESTORE, t.change_unignored({ campaignOrReward }), (settings) =>
           setCampaignIgnoredIn(settings, campaignId, false),
         )
-      : act(CampaignAction.IGNORE, t.change_ignored({ item }), (settings) =>
+      : act(CampaignAction.IGNORE, t.change_ignored({ campaignOrReward }), (settings) =>
           setCampaignIgnoredIn(settings, campaignId, true),
         )}
 />
@@ -104,10 +104,10 @@
   type={ButtonType.BUTTON}
   onclick={() =>
     allSelected
-      ? act(CampaignAction.UNSELECT, t.change_unselected({ item }), (settings) =>
+      ? act(CampaignAction.UNSELECT, t.change_unselected({ campaignOrReward }), (settings) =>
           setCampaignSelectedIn(settings, campaignId, false),
         )
-      : act(CampaignAction.SELECT, t.change_selected({ item }), (settings) =>
+      : act(CampaignAction.SELECT, t.change_selected({ campaignOrReward }), (settings) =>
           setCampaignSelectedIn(settings, campaignId, true),
         )}
 />
@@ -122,7 +122,7 @@
   size={ButtonSize.MD}
   type={ButtonType.BUTTON}
   onclick={() =>
-    act(CampaignAction.FIRST, t.change_prioritized({ item }), (settings) =>
+    act(CampaignAction.FIRST, t.change_prioritized({ campaignOrReward }), (settings) =>
       prioritizeIn(settings, campaignId),
     )}
 />

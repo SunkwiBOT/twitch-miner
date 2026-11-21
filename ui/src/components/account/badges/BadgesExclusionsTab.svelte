@@ -96,7 +96,7 @@
         addLabel={t.common_add()}
         removeLabel={t.common_remove()}
         confirmTitle={t.confirm_remove_excluded_game_title()}
-        confirmText={(game) => t.confirm_remove_excluded_game_text({ name: strong(game.name) })}
+        confirmText={(game) => t.confirm_remove_excluded_game_text({ category: strong(game.name) })}
         onchange={(list) => editBadgesExcludedGames(account, list)}
         remote={true}
       />
@@ -117,7 +117,7 @@
         addLabel={t.common_add()}
         removeLabel={t.common_remove()}
         confirmTitle={t.confirm_remove_excluded_word_title()}
-        confirmText={(word) => t.confirm_remove_excluded_word_text({ name: strong(word) })}
+        confirmText={(word) => t.confirm_remove_excluded_word_text({ word: strong(word) })}
         onchange={(list) => editBadgesList(account, BadgesList.EXCLUDE_NAMES, list)}
         remote={false}
       />

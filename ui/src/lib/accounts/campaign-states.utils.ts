@@ -5,6 +5,7 @@ import { t } from "../i18n/i18n.svelte";
 import { IconName } from "../icons.constants";
 import type { TimelineTagType } from "../catalogue/timeline.utils";
 import { relativeTime } from "../time/time.utils";
+import { strong } from "../text.utils";
 import { BadgeTone } from "../tones.constants";
 import { QUEUE_REASON_LABELS } from "./accounts.utils";
 import {
@@ -41,7 +42,9 @@ const evolutionHint = (campaign: CampaignType): string => {
   const from = campaign.drops.find((drop) => drop.evolution && !drop.evolution.owned)?.evolution
     ?.from?.title;
 
-  return from ? t.badge_hint_evolution_locked({ badge: from }) : t.badge_hint_evolution_unknown();
+  return from
+    ? t.badge_hint_evolution_locked({ badge: strong(from) })
+    : t.badge_hint_evolution_unknown();
 };
 
 const STATE_VIEWS: Record<CampaignState, StateViewType> = {
@@ -69,7 +72,7 @@ const STATE_VIEWS: Record<CampaignState, StateViewType> = {
     icon: IconName.CLOCK,
     hint: (entry, now) =>
       t.badge_hint_blocked_set_aside({
-        time: relativeTime(entry.queued?.set_aside_until, now),
+        time: strong(relativeTime(entry.queued?.set_aside_until, now)),
       }),
   },
   [CampaignState.CLAIMED_LINKED]: {
@@ -106,7 +109,7 @@ const STATE_VIEWS: Record<CampaignState, StateViewType> = {
     text: () => t.campaign_state_claim_failed(),
     tone: BadgeTone.DANGER,
     icon: IconName.ALERT,
-    hint: () => t.campaign_hint_claim_failed({ journal: t.nav_history() }),
+    hint: () => t.campaign_hint_claim_failed({ journal: strong(t.nav_history()) }),
   },
   [CampaignState.OWNED]: {
     text: () => t.reward_state_owned(),
@@ -118,13 +121,13 @@ const STATE_VIEWS: Record<CampaignState, StateViewType> = {
     text: () => t.reward_ignored(),
     tone: BadgeTone.NEUTRAL,
     icon: IconName.EYE_OFF,
-    hint: () => t.campaign_hint_ignored({ tab: t.drops_tab_exclusions() }),
+    hint: () => t.campaign_hint_ignored({ tab: strong(t.drops_tab_exclusions()) }),
   },
   [CampaignState.FILTERED]: {
     text: () => t.campaign_state_filtered(),
     tone: BadgeTone.NEUTRAL,
     icon: IconName.EYE_OFF,
-    hint: () => t.campaign_hint_filtered({ setting: t.drops_exclusions_title() }),
+    hint: () => t.campaign_hint_filtered({ setting: strong(t.drops_exclusions_title()) }),
   },
   [CampaignState.EVOLUTIONS_OFF]: {
     text: () => t.badge_evolution_off(),
@@ -138,8 +141,8 @@ const STATE_VIEWS: Record<CampaignState, StateViewType> = {
     icon: IconName.CHANNEL_POINTS,
     hint: () =>
       t.campaign_hint_points_only({
-        setting: t.account_mode_title(),
-        value: t.mode_points_title(),
+        setting: strong(t.account_mode_title()),
+        settingValue: strong(t.mode_points_title()),
       }),
   },
   [CampaignState.SUB_REQUIRED]: {
@@ -164,13 +167,14 @@ const STATE_VIEWS: Record<CampaignState, StateViewType> = {
     text: () => t.campaign_state_unfinishable(),
     tone: BadgeTone.NEUTRAL,
     icon: IconName.CLOCK,
-    hint: () => t.campaign_hint_unfinishable({ setting: t.account_drops_skip_unfinishable() }),
+    hint: () =>
+      t.campaign_hint_unfinishable({ setting: strong(t.account_drops_skip_unfinishable()) }),
   },
   [CampaignState.NOT_SELECTED]: {
     text: () => t.selection_not_selected(),
     tone: BadgeTone.NEUTRAL,
     icon: IconName.STAR,
-    hint: () => t.campaign_hint_not_selected({ setting: t.selection_only_title() }),
+    hint: () => t.campaign_hint_not_selected({ setting: strong(t.selection_only_title()) }),
   },
   [CampaignState.NOT_LINKED]: {
     text: () => t.dashboard_not_linked(),
@@ -178,15 +182,15 @@ const STATE_VIEWS: Record<CampaignState, StateViewType> = {
     icon: IconName.ALERT,
     hint: () =>
       t.campaign_hint_not_linked({
-        setting: t.drops_scope(),
-        value: t.drops_scope_linked_only(),
+        setting: strong(t.drops_scope()),
+        settingValue: strong(t.drops_scope_linked_only()),
       }),
   },
   [CampaignState.LANE_OFF]: {
     text: () => t.campaign_state_lane_off(),
     tone: BadgeTone.NEUTRAL,
     icon: IconName.LIST_ORDERED,
-    hint: () => t.campaign_hint_lane_off({ setting: t.mining_order_title() }),
+    hint: () => t.campaign_hint_lane_off({ setting: strong(t.mining_order_title()) }),
   },
   [CampaignState.NOT_ACTIVE]: {
     text: () => t.campaign_state_not_active(),

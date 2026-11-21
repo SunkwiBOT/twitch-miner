@@ -59,7 +59,7 @@
 <ConfirmDialog
   open={removing !== null}
   title={t.confirm_remove_streamer_title()}
-  text={t.confirm_remove_setup_streamer_text({ name: personMarker(0) })}
+  text={t.confirm_remove_setup_streamer_text({ streamer: personMarker(0) })}
   people={[
     {
       name: removingChannel?.display_name ?? removing ?? "",

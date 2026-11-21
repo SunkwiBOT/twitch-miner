@@ -5,7 +5,10 @@
   import type { SpamPointsSettingsType } from "../../../lib/bindings/SpamPointsSettingsType";
   import { t } from "../../../lib/i18n/i18n.svelte";
   import { boundNumberInput } from "../../../lib/input.utils";
-  import { SPAM_DELAY_STEP_MS, SPAM_MAX_DELAY_MS } from "../../../lib/spam/spam.constants";
+  import { number } from "../../../lib/format.utils";
+  import { SPAM_DELAY_STEP_MS } from "../../../lib/spam/spam.constants";
+  import { coreLimits } from "../../../lib/state/limits";
+  import { strong } from "../../../lib/text.utils";
   import { overlay } from "../../../lib/state/overlay.svelte";
   import FormField from "../../ui/FormField.svelte";
   import Icon from "../../ui/Icon.svelte";
@@ -75,20 +78,31 @@
       onchange={(value) => onchange({ ...settings, show_out_of_stock: value })}
     />
     <div class="border-t pt-3">
-      <FormField id={delayId} label={t.spam_delay()} hint={t.spam_delay_hint()}>
+      <FormField
+        id={delayId}
+        label={t.spam_delay()}
+        hint={t.spam_delay_hint({
+          minDelay: strong(number(coreLimits().spam_delay_min_ms)),
+          maxDelay: strong(number(coreLimits().spam_delay_max_ms)),
+        })}
+      >
         <div class="relative w-32">
           <Input
             id={delayId}
             class="pr-10 tabular-nums"
             type="number"
-            min="0"
-            max={SPAM_MAX_DELAY_MS}
+            min={coreLimits().spam_delay_min_ms}
+            max={coreLimits().spam_delay_max_ms}
             step={SPAM_DELAY_STEP_MS}
             value={settings.delay_ms}
             onchange={(event) =>
               onchange({
                 ...settings,
-                delay_ms: boundNumberInput(event.currentTarget, 0, SPAM_MAX_DELAY_MS),
+                delay_ms: boundNumberInput(
+                  event.currentTarget,
+                  coreLimits().spam_delay_min_ms,
+                  coreLimits().spam_delay_max_ms,
+                ),
               })}
           />
           <span

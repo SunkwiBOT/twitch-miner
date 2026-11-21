@@ -12,7 +12,7 @@
   } from "../../lib/catalogue/campaign.utils";
   import { shortDuration } from "../../lib/format.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
-  import { strong } from "../../lib/text.utils";
+  import { escapeEmphasis, strong } from "../../lib/text.utils";
   import { MINUTE_MS } from "../../lib/time/time.constants";
   import { cn } from "$lib/utils";
   import ActionButton from "../ui/ActionButton.svelte";
@@ -94,10 +94,14 @@
     }
 
     if (benefit.badges.length > 1) {
-      return t.reward_chest_hint({ badges: benefit.badges.map((badge) => badge.title).join(", ") });
+      return t.reward_chest_hint({
+        badges: strong(benefit.badges.map((badge) => badge.title).join(", ")),
+      });
     }
 
-    return benefit.badges.find((badge) => badge.title !== benefit.name)?.title;
+    const other = benefit.badges.find((badge) => badge.title !== benefit.name)?.title;
+
+    return other === undefined ? undefined : escapeEmphasis(other);
   };
 
   const claim = async (instanceId: string): Promise<void> => {

@@ -22,7 +22,7 @@
   import { account as accountOf, app } from "../../lib/state/app.svelte";
   import { ToastKind } from "../../lib/state/state.constants";
   import { toast } from "../../lib/state/toasts";
-  import { personMarker } from "../../lib/text.utils";
+  import { personMarker, strong } from "../../lib/text.utils";
   import AvatarImage from "../ui/AvatarImage.svelte";
   import ChoiceCards from "../ui/ChoiceCards.svelte";
   import FormField from "../ui/FormField.svelte";
@@ -117,7 +117,7 @@
     { value: SetupSource.DEFAULTS, label: t.login_setup_defaults() },
     ...others.map((a) => ({
       value: a.id,
-      label: t.login_setup_copy_from({ name: a.display_name }),
+      label: t.login_setup_copy_from({ account: a.display_name }),
       image: a.avatar_url,
     })),
     ...(customized ? [{ value: SetupSource.CUSTOM, label: t.login_setup_custom() }] : []),
@@ -233,7 +233,7 @@
     <p class="flex items-center gap-2 text-hint text-muted-foreground">
       {#if accounts.length === 1}
         <RichText
-          text={t.login_setup_for({ name: personMarker(0) })}
+          text={t.login_setup_for({ account: personMarker(0) })}
           people={[
             { name: accounts[0].display_name, avatar: accounts[0].avatar_url, channel: null },
           ]}
@@ -248,7 +248,7 @@
             />
           {/each}
         </span>
-        <span>{t.login_setup_for_many({ count: accounts.length })}</span>
+        <span><RichText text={t.login_setup_for_many({ count: strong(accounts.length) })} /></span>
       {/if}
     </p>
     <SetupStepper {steps} current={stepIndex} disabled={finishing} ongo={goTo} />

@@ -32,7 +32,7 @@
   {/if}
   <div class="flex min-w-0 flex-1 flex-col gap-2">
     <p class="m-0 flex flex-col leading-snug break-words">
-      <span class="font-semibold">{title}</span>
+      <span class="font-semibold"><RichText text={title} /></span>
       {#if account}<span class="font-semibold">{account.name}</span>{/if}
       {#if description}<span><RichText text={description} /></span>{/if}
     </p>

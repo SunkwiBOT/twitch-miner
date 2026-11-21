@@ -25,6 +25,7 @@
     rememberChannels,
   } from "../../lib/channels/channels.svelte";
   import { t } from "../../lib/i18n/i18n.svelte";
+  import { subscriberPriorityHint } from "../../lib/points/points.utils";
   import { personMarker, strong } from "../../lib/text.utils";
   import { changedWhenSaved } from "../../lib/state/bulk.svelte";
   import { updateAccountSettings } from "../../lib/state/account-settings.svelte";
@@ -255,7 +256,7 @@
       />
       <Setting
         title={t.points_subscriber_priority()}
-        description={t.points_subscriber_priority_hint()}
+        description={subscriberPriorityHint()}
         checked={shown.subscriber_priority}
         disabled={false}
         onchange={setSubscriberPriority}
@@ -279,7 +280,7 @@
 <ConfirmDialog
   open={removing !== null}
   title={t.confirm_remove_streamer_title()}
-  text={t.confirm_remove_streamer_text({ name: personMarker(0) })}
+  text={t.confirm_remove_streamer_text({ streamer: personMarker(0) })}
   people={[
     {
       name: removingChannel?.display_name ?? removing ?? "",

@@ -20,11 +20,11 @@
   "common_live": "На живо",
   "common_viewers": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} зрител",
-        "countPlural=*": "{shown} зрители"
+        "countPlural=one": "{formattedCount} зрител",
+        "countPlural=*": "{formattedCount} зрители"
       }
     }
   ],
@@ -69,8 +69,8 @@
   "common_accounts_count": "Акаунти: {count}",
   "common_accounts_none": "Без акаунт",
   "accounts_remove_title": "Да се премахне ли този акаунт?",
-  "accounts_remove_text": "Сесията на {name} се отменя в Twitch и се изтрива тук. Взетите drops остават в инвентара в Twitch.",
-  "accounts_remove_text_imported_token": "Сесията на {name} се изтрива тук. Взетите drops остават в инвентара в Twitch; използвайте превключвателя по-долу, за да я отмените и в Twitch.",
+  "accounts_remove_text": "Сесията на {account} се отменя в Twitch и се изтрива тук. Взетите drops остават в инвентара в Twitch.",
+  "accounts_remove_text_imported_token": "Сесията на {account} се изтрива тук. Взетите drops остават в инвентара в Twitch; използвайте превключвателя по-долу, за да я отмените и в Twitch.",
   "accounts_login_again": "Влез отново",
   "accounts_stats_drops": "Взети drops: {count}",
   "accounts_stats_points": "Спечелени точки: {count}",
@@ -151,21 +151,21 @@
   ],
   "import_tokens_result_count": [
     {
-      "declarations": ["input count", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{count} токен импортиран",
-        "countPlural=*": "{count} токени импортирани"
+        "countPlural=one": "{formattedCount} токен импортиран",
+        "countPlural=*": "{formattedCount} токени импортирани"
       }
     }
   ],
   "import_tokens_result_cancelled": [
     {
-      "declarations": ["input count", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "Импортът е отменен — {count} токен импортиран",
-        "countPlural=*": "Импортът е отменен — {count} токени импортирани"
+        "countPlural=one": "Импортът е отменен — {formattedCount} токен импортиран",
+        "countPlural=*": "Импортът е отменен — {formattedCount} токени импортирани"
       }
     }
   ],
@@ -305,9 +305,9 @@
   "settings_update_notifications_allow": "Разрешете известията в този браузър",
   "settings_update_notifications_blocked": "Този браузър блокира известията от този сайт: разрешете ги в настройките на сайта.",
   "settings_update_notifications_unsupported": "Този браузър не показва известия на този адрес: отворете таблото през HTTPS.",
-  "settings_test_ok": "{target}: изпратено",
+  "settings_test_ok": "{service}: изпратено",
   "settings_test_ok_title": "Тестът е изпратен",
-  "settings_test_failed": "{target}: {error}",
+  "settings_test_failed": "{service}: {error}",
   "settings_test_failed_title": "Неуспешен тест",
   "notify_drop_claimed": "Взет drop",
   "notify_drop_progress": "Напредък на drop",
@@ -331,7 +331,7 @@
   "settings_about": "Относно",
   "settings_about_text": "Отворен код, лиценз MIT. Не е свързано с Twitch.",
   "settings_about_repo": "Изходен код",
-  "settings_dashboard_password_hint": "Задава се с {variable} на сървъра: променете я там, след което рестартирайте сървъра.",
+  "settings_dashboard_password_hint": "Задава се с {passwordVariable} на сървъра: променете я там, след което рестартирайте сървъра.",
   "settings_auto_lock": "Заключване след неактивност",
   "settings_auto_lock_hint": "Пита отново за паролата след толкова време без използване на таблото, дори в раздел, оставен отворен. Копаенето продължава.",
   "settings_auto_lock_never": "Никога",
@@ -361,7 +361,7 @@
   "error_wrong_passphrase": "Грешна парола",
   "error_unknown_account": "Непознат акаунт",
   "error_invalid_proxy": "Този адрес на прокси не е валиден.",
-  "error_unknown": "Нещо се обърка: {code}",
+  "error_unknown": "Нещо се обърка: {errorCode}",
   "time_now": "току-що",
   "time_minutes_ago": "преди {count} мин",
   "time_hours_ago": "преди {count} ч",
@@ -470,7 +470,7 @@
   "settings_feedback_text": "При бъг приложете логовете от страницата „Технически логове“: те не съдържат тайни.",
   "feedback_discord_text": "Отворете тикет или разговаряйте с общността",
   "feedback_github_text": "Отворете issue: бъг или идея",
-  "settings_catalog_text": "Списъкът с кампании идва от drops.sunkwi.com, обновяван на всеки {minutes} минути.",
+  "settings_catalog_text": "Списъкът с кампании идва от {domain}, обновяван на всеки {minutes} минути.",
   "account_proxy": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -580,13 +580,13 @@
   "security_off_text": "Всеки, който използва този компютър, може да отвори приложението. Задайте парола, за да се заключва при стартиране и да шифрова с нея Twitch сесиите.",
   "security_new": "Нова парола",
   "security_confirm": "Потвърждение",
-  "security_rules": "Поне 4 знака. Не може да бъде възстановена: ако я загубите, добавете акаунтите отново.",
+  "security_rules": "Поне {minLength} знака. Не може да бъде възстановена: ако я загубите, добавете акаунтите отново.",
   "security_enable": "Задай паролата",
   "security_enabling": "Задаване на паролата…",
   "security_change": "Смени паролата",
   "security_changing": "Смяна на паролата…",
   "security_disable": "Премахни паролата",
-  "security_access_local": "През обикновен HTTP: дръжте това табло в своята мрежа или го поставете зад обратно HTTPS прокси с {variable}.",
+  "security_access_local": "През обикновен HTTP: дръжте това табло в своята мрежа или го поставете зад обратно HTTPS прокси с {publicUrlVariable}.",
   "security_access_public": "Зад обратно HTTPS прокси, на адрес {host}.",
   "settings_close_action": "Бутон за затваряне",
   "settings_unsaved": "Имате незапазени промени.",
@@ -594,7 +594,7 @@
   "slots_two_hint": "Максимумът, който Twitch зачита на акаунт: един за Drops и един за точки или два за точки.",
   "slots_one_title": "Един канал",
   "slots_one_hint": "По-незабележимо: само един канал наведнъж.",
-  "streamer_claim_bonus_hint": "Взема бонус сандъка, който се появява на всеки 15 минути.",
+  "streamer_claim_bonus_hint": "Взема бонус сандъка, който се появява на всеки {minutes} минути.",
   "streamer_claim_moments_hint": "Взема значки за моменти, когато стриймърът стартира момент.",
   "streamer_follow_raids_hint": "Следва стриймъра, когато прави рейд към друг канал.",
   "streamer_predictions_stealth_hint": "Никога не залага повече от текущия най-голям залог.",
@@ -776,9 +776,9 @@
   "reward_chest": "1 случайна значка от {count}",
   "reward_chest_hint": "Twitch дава една от тези значки: {badges}",
   "campaign_channels_categories": "Всеки канал в една от {count} категории",
-  "badges_collection": "Част от колекцията {name}",
-  "badges_collection_chest": "Част от колекцията {name}, 1 значка от {count}",
-  "badges_collection_all": "Значка за цялата колекция {name}, с абонаментите",
+  "badges_collection": "Част от колекцията {collection}",
+  "badges_collection_chest": "Част от колекцията {collection}, 1 значка от {count}",
+  "badges_collection_all": "Значка за цялата колекция {collection}, с абонаментите",
   "reward_watch_stream": "Гледай стрийма",
   "reward_subscribe": "Абонирайте се сами",
   "reward_kind_badge": "Значка",
@@ -817,29 +817,29 @@
   "login_setup_title": "Настройка на акаунта",
   "login_setup_from": "Започни от",
   "login_setup_defaults": "Настройки по подразбиране",
-  "login_setup_copy_from": "Настройките на {name}",
+  "login_setup_copy_from": "Настройките на {account}",
   "login_setup_copy_hint": "Копира настройките на избрания акаунт както са (реда на копаене на кампаниите за Drops, изключенията, списъка със стриймъри), без proxy.",
   "login_setup_finish": "Започни копаенето",
   "login_setup_starting": "Започване на копаенето…",
   "login_setup_later": "Запази и стартирай по-късно",
   "error_not_supported": "Не е налично в тази версия на приложението.",
-  "common_copy_named": "Копирай {name}",
+  "common_copy_named": "Копирай {copiedItem}",
   "bulk_accounts": "Акаунти",
   "bulk_applying": "Прилагане…",
   "bulk_applied_title": "Акаунтите са обновени",
   "bulk_apply": "Приложи ({count})",
   "bulk_apply_others": "Приложи към други акаунти",
-  "bulk_changes": "{shown} промени",
-  "bulk_hint": "Промените, направени в {name} ({count}), се повтарят в отметнатите акаунти. Всеки акаунт запазва останалите си настройки.",
+  "bulk_changes": "{formattedCount} промени",
+  "bulk_hint": "Промените, направени в {account} ({count}), се повтарят в отметнатите акаунти. Всеки акаунт запазва останалите си настройки.",
   "bulk_hint_chosen": "Промените, направени в избраните акаунти ({count}), се повтарят в отметнатите акаунти. Всеки акаунт запазва останалите си настройки.",
   "bulk_no_accounts": "Няма друг акаунт.",
   "bulk_nothing_to_change": "На този акаунт няма какво да се променя",
   "bulk_title": "Приложи към други акаунти",
   "change_campaign_moved": "{campaign} е преместена успешно",
-  "change_copied_drops": "Настройките за Drops на {source} са копирани успешно",
-  "change_copied_points": "Настройките за точки на {source} са копирани успешно",
-  "change_ignored": "Успешно игнорирано: {item}",
-  "change_unignored": "Отново се копае: {item}",
+  "change_copied_drops": "Настройките за Drops на {sourceAccount} са копирани успешно",
+  "change_copied_points": "Настройките за точки на {sourceAccount} са копирани успешно",
+  "change_ignored": "Успешно игнорирано: {campaignOrReward}",
+  "change_unignored": "Отново се копае: {campaignOrReward}",
   "change_settings": "Настройките са запазени успешно",
   "change_streamer_added": "{streamer} е добавен успешно",
   "change_streamer_disabled": "{streamer} е поставен на пауза успешно",
@@ -854,14 +854,14 @@
   "common_select_all": "Избери всички",
   "common_select_none": "Отмени избора",
   "common_selected_count": "Избрани: {count} / {total}",
-  "copy_drops_hint": "Заменя настройките за Drops на {name}: ред на копаене, приоритети, изключения, обхват и вземане.",
+  "copy_drops_hint": "Заменя настройките за Drops на {account}: ред на копаене, приоритети, изключения, обхват и вземане.",
   "copy_drops_title": "Копирай настройките за Drops",
-  "copy_points_hint": "Заменя стриймърите на {name}, с опциите на всеки от тях, опциите по подразбиране за новите стриймъри и приоритетите.",
+  "copy_points_hint": "Заменя стриймърите на {account}, с опциите на всеки от тях, опциите по подразбиране за новите стриймъри и приоритетите.",
   "copy_points_title": "Копирай настройките за точки",
   "import_add": "Добави ({count})",
   "import_already": "Вече в списъка: {count}",
   "import_check": "Провери",
-  "import_follows_hint": "Каналите, които {name} следва в Twitch.",
+  "import_follows_hint": "Каналите, които {account} следва в Twitch.",
   "import_from": "От",
   "import_no_account": "Няма друг акаунт, от който да копирате.",
   "import_none_new": "Нищо ново: тези канали вече са в списъка.",
@@ -1154,16 +1154,16 @@
   "confirm_remove": "Премахни",
   "confirm_removing": "Премахване…",
   "confirm_remove_streamer_title": "Да се премахне ли този стриймър?",
-  "confirm_remove_streamer_text": "Този акаунт вече няма да гледа {name} за точки на канала, а настройките му ще се изгубят.",
+  "confirm_remove_streamer_text": "Този акаунт вече няма да гледа {streamer} за точки на канала, а настройките му ще се изгубят.",
   "confirm_remove_game_title": "Да се премахне ли тази приоритетна категория?",
-  "confirm_remove_game_text": "{name} продължава да се копае, но кампаниите ѝ вече не са преди останалите.",
+  "confirm_remove_game_text": "{category} продължава да се копае, но кампаниите ѝ вече не са преди останалите.",
   "confirm_remove_excluded_game_title": "Да се премахне ли тази изключена категория?",
-  "confirm_remove_excluded_game_text": "{name} отново може да се копае: кампаниите ѝ вече не се пропускат.",
+  "confirm_remove_excluded_game_text": "{category} отново може да се копае: кампаниите ѝ вече не се пропускат.",
   "confirm_remove_excluded_word_title": "Да се премахне ли тази изключена дума?",
-  "confirm_remove_excluded_word_text": "Кампаниите и предметите от дропове, чието име съдържа {name}, вече не се пропускат.",
-  "confirm_remove_setup_streamer_text": "{name} излиза от списъка: този акаунт няма да го гледа за точки на канала.",
+  "confirm_remove_excluded_word_text": "Кампаниите и предметите от дропове, чието име съдържа {word}, вече не се пропускат.",
+  "confirm_remove_setup_streamer_text": "{streamer} излиза от списъка: този акаунт няма да го гледа за точки на канала.",
   "search_verified": "Потвърден партньор",
-  "login_setup_for": "Акаунт: {name}",
+  "login_setup_for": "Акаунт: {account}",
   "login_setup_for_many": "Акаунти: {count}",
   "search_pick": "Избери",
   "search_no_result": "Няма резултати за {query}.",
@@ -1205,10 +1205,10 @@
   "campaign_hint_claim_failed": "Twitch отказа получаването на една от наградите ѝ: „{journal}“ казва защо",
   "campaign_hint_ignored": "Пренебрегната ръчно: възстановете я от раздела „{tab}“",
   "campaign_hint_filtered": "Изключена от „{setting}“",
-  "campaign_hint_points_only": "„{setting}“ е „{value}“: не се копае кампания",
+  "campaign_hint_points_only": "„{setting}“ е „{settingValue}“: не се копае кампания",
   "campaign_hint_unfinishable": "„{setting}“ е включено",
   "campaign_hint_not_selected": "„{setting}“ е включено: отбележете я със звезда, за да се копае",
-  "campaign_hint_not_linked": "„{setting}“ е „{value}“: свържете акаунта на издателя, за да се копае",
+  "campaign_hint_not_linked": "„{setting}“ е „{settingValue}“: свържете акаунта на издателя, за да се копае",
   "campaign_hint_lane_off": "Редът ѝ е изключен в „{setting}“",
   "campaign_hint_waiting": "В момента не може да се гледа награда: следващата се отваря по-късно (нов период, първо предишна награда или по-късен старт)",
   "campaign_hint_not_active": "Twitch в момента не провежда тази кампания",
@@ -1220,11 +1220,11 @@
   "drops_add_game_placeholder": "Име на категорията…",
   "game_drops_available": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} наличен drop",
-        "countPlural=*": "{shown} налични drops"
+        "countPlural=one": "{formattedCount} наличен drop",
+        "countPlural=*": "{formattedCount} налични drops"
       }
     }
   ],
@@ -1244,7 +1244,7 @@
   "tray_sign_in_required": "нужен е вход",
   "notify_sent_by": "Изпратено от",
   "points_subscriber_priority": "Първо абонираните канали",
-  "points_subscriber_priority_hint": "Twitch дава повече точки на минута в каналите, за които този акаунт е абониран (от ×1,2 до ×2 според нивото): те са преди останалата част от списъка ви.",
+  "points_subscriber_priority_hint": "Twitch дава повече точки на минута в каналите, за които този акаунт е абониран (от ×{minMultiplier} до ×{maxMultiplier} според нивото): те са преди останалата част от списъка ви.",
   "drops_streamers_first": "Първо моите стриймъри за Drops и значки",
   "drops_streamers_first_hint": "За дадена кампания или значка канал от списъка ви, който се брои за нея (правилната категория с Drops или категория на събитието на Twitch), е преди непознат канал: Drops, значки и точки на едно място.",
   "points_streamer_defaults": "Опции по подразбиране за новите стриймъри",
@@ -1279,7 +1279,7 @@
   ],
   "points_group_hint": "Прилагат се само опциите, които промените; опция, отбелязана като „Смесено“, запазва стойността на всеки стриймър, докато не я промените.",
   "streamer_option_mixed": "Смесено",
-  "setting_with_mark": "{option} ({mark})",
+  "setting_with_mark": "{option} ({optionNote})",
   "change_streamers_edited": "Успешно редактирани стриймъри: {count}",
   "points_defaults_offer_title": [
     {
@@ -1342,7 +1342,7 @@
   "logs_level_error": "Грешка",
   "logs_level_warn": "Предупреждение",
   "logs_level_info": "Информация",
-  "requests_subtitle": "Заявки към Twitch и другите услуги, без никакъв токен или тайна. Неуспешните се пазят една по една, останалите се броят на всеки 10 минути, толкова дълго, колкото дневника.",
+  "requests_subtitle": "Заявки към Twitch и другите услуги, без никакъв токен или тайна. Неуспешните се пазят една по една, останалите се броят на всеки {minutes} минути, толкова дълго, колкото дневника.",
   "requests_copied": "Заявките са копирани",
   "requests_types": "Типове заявки",
   "requests_types_all": "Всички типове",
@@ -1359,15 +1359,15 @@
     {
       "declarations": [
         "input count",
-        "input shown",
+        "input formattedCount",
         "input from",
         "input to",
         "local countPlural = count: plural"
       ],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} заявка от {from} до {to}",
-        "countPlural=*": "{shown} заявки от {from} до {to}"
+        "countPlural=one": "{formattedCount} заявка от {from} до {to}",
+        "countPlural=*": "{formattedCount} заявки от {from} до {to}"
       }
     }
   ],
@@ -1419,17 +1419,17 @@
   "spam_balance": "Баланс на точките в канала: {points}",
   "spam_balance_unlimited": "Неограничени точки на канала: Twitch не взема точки в собствения ви канал",
   "spam_balance_changed": "обновен {time}",
-  "spam_balance_live_hint": "Прочита се отново на всеки 2–3 s, докато страницата е отворена. Часът е на последната промяна на баланса.",
+  "spam_balance_live_hint": "Прочита се отново на всеки {seconds} s, докато страницата е отворена. Часът е на последната промяна на баланса.",
   "spam_balance_paused": "проследяването е на пауза",
   "spam_balance_paused_hint": "Балансът се прочита отново, щом прозорецът получи фокус.",
   "spam_balance_failing": "грешка при четене",
-  "spam_balance_failing_hint": "Последните прочитания на баланса не успяха. Той се прочита отново на всеки 2–3 s.",
+  "spam_balance_failing_hint": "Последните прочитания на баланса не успяха. Той се прочита отново на всеки {seconds} s.",
   "spam_seconds_ago": "преди {count} s",
   "spam_settings": "Настройки на Spam Points",
   "spam_show_disabled": "Показване на изключените и спрените",
   "spam_show_out_of_stock": "Показване на изчерпаните",
   "spam_delay": "Пауза между заявките",
-  "spam_delay_hint": "Между две размени от една серия, от 0 до 5000 ms.",
+  "spam_delay_hint": "Между две размени от една серия, от {minDelay} до {maxDelay} ms.",
   "spam_delay_unit": "ms",
   "spam_refresh": "Обновяване на наградите",
   "spam_load_failed": "Наградите не можаха да бъдат прочетени",
@@ -1449,18 +1449,18 @@
   "spam_decrease": "Намаляване",
   "spam_increase": "Увеличаване",
   "spam_max_balance": "Балансът ви не стига за повече",
-  "spam_max_count": "Най-много 25 в серия",
+  "spam_max_count": "Най-много {maxCount} в серия",
   "spam_redeem": "Размяна",
   "spam_redeeming": "Изпращане {done}/{total}…",
   "spam_missing": "Не достигат",
-  "spam_description": "Описание: {text}",
+  "spam_description": "Описание: {description}",
   "spam_sent_all": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Разменено!",
-        "countPlural=*": "Изпратени: {shown}!"
+        "countPlural=*": "Изпратени: {formattedCount}!"
       }
     }
   ],
@@ -1471,11 +1471,11 @@
   "spam_toast": "{count} × {reward} в {channel}: {result}",
   "spam_cancelled": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} отменена при напускане на страницата",
-        "countPlural=*": "{shown} отменени при напускане на страницата"
+        "countPlural=one": "{formattedCount} отменена при напускане на страницата",
+        "countPlural=*": "{formattedCount} отменени при напускане на страницата"
       }
     }
   ],
@@ -1486,7 +1486,7 @@
   "spam_reason_paused": "наградата е спряна",
   "spam_reason_out_of_stock": "наградата е изчерпана",
   "spam_reason_text_required": "липсва съобщение",
-  "spam_reason_unknown": "отказано от Twitch ({code})",
+  "spam_reason_unknown": "отказано от Twitch ({refusalCode})",
   "spam_no_rewards": "В момента няма налична награда.",
   "error_unknown_reward": "Тази награда вече не съществува в канала.",
   "error_reward_not_redeemable": "Нищо не е изпратено: наградата изисква съобщение, не е достъпна или се презарежда, или точките не стигат.",
@@ -1495,7 +1495,7 @@
     {
       "declarations": [
         "input sent",
-        "input shown",
+        "input formattedSent",
         "input count",
         "input reward",
         "input channel",
@@ -1504,8 +1504,8 @@
       ],
       "selectors": ["sentPlural"],
       "match": {
-        "sentPlural=one": "{count} × {reward} в {channel} — изпратена {shown}, {points} точки",
-        "sentPlural=*": "{count} × {reward} в {channel} — изпратени {shown}, {points} точки"
+        "sentPlural=one": "{count} × {reward} в {channel} — изпратена {formattedSent}, {points} точки",
+        "sentPlural=*": "{count} × {reward} в {channel} — изпратени {formattedSent}, {points} точки"
       }
     }
   ],
@@ -1513,7 +1513,7 @@
     {
       "declarations": [
         "input sent",
-        "input shown",
+        "input formattedSent",
         "input count",
         "input reward",
         "input points",
@@ -1521,8 +1521,8 @@
       ],
       "selectors": ["sentPlural"],
       "match": {
-        "sentPlural=one": "{count} × {reward} — изпратена {shown}, {points} точки",
-        "sentPlural=*": "{count} × {reward} — изпратени {shown}, {points} точки"
+        "sentPlural=one": "{count} × {reward} — изпратена {formattedSent}, {points} точки",
+        "sentPlural=*": "{count} × {reward} — изпратени {formattedSent}, {points} точки"
       }
     }
   ],
@@ -1555,11 +1555,11 @@
   "badges_refreshed_title": "Значките са обновени",
   "badges_refreshed": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} значка",
-        "countPlural=*": "{shown} значки"
+        "countPlural=one": "{formattedCount} значка",
+        "countPlural=*": "{formattedCount} значки"
       }
     }
   ],
@@ -1576,11 +1576,11 @@
   ],
   "badges_off_calendar": [
     {
-      "declarations": ["input count", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{count} значка без дати или вече приключила:",
-        "countPlural=*": "{count} значки без дати или вече приключили:"
+        "countPlural=one": "{formattedCount} значка без дати или вече приключила:",
+        "countPlural=*": "{formattedCount} значки без дати или вече приключили:"
       }
     }
   ],
@@ -1646,9 +1646,9 @@
   "campaign_selecting": "Добавяне…",
   "campaign_unselect": "Премахване от моя избор",
   "campaign_unselecting": "Премахване…",
-  "change_selected": "Добавено към избора: {item}",
-  "change_unselected": "Премахнато от избора: {item}",
-  "change_prioritized": "Поставено начело в реда на копаене: {item}",
+  "change_selected": "Добавено към избора: {campaignOrReward}",
+  "change_unselected": "Премахнато от избора: {campaignOrReward}",
+  "change_prioritized": "Поставено начело в реда на копаене: {campaignOrReward}",
   "selection_not_selected": "Не е избрано",
   "badges_not_selected_hint": "„Само моят избор“ е включено: отбележете тази значка със звезда, за да се копае.",
   "account_badges_mining_off": "Значките са изключени в „Какво да се копае, по ред“ на този акаунт: показват се, но не се копаят.",

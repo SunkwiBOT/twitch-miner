@@ -5,7 +5,8 @@
   import { boxArt, number } from "../../lib/format.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { strong } from "../../lib/text.utils";
-  import { SEARCH_MIN_CHARS, SEARCH_SHOWN_MAX } from "../../lib/search/search.constants";
+  import { SEARCH_SHOWN_MAX } from "../../lib/search/search.constants";
+  import { coreLimits } from "../../lib/state/limits";
   import { TwitchSearch } from "../../lib/search/search.svelte";
   import { matchesSearch, normalizeSearch } from "../../lib/search/search.utils";
   import Dialog from "../ui/Dialog.svelte";
@@ -44,7 +45,7 @@
     taken.some((known) => known.toLowerCase() === name.toLowerCase());
 
   const offers = $derived.by((): OfferType[] => {
-    if (query.trim().length < SEARCH_MIN_CHARS) {
+    if (query.trim().length < coreLimits().search_min_chars) {
       return [];
     }
 
@@ -123,7 +124,10 @@
             title={offer.name}
             details={[
               offer.drops
-                ? t.game_drops_available({ count: offer.drops, shown: strong(number(offer.drops)) })
+                ? t.game_drops_available({
+                    count: offer.drops,
+                    formattedCount: strong(number(offer.drops)),
+                  })
                 : "",
               already ? t.import_entry_already() : "",
             ].filter(Boolean)}

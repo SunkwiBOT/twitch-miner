@@ -16,6 +16,7 @@ const BET_GAP_PERCENT: RangeInclusive<u8> = 0..=100;
 const BET_DELAY_SECONDS: RangeInclusive<u32> = 2..=300;
 const TEXT_MAX_CHARS: usize = 2048;
 const TIME_ZONE_MAX_CHARS: usize = 64;
+pub const SPAM_DELAY_MIN_MS: u32 = 0;
 pub const SPAM_DELAY_MAX_MS: u32 = 5_000;
 const MINUTES_IN_DAY_MAX: u16 = 1439;
 
@@ -590,7 +591,7 @@ impl GlobalSettings {
         within(
             "spam_points.delay_ms",
             self.spam_points.delay_ms,
-            &(0..=SPAM_DELAY_MAX_MS),
+            &(SPAM_DELAY_MIN_MS..=SPAM_DELAY_MAX_MS),
         )?;
 
         within(

@@ -14,9 +14,9 @@
   } from "../../../lib/accounts/import.svelte";
   import { lookupChannels } from "../../../lib/api/client";
   import type { ChannelType } from "../../../lib/bindings/ChannelType";
-  import { CHANNELS_LOOKUP_MAX } from "../../../lib/channels/channels.constants";
   import { isLive, rememberChannels } from "../../../lib/channels/channels.svelte";
   import { describeError } from "../../../lib/errors/errors.utils";
+  import { coreLimits } from "../../../lib/state/limits";
   import { t } from "../../../lib/i18n/i18n.svelte";
   import { strong } from "../../../lib/text.utils";
   import { Textarea } from "$lib/components/ui/textarea";
@@ -81,8 +81,10 @@
       return;
     }
 
-    if (names.length > CHANNELS_LOOKUP_MAX) {
-      problem = t.import_too_many({ max: strong(CHANNELS_LOOKUP_MAX) });
+    const lookupMax = coreLimits().channels_lookup_max;
+
+    if (names.length > lookupMax) {
+      problem = t.import_too_many({ max: strong(lookupMax) });
 
       return;
     }
@@ -242,7 +244,7 @@
         aria-busy={checking}
       >
         {#if entries.length === 0}
-          <RichText text={t.import_paste_hint({ max: strong(CHANNELS_LOOKUP_MAX) })} />
+          <RichText text={t.import_paste_hint({ max: strong(coreLimits().channels_lookup_max) })} />
         {:else if checking}
           <RichText
             text={t.import_progress({ done: strong(done), total: strong(entries.length) })}

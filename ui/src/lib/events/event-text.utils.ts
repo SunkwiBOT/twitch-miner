@@ -205,12 +205,12 @@ export const eventText = (
           ? pick([t.ev_rewards_redeemed_short, t.ev_rewards_redeemed], {
               ...parts,
               sent,
-              shown: number(sent),
+              formattedSent: bold(sent) ?? "",
             })
           : pick([t.ev_rewards_redeemed_partial_short, t.ev_rewards_redeemed_partial], {
               ...parts,
-              sent: number(sent),
-              total: number(context.count),
+              sent: bold(sent) ?? "",
+              total: bold(context.count) ?? "",
             });
       }
       case EventKind.STREAM_ONLINE:

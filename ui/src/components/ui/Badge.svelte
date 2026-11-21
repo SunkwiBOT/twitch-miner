@@ -9,6 +9,7 @@
   import { BADGE_TONE_CLASSES, BADGE_VARIANTS, BadgeVariant } from "./badge.constants";
   import { BadgeTone } from "../../lib/tones.constants";
   import { IconName } from "../../lib/icons.constants";
+  import { escapeEmphasis } from "../../lib/text.utils";
 
   type BadgePropsType = {
     text: string;
@@ -53,7 +54,7 @@
 {/snippet}
 
 {#if hint}
-  <Tip text={cut ? `${text} · ${hint}` : hint}>
+  <Tip text={cut ? `${escapeEmphasis(text)} · ${hint}` : hint}>
     {#snippet children(props)}
       <BadgeRoot
         {...props}

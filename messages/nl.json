@@ -20,11 +20,11 @@
   "common_live": "Live",
   "common_viewers": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} kijker",
-        "countPlural=*": "{shown} kijkers"
+        "countPlural=one": "{formattedCount} kijker",
+        "countPlural=*": "{formattedCount} kijkers"
       }
     }
   ],
@@ -69,8 +69,8 @@
   "common_accounts_count": "Accounts: {count}",
   "common_accounts_none": "Geen account",
   "accounts_remove_title": "Dit account verwijderen?",
-  "accounts_remove_text": "De sessie van {name} wordt op Twitch ingetrokken en hier verwijderd. Al geclaimde drops blijven in de Twitch-inventaris.",
-  "accounts_remove_text_imported_token": "De sessie van {name} wordt hier verwijderd. Al geclaimde drops blijven in de Twitch-inventaris; gebruik de schakelaar hieronder om deze ook op Twitch in te trekken.",
+  "accounts_remove_text": "De sessie van {account} wordt op Twitch ingetrokken en hier verwijderd. Al geclaimde drops blijven in de Twitch-inventaris.",
+  "accounts_remove_text_imported_token": "De sessie van {account} wordt hier verwijderd. Al geclaimde drops blijven in de Twitch-inventaris; gebruik de schakelaar hieronder om deze ook op Twitch in te trekken.",
   "accounts_login_again": "Opnieuw inloggen",
   "accounts_stats_drops": "Geclaimde drops: {count}",
   "accounts_stats_points": "Verdiende punten: {count}",
@@ -151,21 +151,21 @@
   ],
   "import_tokens_result_count": [
     {
-      "declarations": ["input count", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{count} token geïmporteerd",
-        "countPlural=*": "{count} tokens geïmporteerd"
+        "countPlural=one": "{formattedCount} token geïmporteerd",
+        "countPlural=*": "{formattedCount} tokens geïmporteerd"
       }
     }
   ],
   "import_tokens_result_cancelled": [
     {
-      "declarations": ["input count", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "Import geannuleerd — {count} token geïmporteerd",
-        "countPlural=*": "Import geannuleerd — {count} tokens geïmporteerd"
+        "countPlural=one": "Import geannuleerd — {formattedCount} token geïmporteerd",
+        "countPlural=*": "Import geannuleerd — {formattedCount} tokens geïmporteerd"
       }
     }
   ],
@@ -305,9 +305,9 @@
   "settings_update_notifications_allow": "Meldingen in deze browser toestaan",
   "settings_update_notifications_blocked": "Deze browser blokkeert meldingen van deze site: sta ze toe in de site-instellingen.",
   "settings_update_notifications_unsupported": "Deze browser toont geen meldingen op dit adres: open het dashboard via HTTPS.",
-  "settings_test_ok": "{target}: verstuurd",
+  "settings_test_ok": "{service}: verstuurd",
   "settings_test_ok_title": "Test verstuurd",
-  "settings_test_failed": "{target}: {error}",
+  "settings_test_failed": "{service}: {error}",
   "settings_test_failed_title": "Test mislukt",
   "notify_drop_claimed": "Drop geclaimd",
   "notify_drop_progress": "Dropvoortgang",
@@ -331,7 +331,7 @@
   "settings_about": "Over",
   "settings_about_text": "Open source, MIT-licentie. Niet gelieerd aan Twitch.",
   "settings_about_repo": "Broncode",
-  "settings_dashboard_password_hint": "Ingesteld met {variable} op de server: wijzig het daar en start de server daarna opnieuw.",
+  "settings_dashboard_password_hint": "Ingesteld met {passwordVariable} op de server: wijzig het daar en start de server daarna opnieuw.",
   "settings_auto_lock": "Vergrendelen na inactiviteit",
   "settings_auto_lock_hint": "Vraagt opnieuw om het wachtwoord na deze tijd zonder gebruik van het dashboard, ook in een tabblad dat open is gebleven. Het minen gaat door.",
   "settings_auto_lock_never": "Nooit",
@@ -361,7 +361,7 @@
   "error_wrong_passphrase": "Verkeerd wachtwoord",
   "error_unknown_account": "Onbekend account",
   "error_invalid_proxy": "Dit proxyadres is niet geldig.",
-  "error_unknown": "Er is iets misgegaan: {code}",
+  "error_unknown": "Er is iets misgegaan: {errorCode}",
   "time_now": "zojuist",
   "time_minutes_ago": "{count} min geleden",
   "time_hours_ago": "{count} u geleden",
@@ -470,7 +470,7 @@
   "settings_feedback_text": "Voeg bij een bug het logboek van de pagina Technisch logboek toe: het bevat geen geheimen.",
   "feedback_discord_text": "Open een ticket of praat met de community",
   "feedback_github_text": "Open een issue: een bug of een idee",
-  "settings_catalog_text": "De campagnelijst komt van drops.sunkwi.com en wordt elke {minutes} minuten ververst.",
+  "settings_catalog_text": "De campagnelijst komt van {domain} en wordt elke {minutes} minuten ververst.",
   "account_proxy": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -580,13 +580,13 @@
   "security_off_text": "Iedereen die deze computer gebruikt, kan de app openen. Stel een wachtwoord in om hem bij het starten te vergrendelen en de Twitch-sessies ermee te versleutelen.",
   "security_new": "Nieuw wachtwoord",
   "security_confirm": "Bevestigen",
-  "security_rules": "Minstens 4 tekens. Het kan niet worden hersteld: ben je het kwijt, voeg dan de accounts opnieuw toe.",
+  "security_rules": "Minstens {minLength} tekens. Het kan niet worden hersteld: ben je het kwijt, voeg dan de accounts opnieuw toe.",
   "security_enable": "Wachtwoord instellen",
   "security_enabling": "Wachtwoord instellen…",
   "security_change": "Wachtwoord wijzigen",
   "security_changing": "Wachtwoord wijzigen…",
   "security_disable": "Wachtwoord verwijderen",
-  "security_access_local": "Via gewone HTTP: houd dit dashboard binnen je netwerk, of zet het achter een HTTPS-reverse proxy met {variable}.",
+  "security_access_local": "Via gewone HTTP: houd dit dashboard binnen je netwerk, of zet het achter een HTTPS-reverse proxy met {publicUrlVariable}.",
   "security_access_public": "Achter een HTTPS-reverse proxy, op {host}.",
   "settings_close_action": "Sluitknop",
   "settings_unsaved": "Je hebt niet-opgeslagen wijzigingen.",
@@ -594,7 +594,7 @@
   "slots_two_hint": "Het maximum dat Twitch per account meetelt: één voor Drops, één voor punten, of twee voor punten.",
   "slots_one_title": "Eén kanaal",
   "slots_one_hint": "Rustiger: één kanaal tegelijk.",
-  "streamer_claim_bonus_hint": "Claimt de bonuskist die elke 15 minuten verschijnt.",
+  "streamer_claim_bonus_hint": "Claimt de bonuskist die elke {minutes} minuten verschijnt.",
   "streamer_claim_moments_hint": "Claimt momentbadges wanneer de streamer er een start.",
   "streamer_follow_raids_hint": "Volgt de streamer wanneer die een ander kanaal raidt.",
   "streamer_predictions_stealth_hint": "Zet nooit meer in dan de huidige grootste inzetter.",
@@ -776,9 +776,9 @@
   "reward_chest": "1 willekeurige badge uit {count}",
   "reward_chest_hint": "Twitch geeft een van deze badges: {badges}",
   "campaign_channels_categories": "Elk kanaal in een van de {count} categorieën",
-  "badges_collection": "Onderdeel van de collectie {name}",
-  "badges_collection_chest": "Onderdeel van de collectie {name}, 1 badge van {count}",
-  "badges_collection_all": "Badge voor de hele collectie {name}, abonnementen inbegrepen",
+  "badges_collection": "Onderdeel van de collectie {collection}",
+  "badges_collection_chest": "Onderdeel van de collectie {collection}, 1 badge van {count}",
+  "badges_collection_all": "Badge voor de hele collectie {collection}, abonnementen inbegrepen",
   "reward_watch_stream": "Stream bekijken",
   "reward_subscribe": "Zelf abonneren",
   "reward_kind_badge": "Badge",
@@ -817,29 +817,29 @@
   "login_setup_title": "Account instellen",
   "login_setup_from": "Beginnen met",
   "login_setup_defaults": "Standaardinstellingen",
-  "login_setup_copy_from": "Instellingen van {name}",
+  "login_setup_copy_from": "Instellingen van {account}",
   "login_setup_copy_hint": "Kopieert de instellingen van het gekozen account ongewijzigd (minevolgorde van de Drops-campagnes, uitsluitingen, streamerlijst), behalve de proxy.",
   "login_setup_finish": "Beginnen met minen",
   "login_setup_starting": "Beginnen met minen…",
   "login_setup_later": "Opslaan en later starten",
   "error_not_supported": "Niet beschikbaar in deze versie van de app.",
-  "common_copy_named": "{name} kopiëren",
+  "common_copy_named": "{copiedItem} kopiëren",
   "bulk_accounts": "Accounts",
   "bulk_applying": "Toepassen…",
   "bulk_applied_title": "Accounts bijgewerkt",
   "bulk_apply": "Toepassen ({count})",
   "bulk_apply_others": "Toepassen op andere accounts",
-  "bulk_changes": "{shown} wijzigingen",
-  "bulk_hint": "De wijzigingen op {name} ({count}) worden herhaald op de aangevinkte accounts. Elk account houdt de rest van zijn instellingen.",
+  "bulk_changes": "{formattedCount} wijzigingen",
+  "bulk_hint": "De wijzigingen op {account} ({count}) worden herhaald op de aangevinkte accounts. Elk account houdt de rest van zijn instellingen.",
   "bulk_hint_chosen": "De wijzigingen op de gekozen accounts ({count}) worden herhaald op de aangevinkte accounts. Elk account houdt de rest van zijn instellingen.",
   "bulk_no_accounts": "Geen ander account.",
   "bulk_nothing_to_change": "Niets te wijzigen op dit account",
   "bulk_title": "Toepassen op andere accounts",
   "change_campaign_moved": "{campaign} met succes verplaatst",
-  "change_copied_drops": "Drops-instellingen van {source} met succes gekopieerd",
-  "change_copied_points": "Puntinstellingen van {source} met succes gekopieerd",
-  "change_ignored": "Met succes genegeerd: {item}",
-  "change_unignored": "Weer gemind: {item}",
+  "change_copied_drops": "Drops-instellingen van {sourceAccount} met succes gekopieerd",
+  "change_copied_points": "Puntinstellingen van {sourceAccount} met succes gekopieerd",
+  "change_ignored": "Met succes genegeerd: {campaignOrReward}",
+  "change_unignored": "Weer gemind: {campaignOrReward}",
   "change_settings": "Instellingen met succes opgeslagen",
   "change_streamer_added": "{streamer} met succes toegevoegd",
   "change_streamer_disabled": "{streamer} met succes gepauzeerd",
@@ -854,14 +854,14 @@
   "common_select_all": "Alles selecteren",
   "common_select_none": "Niets selecteren",
   "common_selected_count": "Geselecteerd: {count} / {total}",
-  "copy_drops_hint": "Vervangt de Drops-instellingen van {name}: minevolgorde, prioriteiten, uitsluitingen, bereik en claimen.",
+  "copy_drops_hint": "Vervangt de Drops-instellingen van {account}: minevolgorde, prioriteiten, uitsluitingen, bereik en claimen.",
   "copy_drops_title": "Drops-instellingen kopiëren",
-  "copy_points_hint": "Vervangt de streamers van {name}, met de opties van elke streamer, de standaardopties voor nieuwe streamers en de prioriteiten.",
+  "copy_points_hint": "Vervangt de streamers van {account}, met de opties van elke streamer, de standaardopties voor nieuwe streamers en de prioriteiten.",
   "copy_points_title": "Puntinstellingen kopiëren",
   "import_add": "Toevoegen ({count})",
   "import_already": "Al in de lijst: {count}",
   "import_check": "Controleren",
-  "import_follows_hint": "De kanalen die {name} volgt op Twitch.",
+  "import_follows_hint": "De kanalen die {account} volgt op Twitch.",
   "import_from": "Van",
   "import_no_account": "Geen ander account om van te kopiëren.",
   "import_none_new": "Niets nieuws: deze kanalen staan al in de lijst.",
@@ -1154,16 +1154,16 @@
   "confirm_remove": "Verwijderen",
   "confirm_removing": "Verwijderen…",
   "confirm_remove_streamer_title": "Deze streamer verwijderen?",
-  "confirm_remove_streamer_text": "Dit account kijkt {name} niet meer voor kanaalpunten, en de opties gaan verloren.",
+  "confirm_remove_streamer_text": "Dit account kijkt {streamer} niet meer voor kanaalpunten, en de opties gaan verloren.",
   "confirm_remove_game_title": "Deze prioriteitscategorie verwijderen?",
-  "confirm_remove_game_text": "{name} wordt nog gemind, maar de campagnes gaan niet meer voor de andere.",
+  "confirm_remove_game_text": "{category} wordt nog gemind, maar de campagnes gaan niet meer voor de andere.",
   "confirm_remove_excluded_game_title": "Deze uitgesloten categorie verwijderen?",
-  "confirm_remove_excluded_game_text": "{name} kan weer gemind worden: de campagnes worden niet meer overgeslagen.",
+  "confirm_remove_excluded_game_text": "{category} kan weer gemind worden: de campagnes worden niet meer overgeslagen.",
   "confirm_remove_excluded_word_title": "Dit uitgesloten woord verwijderen?",
-  "confirm_remove_excluded_word_text": "Campagnes en drop-items waarvan de naam {name} bevat, worden niet meer overgeslagen.",
-  "confirm_remove_setup_streamer_text": "{name} gaat van de lijst: dit account kijkt het kanaal niet voor kanaalpunten.",
+  "confirm_remove_excluded_word_text": "Campagnes en drop-items waarvan de naam {word} bevat, worden niet meer overgeslagen.",
+  "confirm_remove_setup_streamer_text": "{streamer} gaat van de lijst: dit account kijkt het kanaal niet voor kanaalpunten.",
   "search_verified": "Geverifieerde partner",
-  "login_setup_for": "Account: {name}",
+  "login_setup_for": "Account: {account}",
   "login_setup_for_many": "Accounts: {count}",
   "search_pick": "Kiezen",
   "search_no_result": "Geen resultaat voor {query}.",
@@ -1205,10 +1205,10 @@
   "campaign_hint_claim_failed": "Twitch weigerde het claimen van een van de beloningen: “{journal}” zegt waarom",
   "campaign_hint_ignored": "Met de hand genegeerd: zet hem terug via het tabblad “{tab}”",
   "campaign_hint_filtered": "Uitgesloten door “{setting}”",
-  "campaign_hint_points_only": "“{setting}” staat op “{value}”: er wordt geen campagne gemined",
+  "campaign_hint_points_only": "“{setting}” staat op “{settingValue}”: er wordt geen campagne gemined",
   "campaign_hint_unfinishable": "“{setting}” staat aan",
   "campaign_hint_not_selected": "“{setting}” staat aan: geef hem een ster om hem te minen",
-  "campaign_hint_not_linked": "“{setting}” staat op “{value}”: koppel het uitgeversaccount om hem te minen",
+  "campaign_hint_not_linked": "“{setting}” staat op “{settingValue}”: koppel het uitgeversaccount om hem te minen",
   "campaign_hint_lane_off": "De regel staat uit in “{setting}”",
   "campaign_hint_waiting": "Nu kan geen beloning bekeken worden: de volgende opent later (een nieuwe periode, eerst een eerdere beloning, of een latere start)",
   "campaign_hint_not_active": "Twitch laat deze campagne nu niet lopen",
@@ -1220,11 +1220,11 @@
   "drops_add_game_placeholder": "Categorienaam…",
   "game_drops_available": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} drop beschikbaar",
-        "countPlural=*": "{shown} drops beschikbaar"
+        "countPlural=one": "{formattedCount} drop beschikbaar",
+        "countPlural=*": "{formattedCount} drops beschikbaar"
       }
     }
   ],
@@ -1244,7 +1244,7 @@
   "tray_sign_in_required": "aanmelden vereist",
   "notify_sent_by": "Verzonden door",
   "points_subscriber_priority": "Geabonneerde kanalen eerst",
-  "points_subscriber_priority_hint": "Twitch geeft meer punten per minuut op kanalen waarop dit account geabonneerd is (×1,2 tot ×2, afhankelijk van het niveau): die komen vóór de rest van je lijst.",
+  "points_subscriber_priority_hint": "Twitch geeft meer punten per minuut op kanalen waarop dit account geabonneerd is (×{minMultiplier} tot ×{maxMultiplier}, afhankelijk van het niveau): die komen vóór de rest van je lijst.",
   "drops_streamers_first": "Mijn streamers eerst voor Drops en badges",
   "drops_streamers_first_hint": "Bij een campagne of badge komt een kanaal uit je lijst dat ervoor telt (de juiste categorie met Drops of een categorie van het Twitch-evenement) vóór een onbekend kanaal: Drops, badges en punten op dezelfde plek.",
   "points_streamer_defaults": "Standaardopties voor nieuwe streamers",
@@ -1279,7 +1279,7 @@
   ],
   "points_group_hint": "Alleen de opties die je wijzigt gelden voor deze streamers; een optie met „Gemengd” houdt per streamer de eigen waarde tot je die wijzigt.",
   "streamer_option_mixed": "Gemengd",
-  "setting_with_mark": "{option} ({mark})",
+  "setting_with_mark": "{option} ({optionNote})",
   "change_streamers_edited": "Streamers met succes bewerkt: {count}",
   "points_defaults_offer_title": [
     {
@@ -1342,7 +1342,7 @@
   "logs_level_error": "Fout",
   "logs_level_warn": "Waarschuwing",
   "logs_level_info": "Info",
-  "requests_subtitle": "Verzoeken aan Twitch en de andere diensten, zonder token of geheim. Mislukte verzoeken worden één voor één bewaard, de overige per 10 minuten geteld, even lang als het journaal.",
+  "requests_subtitle": "Verzoeken aan Twitch en de andere diensten, zonder token of geheim. Mislukte verzoeken worden één voor één bewaard, de overige per {minutes} minuten geteld, even lang als het journaal.",
   "requests_copied": "Verzoeken gekopieerd",
   "requests_types": "Soorten verzoeken",
   "requests_types_all": "Alle typen",
@@ -1359,15 +1359,15 @@
     {
       "declarations": [
         "input count",
-        "input shown",
+        "input formattedCount",
         "input from",
         "input to",
         "local countPlural = count: plural"
       ],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} verzoek van {from} tot {to}",
-        "countPlural=*": "{shown} verzoeken van {from} tot {to}"
+        "countPlural=one": "{formattedCount} verzoek van {from} tot {to}",
+        "countPlural=*": "{formattedCount} verzoeken van {from} tot {to}"
       }
     }
   ],
@@ -1419,17 +1419,17 @@
   "spam_balance": "Saldo kanaalpunten: {points}",
   "spam_balance_unlimited": "Onbeperkt kanaalpunten: op je eigen kanaal rekent Twitch geen punten af",
   "spam_balance_changed": "bijgewerkt {time}",
-  "spam_balance_live_hint": "Elke 2 tot 3 s opnieuw gelezen zolang deze pagina open is. De tijd is die van de laatste wijziging van het saldo.",
+  "spam_balance_live_hint": "Elke {seconds} s opnieuw gelezen zolang deze pagina open is. De tijd is die van de laatste wijziging van het saldo.",
   "spam_balance_paused": "volgen gepauzeerd",
   "spam_balance_paused_hint": "Het saldo wordt opnieuw gelezen zodra het venster de focus heeft.",
   "spam_balance_failing": "lezen mislukt",
-  "spam_balance_failing_hint": "De laatste lezingen van het saldo zijn mislukt. Het wordt elke 2 tot 3 s opnieuw gelezen.",
+  "spam_balance_failing_hint": "De laatste lezingen van het saldo zijn mislukt. Het wordt elke {seconds} s opnieuw gelezen.",
   "spam_seconds_ago": "{count} s geleden",
   "spam_settings": "Instellingen van Spam Points",
   "spam_show_disabled": "Uitgeschakelde en gepauzeerde tonen",
   "spam_show_out_of_stock": "Uitverkochte tonen",
   "spam_delay": "Pauze tussen verzoeken",
-  "spam_delay_hint": "Tussen twee inwisselingen van één reeks, 0 tot 5.000 ms.",
+  "spam_delay_hint": "Tussen twee inwisselingen van één reeks, {minDelay} tot {maxDelay} ms.",
   "spam_delay_unit": "ms",
   "spam_refresh": "Beloningen vernieuwen",
   "spam_load_failed": "De beloningen konden niet worden gelezen",
@@ -1449,18 +1449,18 @@
   "spam_decrease": "Verlagen",
   "spam_increase": "Verhogen",
   "spam_max_balance": "Je saldo laat niet meer toe",
-  "spam_max_count": "Hoogstens 25 per reeks",
+  "spam_max_count": "Hoogstens {maxCount} per reeks",
   "spam_redeem": "Inwisselen",
   "spam_redeeming": "Verzenden {done}/{total}…",
   "spam_missing": "Tekort",
-  "spam_description": "Beschrijving: {text}",
+  "spam_description": "Beschrijving: {description}",
   "spam_sent_all": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Ingewisseld!",
-        "countPlural=*": "{shown} verzonden!"
+        "countPlural=*": "{formattedCount} verzonden!"
       }
     }
   ],
@@ -1471,11 +1471,11 @@
   "spam_toast": "{count} × {reward} op {channel}: {result}",
   "spam_cancelled": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} geannuleerd bij het verlaten van de pagina",
-        "countPlural=*": "{shown} geannuleerd bij het verlaten van de pagina"
+        "countPlural=one": "{formattedCount} geannuleerd bij het verlaten van de pagina",
+        "countPlural=*": "{formattedCount} geannuleerd bij het verlaten van de pagina"
       }
     }
   ],
@@ -1486,7 +1486,7 @@
   "spam_reason_paused": "beloning gepauzeerd",
   "spam_reason_out_of_stock": "beloning uitverkocht",
   "spam_reason_text_required": "bericht ontbreekt",
-  "spam_reason_unknown": "geweigerd door Twitch ({code})",
+  "spam_reason_unknown": "geweigerd door Twitch ({refusalCode})",
   "spam_no_rewards": "Op dit moment is er geen beloning beschikbaar.",
   "error_unknown_reward": "Deze beloning bestaat niet meer op het kanaal.",
   "error_reward_not_redeemable": "Er is niets verzonden: de beloning vraagt een bericht, is niet beschikbaar of in afkoeltijd, of het saldo is te laag.",
@@ -1495,7 +1495,7 @@
     {
       "declarations": [
         "input sent",
-        "input shown",
+        "input formattedSent",
         "input count",
         "input reward",
         "input channel",
@@ -1504,8 +1504,8 @@
       ],
       "selectors": ["sentPlural"],
       "match": {
-        "sentPlural=one": "{count} × {reward} op {channel} — {shown} verzonden, {points} punten",
-        "sentPlural=*": "{count} × {reward} op {channel} — {shown} verzonden, {points} punten"
+        "sentPlural=one": "{count} × {reward} op {channel} — {formattedSent} verzonden, {points} punten",
+        "sentPlural=*": "{count} × {reward} op {channel} — {formattedSent} verzonden, {points} punten"
       }
     }
   ],
@@ -1513,7 +1513,7 @@
     {
       "declarations": [
         "input sent",
-        "input shown",
+        "input formattedSent",
         "input count",
         "input reward",
         "input points",
@@ -1521,8 +1521,8 @@
       ],
       "selectors": ["sentPlural"],
       "match": {
-        "sentPlural=one": "{count} × {reward} — {shown} verzonden, {points} punten",
-        "sentPlural=*": "{count} × {reward} — {shown} verzonden, {points} punten"
+        "sentPlural=one": "{count} × {reward} — {formattedSent} verzonden, {points} punten",
+        "sentPlural=*": "{count} × {reward} — {formattedSent} verzonden, {points} punten"
       }
     }
   ],
@@ -1555,11 +1555,11 @@
   "badges_refreshed_title": "Badges ververst",
   "badges_refreshed": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} badge",
-        "countPlural=*": "{shown} badges"
+        "countPlural=one": "{formattedCount} badge",
+        "countPlural=*": "{formattedCount} badges"
       }
     }
   ],
@@ -1576,11 +1576,11 @@
   ],
   "badges_off_calendar": [
     {
-      "declarations": ["input count", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{count} badge zonder datums of al afgelopen:",
-        "countPlural=*": "{count} badges zonder datums of al afgelopen:"
+        "countPlural=one": "{formattedCount} badge zonder datums of al afgelopen:",
+        "countPlural=*": "{formattedCount} badges zonder datums of al afgelopen:"
       }
     }
   ],
@@ -1646,9 +1646,9 @@
   "campaign_selecting": "Toevoegen…",
   "campaign_unselect": "Uit mijn selectie halen",
   "campaign_unselecting": "Verwijderen…",
-  "change_selected": "Aan de selectie toegevoegd: {item}",
-  "change_unselected": "Uit de selectie gehaald: {item}",
-  "change_prioritized": "Bovenaan de minevolgorde geplaatst: {item}",
+  "change_selected": "Aan de selectie toegevoegd: {campaignOrReward}",
+  "change_unselected": "Uit de selectie gehaald: {campaignOrReward}",
+  "change_prioritized": "Bovenaan de minevolgorde geplaatst: {campaignOrReward}",
   "selection_not_selected": "Niet geselecteerd",
   "badges_not_selected_hint": "“Alleen mijn selectie” staat aan: geef deze badge een ster om hem te minen.",
   "account_badges_mining_off": "Badges staan uit in “Wat te minen, op volgorde” van dit account: ze worden getoond, niet gemind.",

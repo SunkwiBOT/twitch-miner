@@ -138,7 +138,7 @@
           burst.sent === count ? ToastKind.SUCCESS : ToastKind.ERROR,
           burst.sent === count ? t.spam_sent_title() : t.spam_send_failed_title(),
           t.spam_toast({
-            count: number(count),
+            count: strong(number(count)),
             reward: strong(reward.title),
             channel: strong(channel.name),
             result: burstOutcome(count, burst),

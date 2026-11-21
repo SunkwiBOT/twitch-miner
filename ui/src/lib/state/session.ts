@@ -171,13 +171,13 @@ export const run = async (command: CommandType, success?: string): Promise<boole
 const refreshFeed = async (
   request: () => Promise<number>,
   title: () => string,
-  description: (args: { count: number; shown: string }) => string,
+  description: (args: { count: number; formattedCount: string }) => string,
 ): Promise<void> => {
   try {
     const count = await request();
 
     toast(ToastKind.SUCCESS, title(), {
-      description: description({ count, shown: strong(number(count)) }),
+      description: description({ count, formattedCount: strong(number(count)) }),
     });
   } catch (e: unknown) {
     if (!reportFailure(e)) {

@@ -52,7 +52,7 @@
   <div class="flex flex-wrap items-center justify-between gap-2">
     <span class="text-hint text-muted-foreground">
       <RichText
-        text={t.import_follows_hint({ name: personMarker(0) })}
+        text={t.import_follows_hint({ account: personMarker(0) })}
         people={[{ name: target.display_name, avatar: target.avatar_url, channel: null }]}
       />
     </span>

@@ -20,11 +20,11 @@
   "common_live": "Live",
   "common_viewers": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} katsoja",
-        "countPlural=*": "{shown} katsojaa"
+        "countPlural=one": "{formattedCount} katsoja",
+        "countPlural=*": "{formattedCount} katsojaa"
       }
     }
   ],
@@ -69,8 +69,8 @@
   "common_accounts_count": "Tilit: {count}",
   "common_accounts_none": "Ei tiliä",
   "accounts_remove_title": "Poistetaanko tämä tili?",
-  "accounts_remove_text": "Tilin {name} istunto perutaan Twitchissä ja poistetaan täältä. Lunastetut dropit jäävät Twitch-inventaarioon.",
-  "accounts_remove_text_imported_token": "Tilin {name} istunto poistetaan täältä. Lunastetut dropit jäävät Twitch-inventaarioon; peruuta se myös Twitchissä alla olevalla kytkimellä.",
+  "accounts_remove_text": "Tilin {account} istunto perutaan Twitchissä ja poistetaan täältä. Lunastetut dropit jäävät Twitch-inventaarioon.",
+  "accounts_remove_text_imported_token": "Tilin {account} istunto poistetaan täältä. Lunastetut dropit jäävät Twitch-inventaarioon; peruuta se myös Twitchissä alla olevalla kytkimellä.",
   "accounts_login_again": "Kirjaudu uudelleen",
   "accounts_stats_drops": "Lunastetut dropsit: {count}",
   "accounts_stats_points": "Ansaitut pisteet: {count}",
@@ -151,21 +151,21 @@
   ],
   "import_tokens_result_count": [
     {
-      "declarations": ["input count", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{count} token tuotu",
-        "countPlural=*": "{count} tokenia tuotu"
+        "countPlural=one": "{formattedCount} token tuotu",
+        "countPlural=*": "{formattedCount} tokenia tuotu"
       }
     }
   ],
   "import_tokens_result_cancelled": [
     {
-      "declarations": ["input count", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "Tuonti peruutettu — {count} token tuotu",
-        "countPlural=*": "Tuonti peruutettu — {count} tokenia tuotu"
+        "countPlural=one": "Tuonti peruutettu — {formattedCount} token tuotu",
+        "countPlural=*": "Tuonti peruutettu — {formattedCount} tokenia tuotu"
       }
     }
   ],
@@ -305,9 +305,9 @@
   "settings_update_notifications_allow": "Salli ilmoitukset tässä selaimessa",
   "settings_update_notifications_blocked": "Tämä selain estää tämän sivuston ilmoitukset: salli ne selaimen sivustoasetuksissa.",
   "settings_update_notifications_unsupported": "Tämä selain ei näytä ilmoituksia tässä osoitteessa: avaa hallintapaneeli HTTPS:n kautta.",
-  "settings_test_ok": "{target}: lähetetty",
+  "settings_test_ok": "{service}: lähetetty",
   "settings_test_ok_title": "Testi lähetetty",
-  "settings_test_failed": "{target}: {error}",
+  "settings_test_failed": "{service}: {error}",
   "settings_test_failed_title": "Testi epäonnistui",
   "notify_drop_claimed": "Drop lunastettu",
   "notify_drop_progress": "Dropin edistyminen",
@@ -331,7 +331,7 @@
   "settings_about": "Tietoja",
   "settings_about_text": "Avoin lähdekoodi, MIT-lisenssi. Ei yhteydessä Twitchiin.",
   "settings_about_repo": "Lähdekoodi",
-  "settings_dashboard_password_hint": "Asetetaan palvelimen {variable}-muuttujalla: vaihda se siellä ja käynnistä palvelin sitten uudelleen.",
+  "settings_dashboard_password_hint": "Asetetaan palvelimen {passwordVariable}-muuttujalla: vaihda se siellä ja käynnistä palvelin sitten uudelleen.",
   "settings_auto_lock": "Lukitse käyttämättömyyden jälkeen",
   "settings_auto_lock_hint": "Kysyy salasanaa uudelleen, kun hallintapaneelia ei ole käytetty näin pitkään, myös auki jätetyssä välilehdessä. Louhinta jatkuu.",
   "settings_auto_lock_never": "Ei koskaan",
@@ -361,7 +361,7 @@
   "error_wrong_passphrase": "Väärä salasana",
   "error_unknown_account": "Tuntematon tili",
   "error_invalid_proxy": "Tämä proxy-osoite ei ole kelvollinen.",
-  "error_unknown": "Jokin meni pieleen: {code}",
+  "error_unknown": "Jokin meni pieleen: {errorCode}",
   "time_now": "juuri nyt",
   "time_minutes_ago": "{count} min sitten",
   "time_hours_ago": "{count} t sitten",
@@ -470,7 +470,7 @@
   "settings_feedback_text": "Liitä bugin mukaan lokit Tekniset lokit -sivulta: ne eivät sisällä salaisuuksia.",
   "feedback_discord_text": "Avaa tiketti tai juttele yhteisön kanssa",
   "feedback_github_text": "Avaa issue: bugi tai idea",
-  "settings_catalog_text": "Kampanjaluettelo tulee osoitteesta drops.sunkwi.com, päivitetään {minutes} minuutin välein.",
+  "settings_catalog_text": "Kampanjaluettelo tulee osoitteesta {domain}, päivitetään {minutes} minuutin välein.",
   "account_proxy": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -580,13 +580,13 @@
   "security_off_text": "Kuka tahansa tämän tietokoneen käyttäjä voi avata sovelluksen. Aseta salasana, niin sovellus lukittuu käynnistyessä ja Twitch-istunnot salataan sillä.",
   "security_new": "Uusi salasana",
   "security_confirm": "Vahvista",
-  "security_rules": "Vähintään 4 merkkiä. Sitä ei voi palauttaa: jos unohdat sen, lisää tilit uudelleen.",
+  "security_rules": "Vähintään {minLength} merkkiä. Sitä ei voi palauttaa: jos unohdat sen, lisää tilit uudelleen.",
   "security_enable": "Aseta salasana",
   "security_enabling": "Asetetaan salasanaa…",
   "security_change": "Vaihda salasana",
   "security_changing": "Vaihdetaan salasanaa…",
   "security_disable": "Poista salasana",
-  "security_access_local": "Pelkän HTTP:n kautta: pidä tämä hallintapaneeli omassa verkossasi tai sijoita se HTTPS-käänteisvälityspalvelimen taakse {variable}-asetuksella.",
+  "security_access_local": "Pelkän HTTP:n kautta: pidä tämä hallintapaneeli omassa verkossasi tai sijoita se HTTPS-käänteisvälityspalvelimen taakse {publicUrlVariable}-asetuksella.",
   "security_access_public": "HTTPS-käänteisvälityspalvelimen takana osoitteessa {host}.",
   "settings_close_action": "Sulkemispainike",
   "settings_unsaved": "Sinulla on tallentamattomia muutoksia.",
@@ -594,7 +594,7 @@
   "slots_two_hint": "Eniten, mitä Twitch hyvittää tiliä kohden: yksi Drops-kampanjalle ja yksi pisteille tai kaksi pisteille.",
   "slots_one_title": "Yksi kanava",
   "slots_one_hint": "Hiljaisempi: yksi kanava kerrallaan.",
-  "streamer_claim_bonus_hint": "Lunastaa 15 minuutin välein ilmestyvän bonusarkun.",
+  "streamer_claim_bonus_hint": "Lunastaa {minutes} minuutin välein ilmestyvän bonusarkun.",
   "streamer_claim_moments_hint": "Lunastaa hetkimerkit, kun streamaaja aloittaa hetken.",
   "streamer_follow_raids_hint": "Seuraa streamaajaa, kun hän raidaa toiselle kanavalle.",
   "streamer_predictions_stealth_hint": "Ei koskaan panosta enempää kuin tämänhetkinen suurin panostaja.",
@@ -776,9 +776,9 @@
   "reward_chest": "1 satunnainen merkki, vaihtoehtoja {count}",
   "reward_chest_hint": "Twitch antaa yhden näistä merkeistä: {badges}",
   "campaign_channels_categories": "Mikä tahansa kanava jossakin kategoriassa ({count})",
-  "badges_collection": "Osa kokoelmaa {name}",
-  "badges_collection_chest": "Osa kokoelmaa {name}, 1 merkki, vaihtoehtoja {count}",
-  "badges_collection_all": "Koko kokoelman {name} merkki, tilaukset mukaan lukien",
+  "badges_collection": "Osa kokoelmaa {collection}",
+  "badges_collection_chest": "Osa kokoelmaa {collection}, 1 merkki, vaihtoehtoja {count}",
+  "badges_collection_all": "Koko kokoelman {collection} merkki, tilaukset mukaan lukien",
   "reward_watch_stream": "Katso lähetystä",
   "reward_subscribe": "Tilaa itse",
   "reward_kind_badge": "Merkki",
@@ -817,29 +817,29 @@
   "login_setup_title": "Määritä tili",
   "login_setup_from": "Lähtökohta",
   "login_setup_defaults": "Oletusasetukset",
-  "login_setup_copy_from": "Tilin {name} asetukset",
+  "login_setup_copy_from": "Tilin {account} asetukset",
   "login_setup_copy_hint": "Kopioi valitun tilin asetukset sellaisinaan (Drops-kampanjoiden louhintajärjestys, poissulkemiset, streamaajalista) proxya lukuun ottamatta.",
   "login_setup_finish": "Aloita louhinta",
   "login_setup_starting": "Aloitetaan louhintaa…",
   "login_setup_later": "Tallenna ja aloita myöhemmin",
   "error_not_supported": "Ei käytettävissä tässä sovelluksen versiossa.",
-  "common_copy_named": "Kopioi {name}",
+  "common_copy_named": "Kopioi {copiedItem}",
   "bulk_accounts": "Tilit",
   "bulk_applying": "Käytetään…",
   "bulk_applied_title": "Tilit päivitetty",
   "bulk_apply": "Käytä ({count})",
   "bulk_apply_others": "Käytä muihin tileihin",
-  "bulk_changes": "{shown} muutosta",
-  "bulk_hint": "Tilillä {name} tehdyt muutokset ({count}) tehdään uudelleen valituille tileille. Kukin tili säilyttää muut asetuksensa.",
+  "bulk_changes": "{formattedCount} muutosta",
+  "bulk_hint": "Tilillä {account} tehdyt muutokset ({count}) tehdään uudelleen valituille tileille. Kukin tili säilyttää muut asetuksensa.",
   "bulk_hint_chosen": "Valitsemillasi tileillä tehdyt muutokset ({count}) tehdään uudelleen merkityille tileille. Kukin tili säilyttää muut asetuksensa.",
   "bulk_no_accounts": "Ei muita tilejä.",
   "bulk_nothing_to_change": "Tällä tilillä ei ole muutettavaa",
   "bulk_title": "Käytä muihin tileihin",
   "change_campaign_moved": "{campaign} siirretty onnistuneesti",
-  "change_copied_drops": "Drops-asetukset kopioitu onnistuneesti tililtä {source}",
-  "change_copied_points": "Pisteasetukset kopioitu onnistuneesti tililtä {source}",
-  "change_ignored": "Ohitettu onnistuneesti: {item}",
-  "change_unignored": "Louhitaan taas: {item}",
+  "change_copied_drops": "Drops-asetukset kopioitu onnistuneesti tililtä {sourceAccount}",
+  "change_copied_points": "Pisteasetukset kopioitu onnistuneesti tililtä {sourceAccount}",
+  "change_ignored": "Ohitettu onnistuneesti: {campaignOrReward}",
+  "change_unignored": "Louhitaan taas: {campaignOrReward}",
   "change_settings": "Asetukset tallennettu onnistuneesti",
   "change_streamer_added": "{streamer} lisätty onnistuneesti",
   "change_streamer_disabled": "{streamer} asetettu tauolle onnistuneesti",
@@ -854,14 +854,14 @@
   "common_select_all": "Valitse kaikki",
   "common_select_none": "Poista valinnat",
   "common_selected_count": "Valittu: {count} / {total}",
-  "copy_drops_hint": "Korvaa tilin {name} Drops-asetukset: louhintajärjestyksen, prioriteetit, poissulkemiset, rajauksen ja lunastuksen.",
+  "copy_drops_hint": "Korvaa tilin {account} Drops-asetukset: louhintajärjestyksen, prioriteetit, poissulkemiset, rajauksen ja lunastuksen.",
   "copy_drops_title": "Kopioi Drops-asetukset",
-  "copy_points_hint": "Korvaa tilin {name} streamaajat kunkin valintoineen, uusien streamaajien oletusvalinnat ja priorisoinnit.",
+  "copy_points_hint": "Korvaa tilin {account} streamaajat kunkin valintoineen, uusien streamaajien oletusvalinnat ja priorisoinnit.",
   "copy_points_title": "Kopioi pisteasetukset",
   "import_add": "Lisää ({count})",
   "import_already": "Jo listalla: {count}",
   "import_check": "Tarkista",
-  "import_follows_hint": "Kanavat, joita {name} seuraa Twitchissä.",
+  "import_follows_hint": "Kanavat, joita {account} seuraa Twitchissä.",
   "import_from": "Tililtä",
   "import_no_account": "Ei muita tilejä, joilta kopioida.",
   "import_none_new": "Ei mitään uutta: nämä kanavat ovat jo listalla.",
@@ -1154,16 +1154,16 @@
   "confirm_remove": "Poista",
   "confirm_removing": "Poistetaan…",
   "confirm_remove_streamer_title": "Poistetaanko tämä striimaaja?",
-  "confirm_remove_streamer_text": "Tämä tili ei enää katso kanavaa {name} kanavapisteiden vuoksi, ja sen asetukset menetetään.",
+  "confirm_remove_streamer_text": "Tämä tili ei enää katso kanavaa {streamer} kanavapisteiden vuoksi, ja sen asetukset menetetään.",
   "confirm_remove_game_title": "Poistetaanko tämä prioriteettikategoria?",
-  "confirm_remove_game_text": "{name} louhitaan yhä, mutta sen kampanjat eivät enää mene muiden edelle.",
+  "confirm_remove_game_text": "{category} louhitaan yhä, mutta sen kampanjat eivät enää mene muiden edelle.",
   "confirm_remove_excluded_game_title": "Poistetaanko tämä ohitettu kategoria?",
-  "confirm_remove_excluded_game_text": "{name} voidaan taas louhia: sen kampanjoita ei enää ohiteta.",
+  "confirm_remove_excluded_game_text": "{category} voidaan taas louhia: sen kampanjoita ei enää ohiteta.",
   "confirm_remove_excluded_word_title": "Poistetaanko tämä poissuljettu sana?",
-  "confirm_remove_excluded_word_text": "Kampanjoita ja droppiesineitä, joiden nimessä on {name}, ei enää ohiteta.",
-  "confirm_remove_setup_streamer_text": "{name} poistuu listalta: tämä tili ei katso sitä kanavapisteiden vuoksi.",
+  "confirm_remove_excluded_word_text": "Kampanjoita ja droppiesineitä, joiden nimessä on {word}, ei enää ohiteta.",
+  "confirm_remove_setup_streamer_text": "{streamer} poistuu listalta: tämä tili ei katso sitä kanavapisteiden vuoksi.",
   "search_verified": "Vahvistettu kumppani",
-  "login_setup_for": "Tili: {name}",
+  "login_setup_for": "Tili: {account}",
   "login_setup_for_many": "Tilit: {count}",
   "search_pick": "Valitse",
   "search_no_result": "Ei tuloksia haulle {query}.",
@@ -1205,10 +1205,10 @@
   "campaign_hint_claim_failed": "Twitch hylkäsi yhden sen palkinnon lunastuksen: syy löytyy kohdasta ”{journal}”",
   "campaign_hint_ignored": "Ohitettu käsin: palauta se välilehdeltä ”{tab}”",
   "campaign_hint_filtered": "Ohitettu: ”{setting}”",
-  "campaign_hint_points_only": "”{setting}” on ”{value}”: yhtään kampanjaa ei louhita",
+  "campaign_hint_points_only": "”{setting}” on ”{settingValue}”: yhtään kampanjaa ei louhita",
   "campaign_hint_unfinishable": "”{setting}” on päällä",
   "campaign_hint_not_selected": "”{setting}” on päällä: merkitse se tähdellä, jotta se louhitaan",
-  "campaign_hint_not_linked": "”{setting}” on ”{value}”: linkitä julkaisijatili, jotta se louhitaan",
+  "campaign_hint_not_linked": "”{setting}” on ”{settingValue}”: linkitä julkaisijatili, jotta se louhitaan",
   "campaign_hint_lane_off": "Sen rivi on pois päältä kohdassa ”{setting}”",
   "campaign_hint_waiting": "Mitään palkintoa ei voi katsoa nyt: seuraava aukeaa myöhemmin (uusi jakso, ensin aiempi palkinto tai myöhempi alku)",
   "campaign_hint_not_active": "Twitch ei pyöritä tätä kampanjaa juuri nyt",
@@ -1220,11 +1220,11 @@
   "drops_add_game_placeholder": "Kategorian nimi…",
   "game_drops_available": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} drop saatavilla",
-        "countPlural=*": "{shown} droppia saatavilla"
+        "countPlural=one": "{formattedCount} drop saatavilla",
+        "countPlural=*": "{formattedCount} droppia saatavilla"
       }
     }
   ],
@@ -1244,7 +1244,7 @@
   "tray_sign_in_required": "kirjautuminen vaaditaan",
   "notify_sent_by": "Lähettäjä",
   "points_subscriber_priority": "Tilatut kanavat ensin",
-  "points_subscriber_priority_hint": "Twitch antaa enemmän pisteitä minuutissa kanavilla, jotka tämä tili on tilannut (×1,2–×2 tason mukaan): ne tulevat ennen listasi muita kanavia.",
+  "points_subscriber_priority_hint": "Twitch antaa enemmän pisteitä minuutissa kanavilla, jotka tämä tili on tilannut (×{minMultiplier}–×{maxMultiplier} tason mukaan): ne tulevat ennen listasi muita kanavia.",
   "drops_streamers_first": "Omat streamaajat ensin Dropseissa ja merkeissä",
   "drops_streamers_first_hint": "Kampanjassa tai merkissä listasi kanava, joka lasketaan siihen (oikea kategoria Dropsien kanssa tai Twitch-tapahtuman kategoria), menee tuntemattoman kanavan edelle: Dropsit, merkit ja pisteet samassa paikassa.",
   "points_streamer_defaults": "Uusien streamaajien oletusvalinnat",
@@ -1270,7 +1270,7 @@
   "points_group_title": "Muokkaa {count} streamaajaa",
   "points_group_hint": "Vain muuttamasi valinnat koskevat näitä streamaajia; valinta, jossa lukee ”Vaihtelee”, säilyttää kunkin oman arvon, kunnes muutat sitä.",
   "streamer_option_mixed": "Vaihtelee",
-  "setting_with_mark": "{option} ({mark})",
+  "setting_with_mark": "{option} ({optionNote})",
   "change_streamers_edited": "Streamaajat muokattu onnistuneesti: {count}",
   "points_defaults_offer_title": [
     {
@@ -1333,7 +1333,7 @@
   "logs_level_error": "Virhe",
   "logs_level_warn": "Varoitus",
   "logs_level_info": "Tieto",
-  "requests_subtitle": "Twitchille ja muille palveluille lähetetyt pyynnöt ilman tunnuksia tai salaisuuksia. Epäonnistuneet säilytetään yksitellen, muut lasketaan 10 minuutin jaksoissa, yhtä kauan kuin päiväkirja.",
+  "requests_subtitle": "Twitchille ja muille palveluille lähetetyt pyynnöt ilman tunnuksia tai salaisuuksia. Epäonnistuneet säilytetään yksitellen, muut lasketaan {minutes} minuutin jaksoissa, yhtä kauan kuin päiväkirja.",
   "requests_copied": "Pyynnöt kopioitu",
   "requests_types": "Pyyntötyypit",
   "requests_types_all": "Kaikki tyypit",
@@ -1350,15 +1350,15 @@
     {
       "declarations": [
         "input count",
-        "input shown",
+        "input formattedCount",
         "input from",
         "input to",
         "local countPlural = count: plural"
       ],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} pyyntö {from}–{to}",
-        "countPlural=*": "{shown} pyyntöä {from}–{to}"
+        "countPlural=one": "{formattedCount} pyyntö {from}–{to}",
+        "countPlural=*": "{formattedCount} pyyntöä {from}–{to}"
       }
     }
   ],
@@ -1410,17 +1410,17 @@
   "spam_balance": "Kanavapisteiden saldo: {points}",
   "spam_balance_unlimited": "Rajattomasti kanavapisteitä: Twitch ei ota pisteitä omalla kanavallasi",
   "spam_balance_changed": "päivitetty {time}",
-  "spam_balance_live_hint": "Luetaan uudelleen 2–3 sekunnin välein, kun tämä sivu on auki. Aika on saldon viimeisimmän muutoksen.",
+  "spam_balance_live_hint": "Luetaan uudelleen {seconds} sekunnin välein, kun tämä sivu on auki. Aika on saldon viimeisimmän muutoksen.",
   "spam_balance_paused": "seuranta keskeytetty",
   "spam_balance_paused_hint": "Saldo luetaan uudelleen heti, kun ikkuna saa kohdistuksen.",
   "spam_balance_failing": "luku epäonnistui",
-  "spam_balance_failing_hint": "Saldon viimeisimmät luvut epäonnistuivat. Se luetaan uudelleen 2–3 sekunnin välein.",
+  "spam_balance_failing_hint": "Saldon viimeisimmät luvut epäonnistuivat. Se luetaan uudelleen {seconds} sekunnin välein.",
   "spam_seconds_ago": "{count} s sitten",
   "spam_settings": "Spam Pointsin asetukset",
   "spam_show_disabled": "Näytä poistetut käytöstä ja keskeytetyt",
   "spam_show_out_of_stock": "Näytä loppuneet",
   "spam_delay": "Tauko pyyntöjen välillä",
-  "spam_delay_hint": "Saman sarjan kahden lunastuksen välillä, 0–5 000 ms.",
+  "spam_delay_hint": "Saman sarjan kahden lunastuksen välillä, {minDelay}–{maxDelay} ms.",
   "spam_delay_unit": "ms",
   "spam_refresh": "Päivitä palkinnot",
   "spam_load_failed": "Palkintoja ei voitu lukea",
@@ -1440,18 +1440,18 @@
   "spam_decrease": "Vähennä",
   "spam_increase": "Lisää",
   "spam_max_balance": "Saldosi ei riitä useampaan",
-  "spam_max_count": "Enintään 25 sarjaa kohden",
+  "spam_max_count": "Enintään {maxCount} sarjaa kohden",
   "spam_redeem": "Lunasta",
   "spam_redeeming": "Lähetetään {done}/{total}…",
   "spam_missing": "Puuttuu",
-  "spam_description": "Kuvaus: {text}",
+  "spam_description": "Kuvaus: {description}",
   "spam_sent_all": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Lunastettu!",
-        "countPlural=*": "{shown} lähetetty!"
+        "countPlural=*": "{formattedCount} lähetetty!"
       }
     }
   ],
@@ -1462,11 +1462,11 @@
   "spam_toast": "{count} × {reward} kanavalla {channel}: {result}",
   "spam_cancelled": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} peruttiin sivulta poistuttaessa",
-        "countPlural=*": "{shown} peruttiin sivulta poistuttaessa"
+        "countPlural=one": "{formattedCount} peruttiin sivulta poistuttaessa",
+        "countPlural=*": "{formattedCount} peruttiin sivulta poistuttaessa"
       }
     }
   ],
@@ -1477,7 +1477,7 @@
   "spam_reason_paused": "palkinto keskeytetty",
   "spam_reason_out_of_stock": "palkinto loppunut",
   "spam_reason_text_required": "viesti puuttuu",
-  "spam_reason_unknown": "Twitch hylkäsi ({code})",
+  "spam_reason_unknown": "Twitch hylkäsi ({refusalCode})",
   "spam_no_rewards": "Yhtään palkintoa ei ole nyt saatavilla.",
   "error_unknown_reward": "Tätä palkintoa ei enää ole kanavalla.",
   "error_reward_not_redeemable": "Mitään ei lähetetty: palkinto vaatii viestin, ei ole saatavilla tai on jäähtymässä, tai pisteet eivät riitä.",
@@ -1486,7 +1486,7 @@
     {
       "declarations": [
         "input sent",
-        "input shown",
+        "input formattedSent",
         "input count",
         "input reward",
         "input channel",
@@ -1495,8 +1495,8 @@
       ],
       "selectors": ["sentPlural"],
       "match": {
-        "sentPlural=one": "{count} × {reward} kanavalla {channel} — {shown} lähetetty, {points} pistettä",
-        "sentPlural=*": "{count} × {reward} kanavalla {channel} — {shown} lähetetty, {points} pistettä"
+        "sentPlural=one": "{count} × {reward} kanavalla {channel} — {formattedSent} lähetetty, {points} pistettä",
+        "sentPlural=*": "{count} × {reward} kanavalla {channel} — {formattedSent} lähetetty, {points} pistettä"
       }
     }
   ],
@@ -1504,7 +1504,7 @@
     {
       "declarations": [
         "input sent",
-        "input shown",
+        "input formattedSent",
         "input count",
         "input reward",
         "input points",
@@ -1512,8 +1512,8 @@
       ],
       "selectors": ["sentPlural"],
       "match": {
-        "sentPlural=one": "{count} × {reward} — {shown} lähetetty, {points} pistettä",
-        "sentPlural=*": "{count} × {reward} — {shown} lähetetty, {points} pistettä"
+        "sentPlural=one": "{count} × {reward} — {formattedSent} lähetetty, {points} pistettä",
+        "sentPlural=*": "{count} × {reward} — {formattedSent} lähetetty, {points} pistettä"
       }
     }
   ],
@@ -1546,11 +1546,11 @@
   "badges_refreshed_title": "Merkit päivitetty",
   "badges_refreshed": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} merkki",
-        "countPlural=*": "{shown} merkkiä"
+        "countPlural=one": "{formattedCount} merkki",
+        "countPlural=*": "{formattedCount} merkkiä"
       }
     }
   ],
@@ -1567,11 +1567,11 @@
   ],
   "badges_off_calendar": [
     {
-      "declarations": ["input count", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{count} merkki ilman päivämääriä tai jo päättynyt:",
-        "countPlural=*": "{count} merkkiä ilman päivämääriä tai jo päättyneitä:"
+        "countPlural=one": "{formattedCount} merkki ilman päivämääriä tai jo päättynyt:",
+        "countPlural=*": "{formattedCount} merkkiä ilman päivämääriä tai jo päättyneitä:"
       }
     }
   ],
@@ -1637,9 +1637,9 @@
   "campaign_selecting": "Lisätään…",
   "campaign_unselect": "Poista valinnastani",
   "campaign_unselecting": "Poistetaan…",
-  "change_selected": "Lisätty valintaan: {item}",
-  "change_unselected": "Poistettu valinnasta: {item}",
-  "change_prioritized": "Siirretty louhintajärjestyksen kärkeen: {item}",
+  "change_selected": "Lisätty valintaan: {campaignOrReward}",
+  "change_unselected": "Poistettu valinnasta: {campaignOrReward}",
+  "change_prioritized": "Siirretty louhintajärjestyksen kärkeen: {campaignOrReward}",
   "selection_not_selected": "Ei valittu",
   "badges_not_selected_hint": "”Vain valintani” on päällä: merkitse tämä merkki tähdellä, jotta se louhitaan.",
   "account_badges_mining_off": "Merkit on poistettu käytöstä tämän tilin kohdassa ”Mitä louhitaan, järjestyksessä”: ne näytetään, mutta niitä ei louhita.",

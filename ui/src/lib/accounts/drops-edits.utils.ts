@@ -137,8 +137,8 @@ export const setSelected = (
     updateAccountSettings(account.id, apply),
     account.id,
     selected
-      ? t.change_selected({ item: strong(name) })
-      : t.change_unselected({ item: strong(name) }),
+      ? t.change_selected({ campaignOrReward: strong(name) })
+      : t.change_unselected({ campaignOrReward: strong(name) }),
     apply,
   );
 };
@@ -220,7 +220,7 @@ export const setBadgesIgnored = (
   void changedWhenSaved(
     updateAccountSettings(account.id, apply),
     account.id,
-    t.change_ignored({ item: strong(name) }),
+    t.change_ignored({ campaignOrReward: strong(name) }),
     apply,
   );
 };
@@ -245,8 +245,8 @@ export const setIgnored = (
       : setCampaignIgnoredIn(settings, item.id, ignored);
 
   const text = ignored
-    ? t.change_ignored({ item: strong(item.name) })
-    : t.change_unignored({ item: strong(item.name) });
+    ? t.change_ignored({ campaignOrReward: strong(item.name) })
+    : t.change_unignored({ campaignOrReward: strong(item.name) });
 
   void changedWhenSaved(updateAccountSettings(account.id, apply), account.id, text, apply);
 };

@@ -4,7 +4,8 @@ import { onDestroy } from "svelte";
 
 import { searchTwitch } from "../api/client";
 import type { SearchResponseType } from "../bindings/SearchResponseType";
-import { SEARCH_DEBOUNCE_MS, SEARCH_MIN_CHARS } from "./search.constants";
+import { coreLimits } from "../state/limits";
+import { SEARCH_DEBOUNCE_MS } from "./search.constants";
 
 const NOTHING: SearchResponseType = { games: [], channels: [] };
 
@@ -28,7 +29,11 @@ export class TwitchSearch {
   }
 
   get answered(): boolean {
-    return !this.busy && this.#text.length >= SEARCH_MIN_CHARS && this.#answer.text === this.#text;
+    return (
+      !this.busy &&
+      this.#text.length >= coreLimits().search_min_chars &&
+      this.#answer.text === this.#text
+    );
   }
 
   update(query: string): void {
@@ -62,7 +67,7 @@ export class TwitchSearch {
     this.#text = text;
     this.#asked = null;
 
-    if (text.length < SEARCH_MIN_CHARS || this.#answer.text === text) {
+    if (text.length < coreLimits().search_min_chars || this.#answer.text === text) {
       this.busy = false;
 
       return;

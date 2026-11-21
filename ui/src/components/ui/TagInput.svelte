@@ -28,6 +28,7 @@
   } from "./button.constants";
   import { IconName } from "../../lib/icons.constants";
   import { KeyboardKey } from "./field.constants";
+  import { coreLimits } from "../../lib/state/limits";
 
   type TagInputPropsType = {
     id: string;
@@ -73,7 +74,14 @@
   );
 
   const matches = $derived(
-    tagSuggestions(draft, items.map(label), suggestions, found, SEARCH_SHOWN_MAX),
+    tagSuggestions(
+      draft,
+      items.map(label),
+      suggestions,
+      found,
+      SEARCH_SHOWN_MAX,
+      coreLimits().search_min_chars,
+    ),
   );
 
   // ! Typed out in full, a known category still carries its id and image.

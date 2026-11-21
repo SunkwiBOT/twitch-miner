@@ -12,5 +12,5 @@
 <span class="inline-flex shrink-0 items-center gap-1 font-semibold text-live-emphasis tabular-nums">
   <Icon name={IconName.VIEWERS} size={14} />
   <span aria-hidden="true">{number(count)}</span>
-  <span class="sr-only">{t.common_viewers({ count, shown: number(count) })}</span>
+  <span class="sr-only">{t.common_viewers({ count, formattedCount: number(count) })}</span>
 </span>

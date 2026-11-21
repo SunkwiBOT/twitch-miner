@@ -2,6 +2,7 @@
   import type { AccountSnapshotType } from "../../lib/bindings/AccountSnapshotType";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { ticker } from "../../lib/state/ticker.svelte";
+  import { strong } from "../../lib/text.utils";
   import { formatClock, formatDate, formatShortDateTime } from "../../lib/time/time.utils";
   import Badge from "./Badge.svelte";
   import { BadgeTone } from "../../lib/tones.constants";
@@ -33,6 +34,6 @@
     tone={BadgeTone.WARNING}
     dot={true}
     icon={IconName.CLOCK}
-    hint={t.pause_badge_hint({ time: formatShortDateTime(until) })}
+    hint={t.pause_badge_hint({ time: strong(formatShortDateTime(until)) })}
   />
 {/if}

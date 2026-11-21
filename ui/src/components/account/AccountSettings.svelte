@@ -17,6 +17,7 @@
   import type { SnapshotType } from "../../lib/bindings/SnapshotType";
   import { maskId } from "../../lib/format.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
+  import { subscriberPriorityHint } from "../../lib/points/points.utils";
   import { personMarker } from "../../lib/text.utils";
   import { AccountField, Page } from "../../lib/state/state.constants";
   import { editsOf } from "../../lib/state/edits.svelte";
@@ -100,7 +101,7 @@
     text={() => value}
     label={t.common_copy()}
     copiedLabel={t.common_copied()}
-    name={t.common_copy_named({ name: field })}
+    name={t.common_copy_named({ copiedItem: field })}
     layout={CopyLayout.ICON}
     size={ButtonSize.SM}
   />
@@ -217,7 +218,7 @@
         />
         <Setting
           title={t.points_subscriber_priority()}
-          description={t.points_subscriber_priority_hint()}
+          description={subscriberPriorityHint()}
           checked={shown.points.subscriber_priority}
           disabled={false}
           onchange={(value) =>
@@ -250,8 +251,8 @@
   open={confirming}
   title={t.accounts_remove_title()}
   text={account.source === AccountSource.IMPORTED_TOKEN
-    ? t.accounts_remove_text_imported_token({ name: personMarker(0) })
-    : t.accounts_remove_text({ name: personMarker(0) })}
+    ? t.accounts_remove_text_imported_token({ account: personMarker(0) })
+    : t.accounts_remove_text({ account: personMarker(0) })}
   people={[{ name: account.display_name, avatar: account.avatar_url, channel: null }]}
   confirmLabel={t.common_remove()}
   busyLabel={t.common_removing()}

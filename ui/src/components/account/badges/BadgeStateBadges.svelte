@@ -3,6 +3,7 @@
   import { periodsText, watchText } from "../../../lib/catalogue/campaign.utils";
   import { minutes } from "../../../lib/format.utils";
   import { t } from "../../../lib/i18n/i18n.svelte";
+  import { strong } from "../../../lib/text.utils";
   import { ticker } from "../../../lib/state/ticker.svelte";
   import { relativeTime } from "../../../lib/time/time.utils";
   import Badge from "../../ui/Badge.svelte";
@@ -25,7 +26,9 @@
     tone={BadgeTone.ACCENT}
     dot={false}
     icon={IconName.GIFT}
-    hint={t.reward_chest_hint({ badges: item.badges.map((badge) => badge.title).join(", ") })}
+    hint={t.reward_chest_hint({
+      badges: strong(item.badges.map((badge) => badge.title).join(", ")),
+    })}
   />
 {/if}
 {#if item.repeat && item.state !== AccountBadgeState.SUB_ONLY}
@@ -64,7 +67,7 @@
     text={t.badge_evolution_locked({ badge: from })}
     tone={BadgeTone.WARNING}
     dot={false}
-    hint={t.badge_hint_evolution_locked({ badge: from })}
+    hint={t.badge_hint_evolution_locked({ badge: strong(from) })}
   />
 {:else if item.state === AccountBadgeState.EVOLUTION_OFF}
   <Badge
@@ -79,7 +82,7 @@
       text={t.badge_evolution({ badge: from })}
       tone={BadgeTone.INFO}
       dot={false}
-      hint={t.badge_hint_evolution({ badge: from })}
+      hint={t.badge_hint_evolution({ badge: strong(from) })}
     />
   {/if}
   {#if item.state === AccountBadgeState.WAITING && item.nextAt}

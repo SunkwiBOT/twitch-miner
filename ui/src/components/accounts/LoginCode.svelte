@@ -56,7 +56,7 @@
           text={() => flow.verification_uri}
           label={t.common_copy()}
           copiedLabel={t.common_copied()}
-          name={t.common_copy_named({ name: t.login_link() })}
+          name={t.common_copy_named({ copiedItem: t.login_link() })}
           layout={CopyLayout.ICON}
           size={ButtonSize.SM}
         />
@@ -81,7 +81,7 @@
           text={() => flow.user_code}
           label={t.common_copy()}
           copiedLabel={t.common_copied()}
-          name={t.common_copy_named({ name: t.login_code() })}
+          name={t.common_copy_named({ copiedItem: t.login_code() })}
           layout={CopyLayout.ICON}
           size={ButtonSize.MD}
         />

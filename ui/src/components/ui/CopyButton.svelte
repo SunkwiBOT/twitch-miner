@@ -20,6 +20,7 @@
   } from "./button.constants";
   import { COPIED_FEEDBACK_MS, CopyLayout } from "./ui.constants";
   import { IconName } from "../../lib/icons.constants";
+  import { escapeEmphasis } from "../../lib/text.utils";
 
   type CopyButtonPropsType = {
     text: () => Promise<string> | string;
@@ -64,7 +65,7 @@
 {/snippet}
 
 {#if layout === CopyLayout.ICON}
-  <Tip text={copied ? copiedLabel : label}>
+  <Tip text={escapeEmphasis(copied ? copiedLabel : label)}>
     {#snippet children(props)}
       <Button
         {...props}

@@ -477,13 +477,13 @@ export const ownedBadges = (
 };
 
 export const collectionText = (rule: BadgeRequirementType): string => {
-  const name = rule.campaign_name ?? "";
+  const collection = rule.campaign_name ?? "";
 
   if (rule.collection?.complete_all) {
-    return t.badges_collection_all({ name });
+    return t.badges_collection_all({ collection });
   }
 
   return rule.collection?.chest_size
-    ? t.badges_collection_chest({ name, count: rule.collection.chest_size })
-    : t.badges_collection({ name });
+    ? t.badges_collection_chest({ collection, count: rule.collection.chest_size })
+    : t.badges_collection({ collection });
 };

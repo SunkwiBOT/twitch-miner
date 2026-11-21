@@ -13,6 +13,8 @@
   import type { StreamerSettingsType } from "../../lib/bindings/StreamerSettingsType";
   import { Strategy } from "../../lib/bindings/Strategy";
   import { t } from "../../lib/i18n/i18n.svelte";
+  import { TWITCH_BONUS_CHEST_MINUTES } from "../../lib/points/points.constants";
+  import { strong } from "../../lib/text.utils";
   import { boundNumberInput } from "../../lib/input.utils";
   import { Input } from "$lib/components/ui/input";
   import FormField from "../ui/FormField.svelte";
@@ -140,7 +142,7 @@
   <div class="flex flex-col">
     <Setting
       title={t.streamer_claim_bonus()}
-      description={t.streamer_claim_bonus_hint()}
+      description={t.streamer_claim_bonus_hint({ minutes: strong(TWITCH_BONUS_CHEST_MINUTES) })}
       checked={shown(StreamerOption.CLAIM_BONUS, options.claim_bonus) ?? false}
       disabled={false}
       mark={markOf(StreamerOption.CLAIM_BONUS)}

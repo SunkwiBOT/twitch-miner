@@ -73,7 +73,7 @@
         <RichText
           text={t.bulk_hint({
             count: strong(count),
-            name: personMarker(0),
+            account: personMarker(0),
           })}
           people={[{ name: source.display_name, avatar: source.avatar_url, channel: null }]}
         />

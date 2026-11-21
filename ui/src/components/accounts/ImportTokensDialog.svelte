@@ -22,6 +22,7 @@
   import { describeCode, describeError, toApiError } from "../../lib/errors/errors.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { account as accountOf, app } from "../../lib/state/app.svelte";
+  import { coreLimits } from "../../lib/state/limits";
   import { refresh, reportFailure } from "../../lib/state/session";
   import { strong } from "../../lib/text.utils";
   import { cn } from "$lib/utils";
@@ -271,16 +272,15 @@
         return;
       }
 
-      const importMax = app.snapshot?.token_import_max;
-      const lineMaxChars = app.snapshot?.token_line_max_chars;
+      const { token_import_max: importMax, token_line_max_chars: lineMaxChars } = coreLimits();
 
-      if (importMax !== undefined && tokens.length > importMax) {
+      if (tokens.length > importMax) {
         pasteError = t.import_tokens_too_many({ max: strong(importMax) });
 
         return;
       }
 
-      if (lineMaxChars !== undefined && tokens.some((token) => token.length > lineMaxChars)) {
+      if (tokens.some((token) => token.length > lineMaxChars)) {
         pasteError = t.import_tokens_line_too_long({ max: strong(lineMaxChars) });
 
         return;
@@ -684,17 +684,32 @@
   {:else if importCancelled}
     <p class="flex items-center gap-2 text-muted-foreground">
       <Icon name={IconName.X} size={18} />
-      {t.import_tokens_result_cancelled({ count: importedCount })}
+      <RichText
+        text={t.import_tokens_result_cancelled({
+          count: importedCount,
+          formattedCount: strong(importedCount),
+        })}
+      />
     </p>
   {:else if importedCount > 0}
     <p class="flex items-center gap-2 text-success-foreground">
       <Icon name={IconName.CHECK} size={18} />
-      {t.import_tokens_result_count({ count: importedCount })}
+      <RichText
+        text={t.import_tokens_result_count({
+          count: importedCount,
+          formattedCount: strong(importedCount),
+        })}
+      />
     </p>
   {:else}
     <p class="flex items-center gap-2 text-muted-foreground">
       <Icon name={IconName.X} size={18} />
-      {t.import_tokens_result_count({ count: importedCount })}
+      <RichText
+        text={t.import_tokens_result_count({
+          count: importedCount,
+          formattedCount: strong(importedCount),
+        })}
+      />
     </p>
   {/if}
   {#if commitError}

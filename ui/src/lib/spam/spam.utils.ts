@@ -9,7 +9,9 @@ import { mmss, number, shortDuration } from "../format.utils";
 import { t } from "../i18n/i18n.svelte";
 import { HOUR_MS, MINUTE_MS, SECOND_MS } from "../time/time.constants";
 import { relativeTime } from "../time/time.utils";
-import { BalanceTracking, RewardStatus, SPAM_MAX_COUNT } from "./spam.constants";
+import { strong } from "../text.utils";
+import { coreLimits } from "../state/limits";
+import { BalanceTracking, RewardStatus, SPAM_POLL_MS } from "./spam.constants";
 
 // ! Keyed on Twitch's own codes (RedeemCustomReward's `error.code`), as Twitch sends them.
 const REFUSAL_LABELS: Partial<Record<string, () => string>> = {
@@ -24,7 +26,7 @@ const REFUSAL_LABELS: Partial<Record<string, () => string>> = {
 };
 
 const refusalLabel = (code: string): string =>
-  REFUSAL_LABELS[code]?.() ?? t.spam_reason_unknown({ code });
+  REFUSAL_LABELS[code]?.() ?? t.spam_reason_unknown({ refusalCode: code });
 
 export const reasonsLabel = (
   refusals: readonly string[],
@@ -36,24 +38,32 @@ export const burstOutcome = (count: number, result: BurstResultType): string => 
   const { sent, cancelled } = result;
   const reasons = [
     reasonsLabel(result.refusals, result.failures),
-    cancelled > 0 ? t.spam_cancelled({ count: cancelled, shown: number(cancelled) }) : "",
+    cancelled > 0
+      ? t.spam_cancelled({ count: cancelled, formattedCount: strong(number(cancelled)) })
+      : "",
   ]
     .filter(Boolean)
     .join(", ");
 
   if (sent === count) {
-    return t.spam_sent_all({ count, shown: number(count) });
+    return t.spam_sent_all({ count, formattedCount: strong(number(count)) });
   }
 
   return sent > 0
-    ? t.spam_sent_partial({ sent: number(sent), count: number(count), reason: reasons })
+    ? t.spam_sent_partial({
+        sent: strong(number(sent)),
+        count: strong(number(count)),
+        reason: reasons,
+      })
     : t.spam_sent_none({ reason: reasons });
 };
 
 export const BALANCE_HINTS: Record<BalanceTracking, () => string> = {
-  [BalanceTracking.LIVE]: () => t.spam_balance_live_hint(),
+  [BalanceTracking.LIVE]: () =>
+    t.spam_balance_live_hint({ seconds: strong(number(SPAM_POLL_MS / SECOND_MS)) }),
   [BalanceTracking.PAUSED]: () => t.spam_balance_paused_hint(),
-  [BalanceTracking.FAILING]: () => t.spam_balance_failing_hint(),
+  [BalanceTracking.FAILING]: () =>
+    t.spam_balance_failing_hint({ seconds: strong(number(SPAM_POLL_MS / SECOND_MS)) }),
 };
 
 export const rewardStatus = (reward: SpamRewardType, now: number): RewardStatus => {
@@ -105,8 +115,11 @@ export const UNAVAILABLE_BADGES: Partial<
   },
 };
 
-export const maxCount = (cost: number, balance: number): number =>
-  cost <= 0 ? SPAM_MAX_COUNT : Math.min(SPAM_MAX_COUNT, Math.floor(balance / cost));
+export const maxCount = (cost: number, balance: number): number => {
+  const burstMax = coreLimits().spam_burst_max;
+
+  return cost <= 0 ? burstMax : Math.min(burstMax, Math.floor(balance / cost));
+};
 
 export const countdown = (ms: number): string => (ms < HOUR_MS ? mmss(ms) : shortDuration(ms));
 

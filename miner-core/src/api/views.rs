@@ -239,14 +239,41 @@ pub struct Snapshot {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
     pub import: Option<ImportTokensFlowView>,
-    // ! Mirrors `TOKENS_IMPORT_MAX`/`TOKEN_LINE_MAX_CHARS` so the paste dialog
-    // can refuse a too-long list/line before any check request, in both the
-    // desktop and the dashboard shell.
-    pub token_import_max: u32,
-    pub token_line_max_chars: u32,
+    // ! The core's own limits, so the UI shows and checks them without a copy.
+    pub limits: CoreLimits,
     // ! Built from `AccountSettings::default()`, see
     // `AccountSettingsPatch::defaults()`.
     pub import_default_patch: AccountSettingsPatch,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[ts(rename = "CoreLimitsType")]
+pub struct CoreLimits {
+    pub token_import_max: u32,
+    pub token_line_max_chars: u32,
+    pub channels_lookup_max: u32,
+    pub search_min_chars: u32,
+    pub passphrase_min_chars: u32,
+    pub spam_burst_max: u32,
+    pub spam_delay_min_ms: u32,
+    pub spam_delay_max_ms: u32,
+    pub spam_redeem_text_max_chars: u32,
+    pub requests_bucket_minutes: u32,
+}
+
+impl CoreLimits {
+    pub const CURRENT: Self = Self {
+        token_import_max: crate::api::TOKENS_IMPORT_MAX as u32,
+        token_line_max_chars: crate::api::TOKEN_LINE_MAX_CHARS as u32,
+        channels_lookup_max: crate::api::CHANNELS_LOOKUP_MAX as u32,
+        search_min_chars: crate::miner::manager::SEARCH_MIN_CHARS as u32,
+        passphrase_min_chars: crate::miner::manager::PASSPHRASE_MIN_CHARS as u32,
+        spam_burst_max: crate::spam::BURST_MAX,
+        spam_delay_min_ms: crate::config::SPAM_DELAY_MIN_MS,
+        spam_delay_max_ms: crate::config::SPAM_DELAY_MAX_MS,
+        spam_redeem_text_max_chars: crate::spam::REDEEM_TEXT_MAX_CHARS as u32,
+        requests_bucket_minutes: crate::requests::BUCKET_MINUTES as u32,
+    };
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]

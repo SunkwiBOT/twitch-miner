@@ -2,6 +2,7 @@
   import type { Snippet } from "svelte";
 
   import { Tooltip, TooltipContent, TooltipTrigger } from "$lib/components/ui/tooltip";
+  import RichText from "./RichText.svelte";
 
   type TipPropsType = {
     text: string;
@@ -15,5 +16,5 @@
   <TooltipTrigger>
     {#snippet child({ props })}{@render children(props)}{/snippet}
   </TooltipTrigger>
-  <TooltipContent>{text}</TooltipContent>
+  <TooltipContent><RichText {text} /></TooltipContent>
 </Tooltip>

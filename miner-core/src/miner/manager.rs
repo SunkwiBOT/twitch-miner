@@ -14,17 +14,17 @@ use super::record_event;
 use super::spam_points::{spam_channels, SpamAccess, SpamPoints};
 use crate::api::{
     AccountSnapshot, AccountStats, AccountStatus, BadgeCatalogView, BadgesResponse,
-    CatalogResponse, CatalogView, CategoryCount, ChannelsLookupResponse, Command, DropsByCategory,
-    HistoryCurveQuery, HistoryCurveResponse, HistoryExportQuery, HistoryExportResponse,
-    HistoryQuery, HistoryResponse, HistoryStatsQuery, HistoryStatsResponse, ImportTokenOutcome,
-    ImportTokensFlowStatus, ImportTokensFlowView, LoginFlowStatus, LoginFlowView, LogsQuery,
-    LogsReportResponse, LogsResponse, NotificationTarget, NotificationTest,
-    NotificationTestRequest, PointsByDay, ProxyTestResponse, RedeemRequest, RefreshCount,
-    RequestsQuery, RequestsResponse, Shell, Snapshot, StreamerMinutes, StreamerPoints,
-    StreamerPredictions, TokenCheck, CHANNELS_LOOKUP_MAX, FOLLOWS_MAX, HISTORY_EXPORT_MAX,
-    HISTORY_LIMIT_DEFAULT, HISTORY_LIMIT_MAX, HISTORY_STATS_MAX_SPAN_DAYS, HISTORY_STATS_TOP_MAX,
-    LOGS_LIMIT_DEFAULT, LOGS_LIMIT_MAX, REQUESTS_LIMIT_DEFAULT, REQUESTS_LIMIT_MAX,
-    TOKENS_IMPORT_MAX, TOKEN_LINE_MAX_CHARS,
+    CatalogResponse, CatalogView, CategoryCount, ChannelsLookupResponse, Command, CoreLimits,
+    DropsByCategory, HistoryCurveQuery, HistoryCurveResponse, HistoryExportQuery,
+    HistoryExportResponse, HistoryQuery, HistoryResponse, HistoryStatsQuery, HistoryStatsResponse,
+    ImportTokenOutcome, ImportTokensFlowStatus, ImportTokensFlowView, LoginFlowStatus,
+    LoginFlowView, LogsQuery, LogsReportResponse, LogsResponse, NotificationTarget,
+    NotificationTest, NotificationTestRequest, PointsByDay, ProxyTestResponse, RedeemRequest,
+    RefreshCount, RequestsQuery, RequestsResponse, Shell, Snapshot, StreamerMinutes,
+    StreamerPoints, StreamerPredictions, TokenCheck, CHANNELS_LOOKUP_MAX, FOLLOWS_MAX,
+    HISTORY_EXPORT_MAX, HISTORY_LIMIT_DEFAULT, HISTORY_LIMIT_MAX, HISTORY_STATS_MAX_SPAN_DAYS,
+    HISTORY_STATS_TOP_MAX, LOGS_LIMIT_DEFAULT, LOGS_LIMIT_MAX, REQUESTS_LIMIT_DEFAULT,
+    REQUESTS_LIMIT_MAX, TOKENS_IMPORT_MAX, TOKEN_LINE_MAX_CHARS,
 };
 use crate::badges::{BadgeCatalog, BadgeCatalogClient};
 use crate::catalog::{Catalog, CatalogClient};
@@ -112,7 +112,7 @@ fn complete_account_game_entries(store: &Store, campaigns: &[Campaign]) -> Vec<A
 }
 
 // ! Twitch's search suggests nothing under this many letters.
-const SEARCH_MIN_CHARS: usize = 2;
+pub(crate) const SEARCH_MIN_CHARS: usize = 2;
 const SEARCH_MAX_CHARS: usize = 60;
 // ! Twitch logins are 4 to 25 characters long: shorter text is only a
 // fragment, not worth reading apart.
@@ -161,7 +161,7 @@ const HISTORY_PRUNE_EVERY: Duration = Duration::from_secs(3600);
 const REQUESTS_MAX_AGE: chrono::Duration = chrono::Duration::days(365);
 const REQUESTS_TICK: Duration = Duration::from_secs(60);
 const TASK_STOP_TIMEOUT: Duration = Duration::from_secs(5);
-const PASSPHRASE_MIN_CHARS: usize = 4;
+pub(crate) const PASSPHRASE_MIN_CHARS: usize = 4;
 const PASSPHRASE_TRIES: u32 = 5;
 const PASSPHRASE_PAUSE: Duration = Duration::from_secs(30);
 const UPDATE_ANNOUNCED_KEY: &str = "update_announced";
@@ -2258,8 +2258,7 @@ impl Manager {
             recent_events,
             login: self.login_status().await,
             import: self.import_status().await,
-            token_import_max: TOKENS_IMPORT_MAX as u32,
-            token_line_max_chars: TOKEN_LINE_MAX_CHARS as u32,
+            limits: CoreLimits::CURRENT,
             import_default_patch: AccountSettingsPatch::defaults(),
         })
     }

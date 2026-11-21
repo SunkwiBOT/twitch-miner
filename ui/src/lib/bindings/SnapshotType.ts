@@ -3,6 +3,7 @@ import type { AccountSettingsPatchType } from "./AccountSettingsPatchType";
 import type { AccountSnapshotType } from "./AccountSnapshotType";
 import type { BadgeCatalogViewType } from "./BadgeCatalogViewType";
 import type { CatalogViewType } from "./CatalogViewType";
+import type { CoreLimitsType } from "./CoreLimitsType";
 import type { GlobalSettingsType } from "./GlobalSettingsType";
 import type { ImportTokensFlowViewType } from "./ImportTokensFlowViewType";
 import type { LoginFlowViewType } from "./LoginFlowViewType";
@@ -25,7 +26,6 @@ export type SnapshotType = {
   recent_events: Array<MinerEventType>;
   login?: LoginFlowViewType;
   import?: ImportTokensFlowViewType;
-  token_import_max: number;
-  token_line_max_chars: number;
+  limits: CoreLimitsType;
   import_default_patch: AccountSettingsPatchType;
 };

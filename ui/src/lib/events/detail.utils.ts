@@ -16,7 +16,7 @@ const burstDetail = (event: MinerEventType): string => {
 
   return [
     refused > 0 ? t.ev_rewards_refused({ refused, reason: reasonsLabel(refusals, failures) }) : "",
-    cancelled > 0 ? t.spam_cancelled({ count: cancelled, shown: number(cancelled) }) : "",
+    cancelled > 0 ? t.spam_cancelled({ count: cancelled, formattedCount: number(cancelled) }) : "",
   ]
     .filter(Boolean)
     .join(" · ");

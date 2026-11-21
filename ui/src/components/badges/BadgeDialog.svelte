@@ -458,7 +458,7 @@
                 text={t.badge_evolution_locked({ badge: evolution.from.title })}
                 tone={BadgeTone.WARNING}
                 dot={false}
-                hint={t.badge_hint_evolution_locked({ badge: evolution.from.title })}
+                hint={t.badge_hint_evolution_locked({ badge: strong(evolution.from.title) })}
               />
             {/if}
           {/snippet}

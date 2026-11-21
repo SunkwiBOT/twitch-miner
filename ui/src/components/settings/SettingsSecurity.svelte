@@ -26,12 +26,8 @@
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import { IconName } from "../../lib/icons.constants";
   import { MenuAlign } from "../ui/menu.constants";
-  import {
-    FIELD_GRID_CLASSES,
-    PASSWORD_ENV,
-    PASSWORD_MIN_LENGTH,
-    PUBLIC_URL_ENV,
-  } from "./settings.constants";
+  import { coreLimits } from "../../lib/state/limits";
+  import { FIELD_GRID_CLASSES, PASSWORD_ENV, PUBLIC_URL_ENV } from "./settings.constants";
 
   type SettingsSecurityPropsType = { snapshot: SnapshotType; draft: GlobalSettingsType };
 
@@ -75,7 +71,7 @@
   const mismatch = $derived(confirm.length > 0 && next !== confirm);
 
   const canSave = $derived(
-    next.trim().length >= PASSWORD_MIN_LENGTH &&
+    next.trim().length >= coreLimits().passphrase_min_chars &&
       next === confirm &&
       (!hasPassword || current.length > 0),
   );
@@ -177,7 +173,9 @@
             </FormField>
           </div>
           {#if !mismatch}<span class="text-hint text-muted-foreground">
-              {t.security_rules()}
+              <RichText
+                text={t.security_rules({ minLength: strong(coreLimits().passphrase_min_chars) })}
+              />
             </span>{/if}
           <div class="flex flex-wrap justify-end gap-2">
             {#if editing}
@@ -257,7 +255,7 @@
   {:else}
     <Panel
       title={t.auth_title()}
-      description={t.settings_dashboard_password_hint({ variable: code(PASSWORD_ENV) })}
+      description={t.settings_dashboard_password_hint({ passwordVariable: code(PASSWORD_ENV) })}
     >
       {#snippet actions()}
         <Badge text={t.security_on()} tone={BadgeTone.SUCCESS} dot={false} icon={IconName.LOCK} />
@@ -267,7 +265,7 @@
         <RichText
           text={app.auth.public
             ? t.security_access_public({ host: strong(location.host) })
-            : t.security_access_local({ variable: code(PUBLIC_URL_ENV) })}
+            : t.security_access_local({ publicUrlVariable: code(PUBLIC_URL_ENV) })}
         />
       </p>
       <FormField

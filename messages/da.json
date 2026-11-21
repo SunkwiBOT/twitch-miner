@@ -20,11 +20,11 @@
   "common_live": "Live",
   "common_viewers": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} seer",
-        "countPlural=*": "{shown} seere"
+        "countPlural=one": "{formattedCount} seer",
+        "countPlural=*": "{formattedCount} seere"
       }
     }
   ],
@@ -69,8 +69,8 @@
   "common_accounts_count": "Konti: {count}",
   "common_accounts_none": "Ingen konto",
   "accounts_remove_title": "Fjern denne konto?",
-  "accounts_remove_text": "Sessionen for {name} tilbagekaldes på Twitch og slettes her. Indløste drops bliver i Twitch-beholdningen.",
-  "accounts_remove_text_imported_token": "Sessionen for {name} slettes her. Indløste drops bliver i Twitch-beholdningen; brug kontakten nedenfor for også at tilbagekalde den på Twitch.",
+  "accounts_remove_text": "Sessionen for {account} tilbagekaldes på Twitch og slettes her. Indløste drops bliver i Twitch-beholdningen.",
+  "accounts_remove_text_imported_token": "Sessionen for {account} slettes her. Indløste drops bliver i Twitch-beholdningen; brug kontakten nedenfor for også at tilbagekalde den på Twitch.",
   "accounts_login_again": "Log ind igen",
   "accounts_stats_drops": "Hentede drops: {count}",
   "accounts_stats_points": "Optjente point: {count}",
@@ -151,21 +151,21 @@
   ],
   "import_tokens_result_count": [
     {
-      "declarations": ["input count", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{count} token importeret",
-        "countPlural=*": "{count} tokens importeret"
+        "countPlural=one": "{formattedCount} token importeret",
+        "countPlural=*": "{formattedCount} tokens importeret"
       }
     }
   ],
   "import_tokens_result_cancelled": [
     {
-      "declarations": ["input count", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "Import annulleret — {count} token importeret",
-        "countPlural=*": "Import annulleret — {count} tokens importeret"
+        "countPlural=one": "Import annulleret — {formattedCount} token importeret",
+        "countPlural=*": "Import annulleret — {formattedCount} tokens importeret"
       }
     }
   ],
@@ -305,9 +305,9 @@
   "settings_update_notifications_allow": "Tillad notifikationer i denne browser",
   "settings_update_notifications_blocked": "Denne browser blokerer notifikationer fra dette websted: tillad dem i dens webstedsindstillinger.",
   "settings_update_notifications_unsupported": "Denne browser viser ingen notifikationer på denne adresse: åbn dashboardet via HTTPS.",
-  "settings_test_ok": "{target}: sendt",
+  "settings_test_ok": "{service}: sendt",
   "settings_test_ok_title": "Test sendt",
-  "settings_test_failed": "{target}: {error}",
+  "settings_test_failed": "{service}: {error}",
   "settings_test_failed_title": "Test mislykkedes",
   "notify_drop_claimed": "Drop hentet",
   "notify_drop_progress": "Drop-fremskridt",
@@ -331,7 +331,7 @@
   "settings_about": "Om",
   "settings_about_text": "Open source, MIT-licens. Ikke tilknyttet Twitch.",
   "settings_about_repo": "Kildekode",
-  "settings_dashboard_password_hint": "Sættes med {variable} på serveren: skift den der, og genstart derefter serveren.",
+  "settings_dashboard_password_hint": "Sættes med {passwordVariable} på serveren: skift den der, og genstart derefter serveren.",
   "settings_auto_lock": "Lås efter inaktivitet",
   "settings_auto_lock_hint": "Beder om adgangskoden igen efter så lang tid uden brug af oversigten, også i en fane, der er ladt åben. Appen fortsætter med at mine.",
   "settings_auto_lock_never": "Aldrig",
@@ -361,7 +361,7 @@
   "error_wrong_passphrase": "Forkert adgangskode",
   "error_unknown_account": "Ukendt konto",
   "error_invalid_proxy": "Denne proxyadresse er ikke gyldig.",
-  "error_unknown": "Noget gik galt: {code}",
+  "error_unknown": "Noget gik galt: {errorCode}",
   "time_now": "lige nu",
   "time_minutes_ago": "{count} min siden",
   "time_hours_ago": "{count} t siden",
@@ -470,7 +470,7 @@
   "settings_feedback_text": "Ved en fejl skal du vedhæfte logfilerne fra siden Tekniske logfiler: de indeholder ingen hemmeligheder.",
   "feedback_discord_text": "Åbn en ticket eller snak med fællesskabet",
   "feedback_github_text": "Åbn et issue: en fejl eller en idé",
-  "settings_catalog_text": "Kampagnelisten kommer fra drops.sunkwi.com, opdateret hvert {minutes}. minut.",
+  "settings_catalog_text": "Kampagnelisten kommer fra {domain}, opdateret hvert {minutes}. minut.",
   "account_proxy": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -580,13 +580,13 @@
   "security_off_text": "Alle, der bruger denne computer, kan åbne appen. Angiv en adgangskode for at låse den ved start og kryptere Twitch-sessionerne med den.",
   "security_new": "Ny adgangskode",
   "security_confirm": "Bekræft",
-  "security_rules": "Mindst 4 tegn. Den kan ikke gendannes: hvis du mister den, skal du tilføje kontiene igen.",
+  "security_rules": "Mindst {minLength} tegn. Den kan ikke gendannes: hvis du mister den, skal du tilføje kontiene igen.",
   "security_enable": "Angiv adgangskoden",
   "security_enabling": "Angiver adgangskoden…",
   "security_change": "Skift adgangskoden",
   "security_changing": "Skifter adgangskoden…",
   "security_disable": "Fjern adgangskoden",
-  "security_access_local": "Over almindelig HTTP: hold dette dashboard på dit eget netværk, eller placer det bag en omvendt HTTPS-proxy med {variable}.",
+  "security_access_local": "Over almindelig HTTP: hold dette dashboard på dit eget netværk, eller placer det bag en omvendt HTTPS-proxy med {publicUrlVariable}.",
   "security_access_public": "Bag en omvendt HTTPS-proxy, på {host}.",
   "settings_close_action": "Lukkeknap",
   "settings_unsaved": "Du har ændringer, der ikke er gemt.",
@@ -594,7 +594,7 @@
   "slots_two_hint": "Mest, som Twitch krediterer pr. konto: én til Drops og én til point, eller to til point.",
   "slots_one_title": "Én kanal",
   "slots_one_hint": "Mere diskret: kun én kanal ad gangen.",
-  "streamer_claim_bonus_hint": "Henter bonuskisten, der dukker op hvert 15. minut.",
+  "streamer_claim_bonus_hint": "Henter bonuskisten, der dukker op hvert {minutes}. minut.",
   "streamer_claim_moments_hint": "Henter moments-badges, når streameren starter et moment.",
   "streamer_follow_raids_hint": "Følger streameren, når vedkommende raider en anden kanal.",
   "streamer_predictions_stealth_hint": "Satser aldrig mere end den nuværende største spiller.",
@@ -677,9 +677,9 @@
   "reward_chest": "1 tilfældigt badge ud af {count}",
   "reward_chest_hint": "Twitch giver et af disse badges: {badges}",
   "campaign_channels_categories": "Enhver kanal i en af {count} kategorier",
-  "badges_collection": "Del af samlingen {name}",
-  "badges_collection_chest": "Del af samlingen {name}, 1 badge ud af {count}",
-  "badges_collection_all": "Badge for hele samlingen {name}, abonnementer medregnet",
+  "badges_collection": "Del af samlingen {collection}",
+  "badges_collection_chest": "Del af samlingen {collection}, 1 badge ud af {count}",
+  "badges_collection_all": "Badge for hele samlingen {collection}, abonnementer medregnet",
   "reward_watch_stream": "Se streamen",
   "reward_subscribe": "Abonnér selv",
   "reward_kind_badge": "Badge",
@@ -718,29 +718,29 @@
   "login_setup_title": "Opsæt kontoen",
   "login_setup_from": "Tag udgangspunkt i",
   "login_setup_defaults": "Standardindstillinger",
-  "login_setup_copy_from": "Indstillinger fra {name}",
+  "login_setup_copy_from": "Indstillinger fra {account}",
   "login_setup_copy_hint": "Kopierer den valgte kontos indstillinger, som de er (mining-rækkefølgen for Drops-kampagner, udelukkelser, streamerlisten), undtagen proxyen.",
   "login_setup_finish": "Begynd at mine",
   "login_setup_starting": "Begynder at mine…",
   "login_setup_later": "Gem og start senere",
   "error_not_supported": "Ikke tilgængelig i denne version af appen.",
-  "common_copy_named": "Kopiér {name}",
+  "common_copy_named": "Kopiér {copiedItem}",
   "bulk_accounts": "Konti",
   "bulk_applying": "Anvender…",
   "bulk_applied_title": "Konti opdateret",
   "bulk_apply": "Anvend ({count})",
   "bulk_apply_others": "Anvend på andre konti",
-  "bulk_changes": "{shown} ændringer",
-  "bulk_hint": "Ændringerne på {name} ({count}) gentages på de afkrydsede konti. Hver konto beholder resten af sine indstillinger.",
+  "bulk_changes": "{formattedCount} ændringer",
+  "bulk_hint": "Ændringerne på {account} ({count}) gentages på de afkrydsede konti. Hver konto beholder resten af sine indstillinger.",
   "bulk_hint_chosen": "Ændringerne på de valgte konti ({count}) gentages på de afkrydsede konti. Hver konto beholder resten af sine indstillinger.",
   "bulk_no_accounts": "Ingen anden konto.",
   "bulk_nothing_to_change": "Intet at ændre på denne konto",
   "bulk_title": "Anvend på andre konti",
   "change_campaign_moved": "{campaign} flyttet med succes",
-  "change_copied_drops": "Drops-indstillinger fra {source} kopieret med succes",
-  "change_copied_points": "Point-indstillinger fra {source} kopieret med succes",
-  "change_ignored": "Ignoreret med succes: {item}",
-  "change_unignored": "Mines igen: {item}",
+  "change_copied_drops": "Drops-indstillinger fra {sourceAccount} kopieret med succes",
+  "change_copied_points": "Point-indstillinger fra {sourceAccount} kopieret med succes",
+  "change_ignored": "Ignoreret med succes: {campaignOrReward}",
+  "change_unignored": "Mines igen: {campaignOrReward}",
   "change_settings": "Indstillinger gemt med succes",
   "change_streamer_added": "{streamer} tilføjet med succes",
   "change_streamer_disabled": "{streamer} sat på pause med succes",
@@ -755,14 +755,14 @@
   "common_select_all": "Vælg alle",
   "common_select_none": "Fravælg alle",
   "common_selected_count": "Valgt: {count} / {total}",
-  "copy_drops_hint": "Erstatter Drops-indstillingerne for {name}: mining-rækkefølge, prioriteter, udelukkelser, omfang og hentning.",
+  "copy_drops_hint": "Erstatter Drops-indstillingerne for {account}: mining-rækkefølge, prioriteter, udelukkelser, omfang og hentning.",
   "copy_drops_title": "Kopiér Drops-indstillingerne",
-  "copy_points_hint": "Erstatter streamerne på {name}, med hver enkelts indstillinger, standardindstillingerne for nye streamere og prioriteterne.",
+  "copy_points_hint": "Erstatter streamerne på {account}, med hver enkelts indstillinger, standardindstillingerne for nye streamere og prioriteterne.",
   "copy_points_title": "Kopiér point-indstillingerne",
   "import_add": "Tilføj ({count})",
   "import_already": "Allerede på listen: {count}",
   "import_check": "Kontrollér",
-  "import_follows_hint": "De kanaler, {name} følger på Twitch.",
+  "import_follows_hint": "De kanaler, {account} følger på Twitch.",
   "import_from": "Fra",
   "import_no_account": "Ingen anden konto at kopiere fra.",
   "import_none_new": "Intet nyt: disse kanaler er allerede på listen.",
@@ -1026,16 +1026,16 @@
   "confirm_remove": "Fjern",
   "confirm_removing": "Fjerner…",
   "confirm_remove_streamer_title": "Fjern denne streamer?",
-  "confirm_remove_streamer_text": "Denne konto ser ikke længere {name} for kanalpoint, og indstillingerne går tabt.",
+  "confirm_remove_streamer_text": "Denne konto ser ikke længere {streamer} for kanalpoint, og indstillingerne går tabt.",
   "confirm_remove_game_title": "Fjern denne prioritetskategori?",
-  "confirm_remove_game_text": "{name} mines stadig, men kampagnerne kommer ikke længere før de andre.",
+  "confirm_remove_game_text": "{category} mines stadig, men kampagnerne kommer ikke længere før de andre.",
   "confirm_remove_excluded_game_title": "Fjern denne udelukkede kategori?",
-  "confirm_remove_excluded_game_text": "{name} kan mines igen: kampagnerne springes ikke længere over.",
+  "confirm_remove_excluded_game_text": "{category} kan mines igen: kampagnerne springes ikke længere over.",
   "confirm_remove_excluded_word_title": "Fjern dette udelukkede ord?",
-  "confirm_remove_excluded_word_text": "Kampagner og drop-genstande, hvis navn indeholder {name}, springes ikke længere over.",
-  "confirm_remove_setup_streamer_text": "{name} fjernes fra listen: denne konto ser den ikke for kanalpoint.",
+  "confirm_remove_excluded_word_text": "Kampagner og drop-genstande, hvis navn indeholder {word}, springes ikke længere over.",
+  "confirm_remove_setup_streamer_text": "{streamer} fjernes fra listen: denne konto ser den ikke for kanalpoint.",
   "search_verified": "Verificeret partner",
-  "login_setup_for": "Konto: {name}",
+  "login_setup_for": "Konto: {account}",
   "login_setup_for_many": "Konti: {count}",
   "search_pick": "Vælg",
   "search_no_result": "Intet resultat for {query}.",
@@ -1077,10 +1077,10 @@
   "campaign_hint_claim_failed": "Twitch afviste indløsningen af en af dens belønninger: »{journal}« fortæller hvorfor",
   "campaign_hint_ignored": "Ignoreret manuelt: gendan den fra fanen »{tab}«",
   "campaign_hint_filtered": "Udelukket af »{setting}«",
-  "campaign_hint_points_only": "»{setting}« er »{value}«: ingen kampagne mines",
+  "campaign_hint_points_only": "»{setting}« er »{settingValue}«: ingen kampagne mines",
   "campaign_hint_unfinishable": "»{setting}« er slået til",
   "campaign_hint_not_selected": "»{setting}« er slået til: giv den en stjerne for at mine den",
-  "campaign_hint_not_linked": "»{setting}« er »{value}«: tilknyt udgiverkontoen for at mine den",
+  "campaign_hint_not_linked": "»{setting}« er »{settingValue}«: tilknyt udgiverkontoen for at mine den",
   "campaign_hint_lane_off": "Dens linje er slået fra i »{setting}«",
   "campaign_hint_waiting": "Ingen belønning kan ses lige nu: den næste åbner senere (en ny periode, en tidligere belønning først eller en senere start)",
   "campaign_hint_not_active": "Twitch kører ikke denne kampagne lige nu",
@@ -1092,11 +1092,11 @@
   "drops_add_game_placeholder": "Kategoriens navn…",
   "game_drops_available": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} drop tilgængelig",
-        "countPlural=*": "{shown} drops tilgængelige"
+        "countPlural=one": "{formattedCount} drop tilgængelig",
+        "countPlural=*": "{formattedCount} drops tilgængelige"
       }
     }
   ],
@@ -1116,7 +1116,7 @@
   "tray_sign_in_required": "login påkrævet",
   "notify_sent_by": "Sendt af",
   "points_subscriber_priority": "Abonnerede kanaler først",
-  "points_subscriber_priority_hint": "Twitch giver flere point pr. minut på kanaler, som denne konto abonnerer på (×1,2 til ×2 afhængigt af niveauet): de kommer før resten af din liste.",
+  "points_subscriber_priority_hint": "Twitch giver flere point pr. minut på kanaler, som denne konto abonnerer på (×{minMultiplier} til ×{maxMultiplier} afhængigt af niveauet): de kommer før resten af din liste.",
   "drops_streamers_first": "Mine streamere først til Drops og badges",
   "drops_streamers_first_hint": "I en kampagne eller for et badge kommer en kanal fra din liste, der tæller for den (den rigtige kategori med Drops eller en kategori i Twitch-begivenheden), før en ukendt kanal: Drops, badges og point samme sted.",
   "points_streamer_defaults": "Standardindstillinger for nye streamere",
@@ -1151,7 +1151,7 @@
   ],
   "points_group_hint": "Kun de indstillinger, du ændrer, gælder for disse streamere; en indstilling markeret »Blandet« beholder hver streamers egen værdi, indtil du ændrer den.",
   "streamer_option_mixed": "Blandet",
-  "setting_with_mark": "{option} ({mark})",
+  "setting_with_mark": "{option} ({optionNote})",
   "change_streamers_edited": "Streamere redigeret med succes: {count}",
   "points_defaults_offer_title": [
     {
@@ -1191,7 +1191,7 @@
   "logs_level_error": "Fejl",
   "logs_level_warn": "Advarsel",
   "logs_level_info": "Info",
-  "requests_subtitle": "Forespørgsler sendt til Twitch og de andre tjenester, uden token eller hemmeligheder. Fejl gemmes én for én, de øvrige tælles pr. 10 minutter, lige så længe som journalen.",
+  "requests_subtitle": "Forespørgsler sendt til Twitch og de andre tjenester, uden token eller hemmeligheder. Fejl gemmes én for én, de øvrige tælles pr. {minutes} minutter, lige så længe som journalen.",
   "requests_copied": "Forespørgsler kopieret",
   "requests_types": "Forespørgselstyper",
   "requests_types_all": "Alle typer",
@@ -1208,15 +1208,15 @@
     {
       "declarations": [
         "input count",
-        "input shown",
+        "input formattedCount",
         "input from",
         "input to",
         "local countPlural = count: plural"
       ],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} forespørgsel fra {from} til {to}",
-        "countPlural=*": "{shown} forespørgsler fra {from} til {to}"
+        "countPlural=one": "{formattedCount} forespørgsel fra {from} til {to}",
+        "countPlural=*": "{formattedCount} forespørgsler fra {from} til {to}"
       }
     }
   ],
@@ -1268,17 +1268,17 @@
   "spam_balance": "Saldo af kanalpoint: {points}",
   "spam_balance_unlimited": "Ubegrænsede kanalpoint: Twitch tager ingen point på din egen kanal",
   "spam_balance_changed": "opdateret {time}",
-  "spam_balance_live_hint": "Læses igen hvert 2.–3. sekund, mens siden er åben. Tidspunktet er saldoens seneste ændring.",
+  "spam_balance_live_hint": "Læses igen hvert {seconds} sekund, mens siden er åben. Tidspunktet er saldoens seneste ændring.",
   "spam_balance_paused": "sporing på pause",
   "spam_balance_paused_hint": "Saldoen læses igen, så snart vinduet har fokus.",
   "spam_balance_failing": "læsning mislykkedes",
-  "spam_balance_failing_hint": "De seneste læsninger af saldoen mislykkedes. Den læses igen hvert 2.–3. sekund.",
+  "spam_balance_failing_hint": "De seneste læsninger af saldoen mislykkedes. Den læses igen hvert {seconds} sekund.",
   "spam_seconds_ago": "for {count} s siden",
   "spam_settings": "Indstillinger for Spam Points",
   "spam_show_disabled": "Vis deaktiverede og dem på pause",
   "spam_show_out_of_stock": "Vis udsolgte",
   "spam_delay": "Pause mellem anmodningerne",
-  "spam_delay_hint": "Mellem to indløsninger i samme serie, 0 til 5.000 ms.",
+  "spam_delay_hint": "Mellem to indløsninger i samme serie, {minDelay} til {maxDelay} ms.",
   "spam_delay_unit": "ms",
   "spam_refresh": "Opdater belønningerne",
   "spam_load_failed": "Belønningerne kunne ikke læses",
@@ -1298,18 +1298,18 @@
   "spam_decrease": "Mindsk",
   "spam_increase": "Øg",
   "spam_max_balance": "Din saldo rækker ikke til flere",
-  "spam_max_count": "Højst 25 pr. serie",
+  "spam_max_count": "Højst {maxCount} pr. serie",
   "spam_redeem": "Indløs",
   "spam_redeeming": "Sender {done}/{total}…",
   "spam_missing": "Der mangler",
-  "spam_description": "Beskrivelse: {text}",
+  "spam_description": "Beskrivelse: {description}",
   "spam_sent_all": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Indløst!",
-        "countPlural=*": "{shown} sendt!"
+        "countPlural=*": "{formattedCount} sendt!"
       }
     }
   ],
@@ -1320,11 +1320,11 @@
   "spam_toast": "{count} × {reward} på {channel}: {result}",
   "spam_cancelled": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} annulleret, da siden blev forladt",
-        "countPlural=*": "{shown} annulleret, da siden blev forladt"
+        "countPlural=one": "{formattedCount} annulleret, da siden blev forladt",
+        "countPlural=*": "{formattedCount} annulleret, da siden blev forladt"
       }
     }
   ],
@@ -1335,7 +1335,7 @@
   "spam_reason_paused": "belønningen er på pause",
   "spam_reason_out_of_stock": "belønningen er udsolgt",
   "spam_reason_text_required": "beskeden mangler",
-  "spam_reason_unknown": "afvist af Twitch ({code})",
+  "spam_reason_unknown": "afvist af Twitch ({refusalCode})",
   "spam_no_rewards": "Ingen belønning er tilgængelig lige nu.",
   "error_unknown_reward": "Denne belønning findes ikke længere på kanalen.",
   "error_reward_not_redeemable": "Intet blev sendt: belønningen kræver en besked, er ikke tilgængelig eller har nedkøling, eller saldoen rækker ikke.",
@@ -1344,7 +1344,7 @@
     {
       "declarations": [
         "input sent",
-        "input shown",
+        "input formattedSent",
         "input count",
         "input reward",
         "input channel",
@@ -1353,8 +1353,8 @@
       ],
       "selectors": ["sentPlural"],
       "match": {
-        "sentPlural=one": "{count} × {reward} på {channel} — {shown} sendt, {points} point",
-        "sentPlural=*": "{count} × {reward} på {channel} — {shown} sendt, {points} point"
+        "sentPlural=one": "{count} × {reward} på {channel} — {formattedSent} sendt, {points} point",
+        "sentPlural=*": "{count} × {reward} på {channel} — {formattedSent} sendt, {points} point"
       }
     }
   ],
@@ -1362,7 +1362,7 @@
     {
       "declarations": [
         "input sent",
-        "input shown",
+        "input formattedSent",
         "input count",
         "input reward",
         "input points",
@@ -1370,8 +1370,8 @@
       ],
       "selectors": ["sentPlural"],
       "match": {
-        "sentPlural=one": "{count} × {reward} — {shown} sendt, {points} point",
-        "sentPlural=*": "{count} × {reward} — {shown} sendt, {points} point"
+        "sentPlural=one": "{count} × {reward} — {formattedSent} sendt, {points} point",
+        "sentPlural=*": "{count} × {reward} — {formattedSent} sendt, {points} point"
       }
     }
   ],
@@ -1404,11 +1404,11 @@
   "badges_refreshed_title": "Badges opdateret",
   "badges_refreshed": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} badge",
-        "countPlural=*": "{shown} badges"
+        "countPlural=one": "{formattedCount} badge",
+        "countPlural=*": "{formattedCount} badges"
       }
     }
   ],
@@ -1425,11 +1425,11 @@
   ],
   "badges_off_calendar": [
     {
-      "declarations": ["input count", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{count} badge uden datoer eller allerede afsluttet:",
-        "countPlural=*": "{count} badges uden datoer eller allerede afsluttet:"
+        "countPlural=one": "{formattedCount} badge uden datoer eller allerede afsluttet:",
+        "countPlural=*": "{formattedCount} badges uden datoer eller allerede afsluttet:"
       }
     }
   ],
@@ -1495,9 +1495,9 @@
   "campaign_selecting": "Føjer til…",
   "campaign_unselect": "Fjern fra mit valg",
   "campaign_unselecting": "Fjerner…",
-  "change_selected": "Føjet til valget: {item}",
-  "change_unselected": "Fjernet fra valget: {item}",
-  "change_prioritized": "Placeret øverst i mining-rækkefølgen: {item}",
+  "change_selected": "Føjet til valget: {campaignOrReward}",
+  "change_unselected": "Fjernet fra valget: {campaignOrReward}",
+  "change_prioritized": "Placeret øverst i mining-rækkefølgen: {campaignOrReward}",
   "selection_not_selected": "Ikke valgt",
   "badges_not_selected_hint": "»Kun mit valg« er slået til: giv dette badge en stjerne for at mine det.",
   "account_badges_mining_off": "Badges er slået fra i denne kontos »Hvad der skal mines, i rækkefølge«: de vises, men mines ikke.",

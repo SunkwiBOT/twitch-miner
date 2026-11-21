@@ -20,12 +20,12 @@
   "common_live": "Živě",
   "common_viewers": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} divák",
-        "countPlural=few": "{shown} diváci",
-        "countPlural=*": "{shown} diváků"
+        "countPlural=one": "{formattedCount} divák",
+        "countPlural=few": "{formattedCount} diváci",
+        "countPlural=*": "{formattedCount} diváků"
       }
     }
   ],
@@ -70,8 +70,8 @@
   "common_accounts_count": "Účty: {count}",
   "common_accounts_none": "Žádný účet",
   "accounts_remove_title": "Odebrat tento účet?",
-  "accounts_remove_text": "Relace {name} se na Twitchi zruší a tady smaže. Vyzvednuté dropy zůstanou v inventáři Twitch.",
-  "accounts_remove_text_imported_token": "Relace {name} se tady smaže. Vyzvednuté dropy zůstanou v inventáři Twitch; přepínačem níže ji můžete zrušit i na Twitchi.",
+  "accounts_remove_text": "Relace {account} se na Twitchi zruší a tady smaže. Vyzvednuté dropy zůstanou v inventáři Twitch.",
+  "accounts_remove_text_imported_token": "Relace {account} se tady smaže. Vyzvednuté dropy zůstanou v inventáři Twitch; přepínačem níže ji můžete zrušit i na Twitchi.",
   "accounts_login_again": "Přihlásit se znovu",
   "accounts_stats_drops": "Získané dropy: {count}",
   "accounts_stats_points": "Získané body: {count}",
@@ -157,23 +157,23 @@
   ],
   "import_tokens_result_count": [
     {
-      "declarations": ["input count", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{count} token importován",
-        "countPlural=few": "{count} tokeny importovány",
-        "countPlural=*": "{count} tokenů importováno"
+        "countPlural=one": "{formattedCount} token importován",
+        "countPlural=few": "{formattedCount} tokeny importovány",
+        "countPlural=*": "{formattedCount} tokenů importováno"
       }
     }
   ],
   "import_tokens_result_cancelled": [
     {
-      "declarations": ["input count", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "Import zrušen — {count} token importován",
-        "countPlural=few": "Import zrušen — {count} tokeny importovány",
-        "countPlural=*": "Import zrušen — {count} tokenů importováno"
+        "countPlural=one": "Import zrušen — {formattedCount} token importován",
+        "countPlural=few": "Import zrušen — {formattedCount} tokeny importovány",
+        "countPlural=*": "Import zrušen — {formattedCount} tokenů importováno"
       }
     }
   ],
@@ -313,9 +313,9 @@
   "settings_update_notifications_allow": "Povolit oznámení v tomto prohlížeči",
   "settings_update_notifications_blocked": "Tento prohlížeč blokuje oznámení z tohoto webu: povolte je v jeho nastavení webu.",
   "settings_update_notifications_unsupported": "Tento prohlížeč na této adrese nezobrazuje oznámení: otevřete ovládací panel přes HTTPS.",
-  "settings_test_ok": "{target}: odesláno",
+  "settings_test_ok": "{service}: odesláno",
   "settings_test_ok_title": "Test odeslán",
-  "settings_test_failed": "{target}: {error}",
+  "settings_test_failed": "{service}: {error}",
   "settings_test_failed_title": "Test se nezdařil",
   "notify_drop_claimed": "Drop vyzvednut",
   "notify_drop_progress": "Postup drop",
@@ -339,7 +339,7 @@
   "settings_about": "O aplikaci",
   "settings_about_text": "Open source, licence MIT. Není spojeno s Twitch.",
   "settings_about_repo": "Zdrojový kód",
-  "settings_dashboard_password_hint": "Nastavuje se v {variable} na serveru: změňte ho tam a pak server restartujte.",
+  "settings_dashboard_password_hint": "Nastavuje se v {passwordVariable} na serveru: změňte ho tam a pak server restartujte.",
   "settings_auto_lock": "Zamknout po nečinnosti",
   "settings_auto_lock_hint": "Po této době bez používání přehledu znovu požádá o heslo, i v kartě ponechané otevřené. Těžba pokračuje.",
   "settings_auto_lock_never": "Nikdy",
@@ -369,7 +369,7 @@
   "error_wrong_passphrase": "Nesprávné heslo",
   "error_unknown_account": "Neznámý účet",
   "error_invalid_proxy": "Tato adresa proxy není platná.",
-  "error_unknown": "Něco se pokazilo: {code}",
+  "error_unknown": "Něco se pokazilo: {errorCode}",
   "time_now": "právě teď",
   "time_minutes_ago": "před {count} min",
   "time_hours_ago": "před {count} h",
@@ -480,7 +480,7 @@
   "settings_feedback_text": "U chyby přiložte protokoly ze stránky Technické protokoly: neobsahují žádné tajné údaje.",
   "feedback_discord_text": "Otevřít tiket nebo si popovídat s komunitou",
   "feedback_github_text": "Otevřít issue: chyba nebo nápad",
-  "settings_catalog_text": "Seznam kampaní pochází z drops.sunkwi.com a obnovuje se každých {minutes} minut.",
+  "settings_catalog_text": "Seznam kampaní pochází z {domain} a obnovuje se každých {minutes} minut.",
   "account_proxy": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -593,13 +593,13 @@
   "security_off_text": "Aplikaci může otevřít kdokoli, kdo používá tento počítač. Nastavte heslo, které ji při spuštění zamkne a zašifruje relace Twitch.",
   "security_new": "Nové heslo",
   "security_confirm": "Potvrzení",
-  "security_rules": "Alespoň 4 znaky. Nelze ho obnovit: pokud ho ztratíte, přidejte účty znovu.",
+  "security_rules": "Alespoň {minLength} znaky. Nelze ho obnovit: pokud ho ztratíte, přidejte účty znovu.",
   "security_enable": "Nastavit heslo",
   "security_enabling": "Nastavuje se heslo…",
   "security_change": "Změnit heslo",
   "security_changing": "Mění se heslo…",
   "security_disable": "Odebrat heslo",
-  "security_access_local": "Přes prosté HTTP: nechte tento panel ve své síti, nebo ho umístěte za reverzní proxy HTTPS s {variable}.",
+  "security_access_local": "Přes prosté HTTP: nechte tento panel ve své síti, nebo ho umístěte za reverzní proxy HTTPS s {publicUrlVariable}.",
   "security_access_public": "Za reverzní proxy HTTPS, na adrese {host}.",
   "settings_close_action": "Tlačítko zavření",
   "settings_unsaved": "Máte neuložené změny.",
@@ -607,7 +607,7 @@
   "slots_two_hint": "Nejvíc, co Twitch na účet připíše: jeden pro Drops a jeden pro body, nebo dva pro body.",
   "slots_one_title": "Jeden kanál",
   "slots_one_hint": "Nenápadnější: jen jeden kanál najednou.",
-  "streamer_claim_bonus_hint": "Vyzvedává bonusovou truhlu, která se objevuje každých 15 minut.",
+  "streamer_claim_bonus_hint": "Vyzvedává bonusovou truhlu, která se objevuje každých {minutes} minut.",
   "streamer_claim_moments_hint": "Vyzvedává odznaky momentů, když streamer nějaký moment spustí.",
   "streamer_follow_raids_hint": "Následuje streamera, když provede raid na jiný kanál.",
   "streamer_predictions_stealth_hint": "Nikdy nevsadí víc než aktuální největší sázející.",
@@ -797,9 +797,9 @@
   "reward_chest": "1 náhodný odznak z {count}",
   "reward_chest_hint": "Twitch dá jeden z těchto odznaků: {badges}",
   "campaign_channels_categories": "Jakýkoli kanál v jedné z kategorií ({count})",
-  "badges_collection": "Součást kolekce {name}",
-  "badges_collection_chest": "Součást kolekce {name}, 1 odznak z {count}",
-  "badges_collection_all": "Odznak za celou kolekci {name}, včetně předplatných",
+  "badges_collection": "Součást kolekce {collection}",
+  "badges_collection_chest": "Součást kolekce {collection}, 1 odznak z {count}",
+  "badges_collection_all": "Odznak za celou kolekci {collection}, včetně předplatných",
   "reward_watch_stream": "Sledovat stream",
   "reward_subscribe": "Předplaťte si sami",
   "reward_kind_badge": "Odznak",
@@ -838,13 +838,13 @@
   "login_setup_title": "Nastavit účet",
   "login_setup_from": "Vyjít z",
   "login_setup_defaults": "Výchozí nastavení",
-  "login_setup_copy_from": "Nastavení účtu {name}",
+  "login_setup_copy_from": "Nastavení účtu {account}",
   "login_setup_copy_hint": "Zkopíruje nastavení zvoleného účtu beze změny (pořadí těžby kampaní Drops, vyloučení, seznam streamerů), kromě proxy.",
   "login_setup_finish": "Začít těžit",
   "login_setup_starting": "Spouští se těžba…",
   "login_setup_later": "Uložit a spustit později",
   "error_not_supported": "V této verzi aplikace není k dispozici.",
-  "common_copy_named": "Kopírovat {name}",
+  "common_copy_named": "Kopírovat {copiedItem}",
   "bulk_accounts": "Účty",
   "bulk_applying": "Používá se…",
   "bulk_applied_title": "Účty aktualizovány",
@@ -852,25 +852,25 @@
   "bulk_apply_others": "Použít na další účty",
   "bulk_changes": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} změna",
-        "countPlural=few": "{shown} změny",
-        "countPlural=*": "{shown} změn"
+        "countPlural=one": "{formattedCount} změna",
+        "countPlural=few": "{formattedCount} změny",
+        "countPlural=*": "{formattedCount} změn"
       }
     }
   ],
-  "bulk_hint": "Změny provedené na účtu {name} ({count}) se zopakují na zaškrtnutých účtech. Každý účet si ponechá zbytek svého nastavení.",
+  "bulk_hint": "Změny provedené na účtu {account} ({count}) se zopakují na zaškrtnutých účtech. Každý účet si ponechá zbytek svého nastavení.",
   "bulk_hint_chosen": "Změny provedené na vybraných účtech ({count}) se zopakují na zaškrtnutých účtech. Každý účet si ponechá zbytek svého nastavení.",
   "bulk_no_accounts": "Žádný jiný účet.",
   "bulk_nothing_to_change": "Na tomto účtu není co měnit",
   "bulk_title": "Použít na další účty",
   "change_campaign_moved": "Kampaň {campaign} úspěšně přesunuta",
-  "change_copied_drops": "Nastavení Drops z účtu {source} úspěšně zkopírováno",
-  "change_copied_points": "Nastavení bodů z účtu {source} úspěšně zkopírováno",
-  "change_ignored": "Úspěšně ignorováno: {item}",
-  "change_unignored": "Opět se těží: {item}",
+  "change_copied_drops": "Nastavení Drops z účtu {sourceAccount} úspěšně zkopírováno",
+  "change_copied_points": "Nastavení bodů z účtu {sourceAccount} úspěšně zkopírováno",
+  "change_ignored": "Úspěšně ignorováno: {campaignOrReward}",
+  "change_unignored": "Opět se těží: {campaignOrReward}",
   "change_settings": "Nastavení úspěšně uloženo",
   "change_streamer_added": "Streamer {streamer} úspěšně přidán",
   "change_streamer_disabled": "Streamer {streamer} úspěšně pozastaven",
@@ -885,14 +885,14 @@
   "common_select_all": "Vybrat vše",
   "common_select_none": "Zrušit výběr",
   "common_selected_count": "Vybráno: {count} / {total}",
-  "copy_drops_hint": "Nahradí nastavení Drops účtu {name}: pořadí těžby, priority, vyloučení, rozsah a vyzvedávání.",
+  "copy_drops_hint": "Nahradí nastavení Drops účtu {account}: pořadí těžby, priority, vyloučení, rozsah a vyzvedávání.",
   "copy_drops_title": "Kopírovat nastavení Drops",
-  "copy_points_hint": "Nahradí streamery účtu {name} i s možnostmi každého z nich, výchozí možnosti nových streamerů a priority.",
+  "copy_points_hint": "Nahradí streamery účtu {account} i s možnostmi každého z nich, výchozí možnosti nových streamerů a priority.",
   "copy_points_title": "Kopírovat nastavení bodů",
   "import_add": "Přidat ({count})",
   "import_already": "Už v seznamu: {count}",
   "import_check": "Ověřit",
-  "import_follows_hint": "Kanály, které {name} sleduje na Twitchi.",
+  "import_follows_hint": "Kanály, které {account} sleduje na Twitchi.",
   "import_from": "Z účtu",
   "import_no_account": "Žádný jiný účet, ze kterého kopírovat.",
   "import_none_new": "Nic nového: tyto kanály už jsou v seznamu.",
@@ -1193,16 +1193,16 @@
   "confirm_remove": "Odebrat",
   "confirm_removing": "Odebírá se…",
   "confirm_remove_streamer_title": "Odebrat tohoto streamera?",
-  "confirm_remove_streamer_text": "Tento účet už nebude sledovat {name} kvůli bodům kanálu a jeho možnosti se ztratí.",
+  "confirm_remove_streamer_text": "Tento účet už nebude sledovat {streamer} kvůli bodům kanálu a jeho možnosti se ztratí.",
   "confirm_remove_game_title": "Odebrat tuto prioritní kategorii?",
-  "confirm_remove_game_text": "{name} se dál těží, ale její kampaně už nejdou před ostatními.",
+  "confirm_remove_game_text": "{category} se dál těží, ale její kampaně už nejdou před ostatními.",
   "confirm_remove_excluded_game_title": "Odebrat tuto vyloučenou kategorii?",
-  "confirm_remove_excluded_game_text": "{name} se může znovu těžit: její kampaně se už nepřeskakují.",
+  "confirm_remove_excluded_game_text": "{category} se může znovu těžit: její kampaně se už nepřeskakují.",
   "confirm_remove_excluded_word_title": "Odebrat toto vyloučené slovo?",
-  "confirm_remove_excluded_word_text": "Kampaně a předměty dropů, jejichž název obsahuje {name}, se už nepřeskakují.",
-  "confirm_remove_setup_streamer_text": "{name} odchází ze seznamu: tento účet ho nebude sledovat kvůli bodům kanálu.",
+  "confirm_remove_excluded_word_text": "Kampaně a předměty dropů, jejichž název obsahuje {word}, se už nepřeskakují.",
+  "confirm_remove_setup_streamer_text": "{streamer} odchází ze seznamu: tento účet ho nebude sledovat kvůli bodům kanálu.",
   "search_verified": "Ověřený partner",
-  "login_setup_for": "Účet: {name}",
+  "login_setup_for": "Účet: {account}",
   "login_setup_for_many": "Účty: {count}",
   "search_pick": "Vybrat",
   "search_no_result": "Žádné výsledky pro {query}.",
@@ -1244,10 +1244,10 @@
   "campaign_hint_claim_failed": "Twitch odmítl vyzvednutí jedné z jejích odměn: „{journal}“ říká proč",
   "campaign_hint_ignored": "Ručně ignorováno: obnovte ji na kartě „{tab}“",
   "campaign_hint_filtered": "Vyloučeno přes „{setting}“",
-  "campaign_hint_points_only": "„{setting}“ je nastaveno na „{value}“: netěží se žádná kampaň",
+  "campaign_hint_points_only": "„{setting}“ je nastaveno na „{settingValue}“: netěží se žádná kampaň",
   "campaign_hint_unfinishable": "„{setting}“ je zapnuto",
   "campaign_hint_not_selected": "„{setting}“ je zapnuto: označte ji hvězdičkou, aby se těžila",
-  "campaign_hint_not_linked": "„{setting}“ je nastaveno na „{value}“: propojte účet vydavatele, aby se těžila",
+  "campaign_hint_not_linked": "„{setting}“ je nastaveno na „{settingValue}“: propojte účet vydavatele, aby se těžila",
   "campaign_hint_lane_off": "Její řádek je vypnutý v „{setting}“",
   "campaign_hint_waiting": "Teď nelze sledovat žádnou odměnu: další se otevře později (nové období, nejdřív dřívější odměna nebo pozdější začátek)",
   "campaign_hint_not_active": "Twitch tuto kampaň teď neprovozuje",
@@ -1259,12 +1259,12 @@
   "drops_add_game_placeholder": "Název kategorie…",
   "game_drops_available": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} dostupný drop",
-        "countPlural=few": "{shown} dostupné dropy",
-        "countPlural=*": "{shown} dostupných dropů"
+        "countPlural=one": "{formattedCount} dostupný drop",
+        "countPlural=few": "{formattedCount} dostupné dropy",
+        "countPlural=*": "{formattedCount} dostupných dropů"
       }
     }
   ],
@@ -1284,7 +1284,7 @@
   "tray_sign_in_required": "je nutné přihlášení",
   "notify_sent_by": "Odesláno z",
   "points_subscriber_priority": "Předplacené kanály první",
-  "points_subscriber_priority_hint": "Twitch dává více bodů za minutu na kanálech, které má tento účet předplacené (×1,2 až ×2 podle úrovně): mají přednost před zbytkem vašeho seznamu.",
+  "points_subscriber_priority_hint": "Twitch dává více bodů za minutu na kanálech, které má tento účet předplacené (×{minMultiplier} až ×{maxMultiplier} podle úrovně): mají přednost před zbytkem vašeho seznamu.",
   "drops_streamers_first": "Moji streameři první pro Drops a odznaky",
   "drops_streamers_first_hint": "U kampaně nebo odznaku má kanál z vašeho seznamu, který se pro ně počítá (správná kategorie s Drops nebo kategorie události Twitche), přednost před neznámým kanálem: Drops, odznaky i body na jednom místě.",
   "points_streamer_defaults": "Výchozí možnosti nových streamerů",
@@ -1320,7 +1320,7 @@
   ],
   "points_group_hint": "Použijí se jen možnosti, které změníte; možnost označená jako „Smíšené“ si u každého streamera ponechá jeho hodnotu, dokud ji nezměníte.",
   "streamer_option_mixed": "Smíšené",
-  "setting_with_mark": "{option} ({mark})",
+  "setting_with_mark": "{option} ({optionNote})",
   "change_streamers_edited": "Streameři úspěšně upraveni: {count}",
   "points_defaults_offer_title": [
     {
@@ -1386,7 +1386,7 @@
   "logs_level_error": "Chyba",
   "logs_level_warn": "Varování",
   "logs_level_info": "Informace",
-  "requests_subtitle": "Požadavky odeslané na Twitch a další služby, bez jakéhokoli tokenu či tajemství. Neúspěšné se uchovávají jednotlivě, ostatní se počítají po 10 minutách, stejně dlouho jako deník.",
+  "requests_subtitle": "Požadavky odeslané na Twitch a další služby, bez jakéhokoli tokenu či tajemství. Neúspěšné se uchovávají jednotlivě, ostatní se počítají po {minutes} minutách, stejně dlouho jako deník.",
   "requests_copied": "Požadavky zkopírovány",
   "requests_types": "Typy požadavků",
   "requests_types_all": "Všechny typy",
@@ -1403,16 +1403,16 @@
     {
       "declarations": [
         "input count",
-        "input shown",
+        "input formattedCount",
         "input from",
         "input to",
         "local countPlural = count: plural"
       ],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} požadavek od {from} do {to}",
-        "countPlural=few": "{shown} požadavky od {from} do {to}",
-        "countPlural=*": "{shown} požadavků od {from} do {to}"
+        "countPlural=one": "{formattedCount} požadavek od {from} do {to}",
+        "countPlural=few": "{formattedCount} požadavky od {from} do {to}",
+        "countPlural=*": "{formattedCount} požadavků od {from} do {to}"
       }
     }
   ],
@@ -1464,17 +1464,17 @@
   "spam_balance": "Zůstatek bodů kanálu: {points}",
   "spam_balance_unlimited": "Neomezené body kanálu: na vlastním kanálu si Twitch žádné body nebere",
   "spam_balance_changed": "aktualizováno {time}",
-  "spam_balance_live_hint": "Načítá se znovu každé 2 až 3 s, dokud je stránka otevřená. Čas je čas poslední změny zůstatku.",
+  "spam_balance_live_hint": "Načítá se znovu každé {seconds} s, dokud je stránka otevřená. Čas je čas poslední změny zůstatku.",
   "spam_balance_paused": "sledování pozastaveno",
   "spam_balance_paused_hint": "Zůstatek se znovu načte, jakmile má okno fokus.",
   "spam_balance_failing": "čtení selhalo",
-  "spam_balance_failing_hint": "Poslední načtení zůstatku selhala. Načítá se znovu každé 2 až 3 s.",
+  "spam_balance_failing_hint": "Poslední načtení zůstatku selhala. Načítá se znovu každé {seconds} s.",
   "spam_seconds_ago": "před {count} s",
   "spam_settings": "Nastavení Spam Points",
   "spam_show_disabled": "Zobrazit vypnuté a pozastavené",
   "spam_show_out_of_stock": "Zobrazit vyprodané",
   "spam_delay": "Prodleva mezi požadavky",
-  "spam_delay_hint": "Mezi dvěma uplatněními jedné série, 0 až 5 000 ms.",
+  "spam_delay_hint": "Mezi dvěma uplatněními jedné série, {minDelay} až {maxDelay} ms.",
   "spam_delay_unit": "ms",
   "spam_refresh": "Obnovit odměny",
   "spam_load_failed": "Odměny se nepodařilo načíst",
@@ -1494,19 +1494,19 @@
   "spam_decrease": "Snížit",
   "spam_increase": "Zvýšit",
   "spam_max_balance": "Váš zůstatek víc nedovolí",
-  "spam_max_count": "Nejvýše 25 v sérii",
+  "spam_max_count": "Nejvýše {maxCount} v sérii",
   "spam_redeem": "Uplatnit",
   "spam_redeeming": "Odesílání {done}/{total}…",
   "spam_missing": "Chybí",
-  "spam_description": "Popis: {text}",
+  "spam_description": "Popis: {description}",
   "spam_sent_all": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
         "countPlural=one": "Uplatněno!",
-        "countPlural=few": "Odeslány {shown}!",
-        "countPlural=*": "Odesláno {shown}!"
+        "countPlural=few": "Odeslány {formattedCount}!",
+        "countPlural=*": "Odesláno {formattedCount}!"
       }
     }
   ],
@@ -1517,12 +1517,12 @@
   "spam_toast": "{count} × {reward} na kanálu {channel}: {result}",
   "spam_cancelled": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} zrušen při opuštění stránky",
-        "countPlural=few": "{shown} zrušeny při opuštění stránky",
-        "countPlural=*": "{shown} zrušeno při opuštění stránky"
+        "countPlural=one": "{formattedCount} zrušen při opuštění stránky",
+        "countPlural=few": "{formattedCount} zrušeny při opuštění stránky",
+        "countPlural=*": "{formattedCount} zrušeno při opuštění stránky"
       }
     }
   ],
@@ -1533,7 +1533,7 @@
   "spam_reason_paused": "odměna pozastavená",
   "spam_reason_out_of_stock": "odměna vyprodaná",
   "spam_reason_text_required": "chybí zpráva",
-  "spam_reason_unknown": "Twitch odmítl ({code})",
+  "spam_reason_unknown": "Twitch odmítl ({refusalCode})",
   "spam_no_rewards": "Momentálně není k dispozici žádná odměna.",
   "error_unknown_reward": "Tato odměna už na kanálu není.",
   "error_reward_not_redeemable": "Nic nebylo odesláno: odměna vyžaduje zprávu, není dostupná nebo se obnovuje, nebo je zůstatek příliš nízký.",
@@ -1542,7 +1542,7 @@
     {
       "declarations": [
         "input sent",
-        "input shown",
+        "input formattedSent",
         "input count",
         "input reward",
         "input channel",
@@ -1551,9 +1551,9 @@
       ],
       "selectors": ["sentPlural"],
       "match": {
-        "sentPlural=one": "{count} × {reward} na kanálu {channel} — odesláno {shown}, {points} bodů",
-        "sentPlural=few": "{count} × {reward} na kanálu {channel} — odeslány {shown}, {points} bodů",
-        "sentPlural=*": "{count} × {reward} na kanálu {channel} — odesláno {shown}, {points} bodů"
+        "sentPlural=one": "{count} × {reward} na kanálu {channel} — odesláno {formattedSent}, {points} bodů",
+        "sentPlural=few": "{count} × {reward} na kanálu {channel} — odeslány {formattedSent}, {points} bodů",
+        "sentPlural=*": "{count} × {reward} na kanálu {channel} — odesláno {formattedSent}, {points} bodů"
       }
     }
   ],
@@ -1561,7 +1561,7 @@
     {
       "declarations": [
         "input sent",
-        "input shown",
+        "input formattedSent",
         "input count",
         "input reward",
         "input points",
@@ -1569,9 +1569,9 @@
       ],
       "selectors": ["sentPlural"],
       "match": {
-        "sentPlural=one": "{count} × {reward} — odesláno {shown}, {points} bodů",
-        "sentPlural=few": "{count} × {reward} — odeslány {shown}, {points} bodů",
-        "sentPlural=*": "{count} × {reward} — odesláno {shown}, {points} bodů"
+        "sentPlural=one": "{count} × {reward} — odesláno {formattedSent}, {points} bodů",
+        "sentPlural=few": "{count} × {reward} — odeslány {formattedSent}, {points} bodů",
+        "sentPlural=*": "{count} × {reward} — odesláno {formattedSent}, {points} bodů"
       }
     }
   ],
@@ -1605,12 +1605,12 @@
   "badges_refreshed_title": "Odznaky obnoveny",
   "badges_refreshed": [
     {
-      "declarations": ["input count", "input shown", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{shown} odznak",
-        "countPlural=few": "{shown} odznaky",
-        "countPlural=*": "{shown} odznaků"
+        "countPlural=one": "{formattedCount} odznak",
+        "countPlural=few": "{formattedCount} odznaky",
+        "countPlural=*": "{formattedCount} odznaků"
       }
     }
   ],
@@ -1628,12 +1628,12 @@
   ],
   "badges_off_calendar": [
     {
-      "declarations": ["input count", "local countPlural = count: plural"],
+      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{count} odznak bez dat nebo už skončený:",
-        "countPlural=few": "{count} odznaky bez dat nebo už skončené:",
-        "countPlural=*": "{count} odznaků bez dat nebo už skončených:"
+        "countPlural=one": "{formattedCount} odznak bez dat nebo už skončený:",
+        "countPlural=few": "{formattedCount} odznaky bez dat nebo už skončené:",
+        "countPlural=*": "{formattedCount} odznaků bez dat nebo už skončených:"
       }
     }
   ],
@@ -1699,9 +1699,9 @@
   "campaign_selecting": "Přidává se…",
   "campaign_unselect": "Odebrat z mého výběru",
   "campaign_unselecting": "Odebírá se…",
-  "change_selected": "Přidáno do výběru: {item}",
-  "change_unselected": "Odebráno z výběru: {item}",
-  "change_prioritized": "Umístěno na začátek pořadí těžby: {item}",
+  "change_selected": "Přidáno do výběru: {campaignOrReward}",
+  "change_unselected": "Odebráno z výběru: {campaignOrReward}",
+  "change_prioritized": "Umístěno na začátek pořadí těžby: {campaignOrReward}",
   "selection_not_selected": "Nevybráno",
   "badges_not_selected_hint": "„Jen můj výběr“ je zapnuto: označte tento odznak hvězdičkou, aby se těžil.",
   "account_badges_mining_off": "Odznaky jsou vypnuté v položce „Co těžit a v jakém pořadí“ tohoto účtu: zobrazují se, ale netěží se.",

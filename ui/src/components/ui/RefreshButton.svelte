@@ -1,7 +1,9 @@
 <script lang="ts">
   import { mmss } from "../../lib/format.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
+  import { strong } from "../../lib/text.utils";
   import { secondClock } from "../../lib/time/clock.svelte";
+  import RichText from "./RichText.svelte";
   import ActionButton from "./ActionButton.svelte";
   import { ButtonSize, ButtonType, ButtonVariant } from "./button.constants";
   import { IconName } from "../../lib/icons.constants";
@@ -46,7 +48,7 @@
   />
   {#if wait > 0}
     <span id={waitId} class="text-hint text-muted-foreground">
-      {t.common_refresh_wait({ time: mmss(wait) })}
+      <RichText text={t.common_refresh_wait({ time: strong(mmss(wait)) })} />
     </span>
   {/if}
 </span>

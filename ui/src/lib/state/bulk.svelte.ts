@@ -80,7 +80,8 @@ export const changed = (
 
   toast(ToastKind.SUCCESS, t.change_settings(), {
     key: BULK_TOAST_KEY,
-    description: count === 1 ? text : t.bulk_changes({ count, shown: strong(number(count)) }),
+    description:
+      count === 1 ? text : t.bulk_changes({ count, formattedCount: strong(number(count)) }),
     account: count === 1 ? (subject ?? image) : image,
     action: applicable
       ? { label: t.bulk_apply_others(), icon: IconName.USERS, run: () => (bulk.open = true) }

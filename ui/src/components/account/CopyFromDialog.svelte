@@ -55,8 +55,8 @@
     };
 
     const text = drops
-      ? t.change_copied_drops({ source: strong(source.name) })
-      : t.change_copied_points({ source: strong(source.name) });
+      ? t.change_copied_drops({ sourceAccount: strong(source.name) })
+      : t.change_copied_points({ sourceAccount: strong(source.name) });
 
     void changedWhenSaved(updateAccountSettings(account.id, take), account.id, text, take, source);
     onclose();
@@ -78,8 +78,8 @@
       id="copy-from"
       label={t.import_from()}
       hint={drops
-        ? t.copy_drops_hint({ name: personMarker(0) })
-        : t.copy_points_hint({ name: personMarker(0) })}
+        ? t.copy_drops_hint({ account: personMarker(0) })
+        : t.copy_points_hint({ account: personMarker(0) })}
       people={[{ name: account.display_name, avatar: account.avatar_url, channel: null }]}
     >
       <Select

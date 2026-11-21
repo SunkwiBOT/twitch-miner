@@ -78,7 +78,7 @@ const MESSAGES: Record<ErrorApiMessage, (code: ErrorApiMessage) => string> = {
   [ErrorApiMessage.NOT_FOUND]: () => t.error_not_found(),
   [ErrorApiMessage.NOT_SUPPORTED]: () => t.error_not_supported(),
   [ErrorApiMessage.SERVER_UNREACHABLE]: () => t.error_server_unreachable(),
-  [ErrorApiMessage.UNKNOWN_ERROR]: (code) => t.error_unknown({ code }),
+  [ErrorApiMessage.UNKNOWN_ERROR]: (code) => t.error_unknown({ errorCode: code }),
 };
 
 export const describeCode = (code: ErrorApiMessage): string => MESSAGES[code](code);

@@ -13,6 +13,7 @@
   import { ensureChannels, knownChannels } from "../../lib/channels/channels.svelte";
   import { minutes } from "../../lib/format.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
+  import { strong } from "../../lib/text.utils";
   import { formatDate } from "../../lib/time/time.utils";
   import Badge from "../ui/Badge.svelte";
   import TextButton from "../ui/TextButton.svelte";
@@ -103,7 +104,7 @@
             text={t.badge_evolution({ badge: evolvesFrom })}
             tone={BadgeTone.INFO}
             dot={false}
-            hint={t.badge_hint_evolution({ badge: evolvesFrom })}
+            hint={t.badge_hint_evolution({ badge: strong(evolvesFrom) })}
           />
         {/if}
         {#if requirement?.ends_at && ended}

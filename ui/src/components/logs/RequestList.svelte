@@ -9,6 +9,8 @@
   import type { SnapshotType } from "../../lib/bindings/SnapshotType";
   import { PagedFeed } from "../../lib/feed/feed.svelte";
   import { t } from "../../lib/i18n/i18n.svelte";
+  import { coreLimits } from "../../lib/state/limits";
+  import { strong } from "../../lib/text.utils";
   import {
     DESKTOP_ONLY_KINDS,
     REQUEST_KIND_GROUPS,
@@ -84,7 +86,7 @@
   const report = (): Promise<string> => fetchRequestsReport(filters());
 </script>
 
-<PageHeader intro={t.requests_subtitle()}>
+<PageHeader intro={t.requests_subtitle({ minutes: strong(coreLimits().requests_bucket_minutes) })}>
   {#snippet actions()}
     <LogsActions {report} copiedLabel={t.requests_copied()} />
   {/snippet}

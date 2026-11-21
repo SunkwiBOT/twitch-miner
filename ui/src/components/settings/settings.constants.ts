@@ -1,8 +1,6 @@
 import { HistoryRetention } from "../../lib/bindings/HistoryRetention";
 import { t } from "../../lib/i18n/i18n.svelte";
 
-export const PASSWORD_MIN_LENGTH = 4;
-
 // ! The server's environment variables, as `miner-server/src/env.rs` reads them.
 export const PASSWORD_ENV = "MINER_PASSWORD";
 

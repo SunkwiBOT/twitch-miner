@@ -46,7 +46,7 @@
   <PageHeader
     intro={t.catalogue_intro({
       site: linkMarker(0),
-      minutes: Math.round(snapshot.catalog.interval_seconds / 60),
+      minutes: strong(Math.round(snapshot.catalog.interval_seconds / 60)),
     })}
     links={[{ label: DROPS_API_NAME, url: DROPS_WEB_URL }]}
   >
@@ -92,7 +92,7 @@
     {#snippet empty()}
       <EmptyState
         text={snapshot.catalog.problem
-          ? t.dashboard_catalog_error({ error: describeCode(snapshot.catalog.problem) })
+          ? t.dashboard_catalog_error({ error: strong(describeCode(snapshot.catalog.problem)) })
           : running.length
             ? t.catalogue_empty()
             : t.catalogue_none()}

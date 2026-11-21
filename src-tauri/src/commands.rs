@@ -69,8 +69,7 @@ async fn locked_snapshot(manager: &Manager) -> Snapshot {
         recent_events: Vec::new(),
         login: None,
         import: None,
-        token_import_max: miner_core::api::TOKENS_IMPORT_MAX as u32,
-        token_line_max_chars: miner_core::api::TOKEN_LINE_MAX_CHARS as u32,
+        limits: miner_core::api::CoreLimits::CURRENT,
         import_default_patch: AccountSettingsPatch::defaults(),
     }
 }

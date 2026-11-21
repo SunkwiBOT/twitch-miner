@@ -1,5 +1,6 @@
 import { relativeTime } from "../../lib/time/time.utils";
 import { t } from "../../lib/i18n/i18n.svelte";
+import { strong } from "../../lib/text.utils";
 import { IconName } from "../../lib/icons.constants";
 import { ProgressState, type AccountProgressType } from "../../lib/catalogue/progress.constants";
 import { BadgeTone } from "../../lib/tones.constants";
@@ -29,7 +30,7 @@ export const PROGRESS_BADGES: Record<ProgressState, ProgressBadgeType> = {
     icon: IconName.CLOCK,
     hint: (entry, now) =>
       entry.setAsideUntil
-        ? t.badge_hint_blocked_set_aside({ time: relativeTime(entry.setAsideUntil, now) })
+        ? t.badge_hint_blocked_set_aside({ time: strong(relativeTime(entry.setAsideUntil, now)) })
         : "",
   },
   [ProgressState.IN_PROGRESS]: {

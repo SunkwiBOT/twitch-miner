@@ -4,6 +4,7 @@
   import { cn } from "$lib/utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import Badge from "./Badge.svelte";
+  import RichText from "./RichText.svelte";
   import Toggle from "./Toggle.svelte";
   import { BadgeTone } from "../../lib/tones.constants";
   import { FOCUS_INSIDE_CLASSES } from "./field.constants";
@@ -44,12 +45,14 @@
           dot={false}
         />{/if}
     </span>
-    {#if description}<span class="text-hint text-muted-foreground">{description}</span>{/if}
+    {#if description}<span class="text-hint text-muted-foreground">
+        <RichText text={description} />
+      </span>{/if}
   </div>
   {#if mark}
     <div
       role="group"
-      aria-label={t.setting_with_mark({ option: title, mark })}
+      aria-label={t.setting_with_mark({ option: title, optionNote: mark })}
       class="flex shrink-0 overflow-hidden rounded-md border border-input"
     >
       {#each YES_NO_CHOICES as choice (choice.value)}

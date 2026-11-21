@@ -33,6 +33,7 @@
   import { openTab, showTab } from "../lib/state/router";
   import { ToastKind } from "../lib/state/state.constants";
   import { toast } from "../lib/state/toasts";
+  import { code } from "../lib/text.utils";
   import {
     HISTORY_MORE_SKELETON_ROWS,
     HISTORY_PAGE_SIZE,
@@ -135,7 +136,7 @@
         }
 
         if (result.path) {
-          toast(ToastKind.SUCCESS, t.export_csv_saved({ path: result.path }));
+          toast(ToastKind.SUCCESS, t.export_csv_saved({ path: code(result.path) }));
         }
       }
     } catch (e: any) {

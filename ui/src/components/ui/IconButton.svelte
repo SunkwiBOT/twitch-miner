@@ -12,6 +12,7 @@
     ICON_BUTTON_SIZES,
   } from "./button.constants";
   import { IconName } from "../../lib/icons.constants";
+  import { escapeEmphasis } from "../../lib/text.utils";
 
   type IconButtonPropsType = {
     icon: IconName;
@@ -40,7 +41,7 @@
   const iconSize = $derived(size === ButtonSize.SM ? 14 : 16);
 </script>
 
-<Tip text={tooltip ?? label}>
+<Tip text={escapeEmphasis(tooltip ?? label)}>
   {#snippet children(props)}
     <Button
       {...props}

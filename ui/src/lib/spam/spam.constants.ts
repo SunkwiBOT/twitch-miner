@@ -1,14 +1,8 @@
-export const SPAM_MAX_COUNT = 25;
-
-export const SPAM_MAX_DELAY_MS = 5_000;
-
 export const SPAM_DELAY_STEP_MS = 50;
 
 export const SPAM_POLL_MS = 2_500;
 
 export const SPAM_POLL_FAILURES_SHOWN = 3;
-
-export const SPAM_MESSAGE_MAX = 200;
 
 // ! Counted again from each answer: a request waits for a slot then up to 20 s; longer silence means the result was lost.
 export const SPAM_RESULT_WAIT_MS = 90_000;

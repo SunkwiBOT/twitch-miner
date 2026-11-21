@@ -4,6 +4,7 @@
   import type { GlobalSettingsType } from "../../lib/bindings/GlobalSettingsType";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { ticker } from "../../lib/state/ticker.svelte";
+  import { strong } from "../../lib/text.utils";
   import { AUTO_TIME_ZONE } from "../../lib/time/time.constants";
   import { deviceTimeZone } from "../../lib/time/time.svelte";
   import {
@@ -143,7 +144,7 @@
           id="set-quiet-end"
           label={t.quiet_window_end()}
           hint={t.quiet_window_zone_hint({
-            zone: draft.time_zone === AUTO_TIME_ZONE ? deviceTimeZone() : draft.time_zone,
+            zone: strong(draft.time_zone === AUTO_TIME_ZONE ? deviceTimeZone() : draft.time_zone),
           })}
           error={endError}
         >

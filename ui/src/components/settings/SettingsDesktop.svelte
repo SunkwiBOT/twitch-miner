@@ -78,7 +78,7 @@
         text={() => dataDir}
         label={t.common_copy()}
         copiedLabel={t.common_copied()}
-        name={t.common_copy_named({ name: t.settings_data_folder() })}
+        name={t.common_copy_named({ copiedItem: t.settings_data_folder() })}
         layout={CopyLayout.ICON}
         size={ButtonSize.MD}
       />

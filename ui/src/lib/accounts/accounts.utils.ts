@@ -9,6 +9,7 @@ import { describeCode } from "../errors/errors.utils";
 import { relativeTime } from "../time/time.utils";
 import { IconName } from "../icons.constants";
 import { t } from "../i18n/i18n.svelte";
+import { strong } from "../text.utils";
 import { AccountState, PauseScope } from "./account-state.constants";
 import { PROXY_CREDENTIALS_MASK } from "./accounts.constants";
 
@@ -146,7 +147,7 @@ const QUEUE_BLOCK_HINTS: Record<QueueBlock, (item: QueueItemType, now: number) =
   [QueueBlock.NO_LIVE_CHANNEL]: () => t.badge_hint_blocked_no_live(),
   [QueueBlock.ONE_CAMPAIGN_AT_A_TIME]: () => t.badge_hint_blocked_one_at_a_time(),
   [QueueBlock.SET_ASIDE]: (item) =>
-    t.queue_hint_blocked_set_aside({ minutes: item.set_aside_stall_minutes ?? 0 }),
+    t.queue_hint_blocked_set_aside({ minutes: strong(item.set_aside_stall_minutes ?? 0) }),
 };
 
 export const queueBlockHint = (item: QueueItemType, now: number): string =>

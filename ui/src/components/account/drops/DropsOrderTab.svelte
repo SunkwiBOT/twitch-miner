@@ -244,7 +244,7 @@
 <ConfirmDialog
   open={removing !== null}
   title={t.confirm_remove_game_title()}
-  text={t.confirm_remove_game_text({ name: strong(removing?.name ?? "") })}
+  text={t.confirm_remove_game_text({ category: strong(removing?.name ?? "") })}
   confirmLabel={t.confirm_remove()}
   busyLabel={t.confirm_removing()}
   busy={false}

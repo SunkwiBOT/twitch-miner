@@ -4,6 +4,7 @@
   import Tip from "./Tip.svelte";
   import { BUTTON_VARIANT_CLASSES, ButtonVariant } from "./button.constants";
   import { IconName } from "../../lib/icons.constants";
+  import { escapeEmphasis } from "../../lib/text.utils";
 
   type ChipRemoveButtonPropsType = {
     label: string;
@@ -15,7 +16,7 @@
   let { label, name, iconSize, onclick }: ChipRemoveButtonPropsType = $props();
 </script>
 
-<Tip text={label}>
+<Tip text={escapeEmphasis(label)}>
   {#snippet children(props)}
     <button
       {...props}

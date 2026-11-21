@@ -49,13 +49,13 @@
       if (result.problem) {
         toast(ToastKind.ERROR, t.settings_test_failed_title(), {
           description: t.settings_test_failed({
-            target: strong(target),
+            service: strong(target),
             error: escapeEmphasis(describeCode(result.problem)),
           }),
         });
       } else {
         toast(ToastKind.SUCCESS, t.settings_test_ok_title(), {
-          description: t.settings_test_ok({ target: strong(target) }),
+          description: t.settings_test_ok({ service: strong(target) }),
         });
       }
     } catch (e: any) {

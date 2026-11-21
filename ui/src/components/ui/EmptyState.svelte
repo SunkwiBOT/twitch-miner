@@ -2,6 +2,7 @@
   import type { Snippet } from "svelte";
 
   import Icon from "./Icon.svelte";
+  import RichText from "./RichText.svelte";
   import type { IconName } from "../../lib/icons.constants";
 
   type EmptyStatePropsType = {
@@ -19,6 +20,6 @@
 >
   {#if icon}<Icon name={icon} size={22} />{/if}
   {#if title}<h2 class="text-base font-semibold text-foreground">{title}</h2>{/if}
-  <p class="max-w-[60ch]">{text}</p>
+  <p class="max-w-[60ch]"><RichText {text} /></p>
   {#if action}<div class="mt-1 flex flex-wrap justify-center gap-2">{@render action()}</div>{/if}
 </div>

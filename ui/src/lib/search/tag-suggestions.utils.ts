@@ -1,4 +1,3 @@
-import { SEARCH_MIN_CHARS } from "./search.constants";
 import { matchesSearch, normalizeSearch } from "./search.utils";
 
 export type TagSuggestionType = {
@@ -27,8 +26,9 @@ export const tagSuggestions = (
   known: readonly TagSuggestionType[],
   found: readonly TagSuggestionType[],
   max: number,
+  minChars: number,
 ): TagSuggestionType[] => {
-  if (draft.trim().length < SEARCH_MIN_CHARS) {
+  if (draft.trim().length < minChars) {
     return [];
   }
 

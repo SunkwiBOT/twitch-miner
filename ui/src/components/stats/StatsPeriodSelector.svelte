@@ -1,6 +1,7 @@
 <script lang="ts">
   import { HistoryRetention } from "../../lib/bindings/HistoryRetention";
   import { t } from "../../lib/i18n/i18n.svelte";
+  import { strong } from "../../lib/text.utils";
   import { RETENTION_LABELS } from "../settings/settings.constants";
   import Segmented from "../ui/Segmented.svelte";
   import { STATS_PERIODS } from "./stats.constants";
@@ -29,7 +30,9 @@
       value: String(period),
       label: PERIOD_LABELS[period](),
       disabled: retentionDays !== null && period > retentionDays && period !== value,
-      tip: t.stats_period_disabled_retention({ retention: RETENTION_LABELS[retention]() }),
+      tip: t.stats_period_disabled_retention({
+        retention: strong(RETENTION_LABELS[retention]()),
+      }),
     })),
   );
 </script>

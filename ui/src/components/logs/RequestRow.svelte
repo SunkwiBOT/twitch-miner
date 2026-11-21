@@ -5,6 +5,7 @@
   import { RequestOutcome } from "../../lib/bindings/RequestOutcome";
   import { elapsed, number } from "../../lib/format.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
+  import { strong } from "../../lib/text.utils";
   import {
     GROUP_COUNT_PREFIX,
     NO_TARGET,
@@ -22,6 +23,7 @@
   import { formatClock, formatClockWithSeconds } from "../../lib/time/time.utils";
   import Avatar from "../ui/Avatar.svelte";
   import Badge from "../ui/Badge.svelte";
+  import RichText from "../ui/RichText.svelte";
   import { AvatarSize } from "../ui/picture.constants";
   import Tip from "../ui/Tip.svelte";
   import { BadgeTone } from "../../lib/tones.constants";
@@ -78,9 +80,9 @@
     {#if entry.group}
       {@const hint = t.requests_group_hint({
         count: entry.group.count,
-        shown: number(entry.group.count),
-        from: formatClock(entry.at),
-        to: formatClock(entry.group.until),
+        formattedCount: strong(number(entry.group.count)),
+        from: strong(formatClock(entry.at)),
+        to: strong(formatClock(entry.group.until)),
       })}
       <Badge
         text={`${GROUP_COUNT_PREFIX}${number(entry.group.count)}`}
@@ -88,7 +90,7 @@
         dot={false}
         {hint}
       />
-      <span class="sr-only">{hint}</span>
+      <span class="sr-only"><RichText text={hint} /></span>
     {/if}
     {#if entry.detail}
       <span class="block text-muted-foreground">{entry.detail}</span>
