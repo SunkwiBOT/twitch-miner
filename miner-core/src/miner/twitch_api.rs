@@ -42,7 +42,7 @@ pub(crate) trait TwitchApi {
 
     async fn points_context(&self, login: &str) -> Result<Option<PointsContext>>;
 
-    async fn watch_streak(&self, login: &str) -> Result<Option<WatchStreak>>;
+    async fn watch_streak(&self, login: &str, channel_id: &str) -> Result<Option<WatchStreak>>;
 
     async fn claim_bonus(&self, channel_id: &str, claim_id: &str) -> Result<Option<i64>>;
 
@@ -133,8 +133,8 @@ impl TwitchApi for TwitchClient {
         TwitchClient::points_context(self, login).await
     }
 
-    async fn watch_streak(&self, login: &str) -> Result<Option<WatchStreak>> {
-        TwitchClient::watch_streak(self, login).await
+    async fn watch_streak(&self, login: &str, channel_id: &str) -> Result<Option<WatchStreak>> {
+        TwitchClient::watch_streak(self, login, channel_id).await
     }
 
     async fn claim_bonus(&self, channel_id: &str, claim_id: &str) -> Result<Option<i64>> {

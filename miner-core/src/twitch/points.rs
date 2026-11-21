@@ -190,9 +190,12 @@ impl TwitchClient {
         .map(|_| ())
     }
 
-    pub async fn watch_streak(&self, login: &str) -> Result<Option<WatchStreak>> {
+    pub async fn watch_streak(&self, login: &str, channel_id: &str) -> Result<Option<WatchStreak>> {
         let response = self
-            .gql(Operation::RewardList, json!({"channelLogin": login}))
+            .gql(
+                Operation::RewardList,
+                json!({"channelLogin": login, "channelID": channel_id}),
+            )
             .await?;
         let milestone = &response["data"]["channel"]["self"]["watchStreakMilestone"];
 

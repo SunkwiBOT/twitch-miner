@@ -99,7 +99,7 @@ impl<T: TwitchApi> AccountMiner<T> {
             }
 
             let now = tokio::time::Instant::now();
-            let stale: Vec<String> = logins
+            let stale: Vec<(String, String)> = logins
                 .iter()
                 .filter(|login| seen.contains(*login))
                 .filter(|login| {
@@ -109,14 +109,20 @@ impl<T: TwitchApi> AccountMiner<T> {
                             .get(*login)
                             .is_none_or(|at| now.duration_since(*at) >= POINTS_INTERVAL)
                 })
-                .cloned()
+                // ! A channel without a resolved id yet (lookup still pending) is
+                // skipped this round rather than asked for its reward list without one.
+                .filter_map(|login| {
+                    self.streamer_channels
+                        .get(login)
+                        .map(|channel| (login.clone(), channel.id.clone()))
+                })
                 .collect();
             let client = &self.client;
             let reads: Vec<_> = futures_util::stream::iter(stale)
-                .map(|login| async move {
+                .map(|(login, channel_id)| async move {
                     let context = client.points_context(&login).await;
                     let streak = match &context {
-                        Ok(Some(_)) => Some(client.watch_streak(&login).await),
+                        Ok(Some(_)) => Some(client.watch_streak(&login, &channel_id).await),
                         _ => None,
                     };
 
