@@ -8,7 +8,9 @@ use crate::domain::BenefitKind;
 use crate::error::{Error, Result};
 use crate::predictions::MAX_PREDICTION_POINTS;
 
-const SLOTS: RangeInclusive<u8> = 1..=2;
+// ! Twitch credits at most two channels per account at a time.
+pub const MAX_WATCHED_CHANNELS: u8 = 2;
+const SLOTS: RangeInclusive<u8> = 1..=MAX_WATCHED_CHANNELS;
 const BET_PERCENTAGE: RangeInclusive<u8> = 1..=100;
 const BET_TIMING_PERCENT: RangeInclusive<u8> = 1..=99;
 const BET_GAP_PERCENT: RangeInclusive<u8> = 0..=100;
@@ -401,7 +403,6 @@ pub struct AccountSettings {
     pub drops: DropsSettings,
     pub badges: BadgeSettings,
     pub points: PointsSettings,
-    // ! Twitch credits at most two channels per account at a time.
     pub slots: u8,
     pub proxy: String,
     // ! A timed pause: cleared automatically once past, by hand on resume, or
@@ -420,7 +421,7 @@ impl Default for AccountSettings {
             drops: DropsSettings::default(),
             badges: BadgeSettings::default(),
             points: PointsSettings::default(),
-            slots: 2,
+            slots: MAX_WATCHED_CHANNELS,
             proxy: String::new(),
             paused_until: None,
         }

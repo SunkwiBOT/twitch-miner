@@ -360,9 +360,12 @@ Pobierz plik dla swojego systemu z
 
 | System | Pakiet |
 |---|---|
-| **Windows** · x64 | Instalator (`setup.exe`) lub [wersja przenośna](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **macOS** 13 lub nowszy · Intel i Apple Silicon | Obraz dysku (`.dmg`) |
+| **Windows** · x64 | Instalator (`x64-setup.exe`) lub [wersja przenośna](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | Instalator (`arm64-setup.exe`) lub [wersja przenośna](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 lub nowszy · universal: Intel i Apple Silicon | Obraz dysku (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) lub `.rpm` (Fedora, openSUSE) |
+| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) lub `.rpm` (Fedora, openSUSE) |
+| **Serwer Linux** · x86-64 lub ARM64 | Sam serwer, bez Dockera (`twitch-miner-server_…_linux_x64` lub `_linux_arm64`): zobacz [Bez Dockera](#systemd) |
 
 Wersja na macOS nie jest notaryzowana. Za pierwszym razem otwórz aplikację: macOS ją
 zablokuje. Następnie przejdź do **Ustawienia systemowe › Prywatność i ochrona** i kliknij
@@ -433,6 +436,63 @@ proxy, a błędne hasła jednego gościa zablokowałyby wszystkich. Połączenie
 ping co 30 sekund, żeby proxy go nie zamknęło, gdy nic się nie dzieje. Gdy Twitch lub
 sieć zawiedzie, serwer odpowiada `424`, nigdy `502` ani `504`: za Cloudflare widzisz
 prawdziwy błąd zamiast strony Cloudflare.
+
+### <a name="systemd"></a>Bez Dockera (systemd)
+
+Na serwerze z Linuksem bez Dockera wydanie zawiera też serwer jako pojedynczy plik, z
+panelem w środku: `twitch-miner-server_<version>_linux_x64` lub
+`twitch-miner-server_<version>_linux_arm64`. To ten sam program, który uruchamia obraz
+Dockera, zlinkowany statycznie: nie trzeba instalować niczego więcej. Przyjmuje te same
+zmienne.
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 na ARM64
+sudo install -m 600 /dev/null /etc/twitch-miner.env
+```
+
+Wpisz własne hasło, co najmniej 12 znaków, do `/etc/twitch-miner.env`, które może
+odczytać tylko root:
+
+```ini
+MINER_PASSWORD=change-me
+```
+
+Potem usługę, w `/etc/systemd/system/twitch-miner.service`:
+
+```ini
+[Unit]
+Description=Twitch Miner
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/twitch-miner
+EnvironmentFile=/etc/twitch-miner.env
+Environment=DATA_DIR=/var/lib/twitch-miner
+DynamicUser=yes
+StateDirectory=twitch-miner
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now twitch-miner
+```
+
+systemd tworzy `/var/lib/twitch-miner` na dane i uruchamia serwer pod własnym,
+dedykowanym użytkownikiem, nigdy jako root. Otwórz `http://<adres serwera>:8080`; logi
+znajdziesz w `journalctl -u twitch-miner`.
+
+Ten plik nie aktualizuje się sam. Gdy panel pokaże nową wersję, pobierz nowy plik z
+wydania, zastąp nim stary i uruchom ponownie:
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 na ARM64
+sudo systemctl restart twitch-miner
+```
 
 ## <a name="how-it-works"></a>Jak to działa
 

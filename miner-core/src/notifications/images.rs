@@ -59,7 +59,7 @@ impl ImageCache {
         let client = reqwest::Client::builder()
             .timeout(TIMEOUT)
             .redirect(redirects)
-            .user_agent(crate::user_agent(crate::api::Shell::Desktop))
+            .user_agent(crate::user_agent(crate::api::InstallKind::Desktop))
             .build()
             .map_err(network)?;
         let cache = Self {

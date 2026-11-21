@@ -43,9 +43,9 @@
   "status_paused": "Σε παύση",
   "status_login_required": "Απαιτείται σύνδεση",
   "status_problem": "Πρόβλημα",
-  "mode_auto_hint": "Εξορύσσει την καλύτερη καμπάνια Drops σε ένα κανάλι· το δεύτερο κανάλι κερδίζει πόντους στους streamers σας. Χωρίς καμπάνια, και τα δύο κανάλια πάνε σε πόντους.",
+  "mode_auto_hint": "Εξορύσσει την καλύτερη καμπάνια Drops σε ένα κανάλι και κερδίζει πόντους στους streamers σας με τα υπόλοιπα. Χωρίς καμπάνια, όλα τα κανάλια πάνε σε πόντους.",
   "mode_drops_hint": "Ένα κανάλι, για την τρέχουσα καμπάνια Drops. Χωρίς πόντους καναλιού.",
-  "mode_points_hint": "Και τα δύο κανάλια παρακολουθούν τους streamers σας για πόντους καναλιού. Χωρίς Drops.",
+  "mode_points_hint": "Όλα τα κανάλια παρακολουθούν τους streamers σας για πόντους καναλιού. Χωρίς Drops.",
   "dashboard_no_accounts_title": "Κανένας λογαριασμός ακόμα",
   "dashboard_no_accounts_text": "Προσθέστε έναν λογαριασμό Twitch με έναν κωδικό που πληκτρολογείτε στο twitch.tv/activate, από οποιαδήποτε συσκευή. Δεν αποθηκεύεται κωδικός πρόσβασης.",
   "dashboard_recent": "Πρόσφατη δραστηριότητα",
@@ -172,7 +172,20 @@
   "import_tokens_importing_progress": "Εισαγωγή: {done}/{total}",
   "import_tokens_cancel": "Ακύρωση εισαγωγής",
   "import_tokens_retry_failed": "Δοκιμή ξανά",
-  "account_slots_hint": "Το Twitch πιστώνει το πολύ δύο κανάλια ανά λογαριασμό ταυτόχρονα.",
+  "account_slots_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Το Twitch πιστώνει το πολύ {formattedMaxWatchedChannels} κανάλι ανά λογαριασμό ταυτόχρονα.",
+        "maxWatchedChannelsPlural=*": "Το Twitch πιστώνει το πολύ {formattedMaxWatchedChannels} κανάλια ανά λογαριασμό ταυτόχρονα."
+      }
+    }
+  ],
   "account_drops_priority_hint": "Οι καμπάνιες τους εξορύσσονται εκεί όπου βρίσκεται το «Κατηγορίες προτεραιότητας» στο «Τι να εξορύσσεται, με σειρά», οι πιο σημαντικές πρώτες.",
   "account_drops_priority_placeholder": "Προσθήκη κατηγορίας…",
   "account_drops_exclude_games": "Εξαιρούμενες κατηγορίες",
@@ -181,7 +194,20 @@
   "account_drops_auto_claim": "Αυτόματη παραλαβή drops",
   "account_drops_skip_unfinishable": "Παράλειψη καμπανιών που δεν προλαβαίνουν να ολοκληρωθούν πριν λήξουν",
   "account_points_streamers": "Streamers",
-  "account_points_streamers_hint": "Το πιο σημαντικό πρώτα. Το Twitch μετρά πόντους καναλιού μόνο σε δύο κανάλια που παρακολουθούνται ταυτόχρονα.",
+  "account_points_streamers_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Το πιο σημαντικό πρώτα. Το Twitch μετρά πόντους καναλιού μόνο σε {formattedMaxWatchedChannels} κανάλι που παρακολουθείται ταυτόχρονα.",
+        "maxWatchedChannelsPlural=*": "Το πιο σημαντικό πρώτα. Το Twitch μετρά πόντους καναλιού μόνο σε {formattedMaxWatchedChannels} κανάλια που παρακολουθούνται ταυτόχρονα."
+      }
+    }
+  ],
   "account_points_add_placeholder": "Όνομα χρήστη Twitch ή URL καναλιού",
   "account_points_streak_priority": "Πρώτα τα σερί παρακολούθησης",
   "account_points_empty": "Κανένας streamer ακόμα. Προσθέστε τα κανάλια όπου θέλετε πόντους.",
@@ -390,7 +416,20 @@
   "star_prompt_no": "Όχι, ευχαριστώ",
   "nav_powered_by": "με την υποστήριξη του",
   "home_title": "Αρχική",
-  "home_rules": "Κάθε λογαριασμός μπορεί να παρακολουθεί έως δύο κανάλια ταυτόχρονα, το όριο του Twitch: μία καμπάνια Drops τη φορά και πόντους καναλιού στη ρυθμισμένη λίστα streamers σας.",
+  "home_rules": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Κάθε λογαριασμός μπορεί να παρακολουθεί έως {formattedMaxWatchedChannels} κανάλι ταυτόχρονα, το όριο του Twitch: μία καμπάνια Drops τη φορά και πόντους καναλιού στη ρυθμισμένη λίστα streamers σας.",
+        "maxWatchedChannelsPlural=*": "Κάθε λογαριασμός μπορεί να παρακολουθεί έως {formattedMaxWatchedChannels} κανάλια ταυτόχρονα, το όριο του Twitch: μία καμπάνια Drops τη φορά και πόντους καναλιού στη ρυθμισμένη λίστα streamers σας."
+      }
+    }
+  ],
   "home_open": "Άνοιγμα",
   "home_update_notifications": "Θέλετε ειδοποιήσεις για νέες εκδόσεις;",
   "home_update_notifications_allow": "Να επιτρέπονται",
@@ -513,8 +552,34 @@
   "account_twitch_title": "Λογαριασμός Twitch",
   "action_pause": "Παύση",
   "action_resume": "Συνέχεια",
-  "activity_free_slot": "Ένα από τα δύο κανάλια που παρακολουθούνται είναι ελεύθερο. Προσθέστε streamers για να κερδίζετε τους πόντους καναλιού τους.",
-  "activity_free_slot_offline": "Ένα από τα δύο κανάλια που παρακολουθούνται είναι ελεύθερο: κανένας από τους streamers σας δεν είναι live.",
+  "activity_free_slot": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Ένα κανάλι από {formattedMaxWatchedChannels} που παρακολουθείται είναι ελεύθερο. Προσθέστε streamers για να κερδίζετε τους πόντους καναλιού τους.",
+        "maxWatchedChannelsPlural=*": "Ένα από τα {formattedMaxWatchedChannels} κανάλια που παρακολουθούνται είναι ελεύθερο. Προσθέστε streamers για να κερδίζετε τους πόντους καναλιού τους."
+      }
+    }
+  ],
+  "activity_free_slot_offline": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Ένα κανάλι από {formattedMaxWatchedChannels} που παρακολουθείται είναι ελεύθερο: κανένας από τους streamers σας δεν είναι live.",
+        "maxWatchedChannelsPlural=*": "Ένα από τα {formattedMaxWatchedChannels} κανάλια που παρακολουθούνται είναι ελεύθερο: κανένας από τους streamers σας δεν είναι live."
+      }
+    }
+  ],
   "activity_nothing": "Τίποτα για παρακολούθηση τώρα: καμία καμπάνια Drops με live κανάλι και κανένας streamer online.",
   "activity_paused": "Σε παύση. Συνεχίστε για να ξεκινήσει ξανά η παρακολούθηση.",
   "beacon_blocked": "Το spade.twitch.tv αποκλείεται από το DNS ή το πρόγραμμα αποκλεισμού διαφημίσεων: οι πόντοι καναλιού δεν πιστώνονται μέχρι να το επιτρέψετε. Επιτρέψτε επίσης τα ονόματα στα οποία παραπέμπει: spade.sci.twitch.tv, science-edge-external-prod-*.elb.amazonaws.com. Τα Drops συνεχίζουν να προχωρούν.",
@@ -591,7 +656,20 @@
   "settings_close_action": "Κουμπί κλεισίματος",
   "settings_unsaved": "Έχετε μη αποθηκευμένες αλλαγές.",
   "slots_two_title": "Δύο κανάλια",
-  "slots_two_hint": "Το μέγιστο που πιστώνει το Twitch ανά λογαριασμό: ένα για Drops και ένα για πόντους, ή δύο για πόντους.",
+  "slots_two_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Το μέγιστο που πιστώνει το Twitch ανά λογαριασμό: {formattedMaxWatchedChannels} κανάλι ταυτόχρονα, για Drops ή για πόντους.",
+        "maxWatchedChannelsPlural=*": "Το μέγιστο που πιστώνει το Twitch ανά λογαριασμό: {formattedMaxWatchedChannels} κανάλια ταυτόχρονα, μοιρασμένα ανάμεσα σε Drops και πόντους."
+      }
+    }
+  ],
   "slots_one_title": "Ένα κανάλι",
   "slots_one_hint": "Πιο διακριτικό: ένα μόνο κανάλι τη φορά.",
   "streamer_claim_bonus_hint": "Παραλαμβάνει το μπόνους σεντούκι που εμφανίζεται κάθε {minutes} λεπτά.",
@@ -936,6 +1014,7 @@
   "updates_available_locked": "Η έκδοση {version} είναι διαθέσιμη. Ξεκλειδώστε την εφαρμογή για να την εγκαταστήσετε.",
   "updates_badge": "Ενημέρωση {version}",
   "updates_pull_image": "Για ενημέρωση, κατεβάστε τη νέα εικόνα και επανεκκινήστε το κοντέινερ:",
+  "updates_replace_binary": "Για ενημέρωση, κατεβάστε το νέο αρχείο του server από την έκδοση στο GitHub, αντικαταστήστε το παλιό και επανεκκινήστε την υπηρεσία:",
   "updates_check_failed": "Δεν ήταν δυνατός ο έλεγχος για ενημερώσεις. Ελέγξτε τη σύνδεσή σας και δοκιμάστε ξανά.",
   "updates_last_checked": "Τελευταίος έλεγχος: {time}",
   "updates_never_checked": "Τελευταίος έλεγχος: καμία απάντηση ακόμη από την εκκίνηση",

@@ -43,9 +43,9 @@
   "status_paused": "Pausad",
   "status_login_required": "Inloggning krävs",
   "status_problem": "Problem",
-  "mode_auto_hint": "Minar den bästa Drops-kampanjen på en kanal; den andra kanalen tjänar poäng hos dina streamers. Utan kampanj går båda kanalerna till poäng.",
+  "mode_auto_hint": "Minar den bästa Drops-kampanjen på en kanal och tjänar poäng hos dina streamers på de övriga. Utan kampanj går alla kanaler till poäng.",
   "mode_drops_hint": "En kanal, för den aktuella Drops-kampanjen. Inga kanalpoäng.",
-  "mode_points_hint": "Båda kanalerna tittar på dina streamers för kanalpoäng. Inga Drops.",
+  "mode_points_hint": "Alla kanaler tittar på dina streamers för kanalpoäng. Inga Drops.",
   "dashboard_no_accounts_title": "Inget konto än",
   "dashboard_no_accounts_text": "Lägg till ett Twitch-konto med en kod som du skriver in på twitch.tv/activate, från vilken enhet som helst. Inget lösenord sparas.",
   "dashboard_recent": "Senaste aktivitet",
@@ -172,7 +172,20 @@
   "import_tokens_importing_progress": "Importerar: {done}/{total}",
   "import_tokens_cancel": "Avbryt importen",
   "import_tokens_retry_failed": "Försök igen",
-  "account_slots_hint": "Twitch krediterar högst två kanaler per konto samtidigt.",
+  "account_slots_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Twitch krediterar högst {formattedMaxWatchedChannels} kanal per konto samtidigt.",
+        "maxWatchedChannelsPlural=*": "Twitch krediterar högst {formattedMaxWatchedChannels} kanaler per konto samtidigt."
+      }
+    }
+  ],
   "account_drops_priority_hint": "Deras kampanjer minas där ”Prioriterade kategorier” står i ”Vad som ska minas, i ordning”, de viktigaste först.",
   "account_drops_priority_placeholder": "Lägg till kategori…",
   "account_drops_exclude_games": "Uteslutna kategorier",
@@ -181,7 +194,20 @@
   "account_drops_auto_claim": "Hämta drops automatiskt",
   "account_drops_skip_unfinishable": "Hoppa över kampanjer som inte hinner bli klara innan de slutar",
   "account_points_streamers": "Streamers",
-  "account_points_streamers_hint": "Viktigast först. Twitch räknar bara kanalpoäng på två kanaler som tittas på samtidigt.",
+  "account_points_streamers_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Viktigast först. Twitch räknar bara kanalpoäng på {formattedMaxWatchedChannels} kanal som tittas på samtidigt.",
+        "maxWatchedChannelsPlural=*": "Viktigast först. Twitch räknar bara kanalpoäng på {formattedMaxWatchedChannels} kanaler som tittas på samtidigt."
+      }
+    }
+  ],
   "account_points_add_placeholder": "Twitch-användarnamn eller kanal-URL",
   "account_points_streak_priority": "Tittarsviter först",
   "account_points_empty": "Ingen streamer än. Lägg till kanalerna du vill ha poäng på.",
@@ -390,7 +416,20 @@
   "star_prompt_no": "Nej tack",
   "nav_powered_by": "drivs av",
   "home_title": "Hem",
-  "home_rules": "Varje konto kan titta på upp till två kanaler samtidigt, Twitchs gräns: en Drops-kampanj i taget och kanalpoäng på din inställda lista med streamrare.",
+  "home_rules": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Varje konto kan titta på upp till {formattedMaxWatchedChannels} kanal samtidigt, Twitchs gräns: en Drops-kampanj i taget och kanalpoäng på din inställda lista med streamrare.",
+        "maxWatchedChannelsPlural=*": "Varje konto kan titta på upp till {formattedMaxWatchedChannels} kanaler samtidigt, Twitchs gräns: en Drops-kampanj i taget och kanalpoäng på din inställda lista med streamrare."
+      }
+    }
+  ],
   "home_open": "Öppna",
   "home_update_notifications": "Vill du få aviseringar om nya versioner?",
   "home_update_notifications_allow": "Tillåt",
@@ -513,8 +552,34 @@
   "account_twitch_title": "Twitch-konto",
   "action_pause": "Pausa",
   "action_resume": "Återuppta",
-  "activity_free_slot": "En av de två kanalerna som tittas på är ledig. Lägg till streamers för att tjäna deras kanalpoäng.",
-  "activity_free_slot_offline": "En av de två kanalerna som tittas på är ledig: ingen av dina streamers sänder live.",
+  "activity_free_slot": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "En kanal av {formattedMaxWatchedChannels} som tittas på är ledig. Lägg till streamers för att tjäna deras kanalpoäng.",
+        "maxWatchedChannelsPlural=*": "En av de {formattedMaxWatchedChannels} kanalerna som tittas på är ledig. Lägg till streamers för att tjäna deras kanalpoäng."
+      }
+    }
+  ],
+  "activity_free_slot_offline": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "En kanal av {formattedMaxWatchedChannels} som tittas på är ledig: ingen av dina streamers sänder live.",
+        "maxWatchedChannelsPlural=*": "En av de {formattedMaxWatchedChannels} kanalerna som tittas på är ledig: ingen av dina streamers sänder live."
+      }
+    }
+  ],
   "activity_nothing": "Inget att titta på just nu: ingen Drops-kampanj med en livekanal och ingen streamer online.",
   "activity_paused": "Pausad. Återuppta för att börja titta igen.",
   "beacon_blocked": "spade.twitch.tv blockeras av din DNS eller annonsblockerare: kanalpoäng krediteras inte förrän du tillåter den. Tillåt även namnen den pekar på: spade.sci.twitch.tv, science-edge-external-prod-*.elb.amazonaws.com. Drops fortsätter att räknas.",
@@ -591,7 +656,20 @@
   "settings_close_action": "Stängknapp",
   "settings_unsaved": "Du har osparade ändringar.",
   "slots_two_title": "Två kanaler",
-  "slots_two_hint": "Mest som Twitch krediterar per konto: en för Drops och en för poäng, eller två för poäng.",
+  "slots_two_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Mest som Twitch krediterar per konto: {formattedMaxWatchedChannels} kanal samtidigt, för Drops eller poäng.",
+        "maxWatchedChannelsPlural=*": "Mest som Twitch krediterar per konto: {formattedMaxWatchedChannels} kanaler samtidigt, delade mellan Drops och poäng."
+      }
+    }
+  ],
   "slots_one_title": "En kanal",
   "slots_one_hint": "Diskretare: en enda kanal åt gången.",
   "streamer_claim_bonus_hint": "Hämtar bonuskistan som dyker upp var {minutes}:e minut.",
@@ -837,6 +915,7 @@
   "updates_available_locked": "Version {version} är tillgänglig. Lås upp appen för att installera den.",
   "updates_badge": "Uppdatering {version}",
   "updates_pull_image": "Uppdatera genom att hämta den nya avbildningen och sedan starta om containern:",
+  "updates_replace_binary": "Uppdatera genom att hämta den nya serverfilen från versionen på GitHub, ersätta den gamla med den och sedan starta om tjänsten:",
   "updates_check_failed": "Det gick inte att söka efter uppdateringar. Kontrollera anslutningen och försök igen.",
   "updates_last_checked": "Senast kontrollerad: {time}",
   "updates_never_checked": "Senast kontrollerad: inget svar ännu sedan starten",

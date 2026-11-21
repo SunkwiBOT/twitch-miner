@@ -21,12 +21,13 @@
   import {
     MENU_EDGE_GAP,
     MULTI_ALL_VALUE,
+    MULTI_CHECKED_OPTION,
     MULTI_ITEM_CLASSES,
     MULTI_PICTURES_MAX,
     MenuAlign,
     SELECT_SEARCH_FROM,
   } from "./menu.constants";
-  import { matchOption } from "./ui.utils";
+  import { centerOption, matchOption } from "./ui.utils";
 
   type OptionType = { value: T; label: string; image?: string; icon?: IconName; group?: string };
 
@@ -54,7 +55,26 @@
 
   let open = $state(false);
 
+  let list = $state<HTMLElement | null>(null);
+
+  $effect(() => {
+    if (list) {
+      centerOption(list, MULTI_CHECKED_OPTION);
+    }
+  });
+
   const all = $derived(values.length === options.length);
+
+  // ! Set as the list opens: toggling options afterwards keeps the highlight in place.
+  let highlighted = $state("");
+
+  const highlightFirstChecked = (opening: boolean): void => {
+    if (opening) {
+      highlighted = all
+        ? MULTI_ALL_VALUE
+        : (options.find((option) => values.includes(option.value))?.value ?? "");
+    }
+  };
 
   const summary = $derived.by(() => {
     if (values.length === 0) {
@@ -135,7 +155,7 @@
   </CommandItem>
 {/snippet}
 
-<Popover bind:open>
+<Popover bind:open onOpenChange={highlightFirstChecked}>
   <PopoverTrigger>
     {#snippet child({ props })}
       <Button
@@ -172,11 +192,16 @@
       bottom: overlay.bottom + MENU_EDGE_GAP,
     }}
   >
-    <Command filter={matchOption} label={t.select_search()}>
+    <Command
+      bind:value={highlighted}
+      filter={matchOption}
+      label={t.select_search()}
+      disableInitialScroll={true}
+    >
       {#if options.length >= SELECT_SEARCH_FROM}
         <CommandInput placeholder={t.select_search()} />
       {/if}
-      <CommandList class="max-h-80 p-1" aria-label={label}>
+      <CommandList bind:ref={list} class="max-h-80 p-1" aria-label={label}>
         <CommandEmpty>{t.select_empty()}</CommandEmpty>
         <CommandItem
           value={MULTI_ALL_VALUE}

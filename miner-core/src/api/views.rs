@@ -206,6 +206,7 @@ pub struct BadgeCatalogView {
 #[ts(rename = "SnapshotType")]
 pub struct Snapshot {
     pub version: String,
+    pub install_kind: super::InstallKind,
     // ! The dashboard's interface build: a tab that loaded another one reloads, even when the version is the same.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
@@ -259,6 +260,7 @@ pub struct CoreLimits {
     pub spam_delay_max_ms: u32,
     pub spam_redeem_text_max_chars: u32,
     pub requests_bucket_minutes: u32,
+    pub max_watched_channels: u32,
 }
 
 impl CoreLimits {
@@ -273,6 +275,7 @@ impl CoreLimits {
         spam_delay_max_ms: crate::config::SPAM_DELAY_MAX_MS,
         spam_redeem_text_max_chars: crate::spam::REDEEM_TEXT_MAX_CHARS as u32,
         requests_bucket_minutes: crate::requests::BUCKET_MINUTES as u32,
+        max_watched_channels: crate::config::MAX_WATCHED_CHANNELS as u32,
     };
 }
 

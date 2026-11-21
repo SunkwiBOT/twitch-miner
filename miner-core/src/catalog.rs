@@ -8,7 +8,7 @@ use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
-use crate::api::Shell;
+use crate::api::InstallKind;
 use crate::config::GameEntry;
 use crate::domain::Campaign;
 use crate::drops_api::{parse_campaign_channels, CampaignChannels, CATALOG_REFRESH_INTERVAL};
@@ -73,11 +73,11 @@ impl FeedAnswer for Catalog {
 pub type CatalogClient = FeedClient<Catalog>;
 
 impl CatalogClient {
-    pub fn new(requests: RequestLog, shell: Shell, install_id: &str) -> Result<Self> {
+    pub fn new(requests: RequestLog, install_kind: InstallKind, install_id: &str) -> Result<Self> {
         Self::with_headers(
             &crate::drops_api::catalog_url(),
             requests,
-            &crate::user_agent(shell),
+            &crate::user_agent(install_kind),
             &[("x-install-id", install_id.to_owned())],
         )
     }

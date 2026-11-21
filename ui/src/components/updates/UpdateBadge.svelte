@@ -19,7 +19,7 @@
   } from "../ui/button.constants";
   import { IconName } from "../../lib/icons.constants";
   import { MENU_EDGE_GAP } from "../ui/menu.constants";
-  import ImageUpdateCommands from "./ImageUpdateCommands.svelte";
+  import ServerUpdateCommands from "./ServerUpdateCommands.svelte";
 
   const version = $derived(availableVersion());
 
@@ -80,7 +80,7 @@
         <p class="text-hint font-medium">
           <RichText text={t.updates_available({ version: strong(version) })} />
         </p>
-        <ImageUpdateCommands />
+        <ServerUpdateCommands {version} />
       </PopoverContent>
     </Popover>
   {/if}

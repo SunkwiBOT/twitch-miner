@@ -373,9 +373,12 @@ Lataa järjestelmällesi sopiva tiedosto
 
 | Järjestelmä | Paketti |
 |---|---|
-| **Windows** · x64 | Asennusohjelma (`setup.exe`) tai [siirrettävä suoritettava tiedosto](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **macOS** 13 tai uudempi · Intel ja Apple Silicon | Levykuva (`.dmg`) |
+| **Windows** · x64 | Asennusohjelma (`x64-setup.exe`) tai [siirrettävä suoritettava tiedosto](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | Asennusohjelma (`arm64-setup.exe`) tai [siirrettävä suoritettava tiedosto](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 tai uudempi · universaali: Intel ja Apple Silicon | Levykuva (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) tai `.rpm` (Fedora, openSUSE) |
+| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) tai `.rpm` (Fedora, openSUSE) |
+| **Linux-palvelin** · x86-64 tai ARM64 | Pelkkä palvelin, ilman Dockeria (`twitch-miner-server_…_linux_x64` tai `_linux_arm64`): katso [Ilman Dockeria](#systemd) |
 
 macOS-versiota ei ole notarisoitu. Avaa sovellus ensimmäisellä kerralla: macOS estää sen.
 Siirry sitten kohtaan **Järjestelmäasetukset › Tietosuoja ja suojaus** ja napsauta
@@ -447,6 +450,63 @@ silloin proxyn osoitteelle, ja yhden vierailijan väärät salasanat lukitsisiva
 ulos. Reaaliaikainen yhteys lähettää pingin 30 sekunnin välein, jotta proxy ei sulje sitä,
 kun mitään ei tapahdu. Kun Twitch tai verkko pettää, palvelin vastaa `424`, ei koskaan
 `502` tai `504`: Cloudflaren takana näet oikean virheen Cloudflaren sivun sijaan.
+
+### <a name="systemd"></a>Ilman Dockeria (systemd)
+
+Linux-palvelimella ilman Dockeria julkaisu sisältää palvelimen myös yhtenä tiedostona,
+hallintapaneeli mukana: `twitch-miner-server_<version>_linux_x64` tai
+`twitch-miner-server_<version>_linux_arm64`. Se on sama ohjelma, jota Docker-image
+ajaa, staattisesti linkitettynä: mitään muuta ei tarvitse asentaa. Se käyttää samoja
+muuttujia.
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 ARM64:llä
+sudo install -m 600 /dev/null /etc/twitch-miner.env
+```
+
+Kirjoita oma salasanasi, vähintään 12 merkkiä, tiedostoon `/etc/twitch-miner.env`, jota
+vain root voi lukea:
+
+```ini
+MINER_PASSWORD=change-me
+```
+
+Sitten palvelu tiedostoon `/etc/systemd/system/twitch-miner.service`:
+
+```ini
+[Unit]
+Description=Twitch Miner
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/twitch-miner
+EnvironmentFile=/etc/twitch-miner.env
+Environment=DATA_DIR=/var/lib/twitch-miner
+DynamicUser=yes
+StateDirectory=twitch-miner
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now twitch-miner
+```
+
+systemd luo kansion `/var/lib/twitch-miner` tietoja varten ja ajaa palvelinta omalla
+käyttäjällään, ei koskaan roottina. Avaa `http://<palvelimen osoite>:8080`; lokit löytyvät
+komennolla `journalctl -u twitch-miner`.
+
+Tämä tiedosto ei päivitä itseään. Kun hallintapaneeli näyttää uuden version, lataa uusi
+tiedosto julkaisusta, korvaa sillä vanha ja käynnistä uudelleen:
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 ARM64:llä
+sudo systemctl restart twitch-miner
+```
 
 ## <a name="how-it-works"></a>Näin se toimii
 

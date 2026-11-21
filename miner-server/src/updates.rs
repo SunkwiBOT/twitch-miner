@@ -4,6 +4,7 @@
 use std::time::{Duration, Instant};
 
 use anyhow::{anyhow, bail};
+use miner_core::api::InstallKind;
 use miner_core::error::ErrorCode;
 use miner_core::requests::{address_target, RequestKind, RequestLog};
 use miner_core::Manager;
@@ -41,13 +42,13 @@ pub struct Releases {
 }
 
 impl Releases {
-    pub fn new() -> anyhow::Result<Self> {
-        Self::with_url(&miner_core::updates::latest_release_url())
+    pub fn new(install_kind: InstallKind) -> anyhow::Result<Self> {
+        Self::with_url(&miner_core::updates::latest_release_url(), install_kind)
     }
 
-    pub(crate) fn with_url(url: &str) -> anyhow::Result<Self> {
+    pub(crate) fn with_url(url: &str, install_kind: InstallKind) -> anyhow::Result<Self> {
         let client = reqwest::Client::builder()
-            .user_agent(miner_core::user_agent(miner_core::api::Shell::Server))
+            .user_agent(miner_core::user_agent(install_kind))
             .timeout(TIMEOUT)
             .redirect(Policy::custom(|attempt| {
                 if attempt.previous().len() >= MAX_REDIRECTS {

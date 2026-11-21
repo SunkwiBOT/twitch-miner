@@ -366,9 +366,12 @@ Töltsd le a rendszerednek megfelelő fájlt a
 
 | Rendszer | Csomag |
 |---|---|
-| **Windows** · x64 | Telepítő (`setup.exe`) vagy [hordozható futtatható fájl](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **macOS** 13 vagy újabb · Intel és Apple Silicon | Lemezkép (`.dmg`) |
+| **Windows** · x64 | Telepítő (`x64-setup.exe`) vagy [hordozható futtatható fájl](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | Telepítő (`arm64-setup.exe`) vagy [hordozható futtatható fájl](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 vagy újabb · univerzális: Intel és Apple Silicon | Lemezkép (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) vagy `.rpm` (Fedora, openSUSE) |
+| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) vagy `.rpm` (Fedora, openSUSE) |
+| **Linux szerver** · x86-64 vagy ARM64 | Csak a szerver, Docker nélkül (`twitch-miner-server_…_linux_x64` vagy `_linux_arm64`): lásd [Docker nélkül](#systemd) |
 
 A macOS-es build nincs hitelesítve (notarization). Első alkalommal nyisd meg az
 alkalmazást: a macOS letiltja. Ezután menj a **Rendszerbeállítások › Adatvédelem és
@@ -441,6 +444,63 @@ ekkor a proxy címére számolja, és egy látogató hibás jelszavai mindenkit 
 történik. Ha a Twitch vagy a hálózat hibázik, a szerver `424` kóddal válaszol, sosem
 `502` vagy `504` kóddal: Cloudflare mögött a valódi hibát látod a Cloudflare oldala
 helyett.
+
+### <a name="systemd"></a>Docker nélkül (systemd)
+
+Docker nélküli Linux szerveren a kiadás a szervert egyetlen fájlként is tartalmazza,
+benne az irányítópulttal: `twitch-miner-server_<version>_linux_x64` vagy
+`twitch-miner-server_<version>_linux_arm64`. Ugyanaz a program, amit a Docker image
+futtat, statikusan linkelve: semmi mást nem kell telepíteni. Ugyanazokat a változókat
+fogadja.
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 ARM64-en
+sudo install -m 600 /dev/null /etc/twitch-miner.env
+```
+
+Írd be a saját jelszavadat, legalább 12 karaktert, a `/etc/twitch-miner.env` fájlba,
+amelyet csak a root olvashat:
+
+```ini
+MINER_PASSWORD=change-me
+```
+
+Majd a szolgáltatást, a `/etc/systemd/system/twitch-miner.service` fájlba:
+
+```ini
+[Unit]
+Description=Twitch Miner
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/twitch-miner
+EnvironmentFile=/etc/twitch-miner.env
+Environment=DATA_DIR=/var/lib/twitch-miner
+DynamicUser=yes
+StateDirectory=twitch-miner
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now twitch-miner
+```
+
+A systemd létrehozza a `/var/lib/twitch-miner` mappát az adatoknak, és saját felhasználó
+alatt futtatja a szervert, soha nem rootként. Nyisd meg a `http://<szerver címe>:8080`
+címet; a naplók a `journalctl -u twitch-miner` paranccsal érhetők el.
+
+Ez a fájl nem frissíti magát. Amikor az irányítópult új verziót mutat, töltsd le az új
+fájlt a kiadásból, cseréld le a régit, és indítsd újra:
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 ARM64-en
+sudo systemctl restart twitch-miner
+```
 
 ## <a name="how-it-works"></a>Hogyan működik
 

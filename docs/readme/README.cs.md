@@ -355,9 +355,12 @@ Stáhněte si soubor pro svůj systém z
 
 | Systém | Balíček |
 |---|---|
-| **Windows** · x64 | Instalátor (`setup.exe`) nebo [přenosná verze](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **macOS** 13 nebo novější · Intel a Apple Silicon | Obraz disku (`.dmg`) |
+| **Windows** · x64 | Instalátor (`x64-setup.exe`) nebo [přenosná verze](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | Instalátor (`arm64-setup.exe`) nebo [přenosná verze](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 nebo novější · univerzální: Intel a Apple Silicon | Obraz disku (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) nebo `.rpm` (Fedora, openSUSE) |
+| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) nebo `.rpm` (Fedora, openSUSE) |
+| **Linux server** · x86-64 nebo ARM64 | Samotný server, bez Dockeru (`twitch-miner-server_…_linux_x64` nebo `_linux_arm64`): viz [Bez Dockeru](#systemd) |
 
 Sestavení pro macOS není notarizované. Poprvé aplikaci otevřete: macOS ji zablokuje. Pak
 přejděte do **Nastavení systému › Soukromí a zabezpečení** a klikněte na
@@ -427,6 +430,62 @@ adresu proxy a špatná hesla jednoho návštěvníka by zablokovala všechny. �
 posílá každých 30 sekund ping, aby ho proxy nezavřela, když se nic neděje. Když Twitch
 nebo síť selže, server odpoví `424`, nikdy `502` ani `504`: za Cloudflare uvidíte
 skutečnou chybu místo stránky Cloudflare.
+
+### <a name="systemd"></a>Bez Dockeru (systemd)
+
+Na linuxovém serveru bez Dockeru má vydání server i jako jediný soubor, s panelem uvnitř:
+`twitch-miner-server_<version>_linux_x64` nebo
+`twitch-miner-server_<version>_linux_arm64`. Je to stejný program, který spouští Docker
+obraz, staticky slinkovaný: není třeba nic dalšího instalovat. Přijímá stejné proměnné.
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 na ARM64
+sudo install -m 600 /dev/null /etc/twitch-miner.env
+```
+
+Do `/etc/twitch-miner.env`, který smí číst jen root, zapište vlastní heslo s alespoň 12
+znaky:
+
+```ini
+MINER_PASSWORD=change-me
+```
+
+Pak službu v `/etc/systemd/system/twitch-miner.service`:
+
+```ini
+[Unit]
+Description=Twitch Miner
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/twitch-miner
+EnvironmentFile=/etc/twitch-miner.env
+Environment=DATA_DIR=/var/lib/twitch-miner
+DynamicUser=yes
+StateDirectory=twitch-miner
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now twitch-miner
+```
+
+systemd vytvoří `/var/lib/twitch-miner` pro data a spustí server pod vlastním uživatelem,
+nikdy jako root. Otevřete `http://<adresa serveru>:8080`; protokoly jsou v
+`journalctl -u twitch-miner`.
+
+Tento soubor se sám neaktualizuje. Když panel zobrazí novou verzi, stáhněte nový soubor z
+vydání, pak nahraďte starý a restartujte:
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 na ARM64
+sudo systemctl restart twitch-miner
+```
 
 ## <a name="how-it-works"></a>Jak to funguje
 

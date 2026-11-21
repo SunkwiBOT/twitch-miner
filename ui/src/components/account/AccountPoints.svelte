@@ -8,6 +8,7 @@
   import { CopySection, type StreamerOption } from "../../lib/accounts/accounts.constants";
   import { placeOf } from "../../lib/accounts/changes.utils";
   import { differingOptions } from "../../lib/accounts/options.utils";
+  import { maxWatchedChannelsParams } from "../../lib/accounts/slots.utils";
   import {
     moveStreamer,
     removeStreamer,
@@ -202,7 +203,7 @@
   <Panel
     title={t.account_points_streamers()}
     count={streamers.length}
-    description={t.account_points_streamers_hint()}
+    description={t.account_points_streamers_hint(maxWatchedChannelsParams())}
   >
     {#snippet actions()}
       {#if hasOthers}

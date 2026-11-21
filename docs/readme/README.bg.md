@@ -363,9 +363,12 @@
 
 | Система | Пакет |
 |---|---|
-| **Windows** · x64 | Инсталатор (`setup.exe`) или [преносим изпълним файл](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **macOS** 13 или по-нова · Intel и Apple Silicon | Образ на диск (`.dmg`) |
+| **Windows** · x64 | Инсталатор (`x64-setup.exe`) или [преносим изпълним файл](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | Инсталатор (`arm64-setup.exe`) или [преносим изпълним файл](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 или по-нова · универсална: Intel и Apple Silicon | Образ на диск (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) или `.rpm` (Fedora, openSUSE) |
+| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) или `.rpm` (Fedora, openSUSE) |
+| **Linux сървър** · x86-64 или ARM64 | Самият сървър, без Docker (`twitch-miner-server_…_linux_x64` или `_linux_arm64`): вижте [Без Docker](#systemd) |
 
 Версията за macOS не е нотаризирана. Първия път отворете приложението: macOS го блокира.
 След това отидете в **System Settings › Privacy & Security** и щракнете **Open Anyway**.
@@ -436,6 +439,63 @@ proxy, записва предупреждение в логовете, защо
 живо изпраща ping на всеки 30 секунди, за да не я затвори proxy, когато нищо не се
 случва. Когато Twitch или мрежата откажат, сървърът отговаря с `424`, никога с `502` или
 `504`: зад Cloudflare виждате истинската грешка вместо страницата на Cloudflare.
+
+### <a name="systemd"></a>Без Docker (systemd)
+
+На Linux сървър без Docker изданието съдържа сървъра и като единичен файл, с таблото
+вътре: `twitch-miner-server_<version>_linux_x64` или
+`twitch-miner-server_<version>_linux_arm64`. Това е същата програма, която изпълнява
+Docker образът, статично линкована: нищо друго не е нужно за инсталиране. Приема същите
+променливи.
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 на ARM64
+sudo install -m 600 /dev/null /etc/twitch-miner.env
+```
+
+Запишете собствена парола, поне 12 знака, в `/etc/twitch-miner.env`, която само root
+може да чете:
+
+```ini
+MINER_PASSWORD=change-me
+```
+
+После услугата, в `/etc/systemd/system/twitch-miner.service`:
+
+```ini
+[Unit]
+Description=Twitch Miner
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/twitch-miner
+EnvironmentFile=/etc/twitch-miner.env
+Environment=DATA_DIR=/var/lib/twitch-miner
+DynamicUser=yes
+StateDirectory=twitch-miner
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now twitch-miner
+```
+
+systemd създава `/var/lib/twitch-miner` за данните и изпълнява сървъра под собствен
+потребител, никога като root. Отворете `http://<адрес на сървъра>:8080`; логовете са в
+`journalctl -u twitch-miner`.
+
+Този файл не се обновява сам. Когато таблото покаже нова версия, изтеглете новия файл от
+изданието, после заменете стария и рестартирайте:
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 на ARM64
+sudo systemctl restart twitch-miner
+```
 
 ## <a name="how-it-works"></a>Как работи
 

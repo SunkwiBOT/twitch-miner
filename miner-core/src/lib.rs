@@ -30,13 +30,12 @@ pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 pub const REPOSITORY_URL: &str = env!("CARGO_PKG_REPOSITORY");
 
 // ! What the app tells the services it calls besides Twitch (to Twitch it
-// stays the TV client): the kind of install, the system and the processor. The
-// Docker image sets MINER_CONTAINER; the same server run by hand is "server".
-pub fn user_agent(shell: api::Shell) -> String {
-    let kind = match shell {
-        api::Shell::Desktop => "desktop",
-        api::Shell::Server if std::env::var_os("MINER_CONTAINER").is_some() => "docker",
-        api::Shell::Server => "server",
+// stays the TV client): the kind of install, the system and the processor.
+pub fn user_agent(install_kind: api::InstallKind) -> String {
+    let kind = match install_kind {
+        api::InstallKind::Desktop => "desktop",
+        api::InstallKind::Docker => "docker",
+        api::InstallKind::Binary => "server",
     };
 
     format!(

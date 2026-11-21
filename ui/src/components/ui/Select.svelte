@@ -18,12 +18,13 @@
   import { BUTTON_VARIANTS, ButtonVariant } from "./button.constants";
   import { IconName } from "../../lib/icons.constants";
   import {
+    CHECKED_OPTION,
     MENU_EDGE_GAP,
     MENU_ITEM_CLASSES,
     MenuAlign,
     SELECT_SEARCH_FROM,
   } from "./menu.constants";
-  import { matchOption } from "./ui.utils";
+  import { centerOption, matchOption } from "./ui.utils";
 
   type OptionType = {
     value: T;
@@ -58,6 +59,14 @@
   }: SelectPropsType = $props();
 
   let open = $state(false);
+
+  let list = $state<HTMLElement | null>(null);
+
+  $effect(() => {
+    if (list) {
+      centerOption(list, CHECKED_OPTION);
+    }
+  });
 
   const current = $derived(options.find((option) => option.value === value));
 </script>
@@ -115,11 +124,12 @@
       loop={true}
       filter={matchOption}
       label={t.select_search()}
+      disableInitialScroll={true}
     >
       {#if options.length >= SELECT_SEARCH_FROM}
         <CommandInput placeholder={t.select_search()} />
       {/if}
-      <CommandList class="max-h-80 p-1" aria-label={label}>
+      <CommandList bind:ref={list} class="max-h-80 p-1" aria-label={label}>
         <CommandEmpty>{t.select_empty()}</CommandEmpty>
         {#each options as option (option.value)}
           <CommandItem

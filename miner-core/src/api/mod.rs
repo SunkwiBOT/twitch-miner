@@ -33,10 +33,21 @@ pub use views::{
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum Shell {
+// ! How this copy runs, which also says how it updates: the desktop app installs its own
+// updates, the Docker image is pulled again, and the bare server binary is replaced by hand.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+#[ts(repr(enum = name))]
+pub enum InstallKind {
     Desktop,
-    Server,
+    Docker,
+    Binary,
+}
+
+impl InstallKind {
+    pub fn is_server(self) -> bool {
+        self != Self::Desktop
+    }
 }
 
 pub const SNAPSHOT_PUSH_DEBOUNCE_MS: u64 = 700;

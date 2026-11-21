@@ -44,9 +44,9 @@
   "status_paused": "Пауза",
   "status_login_required": "Требуется вход",
   "status_problem": "Проблема",
-  "mode_auto_hint": "Майнит лучшую кампанию Drops на одном канале; второй канал получает баллы у ваших стримеров. Без кампании оба канала идут на баллы.",
+  "mode_auto_hint": "Майнит лучшую кампанию Drops на одном канале и получает баллы у ваших стримеров на остальных. Без кампании все каналы идут на баллы.",
   "mode_drops_hint": "Один канал для текущей кампании Drops. Без баллов канала.",
-  "mode_points_hint": "Оба канала смотрят ваших стримеров ради баллов канала. Без Drops.",
+  "mode_points_hint": "Все каналы смотрят ваших стримеров ради баллов канала. Без Drops.",
   "dashboard_no_accounts_title": "Пока нет аккаунтов",
   "dashboard_no_accounts_text": "Добавьте аккаунт Twitch по коду, который нужно ввести на twitch.tv/activate с любого устройства. Пароль не сохраняется.",
   "dashboard_recent": "Последние события",
@@ -200,7 +200,20 @@
   "import_tokens_importing_progress": "Импорт: {done}/{total}",
   "import_tokens_cancel": "Отменить импорт",
   "import_tokens_retry_failed": "Повторить",
-  "account_slots_hint": "Twitch засчитывает не более двух каналов на аккаунт одновременно.",
+  "account_slots_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Twitch засчитывает не более {formattedMaxWatchedChannels} канала на аккаунт одновременно.",
+        "maxWatchedChannelsPlural=*": "Twitch засчитывает не более {formattedMaxWatchedChannels} каналов на аккаунт одновременно."
+      }
+    }
+  ],
   "account_drops_priority_hint": "Их кампании майнятся там, где «Приоритетные категории» стоят в «Что майнить и в каком порядке», самые важные первыми.",
   "account_drops_priority_placeholder": "Добавить категорию…",
   "account_drops_exclude_games": "Исключённые категории",
@@ -209,7 +222,20 @@
   "account_drops_auto_claim": "Забирать drops автоматически",
   "account_drops_skip_unfinishable": "Пропускать кампании, которые не успеть завершить до конца",
   "account_points_streamers": "Стримеры",
-  "account_points_streamers_hint": "Самое важное — первым. Twitch засчитывает баллы канала только на двух каналах, которые смотрят одновременно.",
+  "account_points_streamers_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Самое важное — первым. Twitch засчитывает баллы канала одновременно только на {formattedMaxWatchedChannels} канале.",
+        "maxWatchedChannelsPlural=*": "Самое важное — первым. Twitch засчитывает баллы канала одновременно только на {formattedMaxWatchedChannels} каналах."
+      }
+    }
+  ],
   "account_points_add_placeholder": "Логин Twitch или URL канала",
   "account_points_streak_priority": "Сначала серии просмотров",
   "account_points_empty": "Пока нет стримеров. Добавьте каналы, на которых хотите получать баллы.",
@@ -418,7 +444,20 @@
   "star_prompt_no": "Нет, спасибо",
   "nav_powered_by": "работает на",
   "home_title": "Главная",
-  "home_rules": "Каждый аккаунт может смотреть до двух каналов одновременно — это ограничение Twitch: одну кампанию Drops за раз и баллы канала по вашему настроенному списку стримеров.",
+  "home_rules": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Каждый аккаунт может смотреть до {formattedMaxWatchedChannels} канала одновременно — это ограничение Twitch: одну кампанию Drops за раз и баллы канала по вашему настроенному списку стримеров.",
+        "maxWatchedChannelsPlural=*": "Каждый аккаунт может смотреть до {formattedMaxWatchedChannels} каналов одновременно — это ограничение Twitch: одну кампанию Drops за раз и баллы канала по вашему настроенному списку стримеров."
+      }
+    }
+  ],
   "home_open": "Открыть",
   "home_update_notifications": "Получать уведомления о новых версиях?",
   "home_update_notifications_allow": "Разрешить",
@@ -558,8 +597,34 @@
   "account_twitch_title": "Аккаунт Twitch",
   "action_pause": "Приостановить",
   "action_resume": "Возобновить",
-  "activity_free_slot": "Один из двух просматриваемых каналов свободен. Добавьте стримеров, чтобы получать их баллы канала.",
-  "activity_free_slot_offline": "Один из двух просматриваемых каналов свободен: никто из ваших стримеров не в эфире.",
+  "activity_free_slot": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Один из {formattedMaxWatchedChannels} просматриваемого канала свободен. Добавьте стримеров, чтобы получать их баллы канала.",
+        "maxWatchedChannelsPlural=*": "Один из {formattedMaxWatchedChannels} просматриваемых каналов свободен. Добавьте стримеров, чтобы получать их баллы канала."
+      }
+    }
+  ],
+  "activity_free_slot_offline": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Один из {formattedMaxWatchedChannels} просматриваемого канала свободен: никто из ваших стримеров не в эфире.",
+        "maxWatchedChannelsPlural=*": "Один из {formattedMaxWatchedChannels} просматриваемых каналов свободен: никто из ваших стримеров не в эфире."
+      }
+    }
+  ],
   "activity_nothing": "Сейчас нечего смотреть: нет кампании Drops с каналом в эфире и ни одного стримера онлайн.",
   "activity_paused": "Приостановлено. Возобновите, чтобы снова начать просмотр.",
   "beacon_blocked": "spade.twitch.tv заблокирован вашим DNS или блокировщиком рекламы: баллы канала не начисляются, пока вы его не разрешите. Разрешите также имена, на которые он указывает: spade.sci.twitch.tv, science-edge-external-prod-*.elb.amazonaws.com. Drops продолжают засчитываться.",
@@ -636,7 +701,21 @@
   "settings_close_action": "Кнопка закрытия",
   "settings_unsaved": "Есть несохранённые изменения.",
   "slots_two_title": "Два канала",
-  "slots_two_hint": "Максимум, который Twitch засчитывает на аккаунт: один для Drops и один для баллов или два для баллов.",
+  "slots_two_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Максимум, который Twitch засчитывает на аккаунт: {formattedMaxWatchedChannels} канал одновременно, для Drops или для баллов.",
+        "maxWatchedChannelsPlural=few": "Максимум, который Twitch засчитывает на аккаунт: {formattedMaxWatchedChannels} канала одновременно, общие для Drops и баллов.",
+        "maxWatchedChannelsPlural=*": "Максимум, который Twitch засчитывает на аккаунт: {formattedMaxWatchedChannels} каналов одновременно, общие для Drops и баллов."
+      }
+    }
+  ],
   "slots_one_title": "Один канал",
   "slots_one_hint": "Незаметнее: один канал за раз.",
   "streamer_claim_bonus_hint": "Забирает бонусный сундук, который появляется каждые {minutes} минут.",
@@ -902,6 +981,7 @@
   "updates_available_locked": "Доступна версия {version}. Разблокируйте приложение, чтобы её установить.",
   "updates_badge": "Обновление {version}",
   "updates_pull_image": "Чтобы обновить, скачайте новый образ и перезапустите контейнер:",
+  "updates_replace_binary": "Чтобы обновить, скачайте новый файл сервера из релиза на GitHub, замените им старый и перезапустите службу:",
   "updates_check_failed": "Не удалось проверить обновления. Проверьте подключение и попробуйте снова.",
   "updates_last_checked": "Последняя проверка: {time}",
   "updates_never_checked": "Последняя проверка: с момента запуска ответа ещё не было",

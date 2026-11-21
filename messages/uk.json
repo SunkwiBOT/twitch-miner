@@ -44,9 +44,9 @@
   "status_paused": "Пауза",
   "status_login_required": "Потрібен вхід",
   "status_problem": "Проблема",
-  "mode_auto_hint": "Майнить найкращу кампанію Drops на одному каналі; другий канал отримує бали у ваших стримерів. Без кампанії обидва канали йдуть на бали.",
+  "mode_auto_hint": "Майнить найкращу кампанію Drops на одному каналі й отримує бали у ваших стримерів на решті. Без кампанії всі канали йдуть на бали.",
   "mode_drops_hint": "Один канал для поточної кампанії Drops. Без балів каналу.",
-  "mode_points_hint": "Обидва канали дивляться ваших стримерів заради балів каналу. Без Drops.",
+  "mode_points_hint": "Усі канали дивляться ваших стримерів заради балів каналу. Без Drops.",
   "dashboard_no_accounts_title": "Ще немає облікових записів",
   "dashboard_no_accounts_text": "Додайте обліковий запис Twitch за кодом, який треба ввести на twitch.tv/activate з будь-якого пристрою. Пароль не зберігається.",
   "dashboard_recent": "Останні події",
@@ -200,7 +200,20 @@
   "import_tokens_importing_progress": "Імпорт: {done}/{total}",
   "import_tokens_cancel": "Скасувати імпорт",
   "import_tokens_retry_failed": "Спробувати ще раз",
-  "account_slots_hint": "Twitch зараховує не більше двох каналів на обліковий запис одночасно.",
+  "account_slots_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Twitch зараховує не більше {formattedMaxWatchedChannels} каналу на обліковий запис одночасно.",
+        "maxWatchedChannelsPlural=*": "Twitch зараховує не більше {formattedMaxWatchedChannels} каналів на обліковий запис одночасно."
+      }
+    }
+  ],
   "account_drops_priority_hint": "Їхні кампанії майняться там, де «Пріоритетні категорії» стоять у «Що майнити і в якому порядку», найважливіші першими.",
   "account_drops_priority_placeholder": "Додати категорію…",
   "account_drops_exclude_games": "Виключені категорії",
@@ -209,7 +222,20 @@
   "account_drops_auto_claim": "Отримувати drops автоматично",
   "account_drops_skip_unfinishable": "Пропускати кампанії, які не встигнути завершити до кінця",
   "account_points_streamers": "Стримери",
-  "account_points_streamers_hint": "Найважливіше — першим. Twitch зараховує бали каналу лише на двох каналах, які дивляться одночасно.",
+  "account_points_streamers_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Найважливіше — першим. Twitch зараховує бали каналу одночасно лише на {formattedMaxWatchedChannels} каналі.",
+        "maxWatchedChannelsPlural=*": "Найважливіше — першим. Twitch зараховує бали каналу одночасно лише на {formattedMaxWatchedChannels} каналах."
+      }
+    }
+  ],
   "account_points_add_placeholder": "Логін Twitch або URL каналу",
   "account_points_streak_priority": "Спочатку серії переглядів",
   "account_points_empty": "Ще немає стримерів. Додайте канали, на яких хочете отримувати бали.",
@@ -418,7 +444,20 @@
   "star_prompt_no": "Ні, дякую",
   "nav_powered_by": "працює на",
   "home_title": "Головна",
-  "home_rules": "Кожен акаунт може дивитися до двох каналів одночасно — це обмеження Twitch: одну кампанію Drops за раз і бали каналу за вашим налаштованим списком стримерів.",
+  "home_rules": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Кожен акаунт може дивитися до {formattedMaxWatchedChannels} каналу одночасно — це обмеження Twitch: одну кампанію Drops за раз і бали каналу за вашим налаштованим списком стримерів.",
+        "maxWatchedChannelsPlural=*": "Кожен акаунт може дивитися до {formattedMaxWatchedChannels} каналів одночасно — це обмеження Twitch: одну кампанію Drops за раз і бали каналу за вашим налаштованим списком стримерів."
+      }
+    }
+  ],
   "home_open": "Відкрити",
   "home_update_notifications": "Отримувати сповіщення про нові версії?",
   "home_update_notifications_allow": "Дозволити",
@@ -558,8 +597,34 @@
   "account_twitch_title": "Обліковий запис Twitch",
   "action_pause": "Призупинити",
   "action_resume": "Відновити",
-  "activity_free_slot": "Один із двох переглядуваних каналів вільний. Додайте стримерів, щоб отримувати їхні бали каналу.",
-  "activity_free_slot_offline": "Один із двох переглядуваних каналів вільний: жоден із ваших стримерів не в ефірі.",
+  "activity_free_slot": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Один із {formattedMaxWatchedChannels} переглядуваного каналу вільний. Додайте стримерів, щоб отримувати їхні бали каналу.",
+        "maxWatchedChannelsPlural=*": "Один із {formattedMaxWatchedChannels} переглядуваних каналів вільний. Додайте стримерів, щоб отримувати їхні бали каналу."
+      }
+    }
+  ],
+  "activity_free_slot_offline": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Один із {formattedMaxWatchedChannels} переглядуваного каналу вільний: жоден із ваших стримерів не в ефірі.",
+        "maxWatchedChannelsPlural=*": "Один із {formattedMaxWatchedChannels} переглядуваних каналів вільний: жоден із ваших стримерів не в ефірі."
+      }
+    }
+  ],
   "activity_nothing": "Зараз нічого дивитися: немає кампанії Drops із каналом в ефірі й жодного стримера онлайн.",
   "activity_paused": "Призупинено. Відновіть, щоб знову почати перегляд.",
   "beacon_blocked": "spade.twitch.tv заблоковано вашим DNS або блокувальником реклами: бали каналу не нараховуються, доки ви його не дозволите. Дозвольте також імена, на які він вказує: spade.sci.twitch.tv, science-edge-external-prod-*.elb.amazonaws.com. Drops і далі зараховуються.",
@@ -636,7 +701,21 @@
   "settings_close_action": "Кнопка закриття",
   "settings_unsaved": "Є незбережені зміни.",
   "slots_two_title": "Два канали",
-  "slots_two_hint": "Максимум, який Twitch зараховує на обліковий запис: один для Drops і один для балів або два для балів.",
+  "slots_two_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Максимум, який Twitch зараховує на обліковий запис: {formattedMaxWatchedChannels} канал одночасно, для Drops або для балів.",
+        "maxWatchedChannelsPlural=few": "Максимум, який Twitch зараховує на обліковий запис: {formattedMaxWatchedChannels} канали одночасно, спільні для Drops і балів.",
+        "maxWatchedChannelsPlural=*": "Максимум, який Twitch зараховує на обліковий запис: {formattedMaxWatchedChannels} каналів одночасно, спільні для Drops і балів."
+      }
+    }
+  ],
   "slots_one_title": "Один канал",
   "slots_one_hint": "Непомітніше: один канал за раз.",
   "streamer_claim_bonus_hint": "Забирає бонусну скриню, що з'являється кожні {minutes} хвилин.",
@@ -902,6 +981,7 @@
   "updates_available_locked": "Доступна версія {version}. Розблокуйте застосунок, щоб її встановити.",
   "updates_badge": "Оновлення {version}",
   "updates_pull_image": "Щоб оновити, завантажте новий образ і перезапустіть контейнер:",
+  "updates_replace_binary": "Щоб оновити, завантажте новий файл сервера з релізу на GitHub, замініть ним старий і перезапустіть службу:",
   "updates_check_failed": "Не вдалося перевірити оновлення. Перевірте з'єднання й спробуйте ще раз.",
   "updates_last_checked": "Остання перевірка: {time}",
   "updates_never_checked": "Остання перевірка: від запуску відповіді ще не було",

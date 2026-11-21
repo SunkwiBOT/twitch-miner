@@ -262,9 +262,12 @@
 
 | 시스템 | 패키지 |
 |---|---|
-| **Windows** · x64 | 설치 프로그램(`setup.exe`) 또는 [포터블 실행 파일](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **macOS** 13 이상 · Intel 및 Apple Silicon | 디스크 이미지(`.dmg`) |
+| **Windows** · x64 | 설치 프로그램(`x64-setup.exe`) 또는 [포터블 실행 파일](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | 설치 프로그램(`arm64-setup.exe`) 또는 [포터블 실행 파일](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 이상 · universal: Intel 및 Apple Silicon | 디스크 이미지(`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb`(Debian, Ubuntu) 또는 `.rpm`(Fedora, openSUSE) |
+| **Linux** · ARM64 | `.AppImage`, `.deb`(Debian, Ubuntu, Raspberry Pi OS) 또는 `.rpm`(Fedora, openSUSE) |
+| **Linux 서버** · x86-64 또는 ARM64 | 서버만, Docker 없이(`twitch-miner-server_…_linux_x64` 또는 `_linux_arm64`): [Docker 없이](#systemd) 참고 |
 
 macOS 빌드는 공증을 받지 않았어요. 처음에는 앱을 먼저 여세요. macOS가 막으면 **시스템 설정 › 개인정보 보호 및 보안**으로 가서 **그래도 열기**를 클릭하세요.
 
@@ -322,6 +325,55 @@ docker compose up -d
 서버는 시작할 때 변수를 한 번 읽고 검사해요. 값이 잘못되면 조용히 기본값으로 넘어가지 않고, 메시지를 남기며 서버가 멈춰요.
 
 리버스 프록시 뒤에서는 `MINER_PUBLIC_URL`을 설정하세요. 설정하지 않으면 프록시를 거쳐 들어온 첫 요청이 로그에 경고를 남겨요. 이때는 로그인 시도가 프록시 주소 기준으로 세어져서, 방문자 한 명의 잘못된 비밀번호 때문에 모두가 잠기기 때문이에요. 실시간 연결은 30초마다 ping을 보내서, 아무 일도 없을 때 프록시가 연결을 닫지 않게 해요. Twitch나 네트워크에 문제가 생기면 서버는 `424`로 응답하고 `502`나 `504`는 절대 쓰지 않아요. 그래서 Cloudflare 뒤에서도 Cloudflare 페이지 대신 실제 오류를 볼 수 있어요.
+
+### <a name="systemd"></a>Docker 없이(systemd)
+
+Docker 없는 Linux 서버에서는, 릴리스에 대시보드가 들어 있는 단일 파일 서버도 포함돼 있어요: `twitch-miner-server_<version>_linux_x64` 또는 `twitch-miner-server_<version>_linux_arm64`예요. Docker 이미지가 실행하는 것과 같은 프로그램이고 정적으로 링크되어 있어서, 따로 설치할 게 없어요. 같은 변수를 사용해요.
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # ARM64에서는 _linux_arm64
+sudo install -m 600 /dev/null /etc/twitch-miner.env
+```
+
+root만 읽을 수 있는 `/etc/twitch-miner.env`에 12자 이상의 비밀번호를 직접 적으세요:
+
+```ini
+MINER_PASSWORD=change-me
+```
+
+그다음 `/etc/systemd/system/twitch-miner.service`에 서비스를 만드세요:
+
+```ini
+[Unit]
+Description=Twitch Miner
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/twitch-miner
+EnvironmentFile=/etc/twitch-miner.env
+Environment=DATA_DIR=/var/lib/twitch-miner
+DynamicUser=yes
+StateDirectory=twitch-miner
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now twitch-miner
+```
+
+systemd가 데이터용으로 `/var/lib/twitch-miner`를 만들고, root가 아니라 자기만의 사용자로 서버를 실행해요. `http://<서버 주소>:8080`을 여세요. 로그는 `journalctl -u twitch-miner`에 있어요.
+
+이 파일은 스스로 업데이트되지 않아요. 대시보드에 새 버전이 표시되면, 릴리스에서 새 파일을 내려받아 예전 파일을 바꾸고 다시 시작하세요:
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # ARM64에서는 _linux_arm64
+sudo systemctl restart twitch-miner
+```
 
 ## <a name="how-it-works"></a>작동 방식
 

@@ -261,9 +261,12 @@
 
 | システム | パッケージ |
 |---|---|
-| **Windows** · x64 | インストーラー（`setup.exe`）または[ポータブル版の実行ファイル](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **macOS** 13 以降 · Intel と Apple Silicon | ディスクイメージ（`.dmg`） |
+| **Windows** · x64 | インストーラー（`x64-setup.exe`）または[ポータブル版の実行ファイル](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | インストーラー（`arm64-setup.exe`）または[ポータブル版の実行ファイル](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 以降 · universal：Intel と Apple Silicon | ディスクイメージ（`.dmg`） |
 | **Linux** · x86-64 | `.AppImage`、`.deb`（Debian、Ubuntu）、`.rpm`（Fedora、openSUSE） |
+| **Linux** · ARM64 | `.AppImage`、`.deb`（Debian、Ubuntu、Raspberry Pi OS）、`.rpm`（Fedora、openSUSE） |
+| **Linux サーバー** · x86-64 または ARM64 | サーバー単体、Docker 不要（`twitch-miner-server_…_linux_x64` または `_linux_arm64`）：[Docker を使わない場合](#systemd)を参照 |
 
 macOS 版は公証を受けていません。初回は、まずアプリを開いてください。macOS がブロックするので、**システム設定 › プライバシーとセキュリティ**で**このまま開く**をクリックします。
 
@@ -321,6 +324,55 @@ docker compose up -d
 サーバーは起動時に一度だけ変数を読み込んで検証します。不正な値があると、黙って既定値に戻すのではなく、メッセージを出してサーバーを停止します。
 
 リバースプロキシの後ろでは `MINER_PUBLIC_URL` を設定してください。設定がないと、プロキシ経由で届いた最初のリクエストがログに警告を書き込みます。ログインの試行がプロキシのアドレス単位で数えられ、1 人の訪問者のパスワード間違いで全員が締め出されてしまうからです。ライブ接続は 30 秒ごとに ping を送るので、何も起きていないときにプロキシが接続を閉じることはありません。Twitch やネットワークが失敗したとき、サーバーは `424` を返し、`502` や `504` は返しません。Cloudflare の後ろでも、Cloudflare のページではなく本当のエラーが表示されます。
+
+### <a name="systemd"></a>Docker を使わない場合（systemd）
+
+Docker を使わない Linux サーバーでは、リリースにはダッシュボードを内蔵した単一ファイルのサーバーも含まれています：`twitch-miner-server_<version>_linux_x64` または `twitch-miner-server_<version>_linux_arm64`。これは Docker イメージが実行しているのと同じプログラムで、静的リンクされているため、他に何もインストールする必要はありません。使う変数も同じです。
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # ARM64 では _linux_arm64
+sudo install -m 600 /dev/null /etc/twitch-miner.env
+```
+
+root だけが読める `/etc/twitch-miner.env` に、12 文字以上の自分のパスワードを書き込みます：
+
+```ini
+MINER_PASSWORD=change-me
+```
+
+続いて、`/etc/systemd/system/twitch-miner.service` にサービスを用意します：
+
+```ini
+[Unit]
+Description=Twitch Miner
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/twitch-miner
+EnvironmentFile=/etc/twitch-miner.env
+Environment=DATA_DIR=/var/lib/twitch-miner
+DynamicUser=yes
+StateDirectory=twitch-miner
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now twitch-miner
+```
+
+systemd がデータ用に `/var/lib/twitch-miner` を作成し、root としてではなく専用のユーザーでサーバーを実行します。`http://<サーバーのアドレス>:8080` を開いてください。ログは `journalctl -u twitch-miner` で確認できます。
+
+このファイルは自動更新されません。ダッシュボードに新しいバージョンが表示されたら、リリースから新しいファイルをダウンロードし、古いものと入れ替えて再起動します：
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # ARM64 では _linux_arm64
+sudo systemctl restart twitch-miner
+```
 
 ## <a name="how-it-works"></a>仕組み
 

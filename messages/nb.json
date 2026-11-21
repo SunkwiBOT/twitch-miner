@@ -43,9 +43,9 @@
   "status_paused": "Pauset",
   "status_login_required": "Innlogging kreves",
   "status_problem": "Problem",
-  "mode_auto_hint": "Miner den beste Drops-kampanjen på én kanal; den andre kanalen tjener poeng hos streamerne dine. Uten kampanje går begge kanalene til poeng.",
+  "mode_auto_hint": "Miner den beste Drops-kampanjen på én kanal og tjener poeng hos streamerne dine på resten. Uten kampanje går alle kanalene til poeng.",
   "mode_drops_hint": "Én kanal, for den gjeldende Drops-kampanjen. Ingen kanalpoeng.",
-  "mode_points_hint": "Begge kanalene ser streamerne dine for kanalpoeng. Ingen Drops.",
+  "mode_points_hint": "Alle kanalene ser streamerne dine for kanalpoeng. Ingen Drops.",
   "dashboard_no_accounts_title": "Ingen konto ennå",
   "dashboard_no_accounts_text": "Legg til en Twitch-konto med en kode du skriver inn på twitch.tv/activate, fra hvilken som helst enhet. Ingen passord lagres.",
   "dashboard_recent": "Nylig aktivitet",
@@ -172,7 +172,20 @@
   "import_tokens_importing_progress": "Importerer: {done}/{total}",
   "import_tokens_cancel": "Avbryt importen",
   "import_tokens_retry_failed": "Prøv igjen",
-  "account_slots_hint": "Twitch godskriver maks to kanaler per konto samtidig.",
+  "account_slots_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Twitch godskriver maks {formattedMaxWatchedChannels} kanal per konto samtidig.",
+        "maxWatchedChannelsPlural=*": "Twitch godskriver maks {formattedMaxWatchedChannels} kanaler per konto samtidig."
+      }
+    }
+  ],
   "account_drops_priority_hint": "Kampanjene deres mines der «Prioriterte kategorier» står i «Hva som skal mines, i rekkefølge», de viktigste først.",
   "account_drops_priority_placeholder": "Legg til en kategori…",
   "account_drops_exclude_games": "Ekskluderte kategorier",
@@ -181,7 +194,20 @@
   "account_drops_auto_claim": "Hent drops automatisk",
   "account_drops_skip_unfinishable": "Hopp over kampanjer som ikke kan fullføres før de slutter",
   "account_points_streamers": "Streamere",
-  "account_points_streamers_hint": "Det viktigste først. Twitch teller bare kanalpoeng på to kanaler som ses samtidig.",
+  "account_points_streamers_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Det viktigste først. Twitch teller bare kanalpoeng på {formattedMaxWatchedChannels} kanal som ses samtidig.",
+        "maxWatchedChannelsPlural=*": "Det viktigste først. Twitch teller bare kanalpoeng på {formattedMaxWatchedChannels} kanaler som ses samtidig."
+      }
+    }
+  ],
   "account_points_add_placeholder": "Twitch-brukernavn eller kanal-URL",
   "account_points_streak_priority": "Seerrekker først",
   "account_points_empty": "Ingen streamer ennå. Legg til kanalene du vil ha poeng fra.",
@@ -390,7 +416,20 @@
   "star_prompt_no": "Nei takk",
   "nav_powered_by": "drevet av",
   "home_title": "Hjem",
-  "home_rules": "Hver konto kan se opptil to kanaler samtidig, Twitchs grense: én Drops-kampanje om gangen og kanalpoeng på den oppsatte listen din over strømmere.",
+  "home_rules": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Hver konto kan se opptil {formattedMaxWatchedChannels} kanal samtidig, Twitchs grense: én Drops-kampanje om gangen og kanalpoeng på den oppsatte listen din over strømmere.",
+        "maxWatchedChannelsPlural=*": "Hver konto kan se opptil {formattedMaxWatchedChannels} kanaler samtidig, Twitchs grense: én Drops-kampanje om gangen og kanalpoeng på den oppsatte listen din over strømmere."
+      }
+    }
+  ],
   "home_open": "Åpne",
   "home_update_notifications": "Vil du bli varslet om nye versjoner?",
   "home_update_notifications_allow": "Tillat",
@@ -513,8 +552,34 @@
   "account_twitch_title": "Twitch-konto",
   "action_pause": "Pause",
   "action_resume": "Fortsett",
-  "activity_free_slot": "En av de to kanalene som ses, er ledig. Legg til streamere for å tjene kanalpoengene deres.",
-  "activity_free_slot_offline": "En av de to kanalene som ses, er ledig: ingen av streamerne dine sender direkte.",
+  "activity_free_slot": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "En kanal av {formattedMaxWatchedChannels} som ses, er ledig. Legg til streamere for å tjene kanalpoengene deres.",
+        "maxWatchedChannelsPlural=*": "En av de {formattedMaxWatchedChannels} kanalene som ses, er ledig. Legg til streamere for å tjene kanalpoengene deres."
+      }
+    }
+  ],
+  "activity_free_slot_offline": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "En kanal av {formattedMaxWatchedChannels} som ses, er ledig: ingen av streamerne dine sender direkte.",
+        "maxWatchedChannelsPlural=*": "En av de {formattedMaxWatchedChannels} kanalene som ses, er ledig: ingen av streamerne dine sender direkte."
+      }
+    }
+  ],
   "activity_nothing": "Ingenting å se nå: ingen Drops-kampanje med en kanal på direkten og ingen streamer på nett.",
   "activity_paused": "Pauset. Fortsett for å begynne å se igjen.",
   "beacon_blocked": "spade.twitch.tv blokkeres av DNS-en eller annonseblokkereren din: kanalpoeng godskrives ikke før du tillater det. Tillat også navnene den peker til: spade.sci.twitch.tv, science-edge-external-prod-*.elb.amazonaws.com. Drops gir fortsatt fremgang.",
@@ -591,7 +656,20 @@
   "settings_close_action": "Lukkeknapp",
   "settings_unsaved": "Du har ulagrede endringer.",
   "slots_two_title": "To kanaler",
-  "slots_two_hint": "Det meste Twitch godskriver per konto: én for Drops og én for poeng, eller to for poeng.",
+  "slots_two_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Det meste Twitch godskriver per konto: {formattedMaxWatchedChannels} kanal samtidig, for Drops eller poeng.",
+        "maxWatchedChannelsPlural=*": "Det meste Twitch godskriver per konto: {formattedMaxWatchedChannels} kanaler samtidig, delt mellom Drops og poeng."
+      }
+    }
+  ],
   "slots_one_title": "Én kanal",
   "slots_one_hint": "Roligere: én kanal om gangen.",
   "streamer_claim_bonus_hint": "Henter bonuskisten som dukker opp hvert {minutes}. minutt.",
@@ -837,6 +915,7 @@
   "updates_available_locked": "Versjon {version} er tilgjengelig. Lås opp appen for å installere den.",
   "updates_badge": "Oppdatering {version}",
   "updates_pull_image": "Oppdater ved å hente det nye imaget og deretter starte containeren på nytt:",
+  "updates_replace_binary": "Oppdater ved å hente den nye serverfilen fra utgivelsen på GitHub, erstatte den gamle med den og deretter starte tjenesten på nytt:",
   "updates_check_failed": "Kunne ikke se etter oppdateringer. Sjekk tilkoblingen og prøv igjen.",
   "updates_last_checked": "Sist sjekket: {time}",
   "updates_never_checked": "Sist sjekket: ikke noe svar ennå siden oppstart",

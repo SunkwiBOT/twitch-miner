@@ -13,6 +13,10 @@ export const MULTI_ITEM_CLASSES =
 
 export const MULTI_ALL_VALUE = "__all__";
 
+export const CHECKED_OPTION = '[data-checked="true"]';
+
+export const MULTI_CHECKED_OPTION = `[aria-checked="true"]:not([data-value="${MULTI_ALL_VALUE}"])`;
+
 export const MULTI_PICTURES_MAX = 3;
 
 export const SELECT_SEARCH_FROM = 5;

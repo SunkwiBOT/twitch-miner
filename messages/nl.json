@@ -43,9 +43,9 @@
   "status_paused": "Gepauzeerd",
   "status_login_required": "Inloggen vereist",
   "status_problem": "Probleem",
-  "mode_auto_hint": "Mint de beste Drops-campagne op één kanaal; het tweede kanaal verdient punten bij je streamers. Zonder campagne gaan beide kanalen naar punten.",
+  "mode_auto_hint": "Mint de beste Drops-campagne op één kanaal en verdient op de andere punten bij je streamers. Zonder campagne gaan alle kanalen naar punten.",
   "mode_drops_hint": "Eén kanaal, voor de huidige Drops-campagne. Geen kanaalpunten.",
-  "mode_points_hint": "Beide kanalen kijken naar je streamers voor kanaalpunten. Geen Drops.",
+  "mode_points_hint": "Alle kanalen kijken naar je streamers voor kanaalpunten. Geen Drops.",
   "dashboard_no_accounts_title": "Nog geen account",
   "dashboard_no_accounts_text": "Voeg een Twitch-account toe met een code die je op twitch.tv/activate invoert, vanaf elk apparaat. Er wordt geen wachtwoord opgeslagen.",
   "dashboard_recent": "Recente activiteit",
@@ -172,7 +172,20 @@
   "import_tokens_importing_progress": "Importeren: {done}/{total}",
   "import_tokens_cancel": "Import annuleren",
   "import_tokens_retry_failed": "Opnieuw proberen",
-  "account_slots_hint": "Twitch telt per account maximaal twee kanalen tegelijk mee.",
+  "account_slots_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Twitch telt per account maximaal {formattedMaxWatchedChannels} kanaal tegelijk mee.",
+        "maxWatchedChannelsPlural=*": "Twitch telt per account maximaal {formattedMaxWatchedChannels} kanalen tegelijk mee."
+      }
+    }
+  ],
   "account_drops_priority_hint": "Hun campagnes worden gemind waar “Prioriteitscategorieën” staat in “Wat te minen, op volgorde”, het belangrijkste eerst.",
   "account_drops_priority_placeholder": "Categorie toevoegen…",
   "account_drops_exclude_games": "Uitgesloten categorieën",
@@ -181,7 +194,20 @@
   "account_drops_auto_claim": "Drops automatisch claimen",
   "account_drops_skip_unfinishable": "Campagnes overslaan die niet op tijd af kunnen",
   "account_points_streamers": "Streamers",
-  "account_points_streamers_hint": "Het belangrijkste eerst. Twitch telt kanaalpunten maar op twee kanalen die tegelijk bekeken worden.",
+  "account_points_streamers_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Het belangrijkste eerst. Twitch telt kanaalpunten maar op {formattedMaxWatchedChannels} kanaal dat tegelijk bekeken wordt.",
+        "maxWatchedChannelsPlural=*": "Het belangrijkste eerst. Twitch telt kanaalpunten maar op {formattedMaxWatchedChannels} kanalen die tegelijk bekeken worden."
+      }
+    }
+  ],
   "account_points_add_placeholder": "Twitch-login of kanaal-URL",
   "account_points_streak_priority": "Kijkreeksen eerst",
   "account_points_empty": "Nog geen streamer. Voeg de kanalen toe waarop je punten wilt.",
@@ -390,7 +416,20 @@
   "star_prompt_no": "Nee, bedankt",
   "nav_powered_by": "mogelijk gemaakt door",
   "home_title": "Home",
-  "home_rules": "Elk account kan tot twee kanalen tegelijk kijken, de limiet van Twitch: één Drops-campagne tegelijk en kanaalpunten bij je ingestelde lijst met streamers.",
+  "home_rules": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Elk account kan tot {formattedMaxWatchedChannels} kanaal tegelijk kijken, de limiet van Twitch: één Drops-campagne tegelijk en kanaalpunten bij je ingestelde lijst met streamers.",
+        "maxWatchedChannelsPlural=*": "Elk account kan tot {formattedMaxWatchedChannels} kanalen tegelijk kijken, de limiet van Twitch: één Drops-campagne tegelijk en kanaalpunten bij je ingestelde lijst met streamers."
+      }
+    }
+  ],
   "home_open": "Openen",
   "home_update_notifications": "Melding krijgen bij nieuwe versies?",
   "home_update_notifications_allow": "Toestaan",
@@ -513,8 +552,34 @@
   "account_twitch_title": "Twitch-account",
   "action_pause": "Pauzeren",
   "action_resume": "Hervatten",
-  "activity_free_slot": "Een van de twee bekeken kanalen is vrij. Voeg streamers toe om hun kanaalpunten te verdienen.",
-  "activity_free_slot_offline": "Een van de twee bekeken kanalen is vrij: geen van je streamers is live.",
+  "activity_free_slot": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Eén bekeken kanaal van de {formattedMaxWatchedChannels} is vrij. Voeg streamers toe om hun kanaalpunten te verdienen.",
+        "maxWatchedChannelsPlural=*": "Een van de {formattedMaxWatchedChannels} bekeken kanalen is vrij. Voeg streamers toe om hun kanaalpunten te verdienen."
+      }
+    }
+  ],
+  "activity_free_slot_offline": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Eén bekeken kanaal van de {formattedMaxWatchedChannels} is vrij: geen van je streamers is live.",
+        "maxWatchedChannelsPlural=*": "Een van de {formattedMaxWatchedChannels} bekeken kanalen is vrij: geen van je streamers is live."
+      }
+    }
+  ],
   "activity_nothing": "Nu niets om te kijken: geen Drops-campagne met een live kanaal en geen streamer online.",
   "activity_paused": "Gepauzeerd. Hervat om weer te kijken.",
   "beacon_blocked": "spade.twitch.tv wordt geblokkeerd door je DNS of adblocker: kanaalpunten worden pas bijgeschreven als je het toestaat. Sta ook de namen toe waarnaar het verwijst: spade.sci.twitch.tv, science-edge-external-prod-*.elb.amazonaws.com. Drops gaan gewoon vooruit.",
@@ -591,7 +656,20 @@
   "settings_close_action": "Sluitknop",
   "settings_unsaved": "Je hebt niet-opgeslagen wijzigingen.",
   "slots_two_title": "Twee kanalen",
-  "slots_two_hint": "Het maximum dat Twitch per account meetelt: één voor Drops, één voor punten, of twee voor punten.",
+  "slots_two_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Het maximum dat Twitch per account meetelt: {formattedMaxWatchedChannels} kanaal tegelijk, voor Drops of punten.",
+        "maxWatchedChannelsPlural=*": "Het maximum dat Twitch per account meetelt: {formattedMaxWatchedChannels} kanalen tegelijk, gedeeld tussen Drops en punten."
+      }
+    }
+  ],
   "slots_one_title": "Eén kanaal",
   "slots_one_hint": "Rustiger: één kanaal tegelijk.",
   "streamer_claim_bonus_hint": "Claimt de bonuskist die elke {minutes} minuten verschijnt.",
@@ -936,6 +1014,7 @@
   "updates_available_locked": "Versie {version} is beschikbaar. Ontgrendel de app om hem te installeren.",
   "updates_badge": "Update {version}",
   "updates_pull_image": "Om bij te werken, haal je de nieuwe image op en start je de container opnieuw:",
+  "updates_replace_binary": "Om bij te werken, download je het nieuwe serverbestand uit de release op GitHub, vervang je het oude en start je de service opnieuw:",
   "updates_check_failed": "Kan niet controleren op updates. Controleer je verbinding en probeer het opnieuw.",
   "updates_last_checked": "Laatst gecontroleerd: {time}",
   "updates_never_checked": "Laatst gecontroleerd: nog geen antwoord sinds de start",

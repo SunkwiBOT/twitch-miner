@@ -43,9 +43,9 @@
   "status_paused": "En pausa",
   "status_login_required": "Inicio de sesión necesario",
   "status_problem": "Problema",
-  "mode_auto_hint": "Mina la mejor campaña de Drops en un canal; el segundo canal gana puntos con tus streamers. Sin campaña, ambos canales van a puntos.",
+  "mode_auto_hint": "Mina la mejor campaña de Drops en un canal y gana puntos con tus streamers en los demás. Sin campaña, todos los canales van a puntos.",
   "mode_drops_hint": "Un canal, para la campaña de Drops actual. Sin puntos del canal.",
-  "mode_points_hint": "Ambos canales ven a tus streamers para ganar puntos del canal. Sin Drops.",
+  "mode_points_hint": "Todos los canales ven a tus streamers para ganar puntos del canal. Sin Drops.",
   "dashboard_no_accounts_title": "Aún no hay cuentas",
   "dashboard_no_accounts_text": "Añade una cuenta de Twitch con un código que escribir en twitch.tv/activate, desde cualquier dispositivo. No se guarda ninguna contraseña.",
   "dashboard_recent": "Actividad reciente",
@@ -172,7 +172,20 @@
   "import_tokens_importing_progress": "Importando: {done}/{total}",
   "import_tokens_cancel": "Cancelar la importación",
   "import_tokens_retry_failed": "Reintentar",
-  "account_slots_hint": "Twitch acredita como máximo dos canales por cuenta al mismo tiempo.",
+  "account_slots_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Twitch acredita como máximo {formattedMaxWatchedChannels} canal por cuenta al mismo tiempo.",
+        "maxWatchedChannelsPlural=*": "Twitch acredita como máximo {formattedMaxWatchedChannels} canales por cuenta al mismo tiempo."
+      }
+    }
+  ],
   "account_drops_priority_hint": "Sus campañas se minan donde «Categorías prioritarias» aparece en «Qué minar, en orden», las más importantes primero.",
   "account_drops_priority_placeholder": "Añadir una categoría…",
   "account_drops_exclude_games": "Categorías excluidas",
@@ -181,7 +194,20 @@
   "account_drops_auto_claim": "Reclamar drops automáticamente",
   "account_drops_skip_unfinishable": "Omitir campañas que no se pueden completar antes de que terminen",
   "account_points_streamers": "Streamers",
-  "account_points_streamers_hint": "Lo más importante primero. Twitch solo cuenta puntos de canal en dos canales vistos a la vez.",
+  "account_points_streamers_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Lo más importante primero. Twitch solo cuenta puntos de canal en {formattedMaxWatchedChannels} canal visto a la vez.",
+        "maxWatchedChannelsPlural=*": "Lo más importante primero. Twitch solo cuenta puntos de canal en {formattedMaxWatchedChannels} canales vistos a la vez."
+      }
+    }
+  ],
   "account_points_add_placeholder": "Usuario de Twitch o URL del canal",
   "account_points_streak_priority": "Rachas de visualización primero",
   "account_points_empty": "Aún no hay streamers. Añade los canales en los que quieres puntos.",
@@ -390,7 +416,20 @@
   "star_prompt_no": "No, gracias",
   "nav_powered_by": "con tecnología de",
   "home_title": "Inicio",
-  "home_rules": "Cada cuenta puede ver hasta dos canales a la vez, el límite de Twitch: una campaña de drops cada vez y puntos de canal en tu lista de streamers configurada.",
+  "home_rules": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Cada cuenta puede ver hasta {formattedMaxWatchedChannels} canal a la vez, el límite de Twitch: una campaña de drops cada vez y puntos de canal en tu lista de streamers configurada.",
+        "maxWatchedChannelsPlural=*": "Cada cuenta puede ver hasta {formattedMaxWatchedChannels} canales a la vez, el límite de Twitch: una campaña de drops cada vez y puntos de canal en tu lista de streamers configurada."
+      }
+    }
+  ],
   "home_open": "Abrir",
   "home_update_notifications": "¿Quieres recibir avisos de nuevas versiones?",
   "home_update_notifications_allow": "Permitir",
@@ -513,8 +552,34 @@
   "account_twitch_title": "Cuenta de Twitch",
   "action_pause": "Pausar",
   "action_resume": "Reanudar",
-  "activity_free_slot": "Uno de los dos canales vistos está libre. Añade streamers para ganar sus puntos del canal.",
-  "activity_free_slot_offline": "Uno de los dos canales vistos está libre: ninguno de tus streamers está en directo.",
+  "activity_free_slot": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Un canal visto de {formattedMaxWatchedChannels} está libre. Añade streamers para ganar sus puntos del canal.",
+        "maxWatchedChannelsPlural=*": "Uno de los {formattedMaxWatchedChannels} canales vistos está libre. Añade streamers para ganar sus puntos del canal."
+      }
+    }
+  ],
+  "activity_free_slot_offline": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Un canal visto de {formattedMaxWatchedChannels} está libre: ninguno de tus streamers está en directo.",
+        "maxWatchedChannelsPlural=*": "Uno de los {formattedMaxWatchedChannels} canales vistos está libre: ninguno de tus streamers está en directo."
+      }
+    }
+  ],
   "activity_nothing": "Nada que ver ahora mismo: ninguna campaña de Drops con un canal en directo y ningún streamer en línea.",
   "activity_paused": "En pausa. Reanuda para volver a ver.",
   "beacon_blocked": "spade.twitch.tv está bloqueado por tu DNS o tu bloqueador de anuncios: los puntos del canal no se acreditan hasta que lo permitas. Permite también los nombres a los que apunta: spade.sci.twitch.tv, science-edge-external-prod-*.elb.amazonaws.com. Los Drops siguen progresando.",
@@ -591,7 +656,20 @@
   "settings_close_action": "Botón de cerrar",
   "settings_unsaved": "Tienes cambios sin guardar.",
   "slots_two_title": "Dos canales",
-  "slots_two_hint": "El máximo que Twitch acredita por cuenta: uno para Drops y otro para puntos, o dos para puntos.",
+  "slots_two_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "El máximo que Twitch acredita por cuenta: {formattedMaxWatchedChannels} canal a la vez, para Drops o para puntos.",
+        "maxWatchedChannelsPlural=*": "El máximo que Twitch acredita por cuenta: {formattedMaxWatchedChannels} canales a la vez, compartidos entre Drops y puntos."
+      }
+    }
+  ],
   "slots_one_title": "Un canal",
   "slots_one_hint": "Más discreto: un solo canal a la vez.",
   "streamer_claim_bonus_hint": "Reclama el cofre de bonificación que aparece cada {minutes} minutos.",
@@ -936,6 +1014,7 @@
   "updates_available_locked": "La versión {version} está disponible. Desbloquea la app para instalarla.",
   "updates_badge": "Actualización {version}",
   "updates_pull_image": "Para actualizar, descarga la nueva imagen y reinicia el contenedor:",
+  "updates_replace_binary": "Para actualizar, descarga el nuevo archivo del servidor desde la versión publicada en GitHub, sustituye el anterior y reinicia el servicio:",
   "updates_check_failed": "No se han podido buscar actualizaciones. Comprueba tu conexión y vuelve a intentarlo.",
   "updates_last_checked": "Última comprobación: {time}",
   "updates_never_checked": "Última comprobación: aún sin respuesta desde el inicio",

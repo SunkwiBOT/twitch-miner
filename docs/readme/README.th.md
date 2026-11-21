@@ -262,9 +262,12 @@
 
 | ระบบ | แพ็กเกจ |
 |---|---|
-| **Windows** · x64 | ตัวติดตั้ง (`setup.exe`) หรือ[ไฟล์ปฏิบัติการแบบพกพา](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **macOS** 13 ขึ้นไป · Intel และ Apple Silicon | ดิสก์อิมเมจ (`.dmg`) |
+| **Windows** · x64 | ตัวติดตั้ง (`x64-setup.exe`) หรือ[ไฟล์ปฏิบัติการแบบพกพา](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | ตัวติดตั้ง (`arm64-setup.exe`) หรือ[ไฟล์ปฏิบัติการแบบพกพา](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 ขึ้นไป · universal: Intel และ Apple Silicon | ดิสก์อิมเมจ (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) หรือ `.rpm` (Fedora, openSUSE) |
+| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) หรือ `.rpm` (Fedora, openSUSE) |
+| **เซิร์ฟเวอร์ Linux** · x86-64 หรือ ARM64 | ตัวเซิร์ฟเวอร์เพียงอย่างเดียว ไม่ต้องใช้ Docker (`twitch-miner-server_…_linux_x64` หรือ `_linux_arm64`): ดู[ไม่ใช้ Docker](#systemd) |
 
 บิลด์ macOS ไม่ได้ผ่านการ notarize ครั้งแรกให้เปิดแอปก่อน: macOS จะบล็อกไว้ จากนั้นไปที่ **การตั้งค่าระบบ › ความเป็นส่วนตัวและความปลอดภัย** แล้วคลิก **ยืนยันจะเปิด**
 
@@ -322,6 +325,60 @@ docker compose up -d
 เซิร์ฟเวอร์อ่านและตรวจสอบตัวแปรครั้งเดียวตอนเริ่ม ค่าที่ไม่ถูกต้องจะทำให้เซิร์ฟเวอร์หยุดพร้อมข้อความ แทนที่จะเงียบแล้วไปใช้ค่าสำรอง
 
 เมื่ออยู่หลัง reverse proxy ให้ตั้งค่า `MINER_PUBLIC_URL`: หากไม่ตั้ง คำขอแรกที่มาผ่าน proxy จะเขียนคำเตือนลงในล็อก เพราะความพยายามเข้าสู่ระบบจะถูกนับตามที่อยู่ของ proxy และรหัสผ่านผิดของผู้เข้าชมคนเดียวจะล็อกทุกคนออก การเชื่อมต่อแบบสดจะส่ง ping ทุก 30 วินาที เพื่อไม่ให้ proxy ปิดการเชื่อมต่อเมื่อไม่มีอะไรเกิดขึ้น เมื่อ Twitch หรือเครือข่ายล้มเหลว เซิร์ฟเวอร์จะตอบ `424` ไม่ใช่ `502` หรือ `504`: หลัง Cloudflare คุณจะเห็นข้อผิดพลาดจริงแทนหน้าของ Cloudflare
+
+### <a name="systemd"></a>ไม่ใช้ Docker (systemd)
+
+บนเซิร์ฟเวอร์ Linux ที่ไม่ใช้ Docker รุ่นที่เผยแพร่ยังมีตัวเซิร์ฟเวอร์เป็นไฟล์เดียว พร้อมแดชบอร์ดอยู่ในตัว:
+`twitch-miner-server_<เวอร์ชัน>_linux_x64` หรือ `twitch-miner-server_<เวอร์ชัน>_linux_arm64`
+เป็นโปรแกรมตัวเดียวกับที่อิมเมจ Docker รัน ลิงก์แบบสแตติก: ไม่ต้องติดตั้งอย่างอื่นเพิ่ม
+รับตัวแปรชุดเดียวกัน
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 บน ARM64
+sudo install -m 600 /dev/null /etc/twitch-miner.env
+```
+
+ตั้งรหัสผ่านของคุณเอง ยาว 12 ตัวอักษรขึ้นไป ไว้ใน `/etc/twitch-miner.env` ซึ่งมีแต่ root เท่านั้นที่อ่านได้:
+
+```ini
+MINER_PASSWORD=change-me
+```
+
+จากนั้นสร้าง service ใน `/etc/systemd/system/twitch-miner.service`:
+
+```ini
+[Unit]
+Description=Twitch Miner
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/twitch-miner
+EnvironmentFile=/etc/twitch-miner.env
+Environment=DATA_DIR=/var/lib/twitch-miner
+DynamicUser=yes
+StateDirectory=twitch-miner
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now twitch-miner
+```
+
+systemd จะสร้าง `/var/lib/twitch-miner` สำหรับเก็บข้อมูล และรันเซิร์ฟเวอร์ภายใต้ผู้ใช้ของตัวเอง
+ไม่ใช่ root เปิด `http://<ที่อยู่ของเซิร์ฟเวอร์>:8080`; ล็อกอยู่ใน `journalctl -u twitch-miner`
+
+ไฟล์นี้ไม่อัปเดตตัวเองโดยอัตโนมัติ เมื่อแดชบอร์ดแสดงเวอร์ชันใหม่ ให้ดาวน์โหลดไฟล์ใหม่จากรุ่นที่เผยแพร่
+แล้วแทนที่ไฟล์เดิมและรีสตาร์ต:
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 บน ARM64
+sudo systemctl restart twitch-miner
+```
 
 ## <a name="how-it-works"></a>วิธีการทำงาน
 

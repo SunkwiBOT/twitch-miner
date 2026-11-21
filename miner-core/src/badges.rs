@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use ts_rs::TS;
 
-use crate::api::Shell;
+use crate::api::InstallKind;
 use crate::domain::{
     BadgeRef, Benefit, BenefitKind, Campaign, CampaignKind, Evolution, Game, Repeat,
 };
@@ -210,11 +210,11 @@ impl FeedAnswer for BadgeCatalog {
 pub type BadgeCatalogClient = FeedClient<BadgeCatalog>;
 
 impl BadgeCatalogClient {
-    pub fn new(requests: RequestLog, shell: Shell, install_id: &str) -> Result<Self> {
+    pub fn new(requests: RequestLog, install_kind: InstallKind, install_id: &str) -> Result<Self> {
         Self::with_headers(
             &crate::drops_api::badges_url(),
             requests,
-            &crate::user_agent(shell),
+            &crate::user_agent(install_kind),
             &[("x-install-id", install_id.to_owned())],
         )
     }

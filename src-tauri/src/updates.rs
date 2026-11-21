@@ -23,8 +23,11 @@ const CHECK_TIMEOUT: Duration = Duration::from_secs(30);
 const STALL_TIMEOUT: Duration = Duration::from_secs(30);
 
 // ! Matches the extra platform key the release workflow adds to `latest.json` for the
-// portable Windows copy, signed the same way as every other published asset.
-const PORTABLE_TARGET: &str = "windows-x86_64-portable";
+// portable Windows copy of each architecture, signed the same way as every other published
+// asset. `ARCH` names x86-64 and ARM64 the way the updater's own keys do.
+fn portable_target() -> String {
+    format!("windows-{}-portable", std::env::consts::ARCH)
+}
 
 // ! The NSIS installer leaves its uninstaller beside the executable; a portable copy has none.
 const PORTABLE_MARKER: &str = "uninstall.exe";
@@ -139,7 +142,7 @@ fn updater(app: &AppHandle) -> Answer<Updater> {
             miner_core::logs::close_file_writer();
         });
     if portable() {
-        builder = builder.target(PORTABLE_TARGET);
+        builder = builder.target(portable_target());
     }
     builder.build().map_err(|error| {
         tracing::warn!("the updater is unavailable: {error}");
@@ -162,7 +165,7 @@ fn finished<T>(request: Option<Pending>, outcome: &Result<T, tauri_plugin_update
     }
 }
 
-// ! A missing `windows-x86_64-portable` key in `latest.json` means this release predates the
+// ! A missing `windows-<arch>-portable` key in `latest.json` means this release predates the
 // portable self-update path (or its asset upload failed): surfaced as unsupported instead of a
 // generic network failure.
 fn portable_update_error(error: &tauri_plugin_updater::Error) -> ErrorCode {

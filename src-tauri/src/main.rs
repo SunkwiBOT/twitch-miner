@@ -20,9 +20,9 @@ use miner_core::api::{
     CheckPastedTokenResponse, Command, CommandName, DesktopEvent, FollowsResponse,
     HistoryCurveQuery, HistoryCurveResponse, HistoryExportQuery, HistoryExportResponse,
     HistoryQuery, HistoryResponse, HistoryStatsQuery, HistoryStatsResponse, ImportTokensResponse,
-    LoginFlowResponse, LogsQuery, LogsReportResponse, LogsResponse, NotificationTest,
+    InstallKind, LoginFlowResponse, LogsQuery, LogsReportResponse, LogsResponse, NotificationTest,
     NotificationTestRequest, ProxyTestResponse, RedeemRequest, RedeemResponse, RefreshResponse,
-    RequestsQuery, RequestsResponse, SearchResponse, Shell, Snapshot, SnapshotResponse,
+    RequestsQuery, RequestsResponse, SearchResponse, Snapshot, SnapshotResponse,
     SpamBalanceResponse, SpamChannelResponse, StartupProblem, StartupProblemResponse,
 };
 use miner_core::config::{AccountSettingsPatch, CloseAction, GlobalSettings};
@@ -181,7 +181,7 @@ fn main() {
         .setup(move |app| {
             move_old_autostart(app.handle());
 
-            let opened = Manager::open(&dir, log_buffer.clone(), Shell::Desktop);
+            let opened = Manager::open(&dir, log_buffer.clone(), InstallKind::Desktop);
 
             app.manage(DataFolder {
                 path: dir.clone(),

@@ -262,9 +262,12 @@ Tải tệp cho hệ thống của bạn từ [bản phát hành mới nhất](h
 
 | Hệ thống | Gói |
 |---|---|
-| **Windows** · x64 | Trình cài đặt (`setup.exe`) hoặc [tệp thực thi portable](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **macOS** 13 trở lên · Intel và Apple Silicon | Ảnh đĩa (`.dmg`) |
+| **Windows** · x64 | Trình cài đặt (`x64-setup.exe`) hoặc [tệp thực thi portable](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | Trình cài đặt (`arm64-setup.exe`) hoặc [tệp thực thi portable](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 trở lên · universal: Intel và Apple Silicon | Ảnh đĩa (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) hoặc `.rpm` (Fedora, openSUSE) |
+| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) hoặc `.rpm` (Fedora, openSUSE) |
+| **Máy chủ Linux** · x86-64 hoặc ARM64 | Chỉ riêng máy chủ, không cần Docker (`twitch-miner-server_…_linux_x64` hoặc `_linux_arm64`): xem [Không cần Docker](#systemd) |
 
 Bản macOS chưa được công chứng (notarize). Lần đầu tiên, hãy mở ứng dụng: macOS sẽ chặn nó. Sau đó vào **Cài đặt hệ thống › Quyền riêng tư & bảo mật** và bấm **Vẫn mở**.
 
@@ -322,6 +325,62 @@ Mở <http://localhost:8080> (hoặc địa chỉ của máy đó trong mạng c
 Máy chủ đọc và kiểm tra các biến một lần, khi khởi động. Một giá trị không hợp lệ sẽ dừng máy chủ kèm thông báo, thay vì âm thầm dùng giá trị dự phòng.
 
 Phía sau một reverse proxy, hãy đặt `MINER_PUBLIC_URL`: nếu không, yêu cầu đầu tiên đi qua proxy sẽ ghi một cảnh báo vào log, vì lúc đó các lần đăng nhập được đếm theo địa chỉ của proxy, và mật khẩu sai của một người truy cập sẽ khóa tất cả mọi người. Kết nối trực tiếp gửi một ping mỗi 30 giây, để proxy không đóng nó khi không có gì xảy ra. Khi Twitch hoặc mạng gặp lỗi, máy chủ trả về `424`, không bao giờ `502` hay `504`: phía sau Cloudflare, bạn thấy lỗi thật thay vì trang của Cloudflare.
+
+### <a name="systemd"></a>Không cần Docker (systemd)
+
+Trên một máy chủ Linux không dùng Docker, bản phát hành cũng có sẵn máy chủ dưới dạng
+một tệp duy nhất, kèm bảng điều khiển bên trong: `twitch-miner-server_<phiên bản>_linux_x64`
+hoặc `twitch-miner-server_<phiên bản>_linux_arm64`. Đây chính là chương trình mà image
+Docker chạy, được liên kết tĩnh: không cần cài thêm gì khác. Nó dùng cùng các biến.
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 trên ARM64
+sudo install -m 600 /dev/null /etc/twitch-miner.env
+```
+
+Ghi mật khẩu của riêng bạn, từ 12 ký tự trở lên, vào `/etc/twitch-miner.env`, tệp mà chỉ
+root mới đọc được:
+
+```ini
+MINER_PASSWORD=change-me
+```
+
+Sau đó là service, trong `/etc/systemd/system/twitch-miner.service`:
+
+```ini
+[Unit]
+Description=Twitch Miner
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/twitch-miner
+EnvironmentFile=/etc/twitch-miner.env
+Environment=DATA_DIR=/var/lib/twitch-miner
+DynamicUser=yes
+StateDirectory=twitch-miner
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now twitch-miner
+```
+
+systemd tạo `/var/lib/twitch-miner` cho dữ liệu và chạy máy chủ dưới một người dùng
+riêng của nó, không bao giờ chạy với root. Mở `http://<địa chỉ của máy chủ>:8080`; log
+nằm trong `journalctl -u twitch-miner`.
+
+Tệp này không tự cập nhật. Khi bảng điều khiển hiển thị phiên bản mới, hãy tải tệp mới
+từ bản phát hành, rồi thay thế tệp cũ và khởi động lại:
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 trên ARM64
+sudo systemctl restart twitch-miner
+```
 
 ## <a name="how-it-works"></a>Cách hoạt động
 

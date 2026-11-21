@@ -43,9 +43,9 @@
   "status_paused": "Tauolla",
   "status_login_required": "Kirjautuminen vaaditaan",
   "status_problem": "Ongelma",
-  "mode_auto_hint": "Louhii parasta Drops-kampanjaa yhdellä kanavalla; toinen kanava ansaitsee pisteitä streamaajiltasi. Ilman kampanjaa molemmat kanavat ansaitsevat pisteitä.",
+  "mode_auto_hint": "Louhii parasta Drops-kampanjaa yhdellä kanavalla ja ansaitsee muilla pisteitä streamaajiltasi. Ilman kampanjaa kaikki kanavat ansaitsevat pisteitä.",
   "mode_drops_hint": "Yksi kanava nykyiselle Drops-kampanjalle. Ei kanavapisteitä.",
-  "mode_points_hint": "Molemmat kanavat katsovat streamaajiasi kanavapisteiden vuoksi. Ei Drops-kampanjoita.",
+  "mode_points_hint": "Kaikki kanavat katsovat streamaajiasi kanavapisteiden vuoksi. Ei Drops-kampanjoita.",
   "dashboard_no_accounts_title": "Ei vielä tiliä",
   "dashboard_no_accounts_text": "Lisää Twitch-tili koodilla, jonka kirjoitat osoitteessa twitch.tv/activate millä tahansa laitteella. Salasanaa ei tallenneta.",
   "dashboard_recent": "Viimeaikainen toiminta",
@@ -172,7 +172,20 @@
   "import_tokens_importing_progress": "Tuodaan: {done}/{total}",
   "import_tokens_cancel": "Peruuta tuonti",
   "import_tokens_retry_failed": "Yritä uudelleen",
-  "account_slots_hint": "Twitch hyvittää enintään kaksi kanavaa tiliä kohden samanaikaisesti.",
+  "account_slots_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Twitch hyvittää tiliä kohden samanaikaisesti enintään {formattedMaxWatchedChannels} kanavan.",
+        "maxWatchedChannelsPlural=*": "Twitch hyvittää tiliä kohden samanaikaisesti enintään {formattedMaxWatchedChannels} kanavaa."
+      }
+    }
+  ],
   "account_drops_priority_hint": "Niiden kampanjat louhitaan siellä, missä ”Prioriteettikategoriat” on kohdassa ”Mitä louhitaan, järjestyksessä”, tärkein ensin.",
   "account_drops_priority_placeholder": "Lisää kategoria…",
   "account_drops_exclude_games": "Ohitetut kategoriat",
@@ -181,7 +194,7 @@
   "account_drops_auto_claim": "Lunasta dropsit automaattisesti",
   "account_drops_skip_unfinishable": "Ohita kampanjat, joita ei ehdi suorittaa loppuun",
   "account_points_streamers": "Streamaajat",
-  "account_points_streamers_hint": "Tärkein ensin. Twitch laskee kanavapisteitä vain kahdelta samaan aikaan katsotulta kanavalta.",
+  "account_points_streamers_hint": "Tärkein ensin. Twitch laskee kanavapisteitä vain {formattedMaxWatchedChannels} samaan aikaan katsotulta kanavalta.",
   "account_points_add_placeholder": "Twitch-käyttäjätunnus tai kanavan URL",
   "account_points_streak_priority": "Katseluputket ensin",
   "account_points_empty": "Ei vielä streamaajia. Lisää kanavat, joista haluat pisteitä.",
@@ -390,7 +403,7 @@
   "star_prompt_no": "Ei kiitos",
   "nav_powered_by": "taustalla",
   "home_title": "Etusivu",
-  "home_rules": "Jokainen tili voi katsoa enintään kahta kanavaa kerrallaan, Twitchin raja: yhtä Drops-kampanjaa kerrallaan ja kanavapisteitä määrittämälläsi striimaajalistalla.",
+  "home_rules": "Jokainen tili voi katsoa enintään {formattedMaxWatchedChannels} kanavaa kerrallaan, Twitchin raja: yhtä Drops-kampanjaa kerrallaan ja kanavapisteitä määrittämälläsi striimaajalistalla.",
   "home_open": "Avaa",
   "home_update_notifications": "Haluatko ilmoituksen uusista versioista?",
   "home_update_notifications_allow": "Salli",
@@ -513,8 +526,8 @@
   "account_twitch_title": "Twitch-tili",
   "action_pause": "Keskeytä",
   "action_resume": "Jatka",
-  "activity_free_slot": "Toinen kahdesta katsotusta kanavasta on vapaana. Lisää streamaajia ansaitaksesi heidän kanavapisteitään.",
-  "activity_free_slot_offline": "Toinen kahdesta katsotusta kanavasta on vapaana: yksikään streamaajistasi ei ole livenä.",
+  "activity_free_slot": "Yksi {formattedMaxWatchedChannels} katsotusta kanavasta on vapaana. Lisää streamaajia ansaitaksesi heidän kanavapisteitään.",
+  "activity_free_slot_offline": "Yksi {formattedMaxWatchedChannels} katsotusta kanavasta on vapaana: yksikään streamaajistasi ei ole livenä.",
   "activity_nothing": "Ei katsottavaa juuri nyt: ei Drops-kampanjaa live-kanavalla eikä yhtään streamaajaa linjoilla.",
   "activity_paused": "Keskeytetty. Jatka, niin katselu alkaa uudelleen.",
   "beacon_blocked": "DNS tai mainosten esto estää osoitteen spade.twitch.tv: kanavapisteitä ei hyvitetä ennen kuin sallit sen. Salli myös nimet, joihin se osoittaa: spade.sci.twitch.tv, science-edge-external-prod-*.elb.amazonaws.com. Drops etenevät silti.",
@@ -591,7 +604,20 @@
   "settings_close_action": "Sulkemispainike",
   "settings_unsaved": "Sinulla on tallentamattomia muutoksia.",
   "slots_two_title": "Kaksi kanavaa",
-  "slots_two_hint": "Eniten, mitä Twitch hyvittää tiliä kohden: yksi Drops-kampanjalle ja yksi pisteille tai kaksi pisteille.",
+  "slots_two_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Eniten, mitä Twitch hyvittää tiliä kohden: {formattedMaxWatchedChannels} kanava kerrallaan, Drops-kampanjoille tai pisteille.",
+        "maxWatchedChannelsPlural=*": "Eniten, mitä Twitch hyvittää tiliä kohden: {formattedMaxWatchedChannels} kanavaa kerrallaan, jaettuna Drops-kampanjoiden ja pisteiden kesken."
+      }
+    }
+  ],
   "slots_one_title": "Yksi kanava",
   "slots_one_hint": "Hiljaisempi: yksi kanava kerrallaan.",
   "streamer_claim_bonus_hint": "Lunastaa {minutes} minuutin välein ilmestyvän bonusarkun.",
@@ -936,6 +962,7 @@
   "updates_available_locked": "Versio {version} on saatavilla. Avaa sovelluksen lukitus asentaaksesi sen.",
   "updates_badge": "Päivitys {version}",
   "updates_pull_image": "Päivitä lataamalla uusi image ja käynnistämällä kontti uudelleen:",
+  "updates_replace_binary": "Päivitä lataamalla uusi palvelintiedosto GitHubin julkaisusta, korvaamalla vanha sillä ja käynnistämällä palvelu uudelleen:",
   "updates_check_failed": "Päivityksiä ei voitu tarkistaa. Tarkista yhteys ja yritä uudelleen.",
   "updates_last_checked": "Viimeksi tarkistettu: {time}",
   "updates_never_checked": "Viimeksi tarkistettu: ei vielä vastausta käynnistyksen jälkeen",

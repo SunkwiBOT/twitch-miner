@@ -262,9 +262,12 @@ Sisteminize uygun dosyayı [son sürümden](https://github.com/SunkwiBOT/twitch-
 
 | Sistem | Paket |
 |---|---|
-| **Windows** · x64 | Yükleyici (`setup.exe`) veya [taşınabilir çalıştırılabilir dosya](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **macOS** 13 veya üstü · Intel ve Apple Silicon | Disk görüntüsü (`.dmg`) |
+| **Windows** · x64 | Yükleyici (`x64-setup.exe`) veya [taşınabilir çalıştırılabilir dosya](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | Yükleyici (`arm64-setup.exe`) veya [taşınabilir çalıştırılabilir dosya](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 veya üstü · evrensel: Intel ve Apple Silicon | Disk görüntüsü (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) veya `.rpm` (Fedora, openSUSE) |
+| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) veya `.rpm` (Fedora, openSUSE) |
+| **Linux sunucusu** · x86-64 veya ARM64 | Yalnızca sunucu, Docker'sız (`twitch-miner-server_…_linux_x64` veya `_linux_arm64`): bkz. [Docker olmadan](#systemd) |
 
 macOS derlemesi notarize edilmemiştir. İlk seferde uygulamayı açın: macOS onu engeller. Ardından **Sistem Ayarları › Gizlilik ve Güvenlik** bölümüne gidip **Yine de Aç** düğmesine tıklayın.
 
@@ -322,6 +325,63 @@ docker compose up -d
 Sunucu değişkenleri başlangıçta bir kez okur ve denetler. Geçersiz bir değer, sessizce varsayılana dönmek yerine sunucuyu bir mesajla durdurur.
 
 Bir ters proxy arkasında `MINER_PUBLIC_URL` değişkenini ayarlayın: o olmadan, bir proxy üzerinden gelen ilk istek kayıtlara bir uyarı yazar, çünkü giriş denemeleri o zaman proxy'nin adresine sayılır ve tek bir ziyaretçinin yanlış şifreleri herkesi dışarıda bırakır. Canlı bağlantı her 30 saniyede bir ping gönderir; böylece hiçbir şey olmadığında proxy onu kapatmaz. Twitch veya ağ hata verdiğinde sunucu `424` ile yanıt verir, asla `502` veya `504` ile değil: Cloudflare arkasında Cloudflare'in sayfası yerine gerçek hatayı görürsünüz.
+
+### <a name="systemd"></a>Docker olmadan (systemd)
+
+Docker'sız bir Linux sunucusunda, yayınlanan sürüm sunucuyu tek bir dosya olarak da
+içerir, panel içinde gömülü: `twitch-miner-server_<sürüm>_linux_x64` veya
+`twitch-miner-server_<sürüm>_linux_arm64`. Docker imajının çalıştırdığı programın
+kendisidir, statik olarak derlenmiştir: başka hiçbir şey kurmanız gerekmez. Aynı
+değişkenleri kabul eder.
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # ARM64'te _linux_arm64
+sudo install -m 600 /dev/null /etc/twitch-miner.env
+```
+
+Kendi şifrenizi, 12 karakter veya daha uzun, yalnızca root'un okuyabildiği
+`/etc/twitch-miner.env` dosyasına yazın:
+
+```ini
+MINER_PASSWORD=change-me
+```
+
+Ardından `/etc/systemd/system/twitch-miner.service` dosyasında servisi oluşturun:
+
+```ini
+[Unit]
+Description=Twitch Miner
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/twitch-miner
+EnvironmentFile=/etc/twitch-miner.env
+Environment=DATA_DIR=/var/lib/twitch-miner
+DynamicUser=yes
+StateDirectory=twitch-miner
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now twitch-miner
+```
+
+systemd, veriler için `/var/lib/twitch-miner` dizinini oluşturur ve sunucuyu kendi
+kullanıcısı altında çalıştırır, asla root olarak değil. `http://<sunucunun adresi>:8080`
+adresini açın; kayıtlar `journalctl -u twitch-miner` komutunda.
+
+Bu dosya kendini güncellemez. Panel yeni bir sürüm gösterdiğinde, yeni dosyayı yayından
+indirin, ardından eskisinin yerine koyup yeniden başlatın:
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # ARM64'te _linux_arm64
+sudo systemctl restart twitch-miner
+```
 
 ## <a name="how-it-works"></a>Nasıl çalışır
 

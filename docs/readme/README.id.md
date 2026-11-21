@@ -277,9 +277,12 @@ Unduh file untuk sistem Anda dari [rilis terbaru](https://github.com/SunkwiBOT/t
 
 | Sistem | Paket |
 |---|---|
-| **Windows** · x64 | Penginstal (`setup.exe`) atau [executable portabel](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **macOS** 13 atau lebih baru · Intel dan Apple Silicon | Image disk (`.dmg`) |
+| **Windows** · x64 | Penginstal (`x64-setup.exe`) atau [executable portabel](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | Penginstal (`arm64-setup.exe`) atau [executable portabel](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 atau lebih baru · universal: Intel dan Apple Silicon | Image disk (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu), atau `.rpm` (Fedora, openSUSE) |
+| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS), atau `.rpm` (Fedora, openSUSE) |
+| **Server Linux** · x86-64 atau ARM64 | Server saja, tanpa Docker (`twitch-miner-server_…_linux_x64` atau `_linux_arm64`): lihat [Tanpa Docker](#systemd) |
 
 Build macOS tidak dinotarisasi. Saat pertama kali, buka aplikasinya: macOS akan memblokirnya. Lalu buka **Pengaturan Sistem › Privasi & Keamanan** dan klik **Tetap Buka**.
 
@@ -337,6 +340,63 @@ Buka <http://localhost:8080> (atau alamat mesin itu di jaringan Anda) lalu masuk
 Server membaca dan memeriksa variabel sekali, saat mulai. Nilai yang tidak valid menghentikan server dengan pesan, alih-alih diam-diam beralih ke nilai cadangan.
 
 Di belakang reverse proxy, atur `MINER_PUBLIC_URL`: tanpanya, permintaan pertama yang datang lewat proxy menulis peringatan di log, karena percobaan masuk lalu dihitung pada alamat proxy, dan kata sandi salah dari satu pengunjung akan mengunci semua orang. Koneksi langsung mengirim ping setiap 30 detik, agar proxy tidak menutupnya saat tidak ada yang terjadi. Saat Twitch atau jaringan gagal, server menjawab `424`, tidak pernah `502` atau `504`: di belakang Cloudflare, Anda melihat galat yang sebenarnya, bukan halaman Cloudflare.
+
+### <a name="systemd"></a>Tanpa Docker (systemd)
+
+Pada server Linux tanpa Docker, rilis juga menyediakan server sebagai satu file saja,
+dengan dasbor di dalamnya: `twitch-miner-server_<version>_linux_x64` atau
+`twitch-miner-server_<version>_linux_arm64`. Ini adalah program yang sama yang dijalankan
+image Docker, ditaut secara statis: tidak ada apa pun lagi yang perlu dipasang. Server ini
+memakai variabel yang sama.
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 di ARM64
+sudo install -m 600 /dev/null /etc/twitch-miner.env
+```
+
+Tulis kata sandi Anda sendiri, 12 karakter atau lebih, di `/etc/twitch-miner.env`, yang
+hanya bisa dibaca oleh root:
+
+```ini
+MINER_PASSWORD=change-me
+```
+
+Lalu layanannya, di `/etc/systemd/system/twitch-miner.service`:
+
+```ini
+[Unit]
+Description=Twitch Miner
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/twitch-miner
+EnvironmentFile=/etc/twitch-miner.env
+Environment=DATA_DIR=/var/lib/twitch-miner
+DynamicUser=yes
+StateDirectory=twitch-miner
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now twitch-miner
+```
+
+systemd membuat `/var/lib/twitch-miner` untuk data dan menjalankan server di bawah
+user-nya sendiri, tidak pernah sebagai root. Buka `http://<alamat server>:8080`; log ada
+di `journalctl -u twitch-miner`.
+
+File ini tidak memperbarui dirinya sendiri. Saat dasbor menampilkan versi baru, unduh file
+baru dari rilis, lalu ganti yang lama dan mulai ulang:
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 di ARM64
+sudo systemctl restart twitch-miner
+```
 
 ## <a name="how-it-works"></a>Cara kerja
 

@@ -11,7 +11,7 @@ use std::sync::Arc;
 use std::time::Duration;
 
 use anyhow::Context;
-use miner_core::api::{ApiRoute, Shell};
+use miner_core::api::ApiRoute;
 use miner_core::Manager;
 use tracing_subscriber::EnvFilter;
 
@@ -93,14 +93,14 @@ async fn main() -> anyhow::Result<()> {
         miner_core::APP_NAME
     );
 
-    let manager = Manager::open(&env.data_dir, log_buffer, Shell::Server)
+    let manager = Manager::open(&env.data_dir, log_buffer, env.install_kind)
         .with_context(|| format!("cannot open the data in {}", env.data_dir.display()))?;
 
     // ! Before any account starts: a busy port would end the process with every account just signed in to Twitch, at each restart of the container.
     let listener = tokio::net::TcpListener::bind(env.address)
         .await
         .with_context(|| format!("cannot listen on {}", env.address))?;
-    let releases = Releases::new()?;
+    let releases = Releases::new(env.install_kind)?;
 
     if let Some(passphrase) = &env.vault_passphrase {
         if let Err(error) = manager.unlock(passphrase).await {

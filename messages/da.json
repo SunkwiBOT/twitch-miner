@@ -43,9 +43,9 @@
   "status_paused": "Sat på pause",
   "status_login_required": "Login påkrævet",
   "status_problem": "Problem",
-  "mode_auto_hint": "Miner den bedste Drops-kampagne på én kanal; den anden kanal optjener point hos dine streamere. Uden kampagne går begge kanaler til point.",
+  "mode_auto_hint": "Miner den bedste Drops-kampagne på én kanal og optjener point hos dine streamere på resten. Uden kampagne går alle kanaler til point.",
   "mode_drops_hint": "Én kanal til den aktuelle Drops-kampagne. Ingen kanalpoint.",
-  "mode_points_hint": "Begge kanaler ser dine streamere for kanalpoint. Ingen Drops.",
+  "mode_points_hint": "Alle kanaler ser dine streamere for kanalpoint. Ingen Drops.",
   "dashboard_no_accounts_title": "Ingen konto endnu",
   "dashboard_no_accounts_text": "Tilføj en Twitch-konto med en kode, som du skriver på twitch.tv/activate fra en hvilken som helst enhed. Ingen adgangskode gemmes.",
   "dashboard_recent": "Seneste aktivitet",
@@ -172,7 +172,20 @@
   "import_tokens_importing_progress": "Importerer: {done}/{total}",
   "import_tokens_cancel": "Annullér importen",
   "import_tokens_retry_failed": "Prøv igen",
-  "account_slots_hint": "Twitch krediterer højst to kanaler pr. konto ad gangen.",
+  "account_slots_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Twitch krediterer højst {formattedMaxWatchedChannels} kanal pr. konto ad gangen.",
+        "maxWatchedChannelsPlural=*": "Twitch krediterer højst {formattedMaxWatchedChannels} kanaler pr. konto ad gangen."
+      }
+    }
+  ],
   "account_drops_priority_hint": "Deres kampagner mines der, hvor »Prioriterede kategorier« står i »Hvad der skal mines, i rækkefølge«, de vigtigste først.",
   "account_drops_priority_placeholder": "Tilføj en kategori…",
   "account_drops_exclude_games": "Udelukkede kategorier",
@@ -181,7 +194,20 @@
   "account_drops_auto_claim": "Hent drops automatisk",
   "account_drops_skip_unfinishable": "Spring kampagner over, der ikke kan nå at blive færdige, før de slutter",
   "account_points_streamers": "Streamere",
-  "account_points_streamers_hint": "Det vigtigste først. Twitch tæller kun kanalpoint på to kanaler, der ses på samme tid.",
+  "account_points_streamers_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Det vigtigste først. Twitch tæller kun kanalpoint på {formattedMaxWatchedChannels} kanal, der ses på samme tid.",
+        "maxWatchedChannelsPlural=*": "Det vigtigste først. Twitch tæller kun kanalpoint på {formattedMaxWatchedChannels} kanaler, der ses på samme tid."
+      }
+    }
+  ],
   "account_points_add_placeholder": "Twitch-brugernavn eller kanal-URL",
   "account_points_streak_priority": "Seerstimer først",
   "account_points_empty": "Ingen streamer endnu. Tilføj de kanaler, du vil have point på.",
@@ -390,7 +416,20 @@
   "star_prompt_no": "Nej tak",
   "nav_powered_by": "drevet af",
   "home_title": "Hjem",
-  "home_rules": "Hver konto kan se op til to kanaler ad gangen, Twitchs grænse: én Drops-kampagne ad gangen og kanalpoint på din opsatte liste over streamere.",
+  "home_rules": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Hver konto kan se op til {formattedMaxWatchedChannels} kanal ad gangen, Twitchs grænse: én Drops-kampagne ad gangen og kanalpoint på din opsatte liste over streamere.",
+        "maxWatchedChannelsPlural=*": "Hver konto kan se op til {formattedMaxWatchedChannels} kanaler ad gangen, Twitchs grænse: én Drops-kampagne ad gangen og kanalpoint på din opsatte liste over streamere."
+      }
+    }
+  ],
   "home_open": "Åbn",
   "home_update_notifications": "Vil du have besked om nye versioner?",
   "home_update_notifications_allow": "Tillad",
@@ -513,8 +552,34 @@
   "account_twitch_title": "Twitch-konto",
   "action_pause": "Sæt på pause",
   "action_resume": "Genoptag",
-  "activity_free_slot": "En af de to kanaler, der ses, er ledig. Tilføj streamere for at optjene deres kanalpoint.",
-  "activity_free_slot_offline": "En af de to kanaler, der ses, er ledig: ingen af dine streamere er live.",
+  "activity_free_slot": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "En kanal ud af {formattedMaxWatchedChannels}, der ses, er ledig. Tilføj streamere for at optjene deres kanalpoint.",
+        "maxWatchedChannelsPlural=*": "En af de {formattedMaxWatchedChannels} kanaler, der ses, er ledig. Tilføj streamere for at optjene deres kanalpoint."
+      }
+    }
+  ],
+  "activity_free_slot_offline": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "En kanal ud af {formattedMaxWatchedChannels}, der ses, er ledig: ingen af dine streamere er live.",
+        "maxWatchedChannelsPlural=*": "En af de {formattedMaxWatchedChannels} kanaler, der ses, er ledig: ingen af dine streamere er live."
+      }
+    }
+  ],
   "activity_nothing": "Intet at se lige nu: ingen Drops-kampagne med en livekanal og ingen streamer online.",
   "activity_paused": "På pause. Genoptag for at begynde at se igen.",
   "beacon_blocked": "spade.twitch.tv blokeres af din DNS eller adblocker: kanalpoint krediteres ikke, før du tillader den. Tillad også de navne, den peger på: spade.sci.twitch.tv, science-edge-external-prod-*.elb.amazonaws.com. Drops gør stadig fremskridt.",
@@ -591,7 +656,20 @@
   "settings_close_action": "Lukkeknap",
   "settings_unsaved": "Du har ændringer, der ikke er gemt.",
   "slots_two_title": "To kanaler",
-  "slots_two_hint": "Mest, som Twitch krediterer pr. konto: én til Drops og én til point, eller to til point.",
+  "slots_two_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Mest, som Twitch krediterer pr. konto: {formattedMaxWatchedChannels} kanal ad gangen, til Drops eller point.",
+        "maxWatchedChannelsPlural=*": "Mest, som Twitch krediterer pr. konto: {formattedMaxWatchedChannels} kanaler ad gangen, delt mellem Drops og point."
+      }
+    }
+  ],
   "slots_one_title": "Én kanal",
   "slots_one_hint": "Mere diskret: kun én kanal ad gangen.",
   "streamer_claim_bonus_hint": "Henter bonuskisten, der dukker op hvert {minutes}. minut.",
@@ -837,6 +915,7 @@
   "updates_available_locked": "Version {version} er tilgængelig. Lås appen op for at installere den.",
   "updates_badge": "Opdatering {version}",
   "updates_pull_image": "Opdater ved at hente det nye image og derefter genstarte containeren:",
+  "updates_replace_binary": "Opdater ved at hente den nye serverfil fra udgivelsen på GitHub, erstatte den gamle med den og derefter genstarte tjenesten:",
   "updates_check_failed": "Kunne ikke søge efter opdateringer. Tjek din forbindelse, og prøv igen.",
   "updates_last_checked": "Sidst tjekket: {time}",
   "updates_never_checked": "Sidst tjekket: intet svar endnu siden starten",

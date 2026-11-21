@@ -1,5 +1,5 @@
 name: release
-run-name: release v${{ inputs.version }}
+run-name: release v${{ inputs.version }}${{ inputs.dry_run && ' (dry run)' || '' }}
 
 on:
   workflow_dispatch:
@@ -8,6 +8,11 @@ on:
         description: "Version to publish, without the leading v (for example 0.2.0)"
         required: true
         type: string
+      dry_run:
+        description: "Build every file from this branch as workflow artifacts only: no tag, release or image"
+        required: false
+        default: false
+        type: boolean
 
 concurrency:
   group: release
@@ -25,6 +30,7 @@ jobs:
       contents: write
     outputs:
       version: ${{ steps.check.outputs.version }}
+      ref: ${{ steps.check.outputs.ref }}
       tagged: ${{ steps.tag.outputs.tagged }}
       image: ${{ steps.check.outputs.image }}
     steps:
@@ -32,22 +38,32 @@ jobs:
         with:
           fetch-depth: 0
 
+      # ! A dry run builds the branch as it is: its files carry the version it declares.
       - name: Check the version
         id: check
         env:
           RELEASE_VERSION: ${{ inputs.version }}
+          DRY_RUN: ${{ inputs.dry_run }}
         run: |
           python3 .github/bump-version.py --check-next "$RELEASE_VERSION"
-          echo "version=$RELEASE_VERSION" >> "$GITHUB_OUTPUT"
+          if [ "$DRY_RUN" = "true" ]; then
+            echo "version=$(python3 .github/bump-version.py --current)" >> "$GITHUB_OUTPUT"
+            echo "ref=$GITHUB_SHA" >> "$GITHUB_OUTPUT"
+          else
+            echo "version=$RELEASE_VERSION" >> "$GITHUB_OUTPUT"
+            echo "ref=v$RELEASE_VERSION" >> "$GITHUB_OUTPUT"
+          fi
           echo "image=ghcr.io/${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
 
       - name: Write it into the project
+        if: ${{ !inputs.dry_run }}
         env:
           RELEASE_VERSION: ${{ inputs.version }}
         run: python3 .github/bump-version.py "$RELEASE_VERSION"
 
       - name: Tag the release
         id: tag
+        if: ${{ !inputs.dry_run }}
         env:
           RELEASE_VERSION: ${{ inputs.version }}
         run: |
@@ -68,8 +84,9 @@ jobs:
 
   # The same checks `npm run verify` and `cargo clippy` run during
   # development (AGENTS.md), plus `cargo audit` and `npm audit`, on every
-  # platform the release builds for: a Rust warning or a known
-  # vulnerability only on Windows or macOS must still block the release.
+  # system the release builds for: a Rust warning or a known vulnerability
+  # only on Windows or macOS must still block the release. An ARM64 build
+  # compiles the same code as the x64 one of its system, so it adds no check here.
   checks:
     name: Checks (${{ matrix.name }})
     needs: version
@@ -87,7 +104,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: v${{ needs.version.outputs.version }}
+          ref: ${{ needs.version.outputs.ref }}
 
       - name: Install WebKitGTK and packaging tools
         if: matrix.platform == 'ubuntu-22.04'
@@ -141,16 +158,28 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - name: "Linux (AppImage, deb, rpm)"
+          - name: "Linux x64 (AppImage, deb, rpm)"
             platform: ubuntu-22.04
             args: --bundles appimage,rpm,deb -- --locked
             # ! No "linux" in the name: every AppImage is for Linux, and AppImage tools
             # warn about a name that says so.
             assets: "twitch-miner_[version]_[arch][setup][ext]"
-          - name: "Windows (installer, portable)"
+          # ! The same Ubuntu as x64, so both need the same glibc (2.35): Raspberry Pi OS
+          # Bookworm and Debian 12 run them.
+          - name: "Linux ARM64 (AppImage, deb, rpm)"
+            platform: ubuntu-22.04-arm
+            args: --bundles appimage,rpm,deb -- --locked
+            assets: "twitch-miner_[version]_[arch][setup][ext]"
+          - name: "Windows x64 (installer, portable)"
             platform: windows-latest
             args: --bundles nsis -- --locked
             assets: "twitch-miner_[version]_[platform]_[arch][setup][ext]"
+            portable: twitch-miner_windows_x64_portable.exe
+          - name: "Windows ARM64 (installer, portable)"
+            platform: windows-11-arm
+            args: --bundles nsis -- --locked
+            assets: "twitch-miner_[version]_[platform]_[arch][setup][ext]"
+            portable: twitch-miner_windows_arm64_portable.exe
           - name: "macOS (dmg, app)"
             platform: macos-latest
             # ! The macOS updater installs the signed `.app.tar.gz` that only the `app`
@@ -163,10 +192,10 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: v${{ needs.version.outputs.version }}
+          ref: ${{ needs.version.outputs.ref }}
 
       - name: Install WebKitGTK and packaging tools
-        if: matrix.platform == 'ubuntu-22.04'
+        if: runner.os == 'Linux'
         run: |
           sudo apt-get update
           sudo apt-get install -y \
@@ -187,6 +216,8 @@ jobs:
       - name: Install the interface dependencies
         run: npm ci
 
+      # ! Without a tag (dry run) tauri-action creates no release and uploads the files as
+      # workflow artifacts, named like the release assets.
       - name: Build, sign and publish
         uses: tauri-apps/tauri-action@1deb371b0cd8bd54025b384f1cd735e725c4060f # v1.0.0
         env:
@@ -195,31 +226,66 @@ jobs:
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         with:
-          tagName: v${{ needs.version.outputs.version }}
+          tagName: ${{ !inputs.dry_run && format('v{0}', needs.version.outputs.version) || '' }}
           releaseName: "v${{ needs.version.outputs.version }} - Twitch Miner"
-          releaseBody: "Download the installer for your system, or run the Docker image ${{ needs.version.outputs.image }}:${{ needs.version.outputs.version }} (also tagged latest) on a home server. macOS builds are not notarized: the first time, open the app, then allow it in System Settings › Privacy & Security › Open Anyway. twitch-miner_windows_x64_portable.exe runs on Windows without installing; it updates itself like the other builds."
+          releaseBody: "Download the installer for your system, or run the Docker image ${{ needs.version.outputs.image }}:${{ needs.version.outputs.version }} (also tagged latest) on a home server. macOS builds are not notarized: the first time, open the app, then allow it in System Settings › Privacy & Security › Open Anyway. twitch-miner_windows_x64_portable.exe and twitch-miner_windows_arm64_portable.exe run on Windows without installing; they update themselves like the other builds. twitch-miner-server_${{ needs.version.outputs.version }}_linux_x64 and _linux_arm64 are the Docker image's server as a single file, for a Linux server without Docker: to update, replace the file and restart it."
           releaseDraft: true
           prerelease: false
-          uploadUpdaterJson: true
-          # ! latest.json already carries every signature: the .sig files are not published.
-          uploadUpdaterSignatures: false
+          # ! The builds would each rewrite the shared latest.json and could drop each other's
+          # systems: `finalize` writes it once, from the .sig files uploaded here, then deletes them.
+          uploadUpdaterJson: false
+          uploadUpdaterSignatures: true
           # ! A fixed file name without the product name's "&": GitHub drops it from
-          # asset names but tauri-action does not, so it would not find the signatures
-          # and would skip latest.json.
+          # asset names but tauri-action does not.
           releaseAssetNamePattern: ${{ matrix.assets }}
+          uploadWorkflowArtifacts: ${{ inputs.dry_run }}
+          workflowArtifactNamePattern: ${{ matrix.assets }}
           args: ${{ matrix.args }}
 
+      # ! Tauri names the ARM64 AppImage after `aarch64`: the release names it `arm64` like the
+      # deb, its signature too so `finalize` finds it beside it.
+      - name: Name the ARM64 AppImage like the deb
+        if: ${{ !inputs.dry_run && runner.os == 'Linux' && runner.arch == 'ARM64' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_VERSION: ${{ needs.version.outputs.version }}
+        run: |
+          for suffix in "" .sig; do
+            from="twitch-miner_${RELEASE_VERSION}_aarch64.AppImage$suffix"
+            url="$(gh release view "v$RELEASE_VERSION" --json assets \
+              --jq ".assets[] | select(.name == \"$from\") | .apiUrl")"
+            : "${url:?the draft has no $from}"
+            gh api --method PATCH "repos/$GH_REPO/releases/assets/${url##*/}" \
+              -f name="twitch-miner_${RELEASE_VERSION}_arm64.AppImage$suffix" > /dev/null
+          done
+
+      - name: Name the portable Windows executable
+        if: matrix.portable
+        shell: bash
+        env:
+          PORTABLE: ${{ matrix.portable }}
+        run: cp target/release/twitchminer.exe "$PORTABLE"
+
       - name: Attach the portable Windows executable
-        if: matrix.platform == 'windows-latest'
+        if: ${{ matrix.portable && !inputs.dry_run }}
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          cp target/release/twitchminer.exe twitch-miner_windows_x64_portable.exe
-          gh release upload "v${{ needs.version.outputs.version }}" twitch-miner_windows_x64_portable.exe --clobber
+          PORTABLE: ${{ matrix.portable }}
+          RELEASE_VERSION: ${{ needs.version.outputs.version }}
+        run: gh release upload "v$RELEASE_VERSION" "$PORTABLE" --clobber
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: ${{ matrix.portable && inputs.dry_run }}
+        with:
+          name: ${{ matrix.portable }}
+          path: ${{ matrix.portable }}
+          if-no-files-found: error
+          retention-days: 7
 
   # ! Only the versioned image here: `latest` moves in `finalize`, once the
-  # release is out, so a withdrawn run never moves it.
+  # release is out, so a withdrawn run never moves it. A dry run pushes nothing.
   docker:
     needs: [version, checks]
     runs-on: ubuntu-latest
@@ -229,35 +295,98 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: v${{ needs.version.outputs.version }}
+          ref: ${{ needs.version.outputs.ref }}
       - uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
       - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
       - uses: docker/login-action@8aa5831fb8d48d8f76594c7ddde61ae58019f550 # v4.8.0
+        if: ${{ !inputs.dry_run }}
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      # ! One build for both: the image is pushed, and the server binary it runs is kept for
+      # the release, one folder per platform (`linux_amd64`, `linux_arm64`). The Dockerfile
+      # links it statically against musl, so it runs on any Linux of that architecture.
       - uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
           context: .
           platforms: linux/amd64,linux/arm64
-          push: true
+          outputs: |
+            ${{ !inputs.dry_run && 'type=registry' || '' }}
+            type=local,dest=server
           tags: ${{ needs.version.outputs.image }}:${{ needs.version.outputs.version }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      - name: Name the server binaries like the release assets
+        env:
+          RELEASE_VERSION: ${{ needs.version.outputs.version }}
+        run: |
+          mkdir release
+          install -m 755 server/linux_amd64/twitch-miner "release/twitch-miner-server_${RELEASE_VERSION}_linux_x64"
+          install -m 755 server/linux_arm64/twitch-miner "release/twitch-miner-server_${RELEASE_VERSION}_linux_arm64"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: twitch-miner-server_${{ needs.version.outputs.version }}_linux_x64
+          path: release/twitch-miner-server_${{ needs.version.outputs.version }}_linux_x64
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: twitch-miner-server_${{ needs.version.outputs.version }}_linux_arm64
+          path: release/twitch-miner-server_${{ needs.version.outputs.version }}_linux_arm64
+          if-no-files-found: error
+          retention-days: 7
+
+  dry-run:
+    needs: [version, publish, docker]
+    if: ${{ inputs.dry_run }}
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+    steps:
+      - name: List the files a release would get
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          names="$(gh api --paginate "repos/$GH_REPO/actions/runs/$RUN_ID/artifacts" --jq '.artifacts[].name' | sort)"
+          echo "$names"
+          {
+            echo "### Files a release would get"
+            echo
+            while read -r name; do echo "- \`$name\`"; done <<< "$names"
+          } >> "$GITHUB_STEP_SUMMARY"
+
   finalize:
     needs: [version, publish, docker]
+    if: ${{ !inputs.dry_run }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
       packages: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      # ! tauri-action points latest.json at API URLs limited to 60 requests an hour per IP, and
-      # the NSIS-only manifest has no entry a portable Windows copy could self-update from: both
-      # are fixed here, before the release goes public.
-      - name: Point latest.json at the public downloads and sign the portable copy
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: twitch-miner-server_*
+          merge-multiple: true
+          path: server
+
+      # ! No latest.json entry: the server never replaces itself. Docker users pull the new
+      # image; a systemd install replaces this file and restarts the service (README).
+      - name: Attach the server binaries
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_VERSION: ${{ needs.version.outputs.version }}
+        run: gh release upload "v$RELEASE_VERSION" --clobber server/*
+
+      # ! The only writer of latest.json, once every build is in the draft: each entry points at
+      # the public download (the API URLs are limited to 60 requests an hour per IP) and carries
+      # the signature uploaded beside its file. A missing file or signature stops the release.
+      - name: Write latest.json and sign the portable copies
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
@@ -267,28 +396,68 @@ jobs:
         run: |
           tag="v$RELEASE_VERSION"
           base="https://github.com/$GH_REPO/releases/download/$tag"
-          gh release download "$tag" --pattern latest.json --pattern twitch-miner_windows_x64_portable.exe --dir draft
-          gh release view "$tag" --json assets \
-            --jq '[.assets[] | {key: (.apiUrl | split("/") | last), value: .name}] | from_entries' \
-            > draft/names.json
-          jq --slurpfile names draft/names.json --arg base "$base/" \
-            '.platforms |= map_values(.url = ($base + ($names[0][.url | split("/") | last] // error("no asset for " + .url))))' \
-            draft/latest.json > draft/rewritten.json
+          v="$RELEASE_VERSION"
+          macos="twitch-miner_${v}_macos_universal.app.tar.gz"
+          # ! Each updater key and the asset it installs. The portable keys are the ones
+          # `updates.rs` builds from its architecture.
+          entries="
+            linux-x86_64=twitch-miner_${v}_amd64.AppImage
+            linux-x86_64-appimage=twitch-miner_${v}_amd64.AppImage
+            linux-x86_64-deb=twitch-miner_${v}_amd64.deb
+            linux-x86_64-rpm=twitch-miner_${v}_x86_64.rpm
+            linux-aarch64=twitch-miner_${v}_arm64.AppImage
+            linux-aarch64-appimage=twitch-miner_${v}_arm64.AppImage
+            linux-aarch64-deb=twitch-miner_${v}_arm64.deb
+            linux-aarch64-rpm=twitch-miner_${v}_aarch64.rpm
+            windows-x86_64=twitch-miner_${v}_windows_x64-setup.exe
+            windows-x86_64-nsis=twitch-miner_${v}_windows_x64-setup.exe
+            windows-x86_64-portable=twitch-miner_windows_x64_portable.exe
+            windows-aarch64=twitch-miner_${v}_windows_arm64-setup.exe
+            windows-aarch64-nsis=twitch-miner_${v}_windows_arm64-setup.exe
+            windows-aarch64-portable=twitch-miner_windows_arm64_portable.exe
+            darwin-aarch64=$macos
+            darwin-aarch64-app=$macos
+            darwin-x86_64=$macos
+            darwin-x86_64-app=$macos
+            darwin-universal=$macos
+            darwin-universal-app=$macos
+          "
+          portables="twitch-miner_windows_x64_portable.exe twitch-miner_windows_arm64_portable.exe"
 
-          # ! The portable copy ships no Tauri bundle the CLI signs on its own during `publish`:
-          # it is signed here instead, against the same version, so the app can verify it like
+          mkdir draft
+          gh release view "$tag" --json assets --jq '.assets[].name' > draft/assets.txt
+          gh release download "$tag" --pattern '*.sig' --dir draft
+
+          # ! A portable copy ships no Tauri bundle the CLI signs on its own during `publish`:
+          # each is signed here instead, against the same version, so the app can verify it like
           # every other platform. `--app-version` is what `requireSignedVersion` checks against.
           cli_version="$(jq -r '.packages["node_modules/@tauri-apps/cli"].version' package-lock.json)"
-          npx --yes "@tauri-apps/cli@$cli_version" signer sign --app-version "$RELEASE_VERSION" draft/twitch-miner_windows_x64_portable.exe
-          jq --arg url "$base/twitch-miner_windows_x64_portable.exe" \
-            --arg signature "$(cat draft/twitch-miner_windows_x64_portable.exe.sig)" \
-            '.platforms["windows-x86_64-portable"] = {url: $url, signature: $signature}' \
-            draft/rewritten.json > latest.json
+          for portable in $portables; do
+            gh release download "$tag" --pattern "$portable" --dir draft
+            npx --yes "@tauri-apps/cli@$cli_version" signer sign --app-version "$RELEASE_VERSION" "draft/$portable"
+          done
 
-          # ! The three builds rewrite latest.json in turn: one finishing at the same time as another can drop its system.
-          jq -e '.platforms | has("linux-x86_64") and has("windows-x86_64") and has("windows-x86_64-portable") and has("darwin-aarch64") and has("darwin-x86_64")' latest.json > /dev/null \
-            || { echo "::error::latest.json lacks a system: $(jq -c '.platforms | keys' latest.json)"; exit 1; }
+          platforms='{}'
+          for entry in $entries; do
+            key="${entry%%=*}"
+            asset="${entry#*=}"
+            grep -qxF "$asset" draft/assets.txt || { echo "::error::the draft has no $asset for $key"; exit 1; }
+            [ -s "draft/$asset.sig" ] || { echo "::error::$asset has no signature for $key"; exit 1; }
+            platforms="$(jq --arg key "$key" --arg url "$base/$asset" --rawfile signature "draft/$asset.sig" \
+              '.[$key] = {url: $url, signature: $signature}' <<< "$platforms")"
+          done
+
+          jq -n --arg version "$RELEASE_VERSION" \
+            --arg notes "$(gh release view "$tag" --json body --jq .body)" \
+            --arg pub_date "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            --argjson platforms "$platforms" \
+            '{version: $version, notes: $notes, pub_date: $pub_date, platforms: $platforms}' > latest.json
           gh release upload "$tag" latest.json --clobber
+
+          # ! The signatures now live in latest.json only: the release does not list them.
+          grep '\.sig$' draft/assets.txt | while read -r signature; do
+            gh release delete-asset "$tag" "$signature" --yes
+          done
 
       - name: Publish the complete release
         env:
@@ -315,7 +484,7 @@ jobs:
   withdraw:
     needs: [version, checks, publish, docker, finalize]
     # ! Only a run that created its own tag may remove it: a refused version must
-    # never delete the release already published under that number.
+    # never delete the release already published under that number. A dry run tags nothing.
     if: (failure() || cancelled()) && needs.version.outputs.tagged == 'true'
     runs-on: ubuntu-latest
     permissions:

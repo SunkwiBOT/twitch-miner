@@ -43,9 +43,9 @@
   "status_paused": "Paused",
   "status_login_required": "Sign-in required",
   "status_problem": "Problem",
-  "mode_auto_hint": "Mines the best Drops campaign on one channel; the second channel earns points on your streamers. Without a campaign, both channels go to points.",
+  "mode_auto_hint": "Mines the best Drops campaign on one channel and earns points on your streamers with the rest. Without a campaign, every channel goes to points.",
   "mode_drops_hint": "One channel, for the current Drops campaign. No channel points.",
-  "mode_points_hint": "Both channels watch your streamers for channel points. No Drops.",
+  "mode_points_hint": "Every channel watches your streamers for channel points. No Drops.",
   "dashboard_no_accounts_title": "No account yet",
   "dashboard_no_accounts_text": "Add a Twitch account with a code to type on twitch.tv/activate, from any device. No password is stored.",
   "dashboard_recent": "Recent activity",
@@ -172,7 +172,20 @@
   "import_tokens_importing_progress": "Importing: {done}/{total}",
   "import_tokens_cancel": "Cancel the import",
   "import_tokens_retry_failed": "Try again",
-  "account_slots_hint": "Twitch credits at most two channels per account at the same time.",
+  "account_slots_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Twitch credits at most {formattedMaxWatchedChannels} channel per account at the same time.",
+        "maxWatchedChannelsPlural=*": "Twitch credits at most {formattedMaxWatchedChannels} channels per account at the same time."
+      }
+    }
+  ],
   "account_drops_priority_hint": "Their campaigns are mined where “Priority categories” sits in “What to mine, in order”, most important first.",
   "account_drops_priority_placeholder": "Add a category…",
   "account_drops_exclude_games": "Excluded categories",
@@ -181,7 +194,20 @@
   "account_drops_auto_claim": "Claim drops automatically",
   "account_drops_skip_unfinishable": "Skip campaigns that cannot finish before they end",
   "account_points_streamers": "Streamers",
-  "account_points_streamers_hint": "Most important first. Twitch only counts channel points on two channels watched at the same time.",
+  "account_points_streamers_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Most important first. Twitch only counts channel points on {formattedMaxWatchedChannels} channel watched at a time.",
+        "maxWatchedChannelsPlural=*": "Most important first. Twitch only counts channel points on {formattedMaxWatchedChannels} channels watched at the same time."
+      }
+    }
+  ],
   "account_points_add_placeholder": "Twitch login or channel URL",
   "account_points_streak_priority": "Watch streaks first",
   "account_points_empty": "No streamer yet. Add the channels you want points on.",
@@ -395,7 +421,20 @@
   "star_prompt_no": "No thanks",
   "nav_powered_by": "powered by",
   "home_title": "Home",
-  "home_rules": "Each account can watch up to two channels at once, Twitch's limit: one Drops campaign at a time, and channel points on your configured list of streamers.",
+  "home_rules": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Each account can watch up to {formattedMaxWatchedChannels} channel at once, Twitch's limit: one Drops campaign at a time, and channel points on your configured list of streamers.",
+        "maxWatchedChannelsPlural=*": "Each account can watch up to {formattedMaxWatchedChannels} channels at once, Twitch's limit: one Drops campaign at a time, and channel points on your configured list of streamers."
+      }
+    }
+  ],
   "home_open": "Open",
   "home_update_notifications": "Get notified of new versions?",
   "home_update_notifications_allow": "Allow",
@@ -532,8 +571,34 @@
   "pause_dialog_confirm": "Pause",
   "pause_badge": "Paused until {time}",
   "pause_badge_hint": "Resumes automatically at {time}",
-  "activity_free_slot": "One of the two watched channels is free. Add streamers to earn their channel points.",
-  "activity_free_slot_offline": "One of the two watched channels is free: none of your streamers is live.",
+  "activity_free_slot": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "One watched channel out of {formattedMaxWatchedChannels} is free. Add streamers to earn their channel points.",
+        "maxWatchedChannelsPlural=*": "One of the {formattedMaxWatchedChannels} watched channels is free. Add streamers to earn their channel points."
+      }
+    }
+  ],
+  "activity_free_slot_offline": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "One watched channel out of {formattedMaxWatchedChannels} is free: none of your streamers is live.",
+        "maxWatchedChannelsPlural=*": "One of the {formattedMaxWatchedChannels} watched channels is free: none of your streamers is live."
+      }
+    }
+  ],
   "activity_nothing": "Nothing to watch right now: no Drops campaign with a live channel and no streamer online.",
   "activity_paused": "Paused. Resume to start watching again.",
   "beacon_blocked": "spade.twitch.tv is blocked by your DNS or ad blocker: channel points are not credited until you allow it. Also allow the names it points to: spade.sci.twitch.tv, science-edge-external-prod-*.elb.amazonaws.com. Drops still progress.",
@@ -612,7 +677,20 @@
   "settings_close_action": "Close button",
   "settings_unsaved": "You have unsaved changes.",
   "slots_two_title": "Two channels",
-  "slots_two_hint": "The most Twitch credits per account: one for Drops, one for points, or two for points.",
+  "slots_two_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "The most Twitch credits per account: {formattedMaxWatchedChannels} channel at once, for Drops or points.",
+        "maxWatchedChannelsPlural=*": "The most Twitch credits per account: {formattedMaxWatchedChannels} channels at once, shared between Drops and points."
+      }
+    }
+  ],
   "slots_one_title": "One channel",
   "slots_one_hint": "Quieter: a single channel at a time.",
   "streamer_claim_bonus_hint": "Claims the bonus chest that appears every {minutes} minutes.",
@@ -983,6 +1061,7 @@
   "updates_available_locked": "Version {version} is available. Unlock the app to install it.",
   "updates_badge": "Update {version}",
   "updates_pull_image": "To update, pull the new image, then restart the container:",
+  "updates_replace_binary": "To update, download the new server file from the GitHub release, replace the old one with it, then restart the service:",
   "updates_check_failed": "Could not check for updates. Check your connection and try again.",
   "updates_last_checked": "Last checked: {time}",
   "updates_never_checked": "Last checked: no answer yet since the start",

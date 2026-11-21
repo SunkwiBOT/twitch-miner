@@ -13,7 +13,8 @@
     POINTS_REASON_ICONS,
     POINTS_REASON_LABELS,
   } from "../lib/accounts/accounts.utils";
-  import { SLOTS_MAX } from "../lib/accounts/slots.constants";
+  import { maxWatchedChannelsParams } from "../lib/accounts/slots.utils";
+  import { coreLimits } from "../lib/state/limits";
   import type { PointsReason } from "../lib/bindings/PointsReason";
   import ChannelAvatar from "./ui/ChannelAvatar.svelte";
   import { AccountStatus } from "../lib/bindings/AccountStatus";
@@ -57,7 +58,9 @@
 
   let { account }: AccountActivityPropsType = $props();
 
-  const capacity = $derived(Math.max(1, Math.min(SLOTS_MAX, account.settings.slots)));
+  const capacity = $derived(
+    Math.max(1, Math.min(coreLimits().max_watched_channels, account.settings.slots)),
+  );
 
   const free = $derived(
     account.status === AccountStatus.PAUSED ? 0 : Math.max(0, capacity - account.slots.length),
@@ -118,7 +121,7 @@
 
 {#snippet idle(icon: IconName, text: string)}
   <span class="shrink-0"><Icon name={icon} size={16} /></span>
-  <span class="flex-1">{text}</span>
+  <span class="flex-1"><RichText {text} /></span>
 {/snippet}
 
 {#each account.slots as slot (slot.channel.id + slot.purpose.kind)}
@@ -292,8 +295,8 @@
     {@render idle(
       IconName.PLUS,
       account.settings.points.streamers.length
-        ? t.activity_free_slot_offline()
-        : t.activity_free_slot(),
+        ? t.activity_free_slot_offline(maxWatchedChannelsParams())
+        : t.activity_free_slot(maxWatchedChannelsParams()),
     )}
     <TextButton
       label={t.nav_account_points()}

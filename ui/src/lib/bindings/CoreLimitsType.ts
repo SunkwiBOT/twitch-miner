@@ -11,4 +11,5 @@ export type CoreLimitsType = {
   spam_delay_max_ms: number;
   spam_redeem_text_max_chars: number;
   requests_bucket_minutes: number;
+  max_watched_channels: number;
 };

@@ -6,12 +6,14 @@ import type { CatalogViewType } from "./CatalogViewType";
 import type { CoreLimitsType } from "./CoreLimitsType";
 import type { GlobalSettingsType } from "./GlobalSettingsType";
 import type { ImportTokensFlowViewType } from "./ImportTokensFlowViewType";
+import type { InstallKind } from "./InstallKind";
 import type { LoginFlowViewType } from "./LoginFlowViewType";
 import type { MinerEventType } from "./MinerEventType";
 import type { VaultStatusType } from "./VaultStatusType";
 
 export type SnapshotType = {
   version: string;
+  install_kind: InstallKind;
   build?: string;
   update_available?: string;
   update_checked_at?: string;

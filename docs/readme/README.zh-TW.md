@@ -261,9 +261,12 @@
 
 | 系統 | 套件 |
 |---|---|
-| **Windows** · x64 | 安裝程式（`setup.exe`）或[免安裝執行檔](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **macOS** 13 或以上版本 · Intel 和 Apple Silicon | 磁碟映像檔（`.dmg`） |
+| **Windows** · x64 | 安裝程式（`x64-setup.exe`）或[免安裝執行檔](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | 安裝程式（`arm64-setup.exe`）或[免安裝執行檔](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 或以上版本 · 通用版：Intel 和 Apple Silicon | 磁碟映像檔（`.dmg`） |
 | **Linux** · x86-64 | `.AppImage`、`.deb`（Debian、Ubuntu）或 `.rpm`（Fedora、openSUSE） |
+| **Linux** · ARM64 | `.AppImage`、`.deb`（Debian、Ubuntu、Raspberry Pi OS）或 `.rpm`（Fedora、openSUSE） |
+| **Linux 伺服器** · x86-64 或 ARM64 | 只有伺服器本體，不需要 Docker（`twitch-miner-server_…_linux_x64` 或 `_linux_arm64`）：參見[不使用 Docker](#systemd) |
 
 macOS 版本未經 Apple 公證。第一次執行時，先開啟應用程式：macOS 會阻擋它。接著前往**系統設定 › 隱私權與安全性**，按一下**強制打開**。
 
@@ -321,6 +324,58 @@ docker compose up -d
 伺服器只會在啟動時讀取並檢查這些變數一次。值無效時，伺服器會停止並顯示訊息，而不是默默改用預設值。
 
 在反向代理伺服器後方，請設定 `MINER_PUBLIC_URL`：沒有它時，第一個經由代理伺服器抵達的請求會在日誌中寫下一則警告，因為登入嘗試此時會依代理伺服器的位址計算，一位訪客輸錯密碼就會把所有人都鎖在外面。即時連線每 30 秒送出一次 ping，讓代理伺服器不會在沒有動靜時把它關閉。當 Twitch 或網路出錯時，伺服器會回應 `424`，絕不回應 `502` 或 `504`：在 Cloudflare 後方，你看到的是真正的錯誤，而不是 Cloudflare 的頁面。
+
+### <a name="systemd"></a>不使用 Docker（systemd）
+
+在不使用 Docker 的 Linux 伺服器上，發行版本裡也包含單一檔案形式的伺服器，內建儀表板：
+`twitch-miner-server_<版本>_linux_x64` 或 `twitch-miner-server_<版本>_linux_arm64`。
+這就是 Docker 映像檔所執行的那個程式，靜態連結，不需要再安裝任何其他東西。它接受相同的變數。
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # ARM64 上用 _linux_arm64
+sudo install -m 600 /dev/null /etc/twitch-miner.env
+```
+
+把你自己的密碼（至少 12 個字元）寫入 `/etc/twitch-miner.env`，這個檔案只有 root 能讀取：
+
+```ini
+MINER_PASSWORD=change-me
+```
+
+接著是服務檔案，`/etc/systemd/system/twitch-miner.service`：
+
+```ini
+[Unit]
+Description=Twitch Miner
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/twitch-miner
+EnvironmentFile=/etc/twitch-miner.env
+Environment=DATA_DIR=/var/lib/twitch-miner
+DynamicUser=yes
+StateDirectory=twitch-miner
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now twitch-miner
+```
+
+systemd 會建立 `/var/lib/twitch-miner` 用來存放資料，並讓伺服器以自己專屬的使用者執行，絕不以
+root 身分執行。開啟 `http://<伺服器位址>:8080`；日誌在 `journalctl -u twitch-miner` 裡。
+
+這個檔案不會自動更新。當儀表板顯示有新版本時，從發行版本下載新檔案，取代舊檔案後重新啟動：
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # ARM64 上用 _linux_arm64
+sudo systemctl restart twitch-miner
+```
 
 ## <a name="how-it-works"></a>運作原理
 

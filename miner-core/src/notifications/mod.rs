@@ -185,14 +185,14 @@ impl Notifier {
         settings: NotificationSettings,
         language: &str,
         requests: RequestLog,
-        shell: crate::api::Shell,
+        install_kind: crate::api::InstallKind,
     ) -> Result<Self> {
         Self::with_endpoints(
             settings,
             language,
             requests,
             &OFFICIAL,
-            &crate::user_agent(shell),
+            &crate::user_agent(install_kind),
         )
     }
 

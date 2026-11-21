@@ -1,6 +1,7 @@
 <script lang="ts">
   import { PauseScope } from "../../lib/accounts/account-state.constants";
   import { MODE_LABELS } from "../../lib/accounts/accounts.utils";
+  import { maxWatchedChannelsParams } from "../../lib/accounts/slots.utils";
   import { AccountStatus } from "../../lib/bindings/AccountStatus";
   import { EventKind } from "../../lib/bindings/EventKind";
   import type { SnapshotType } from "../../lib/bindings/SnapshotType";
@@ -80,7 +81,7 @@
       {/snippet}
     </EmptyState>
   {:else}
-    <PageHeader intro={t.home_rules()}>
+    <PageHeader intro={t.home_rules(maxWatchedChannelsParams())}>
       {#snippet actions()}
         <QuietWindowBadge />
         <PauseControl

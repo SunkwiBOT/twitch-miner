@@ -363,9 +363,12 @@ Descarcă fișierul pentru sistemul tău din
 
 | Sistem | Pachet |
 |---|---|
-| **Windows** · x64 | Program de instalare (`setup.exe`) sau [executabil portabil](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **macOS** 13 sau mai nou · Intel și Apple Silicon | Imagine de disc (`.dmg`) |
+| **Windows** · x64 | Program de instalare (`x64-setup.exe`) sau [executabil portabil](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | Program de instalare (`arm64-setup.exe`) sau [executabil portabil](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 sau mai nou · universal: Intel și Apple Silicon | Imagine de disc (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) sau `.rpm` (Fedora, openSUSE) |
+| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) sau `.rpm` (Fedora, openSUSE) |
+| **Server Linux** · x86-64 sau ARM64 | Doar serverul, fără Docker (`twitch-miner-server_…_linux_x64` sau `_linux_arm64`): vezi [Fără Docker](#systemd) |
 
 Versiunea pentru macOS nu este notarizată. Prima dată, deschide aplicația: macOS o
 blochează. Apoi mergi la **Configurări sistem › Intimitate și securitate** și fă clic pe
@@ -437,6 +440,63 @@ pe toți. Conexiunea live trimite un ping la fiecare 30 de secunde, ca un proxy 
 închidă când nu se întâmplă nimic. Când Twitch sau rețeaua cad, serverul răspunde `424`,
 niciodată `502` sau `504`: în spatele Cloudflare, vezi eroarea reală în locul paginii
 Cloudflare.
+
+### <a name="systemd"></a>Fără Docker (systemd)
+
+Pe un server Linux fără Docker, versiunea publicată conține și serverul ca un singur
+fișier, cu panoul inclus: `twitch-miner-server_<versiune>_linux_x64` sau
+`twitch-miner-server_<versiune>_linux_arm64`. Este programul pe care îl rulează imaginea
+Docker, compilat static: nu mai e nevoie să instalezi altceva. Folosește aceleași
+variabile.
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 pe ARM64
+sudo install -m 600 /dev/null /etc/twitch-miner.env
+```
+
+Scrie propria parolă, de cel puțin 12 caractere, în `/etc/twitch-miner.env`, pe care doar
+root îl poate citi:
+
+```ini
+MINER_PASSWORD=change-me
+```
+
+Apoi serviciul, în `/etc/systemd/system/twitch-miner.service`:
+
+```ini
+[Unit]
+Description=Twitch Miner
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/twitch-miner
+EnvironmentFile=/etc/twitch-miner.env
+Environment=DATA_DIR=/var/lib/twitch-miner
+DynamicUser=yes
+StateDirectory=twitch-miner
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now twitch-miner
+```
+
+systemd creează `/var/lib/twitch-miner` pentru date și rulează serverul sub propriul
+utilizator, niciodată ca root. Deschide `http://<adresa serverului>:8080`; logurile sunt
+în `journalctl -u twitch-miner`.
+
+Acest fișier nu se actualizează singur. Când panoul arată o versiune nouă, descarcă noul
+fișier din versiunea publicată, apoi înlocuiește-l pe cel vechi și repornește:
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 pe ARM64
+sudo systemctl restart twitch-miner
+```
 
 ## <a name="how-it-works"></a>Cum funcționează
 

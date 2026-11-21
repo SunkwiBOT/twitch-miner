@@ -266,9 +266,12 @@
 
 | Σύστημα | Πακέτο |
 |---|---|
-| **Windows** · x64 | Πρόγραμμα εγκατάστασης (`setup.exe`) ή [φορητό εκτελέσιμο](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **macOS** 13 ή νεότερο · Intel και Apple Silicon | Εικόνα δίσκου (`.dmg`) |
+| **Windows** · x64 | Πρόγραμμα εγκατάστασης (`x64-setup.exe`) ή [φορητό εκτελέσιμο](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | Πρόγραμμα εγκατάστασης (`arm64-setup.exe`) ή [φορητό εκτελέσιμο](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 ή νεότερο · universal: Intel και Apple Silicon | Εικόνα δίσκου (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) ή `.rpm` (Fedora, openSUSE) |
+| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) ή `.rpm` (Fedora, openSUSE) |
+| **Linux server** · x86-64 ή ARM64 | Μόνο ο server, χωρίς Docker (`twitch-miner-server_…_linux_x64` ή `_linux_arm64`): δείτε [Χωρίς Docker](#systemd) |
 
 Η έκδοση για macOS δεν έχει περάσει notarization. Την πρώτη φορά, ανοίξτε την εφαρμογή: το macOS τη μπλοκάρει. Μετά πηγαίνετε στις **Ρυθμίσεις συστήματος › Απόρρητο και ασφάλεια** και κάντε κλικ στο **Άνοιγμα οπωσδήποτε**.
 
@@ -326,6 +329,63 @@ docker compose up -d
 Ο server διαβάζει και ελέγχει τις μεταβλητές μία φορά, κατά την εκκίνηση. Μια μη έγκυρη τιμή σταματά τον server με μήνυμα, αντί να περάσει σιωπηλά σε εναλλακτική τιμή.
 
 Πίσω από reverse proxy, ορίστε το `MINER_PUBLIC_URL`: χωρίς αυτό, το πρώτο αίτημα που φτάνει μέσω proxy γράφει μια προειδοποίηση στα αρχεία καταγραφής, γιατί οι προσπάθειες σύνδεσης μετρώνται τότε στη διεύθυνση του proxy και οι λάθος κωδικοί ενός επισκέπτη θα κλείδωναν έξω όλους. Η ζωντανή σύνδεση στέλνει ένα ping κάθε 30 δευτερόλεπτα, ώστε ένας proxy να μην την κλείνει όταν δεν συμβαίνει τίποτα. Όταν το Twitch ή το δίκτυο αποτυγχάνει, ο server απαντά `424`, ποτέ `502` ή `504`: πίσω από το Cloudflare, βλέπετε το πραγματικό σφάλμα αντί για τη σελίδα του Cloudflare.
+
+### <a name="systemd"></a>Χωρίς Docker (systemd)
+
+Σε Linux server χωρίς Docker, η έκδοση περιλαμβάνει τον server και ως ένα μόνο αρχείο, με
+τον πίνακα ελέγχου μέσα: `twitch-miner-server_<version>_linux_x64` ή
+`twitch-miner-server_<version>_linux_arm64`. Είναι το ίδιο πρόγραμμα που τρέχει η εικόνα
+Docker, στατικά linked: τίποτα άλλο δεν χρειάζεται να εγκατασταθεί. Δέχεται τις ίδιες
+μεταβλητές.
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 σε ARM64
+sudo install -m 600 /dev/null /etc/twitch-miner.env
+```
+
+Γράψτε τον δικό σας κωδικό, 12 χαρακτήρες ή περισσότερους, στο `/etc/twitch-miner.env`,
+που μπορεί να διαβάσει μόνο ο root:
+
+```ini
+MINER_PASSWORD=change-me
+```
+
+Έπειτα την υπηρεσία, στο `/etc/systemd/system/twitch-miner.service`:
+
+```ini
+[Unit]
+Description=Twitch Miner
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/twitch-miner
+EnvironmentFile=/etc/twitch-miner.env
+Environment=DATA_DIR=/var/lib/twitch-miner
+DynamicUser=yes
+StateDirectory=twitch-miner
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now twitch-miner
+```
+
+Το systemd δημιουργεί το `/var/lib/twitch-miner` για τα δεδομένα και τρέχει τον server με
+δικό του χρήστη, ποτέ ως root. Ανοίξτε το `http://<διεύθυνση του server>:8080`· τα αρχεία
+καταγραφής βρίσκονται στο `journalctl -u twitch-miner`.
+
+Αυτό το αρχείο δεν ενημερώνεται μόνο του. Όταν ο πίνακας ελέγχου δείξει νέα έκδοση,
+κατεβάστε το νέο αρχείο από την έκδοση, αντικαταστήστε το παλιό και κάντε επανεκκίνηση:
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 σε ARM64
+sudo systemctl restart twitch-miner
+```
 
 ## <a name="how-it-works"></a>Πώς λειτουργεί
 

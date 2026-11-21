@@ -18,7 +18,7 @@
   import RichText from "../ui/RichText.svelte";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import { IconName } from "../../lib/icons.constants";
-  import ImageUpdateCommands from "./ImageUpdateCommands.svelte";
+  import ServerUpdateCommands from "./ServerUpdateCommands.svelte";
 
   type UpdatesPanelPropsType = { checkedAt: string | null; actions: Snippet };
 
@@ -56,7 +56,7 @@
   <p class="text-hint text-muted-foreground"><RichText text={lastChecked} /></p>
 </div>
 {#if !isTauri() && version}
-  <ImageUpdateCommands />
+  <ServerUpdateCommands {version} />
 {/if}
 <div class="flex flex-wrap gap-2">
   <ActionButton

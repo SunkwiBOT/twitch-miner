@@ -44,9 +44,9 @@
   "status_paused": "În pauză",
   "status_login_required": "Autentificare necesară",
   "status_problem": "Problemă",
-  "mode_auto_hint": "Minează cea mai bună campanie Drops pe un canal; al doilea canal câștigă puncte la streamerii tăi. Fără campanie, ambele canale merg la puncte.",
+  "mode_auto_hint": "Minează cea mai bună campanie Drops pe un canal și câștigă puncte la streamerii tăi pe celelalte. Fără campanie, toate canalele merg la puncte.",
   "mode_drops_hint": "Un canal, pentru campania Drops curentă. Fără puncte de canal.",
-  "mode_points_hint": "Ambele canale urmăresc streamerii tăi pentru puncte de canal. Fără Drops.",
+  "mode_points_hint": "Toate canalele urmăresc streamerii tăi pentru puncte de canal. Fără Drops.",
   "dashboard_no_accounts_title": "Niciun cont încă",
   "dashboard_no_accounts_text": "Adaugă un cont Twitch cu un cod de introdus pe twitch.tv/activate, de pe orice dispozitiv. Nu se stochează nicio parolă.",
   "dashboard_recent": "Activitate recentă",
@@ -180,7 +180,21 @@
   "import_tokens_importing_progress": "Se importă: {done}/{total}",
   "import_tokens_cancel": "Anulează importul",
   "import_tokens_retry_failed": "Încearcă din nou",
-  "account_slots_hint": "Twitch creditează cel mult două canale per cont în același timp.",
+  "account_slots_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Twitch creditează cel mult {formattedMaxWatchedChannels} canal per cont în același timp.",
+        "maxWatchedChannelsPlural=few": "Twitch creditează cel mult {formattedMaxWatchedChannels} canale per cont în același timp.",
+        "maxWatchedChannelsPlural=*": "Twitch creditează cel mult {formattedMaxWatchedChannels} de canale per cont în același timp."
+      }
+    }
+  ],
   "account_drops_priority_hint": "Campaniile lor sunt minate unde se află „Categorii prioritare” în „Ce să se mineze, în ordine”, cele mai importante primele.",
   "account_drops_priority_placeholder": "Adaugă o categorie…",
   "account_drops_exclude_games": "Categorii excluse",
@@ -189,7 +203,21 @@
   "account_drops_auto_claim": "Revendică drops automat",
   "account_drops_skip_unfinishable": "Sari campaniile care nu pot fi terminate înainte de final",
   "account_points_streamers": "Streameri",
-  "account_points_streamers_hint": "Cel mai important primul. Twitch numără punctele de canal doar pe două canale urmărite în același timp.",
+  "account_points_streamers_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Cel mai important primul. Twitch numără punctele de canal doar pe {formattedMaxWatchedChannels} canal urmărit în același timp.",
+        "maxWatchedChannelsPlural=few": "Cel mai important primul. Twitch numără punctele de canal doar pe {formattedMaxWatchedChannels} canale urmărite în același timp.",
+        "maxWatchedChannelsPlural=*": "Cel mai important primul. Twitch numără punctele de canal doar pe {formattedMaxWatchedChannels} de canale urmărite în același timp."
+      }
+    }
+  ],
   "account_points_add_placeholder": "Nume Twitch sau URL canal",
   "account_points_streak_priority": "Seriile de vizionare mai întâi",
   "account_points_empty": "Niciun streamer încă. Adaugă canalele pe care vrei puncte.",
@@ -398,7 +426,21 @@
   "star_prompt_no": "Nu, mulțumesc",
   "nav_powered_by": "susținut de",
   "home_title": "Acasă",
-  "home_rules": "Fiecare cont poate urmări până la două canale simultan, limita Twitch: câte o campanie Drops și punctele de canal din lista ta de streameri configurată.",
+  "home_rules": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Fiecare cont poate urmări până la {formattedMaxWatchedChannels} canal simultan, limita Twitch: câte o campanie Drops și punctele de canal din lista ta de streameri configurată.",
+        "maxWatchedChannelsPlural=few": "Fiecare cont poate urmări până la {formattedMaxWatchedChannels} canale simultan, limita Twitch: câte o campanie Drops și punctele de canal din lista ta de streameri configurată.",
+        "maxWatchedChannelsPlural=*": "Fiecare cont poate urmări până la {formattedMaxWatchedChannels} de canale simultan, limita Twitch: câte o campanie Drops și punctele de canal din lista ta de streameri configurată."
+      }
+    }
+  ],
   "home_open": "Deschide",
   "home_update_notifications": "Primești notificări pentru versiunile noi?",
   "home_update_notifications_allow": "Permite",
@@ -526,8 +568,8 @@
   "account_twitch_title": "Cont Twitch",
   "action_pause": "Pauză",
   "action_resume": "Reia",
-  "activity_free_slot": "Unul dintre cele două canale urmărite e liber. Adaugă streameri ca să câștigi punctele lor de canal.",
-  "activity_free_slot_offline": "Unul dintre cele două canale urmărite e liber: niciunul dintre streamerii tăi nu e live.",
+  "activity_free_slot": "Un canal urmărit din {formattedMaxWatchedChannels} e liber. Adaugă streameri ca să câștigi punctele lor de canal.",
+  "activity_free_slot_offline": "Un canal urmărit din {formattedMaxWatchedChannels} e liber: niciunul dintre streamerii tăi nu e live.",
   "activity_nothing": "Nimic de urmărit acum: nicio campanie Drops cu un canal live și niciun streamer online.",
   "activity_paused": "Pe pauză. Reia ca să începi din nou vizionarea.",
   "beacon_blocked": "spade.twitch.tv este blocat de DNS-ul sau de blocantul tău de reclame: punctele de canal nu sunt creditate până nu îl permiți. Permite și numele către care trimite: spade.sci.twitch.tv, science-edge-external-prod-*.elb.amazonaws.com. Drops continuă să progreseze.",
@@ -604,7 +646,21 @@
   "settings_close_action": "Butonul de închidere",
   "settings_unsaved": "Ai modificări nesalvate.",
   "slots_two_title": "Două canale",
-  "slots_two_hint": "Maximul creditat de Twitch per cont: unul pentru Drops și unul pentru puncte, sau două pentru puncte.",
+  "slots_two_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Maximul creditat de Twitch per cont: {formattedMaxWatchedChannels} canal simultan, pentru Drops sau puncte.",
+        "maxWatchedChannelsPlural=few": "Maximul creditat de Twitch per cont: {formattedMaxWatchedChannels} canale simultan, împărțite între Drops și puncte.",
+        "maxWatchedChannelsPlural=*": "Maximul creditat de Twitch per cont: {formattedMaxWatchedChannels} de canale simultan, împărțite între Drops și puncte."
+      }
+    }
+  ],
   "slots_one_title": "Un canal",
   "slots_one_hint": "Mai discret: un singur canal odată.",
   "streamer_claim_bonus_hint": "Revendică cufărul bonus care apare la fiecare {minutes} minute.",
@@ -959,6 +1015,7 @@
   "updates_available_locked": "Versiunea {version} este disponibilă. Deblochează aplicația ca s-o instalezi.",
   "updates_badge": "Actualizare {version}",
   "updates_pull_image": "Pentru actualizare, descarcă noua imagine, apoi repornește containerul:",
+  "updates_replace_binary": "Pentru actualizare, descarcă noul fișier al serverului din versiunea publicată pe GitHub, înlocuiește-l pe cel vechi, apoi repornește serviciul:",
   "updates_check_failed": "Nu s-au putut căuta actualizări. Verifică-ți conexiunea și încearcă din nou.",
   "updates_last_checked": "Ultima verificare: {time}",
   "updates_never_checked": "Ultima verificare: încă niciun răspuns de la pornire",

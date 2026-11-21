@@ -1,6 +1,7 @@
 <script lang="ts" generics="T extends string | number">
   import { RadioGroup, RadioGroupItem } from "$lib/components/ui/radio-group";
   import { cn } from "$lib/utils";
+  import RichText from "./RichText.svelte";
 
   type ChoiceType = { value: T; title: string; description: string };
 
@@ -34,7 +35,7 @@
       <RadioGroupItem value={String(choice.value)} />
       <span class="text-sm font-medium text-foreground">{choice.title}</span>
       <span class="col-span-2 text-hint leading-snug text-muted-foreground">
-        {choice.description}
+        <RichText text={choice.description} />
       </span>
     </label>
   {/each}

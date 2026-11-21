@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { SLOTS_MAX } from "../../lib/accounts/slots.constants";
+  import { maxWatchedChannelsParams } from "../../lib/accounts/slots.utils";
   import type { MiningLaneType } from "../../lib/bindings/MiningLaneType";
   import { Mode } from "../../lib/bindings/Mode";
   import { t } from "../../lib/i18n/i18n.svelte";
@@ -40,6 +40,8 @@
     accountCount = 1,
     idPrefix = "account",
   }: AccountSettingsFormPropsType = $props();
+
+  const watchedChannels = maxWatchedChannelsParams();
 </script>
 
 <Panel title={t.account_mode_title()} description={t.account_mode_desc({ count: accountCount })}>
@@ -58,14 +60,18 @@
 <Panel title={t.mining_order_title()} description={t.mining_order_hint()}>
   <MiningOrderList order={miningOrder} onchange={onMiningOrderChange} />
 </Panel>
-<Panel title={t.account_slots_title()} description={t.account_slots_hint()}>
+<Panel title={t.account_slots_title()} description={t.account_slots_hint(watchedChannels)}>
   <ChoiceCards
     vertical={false}
     value={slots}
     label={t.account_slots_title()}
     onchange={onSlotsChange}
     choices={[
-      { value: SLOTS_MAX, title: t.slots_two_title(), description: t.slots_two_hint() },
+      {
+        value: watchedChannels.maxWatchedChannels,
+        title: t.slots_two_title(),
+        description: t.slots_two_hint(watchedChannels),
+      },
       { value: 1, title: t.slots_one_title(), description: t.slots_one_hint() },
     ]}
   />

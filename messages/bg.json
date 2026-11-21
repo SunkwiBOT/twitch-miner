@@ -43,9 +43,9 @@
   "status_paused": "На пауза",
   "status_login_required": "Изисква се вход",
   "status_problem": "Проблем",
-  "mode_auto_hint": "Копае най-добрата кампания Drops на един канал; вторият канал печели точки от вашите стриймъри. Без кампания и двата канала отиват за точки.",
+  "mode_auto_hint": "Копае най-добрата кампания Drops на един канал и печели точки от вашите стриймъри с останалите. Без кампания всички канали отиват за точки.",
   "mode_drops_hint": "Един канал за текущата кампания Drops. Без точки на канала.",
-  "mode_points_hint": "И двата канала гледат вашите стриймъри за точки на канала. Без Drops.",
+  "mode_points_hint": "Всички канали гледат вашите стриймъри за точки на канала. Без Drops.",
   "dashboard_no_accounts_title": "Все още няма акаунт",
   "dashboard_no_accounts_text": "Добавете Twitch акаунт с код, който въвеждате на twitch.tv/activate от всяко устройство. Не се съхранява парола.",
   "dashboard_recent": "Скорошна активност",
@@ -172,7 +172,20 @@
   "import_tokens_importing_progress": "Импортиране: {done}/{total}",
   "import_tokens_cancel": "Отмени импортирането",
   "import_tokens_retry_failed": "Опитай отново",
-  "account_slots_hint": "Twitch зачита най-много два канала на акаунт едновременно.",
+  "account_slots_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Twitch зачита най-много {formattedMaxWatchedChannels} канал на акаунт едновременно.",
+        "maxWatchedChannelsPlural=*": "Twitch зачита най-много {formattedMaxWatchedChannels} канала на акаунт едновременно."
+      }
+    }
+  ],
   "account_drops_priority_hint": "Кампаниите им се копаят там, където „Приоритетни категории“ е в „Какво да се копае, по ред“, най-важните първи.",
   "account_drops_priority_placeholder": "Добави категория…",
   "account_drops_exclude_games": "Изключени категории",
@@ -181,7 +194,20 @@
   "account_drops_auto_claim": "Вземай drops автоматично",
   "account_drops_skip_unfinishable": "Пропускай кампании, които не могат да се завършат преди края им",
   "account_points_streamers": "Стриймъри",
-  "account_points_streamers_hint": "Най-важното първо. Twitch брои точки на канала само за два канала, гледани едновременно.",
+  "account_points_streamers_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Най-важното първо. Twitch брои точки на канала само за {formattedMaxWatchedChannels} канал, гледан едновременно.",
+        "maxWatchedChannelsPlural=*": "Най-важното първо. Twitch брои точки на канала само за {formattedMaxWatchedChannels} канала, гледани едновременно."
+      }
+    }
+  ],
   "account_points_add_placeholder": "Twitch потребител или URL на канал",
   "account_points_streak_priority": "Първо сериите гледания",
   "account_points_empty": "Все още няма стриймъри. Добавете каналите, от които искате точки.",
@@ -390,7 +416,20 @@
   "star_prompt_no": "Не, благодаря",
   "nav_powered_by": "с подкрепата на",
   "home_title": "Начало",
-  "home_rules": "Всеки акаунт може да гледа до два канала едновременно, ограничението на Twitch: по една кампания за Drops и точки на канала от настроения ви списък със стриймъри.",
+  "home_rules": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Всеки акаунт може да гледа до {formattedMaxWatchedChannels} канал едновременно, ограничението на Twitch: по една кампания за Drops и точки на канала от настроения ви списък със стриймъри.",
+        "maxWatchedChannelsPlural=*": "Всеки акаунт може да гледа до {formattedMaxWatchedChannels} канала едновременно, ограничението на Twitch: по една кампания за Drops и точки на канала от настроения ви списък със стриймъри."
+      }
+    }
+  ],
   "home_open": "Отвори",
   "home_update_notifications": "Да получавате известия за нови версии?",
   "home_update_notifications_allow": "Разреши",
@@ -513,8 +552,34 @@
   "account_twitch_title": "Twitch акаунт",
   "action_pause": "Пауза",
   "action_resume": "Продължи",
-  "activity_free_slot": "Един от двата гледани канала е свободен. Добавете стриймъри, за да печелите техните точки на канала.",
-  "activity_free_slot_offline": "Един от двата гледани канала е свободен: никой от вашите стриймъри не е на живо.",
+  "activity_free_slot": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Един гледан канал от {formattedMaxWatchedChannels} е свободен. Добавете стриймъри, за да печелите техните точки на канала.",
+        "maxWatchedChannelsPlural=*": "Един от {formattedMaxWatchedChannels} гледани канала е свободен. Добавете стриймъри, за да печелите техните точки на канала."
+      }
+    }
+  ],
+  "activity_free_slot_offline": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Един гледан канал от {formattedMaxWatchedChannels} е свободен: никой от вашите стриймъри не е на живо.",
+        "maxWatchedChannelsPlural=*": "Един от {formattedMaxWatchedChannels} гледани канала е свободен: никой от вашите стриймъри не е на живо."
+      }
+    }
+  ],
   "activity_nothing": "В момента няма какво да се гледа: няма кампания Drops с канал на живо и няма стриймър онлайн.",
   "activity_paused": "На пауза. Продължете, за да започне гледането отново.",
   "beacon_blocked": "spade.twitch.tv е блокиран от вашия DNS или блокер на реклами: точките на канала не се начисляват, докато не го разрешите. Разрешете и имената, към които сочи: spade.sci.twitch.tv, science-edge-external-prod-*.elb.amazonaws.com. Drops продължават да напредват.",
@@ -591,7 +656,20 @@
   "settings_close_action": "Бутон за затваряне",
   "settings_unsaved": "Имате незапазени промени.",
   "slots_two_title": "Два канала",
-  "slots_two_hint": "Максимумът, който Twitch зачита на акаунт: един за Drops и един за точки или два за точки.",
+  "slots_two_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Максимумът, който Twitch зачита на акаунт: {formattedMaxWatchedChannels} канал едновременно, за Drops или за точки.",
+        "maxWatchedChannelsPlural=*": "Максимумът, който Twitch зачита на акаунт: {formattedMaxWatchedChannels} канала едновременно, споделени между Drops и точки."
+      }
+    }
+  ],
   "slots_one_title": "Един канал",
   "slots_one_hint": "По-незабележимо: само един канал наведнъж.",
   "streamer_claim_bonus_hint": "Взема бонус сандъка, който се появява на всеки {minutes} минути.",
@@ -936,6 +1014,7 @@
   "updates_available_locked": "Налична е версия {version}. Отключете приложението, за да я инсталирате.",
   "updates_badge": "Обновление {version}",
   "updates_pull_image": "За да обновите, изтеглете новия образ и рестартирайте контейнера:",
+  "updates_replace_binary": "За да обновите, изтеглете новия файл на сървъра от изданието в GitHub, заменете с него стария и рестартирайте услугата:",
   "updates_check_failed": "Не може да се провери за обновления. Проверете връзката си и опитайте отново.",
   "updates_last_checked": "Последна проверка: {time}",
   "updates_never_checked": "Последна проверка: все още няма отговор от стартирането",

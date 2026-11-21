@@ -3,6 +3,7 @@ use std::path::{Path, PathBuf};
 
 use anyhow::{bail, Context};
 use ipnet::IpNet;
+use miner_core::api::InstallKind;
 use url::Url;
 
 use crate::access::{Access, HTTPS};
@@ -23,6 +24,8 @@ const TRUSTED_HOPS: &str = "MINER_TRUSTED_HOPS";
 const TRUSTED_HOPS_DEFAULT: usize = 1;
 const TRUSTED_HOPS_MAX: usize = 10;
 const PROXY_NETWORKS: &str = "MINER_PROXY_NETWORKS";
+// ! Set by the Docker image only: the same server run by hand is the bare binary.
+const CONTAINER: &str = "MINER_CONTAINER";
 
 pub struct ServerEnv {
     pub data_dir: PathBuf,
@@ -30,6 +33,7 @@ pub struct ServerEnv {
     pub address: SocketAddr,
     pub access: Access,
     pub vault_passphrase: Option<String>,
+    pub install_kind: InstallKind,
 }
 
 impl ServerEnv {
@@ -99,6 +103,10 @@ impl ServerEnv {
             address: SocketAddr::new(host, port),
             access,
             vault_passphrase: secret(VAULT_PASSPHRASE)?,
+            install_kind: match set(CONTAINER) {
+                Some(_) => InstallKind::Docker,
+                None => InstallKind::Binary,
+            },
         })
     }
 

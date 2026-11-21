@@ -17,14 +17,14 @@ use crate::api::{
     CatalogResponse, CatalogView, CategoryCount, ChannelsLookupResponse, Command, CoreLimits,
     DropsByCategory, HistoryCurveQuery, HistoryCurveResponse, HistoryExportQuery,
     HistoryExportResponse, HistoryQuery, HistoryResponse, HistoryStatsQuery, HistoryStatsResponse,
-    ImportTokenOutcome, ImportTokensFlowStatus, ImportTokensFlowView, LoginFlowStatus,
+    ImportTokenOutcome, ImportTokensFlowStatus, ImportTokensFlowView, InstallKind, LoginFlowStatus,
     LoginFlowView, LogsQuery, LogsReportResponse, LogsResponse, NotificationTarget,
     NotificationTest, NotificationTestRequest, PointsByDay, ProxyTestResponse, RedeemRequest,
-    RefreshCount, RequestsQuery, RequestsResponse, Shell, Snapshot, StreamerMinutes,
-    StreamerPoints, StreamerPredictions, TokenCheck, CHANNELS_LOOKUP_MAX, FOLLOWS_MAX,
-    HISTORY_EXPORT_MAX, HISTORY_LIMIT_DEFAULT, HISTORY_LIMIT_MAX, HISTORY_STATS_MAX_SPAN_DAYS,
-    HISTORY_STATS_TOP_MAX, LOGS_LIMIT_DEFAULT, LOGS_LIMIT_MAX, REQUESTS_LIMIT_DEFAULT,
-    REQUESTS_LIMIT_MAX, TOKENS_IMPORT_MAX, TOKEN_LINE_MAX_CHARS,
+    RefreshCount, RequestsQuery, RequestsResponse, Snapshot, StreamerMinutes, StreamerPoints,
+    StreamerPredictions, TokenCheck, CHANNELS_LOOKUP_MAX, FOLLOWS_MAX, HISTORY_EXPORT_MAX,
+    HISTORY_LIMIT_DEFAULT, HISTORY_LIMIT_MAX, HISTORY_STATS_MAX_SPAN_DAYS, HISTORY_STATS_TOP_MAX,
+    LOGS_LIMIT_DEFAULT, LOGS_LIMIT_MAX, REQUESTS_LIMIT_DEFAULT, REQUESTS_LIMIT_MAX,
+    TOKENS_IMPORT_MAX, TOKEN_LINE_MAX_CHARS,
 };
 use crate::badges::{BadgeCatalog, BadgeCatalogClient};
 use crate::catalog::{Catalog, CatalogClient};
@@ -267,7 +267,7 @@ pub struct Manager {
     install_id: String,
     catalog: Feed<Catalog>,
     badges: Feed<BadgeCatalog>,
-    shell: Shell,
+    install_kind: InstallKind,
     settings: RwLock<GlobalSettings>,
     accounts: Mutex<HashMap<String, AccountHandle>>,
     carried_stats: std::sync::Mutex<HashMap<String, AccountStats>>,
@@ -304,7 +304,11 @@ pub struct Manager {
 }
 
 impl Manager {
-    pub fn open(data_dir: &Path, logs: crate::logs::LogBuffer, shell: Shell) -> Result<Arc<Self>> {
+    pub fn open(
+        data_dir: &Path,
+        logs: crate::logs::LogBuffer,
+        install_kind: InstallKind,
+    ) -> Result<Arc<Self>> {
         crate::logs::log_panics();
 
         let store = Store::open(data_dir)?;
@@ -350,7 +354,7 @@ impl Manager {
                 settings.notifications.clone(),
                 settings.notification_language(),
                 requests.clone(),
-                shell,
+                install_kind,
             )?,
             store,
             vault: RwLock::new(vault),
@@ -359,15 +363,15 @@ impl Manager {
             install_id: install_id.clone(),
             catalog: Feed::new(
                 catalog,
-                CatalogClient::new(requests.clone(), shell, &install_id)?,
+                CatalogClient::new(requests.clone(), install_kind, &install_id)?,
                 changed.clone(),
             ),
             badges: Feed::new(
                 badges,
-                BadgeCatalogClient::new(requests.clone(), shell, &install_id)?,
+                BadgeCatalogClient::new(requests.clone(), install_kind, &install_id)?,
                 changed.clone(),
             ),
-            shell,
+            install_kind,
             settings: RwLock::new(settings),
             accounts: Mutex::new(HashMap::new()),
             carried_stats: std::sync::Mutex::new(HashMap::new()),
@@ -893,7 +897,7 @@ impl Manager {
         current: Option<&str>,
         next: Option<&str>,
     ) -> Result<()> {
-        if self.shell == Shell::Server {
+        if self.install_kind.is_server() {
             return Err(Error::NotSupported);
         }
 
@@ -1022,7 +1026,7 @@ impl Manager {
 
     // ! Only with a passphrase: a key-file vault would reopen by itself.
     pub async fn lock(&self) -> Result<()> {
-        if self.shell == Shell::Server {
+        if self.install_kind.is_server() {
             return Err(Error::NotSupported);
         }
 
@@ -2230,6 +2234,7 @@ impl Manager {
 
         Ok(Snapshot {
             version: crate::VERSION.to_owned(),
+            install_kind: self.install_kind,
             build: None,
             update_available,
             update_checked_at,

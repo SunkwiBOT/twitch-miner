@@ -367,9 +367,12 @@
 
 | Система | Пакет |
 |---|---|
-| **Windows** · x64 | Інсталятор (`setup.exe`) або [портативна версія](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **macOS** 13 або новіша · Intel і Apple Silicon | Образ диска (`.dmg`) |
+| **Windows** · x64 | Інсталятор (`x64-setup.exe`) або [портативна версія](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | Інсталятор (`arm64-setup.exe`) або [портативна версія](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 або новіша · універсальна: Intel і Apple Silicon | Образ диска (`.dmg`) |
 | **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) або `.rpm` (Fedora, openSUSE) |
+| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) або `.rpm` (Fedora, openSUSE) |
+| **Linux-сервер** · x86-64 або ARM64 | Лише сервер, без Docker (`twitch-miner-server_…_linux_x64` або `_linux_arm64`): див. [Без Docker](#systemd) |
 
 Збірка для macOS не нотаризована. Першого разу відкрийте застосунок: macOS його
 заблокує. Потім перейдіть у **Системні параметри › Приватність і безпека** й натисніть
@@ -440,6 +443,63 @@ docker compose up -d
 кожні 30 секунд, щоб проксі не закрив його, коли нічого не відбувається. Коли Twitch або
 мережа дають збій, сервер відповідає `424`, ніколи `502` чи `504`: за Cloudflare ви
 бачите справжню помилку, а не сторінку Cloudflare.
+
+### <a name="systemd"></a>Без Docker (systemd)
+
+На Linux-сервері без Docker реліз також містить сервер як один файл, із вбудованою
+панеллю: `twitch-miner-server_<версія>_linux_x64` або
+`twitch-miner-server_<версія>_linux_arm64`. Це та сама програма, яку запускає образ
+Docker, статично скомпонована: більше нічого встановлювати не потрібно. Вона приймає
+ті самі змінні.
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 на ARM64
+sudo install -m 600 /dev/null /etc/twitch-miner.env
+```
+
+Запишіть власний пароль, щонайменше 12 символів, у `/etc/twitch-miner.env`, який може
+читати лише root:
+
+```ini
+MINER_PASSWORD=change-me
+```
+
+Потім службу, у `/etc/systemd/system/twitch-miner.service`:
+
+```ini
+[Unit]
+Description=Twitch Miner
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/twitch-miner
+EnvironmentFile=/etc/twitch-miner.env
+Environment=DATA_DIR=/var/lib/twitch-miner
+DynamicUser=yes
+StateDirectory=twitch-miner
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now twitch-miner
+```
+
+systemd створює `/var/lib/twitch-miner` для даних і запускає сервер під власним
+користувачем, ніколи не від root. Відкрийте `http://<адреса сервера>:8080`; логи — в
+`journalctl -u twitch-miner`.
+
+Цей файл не оновлюється сам. Коли панель показує нову версію, завантажте новий файл з
+релізу, потім замініть старий і перезапустіть:
+
+```bash
+sudo install -m 755 twitch-miner-server_*_linux_x64 /usr/local/bin/twitch-miner   # _linux_arm64 на ARM64
+sudo systemctl restart twitch-miner
+```
 
 ## <a name="how-it-works"></a>Як це працює
 

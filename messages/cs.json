@@ -44,9 +44,9 @@
   "status_paused": "Pozastaveno",
   "status_login_required": "Vyžaduje přihlášení",
   "status_problem": "Problém",
-  "mode_auto_hint": "Těží nejlepší kampaň Drops na jednom kanálu; druhý kanál získává body u vašich streamerů. Bez kampaně jdou oba kanály na body.",
+  "mode_auto_hint": "Těží nejlepší kampaň Drops na jednom kanálu a na ostatních získává body u vašich streamerů. Bez kampaně jdou všechny kanály na body.",
   "mode_drops_hint": "Jeden kanál pro aktuální kampaň Drops. Žádné body kanálu.",
-  "mode_points_hint": "Oba kanály sledují vaše streamery kvůli bodům kanálu. Žádné Drops.",
+  "mode_points_hint": "Všechny kanály sledují vaše streamery kvůli bodům kanálu. Žádné Drops.",
   "dashboard_no_accounts_title": "Zatím žádný účet",
   "dashboard_no_accounts_text": "Přidejte účet Twitch pomocí kódu, který zadáte na twitch.tv/activate z libovolného zařízení. Heslo se neukládá.",
   "dashboard_recent": "Poslední aktivita",
@@ -180,7 +180,21 @@
   "import_tokens_importing_progress": "Importování: {done}/{total}",
   "import_tokens_cancel": "Zrušit import",
   "import_tokens_retry_failed": "Zkusit znovu",
-  "account_slots_hint": "Twitch započítává nejvýše dva kanály na účet současně.",
+  "account_slots_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Twitch započítává nejvýše {formattedMaxWatchedChannels} kanál na účet současně.",
+        "maxWatchedChannelsPlural=few": "Twitch započítává nejvýše {formattedMaxWatchedChannels} kanály na účet současně.",
+        "maxWatchedChannelsPlural=*": "Twitch započítává nejvýše {formattedMaxWatchedChannels} kanálů na účet současně."
+      }
+    }
+  ],
   "account_drops_priority_hint": "Jejich kampaně se těží tam, kde jsou „Prioritní kategorie“ zařazeny v „Co těžit a v jakém pořadí“, nejdůležitější první.",
   "account_drops_priority_placeholder": "Přidat kategorii…",
   "account_drops_exclude_games": "Vyloučené kategorie",
@@ -189,7 +203,20 @@
   "account_drops_auto_claim": "Vyzvedávat drops automaticky",
   "account_drops_skip_unfinishable": "Přeskočit kampaně, které nelze dokončit před jejich koncem",
   "account_points_streamers": "Streameři",
-  "account_points_streamers_hint": "Nejdůležitější nahoře. Twitch počítá body kanálu jen na dvou kanálech sledovaných současně.",
+  "account_points_streamers_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Nejdůležitější nahoře. Twitch počítá body kanálu současně jen na {formattedMaxWatchedChannels} kanálu.",
+        "maxWatchedChannelsPlural=*": "Nejdůležitější nahoře. Twitch počítá body kanálu současně jen na {formattedMaxWatchedChannels} kanálech."
+      }
+    }
+  ],
   "account_points_add_placeholder": "Login Twitch nebo URL kanálu",
   "account_points_streak_priority": "Série sledování první",
   "account_points_empty": "Zatím žádný streamer. Přidejte kanály, na kterých chcete body.",
@@ -398,7 +425,21 @@
   "star_prompt_no": "Ne, děkuji",
   "nav_powered_by": "běží na",
   "home_title": "Domů",
-  "home_rules": "Každý účet může sledovat až dva kanály najednou, to je limit Twitche: jednu kampaň dropů najednou a body kanálu na vašem nastaveném seznamu streamerů.",
+  "home_rules": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Každý účet může sledovat až {formattedMaxWatchedChannels} kanál najednou, to je limit Twitche: jednu kampaň dropů najednou a body kanálu na vašem nastaveném seznamu streamerů.",
+        "maxWatchedChannelsPlural=few": "Každý účet může sledovat až {formattedMaxWatchedChannels} kanály najednou, to je limit Twitche: jednu kampaň dropů najednou a body kanálu na vašem nastaveném seznamu streamerů.",
+        "maxWatchedChannelsPlural=*": "Každý účet může sledovat až {formattedMaxWatchedChannels} kanálů najednou, to je limit Twitche: jednu kampaň dropů najednou a body kanálu na vašem nastaveném seznamu streamerů."
+      }
+    }
+  ],
   "home_open": "Otevřít",
   "home_update_notifications": "Dostávat oznámení o nových verzích?",
   "home_update_notifications_allow": "Povolit",
@@ -526,8 +567,34 @@
   "account_twitch_title": "Účet Twitch",
   "action_pause": "Pozastavit",
   "action_resume": "Pokračovat",
-  "activity_free_slot": "Jeden ze dvou sledovaných kanálů je volný. Přidejte streamery a získávejte jejich body kanálu.",
-  "activity_free_slot_offline": "Jeden ze dvou sledovaných kanálů je volný: žádný z vašich streamerů nevysílá.",
+  "activity_free_slot": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Jeden z {formattedMaxWatchedChannels} sledovaného kanálu je volný. Přidejte streamery a získávejte jejich body kanálu.",
+        "maxWatchedChannelsPlural=*": "Jeden z {formattedMaxWatchedChannels} sledovaných kanálů je volný. Přidejte streamery a získávejte jejich body kanálu."
+      }
+    }
+  ],
+  "activity_free_slot_offline": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Jeden z {formattedMaxWatchedChannels} sledovaného kanálu je volný: žádný z vašich streamerů nevysílá.",
+        "maxWatchedChannelsPlural=*": "Jeden z {formattedMaxWatchedChannels} sledovaných kanálů je volný: žádný z vašich streamerů nevysílá."
+      }
+    }
+  ],
   "activity_nothing": "Teď není co sledovat: žádná kampaň Drops s živým kanálem a žádný streamer online.",
   "activity_paused": "Pozastaveno. Pokračujte, chcete-li znovu začít sledovat.",
   "beacon_blocked": "spade.twitch.tv blokuje váš DNS nebo blokátor reklam: body kanálu se nepřipisují, dokud ho nepovolíte. Povolte i názvy, na které odkazuje: spade.sci.twitch.tv, science-edge-external-prod-*.elb.amazonaws.com. Drops dál postupují.",
@@ -604,7 +671,21 @@
   "settings_close_action": "Tlačítko zavření",
   "settings_unsaved": "Máte neuložené změny.",
   "slots_two_title": "Dva kanály",
-  "slots_two_hint": "Nejvíc, co Twitch na účet připíše: jeden pro Drops a jeden pro body, nebo dva pro body.",
+  "slots_two_hint": [
+    {
+      "declarations": [
+        "input maxWatchedChannels",
+        "input formattedMaxWatchedChannels",
+        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
+      ],
+      "selectors": ["maxWatchedChannelsPlural"],
+      "match": {
+        "maxWatchedChannelsPlural=one": "Nejvíc, co Twitch na účet připíše: {formattedMaxWatchedChannels} kanál najednou, pro Drops nebo body.",
+        "maxWatchedChannelsPlural=few": "Nejvíc, co Twitch na účet připíše: {formattedMaxWatchedChannels} kanály najednou, sdílené mezi Drops a body.",
+        "maxWatchedChannelsPlural=*": "Nejvíc, co Twitch na účet připíše: {formattedMaxWatchedChannels} kanálů najednou, sdílených mezi Drops a body."
+      }
+    }
+  ],
   "slots_one_title": "Jeden kanál",
   "slots_one_hint": "Nenápadnější: jen jeden kanál najednou.",
   "streamer_claim_bonus_hint": "Vyzvedává bonusovou truhlu, která se objevuje každých {minutes} minut.",
@@ -969,6 +1050,7 @@
   "updates_available_locked": "Je k dispozici verze {version}. Odemkněte aplikaci a nainstalujte ji.",
   "updates_badge": "Aktualizace {version}",
   "updates_pull_image": "Chcete-li aktualizovat, stáhněte nový obraz a restartujte kontejner:",
+  "updates_replace_binary": "Chcete-li aktualizovat, stáhněte nový soubor serveru z vydání na GitHubu, nahraďte jím starý a restartujte službu:",
   "updates_check_failed": "Aktualizace nelze zkontrolovat. Zkontrolujte připojení a zkuste to znovu.",
   "updates_last_checked": "Poslední kontrola: {time}",
   "updates_never_checked": "Poslední kontrola: od spuštění zatím bez odpovědi",
