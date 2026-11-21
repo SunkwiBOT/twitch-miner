@@ -26,15 +26,16 @@
   import Badge from "../../ui/Badge.svelte";
   import ChannelAvatar from "../../ui/ChannelAvatar.svelte";
   import EmptyState from "../../ui/EmptyState.svelte";
-  import ExternalLink from "../../ui/ExternalLink.svelte";
+  import LinkPair from "../../ui/LinkPair.svelte";
   import LinkTwin from "../../ui/LinkTwin.svelte";
+  import TextLink from "../../ui/TextLink.svelte";
   import IconButton from "../../ui/IconButton.svelte";
   import ViewerCount from "../../ui/ViewerCount.svelte";
   import { AvatarSize } from "../../ui/picture.constants";
   import { BadgeTone } from "../../../lib/tones.constants";
   import { ButtonSize, ButtonVariant } from "../../ui/button.constants";
   import { IconName } from "../../../lib/icons.constants";
-  import { LinkLook, LinkMark, LinkSize } from "../../ui/link.constants";
+  import { LinkMark, LinkSize } from "../../ui/link.constants";
   import SpamBalance from "./SpamBalance.svelte";
   import SpamRewardCard from "./SpamRewardCard.svelte";
   import SpamRewardSkeleton from "./SpamRewardSkeleton.svelte";
@@ -212,33 +213,33 @@
         aria-hidden="true"
       ></span>
     {/if}
-    <LinkTwin url={channelUrl(channel.login)} live={channel.live}>
-      <ChannelAvatar
-        url={channel.avatar}
-        name={channel.name}
-        size={AvatarSize.LG}
-        live={channel.live}
-      />
-    </LinkTwin>
-    <div class="flex min-w-0 flex-[1_1_12rem] flex-col gap-1">
-      <h2 class="flex min-w-0 text-lg font-semibold">
-        <ExternalLink
-          url={channelUrl(channel.login)}
-          text={channel.name}
-          mark={LinkMark.END}
-          look={LinkLook.ALWAYS}
-          size={LinkSize.LG}
+    <LinkPair>
+      <LinkTwin target={{ url: channelUrl(channel.login) }} live={channel.live}>
+        <ChannelAvatar
+          url={channel.avatar}
+          name={channel.name}
+          size={AvatarSize.LG}
+          live={channel.live}
         />
-      </h2>
-      <span class="flex min-w-0 flex-wrap items-center gap-x-2 text-xs text-muted-foreground">
-        {#if channel.live}
-          {#if channel.game}<span class="truncate">{channel.game}</span>{/if}
-          {#if channel.viewers !== undefined}<ViewerCount count={channel.viewers} />{/if}
-        {:else}
-          <span>{t.points_offline_hint()}</span>
-        {/if}
-      </span>
-    </div>
+      </LinkTwin>
+      <div class="flex min-w-0 flex-[1_1_12rem] flex-col gap-1">
+        <h2 class="flex min-w-0 text-lg font-semibold">
+          <TextLink
+            text={channel.name}
+            target={{ url: channelUrl(channel.login), mark: LinkMark.END }}
+            size={LinkSize.LG}
+          />
+        </h2>
+        <span class="flex min-w-0 flex-wrap items-center gap-x-2 text-xs text-muted-foreground">
+          {#if channel.live}
+            {#if channel.game}<span class="truncate">{channel.game}</span>{/if}
+            {#if channel.viewers !== undefined}<ViewerCount count={channel.viewers} />{/if}
+          {:else}
+            <span>{t.points_offline_hint()}</span>
+          {/if}
+        </span>
+      </div>
+    </LinkPair>
     <div class="flex shrink-0 items-center gap-4">
       {#if balance.current}
         <SpamBalance

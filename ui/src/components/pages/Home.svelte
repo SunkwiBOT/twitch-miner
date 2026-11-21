@@ -28,6 +28,7 @@
   import { IconName } from "../../lib/icons.constants";
   import { MenuAlign } from "../ui/menu.constants";
   import { RECENT_MAX } from "./home.constants";
+  import UpdateNotificationsBanner from "../updates/UpdateNotificationsBanner.svelte";
 
   type HomePropsType = { snapshot: SnapshotType };
 
@@ -90,6 +91,7 @@
         />
       {/snippet}
     </PageHeader>
+    <UpdateNotificationsBanner />
     <div class="grid grid-cols-[repeat(auto-fit,minmax(min(460px,100%),1fr))] items-start gap-5">
       {#each snapshot.accounts as a (a.id)}
         <Card class="min-w-0 gap-0 py-0">

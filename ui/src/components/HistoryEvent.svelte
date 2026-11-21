@@ -16,11 +16,11 @@
   import Avatar from "./ui/Avatar.svelte";
   import Badge from "./ui/Badge.svelte";
   import ChannelAvatar from "./ui/ChannelAvatar.svelte";
-  import ExternalLink from "./ui/ExternalLink.svelte";
+  import TextLink from "./ui/TextLink.svelte";
   import RewardImage from "./ui/RewardImage.svelte";
   import RichText from "./ui/RichText.svelte";
   import Thumb from "./ui/Thumb.svelte";
-  import { LinkLook, LinkMark, LinkSize } from "./ui/link.constants";
+  import { LinkMark, LinkSize } from "./ui/link.constants";
   import { AvatarSize, THUMB_PIXELS, ThumbShape, ThumbSize } from "./ui/picture.constants";
 
   type HistoryEventPropsType = {
@@ -57,17 +57,15 @@
 
 {#snippet channelLink(channel: string, size: AvatarSize)}
   {@const channelName = event.context.channel_name ?? channel}
-  <ExternalLink
-    url={channelUrl(channel)}
+  <TextLink
     text={channelName}
-    mark={LinkMark.END}
-    look={LinkLook.ALWAYS}
+    target={{ url: channelUrl(channel), mark: LinkMark.END }}
     size={LinkSize.MD}
   >
     {#snippet lead()}
       <ChannelAvatar url={event.context.avatar} name={channelName} {size} live={false} />
     {/snippet}
-  </ExternalLink>
+  </TextLink>
 {/snippet}
 
 {#snippet kindBadge()}

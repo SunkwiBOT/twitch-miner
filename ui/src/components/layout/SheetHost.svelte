@@ -1,6 +1,7 @@
 <script lang="ts">
   import { badgeList } from "../../lib/badges/badges.svelte";
   import { app } from "../../lib/state/app.svelte";
+  import { openCampaignSheet } from "../../lib/state/sheets";
   import BadgeDialog from "../badges/BadgeDialog.svelte";
   import CampaignDialog from "../catalogue/CampaignDialog.svelte";
 </script>
@@ -9,10 +10,7 @@
   badge={app.badgeSheet?.item ?? null}
   badges={badgeList.badges}
   contextAccountId={app.badgeSheet?.accountId ?? null}
-  onopencampaign={(campaign) => {
-    app.campaignSheet = { item: campaign, accountId: app.badgeSheet?.accountId ?? null };
-    app.badgeSheet = null;
-  }}
+  onopencampaign={(campaign) => openCampaignSheet(campaign, app.badgeSheet?.accountId ?? null)}
   onclose={() => (app.badgeSheet = null)}
 />
 <CampaignDialog

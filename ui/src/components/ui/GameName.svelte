@@ -1,10 +1,12 @@
 <script lang="ts">
   import { BoxArtSize } from "../../lib/format.constants";
   import { boxArt } from "../../lib/format.utils";
-  import ExternalLink from "./ExternalLink.svelte";
+  import LinkPair from "./LinkPair.svelte";
+  import LinkTwin from "./LinkTwin.svelte";
+  import TextLink from "./TextLink.svelte";
   import Thumb from "./Thumb.svelte";
   import { IconName } from "../../lib/icons.constants";
-  import { LinkLook, LinkMark, LinkSize } from "./link.constants";
+  import { LinkMark, LinkSize } from "./link.constants";
   import { ThumbShape, ThumbSize } from "./picture.constants";
 
   type GameNamePropsType = {
@@ -20,11 +22,7 @@
   const picture = $derived(boxArt(art, BoxArtSize.ROW));
 </script>
 
-<span
-  class="inline-flex max-w-full min-w-0 items-center align-middle"
-  class:gap-2={size !== ThumbSize.XS}
-  class:gap-1.5={size === ThumbSize.XS}
->
+{#snippet thumb()}
   <Thumb
     src={picture}
     round={false}
@@ -33,15 +31,24 @@
     shape={ThumbShape.BOX_ART}
     fallback={IconName.GIFT}
   />
+{/snippet}
+
+<span
+  class="inline-flex max-w-full min-w-0 items-center align-middle"
+  class:gap-2={size !== ThumbSize.XS}
+  class:gap-1.5={size === ThumbSize.XS}
+>
   {#if url}
-    <ExternalLink
-      {url}
-      text={name}
-      mark={inSentence ? LinkMark.NONE : LinkMark.END}
-      look={inSentence ? LinkLook.SENTENCE : LinkLook.ALWAYS}
-      size={LinkSize.MD}
-    />
+    <LinkPair>
+      <LinkTwin target={{ url }} live={false}>{@render thumb()}</LinkTwin>
+      <TextLink
+        text={name}
+        target={{ url, mark: inSentence ? LinkMark.NONE : LinkMark.END }}
+        size={LinkSize.MD}
+      />
+    </LinkPair>
   {:else}
+    {@render thumb()}
     <span class="truncate">{name}</span>
   {/if}
 </span>

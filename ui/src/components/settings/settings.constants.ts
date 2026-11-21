@@ -3,6 +3,11 @@ import { t } from "../../lib/i18n/i18n.svelte";
 
 export const PASSWORD_MIN_LENGTH = 4;
 
+// ! The server's environment variables, as `miner-server/src/env.rs` reads them.
+export const PASSWORD_ENV = "MINER_PASSWORD";
+
+export const PUBLIC_URL_ENV = "MINER_PUBLIC_URL";
+
 export const FIELD_GRID_CLASSES = "grid gap-3 @md:grid-cols-2";
 
 // ! A day above 12 in every time zone: day/month and month/day never look alike.

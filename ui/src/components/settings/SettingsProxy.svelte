@@ -13,6 +13,8 @@
   import SecretInput from "../ui/SecretInput.svelte";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import { IconName } from "../../lib/icons.constants";
+  import { PROXY_EXAMPLE } from "../account/account.constants";
+  import { proxyHint } from "./settings.utils";
 
   type SettingsProxyPropsType = {
     draft: GlobalSettingsType;
@@ -45,7 +47,7 @@
     class="font-mono"
     autocomplete="off"
     bind:value={draft.default_proxy}
-    placeholder="socks5://user:pass@host:1080"
+    placeholder={PROXY_EXAMPLE}
   />
 {/snippet}
 
@@ -65,7 +67,7 @@
 {/snippet}
 
 <Panel title={t.settings_proxy()}>
-  <FormField id="default-proxy" label={t.settings_default_proxy()} hint={t.settings_proxy_hint()}>
+  <FormField id="default-proxy" label={t.settings_default_proxy()} hint={proxyHint()}>
     <FieldActions field={input} actions={test} />
   </FormField>
 </Panel>

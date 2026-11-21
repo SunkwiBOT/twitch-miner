@@ -1,8 +1,4 @@
 <script lang="ts">
-  import CircleCheckIcon from "@lucide/svelte/icons/circle-check";
-  import InfoIcon from "@lucide/svelte/icons/info";
-  import OctagonXIcon from "@lucide/svelte/icons/octagon-x";
-
   import TextButton from "../ui/TextButton.svelte";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { ToastKind } from "../../lib/state/state.constants";
@@ -10,6 +6,7 @@
   import Avatar from "../ui/Avatar.svelte";
   import ChannelAvatar from "../ui/ChannelAvatar.svelte";
   import RichText from "../ui/RichText.svelte";
+  import Icon from "../ui/Icon.svelte";
   import IconButton from "../ui/IconButton.svelte";
   import { AvatarSize } from "../ui/picture.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
@@ -27,11 +24,11 @@
   {:else if account}
     <Avatar url={account.url} name={account.name} size={AvatarSize.SM} />
   {:else if kind === ToastKind.ERROR}
-    <OctagonXIcon class="mt-0.5 size-4 shrink-0 text-destructive" />
+    <Icon name={IconName.OCTAGON_X} size={16} class="mt-0.5 shrink-0 text-destructive" />
   {:else if kind === ToastKind.SUCCESS}
-    <CircleCheckIcon class="mt-0.5 size-4 shrink-0 text-success-emphasis" />
+    <Icon name={IconName.CIRCLE_CHECK} size={16} class="mt-0.5 shrink-0 text-success-emphasis" />
   {:else}
-    <InfoIcon class="mt-0.5 size-4 shrink-0 text-info-emphasis" />
+    <Icon name={IconName.INFO} size={16} class="mt-0.5 shrink-0 text-info-emphasis" />
   {/if}
   <div class="flex min-w-0 flex-1 flex-col gap-2">
     <p class="m-0 flex flex-col leading-snug break-words">

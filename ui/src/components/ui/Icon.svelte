@@ -1,36 +1,31 @@
 <script lang="ts">
-  import { FILLED_ICON_VIEWBOXES, ICON_PATHS } from "./icons.constants";
+  import { FILLED_ICONS, ICONS } from "./icons.constants";
   import type { IconName } from "../../lib/icons.constants";
 
   type IconPropsType = { name: IconName; size: number; class?: string };
 
   let { name, size, class: className }: IconPropsType = $props();
+
+  const icon = $derived(ICONS[name]);
 </script>
 
-{#if FILLED_ICON_VIEWBOXES.has(name)}
+{#if "path" in icon}
   <svg
     class={className}
     width={size}
     height={size}
-    viewBox={FILLED_ICON_VIEWBOXES.get(name)}
+    viewBox={icon.viewBox}
     fill="currentColor"
     aria-hidden="true"
   >
-    <path d={ICON_PATHS[name]} fill-rule="evenodd" />
+    <path d={icon.path} fill-rule="evenodd" />
   </svg>
 {:else}
-  <svg
+  {@const Lucide = icon}
+  <Lucide
     class={className}
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
+    {size}
+    fill={FILLED_ICONS.has(name) ? "currentColor" : "none"}
     aria-hidden="true"
-  >
-    <path d={ICON_PATHS[name]} />
-  </svg>
+  />
 {/if}

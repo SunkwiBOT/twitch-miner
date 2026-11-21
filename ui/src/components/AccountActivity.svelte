@@ -18,7 +18,6 @@
   import ChannelAvatar from "./ui/ChannelAvatar.svelte";
   import { AccountStatus } from "../lib/bindings/AccountStatus";
   import type { AccountSnapshotType } from "../lib/bindings/AccountSnapshotType";
-  import type { CampaignType } from "../lib/bindings/CampaignType";
   import { campaignOf } from "../lib/catalogue/catalogue.svelte";
   import { gameArt, gameUrl } from "../lib/catalogue/games.utils";
   import { Mode } from "../lib/bindings/Mode";
@@ -31,13 +30,14 @@
   import { strong } from "../lib/text.utils";
   import { PAGE_ICONS, Page } from "../lib/state/state.constants";
   import { navigate } from "../lib/state/router";
+  import { openCampaignSheet } from "../lib/state/sheets";
   import { ticker } from "../lib/state/ticker.svelte";
   import { formatClock, relativeTime } from "../lib/time/time.utils";
   import TextButton from "./ui/TextButton.svelte";
-  import CampaignDialog from "./catalogue/CampaignDialog.svelte";
   import RichText from "./ui/RichText.svelte";
-  import ExternalLink from "./ui/ExternalLink.svelte";
+  import TextLink from "./ui/TextLink.svelte";
   import GameName from "./ui/GameName.svelte";
+  import LinkPair from "./ui/LinkPair.svelte";
   import LinkTwin from "./ui/LinkTwin.svelte";
   import Icon from "./ui/Icon.svelte";
   import PointsBalance from "./ui/PointsBalance.svelte";
@@ -50,14 +50,12 @@
   import { BalanceAlign } from "./ui/ui.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "./ui/button.constants";
   import { IconName } from "../lib/icons.constants";
-  import { LinkLook, LinkMark, LinkSize } from "./ui/link.constants";
+  import { LinkMark, LinkSize } from "./ui/link.constants";
   import type { SlotViewType } from "../lib/bindings/SlotViewType";
 
   type AccountActivityPropsType = { account: AccountSnapshotType };
 
   let { account }: AccountActivityPropsType = $props();
-
-  let open = $state<CampaignType | null>(null);
 
   const capacity = $derived(Math.max(1, Math.min(SLOTS_MAX, account.settings.slots)));
 
@@ -97,24 +95,24 @@
 {#snippet streamer(slot: SlotViewType)}
   <!-- ! Capped by the row's width, not a fixed size: the name gets its full width whenever the row has room. -->
   <span class="flex max-w-[45cqi] shrink-0 flex-col items-end gap-1.5 text-right">
-    <LinkTwin url={channelUrl(slot.channel.login)} live={slot.channel.live}>
-      <ChannelAvatar
-        url={slot.channel.avatar_url}
-        name={slot.channel.display_name}
-        size={AvatarSize.LG}
-        live={slot.channel.live}
-      />
-    </LinkTwin>
-    <span class="flex max-w-full flex-col items-end gap-0.5">
-      <ExternalLink
-        url={channelUrl(slot.channel.login)}
-        text={slot.channel.display_name}
-        mark={LinkMark.START}
-        look={LinkLook.ALWAYS}
-        size={LinkSize.MD}
-      />
-      {#if slot.channel.viewers !== undefined}<ViewerCount count={slot.channel.viewers} />{/if}
-    </span>
+    <LinkPair>
+      <LinkTwin target={{ url: channelUrl(slot.channel.login) }} live={slot.channel.live}>
+        <ChannelAvatar
+          url={slot.channel.avatar_url}
+          name={slot.channel.display_name}
+          size={AvatarSize.LG}
+          live={slot.channel.live}
+        />
+      </LinkTwin>
+      <span class="flex max-w-full flex-col items-end gap-0.5">
+        <TextLink
+          text={slot.channel.display_name}
+          target={{ url: channelUrl(slot.channel.login), mark: LinkMark.START }}
+          size={LinkSize.MD}
+        />
+        {#if slot.channel.viewers !== undefined}<ViewerCount count={slot.channel.viewers} />{/if}
+      </span>
+    </LinkPair>
   </span>
 {/snippet}
 
@@ -138,11 +136,8 @@
         fallback={IconName.GIFT}
       />
     {/snippet}
-    {#snippet heading()}
-      <span class="truncate font-semibold">{c ? campaignHeading(c) : progress.game}</span>
-      {#if !c || campaignSubtitle(c)}<span
-          class="truncate text-hint text-muted-foreground group-hover:text-link group-has-[[data-game-twin]:hover]/game:text-link"
-        >
+    {#snippet subtitle()}
+      {#if !c || campaignSubtitle(c)}<span class="truncate text-hint text-muted-foreground">
           {progress.campaign_name}
         </span>{/if}
     {/snippet}
@@ -170,38 +165,35 @@
       </div>
     {/snippet}
     <div
-      class="group/game @container grid grid-cols-[auto_minmax(0,1fr)_auto] items-start gap-x-3.5 gap-y-1.5 border-b px-5 py-4 last:border-b-0"
+      class="@container grid grid-cols-[auto_minmax(0,1fr)_auto] items-start gap-x-3.5 gap-y-1.5 border-b px-5 py-4 last:border-b-0"
     >
       {#if c}
         {@const known = c}
-        <button
-          class="shrink-0 rounded-md"
-          type="button"
-          aria-label={progress.campaign_name}
-          data-game-twin
-          onclick={() => (open = known)}
-        >
-          {@render art()}
-        </button>
+        {@const openSheet = () => openCampaignSheet(known, account.id)}
+        <LinkPair>
+          <LinkTwin target={{ open: openSheet }} live={false}>{@render art()}</LinkTwin>
+          <div class="flex min-w-0 flex-col gap-1.5">
+            <span class="flex"><MiningBadge kind={slot.miner} /></span>
+            <span class="flex min-w-0 flex-col">
+              <TextLink
+                text={campaignHeading(known)}
+                target={{ open: openSheet }}
+                size={LinkSize.MD}
+              />
+              {@render subtitle()}
+            </span>
+          </div>
+        </LinkPair>
       {:else}
         <span class="shrink-0">{@render art()}</span>
+        <div class="flex min-w-0 flex-col gap-1.5">
+          <span class="flex"><MiningBadge kind={slot.miner} /></span>
+          <span class="flex min-w-0 flex-col">
+            <span class="truncate font-semibold">{progress.game}</span>
+            {@render subtitle()}
+          </span>
+        </div>
       {/if}
-      <div class="flex min-w-0 flex-col gap-1.5">
-        <span class="flex"><MiningBadge kind={slot.miner} /></span>
-        {#if c}
-          {@const known = c}
-          <!-- ! Hovering the box art beside lights this up too: both open the campaign. -->
-          <button
-            class="group flex min-w-0 flex-col text-left transition-colors group-has-[[data-game-twin]:hover]/game:text-link hover:text-link"
-            type="button"
-            onclick={() => (open = known)}
-          >
-            {@render heading()}
-          </button>
-        {:else}
-          <span class="flex min-w-0 flex-col">{@render heading()}</span>
-        {/if}
-      </div>
       {@render streamer(slot)}
       <div class="col-span-3 flex min-w-0 flex-col gap-1.5">
         {@render watched(slot)}
@@ -210,7 +202,7 @@
           <button
             class="flex items-center gap-2.5 rounded-lg border bg-muted/50 p-2 text-left transition-colors hover:bg-accent"
             type="button"
-            onclick={() => (open = known)}
+            onclick={() => openCampaignSheet(known, account.id)}
           >
             {@render reward()}
           </button>
@@ -225,34 +217,38 @@
     <div
       class="grid grid-cols-[auto_minmax(0,1fr)_auto] items-start gap-x-3.5 gap-y-1.5 border-b px-5 py-4 last:border-b-0"
     >
-      <LinkTwin url={channelUrl(slot.channel.login)} live={slot.channel.live}>
-        <ChannelAvatar
-          url={slot.channel.avatar_url}
-          name={slot.channel.display_name}
-          size={AvatarSize.LG}
-          live={slot.channel.live}
-        />
-      </LinkTwin>
-      <div class="flex min-w-0 flex-col gap-1">
-        {@render points(slot.purpose.kind === SlotPurposeKind.POINTS ? slot.purpose.reason : null)}
-        <ExternalLink
-          url={channelUrl(slot.channel.login)}
-          text={slot.channel.display_name}
-          mark={LinkMark.END}
-          look={LinkLook.ALWAYS}
-          size={LinkSize.MD}
-        />
-        <span class="flex min-w-0 items-center gap-2 text-hint text-muted-foreground">
-          {#if slot.channel.game}<GameName
-              name={slot.channel.game.name}
-              url={gameUrl(slot.channel.game.name, slot.channel.game.slug)}
-              art={gameArt(slot.channel.game.name, slot.channel.game.box_art_url)}
-              size={ThumbSize.XS}
-              inSentence={false}
-            />{/if}
-          {#if slot.channel.viewers !== undefined}<ViewerCount count={slot.channel.viewers} />{/if}
-        </span>
-      </div>
+      <LinkPair>
+        <LinkTwin target={{ url: channelUrl(slot.channel.login) }} live={slot.channel.live}>
+          <ChannelAvatar
+            url={slot.channel.avatar_url}
+            name={slot.channel.display_name}
+            size={AvatarSize.LG}
+            live={slot.channel.live}
+          />
+        </LinkTwin>
+        <div class="flex min-w-0 flex-col gap-1">
+          {@render points(
+            slot.purpose.kind === SlotPurposeKind.POINTS ? slot.purpose.reason : null,
+          )}
+          <TextLink
+            text={slot.channel.display_name}
+            target={{ url: channelUrl(slot.channel.login), mark: LinkMark.END }}
+            size={LinkSize.MD}
+          />
+          <span class="flex min-w-0 items-center gap-2 text-hint text-muted-foreground">
+            {#if slot.channel.game}<GameName
+                name={slot.channel.game.name}
+                url={gameUrl(slot.channel.game.name, slot.channel.game.slug)}
+                art={gameArt(slot.channel.game.name, slot.channel.game.box_art_url)}
+                size={ThumbSize.XS}
+                inSentence={false}
+              />{/if}
+            {#if slot.channel.viewers !== undefined}<ViewerCount
+                count={slot.channel.viewers}
+              />{/if}
+          </span>
+        </div>
+      </LinkPair>
       {#if slot.points}
         <PointsBalance
           balance={slot.points.balance}
@@ -310,5 +306,3 @@
     />
   {/if}
 </div>
-
-<CampaignDialog campaign={open} contextAccountId={account.id} onclose={() => (open = null)} />

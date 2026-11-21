@@ -2,8 +2,6 @@
   import { BADGE_FILTER_SLUGS, BadgeFilter } from "../../lib/badges/badges.constants";
   import { badgeList } from "../../lib/badges/badges.svelte";
   import { badgeKey, badgeTimelineRows, visibleBadges } from "../../lib/badges/badges.utils";
-  import type { CampaignType } from "../../lib/bindings/CampaignType";
-  import type { GlobalBadgeType } from "../../lib/bindings/GlobalBadgeType";
   import type { SnapshotType } from "../../lib/bindings/SnapshotType";
   import {
     TIMELINE_VIEW_SLUGS,
@@ -18,6 +16,7 @@
   import { DROPS_API_NAME, DROPS_WEB_URL } from "../../lib/partners.constants";
   import { normalizeSearch } from "../../lib/search/search.utils";
   import { openTab, showTab } from "../../lib/state/router";
+  import { openBadgeSheet } from "../../lib/state/sheets";
   import { refreshBadges } from "../../lib/state/session";
   import { ticker } from "../../lib/state/ticker.svelte";
   import { linkMarker, strong } from "../../lib/text.utils";
@@ -25,8 +24,6 @@
   import { secondClock } from "../../lib/time/clock.svelte";
   import { relativeTime } from "../../lib/time/time.utils";
   import BadgeCard from "../badges/BadgeCard.svelte";
-  import BadgeDialog from "../badges/BadgeDialog.svelte";
-  import CampaignDialog from "../catalogue/CampaignDialog.svelte";
   import Timeline from "../catalogue/Timeline.svelte";
   import { viewOptions, zoomOptions } from "../catalogue/catalogue.utils";
   import EmptyState from "../ui/EmptyState.svelte";
@@ -36,7 +33,9 @@
   import RichText from "../ui/RichText.svelte";
   import SearchField from "../ui/SearchField.svelte";
   import Segmented from "../ui/Segmented.svelte";
+  import TextLink from "../ui/TextLink.svelte";
   import { IconName } from "../../lib/icons.constants";
+  import { LinkSize } from "../ui/link.constants";
 
   type BadgesPropsType = { snapshot: SnapshotType };
 
@@ -47,8 +46,6 @@
     openTab(Object.values(BadgeFilter), BADGE_FILTER_SLUGS, BadgeFilter.WATCH),
   );
   const zoom = $derived(openTab(TIMELINE_ZOOMS, TIMELINE_ZOOM_SLUGS, TimelineZoom.TWO_WEEKS));
-  let open = $state<GlobalBadgeType | null>(null);
-  let campaign = $state<CampaignType | null>(null);
 
   const view = $derived(
     openTab(Object.values(TimelineView), TIMELINE_VIEW_SLUGS, TimelineView.TIMELINE),
@@ -162,13 +159,11 @@
     {#if offCalendar > 0}
       <p class="text-hint text-muted-foreground">
         {t.badges_off_calendar({ count: offCalendar })}
-        <button
-          class="font-semibold text-foreground underline decoration-link underline-offset-3 transition-colors hover:text-link focus-visible:text-link"
-          type="button"
-          onclick={() => showTab(TIMELINE_VIEW_SLUGS, TimelineView.CARDS)}
-        >
-          {t.badges_show_cards()}
-        </button>
+        <TextLink
+          text={t.badges_show_cards()}
+          target={{ open: () => showTab(TIMELINE_VIEW_SLUGS, TimelineView.CARDS) }}
+          size={LinkSize.MD}
+        />
       </p>
     {/if}
     {#if rows.length > 0}
@@ -177,7 +172,7 @@
         now={ticker.now}
         {zoom}
         moreLabel={t.badges_show_all_rows({ count: rows.length })}
-        onopen={(badge) => (open = badge)}
+        onopen={(badge) => openBadgeSheet(badge, null)}
       />
     {/if}
   {:else}
@@ -187,21 +182,9 @@
           {badge}
           now={ticker.now}
           evolvesFrom={titles.get(badge.requirement?.evolves_from ?? "") ?? null}
-          onopen={() => (open = badge)}
+          onopen={() => openBadgeSheet(badge, null)}
         />
       {/each}
     </div>
   {/if}
 </PageBody>
-
-<BadgeDialog
-  badge={open}
-  badges={badgeList.badges}
-  contextAccountId={null}
-  onopencampaign={(next) => {
-    open = null;
-    campaign = next;
-  }}
-  onclose={() => (open = null)}
-/>
-<CampaignDialog {campaign} contextAccountId={null} onclose={() => (campaign = null)} />

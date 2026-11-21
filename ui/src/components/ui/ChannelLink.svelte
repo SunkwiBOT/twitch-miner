@@ -1,9 +1,9 @@
 <script lang="ts">
   import { channelUrl } from "../../lib/links/twitch.utils";
   import ChannelAvatar from "./ChannelAvatar.svelte";
-  import ExternalLink from "./ExternalLink.svelte";
+  import TextLink from "./TextLink.svelte";
   import { AvatarSize } from "./picture.constants";
-  import { LinkLook, LinkMark, LinkSize } from "./link.constants";
+  import { LinkMark, LinkSize } from "./link.constants";
 
   type ChannelLinkPropsType = { login: string; name: string; avatar: string | undefined };
 
@@ -14,11 +14,9 @@
   <ChannelAvatar url={avatar} {name} size={AvatarSize.XS} live={false} />
 {/snippet}
 
-<ExternalLink
-  url={channelUrl(login)}
+<TextLink
   text={name}
-  mark={LinkMark.NONE}
-  look={LinkLook.SENTENCE}
+  target={{ url: channelUrl(login), mark: LinkMark.END }}
   size={LinkSize.MD}
   lead={photo}
 />

@@ -12,17 +12,18 @@
   import { relativeTime } from "../../../lib/time/time.utils";
   import Badge from "../../ui/Badge.svelte";
   import ChannelAvatar from "../../ui/ChannelAvatar.svelte";
-  import ExternalLink from "../../ui/ExternalLink.svelte";
+  import LinkPair from "../../ui/LinkPair.svelte";
   import LinkTwin from "../../ui/LinkTwin.svelte";
   import PointsBalance from "../../ui/PointsBalance.svelte";
   import RichText from "../../ui/RichText.svelte";
+  import TextLink from "../../ui/TextLink.svelte";
   import GameName from "../../ui/GameName.svelte";
   import ViewerCount from "../../ui/ViewerCount.svelte";
   import { AvatarSize, ThumbSize } from "../../ui/picture.constants";
   import { BadgeTone } from "../../../lib/tones.constants";
   import { BalanceAlign } from "../../ui/ui.constants";
   import { IconName } from "../../../lib/icons.constants";
-  import { LinkLook, LinkMark, LinkSize } from "../../ui/link.constants";
+  import { LinkMark, LinkSize } from "../../ui/link.constants";
 
   type StreamerRowPropsType = {
     streamer: StreamerSettingsType;
@@ -55,57 +56,57 @@
 <div
   class={["flex min-w-0 flex-1 items-center gap-3 transition", !streamer.enabled && "grayscale"]}
 >
-  <span class={["inline-flex transition", !streamer.enabled && "opacity-50"]}>
-    <LinkTwin url={channelUrl(streamer.login)} live={isLive(streamer.login)}>
-      <ChannelAvatar
-        url={channel?.avatar_url}
-        name={channel?.display_name ?? streamer.login}
-        size={AvatarSize.MD}
-        live={isLive(streamer.login)}
-      />
-    </LinkTwin>
-  </span>
-  <div class="flex min-w-0 flex-1 flex-col gap-0.5">
-    <span class="flex min-w-0 flex-wrap items-center gap-1.5">
-      <ExternalLink
-        url={channelUrl(streamer.login)}
-        text={channel?.display_name ?? streamer.login}
-        mark={LinkMark.END}
-        look={LinkLook.ALWAYS}
-        size={LinkSize.MD}
-      />
-      {#if view?.watching}<Badge
-          text={t.streamer_watching()}
-          tone={BadgeTone.SUCCESS}
-          dot={true}
-          hint={t.badge_hint_watching()}
-        />{/if}
-      {#if view?.streak_at_risk}<Badge
-          text={t.streamer_streak_risk()}
-          tone={BadgeTone.WARNING}
-          dot={false}
-          hint={t.badge_hint_streak_risk()}
-          icon={IconName.WATCH_STREAK}
-        />{/if}
+  <LinkPair>
+    <span class={["inline-flex transition", !streamer.enabled && "opacity-50"]}>
+      <LinkTwin target={{ url: channelUrl(streamer.login) }} live={isLive(streamer.login)}>
+        <ChannelAvatar
+          url={channel?.avatar_url}
+          name={channel?.display_name ?? streamer.login}
+          size={AvatarSize.MD}
+          live={isLive(streamer.login)}
+        />
+      </LinkTwin>
     </span>
-    <span
-      class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-muted-foreground"
-    >
-      {#if channel?.live}
-        {#if channel.game}<GameName
-            name={channel.game.name}
-            url={gameUrl(channel.game.name, channel.game.slug)}
-            art={gameArt(channel.game.name, channel.game.box_art_url)}
-            size={ThumbSize.XS}
-            inSentence={false}
+    <div class="flex min-w-0 flex-1 flex-col gap-0.5">
+      <span class="flex min-w-0 flex-wrap items-center gap-1.5">
+        <TextLink
+          text={channel?.display_name ?? streamer.login}
+          target={{ url: channelUrl(streamer.login), mark: LinkMark.END }}
+          size={LinkSize.MD}
+        />
+        {#if view?.watching}<Badge
+            text={t.streamer_watching()}
+            tone={BadgeTone.SUCCESS}
+            dot={true}
+            hint={t.badge_hint_watching()}
           />{/if}
-        {#if channel.viewers !== undefined}<ViewerCount count={channel.viewers} />{/if}
-      {:else if !channel}
-        <span class="truncate">{t.points_offline_hint()}</span>
-      {/if}
-    </span>
-    <!-- ! On a phone the balance goes under the name: on the right it left the name a few letters. -->
-    {#if !wideLayout.current}{@render balance(BalanceAlign.START)}{/if}
-  </div>
-  {#if wideLayout.current}{@render balance(BalanceAlign.END)}{/if}
+        {#if view?.streak_at_risk}<Badge
+            text={t.streamer_streak_risk()}
+            tone={BadgeTone.WARNING}
+            dot={false}
+            hint={t.badge_hint_streak_risk()}
+            icon={IconName.WATCH_STREAK}
+          />{/if}
+      </span>
+      <span
+        class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-muted-foreground"
+      >
+        {#if channel?.live}
+          {#if channel.game}<GameName
+              name={channel.game.name}
+              url={gameUrl(channel.game.name, channel.game.slug)}
+              art={gameArt(channel.game.name, channel.game.box_art_url)}
+              size={ThumbSize.XS}
+              inSentence={false}
+            />{/if}
+          {#if channel.viewers !== undefined}<ViewerCount count={channel.viewers} />{/if}
+        {:else if !channel}
+          <span class="truncate">{t.points_offline_hint()}</span>
+        {/if}
+      </span>
+      <!-- ! On a phone the balance goes under the name: on the right it left the name a few letters. -->
+      {#if !wideLayout.current}{@render balance(BalanceAlign.START)}{/if}
+    </div>
+    {#if wideLayout.current}{@render balance(BalanceAlign.END)}{/if}
+  </LinkPair>
 </div>

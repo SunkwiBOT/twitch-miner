@@ -99,49 +99,31 @@ export enum BadgesList {
   EXCLUDE_NAMES = "exclude_names",
 }
 
-export enum DropsTab {
+export enum RewardsPageTab {
   ORDER = "ORDER",
   SETTINGS = "SETTINGS",
   EXCLUSIONS = "EXCLUSIONS",
+  CAMPAIGNS = "CAMPAIGNS",
 }
 
-export type DropsPageTabType = DropsTab | CampaignGroup;
-
-export const DROPS_PAGE_TABS: readonly DropsPageTabType[] = [
-  ...Object.values(DropsTab),
-  ...CAMPAIGN_GROUPS,
-];
-
-export const DROPS_TAB_SLUGS: Record<DropsPageTabType, string> = {
-  [DropsTab.ORDER]: "order",
-  [DropsTab.SETTINGS]: "settings",
-  [DropsTab.EXCLUSIONS]: "exclusions",
-  ...CAMPAIGN_GROUP_SLUGS,
+export const REWARDS_PAGE_TAB_SLUGS: Record<RewardsPageTab, string> = {
+  [RewardsPageTab.ORDER]: "order",
+  [RewardsPageTab.SETTINGS]: "settings",
+  [RewardsPageTab.EXCLUSIONS]: "exclusions",
+  [RewardsPageTab.CAMPAIGNS]: "campaigns",
 };
 
-export enum BadgesTab {
-  ORDER = "ORDER",
-  SETTINGS = "SETTINGS",
-  EXCLUSIONS = "EXCLUSIONS",
+export enum BadgesGroup {
   OWNED = "OWNED",
 }
 
-export type BadgesPageTabType = BadgesTab | CampaignGroup;
+export type BadgesGroupType = CampaignGroup | BadgesGroup;
 
-export const BADGES_PAGE_TABS: readonly BadgesPageTabType[] = [
-  BadgesTab.ORDER,
-  BadgesTab.SETTINGS,
-  BadgesTab.EXCLUSIONS,
-  ...CAMPAIGN_GROUPS,
-  BadgesTab.OWNED,
-];
+export const BADGES_GROUPS: readonly BadgesGroupType[] = [...CAMPAIGN_GROUPS, BadgesGroup.OWNED];
 
-export const BADGES_TAB_SLUGS: Record<BadgesPageTabType, string> = {
-  [BadgesTab.ORDER]: "order",
-  [BadgesTab.SETTINGS]: "settings",
-  [BadgesTab.EXCLUSIONS]: "exclusions",
-  [BadgesTab.OWNED]: "owned",
+export const BADGES_GROUP_SLUGS: Record<BadgesGroupType, string> = {
   ...CAMPAIGN_GROUP_SLUGS,
+  [BadgesGroup.OWNED]: "owned",
 };
 
 export enum InventoryTab {

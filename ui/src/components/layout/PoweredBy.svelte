@@ -6,7 +6,9 @@
   import { t } from "../../lib/i18n/i18n.svelte";
   import { PARTNERS, REPO_URL, ROTATION_FADE_MS, ROTATION_MS } from "../../lib/partners.constants";
   import Icon from "../ui/Icon.svelte";
+  import LinkText from "../ui/LinkText.svelte";
   import { IconName } from "../../lib/icons.constants";
+  import { LinkMark, LinkSize } from "../ui/link.constants";
 
   type EntryType = { url: string; label: string; name: string; mark?: string };
 
@@ -54,7 +56,7 @@
 
 <a
   class={cn(
-    "group flex items-center gap-2.5 rounded-md p-1.5 no-underline transition-opacity duration-300 hover:bg-sidebar-accent",
+    "group/link flex items-center gap-2.5 rounded-md p-1.5 transition-opacity duration-300 hover:bg-sidebar-accent",
     fading && "opacity-0",
   )}
   href={entry.url}
@@ -76,8 +78,8 @@
     <span class="text-tiny font-bold tracking-wider text-muted-foreground uppercase">
       {entry.label}
     </span>
-    <span class="truncate text-hint font-semibold text-foreground group-hover:text-link">
-      {entry.name}
+    <span class="flex min-w-0 items-center gap-1.5 text-hint">
+      <LinkText text={entry.name} mark={LinkMark.END} size={LinkSize.MD} fit={true} />
     </span>
   </span>
 </a>

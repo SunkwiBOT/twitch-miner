@@ -10,7 +10,8 @@ import { POINTS_EARNED_REASON_TEXT, reasonLabel } from "./event-reasons.utils";
 import { number } from "../format.utils";
 import { t } from "../i18n/i18n.svelte";
 import { channelUrl } from "../links/twitch.utils";
-import { account, app } from "../state/app.svelte";
+import { account } from "../state/app.svelte";
+import { openBadgeSheet, openCampaignSheet } from "../state/sheets";
 import { relativeTime } from "../time/time.utils";
 import { escapeEmphasis, linkMarker, strong, type TextLinkType } from "../text.utils";
 
@@ -37,9 +38,7 @@ const campaignSheet = (event: MinerEventType): LinkTargetType => {
   const campaign =
     id === undefined ? undefined : owner ? campaignOf(owner, id) : catalogueCampaign(id);
 
-  return campaign
-    ? { open: () => (app.campaignSheet = { item: campaign, accountId: owner?.id ?? null }) }
-    : null;
+  return campaign ? { open: () => openCampaignSheet(campaign, owner?.id ?? null) } : null;
 };
 
 const badgeSheet = (event: MinerEventType): LinkTargetType => {
@@ -47,7 +46,7 @@ const badgeSheet = (event: MinerEventType): LinkTargetType => {
   const badge = badgeList.badges.find((item) => badgeKey(item.set_id, item.version_id) === key);
   const accountId = account(event.account_id)?.id ?? null;
 
-  return badge ? { open: () => (app.badgeSheet = { item: badge, accountId }) } : null;
+  return badge ? { open: () => openBadgeSheet(badge, accountId) } : null;
 };
 
 export type EventTextType = { text: string; links: TextLinkType[] };

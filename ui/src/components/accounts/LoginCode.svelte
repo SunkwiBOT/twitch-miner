@@ -9,13 +9,13 @@
   import { Progress } from "$lib/components/ui/progress";
   import { cn } from "$lib/utils";
   import CopyButton from "../ui/CopyButton.svelte";
-  import ExternalLink from "../ui/ExternalLink.svelte";
+  import TextLink from "../ui/TextLink.svelte";
   import RichText from "../ui/RichText.svelte";
   import StatusDot from "../ui/StatusDot.svelte";
   import { BadgeTone } from "../../lib/tones.constants";
   import { ButtonSize } from "../ui/button.constants";
   import { CopyLayout } from "../ui/ui.constants";
-  import { LinkLook, LinkMark, LinkSize } from "../ui/link.constants";
+  import { LinkMark, LinkSize } from "../ui/link.constants";
   import { LOW_TIME_MS } from "./accounts.constants";
 
   type LoginCodePropsType = { flow: LoginFlowViewType };
@@ -47,11 +47,9 @@
       <span class="font-semibold">{t.login_step_open()}</span>
       <span class="text-hint text-muted-foreground">{t.login_step_open_hint()}</span>
       <span class="mt-1.5 flex min-w-0 items-center gap-1.5">
-        <ExternalLink
-          url={flow.verification_uri}
+        <TextLink
           text={shortLink}
-          mark={LinkMark.END}
-          look={LinkLook.ALWAYS}
+          target={{ url: flow.verification_uri, mark: LinkMark.END }}
           size={LinkSize.MD}
         />
         <CopyButton

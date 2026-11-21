@@ -1,8 +1,4 @@
 <script lang="ts" generics="T extends string">
-  import CheckIcon from "@lucide/svelte/icons/check";
-  import ChevronsUpDownIcon from "@lucide/svelte/icons/chevrons-up-down";
-  import MinusIcon from "@lucide/svelte/icons/minus";
-
   import { Button } from "$lib/components/ui/button";
   import {
     Command,
@@ -21,7 +17,7 @@
   import Icon from "./Icon.svelte";
   import { AvatarSize } from "./picture.constants";
   import { BUTTON_VARIANTS, ButtonVariant } from "./button.constants";
-  import type { IconName } from "../../lib/icons.constants";
+  import { IconName } from "../../lib/icons.constants";
   import {
     MENU_EDGE_GAP,
     MULTI_ALL_VALUE,
@@ -111,7 +107,12 @@
     )}
     aria-hidden="true"
   >
-    {#if on}<CheckIcon class="size-3" />{:else if some}<MinusIcon class="size-3" />{/if}
+    <!-- ! The `size-` class keeps the command item's own svg sizing off this smaller mark. -->
+    {#if on}<Icon name={IconName.CHECK} size={12} class="size-3" />{:else if some}<Icon
+        name={IconName.MINUS}
+        size={12}
+        class="size-3"
+      />{/if}
   </span>
 {/snippet}
 
@@ -157,7 +158,7 @@
           {/if}
           <span class="truncate">{summary}</span>
         </span>
-        <ChevronsUpDownIcon class="opacity-50" />
+        <Icon name={IconName.CHEVRONS_UP_DOWN} size={16} class="opacity-50" />
       </Button>
     {/snippet}
   </PopoverTrigger>

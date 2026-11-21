@@ -45,7 +45,7 @@ const queueState = (account: AccountSnapshotType, item: QueueItemType): Campaign
 };
 
 // ! A reward watched to the end waits for its claim until Twitch counts it as claimed.
-export const collectedState = (
+export const claimedState = (
   account: AccountSnapshotType,
   campaign: CampaignType,
 ): CampaignState => {
@@ -73,9 +73,7 @@ export const collectedState = (
     return CampaignState.DONE_SUB_REQUIRED;
   }
 
-  return linking && campaign.linked === true
-    ? CampaignState.COLLECTED_LINKED
-    : CampaignState.COLLECTED;
+  return linking && campaign.linked === true ? CampaignState.CLAIMED_LINKED : CampaignState.CLAIMED;
 };
 
 // ! The queue and `left_out` come from one plan: a campaign in neither appeared since, and waits for the next one.
@@ -86,7 +84,7 @@ export const accountCampaigns = (
   const groups: CampaignGroupsType = {
     [CampaignGroup.TO_MINE]: [],
     [CampaignGroup.BLOCKED]: [],
-    [CampaignGroup.COLLECTED]: [],
+    [CampaignGroup.CLAIMED]: [],
   };
   const byId = new Map(campaigns.map((campaign) => [campaign.id, campaign]));
   const reasons = new Map(account.left_out.map((item) => [item.campaign_id, item.reason]));
@@ -113,9 +111,7 @@ export const accountCampaigns = (
     }
 
     const state =
-      reason === LeftOutReason.FINISHED
-        ? collectedState(account, campaign)
-        : LEFT_OUT_STATES[reason];
+      reason === LeftOutReason.FINISHED ? claimedState(account, campaign) : LEFT_OUT_STATES[reason];
 
     groups[STATE_GROUPS[state]].push({ campaign, state, queued: null });
   }

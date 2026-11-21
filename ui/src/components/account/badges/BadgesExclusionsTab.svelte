@@ -8,8 +8,7 @@
   import type { AccountBadgesType } from "../../../lib/badges/badges.utils";
   import type { AccountSnapshotType } from "../../../lib/bindings/AccountSnapshotType";
   import type { CampaignType } from "../../../lib/bindings/CampaignType";
-  import { catalogue } from "../../../lib/catalogue/catalogue.svelte";
-  import { gameEntryKey } from "../../../lib/catalogue/games.utils";
+  import { catalogueGameTags, gameEntryKey } from "../../../lib/catalogue/games.utils";
   import { t } from "../../../lib/i18n/i18n.svelte";
   import { escapeEmphasis, strong } from "../../../lib/text.utils";
   import EmptyState from "../../ui/EmptyState.svelte";
@@ -34,7 +33,7 @@
 
   let { account, sections, onopen }: BadgesExclusionsTabPropsType = $props();
 
-  const games = $derived([...new Set(catalogue.campaigns.map((c) => c.game.name))].sort());
+  const games = $derived(catalogueGameTags());
 </script>
 
 <PanelColumns width={PanelWidth.LG}>

@@ -1,18 +1,18 @@
 <script lang="ts">
-  // ! Links come from code, never the text: every dynamic value goes through `strong` or `escapeEmphasis`.
+  // ! Links come from code, never the text: every dynamic value goes through `strong`, `code` or `escapeEmphasis`.
   import { channelUrl } from "../../lib/links/twitch.utils";
   import {
-    LINK_DELIMITER,
-    PERSON_DELIMITER,
-    RICH_TEXT_TOKENS,
+    parseRichText,
+    RichTextPartKind,
     type TextLinkType,
     type TextPersonType,
   } from "../../lib/text.utils";
   import Avatar from "./Avatar.svelte";
   import ChannelAvatar from "./ChannelAvatar.svelte";
-  import ExternalLink from "./ExternalLink.svelte";
+  import InlineCode from "./InlineCode.svelte";
+  import TextLink from "./TextLink.svelte";
   import { AvatarSize } from "./picture.constants";
-  import { LinkLook, LinkMark, LinkSize } from "./link.constants";
+  import { LinkMark, LinkSize } from "./link.constants";
 
   type RichTextPropsType = {
     text: string;
@@ -20,77 +20,40 @@
     people?: TextPersonType[];
   };
 
-  type PartType = {
-    text: string;
-    strong: boolean;
-    link: TextLinkType | null;
-    person: TextPersonType | null;
-  };
+  let { text, links = [], people = [] }: RichTextPropsType = $props();
 
-  let { text, links, people }: RichTextPropsType = $props();
-
-  const parts = $derived.by(() => {
-    const out: PartType[] = [];
-    let bold = false;
-
-    for (const token of text.split(RICH_TEXT_TOKENS)) {
-      if (token === "**") {
-        bold = !bold;
-      } else if (token.startsWith(LINK_DELIMITER)) {
-        const link = links?.[Number(token.slice(1, -1))];
-
-        if (link) {
-          out.push({ text: link.label, strong: bold, link, person: null });
-        }
-      } else if (token.startsWith(PERSON_DELIMITER)) {
-        const person = people?.[Number(token.slice(1, -1))];
-
-        if (person) {
-          out.push({ text: person.name, strong: true, link: null, person });
-        }
-      } else if (token) {
-        out.push({ text: token, strong: bold, link: null, person: null });
-      }
-    }
-
-    return out;
-  });
+  const parts = $derived(parseRichText(text, links, people));
 </script>
 
-{#each parts as part, index (index)}{#if part.person?.channel}<span class="whitespace-nowrap">
-      <span class="mr-1.5 inline-flex align-middle">
-        <ChannelAvatar
-          url={part.person.avatar}
-          name={part.person.name}
-          size={AvatarSize.SM}
-          live={false}
-        />
-      </span><ExternalLink
-        url={channelUrl(part.person.channel)}
-        text={part.text}
-        mark={LinkMark.NONE}
-        look={LinkLook.SENTENCE}
-        size={LinkSize.MD}
-      />
-    </span>{:else if part.person}<span class="inline-flex items-center gap-1 align-[-0.3em]">
+{#each parts as part, index (index)}{#if part.kind === RichTextPartKind.PERSON && part.person.channel}{@const channel =
+      part.person.channel}{@const person = part.person}<TextLink
+      text={person.name}
+      target={{ url: channelUrl(channel), mark: LinkMark.NONE }}
+      size={LinkSize.MD}
+    >
+      {#snippet lead()}
+        <ChannelAvatar url={person.avatar} name={person.name} size={AvatarSize.SM} live={false} />
+      {/snippet}
+    </TextLink>{:else if part.kind === RichTextPartKind.PERSON}<span
+      class="inline-flex items-center gap-1 align-[-0.3em]"
+    >
       <Avatar url={part.person.avatar} name={part.person.name} size={AvatarSize.XS} /><strong
         class="font-semibold in-[.text-muted-foreground]:text-foreground"
       >
-        {part.text}
+        {part.person.name}
       </strong>
-    </span>{:else if part.link && "url" in part.link}<ExternalLink
-      url={part.link.url}
-      text={part.text}
-      mark={LinkMark.NONE}
-      look={LinkLook.SENTENCE}
+    </span>{:else if part.kind === RichTextPartKind.LINK}<TextLink
+      text={part.link.label}
+      target={"url" in part.link
+        ? {
+            url: part.link.url,
+            mark: part.endsSentence ? LinkMark.SENTENCE_END : LinkMark.NONE,
+          }
+        : part.link}
       size={LinkSize.MD}
-    />{:else if part.link}<button
-      class="inline text-left font-semibold text-foreground underline decoration-link underline-offset-3 transition-colors hover:text-link focus-visible:text-link"
-      type="button"
-      onclick={part.link.open}
-    >
-      {part.text}
-    </button>{:else if part.strong}<strong
+    />{:else if part.kind === RichTextPartKind.CODE}<InlineCode
+      text={part.text}
+    />{:else if part.kind === RichTextPartKind.STRONG}<strong
       class="font-semibold in-[.text-muted-foreground]:text-foreground"
     >
       {part.text}

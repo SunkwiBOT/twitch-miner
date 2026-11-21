@@ -3,6 +3,7 @@ import type { SnapshotType } from "../bindings/SnapshotType";
 import { account, app } from "./app.svelte";
 import { parseRoute, routePath } from "./routes.utils";
 import { ACCOUNT_PAGES, HistoryMode, MouseButton, Page } from "./state.constants";
+import { closeSheets } from "./sheets";
 import { KEY_STORAGE_ACCOUNT, KEY_STORAGE_TABS } from "./storage.constants";
 import { recall, remember } from "./storage.utils";
 import { joinTabs, pickTab, readSavedTabs, tabParts, withTab } from "./tabs.utils";
@@ -70,6 +71,7 @@ const followAddress = (): void => {
   const route = parseRoute(location.pathname) ?? { page: Page.HOME, login: null };
 
   app.page = route.page;
+  closeSheets();
 
   if (route.login !== null) {
     const found = app.snapshot?.accounts.find((a) => a.login === route.login);
@@ -122,6 +124,7 @@ export const navigate = (page: Page, accountId?: string): void => {
 
   app.page = next;
   app.navDrawer = false;
+  closeSheets();
 
   if (accountId !== undefined) {
     app.selectedAccount = accountId;

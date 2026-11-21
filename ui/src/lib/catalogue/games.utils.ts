@@ -1,5 +1,6 @@
 import type { GameEntryType } from "../bindings/GameEntryType";
 import type { GameType } from "../bindings/GameType";
+import type { TagSuggestionType } from "../search/tag-suggestions.utils";
 import { app } from "../state/app.svelte";
 import { categoryUrl } from "./campaign.utils";
 import { catalogue } from "./catalogue.svelte";
@@ -10,6 +11,20 @@ export const gameEntryKey = (entry: GameEntryType): string => entry.id ?? entry.
 
 export const catalogueGame = (name: string): GameType | undefined =>
   catalogue.campaigns.find((c) => c.game.name.toLowerCase() === name.toLowerCase())?.game;
+
+export const catalogueGameTags = (): TagSuggestionType[] => {
+  const byName = new Map<string, TagSuggestionType>();
+
+  for (const { game } of catalogue.campaigns) {
+    byName.set(game.name.toLowerCase(), {
+      label: game.name,
+      id: game.id,
+      image: game.box_art_url,
+    });
+  }
+
+  return [...byName.values()].sort((a, b) => a.label.localeCompare(b.label));
+};
 
 // ! The image an account kept for a priority or excluded category from the
 // search it was added through, shared across every account so a category

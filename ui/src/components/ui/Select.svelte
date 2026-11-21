@@ -1,6 +1,4 @@
 <script lang="ts" generics="T extends string | number">
-  import ChevronsUpDownIcon from "@lucide/svelte/icons/chevrons-up-down";
-
   import { Button } from "$lib/components/ui/button";
   import {
     Command,
@@ -15,8 +13,10 @@
   import { overlay } from "../../lib/state/overlay.svelte";
   import Avatar from "./Avatar.svelte";
   import ChannelAvatar from "./ChannelAvatar.svelte";
+  import Icon from "./Icon.svelte";
   import { AvatarSize } from "./picture.constants";
   import { BUTTON_VARIANTS, ButtonVariant } from "./button.constants";
+  import { IconName } from "../../lib/icons.constants";
   import {
     MENU_EDGE_GAP,
     MENU_ITEM_CLASSES,
@@ -93,7 +93,7 @@
             <span class="truncate text-muted-foreground">{placeholder ?? ""}</span>
           {/if}
         </span>
-        <ChevronsUpDownIcon class="opacity-50" />
+        <Icon name={IconName.CHEVRONS_UP_DOWN} size={16} class="opacity-50" />
       </Button>
     {/snippet}
   </PopoverTrigger>

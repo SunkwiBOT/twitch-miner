@@ -9,8 +9,7 @@
   import type { IgnoredType } from "../../../lib/accounts/drops.utils";
   import type { AccountSnapshotType } from "../../../lib/bindings/AccountSnapshotType";
   import type { CampaignType } from "../../../lib/bindings/CampaignType";
-  import { catalogue } from "../../../lib/catalogue/catalogue.svelte";
-  import { gameEntryKey } from "../../../lib/catalogue/games.utils";
+  import { catalogueGameTags, gameEntryKey } from "../../../lib/catalogue/games.utils";
   import { BoxArtSize } from "../../../lib/format.constants";
   import { boxArt } from "../../../lib/format.utils";
   import { t } from "../../../lib/i18n/i18n.svelte";
@@ -37,7 +36,7 @@
   let { account, ignored, onopen }: DropsExclusionsTabPropsType = $props();
 
   const drops = $derived(account.settings.drops);
-  const games = $derived([...new Set(catalogue.campaigns.map((c) => c.game.name))].sort());
+  const games = $derived(catalogueGameTags());
 </script>
 
 <PanelColumns width={PanelWidth.LG}>

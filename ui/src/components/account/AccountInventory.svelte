@@ -9,11 +9,11 @@
   import { t } from "../../lib/i18n/i18n.svelte";
   import { InventoryTab, INVENTORY_TAB_SLUGS } from "../../lib/accounts/accounts.constants";
   import { openTab, showTab } from "../../lib/state/router";
+  import { openCampaignSheet } from "../../lib/state/sheets";
   import { run } from "../../lib/state/session";
   import { ToastKind } from "../../lib/state/state.constants";
   import { toast } from "../../lib/state/toasts";
   import { strong } from "../../lib/text.utils";
-  import CampaignDialog from "../catalogue/CampaignDialog.svelte";
   import Notice from "../ui/Notice.svelte";
   import PageBody from "../ui/PageBody.svelte";
   import PageHeader from "../ui/PageHeader.svelte";
@@ -99,11 +99,7 @@
     }
   };
 
-  let open = $state<CampaignType | null>(null);
-
-  const openCampaign = (campaign: CampaignType): void => {
-    open = campaign;
-  };
+  const openCampaign = (campaign: CampaignType): void => openCampaignSheet(campaign, account.id);
 
   const inProgress = $derived(
     campaignsOf(account)
@@ -183,5 +179,3 @@
   {/if}
   <AccountSaveBar {account} />
 </PageBody>
-
-<CampaignDialog campaign={open} contextAccountId={account.id} onclose={() => (open = null)} />

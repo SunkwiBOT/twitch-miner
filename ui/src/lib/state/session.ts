@@ -33,6 +33,7 @@ import { app } from "./app.svelte";
 import { overlay } from "./overlay.svelte";
 import { keepPendingPreferences, preferencesPending, showPreferences } from "./preferences.svelte";
 import { followSnapshotAccounts, startRouting } from "./router";
+import { closeSheets } from "./sheets";
 import { LIVE_EVENTS_MAX, RELOAD_WAIT_MS, ToastKind } from "./state.constants";
 import { accountImage, dismissToasts, toast } from "./toasts";
 
@@ -116,8 +117,7 @@ export const sessionEnded = (): void => {
   app.statsCurveTarget = null;
   app.loginDialog = false;
   app.feedbackDialog = false;
-  app.campaignSheet = null;
-  app.badgeSheet = null;
+  closeSheets();
   app.navDrawer = false;
   dismissToasts();
 };

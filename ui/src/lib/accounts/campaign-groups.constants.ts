@@ -4,19 +4,19 @@ import { LeftOutReason } from "../bindings/LeftOutReason";
 export enum CampaignGroup {
   TO_MINE = "TO_MINE",
   BLOCKED = "BLOCKED",
-  COLLECTED = "COLLECTED",
+  CLAIMED = "CLAIMED",
 }
 
 export const CAMPAIGN_GROUPS: readonly CampaignGroup[] = [
   CampaignGroup.TO_MINE,
   CampaignGroup.BLOCKED,
-  CampaignGroup.COLLECTED,
+  CampaignGroup.CLAIMED,
 ];
 
 export const CAMPAIGN_GROUP_SLUGS: Record<CampaignGroup, string> = {
   [CampaignGroup.TO_MINE]: "to-mine",
   [CampaignGroup.BLOCKED]: "blocked",
-  [CampaignGroup.COLLECTED]: "collected",
+  [CampaignGroup.CLAIMED]: "claimed",
 };
 
 export enum CampaignState {
@@ -24,8 +24,8 @@ export enum CampaignState {
   QUEUED = "QUEUED",
   NO_LIVE_CHANNEL = "NO_LIVE_CHANNEL",
   SET_ASIDE = "SET_ASIDE",
-  COLLECTED_LINKED = "COLLECTED_LINKED",
-  COLLECTED = "COLLECTED",
+  CLAIMED_LINKED = "CLAIMED_LINKED",
+  CLAIMED = "CLAIMED",
   DONE = "DONE",
   DONE_NOT_LINKED = "DONE_NOT_LINKED",
   DONE_SUB_REQUIRED = "DONE_SUB_REQUIRED",
@@ -50,13 +50,13 @@ export const STATE_GROUPS: Record<CampaignState, CampaignGroup> = {
   [CampaignState.QUEUED]: CampaignGroup.TO_MINE,
   [CampaignState.NO_LIVE_CHANNEL]: CampaignGroup.TO_MINE,
   [CampaignState.SET_ASIDE]: CampaignGroup.TO_MINE,
-  [CampaignState.COLLECTED_LINKED]: CampaignGroup.COLLECTED,
-  [CampaignState.COLLECTED]: CampaignGroup.COLLECTED,
-  [CampaignState.DONE]: CampaignGroup.COLLECTED,
-  [CampaignState.DONE_NOT_LINKED]: CampaignGroup.COLLECTED,
-  [CampaignState.DONE_SUB_REQUIRED]: CampaignGroup.COLLECTED,
-  [CampaignState.CLAIM_FAILED]: CampaignGroup.COLLECTED,
-  [CampaignState.OWNED]: CampaignGroup.COLLECTED,
+  [CampaignState.CLAIMED_LINKED]: CampaignGroup.CLAIMED,
+  [CampaignState.CLAIMED]: CampaignGroup.CLAIMED,
+  [CampaignState.DONE]: CampaignGroup.CLAIMED,
+  [CampaignState.DONE_NOT_LINKED]: CampaignGroup.CLAIMED,
+  [CampaignState.DONE_SUB_REQUIRED]: CampaignGroup.CLAIMED,
+  [CampaignState.CLAIM_FAILED]: CampaignGroup.CLAIMED,
+  [CampaignState.OWNED]: CampaignGroup.CLAIMED,
   [CampaignState.IGNORED]: CampaignGroup.BLOCKED,
   [CampaignState.FILTERED]: CampaignGroup.BLOCKED,
   [CampaignState.EVOLUTIONS_OFF]: CampaignGroup.BLOCKED,

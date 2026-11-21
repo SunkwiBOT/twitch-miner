@@ -12,7 +12,7 @@
   import { AUTO_LOCK_MINUTES } from "../../lib/state/state.constants";
   import { app } from "../../lib/state/app.svelte";
   import { run } from "../../lib/state/session";
-  import { strong } from "../../lib/text.utils";
+  import { code, strong } from "../../lib/text.utils";
   import TextButton from "../ui/TextButton.svelte";
   import ActionButton from "../ui/ActionButton.svelte";
   import Badge from "../ui/Badge.svelte";
@@ -26,7 +26,12 @@
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import { IconName } from "../../lib/icons.constants";
   import { MenuAlign } from "../ui/menu.constants";
-  import { FIELD_GRID_CLASSES, PASSWORD_MIN_LENGTH } from "./settings.constants";
+  import {
+    FIELD_GRID_CLASSES,
+    PASSWORD_ENV,
+    PASSWORD_MIN_LENGTH,
+    PUBLIC_URL_ENV,
+  } from "./settings.constants";
 
   type SettingsSecurityPropsType = { snapshot: SnapshotType; draft: GlobalSettingsType };
 
@@ -250,7 +255,10 @@
       {/if}
     </Panel>
   {:else}
-    <Panel title={t.auth_title()} description={t.settings_dashboard_password_hint()}>
+    <Panel
+      title={t.auth_title()}
+      description={t.settings_dashboard_password_hint({ variable: code(PASSWORD_ENV) })}
+    >
       {#snippet actions()}
         <Badge text={t.security_on()} tone={BadgeTone.SUCCESS} dot={false} icon={IconName.LOCK} />
       {/snippet}
@@ -259,7 +267,7 @@
         <RichText
           text={app.auth.public
             ? t.security_access_public({ host: strong(location.host) })
-            : t.security_access_local()}
+            : t.security_access_local({ variable: code(PUBLIC_URL_ENV) })}
         />
       </p>
       <FormField

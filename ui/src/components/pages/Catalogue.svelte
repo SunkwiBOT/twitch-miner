@@ -1,10 +1,10 @@
 <script lang="ts">
-  import type { CampaignType } from "../../lib/bindings/CampaignType";
   import type { SnapshotType } from "../../lib/bindings/SnapshotType";
   import { describeCode } from "../../lib/errors/errors.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { DROPS_API_NAME, DROPS_WEB_URL } from "../../lib/partners.constants";
   import { openTab, showTab } from "../../lib/state/router";
+  import { openCampaignSheet } from "../../lib/state/sheets";
   import { ticker } from "../../lib/state/ticker.svelte";
   import { campaignMatches } from "../../lib/catalogue/campaign.utils";
   import { runningCampaigns } from "../../lib/catalogue/timeline.utils";
@@ -12,7 +12,6 @@
   import { linkMarker, strong } from "../../lib/text.utils";
   import { relativeTime } from "../../lib/time/time.utils";
   import CampaignBrowser from "../catalogue/CampaignBrowser.svelte";
-  import CampaignDialog from "../catalogue/CampaignDialog.svelte";
   import { TIMELINE_VIEW_SLUGS, TimelineView } from "../../lib/catalogue/timeline.constants";
   import EmptyState from "../ui/EmptyState.svelte";
   import PageBody from "../ui/PageBody.svelte";
@@ -33,7 +32,6 @@
   const view = $derived(
     openTab(Object.values(TimelineView), TIMELINE_VIEW_SLUGS, TimelineView.TIMELINE),
   );
-  let open = $state<CampaignType | null>(null);
 
   const running = $derived(runningCampaigns(catalogue.campaigns, ticker.now));
 
@@ -89,7 +87,7 @@
     sorts={CATALOGUE_SORTS}
     ordered={() => false}
     tagOf={() => undefined}
-    onopen={(campaign) => (open = campaign)}
+    onopen={(campaign) => openCampaignSheet(campaign, null)}
   >
     {#snippet empty()}
       <EmptyState
@@ -103,5 +101,3 @@
     {/snippet}
   </CampaignBrowser>
 </PageBody>
-
-<CampaignDialog campaign={open} contextAccountId={null} onclose={() => (open = null)} />

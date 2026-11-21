@@ -9,6 +9,7 @@
   import { Page } from "../../lib/state/state.constants";
   import { account, app } from "../../lib/state/app.svelte";
   import { isAccountPage, navigate } from "../../lib/state/router";
+  import { closeSheets } from "../../lib/state/sheets";
   import { isDashboardLocked, isVaultLocked } from "../../lib/state/session";
   import { wideLayout } from "../../lib/state/viewport.svelte";
   import AccountDrops from "../account/AccountDrops.svelte";
@@ -104,8 +105,7 @@
       closeBulk();
       app.loginDialog = false;
       app.feedbackDialog = false;
-      app.campaignSheet = null;
-      app.badgeSheet = null;
+      closeSheets();
       app.navDrawer = false;
     }
   });

@@ -24,11 +24,11 @@
   import { setDropIgnored } from "../../lib/state/account-settings.svelte";
   import { app } from "../../lib/state/app.svelte";
   import { navigate } from "../../lib/state/router";
+  import { openCampaignSheet } from "../../lib/state/sheets";
   import { run } from "../../lib/state/session";
   import { ticker } from "../../lib/state/ticker.svelte";
   import AccountActivity from "../AccountActivity.svelte";
   import ActivityFeed from "../ActivityFeed.svelte";
-  import CampaignDialog from "../catalogue/CampaignDialog.svelte";
   import LinkBadge from "../catalogue/LinkBadge.svelte";
   import RewardTiles from "../catalogue/RewardTiles.svelte";
   import TextButton from "../ui/TextButton.svelte";
@@ -63,8 +63,6 @@
       RECENT_MAX,
     ),
   );
-
-  let open = $state<CampaignType | null>(null);
 
   const claim = (instanceId: string): Promise<boolean> =>
     run({ command: CommandName.CLAIM_DROP, account_id: account.id, drop_instance_id: instanceId });
@@ -106,7 +104,7 @@
                 t.dashboard_remaining({ minutes: strong(q.remaining_minutes) }),
                 campaignEnd(q.ends_at, ticker.now),
               ]}
-              onopen={() => (open = c ?? null)}
+              onopen={c ? () => openCampaignSheet(c, account.id) : undefined}
               muted={false}
             >
               {#snippet lead()}
@@ -138,7 +136,7 @@
             size={ButtonSize.SM}
             type={ButtonType.BUTTON}
             disabled={false}
-            onclick={() => (open = current)}
+            onclick={() => openCampaignSheet(current, account.id)}
           />
         {/if}
       {/snippet}
@@ -170,5 +168,3 @@
     <ActivityFeed {events} showAccount={false} wide={false} empty={t.history_empty()} />
   </Panel>
 </PageBody>
-
-<CampaignDialog campaign={open} contextAccountId={account.id} onclose={() => (open = null)} />

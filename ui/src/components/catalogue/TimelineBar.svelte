@@ -169,8 +169,13 @@
     white-space: nowrap;
     cursor: pointer;
   }
+  /* ! Hatched, not plain grey: a plain grey bar reads as one watched to the end. */
   .bar.muted {
-    background: var(--muted);
+    background: repeating-linear-gradient(
+      135deg,
+      var(--muted) 0 6px,
+      color-mix(in oklab, var(--muted), var(--muted-foreground) 18%) 6px 12px
+    );
     color: var(--muted-foreground);
   }
   .bar::after {

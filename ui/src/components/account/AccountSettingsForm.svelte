@@ -6,6 +6,7 @@
   import ChoiceCards from "../ui/ChoiceCards.svelte";
   import Panel from "../ui/Panel.svelte";
   import ProxyField from "../ui/ProxyField.svelte";
+  import { proxyHint } from "../settings/settings.utils";
   import MiningOrderList from "./drops/MiningOrderList.svelte";
 
   type AccountSettingsFormPropsType = {
@@ -74,7 +75,7 @@
   <ProxyField
     id="{idPrefix}-proxy"
     label={t.account_proxy({ count: accountCount })}
-    hint={t.settings_proxy_hint()}
+    hint={proxyHint()}
     {proxy}
     {onProxyChange}
     {proxyPlaceholder}

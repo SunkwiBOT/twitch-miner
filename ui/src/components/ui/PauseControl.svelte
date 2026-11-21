@@ -1,6 +1,4 @@
 <script lang="ts">
-  import ChevronDownIcon from "@lucide/svelte/icons/chevron-down";
-
   import { Button } from "$lib/components/ui/button";
   import { Command, CommandItem, CommandList, CommandSeparator } from "$lib/components/ui/command";
   import { Popover, PopoverContent, PopoverTrigger } from "$lib/components/ui/popover";
@@ -143,7 +141,7 @@
             <Icon name={IconName.PAUSE} size={iconSize} />
           {/if}
           <span class="truncate">{busy ? busyLabel : PAUSE_LABELS[scope]()}</span>
-          <ChevronDownIcon class={cn("opacity-50", busy && "hidden")} />
+          <Icon name={IconName.DOWN} size={iconSize} class={cn("opacity-50", busy && "hidden")} />
         </Button>
       {/snippet}
     </PopoverTrigger>

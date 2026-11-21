@@ -1,7 +1,7 @@
 <script lang="ts">
   import { number } from "../../../lib/format.utils";
-  import ExternalLink from "../../ui/ExternalLink.svelte";
-  import { LinkLook, LinkMark, LinkSize } from "../../ui/link.constants";
+  import TextLink from "../../ui/TextLink.svelte";
+  import { LinkMark, LinkSize } from "../../ui/link.constants";
   import { categoryTone } from "../stats.utils";
   import type { StatsBarRowType } from "../stats.types";
 
@@ -20,11 +20,9 @@
       <li class="flex items-center gap-2.5">
         <span class="flex w-32 shrink-0 text-hint" title={row.label}>
           {#if row.url}
-            <ExternalLink
-              url={row.url}
+            <TextLink
               text={row.label}
-              mark={LinkMark.END}
-              look={LinkLook.ALWAYS}
+              target={{ url: row.url, mark: LinkMark.END }}
               size={LinkSize.MD}
             />
           {:else}

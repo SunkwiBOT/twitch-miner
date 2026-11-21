@@ -18,6 +18,19 @@
 @custom-variant data-horizontal (&:where([data-orientation="horizontal"]));
 @custom-variant data-vertical (&:where([data-orientation="vertical"]));
 
+/* ! A text link's look while pointed at, focused, or while the picture beside it (`LinkTwin`) is. */
+@custom-variant link-active {
+  &:is(:where(.group\/link):focus-visible *, :where(.group\/link)[data-twin-hover] *) {
+    @slot;
+  }
+
+  @media (hover: hover) {
+    &:is(:where(.group\/link):hover *) {
+      @slot;
+    }
+  }
+}
+
 :root,
 :root[data-theme="DARK"] {
   --brand-discord: #5865f2;

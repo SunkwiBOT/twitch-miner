@@ -1,15 +1,18 @@
 <script lang="ts" generics="T">
-  import PlusIcon from "@lucide/svelte/icons/plus";
-
   import { Badge } from "$lib/components/ui/badge";
   import { Button } from "$lib/components/ui/button";
   import { Input } from "$lib/components/ui/input";
   import { BoxArtSize } from "../../lib/format.constants";
   import { boxArt } from "../../lib/format.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
-  import { SEARCH_MIN_CHARS, SEARCH_SHOWN_MAX } from "../../lib/search/search.constants";
+  import { SEARCH_SHOWN_MAX } from "../../lib/search/search.constants";
   import { TwitchSearch } from "../../lib/search/search.svelte";
-  import { matchesSearch, normalizeSearch } from "../../lib/search/search.utils";
+  import {
+    tagSuggestions,
+    typedTag,
+    type TagSuggestionType,
+  } from "../../lib/search/tag-suggestions.utils";
+  import Icon from "./Icon.svelte";
   import ChipRemoveButton from "./ChipRemoveButton.svelte";
   import ConfirmDialog from "./ConfirmDialog.svelte";
   import SearchField from "./SearchField.svelte";
@@ -26,8 +29,6 @@
   import { IconName } from "../../lib/icons.constants";
   import { KeyboardKey } from "./field.constants";
 
-  type TagSuggestionType = { label: string; id: string | undefined; image: string | undefined };
-
   type TagInputPropsType = {
     id: string;
     items: T[];
@@ -35,7 +36,7 @@
     label: (item: T) => string;
     make: (suggestion: TagSuggestionType) => T;
     placeholder: string;
-    suggestions: string[];
+    suggestions: TagSuggestionType[];
     addLabel: string;
     removeLabel: string;
     confirmTitle: string;
@@ -63,40 +64,20 @@
   let draft = $state("");
   const twitch = new TwitchSearch();
 
-  const matches = $derived.by((): TagSuggestionType[] => {
-    if (draft.trim().length < SEARCH_MIN_CHARS) {
-      return [];
-    }
-
-    const needle = normalizeSearch(draft);
-    const taken = new Set(items.map((item) => label(item).toLowerCase()));
-    const out: TagSuggestionType[] = [];
-
-    const push = (suggestion: TagSuggestionType): void => {
-      const text = suggestion.label.toLowerCase();
-
-      if (!taken.has(text)) {
-        taken.add(text);
-        out.push(suggestion);
-      }
-    };
-
-    const found = twitch.results.games.map((game) => ({
+  const found = $derived(
+    twitch.results.games.map((game) => ({
       label: game.name,
       id: game.id,
       image: game.box_art_url,
-    }));
-    const byLabel = new Map(found.map((s) => [s.label.toLowerCase(), s]));
+    })),
+  );
 
-    suggestions
-      .filter((item) => matchesSearch(item, needle))
-      .forEach((text) =>
-        push(byLabel.get(text.toLowerCase()) ?? { label: text, id: undefined, image: undefined }),
-      );
-    found.forEach(push);
+  const matches = $derived(
+    tagSuggestions(draft, items.map(label), suggestions, found, SEARCH_SHOWN_MAX),
+  );
 
-    return out.slice(0, SEARCH_SHOWN_MAX);
-  });
+  // ! Typed out in full, a known category still carries its id and image.
+  const typed = (): TagSuggestionType => typedTag(draft, [...suggestions, ...found]);
 
   const add = (suggestion: TagSuggestionType): void => {
     const text = suggestion.label.trim();
@@ -120,7 +101,7 @@
     event.preventDefault();
 
     if (!twitch.busy) {
-      add(matches.at(0) ?? { label: draft, id: undefined, image: undefined });
+      add(matches.at(0) ?? typed());
     }
   };
 
@@ -177,7 +158,7 @@
       size={ButtonSize.MD}
       type={ButtonType.BUTTON}
       disabled={!draft.trim()}
-      onclick={() => add({ label: draft, id: undefined, image: undefined })}
+      onclick={() => add(typed())}
     />
   </div>
   {#if matches.length}
@@ -196,7 +177,7 @@
               alt=""
             />
           {:else}
-            <PlusIcon />
+            <Icon name={IconName.PLUS} size={13} />
           {/if}
           {match.label}
         </Button>

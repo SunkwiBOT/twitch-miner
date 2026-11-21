@@ -48,7 +48,7 @@
   let hidden = $state<string[]>([]);
 
   const view = $derived(
-    openTab(Object.values(TimelineView), TIMELINE_VIEW_SLUGS, TimelineView.CARDS),
+    openTab(Object.values(TimelineView), TIMELINE_VIEW_SLUGS, TimelineView.TIMELINE),
   );
   const options = $derived(filterOptions(facetOptions(entries)));
   const offered = $derived(options.map((option) => option.value));

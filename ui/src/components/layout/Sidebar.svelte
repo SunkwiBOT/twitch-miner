@@ -21,10 +21,12 @@
   import Avatar from "../ui/Avatar.svelte";
   import Badge from "../ui/Badge.svelte";
   import Icon from "../ui/Icon.svelte";
+  import TextLink from "../ui/TextLink.svelte";
   import { AvatarSize } from "../ui/picture.constants";
   import { BadgeTone } from "../../lib/tones.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import { IconName } from "../../lib/icons.constants";
+  import { LinkMark, LinkSize } from "../ui/link.constants";
   import { KeyboardKey } from "../ui/field.constants";
   import { APP_TITLE, REORDER_HINT_ID } from "./layout.constants";
   import PoweredBy from "./PoweredBy.svelte";
@@ -233,14 +235,11 @@
   </div>
   <div class="flex items-center gap-2 text-xs text-muted-foreground tabular-nums">
     <span class="h-px flex-1 bg-border"></span>
-    <a
-      class="no-underline underline-offset-3 transition-colors hover:text-link hover:underline"
-      href={REPO_URL}
-      rel="noreferrer"
-      onclick={(event) => followLink(event, REPO_URL)}
-    >
-      v{app.snapshot?.version ?? app.info?.version ?? ""}
-    </a>
+    <TextLink
+      text={`v${app.snapshot?.version ?? app.info?.version ?? ""}`}
+      target={{ url: REPO_URL, mark: LinkMark.END }}
+      size={LinkSize.MD}
+    />
     {#if !app.connected}<span class="text-destructive">· {t.topbar_disconnected()}</span>{/if}
     <span class="h-px flex-1 bg-border"></span>
   </div>

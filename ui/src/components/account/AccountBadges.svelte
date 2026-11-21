@@ -3,18 +3,20 @@
   import { untrack } from "svelte";
 
   import {
-    BADGES_PAGE_TABS,
-    BADGES_TAB_SLUGS,
-    BadgesTab,
+    BADGES_GROUP_SLUGS,
+    BADGES_GROUPS,
+    BadgesGroup,
+    REWARDS_PAGE_TAB_SLUGS,
+    RewardsPageTab,
   } from "../../lib/accounts/accounts.constants";
+  import { CampaignGroup } from "../../lib/accounts/campaign-groups.constants";
   import { accountCampaigns } from "../../lib/accounts/campaign-groups.utils";
-  import { groupOptions } from "../../lib/accounts/campaign-states.utils";
+  import { groupOptions, groupsCount } from "../../lib/accounts/campaign-states.utils";
   import { laneEnabled } from "../../lib/accounts/mining-order.utils";
   import { accountBadges, ownedBadges } from "../../lib/badges/badges.utils";
   import { badgeList } from "../../lib/badges/badges.svelte";
   import type { AccountSnapshotType } from "../../lib/bindings/AccountSnapshotType";
   import type { CampaignType } from "../../lib/bindings/CampaignType";
-  import type { GlobalBadgeType } from "../../lib/bindings/GlobalBadgeType";
   import { MiningLaneKind } from "../../lib/bindings/MiningLaneKind";
   import { campaignGivesBadge } from "../../lib/catalogue/campaign.utils";
   import { campaignsOf } from "../../lib/catalogue/catalogue.svelte";
@@ -22,9 +24,8 @@
   import { editsOf } from "../../lib/state/edits.svelte";
   import { AccountField } from "../../lib/state/state.constants";
   import { openTab, showTab } from "../../lib/state/router";
+  import { openBadgeSheet, openCampaignSheet } from "../../lib/state/sheets";
   import { ticker } from "../../lib/state/ticker.svelte";
-  import CampaignDialog from "../catalogue/CampaignDialog.svelte";
-  import BadgeDialog from "../badges/BadgeDialog.svelte";
   import Notice from "../ui/Notice.svelte";
   import PageBody from "../ui/PageBody.svelte";
   import Panel from "../ui/Panel.svelte";
@@ -57,10 +58,12 @@
     laneEnabled(account.settings.drops.mining_order, MiningLaneKind.BADGES),
   );
 
-  const tab = $derived(openTab(BADGES_PAGE_TABS, BADGES_TAB_SLUGS, BadgesTab.ORDER));
+  const tab = $derived(
+    openTab(Object.values(RewardsPageTab), REWARDS_PAGE_TAB_SLUGS, RewardsPageTab.ORDER),
+  );
+  const group = $derived(openTab(BADGES_GROUPS, BADGES_GROUP_SLUGS, CampaignGroup.TO_MINE));
 
-  let open = $state<CampaignType | null>(null);
-  let openBadge = $state<GlobalBadgeType | null>(null);
+  const openCampaign = (campaign: CampaignType): void => openCampaignSheet(campaign, account.id);
 </script>
 
 <PageBody>
@@ -68,17 +71,17 @@
     <Segmented
       value={tab}
       label={t.account_badges_tabs_label()}
-      onchange={(next) => showTab(BADGES_TAB_SLUGS, next)}
+      onchange={(next) => showTab(REWARDS_PAGE_TAB_SLUGS, next)}
       options={[
         {
-          value: BadgesTab.ORDER,
+          value: RewardsPageTab.ORDER,
           label: t.queue_title(),
           icon: IconName.LIST_ORDERED,
           count: sections.minable.length,
         },
-        { value: BadgesTab.SETTINGS, label: t.drops_tab_settings(), icon: IconName.SETTINGS },
+        { value: RewardsPageTab.SETTINGS, label: t.drops_tab_settings(), icon: IconName.SETTINGS },
         {
-          value: BadgesTab.EXCLUSIONS,
+          value: RewardsPageTab.EXCLUSIONS,
           label: t.drops_tab_exclusions(),
           icon: IconName.EYE_OFF,
           count:
@@ -86,12 +89,11 @@
             account.settings.badges.exclude_games.length +
             account.settings.badges.exclude_names.length,
         },
-        ...groupOptions(groups),
         {
-          value: BadgesTab.OWNED,
-          label: t.account_badges_owned(),
-          icon: IconName.AWARD,
-          count: owned.length,
+          value: RewardsPageTab.CAMPAIGNS,
+          label: t.drops_tab_campaigns(),
+          icon: IconName.GRID,
+          count: groupsCount(groups) + owned.length,
         },
       ]}
     />
@@ -103,11 +105,11 @@
     <Notice tone={NoticeTone.WARNING} text={t.account_badges_mining_off()} />
   {/if}
 
-  {#if tab === BadgesTab.ORDER}
-    <BadgesOrderTab {account} {sections} onopen={(campaign) => (open = campaign)} />
-  {:else if tab === BadgesTab.EXCLUSIONS}
-    <BadgesExclusionsTab {account} {sections} onopen={(campaign) => (open = campaign)} />
-  {:else if tab === BadgesTab.SETTINGS}
+  {#if tab === RewardsPageTab.ORDER}
+    <BadgesOrderTab {account} {sections} onopen={openCampaign} />
+  {:else if tab === RewardsPageTab.EXCLUSIONS}
+    <BadgesExclusionsTab {account} {sections} onopen={openCampaign} />
+  {:else if tab === RewardsPageTab.SETTINGS}
     <PanelColumns width={PanelWidth.LG}>
       <Panel title={t.mining_order_title()} description={t.mining_order_hint()}>
         <MiningOrderList
@@ -141,30 +143,34 @@
         />
       </Panel>
     </PanelColumns>
-  {:else if tab === BadgesTab.OWNED}
-    <OwnedBadgesTab {account} {owned} onopen={(badge) => (openBadge = badge)} />
   {:else}
-    {#key tab}
-      <RewardsTab
-        {account}
-        group={tab}
-        entries={groups[tab]}
-        icon={IconName.AWARD}
-        onopen={(campaign) => (open = campaign)}
-      />
-    {/key}
+    <Segmented
+      value={group}
+      label={t.rewards_groups_label()}
+      onchange={(next) => showTab(BADGES_GROUP_SLUGS, next)}
+      options={[
+        ...groupOptions(groups),
+        {
+          value: BadgesGroup.OWNED,
+          label: t.account_badges_owned(),
+          icon: IconName.AWARD,
+          count: owned.length,
+        },
+      ]}
+    />
+    {#if group === BadgesGroup.OWNED}
+      <OwnedBadgesTab {account} {owned} onopen={(badge) => openBadgeSheet(badge, account.id)} />
+    {:else}
+      {#key group}
+        <RewardsTab
+          {account}
+          {group}
+          entries={groups[group]}
+          icon={IconName.AWARD}
+          onopen={openCampaign}
+        />
+      {/key}
+    {/if}
   {/if}
   <AccountSaveBar {account} />
 </PageBody>
-
-<CampaignDialog campaign={open} contextAccountId={account.id} onclose={() => (open = null)} />
-<BadgeDialog
-  badge={openBadge}
-  badges={badgeList.badges}
-  contextAccountId={account.id}
-  onopencampaign={(next) => {
-    openBadge = null;
-    open = next;
-  }}
-  onclose={() => (openBadge = null)}
-/>

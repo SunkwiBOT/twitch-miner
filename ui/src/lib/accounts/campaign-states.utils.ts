@@ -72,13 +72,13 @@ const STATE_VIEWS: Record<CampaignState, StateViewType> = {
         time: relativeTime(entry.queued?.set_aside_until, now),
       }),
   },
-  [CampaignState.COLLECTED_LINKED]: {
-    text: () => t.campaign_state_collected_linked(),
+  [CampaignState.CLAIMED_LINKED]: {
+    text: () => t.campaign_state_claimed_linked(),
     tone: BadgeTone.SUCCESS,
     icon: IconName.LINK,
     hint: () => t.badge_hint_claimed(),
   },
-  [CampaignState.COLLECTED]: {
+  [CampaignState.CLAIMED]: {
     text: () => t.reward_state_claimed(),
     tone: BadgeTone.SUCCESS,
     icon: IconName.CHECK,
@@ -230,19 +230,19 @@ export const timelineTag = (
 const GROUP_LABELS: Record<CampaignGroup, () => string> = {
   [CampaignGroup.TO_MINE]: () => t.rewards_tab_to_mine(),
   [CampaignGroup.BLOCKED]: () => t.rewards_tab_blocked(),
-  [CampaignGroup.COLLECTED]: () => t.rewards_tab_collected(),
+  [CampaignGroup.CLAIMED]: () => t.rewards_tab_claimed(),
 };
 
 const GROUP_ICONS: Record<CampaignGroup, IconName> = {
   [CampaignGroup.TO_MINE]: IconName.PLAY,
   [CampaignGroup.BLOCKED]: IconName.LOCK,
-  [CampaignGroup.COLLECTED]: IconName.CHECK,
+  [CampaignGroup.CLAIMED]: IconName.CHECK,
 };
 
 const GROUP_EMPTY: Record<CampaignGroup, () => string> = {
   [CampaignGroup.TO_MINE]: () => t.rewards_empty_to_mine(),
   [CampaignGroup.BLOCKED]: () => t.rewards_empty_blocked(),
-  [CampaignGroup.COLLECTED]: () => t.rewards_empty_collected(),
+  [CampaignGroup.CLAIMED]: () => t.rewards_empty_claimed(),
 };
 
 export const groupEmpty = (group: CampaignGroup): string => GROUP_EMPTY[group]();
@@ -256,6 +256,9 @@ export const groupOptions = (
     icon: GROUP_ICONS[group],
     count: groups[group].length,
   }));
+
+export const groupsCount = (groups: CampaignGroupsType): number =>
+  CAMPAIGN_GROUPS.reduce((sum, group) => sum + groups[group].length, 0);
 
 const FACET_LABELS: Record<CampaignFacet, () => string> = {
   [CampaignFacet.STATE]: () => t.rewards_filter_state(),
