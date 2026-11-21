@@ -1,6 +1,7 @@
 /target
 /node_modules
 /ui/dist
+/ui/.svelte-check
 /ui/src/lib/paraglide
 /src-tauri/gen
 /data
