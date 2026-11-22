@@ -65,9 +65,7 @@ fn unb64(value: &str) -> Result<Vec<u8>> {
 }
 
 pub fn random_salt() -> String {
-    let mut salt = [0u8; SALT_LENGTH];
-
-    rand::fill(&mut salt);
+    let salt: [u8; SALT_LENGTH] = rand::random();
 
     b64(&salt)
 }
@@ -128,9 +126,7 @@ impl Vault {
     pub fn seal(&self, plaintext: &[u8]) -> Result<Sealed> {
         let cipher =
             Aes256Gcm::new_from_slice(self.key.as_ref()).map_err(|_| Error::InvalidVault)?;
-        let mut nonce = [0u8; NONCE_LENGTH];
-
-        rand::fill(&mut nonce);
+        let nonce: [u8; NONCE_LENGTH] = rand::random();
 
         let ciphertext = cipher
             .encrypt(&Nonce::from(nonce), plaintext)
