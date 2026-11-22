@@ -4,4 +4,4 @@
   import Badge from "./Badge.svelte";
 </script>
 
-<Badge text={t.common_beta()} tone={BadgeTone.NEUTRAL} dot={false} />
+<Badge text={t.common_beta()} tone={BadgeTone.NEUTRAL} />

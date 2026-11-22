@@ -10,7 +10,7 @@ const claims: Record<string, OwnedClaimsStateType> = $state({});
 export const ownedClaimsOf = (accountId: string): OwnedClaimsStateType =>
   claims[accountId] ?? { events: null, loading: false };
 
-// ! Cached once per account: switching tabs never pages the whole claim history again.
+// ! Loaded once per account; a claim made afterwards joins it as it happens (`noteOwnedClaim`).
 export const loadOwnedClaims = async (accountId: string): Promise<void> => {
   if (claims[accountId]?.events || claims[accountId]?.loading) {
     return;
@@ -37,5 +37,19 @@ export const loadOwnedClaims = async (accountId: string): Promise<void> => {
   } catch (e: unknown) {
     reportFailure(e);
     claims[accountId] = { events: null, loading: false };
+  }
+};
+
+export const noteOwnedClaim = (event: MinerEventType): void => {
+  const known = claims[event.account_id]?.events;
+
+  if (event.kind === EventKind.DROP_CLAIMED && known && !known.some((e) => e.id === event.id)) {
+    claims[event.account_id] = { events: [event, ...known], loading: false };
+  }
+};
+
+export const forgetOwnedClaims = (): void => {
+  for (const accountId of Object.keys(claims)) {
+    delete claims[accountId];
   }
 };

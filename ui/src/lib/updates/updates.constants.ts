@@ -36,7 +36,7 @@ export const IMAGE_UPDATE_COMMANDS: readonly string[] = [
 ];
 
 // ! The path and service of the README's systemd section; the asset's own name comes
-// from the server (`binary_asset` in the snapshot), never copied here.
+// from the server (`binary_asset` in the snapshot).
 export const BINARY_PATH = "/usr/local/bin/twitch-miner";
 export const BINARY_SERVICE = "twitch-miner";
 

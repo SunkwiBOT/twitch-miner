@@ -6,9 +6,6 @@ export const PASSWORD_ENV = "MINER_PASSWORD";
 
 export const PUBLIC_URL_ENV = "MINER_PUBLIC_URL";
 
-// ! The header a reverse proxy in front of the dashboard must forward, from `miner-server/src/access.rs`.
-export const FORWARDED_FOR_HEADER = "X-Forwarded-For";
-
 export const FIELD_GRID_CLASSES = "grid gap-3 @md:grid-cols-2";
 
 // ! A day above 12 in every time zone: day/month and month/day never look alike.

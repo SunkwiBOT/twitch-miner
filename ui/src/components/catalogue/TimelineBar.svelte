@@ -110,7 +110,6 @@
   {#if item.tag}<Badge
       text={item.tag.text}
       tone={item.tag.tone}
-      dot={false}
       icon={item.tag.icon}
       hint={item.tag.hint}
     />{/if}

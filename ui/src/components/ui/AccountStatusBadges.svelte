@@ -33,7 +33,6 @@
   <Badge
     text={accountStateLabel(account, current, ticker.now)}
     tone={ACCOUNT_STATE_TONES[current]}
-    dot={false}
     icon={ACCOUNT_STATE_ICONS[current]}
     hint={accountStateHint(account, current, ticker.now)}
   />

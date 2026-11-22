@@ -2,11 +2,17 @@
   import { cn } from "$lib/utils";
   import { IconName } from "../../lib/icons.constants";
   import Icon from "./Icon.svelte";
-  import { LINK_SIZES, LinkMark, LinkSize } from "./link.constants";
+  import { LINK_SIZES, LINK_TONES, LinkMark, LinkSize, LinkTone } from "./link.constants";
 
-  type LinkTextPropsType = { text: string; mark: LinkMark; size: LinkSize; fit: boolean };
+  type LinkTextPropsType = {
+    text: string;
+    mark: LinkMark;
+    size: LinkSize;
+    tone?: LinkTone;
+    fit: boolean;
+  };
 
-  let { text, mark, size, fit }: LinkTextPropsType = $props();
+  let { text, mark, size, tone = LinkTone.STRONG, fit }: LinkTextPropsType = $props();
 </script>
 
 <!-- ! Styled from the closest `group/link`: the link itself, or a wider block (a card) that is the link. -->
@@ -26,7 +32,8 @@
 {#if mark === LinkMark.START}{@render icon()}{/if}<span
   class={cn(
     "underline decoration-link decoration-1 underline-offset-3 transition-colors link-active:text-link link-active:decoration-2",
-    LINK_SIZES[size].label,
+    LINK_SIZES[size].text,
+    LINK_TONES[tone],
     mark === LinkMark.OVERLAY && "relative",
     fit && LINK_SIZES[size].fit,
   )}

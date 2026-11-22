@@ -14,7 +14,6 @@
   <Badge
     text={t.dashboard_linked()}
     tone={BadgeTone.SUCCESS}
-    dot={false}
     icon={IconName.LINK}
     hint={t.badge_hint_linked()}
   />
@@ -22,7 +21,6 @@
   <Badge
     text={t.dashboard_not_linked()}
     tone={BadgeTone.WARNING}
-    dot={false}
     icon={IconName.ALERT}
     hint={t.badge_hint_not_linked()}
   />
@@ -30,7 +28,6 @@
   <Badge
     text={t.catalogue_link_required()}
     tone={BadgeTone.MUTED}
-    dot={false}
     icon={IconName.LINK}
     hint={t.badge_hint_link_required()}
   />

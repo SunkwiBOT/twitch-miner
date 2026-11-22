@@ -2,7 +2,6 @@
   import { Badge as BadgeRoot } from "$lib/components/ui/badge";
   import { cn } from "$lib/utils";
   import Icon from "./Icon.svelte";
-  import StatusDot from "./StatusDot.svelte";
   import Tip from "./Tip.svelte";
   import { BADGE_TONE_CLASSES, BADGE_VARIANTS, BadgeVariant } from "./badge.constants";
   import { BadgeTone } from "../../lib/tones.constants";
@@ -11,13 +10,12 @@
   type BadgePropsType = {
     text: string;
     tone: BadgeTone;
-    dot: boolean;
     icon?: IconName;
     hint?: string;
     class?: string;
   };
 
-  let { text, tone, dot, icon, hint, class: className }: BadgePropsType = $props();
+  let { text, tone, icon, hint, class: className }: BadgePropsType = $props();
 
   // ! A badge narrower than its text wraps it rather than cutting it.
   const classes = $derived(
@@ -26,7 +24,6 @@
 </script>
 
 {#snippet content()}
-  {#if dot}<StatusDot {tone} />{/if}
   {#if icon}<Icon name={icon} size={12} class="shrink-0" />{/if}
   <!-- ! The padding leaves room for ink past the line box (Thai marks): only the badge clips it. -->
   <span class="-m-0.5 min-w-0 p-0.5 leading-3.5 break-words">{text}</span>

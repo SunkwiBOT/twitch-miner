@@ -12,6 +12,7 @@
   import { IconName } from "../../lib/icons.constants";
   import { MENU_EDGE_GAP } from "../ui/menu.constants";
   import ServerUpdateCommands from "./ServerUpdateCommands.svelte";
+  import { UPDATE_TRIGGER_CLASSES } from "./updates.constants";
 
   const version = $derived(availableVersion());
 
@@ -23,17 +24,12 @@
     event.preventDefault();
     content?.focus();
   };
-
-  // ! The shared status pill, in a button as tall as the top bar's controls for the click.
-  const TRIGGER_CLASSES =
-    "group inline-flex h-8 shrink-0 items-center rounded-md outline-hidden focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-solid";
 </script>
 
 {#snippet pill(text: string)}
   <Badge
     {text}
     tone={BadgeTone.INFO}
-    dot={false}
     icon={IconName.IMPORT}
     class="cursor-pointer group-hover:bg-info/80"
   />
@@ -41,14 +37,19 @@
 
 {#if version}
   {#if isTauri()}
-    <button class={TRIGGER_CLASSES} type={ButtonType.BUTTON} onclick={showUpdate}>
+    <button class={UPDATE_TRIGGER_CLASSES} type={ButtonType.BUTTON} onclick={showUpdate}>
       {@render pill(t.updates_badge({ version }))}
     </button>
   {:else}
     <Popover bind:open>
       <PopoverTrigger>
         {#snippet child({ props })}
-          <button {...props} class={TRIGGER_CLASSES} type={ButtonType.BUTTON} aria-expanded={open}>
+          <button
+            {...props}
+            class={UPDATE_TRIGGER_CLASSES}
+            type={ButtonType.BUTTON}
+            aria-expanded={open}
+          >
             {@render pill(t.updates_badge({ version }))}
           </button>
         {/snippet}

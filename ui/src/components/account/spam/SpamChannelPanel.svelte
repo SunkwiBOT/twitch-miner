@@ -180,7 +180,7 @@
 {#snippet rewardSection(id: string, title: string, items: SpamRewardItemType[])}
   <section class="flex flex-col gap-3" aria-labelledby={id}>
     <h3 {id} class="flex items-center gap-2 text-sm font-semibold">
-      {title}<Badge text={number(items.length)} tone={BadgeTone.NEUTRAL} dot={false} />
+      {title}<Badge text={number(items.length)} tone={BadgeTone.NEUTRAL} />
     </h3>
     {#if items.length > 0}
       <div class="grid grid-cols-[repeat(auto-fill,minmax(11rem,1fr))] gap-2.5">

@@ -1,3 +1,5 @@
+import { TwitchPage } from "./bindings/TwitchPage";
+
 export const DROPS_API_NAME = "Twitch Drops API";
 
 type PartnerType = { id: string; url: string; mark: string; name: string };
@@ -35,9 +37,5 @@ export const DROPS_WEB_HOST = new URL(DROPS_WEB_URL).hostname;
 export const TWITCH_CATEGORY_URL = "https://www.twitch.tv/directory/category";
 export const TWITCH_SEARCH_URL = "https://www.twitch.tv/search";
 export const TWITCH_CONNECTIONS_URL = "https://www.twitch.tv/settings/connections";
-export const TWITCH_ACTIVATE_ADDRESS = "twitch.tv/activate";
-
-// ! The hosts Twitch's channel-points beacon needs reachable, from `miner-core/src/miner/account/slots.rs`.
-export const TWITCH_BEACON_HOST = "spade.twitch.tv";
-export const TWITCH_BEACON_SCIENCE_HOST = "spade.sci.twitch.tv";
-export const TWITCH_BEACON_SCIENCE_EDGE_HOST = "science-edge-external-prod-*.elb.amazonaws.com";
+const ACTIVATE_URL = new URL(TwitchPage.HTTPS_WWW_TWITCH_TV_ACTIVATE);
+export const TWITCH_ACTIVATE_ADDRESS = `${ACTIVATE_URL.host}${ACTIVATE_URL.pathname}`;

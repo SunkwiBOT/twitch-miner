@@ -23,6 +23,5 @@ export type CoreLimitsType = {
   bet_timing_percent_max: number;
   bet_gap_percent_min: number;
   bet_gap_percent_max: number;
-  proxy_schemes: [ProxyScheme, ProxyScheme, ProxyScheme, ProxyScheme, ProxyScheme, ProxyScheme];
-  pause_preset_minutes: [number, number, number];
+  proxy_schemes: Array<ProxyScheme>;
 };

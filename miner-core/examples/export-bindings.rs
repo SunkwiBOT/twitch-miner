@@ -1,17 +1,18 @@
 use std::path::{Path, PathBuf};
 
 use miner_core::api::{
-    ApiRoute, AppInfoResponse, AuthResponse, AutostartResponse, BadgesResponse, CatalogResponse,
-    ChannelBannersRequest, ChannelBannersResponse, ChannelQuery, ChannelResponse,
+    ApiRoute, AppInfoResponse, AuthResponse, AutostartResponse, BadgesResponse, BeaconHost,
+    CatalogResponse, ChannelBannersRequest, ChannelBannersResponse, ChannelQuery, ChannelResponse,
     ChannelsLookupRequest, ChannelsLookupResponse, CheckPastedTokenRequest,
     CheckPastedTokenResponse, Command, CommandName, DashboardLoginRequest, DesktopEvent,
-    FollowsQuery, FollowsResponse, HistoryCurveQuery, HistoryCurveResponse, HistoryExportQuery,
-    HistoryExportResponse, HistoryQuery, HistoryResponse, HistoryStatsQuery, HistoryStatsResponse,
-    ImportTokensRequest, ImportTokensResponse, LoginFlowResponse, LogsQuery, LogsReportResponse,
-    LogsResponse, NotificationTest, NotificationTestRequest, ProxyTestRequest, ProxyTestResponse,
-    RedeemRequest, RedeemResponse, RefreshResponse, RequestsQuery, RequestsResponse, SearchQuery,
-    SearchResponse, ServerMessage, ServerMessageKind, SnapshotResponse, SpamBalanceResponse,
-    SpamChannelQuery, SpamChannelResponse, StartupProblemResponse, UpdateCheckResponse,
+    FollowsQuery, FollowsResponse, ForwardedHeader, HistoryCurveQuery, HistoryCurveResponse,
+    HistoryExportQuery, HistoryExportResponse, HistoryQuery, HistoryResponse, HistoryStatsQuery,
+    HistoryStatsResponse, ImportTokensRequest, ImportTokensResponse, LoginFlowResponse, LogsQuery,
+    LogsReportResponse, LogsResponse, NotificationTest, NotificationTestRequest, ProxyTestRequest,
+    ProxyTestResponse, RedeemRequest, RedeemResponse, RefreshResponse, RequestsQuery,
+    RequestsResponse, SearchQuery, SearchResponse, ServerMessage, ServerMessageKind,
+    SnapshotResponse, SpamBalanceResponse, SpamChannelQuery, SpamChannelResponse,
+    StartupProblemResponse, TwitchPage, UpdateCheckResponse,
 };
 use miner_core::error::{ApiError, ErrorCode};
 use miner_core::scheduler::SlotPurposeKind;
@@ -130,6 +131,9 @@ fn main() {
     export::<SlotPurposeKind>(&cfg);
     export::<DesktopEvent>(&cfg);
     export::<ApiRoute>(&cfg);
+    export::<BeaconHost>(&cfg);
+    export::<TwitchPage>(&cfg);
+    export::<ForwardedHeader>(&cfg);
     export::<ApiError>(&cfg);
     export::<ErrorCode>(&cfg);
 

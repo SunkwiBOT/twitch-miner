@@ -12,7 +12,6 @@
 <Badge
   text={MINING_BADGE_TEXTS[kind]()}
   tone={MINER_TONES[kind]}
-  dot={false}
   icon={MINER_ICONS[kind]}
   hint={MINING_BADGE_HINTS[kind]()}
 />

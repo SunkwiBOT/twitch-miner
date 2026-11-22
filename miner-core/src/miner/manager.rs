@@ -290,10 +290,11 @@ pub struct Manager {
     install_kind: InstallKind,
     settings: RwLock<GlobalSettings>,
     accounts: Mutex<HashMap<String, AccountHandle>>,
-    // ! Shared by every writer of an account's settings (a pause, a settings save, the
-    // catalogue's category completion): each re-reads the account fresh under this
-    // lock and writes back right away, so none of them can clobber another's change
-    // with a stale copy.
+    // ! Shared by every writer of an account's settings (a login, a pause, a settings
+    // save, the catalogue's category completion): each re-reads the account fresh under
+    // this lock, writes back and hands the copy to the running account before letting
+    // go, so none of them can clobber another's change with a stale copy, in the store
+    // or in the running account.
     account_settings: Mutex<()>,
     carried_stats: std::sync::Mutex<HashMap<String, AccountStats>>,
     events: broadcast::Sender<MinerEvent>,
@@ -583,28 +584,29 @@ impl Manager {
         };
 
         for account in accounts {
-            let completed = {
-                let _guard = self.account_settings.lock().await;
+            let _guard = self.account_settings.lock().await;
 
+            if let Some(record) =
                 complete_one_account_game_entries(&self.store, &account.id, &campaigns)
-            };
-
-            let Some(record) = completed else {
-                continue;
-            };
-
-            let commands = self
-                .accounts
-                .lock()
-                .await
-                .get(&record.id)
-                .map(|handle| handle.commands.clone());
-
-            if let Some(commands) = commands {
-                let _ = commands
-                    .send(AccountCommand::Settings(Box::new(record.settings)))
-                    .await;
+            {
+                self.send_settings(&record.id, record.settings).await;
             }
+        }
+    }
+
+    // ! Called with `account_settings` held: a running account gets the copies in the order they were saved.
+    async fn send_settings(&self, account_id: &str, settings: AccountSettings) {
+        let commands = self
+            .accounts
+            .lock()
+            .await
+            .get(account_id)
+            .map(|handle| handle.commands.clone());
+
+        if let Some(commands) = commands {
+            let _ = commands
+                .send(AccountCommand::Settings(Box::new(settings)))
+                .await;
         }
     }
 
@@ -1290,43 +1292,35 @@ impl Manager {
             .streamers
             .retain(|streamer| seen.insert(streamer.login.clone()));
 
-        let previous_proxy = {
-            let _guard = self.account_settings.lock().await;
+        for games in [
+            &mut settings.drops.priority_games,
+            &mut settings.drops.exclude_games,
+            &mut settings.badges.exclude_games,
+        ] {
+            crate::config::dedup_game_entries(games);
+        }
 
-            let stored = self
-                .store
-                .account(account_id)?
-                .ok_or_else(|| Error::UnknownAccount(account_id.to_owned()))?;
-            let previous_proxy = stored.settings.proxy;
-            // ! Only `PauseAccount`/`PauseAllAccounts` write this: a settings
-            // save from the UI must not erase or resurrect a scheduled pause.
-            settings.paused_until = stored.settings.paused_until;
+        let _guard = self.account_settings.lock().await;
 
-            let defaults = &mut settings.points.streamer_defaults;
+        let stored = self
+            .store
+            .account(account_id)?
+            .ok_or_else(|| Error::UnknownAccount(account_id.to_owned()))?;
+        // ! Only `PauseAccount`/`PauseAllAccounts` write this: a settings
+        // save from the UI must not erase or resurrect a scheduled pause.
+        settings.paused_until = stored.settings.paused_until;
 
-            defaults.login = String::new();
-            defaults.enabled = true;
+        let defaults = &mut settings.points.streamer_defaults;
 
-            self.store.save_account_settings(account_id, &settings)?;
+        defaults.login = String::new();
+        defaults.enabled = true;
 
-            previous_proxy
-        };
+        self.store.save_account_settings(account_id, &settings)?;
 
-        if previous_proxy != settings.proxy {
+        if stored.settings.proxy != settings.proxy {
             self.respawn_account(account_id).await?;
         } else {
-            let commands = self
-                .accounts
-                .lock()
-                .await
-                .get(account_id)
-                .map(|handle| handle.commands.clone());
-
-            if let Some(commands) = commands {
-                let _ = commands
-                    .send(AccountCommand::Settings(Box::new(settings)))
-                    .await;
-            }
+            self.send_settings(account_id, settings).await;
         }
 
         self.changed.notify_waiters();
@@ -1887,10 +1881,12 @@ impl Manager {
         tokens: auth::TokenSet,
         outcome: LoginOutcome<'_>,
     ) -> Result<String> {
-        let existing = self.store.account(&validation.user_id)?;
         let (display_name, avatar_url) = self
             .describe_token(http, &validation, &outcome.identity)
             .await;
+        // ! Read after the network call: a pause or a save made meanwhile is kept.
+        let settings_guard = self.account_settings.lock().await;
+        let existing = self.store.account(&validation.user_id)?;
         let position = self.store.accounts()?.len() as i64;
         let record = AccountRecord {
             id: validation.user_id.clone(),
@@ -1918,6 +1914,7 @@ impl Manager {
         };
 
         self.store.upsert_account(&record)?;
+        drop(settings_guard);
 
         // ! A token is bound to the client that issued it: the client id
         // always follows the fresh token this login just produced. The
@@ -2756,7 +2753,7 @@ impl Manager {
         account_id: &str,
         until: Option<chrono::DateTime<Utc>>,
     ) -> Result<()> {
-        let (login, was_paused, enabled, settings) = {
+        let (login, was_paused, enabled) = {
             let _guard = self.account_settings.lock().await;
 
             let record = self
@@ -2772,22 +2769,10 @@ impl Manager {
 
             settings.paused_until = until;
             self.store.save_account_settings(account_id, &settings)?;
+            self.send_settings(account_id, settings).await;
 
-            (record.login, was_paused, enabled, settings)
+            (record.login, was_paused, enabled)
         };
-
-        let commands = self
-            .accounts
-            .lock()
-            .await
-            .get(account_id)
-            .map(|handle| handle.commands.clone());
-
-        if let Some(commands) = commands {
-            let _ = commands
-                .send(AccountCommand::Settings(Box::new(settings)))
-                .await;
-        }
 
         let resumed = until.is_none() && was_paused && enabled && !self.quiet_window_now().await;
 

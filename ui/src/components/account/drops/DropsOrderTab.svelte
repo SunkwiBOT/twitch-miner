@@ -182,7 +182,6 @@
             >
               <Badge
                 {...queueStateView(account, item, ticker.now) ?? queueReasonView(item.reason)}
-                dot={false}
               />
               {#if item.linked === false}<LinkBadge linked={false} />{/if}
             </span>

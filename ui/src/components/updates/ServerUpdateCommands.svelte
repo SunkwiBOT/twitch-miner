@@ -17,7 +17,9 @@
   const steps = $derived.by((): UpdateStepsType => {
     const installKind = app.snapshot?.install_kind;
 
-    if (!installKind) return null;
+    if (!installKind) {
+      return null;
+    }
 
     const byKind: Record<InstallKind, () => UpdateStepsType> = {
       [InstallKind.DESKTOP]: () => null,

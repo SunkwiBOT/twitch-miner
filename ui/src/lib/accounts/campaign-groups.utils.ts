@@ -8,6 +8,7 @@ import type { QueueItemType } from "../bindings/QueueItemType";
 import { QueueReason } from "../bindings/QueueReason";
 import { minesCampaign } from "../catalogue/campaign-progress.utils";
 import { campaignMatches, dropDone, needsLink, subsMissing } from "../catalogue/campaign.utils";
+import { normalizeSearch } from "../search/search.utils";
 import { MINUTE_MS } from "../time/time.constants";
 import {
   CAMPAIGN_FACETS,
@@ -244,3 +245,22 @@ export const visibleCampaigns = (
   entries.filter(
     (entry) => campaignMatches(entry.campaign, needle) && facetsShown(entry, hidden, excluded),
   );
+
+export const visibleGroups = (
+  account: AccountSnapshotType,
+  groups: CampaignGroupsType,
+  query: string,
+  hidden: readonly string[],
+): CampaignGroupsType => {
+  const needle = normalizeSearch(query);
+  const off = new Set(hidden);
+  const excluded = excludedDropIds(account);
+  const visible = (group: CampaignGroup): AccountCampaignType[] =>
+    visibleCampaigns(groups[group], needle, off, excluded);
+
+  return {
+    [CampaignGroup.TO_MINE]: visible(CampaignGroup.TO_MINE),
+    [CampaignGroup.BLOCKED]: visible(CampaignGroup.BLOCKED),
+    [CampaignGroup.CLAIMED]: visible(CampaignGroup.CLAIMED),
+  };
+};

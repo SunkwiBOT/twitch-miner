@@ -40,12 +40,18 @@ export const notifyUpdate = (version: string | undefined): void => {
     return;
   }
 
-  const notification = new Notification(EVENT_KIND_LABELS[EventKind.UPDATE_AVAILABLE](), {
-    body: t.ev_update_available({ version }),
-    icon: APP_ICON_URL,
-    tag: UPDATE_NOTIFICATION_TAG,
-  });
-
   remember(KEY_STORAGE_UPDATE_NOTIFIED, version);
-  notification.onclick = () => window.focus();
+
+  // ! Chrome for Android grants the permission yet refuses the constructor: the version still counts as notified.
+  try {
+    const notification = new Notification(EVENT_KIND_LABELS[EventKind.UPDATE_AVAILABLE](), {
+      body: t.ev_update_available({ version }),
+      icon: APP_ICON_URL,
+      tag: UPDATE_NOTIFICATION_TAG,
+    });
+
+    notification.onclick = () => window.focus();
+  } catch (e: unknown) {
+    console.error("update notification not shown", e);
+  }
 };

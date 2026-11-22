@@ -8,6 +8,7 @@ use zeroize::{Zeroize, ZeroizeOnDrop};
 
 use super::identity::{AccountIdentity, TV_CLIENT_ID};
 use super::{TwitchHttp, OAUTH_URL};
+use crate::api::TwitchPage;
 use crate::error::{Error, Result};
 use crate::requests::{address_target, RequestKind};
 
@@ -132,7 +133,7 @@ pub async fn start_device_flow(http: &TwitchHttp) -> Result<DeviceCode> {
         verification_uri: activation_link(
             body["verification_uri"]
                 .as_str()
-                .unwrap_or("https://www.twitch.tv/activate"),
+                .unwrap_or(TwitchPage::Activate.url()),
             user_code,
         ),
         interval_seconds: body["interval"].as_u64().unwrap_or(5).clamp(1, 60),

@@ -9,7 +9,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
 use crate::api::InstallKind;
-use crate::config::GameEntry;
+use crate::config::{dedup_game_entries, GameEntry};
 use crate::domain::Campaign;
 use crate::drops_api::{parse_campaign_channels, CampaignChannels, CATALOG_REFRESH_INTERVAL};
 use crate::error::{Error, ErrorCode, Result};
@@ -147,9 +147,8 @@ pub fn parse_catalog(payload: &Value) -> Result<Catalog> {
 // ! Fills in the id and image a legacy name-only entry (or one added before
 // its category ever ran a campaign) is still missing, and refreshes a
 // stored image once the catalogue's own differs: never a new request, only
-// what the catalogue already holds from its regular refresh. A name-only
-// entry that turns out to be a category already listed by id is dropped,
-// the first one kept, so a list never holds the same category twice.
+// what the catalogue already holds from its regular refresh. Duplicates go
+// through `dedup_game_entries`, with or without a running campaign.
 pub fn complete_game_entries(entries: &mut Vec<GameEntry>, campaigns: &[Campaign]) -> bool {
     let mut changed = false;
 
@@ -177,14 +176,8 @@ pub fn complete_game_entries(entries: &mut Vec<GameEntry>, campaigns: &[Campaign
     }
 
     let before = entries.len();
-    let mut seen = HashSet::new();
 
-    entries.retain(
-        |entry| match entry.id.as_deref().filter(|id| !id.is_empty()) {
-            Some(id) => seen.insert(id.to_owned()),
-            None => true,
-        },
-    );
+    dedup_game_entries(entries);
 
     changed || entries.len() != before
 }

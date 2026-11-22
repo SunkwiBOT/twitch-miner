@@ -6,6 +6,7 @@ use std::time::Duration;
 
 use axum::http::{header, HeaderMap, HeaderName, HeaderValue, Method};
 use ipnet::IpNet;
+use miner_core::api::ForwardedHeader;
 use miner_core::error::ErrorCode;
 use url::Url;
 
@@ -13,8 +14,8 @@ use crate::sessions::{PUBLIC_SESSION_COOKIE, SESSION_COOKIE};
 
 pub const HTTPS: &str = "https";
 
-const X_FORWARDED_FOR: HeaderName = HeaderName::from_static("x-forwarded-for");
-const X_FORWARDED_PROTO: HeaderName = HeaderName::from_static("x-forwarded-proto");
+const X_FORWARDED_FOR: HeaderName = HeaderName::from_static(ForwardedHeader::For.name());
+const X_FORWARDED_PROTO: HeaderName = HeaderName::from_static(ForwardedHeader::Proto.name());
 const SEC_FETCH_SITE: HeaderName = HeaderName::from_static("sec-fetch-site");
 const SAME_ORIGIN: &str = "same-origin";
 

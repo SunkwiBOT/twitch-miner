@@ -41,11 +41,7 @@
   >
     {#if option.icon}<Icon name={option.icon} size={14} />{/if}
     {option.label}
-    {#if option.count}<Badge
-        text={number(option.count)}
-        tone={BadgeTone.NEUTRAL}
-        dot={false}
-      />{/if}
+    {#if option.count}<Badge text={number(option.count)} tone={BadgeTone.NEUTRAL} />{/if}
   </TabsTrigger>
 {/snippet}
 

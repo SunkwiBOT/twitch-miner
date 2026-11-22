@@ -79,14 +79,12 @@
           {#if view?.watching}<Badge
               text={t.streamer_watching()}
               tone={BadgeTone.SUCCESS}
-              dot={false}
               icon={IconName.PLAY}
               hint={t.badge_hint_watching()}
             />{/if}
           {#if view?.streak_at_risk}<Badge
               text={t.points_reason_streak_at_risk()}
               tone={POINTS_REASON_TONES[PointsReason.STREAK_AT_RISK]}
-              dot={false}
               hint={t.badge_hint_streak_risk()}
               icon={POINTS_REASON_ICONS[PointsReason.STREAK_AT_RISK]}
             />{/if}
@@ -107,7 +105,7 @@
             <span class="truncate">{t.points_offline_hint()}</span>
           {/if}
         </span>
-        <!-- ! In a narrow row the balance goes under the name: on the right it left the name and its category a few letters. -->
+        <!-- ! In a narrow row the balance goes under the name, which keeps the whole width. -->
         <div class="@min-[36rem]/streamer:hidden">{@render balance(BalanceAlign.START)}</div>
       </div>
       <div class="@max-[36rem]/streamer:hidden">{@render balance(BalanceAlign.END)}</div>

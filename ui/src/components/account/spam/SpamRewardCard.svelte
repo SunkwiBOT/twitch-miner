@@ -124,13 +124,7 @@
         )}
       </span>
       {#if badge}
-        <Badge
-          text={badge.label()}
-          tone={badge.tone}
-          dot={false}
-          icon={badge.icon}
-          hint={badge.hint()}
-        />
+        <Badge text={badge.label()} tone={badge.tone} icon={badge.icon} hint={badge.hint()} />
       {:else}
         <QuantityStepper
           value={quantity}

@@ -146,7 +146,6 @@
         <Badge
           text={EVENT_KIND_LABELS[e.kind]()}
           tone={EVENT_TONES[e.kind]}
-          dot={false}
           icon={EVENT_ICONS[e.kind]}
         />
       </li>

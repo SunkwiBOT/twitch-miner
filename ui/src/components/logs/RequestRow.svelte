@@ -87,7 +87,6 @@
       <Badge
         text={`${GROUP_COUNT_PREFIX}${number(entry.group.count)}`}
         tone={BadgeTone.NEUTRAL}
-        dot={false}
         {hint}
       />
       <span class="sr-only"><RichText text={hint} /></span>

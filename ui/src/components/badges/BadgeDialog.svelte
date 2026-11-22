@@ -26,7 +26,7 @@
   import { ensureChannels, knownChannels } from "../../lib/channels/channels.svelte";
   import { minutes } from "../../lib/format.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
-  import { app } from "../../lib/state/app.svelte";
+  import { app, type SheetType } from "../../lib/state/app.svelte";
   import { ticker } from "../../lib/state/ticker.svelte";
   import { strong } from "../../lib/text.utils";
   import { formatDate } from "../../lib/time/time.utils";
@@ -51,17 +51,17 @@
   type BadgeDialogPropsType = {
     badge: GlobalBadgeType | null;
     badges: GlobalBadgeType[];
-    contextAccountId: string | null;
+    sheet: SheetType | null;
     onopencampaign: (campaign: CampaignType) => void;
     onclose: () => void;
   };
 
-  let { badge, badges, contextAccountId, onopencampaign, onclose }: BadgeDialogPropsType = $props();
+  let { badge, badges, sheet, onopencampaign, onclose }: BadgeDialogPropsType = $props();
 
   const keyOf = (item: GlobalBadgeType): string => badgeKey(item.set_id, item.version_id);
 
   const accounts = $derived(app.snapshot?.accounts ?? []);
-  const context = $derived(accounts.find((a) => a.id === contextAccountId) ?? null);
+  const context = $derived(accounts.find((a) => a.id === sheet?.accountId) ?? null);
   const known = $derived(new Map(badges.map((item) => [keyOf(item), item])));
 
   // ! The badges opened inside this sheet, on top of the one it was opened on: another opening starts over.
@@ -90,11 +90,10 @@
   let chosen = $state<string[] | null>(null);
   let busy = $state<CampaignAction | null>(null);
 
-  // ! The state belongs to one opening: whatever closes or replaces the sheet (its button, a page
-  // change, the session ending), the next one starts over.
+  // ! The state belongs to one opening, never to the live badge a reload rebuilds: whatever closes
+  // or replaces the sheet (its button, a page change, the session ending), the next one starts over.
   $effect.pre(() => {
-    void badge;
-    void contextAccountId;
+    void sheet;
     chosen = null;
     visited = { root: null, trail: [] };
   });
@@ -172,7 +171,7 @@
   const openBadge = (next: GlobalBadgeType): Promise<void> => {
     visited = { root, trail: [...trail, next] };
 
-    return focus("[data-badge-back]");
+    return focus("[data-badge-back] button");
   };
 
   const back = (): Promise<void> => {
@@ -188,11 +187,7 @@
 
 {#snippet section(title: string, count: number | null)}
   <h3 class="flex items-center gap-2 text-xs font-semibold text-muted-foreground">
-    {title}{#if count !== null}<Badge
-        text={String(count)}
-        tone={BadgeTone.NEUTRAL}
-        dot={false}
-      />{/if}
+    {title}{#if count !== null}<Badge text={String(count)} tone={BadgeTone.NEUTRAL} />{/if}
   </h3>
 {/snippet}
 
@@ -222,15 +217,17 @@
   <div class="contents" bind:this={body}>
     {#if shown}
       {#if previous}
-        <button
-          class="flex w-fit items-center gap-2 text-left font-semibold text-link transition-colors hover:text-link-hover"
-          type="button"
-          data-badge-back
-          onclick={back}
-        >
-          <Icon name={IconName.ARROW_LEFT} size={14} class="shrink-0" />
-          {t.common_back()}
-        </button>
+        <span class="w-fit" data-badge-back>
+          <TextButton
+            label={t.common_back()}
+            icon={IconName.ARROW_LEFT}
+            variant={ButtonVariant.OUTLINE}
+            size={ButtonSize.SM}
+            type={ButtonType.BUTTON}
+            disabled={false}
+            onclick={back}
+          />
+        </span>
       {/if}
       <div class="flex items-start gap-4">
         <span
@@ -249,7 +246,6 @@
               <Badge
                 text={t.badges_minable()}
                 tone={BadgeTone.SUCCESS}
-                dot={false}
                 icon={IconName.CHECK}
                 hint={t.badge_hint_badge_minable()}
               />
@@ -258,10 +254,10 @@
               <SubRequiredBadge />
             {/if}
             {#if requirement?.ends_at && badgeEnded(shown, ticker.now)}
-              <Badge text={t.campaign_ended()} tone={BadgeTone.MUTED} dot={false} />
+              <Badge text={t.campaign_ended()} tone={BadgeTone.MUTED} />
             {/if}
             {#if badgeIsNew(shown, ticker.now)}
-              <Badge text={t.catalogue_new()} tone={BadgeTone.INFO} dot={false} />
+              <Badge text={t.catalogue_new()} tone={BadgeTone.INFO} />
             {/if}
           </div>
           {#if shown.description}
@@ -428,7 +424,6 @@
               <Badge
                 text={periodsText(entry.done, entry.repeat)}
                 tone={BadgeTone.NEUTRAL}
-                dot={false}
                 icon={IconName.CALENDAR}
               />
             {/if}
@@ -436,7 +431,6 @@
               <Badge
                 text={t.badge_evolution_locked({ badge: evolution.from.title })}
                 tone={BadgeTone.WARNING}
-                dot={false}
                 icon={IconName.LOCK}
                 hint={t.badge_hint_evolution_locked({ badge: strong(evolution.from.title) })}
               />

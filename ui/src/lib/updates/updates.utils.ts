@@ -31,8 +31,7 @@ export const megabytes = (bytes: number): string =>
     maximumFractionDigits: 1,
   }).format(bytes / BYTES_PER_MEGABYTE);
 
-// ! The exact file for this server's own processor, from `binary_asset` in the
-// snapshot: never a glob, which could match more than one downloaded file.
+// ! The exact file for this server's own processor, from `binary_asset` in the snapshot.
 export const binaryUpdateCommands = (version: string, asset: BinaryAssetType): string[] => [
   `sudo install -m 755 ${asset.prefix}${version}_${asset.arch} ${BINARY_PATH}`,
   `sudo systemctl restart ${BINARY_SERVICE}`,

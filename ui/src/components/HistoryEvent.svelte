@@ -61,7 +61,6 @@
   <Badge
     text={EVENT_KIND_LABELS[event.kind]()}
     tone={EVENT_TONES[event.kind]}
-    dot={false}
     icon={EVENT_ICONS[event.kind]}
   />
 {/snippet}
@@ -70,7 +69,6 @@
   {#if miner}<Badge
       text={MINER_LABELS[miner]()}
       tone={MINER_TONES[miner]}
-      dot={false}
       icon={MINER_ICONS[miner]}
     />{/if}
 {/snippet}

@@ -163,21 +163,18 @@
             {#if state === RewardState.CLAIMED}<Badge
                 text={t.reward_state_claimed()}
                 tone={BadgeTone.SUCCESS}
-                dot={false}
                 icon={IconName.CHECK}
                 hint={t.badge_hint_claimed()}
                 class={TILE_BADGE_CLASS}
               />{:else if state === RewardState.OWNED}<Badge
                 text={t.reward_state_owned()}
                 tone={BadgeTone.SUCCESS}
-                dot={false}
                 icon={IconName.CHECK}
                 hint={t.badge_hint_owned()}
                 class={TILE_BADGE_CLASS}
               />{:else if state === RewardState.READY}<Badge
                 text={t.reward_state_ready()}
                 tone={BadgeTone.PRIMARY}
-                dot={false}
                 hint={t.badge_hint_ready()}
                 class={TILE_BADGE_CLASS}
               />{/if}
@@ -207,7 +204,6 @@
         {#if kind}<Badge
             text={kind()}
             tone={BadgeTone.ACCENT}
-            dot={false}
             hint={benefit ? kindHint(benefit) : undefined}
             class={TILE_BADGE_CLASS}
           />{/if}

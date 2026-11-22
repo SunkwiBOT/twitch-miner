@@ -203,8 +203,7 @@ pub struct BadgeCatalogView {
 }
 
 // ! Only present for `InstallKind::Binary`, built from the one shared prefix constant
-// and the running server's own processor (see `binary_asset_arch`), so the UI never
-// globs for the file that matches it.
+// and the running server's own processor (see `binary_asset_arch`): the exact file to install.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
 #[ts(rename = "BinaryAssetType")]
 pub struct BinaryAsset {
@@ -284,8 +283,8 @@ pub struct CoreLimits {
     pub bet_timing_percent_max: u32,
     pub bet_gap_percent_min: u32,
     pub bet_gap_percent_max: u32,
+    #[ts(as = "Vec<crate::config::ProxyScheme>")]
     pub proxy_schemes: [crate::config::ProxyScheme; 6],
-    pub pause_preset_minutes: [u32; 3],
 }
 
 impl CoreLimits {
@@ -312,7 +311,6 @@ impl CoreLimits {
         bet_gap_percent_min: *crate::config::BET_GAP_PERCENT.start() as u32,
         bet_gap_percent_max: *crate::config::BET_GAP_PERCENT.end() as u32,
         proxy_schemes: crate::config::ProxyScheme::ALL,
-        pause_preset_minutes: crate::config::PAUSE_PRESET_MINUTES,
     };
 }
 

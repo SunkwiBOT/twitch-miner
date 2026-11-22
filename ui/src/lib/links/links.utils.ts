@@ -1,6 +1,6 @@
 import { openBadgeLink, openCampaignLink, openLink } from "../state/toasts";
 
-// ! The one relation every link leaving the app carries: no referrer, nothing else to merge.
+// ! The relation every link leaving the app carries: no referrer.
 export const EXTERNAL_LINK_REL = "noreferrer";
 
 // ! The page never follows an external link itself: the desktop app opens it in the system browser.

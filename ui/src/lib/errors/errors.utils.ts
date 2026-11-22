@@ -1,14 +1,10 @@
 import axios from "axios";
 
-import { FORWARDED_FOR_HEADER } from "../../components/settings/settings.constants";
 import type { ApiErrorType } from "../bindings/ApiErrorType";
+import { BeaconHost } from "../bindings/BeaconHost";
 import { ErrorApiMessage } from "../bindings/ErrorApiMessage";
+import { ForwardedHeader } from "../bindings/ForwardedHeader";
 import { t } from "../i18n/i18n.svelte";
-import {
-  TWITCH_BEACON_HOST,
-  TWITCH_BEACON_SCIENCE_EDGE_HOST,
-  TWITCH_BEACON_SCIENCE_HOST,
-} from "../partners.constants";
 import { code } from "../text.utils";
 
 class ApiError extends Error {
@@ -68,9 +64,9 @@ const MESSAGES: Record<ErrorApiMessage, (code: ErrorApiMessage) => string> = {
   [ErrorApiMessage.NOTIFICATION_FAILED]: () => t.error_notification_failed(),
   [ErrorApiMessage.BEACON_BLOCKED]: () =>
     t.beacon_blocked({
-      beaconHost: code(TWITCH_BEACON_HOST),
-      beaconScienceHost: code(TWITCH_BEACON_SCIENCE_HOST),
-      beaconScienceEdgeHost: code(TWITCH_BEACON_SCIENCE_EDGE_HOST),
+      beaconHost: code(BeaconHost.SPADE_TWITCH_TV),
+      beaconScienceHost: code(BeaconHost.SPADE_SCI_TWITCH_TV),
+      beaconScienceEdgeHost: code(BeaconHost.SCIENCE_EDGE_EXTERNAL_PROD_ELB_AMAZONAWS_COM),
     }),
   [ErrorApiMessage.CATALOG_RATE_LIMITED]: () => t.error_catalog_rate_limited(),
   [ErrorApiMessage.UNAUTHORIZED]: () => t.error_dashboard_unauthorized(),
@@ -82,7 +78,7 @@ const MESSAGES: Record<ErrorApiMessage, (code: ErrorApiMessage) => string> = {
   [ErrorApiMessage.OPEN_URL_FAILED]: () => t.error_open_url_failed(),
   [ErrorApiMessage.HTTPS_REQUIRED]: () => t.error_https_required(),
   [ErrorApiMessage.FORWARDED_FOR_REQUIRED]: () =>
-    t.error_forwarded_for_required({ forwardedForHeader: code(FORWARDED_FOR_HEADER) }),
+    t.error_forwarded_for_required({ forwardedForHeader: code(ForwardedHeader.X_FORWARDED_FOR) }),
   [ErrorApiMessage.PROXY_NOT_LOCAL]: () => t.error_proxy_not_local(),
   [ErrorApiMessage.CROSS_SITE_REQUEST]: () => t.error_cross_site_request(),
   [ErrorApiMessage.UPDATE_SIGNATURE_REFUSED]: () => t.error_update_signature_refused(),

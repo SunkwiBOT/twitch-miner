@@ -106,11 +106,9 @@
           <span class={[RAISED_CLASSES, "inline-flex max-w-full flex-wrap items-center gap-1.5"]}>
             {#if state}<Badge
                 {...state}
-                dot={false}
               />{:else if account.settings.badges.selection_only && !chosen(row.campaignId)}<Badge
                 text={t.selection_not_selected()}
                 tone={BadgeTone.NEUTRAL}
-                dot={false}
                 icon={IconName.STAR}
                 hint={t.badges_not_selected_hint()}
               />{/if}

@@ -8,6 +8,9 @@ export const PAUSE_CUSTOM_DEFAULT_MINUTES = 60;
 
 export const PAUSE_TOMORROW_HOUR = 9;
 
+// ! The durations the pause menu offers, after "Until I resume" and before tomorrow and a custom time.
+export const PAUSE_PRESET_MINUTES = [30, 60, 240] as const;
+
 export const untilInMinutes = (minutes: number, from: number): Date =>
   new Date(from + minutes * 60_000);
 

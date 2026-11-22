@@ -134,7 +134,7 @@
     {#if entry && !overlaid(entry.state)}
       {@const next = startsIn(entry)}
       {@const pill = next === null ? campaignStateView(entry, ticker.now) : etaView(next)}
-      <Badge text={pill.text} tone={pill.tone} dot={false} icon={pill.icon} hint={pill.hint} />
+      <Badge text={pill.text} tone={pill.tone} icon={pill.icon} hint={pill.hint} />
     {/if}
   {/snippet}
   {#snippet empty()}

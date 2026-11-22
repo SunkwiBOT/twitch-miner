@@ -9,7 +9,6 @@
     tabindex?: number;
     ariaHidden?: boolean;
     dataTwinHover?: boolean;
-    follow?: (event: MouseEvent, linkUrl: string) => void;
     onfollow?: () => void;
     onpointerenter?: () => void;
     onpointerleave?: () => void;
@@ -24,7 +23,6 @@
     tabindex,
     ariaHidden,
     dataTwinHover,
-    follow = followLink,
     onfollow,
     onpointerenter,
     onpointerleave,
@@ -41,7 +39,7 @@
   {tabindex}
   aria-hidden={ariaHidden || undefined}
   data-twin-hover={dataTwinHover || undefined}
-  onclick={externalLinkOnClick(url, follow, onfollow)}
+  onclick={externalLinkOnClick(url, followLink, onfollow)}
   {onpointerenter}
   {onpointerleave}
   {onfocus}

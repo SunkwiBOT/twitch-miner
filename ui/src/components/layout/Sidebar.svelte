@@ -27,7 +27,7 @@
   import { BadgeTone } from "../../lib/tones.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import { IconName } from "../../lib/icons.constants";
-  import { LinkMark, LinkSize } from "../ui/link.constants";
+  import { LinkMark, LinkSize, LinkTone } from "../ui/link.constants";
   import { KeyboardKey } from "../ui/field.constants";
   import { APP_TITLE, REORDER_HINT_ID } from "./layout.constants";
   import PoweredBy from "./PoweredBy.svelte";
@@ -122,7 +122,7 @@
         <Icon name={PAGE_ICONS[item.page]} size={18} /><span class="truncate">{item.label}</span>
         {#if BETA_PAGES.has(item.page)}<BetaBadge />{/if}
         {#if item.count}<span class="ml-auto">
-            <Badge text={number(item.count)} tone={BadgeTone.NEUTRAL} dot={false} />
+            <Badge text={number(item.count)} tone={BadgeTone.NEUTRAL} />
           </span>{/if}
       </button>
     {/each}
@@ -232,6 +232,7 @@
       text={`v${app.snapshot?.version ?? app.info?.version ?? ""}`}
       target={{ url: REPO_URL, mark: LinkMark.OVERLAY }}
       size={LinkSize.SM}
+      tone={LinkTone.MUTED}
     />
     {#if !app.connected}<span class="text-destructive">· {t.topbar_disconnected()}</span>{/if}
     <span class="h-px flex-1 bg-border"></span>

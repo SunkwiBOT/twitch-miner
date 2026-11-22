@@ -26,7 +26,7 @@
   import { strong } from "../../lib/text.utils";
   import { DROPS_WEB_HOST, TWITCH_CATEGORY_URL } from "../../lib/partners.constants";
   import { setDropIgnored } from "../../lib/state/account-settings.svelte";
-  import { app } from "../../lib/state/app.svelte";
+  import { app, type SheetType } from "../../lib/state/app.svelte";
   import { run } from "../../lib/state/session";
   import { ticker } from "../../lib/state/ticker.svelte";
   import { CampaignAction, URGENT_MS, URGENT_TONE } from "./catalogue.constants";
@@ -45,24 +45,23 @@
 
   type CampaignDialogPropsType = {
     campaign: CampaignType | null;
-    contextAccountId: string | null;
+    sheet: SheetType | null;
     onclose: () => void;
   };
 
-  let { campaign, contextAccountId, onclose }: CampaignDialogPropsType = $props();
+  let { campaign, sheet, onclose }: CampaignDialogPropsType = $props();
 
   const accounts = $derived(app.snapshot?.accounts ?? []);
-  const context = $derived(accounts.find((a) => a.id === contextAccountId) ?? null);
+  const context = $derived(accounts.find((a) => a.id === sheet?.accountId) ?? null);
 
   let chosen = $state<string[] | null>(null);
   let claimed = $state<string[]>([]);
   let claiming = $state<string | null>(null);
   let busy = $state<CampaignAction | null>(null);
 
-  // ! The state belongs to one opening: whatever closes or replaces the sheet, the next one starts over.
+  // ! The state belongs to one opening, never to the live campaign each snapshot rebuilds.
   $effect.pre(() => {
-    void campaign;
-    void contextAccountId;
+    void sheet;
     chosen = null;
     claimed = [];
   });
@@ -164,20 +163,17 @@
                 : left(view) < URGENT_MS
                   ? URGENT_TONE
                   : BadgeTone.NEUTRAL}
-              dot={false}
               icon={IconName.CLOCK}
             />
             <Badge
               text={t.catalogue_rewards({ rewardCount: view.drops.length })}
               tone={BadgeTone.NEUTRAL}
-              dot={false}
               icon={IconName.GIFT}
             />
             <LinkBadge linked={view.linked} needed={view.link_url !== undefined} />
             {#if view.in_inventory}<Badge
                 text={t.campaigns_filter_in_progress()}
                 tone={BadgeTone.ACCENT}
-                dot={false}
                 hint={t.badge_hint_in_progress()}
               />{/if}
           </div>
@@ -259,11 +255,7 @@
         {#snippet tags(entry)}
           {#if entry.linked === false}<LinkBadge linked={false} />{/if}
           {#if entry.state === ProgressState.SET_ASIDE && entry.setAsideUntil}
-            <Badge
-              text={setAsideLabel(entry.setAsideUntil, ticker.now)}
-              tone={BadgeTone.WARNING}
-              dot={false}
-            />
+            <Badge text={setAsideLabel(entry.setAsideUntil, ticker.now)} tone={BadgeTone.WARNING} />
           {/if}
         {/snippet}
         {#snippet action(entry)}

@@ -4,24 +4,25 @@ export enum LinkSize {
   LG = "LG",
 }
 
-// ! SM is the quiet link of a meta line (the version under the sidebar): it keeps its row's muted tone.
-export const LINK_SIZES: Record<
-  LinkSize,
-  { text: string; label: string; icon: number; fit: string }
-> = {
-  [LinkSize.SM]: {
-    text: "",
-    label: "font-medium text-muted-foreground",
-    icon: 12,
-    fit: "truncate",
-  },
-  [LinkSize.MD]: { text: "", label: "font-semibold text-foreground", icon: 13, fit: "truncate" },
-  [LinkSize.LG]: {
-    text: "text-lg",
-    label: "font-semibold text-foreground",
-    icon: 16,
-    fit: "break-all",
-  },
+// ! `truncate` clips at the padding box and the underline sits below the line box (offset 3px, 2px on hover):
+// the padding keeps it visible, the negative margin keeps the line's height.
+const TRUNCATE_WITH_UNDERLINE = "truncate pb-1.5 -mb-1.5";
+
+export const LINK_SIZES: Record<LinkSize, { text: string; icon: number; fit: string }> = {
+  [LinkSize.SM]: { text: "text-xs", icon: 12, fit: TRUNCATE_WITH_UNDERLINE },
+  [LinkSize.MD]: { text: "", icon: 13, fit: TRUNCATE_WITH_UNDERLINE },
+  [LinkSize.LG]: { text: "text-lg", icon: 16, fit: "break-all" },
+};
+
+// ! MUTED is the quiet link of a meta line (the version under the sidebar): it keeps its row's muted tone.
+export enum LinkTone {
+  STRONG = "STRONG",
+  MUTED = "MUTED",
+}
+
+export const LINK_TONES: Record<LinkTone, string> = {
+  [LinkTone.STRONG]: "font-semibold text-foreground",
+  [LinkTone.MUTED]: "font-medium text-muted-foreground",
 };
 
 // ! Where an external link shows its icon on hover. START and END keep the icon's room at rest,

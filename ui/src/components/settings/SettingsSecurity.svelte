@@ -138,7 +138,6 @@
         <Badge
           text={hasPassword ? t.security_on() : t.security_off()}
           tone={hasPassword ? BadgeTone.SUCCESS : BadgeTone.MUTED}
-          dot={false}
           icon={hasPassword ? IconName.LOCK : IconName.UNLOCK}
         />
       {/snippet}
@@ -258,7 +257,7 @@
       description={t.settings_dashboard_password_hint({ passwordVariable: code(PASSWORD_ENV) })}
     >
       {#snippet actions()}
-        <Badge text={t.security_on()} tone={BadgeTone.SUCCESS} dot={false} icon={IconName.LOCK} />
+        <Badge text={t.security_on()} tone={BadgeTone.SUCCESS} icon={IconName.LOCK} />
       {/snippet}
 
       <p class="text-hint text-muted-foreground">

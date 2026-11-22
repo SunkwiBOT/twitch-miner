@@ -20,9 +20,9 @@
     const owner = account(sheet.accountId);
 
     return (
-      (owner
-        ? campaignOf(owner, sheet.key)
-        : knownCampaign(app.snapshot?.accounts ?? [], sheet.key)) ?? null
+      (owner && campaignOf(owner, sheet.key)) ??
+      knownCampaign(app.snapshot?.accounts ?? [], sheet.key) ??
+      null
     );
   });
 
@@ -43,12 +43,12 @@
 <BadgeDialog
   badge={liveBadge}
   badges={badgeList.badges}
-  contextAccountId={app.badgeSheet?.accountId ?? null}
+  sheet={app.badgeSheet}
   onopencampaign={(campaign) => openCampaignSheet(campaign, app.badgeSheet?.accountId ?? null)}
   onclose={() => (app.badgeSheet = null)}
 />
 <CampaignDialog
   campaign={liveCampaign}
-  contextAccountId={app.campaignSheet?.accountId ?? null}
+  sheet={app.campaignSheet}
   onclose={() => (app.campaignSheet = null)}
 />

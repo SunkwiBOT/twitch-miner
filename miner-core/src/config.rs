@@ -17,8 +17,6 @@ pub const BET_GAP_PERCENT: RangeInclusive<u8> = 0..=100;
 // ! A bet placed at the very close reaches Twitch once betting has closed.
 pub const BET_DELAY_SECONDS: RangeInclusive<u32> = 2..=300;
 pub const BET_POINTS_MIN: u32 = 1;
-// ! The durations the pause menu offers, after « Until I resume » and before tomorrow and a custom time.
-pub const PAUSE_PRESET_MINUTES: [u32; 3] = [30, 60, 240];
 const TEXT_MAX_CHARS: usize = 2048;
 const TIME_ZONE_MAX_CHARS: usize = 64;
 pub const SPAM_DELAY_MIN_MS: u32 = 0;
@@ -27,6 +25,7 @@ const MINUTES_IN_DAY_MAX: u16 = 1439;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, TS)]
 #[serde(rename_all = "lowercase")]
+#[ts(repr(enum = name))]
 pub enum ProxyScheme {
     Http,
     Https,
@@ -141,6 +140,38 @@ impl From<&str> for GameEntry {
             box_art_url: None,
         }
     }
+}
+
+impl GameEntry {
+    fn listed_id(&self) -> Option<&str> {
+        self.id.as_deref().filter(|id| !id.is_empty())
+    }
+
+    // ! Two ids tell two categories apart; an entry with no id is matched by its name.
+    fn same_category(&self, other: &Self) -> bool {
+        match (self.listed_id(), other.listed_id()) {
+            (Some(a), Some(b)) => a == b,
+            _ => self.name.trim().eq_ignore_ascii_case(other.name.trim()),
+        }
+    }
+}
+
+// ! A list never holds the same category twice: the first entry stays where it is, and takes the
+// id and image of a later duplicate when it has none.
+pub fn dedup_game_entries(entries: &mut Vec<GameEntry>) {
+    let mut kept: Vec<GameEntry> = Vec::with_capacity(entries.len());
+
+    for entry in entries.drain(..) {
+        match kept.iter_mut().find(|known| known.same_category(&entry)) {
+            Some(known) if known.listed_id().is_none() && entry.listed_id().is_some() => {
+                *known = entry;
+            }
+            Some(_) => {}
+            None => kept.push(entry),
+        }
+    }
+
+    *entries = kept;
 }
 
 impl<'de> Deserialize<'de> for GameEntry {

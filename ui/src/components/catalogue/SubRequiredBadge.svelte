@@ -13,7 +13,6 @@
   class={className}
   text={t.campaign_progress_sub_required()}
   tone={BadgeTone.WARNING}
-  dot={false}
   icon={IconName.ALERT}
   hint={t.badge_hint_sub_only()}
 />

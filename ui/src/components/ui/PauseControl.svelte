@@ -10,6 +10,7 @@
   import {
     fromLocalInputValue,
     PAUSE_CUSTOM_DEFAULT_MINUTES,
+    PAUSE_PRESET_MINUTES,
     PAUSE_TOMORROW_HOUR,
     toLocalInputValue,
     untilInMinutes,
@@ -22,7 +23,6 @@
   import { ticker } from "../../lib/state/ticker.svelte";
   import { formatClock } from "../../lib/time/time.utils";
   import { longDuration } from "../../lib/format.utils";
-  import { coreLimits } from "../../lib/state/limits";
   import { timePreferences } from "../../lib/time/time.svelte";
   import ActionButton from "./ActionButton.svelte";
   import Dialog from "./Dialog.svelte";
@@ -73,7 +73,6 @@
 
   const customUntil = $derived(fromLocalInputValue(customValue, timePreferences.zone));
   const customValid = $derived(customUntil !== null && customUntil.getTime() > ticker.now);
-  const presets = $derived(coreLimits().pause_preset_minutes);
   const busy = $derived(pausing || resuming);
   const busyLabel = $derived(resuming ? t.action_resuming() : t.action_pausing());
 
@@ -163,7 +162,7 @@
             {t.pause_preset_until_resumed()}
           </CommandItem>
           <CommandSeparator class="my-1" />
-          {#each presets as minutes (minutes)}
+          {#each PAUSE_PRESET_MINUTES as minutes (minutes)}
             <CommandItem
               value={`preset-${minutes}`}
               class={MENU_ITEM_CLASSES}

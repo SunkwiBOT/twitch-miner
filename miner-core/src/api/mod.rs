@@ -55,12 +55,17 @@ impl InstallKind {
 // the only other place this name is built.
 pub const BINARY_ASSET_PREFIX: &str = "twitch-miner-server_";
 
-// ! `std::env::consts::ARCH` names the processor the way Rust does (`x86_64`/`aarch64`);
-// the release asset names it the way the Docker build's platform folders do instead.
+// ! `std::env::consts` names the processor the way Rust does (`x86_64`/`aarch64`); the
+// release asset names it the way the Docker build's platform folders do instead. Only
+// Linux has a release asset: a server built elsewhere gets no update steps.
 pub fn binary_asset_arch() -> Option<&'static str> {
-    match std::env::consts::ARCH {
-        "x86_64" => Some("linux_x64"),
-        "aarch64" => Some("linux_arm64"),
+    asset_arch(std::env::consts::OS, std::env::consts::ARCH)
+}
+
+fn asset_arch(os: &str, arch: &str) -> Option<&'static str> {
+    match (os, arch) {
+        ("linux", "x86_64") => Some("linux_x64"),
+        ("linux", "aarch64") => Some("linux_arm64"),
         _ => None,
     }
 }
@@ -197,6 +202,63 @@ impl ApiRoute {
             Self::SpamChannel => "/api/spam/channel",
             Self::SpamBalance => "/api/spam/balance",
             Self::SpamRedeem => "/api/spam/redeem",
+        }
+    }
+}
+
+// ! The hosts Twitch's channel-points beacon needs reachable: the first one, then the names it points to.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[ts(repr(enum = name))]
+pub enum BeaconHost {
+    #[serde(rename = "spade.twitch.tv")]
+    Spade,
+    #[serde(rename = "spade.sci.twitch.tv")]
+    SpadeScience,
+    #[serde(rename = "science-edge-external-prod-*.elb.amazonaws.com")]
+    ScienceEdge,
+}
+
+impl BeaconHost {
+    pub const fn name(self) -> &'static str {
+        match self {
+            Self::Spade => "spade.twitch.tv",
+            Self::SpadeScience => "spade.sci.twitch.tv",
+            Self::ScienceEdge => "science-edge-external-prod-*.elb.amazonaws.com",
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[ts(repr(enum = name))]
+pub enum TwitchPage {
+    // ! Where a device code is typed, when Twitch's device flow names none.
+    #[serde(rename = "https://www.twitch.tv/activate")]
+    Activate,
+}
+
+impl TwitchPage {
+    pub const fn url(self) -> &'static str {
+        match self {
+            Self::Activate => "https://www.twitch.tv/activate",
+        }
+    }
+}
+
+// ! The headers a reverse proxy in front of the dashboard sends, as the server reads them.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[ts(repr(enum = name))]
+pub enum ForwardedHeader {
+    #[serde(rename = "x-forwarded-for")]
+    For,
+    #[serde(rename = "x-forwarded-proto")]
+    Proto,
+}
+
+impl ForwardedHeader {
+    pub const fn name(self) -> &'static str {
+        match self {
+            Self::For => "x-forwarded-for",
+            Self::Proto => "x-forwarded-proto",
         }
     }
 }

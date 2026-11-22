@@ -37,11 +37,7 @@
   <CardHeader class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
     <CardTitle class="flex items-center gap-2 text-base font-semibold">
       {title}
-      {#if count !== undefined}<Badge
-          text={number(count)}
-          tone={BadgeTone.NEUTRAL}
-          dot={false}
-        />{/if}
+      {#if count !== undefined}<Badge text={number(count)} tone={BadgeTone.NEUTRAL} />{/if}
     </CardTitle>
     {#if actions}
       <CardAction

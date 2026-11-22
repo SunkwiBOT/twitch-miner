@@ -19,13 +19,12 @@
 </script>
 
 {#if item.quest}
-  <Badge text={t.quest_label()} tone={BadgeTone.INFO} dot={false} hint={t.badge_hint_quest()} />
+  <Badge text={t.quest_label()} tone={BadgeTone.INFO} hint={t.badge_hint_quest()} />
 {/if}
 {#if item.chest && item.badges.length > 1}
   <Badge
     text={t.reward_chest({ chestCount: item.chest })}
     tone={BadgeTone.ACCENT}
-    dot={false}
     icon={IconName.GIFT}
     hint={t.reward_chest_hint({
       badges: strong(item.badges.map((badge) => badge.title).join(", ")),
@@ -36,17 +35,15 @@
   <Badge
     text={periodsText(item.periodsDone, item.repeat)}
     tone={BadgeTone.NEUTRAL}
-    dot={false}
     icon={IconName.CALENDAR}
   />
 {/if}
 {#if item.state === AccountBadgeState.CLAIMABLE}
-  <Badge text={t.reward_state_ready()} tone={BadgeTone.PRIMARY} dot={false} icon={IconName.GIFT} />
+  <Badge text={t.reward_state_ready()} tone={BadgeTone.PRIMARY} icon={IconName.GIFT} />
 {:else if item.state === AccountBadgeState.NOT_MINABLE}
   <Badge
     text={t.quest_not_minable()}
     tone={BadgeTone.MUTED}
-    dot={false}
     hint={t.badge_hint_quest_not_minable()}
   />
 {:else if item.state === AccountBadgeState.SUB_ONLY}
@@ -55,7 +52,6 @@
   <Badge
     text={t.badge_evolution_unknown()}
     tone={BadgeTone.WARNING}
-    dot={false}
     icon={IconName.LOCK}
     hint={t.badge_hint_evolution_unknown()}
   />
@@ -63,7 +59,6 @@
   <Badge
     text={t.badge_evolution_locked({ badge: from })}
     tone={BadgeTone.WARNING}
-    dot={false}
     icon={IconName.LOCK}
     hint={t.badge_hint_evolution_locked({ badge: strong(from) })}
   />
@@ -71,7 +66,6 @@
   <Badge
     text={t.badge_evolution_off()}
     tone={BadgeTone.NEUTRAL}
-    dot={false}
     icon={IconName.SETTINGS}
     hint={t.badge_hint_evolution_off()}
   />
@@ -80,7 +74,6 @@
     <Badge
       text={t.badge_evolution({ badge: from })}
       tone={BadgeTone.INFO}
-      dot={false}
       hint={t.badge_hint_evolution({ badge: strong(from) })}
     />
   {/if}
@@ -88,14 +81,9 @@
     <Badge
       text={t.quest_next_window({ windowTime: relativeTime(item.nextAt, ticker.now) })}
       tone={BadgeTone.INFO}
-      dot={false}
       icon={IconName.CLOCK}
     />
   {:else if watch && item.current === 0 && item.required > 0}
-    <Badge
-      text={watchText(minutes(item.required), item.repeat)}
-      tone={BadgeTone.NEUTRAL}
-      dot={false}
-    />
+    <Badge text={watchText(minutes(item.required), item.repeat)} tone={BadgeTone.NEUTRAL} />
   {/if}
 {/if}

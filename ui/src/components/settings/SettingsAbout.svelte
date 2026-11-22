@@ -63,7 +63,7 @@
 <div bind:this={about} tabindex="-1" class="flex min-w-0 flex-col outline-none *:flex-1">
   <Panel title={t.settings_about()} description={t.settings_about_text()}>
     {#snippet actions()}
-      <Badge text={`v${snapshot.version}`} tone={BadgeTone.NEUTRAL} dot={false} />
+      <Badge text={`v${snapshot.version}`} tone={BadgeTone.NEUTRAL} />
     {/snippet}
     <FormField
       id="set-update-interval"

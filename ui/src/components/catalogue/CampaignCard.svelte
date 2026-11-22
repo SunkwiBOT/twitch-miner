@@ -47,9 +47,9 @@
     {#if ordered || isNew}
       <span class="absolute top-1.5 right-1.5 rounded-4xl bg-background">
         {#if ordered}
-          <Badge {...queueReasonView(QueueReason.ORDERED)} dot={false} />
+          <Badge {...queueReasonView(QueueReason.ORDERED)} />
         {:else}
-          <Badge text={t.catalogue_new()} tone={BadgeTone.INFO} dot={false} />
+          <Badge text={t.catalogue_new()} tone={BadgeTone.INFO} />
         {/if}
       </span>
     {/if}
@@ -65,7 +65,6 @@
     <Badge
       text={t.catalogue_rewards({ rewardCount: campaign.drops.length })}
       tone={BadgeTone.NEUTRAL}
-      dot={false}
     />
     <LinkBadge linked={campaign.linked} />
     {@render tags?.()}

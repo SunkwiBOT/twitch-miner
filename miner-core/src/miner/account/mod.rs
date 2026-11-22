@@ -24,8 +24,8 @@ use url::Url;
 use super::record_event;
 use super::twitch_api::TwitchApi;
 use crate::api::{
-    AccountSnapshot, AccountStats, AccountStatus, CampaignProgress, DropProgressView, DropState,
-    SlotView, StreamerView, FOLLOWS_MAX,
+    AccountSnapshot, AccountStats, AccountStatus, BeaconHost, CampaignProgress, DropProgressView,
+    DropState, SlotView, StreamerView, FOLLOWS_MAX,
 };
 use crate::badges::{attach_badges, mark_owned, BadgeCatalog, OwnedBadges};
 use crate::catalog::Catalog;

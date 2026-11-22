@@ -524,12 +524,15 @@ impl<T: TwitchApi> AccountMiner<T> {
     // ! Channel points are not credited while the beacon is blocked; drops
     // still progress, through the video playlist.
     pub(super) async fn beacon_unreachable(&mut self, beacon: &Url) {
+        let spade = BeaconHost::Spade.name();
         let message = match self.client.beacon_blocked_by(beacon).await {
             Some(address) => format!(
-                "spade.twitch.tv is blocked by your DNS (it answers {address}): allowing spade.twitch.tv alone is not enough, also allow the names it points to (spade.sci.twitch.tv and science-edge-external-prod-*.elb.amazonaws.com), otherwise channel points are not credited"
+                "{spade} is blocked by your DNS (it answers {address}): allowing {spade} alone is not enough, also allow the names it points to ({} and {}), otherwise channel points are not credited",
+                BeaconHost::SpadeScience.name(),
+                BeaconHost::ScienceEdge.name(),
             ),
             None if self.beacon_connect_failures >= BEACON_UNREACHABLE_AFTER => format!(
-                "spade.twitch.tv could not be reached {BEACON_UNREACHABLE_AFTER} times in a row: check your firewall, proxy or DNS, otherwise channel points are not credited"
+                "{spade} could not be reached {BEACON_UNREACHABLE_AFTER} times in a row: check your firewall, proxy or DNS, otherwise channel points are not credited"
             ),
             None => {
                 tracing::debug!(

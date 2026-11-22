@@ -28,7 +28,7 @@
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import { CARD_LIFT_CLASSES, RAISED_CLASSES, STRETCHED_BUTTON_CLASSES } from "../ui/ui.constants";
   import { IconName } from "../../lib/icons.constants";
-  import { LinkSize } from "../ui/link.constants";
+  import { LinkSize, LinkTone } from "../ui/link.constants";
   import { ThumbShape, ThumbSize } from "../ui/picture.constants";
 
   type BadgeCardPropsType = {
@@ -92,7 +92,6 @@
           <Badge
             text={t.badges_minable()}
             tone={BadgeTone.SUCCESS}
-            dot={false}
             icon={IconName.CHECK}
             hint={t.badge_hint_badge_minable()}
           />
@@ -104,15 +103,14 @@
           <Badge
             text={t.badge_evolution({ badge: evolvesFrom })}
             tone={BadgeTone.INFO}
-            dot={false}
             hint={t.badge_hint_evolution({ badge: strong(evolvesFrom) })}
           />
         {/if}
         {#if requirement?.ends_at && ended}
-          <Badge text={t.campaign_ended()} tone={BadgeTone.MUTED} dot={false} />
+          <Badge text={t.campaign_ended()} tone={BadgeTone.MUTED} />
         {/if}
         {#if badgeIsNew(badge, now)}
-          <Badge text={t.catalogue_new()} tone={BadgeTone.INFO} dot={false} />
+          <Badge text={t.catalogue_new()} tone={BadgeTone.INFO} />
         {/if}
       </div>
       {#if badge.description}
@@ -128,7 +126,7 @@
             {/if}
             {#if requirement.game_name}
               {@const game = requirement.categories.find((c) => c.name === requirement.game_name)}
-              <span class="relative z-10 inline-flex max-w-full min-w-0">
+              <span class={[RAISED_CLASSES, "inline-flex max-w-full min-w-0"]}>
                 <GameName
                   name={requirement.game_name}
                   url={categoryUrl(requirement.game_name, game?.slug)}
@@ -147,7 +145,7 @@
               {#if requirement.channel_count > 0}
                 <span>{t.campaign_channels_some({ channelCount: requirement.channel_count })}</span>
                 {#each requirement.channels as login (login)}{@const channel =
-                    knownChannels[login]}<span class="relative z-10">
+                    knownChannels[login]}<span class={RAISED_CLASSES}>
                     <ChannelLink
                       {login}
                       name={channel?.display_name ?? login}
@@ -165,11 +163,12 @@
             <span class="text-muted-foreground">{collectionText(requirement)}</span>
           {:else if requirement.campaign_name}
             {#if linkedCampaign}
-              <span class="relative z-10 min-w-0 truncate text-muted-foreground">
+              <span class={[RAISED_CLASSES, "min-w-0 truncate text-muted-foreground"]}>
                 <TextLink
                   text={requirement.campaign_name}
                   target={{ open: () => openCampaignSheet(linkedCampaign, null) }}
                   size={LinkSize.SM}
+                  tone={LinkTone.MUTED}
                 />
               </span>
             {:else}

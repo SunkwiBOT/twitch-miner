@@ -42,7 +42,6 @@
       {#if lead}{@render lead()}{/if}{title}{#if mark}<Badge
           text={mark}
           tone={BadgeTone.NEUTRAL}
-          dot={false}
         />{/if}
     </span>
     {#if description}<span class="text-hint text-muted-foreground">

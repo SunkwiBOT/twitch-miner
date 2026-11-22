@@ -88,7 +88,6 @@
     <MiningBadge kind={MinerKind.POINTS} />{#if reason}<Badge
         text={POINTS_REASON_LABELS[reason]()}
         tone={POINTS_REASON_TONES[reason]}
-        dot={false}
         icon={POINTS_REASON_ICONS[reason]}
         hint={POINTS_REASON_HINTS[reason]()}
       />{/if}

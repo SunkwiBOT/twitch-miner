@@ -26,7 +26,7 @@ if (browserNotifications.permission !== null && "permissions" in navigator) {
         browserNotifications.permission = browserNotificationPermission();
       };
     },
-    () => undefined,
+    (e: unknown) => console.error("notification permission not watched", e),
   );
 }
 

@@ -7,7 +7,8 @@ import type { StartupProblemType } from "../bindings/StartupProblemType";
 import { Page } from "./state.constants";
 
 // ! The item itself is never kept: a sheet names a campaign id or badge key, SheetHost looks the live one up.
-type SheetType = { key: string; accountId: string | null };
+// Each opening stores a new record, so a dialog ties its own state to the record, never to the live item.
+export type SheetType = { key: string; accountId: string | null };
 
 type AuthStateType = AuthStatusType & { checked: boolean };
 

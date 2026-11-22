@@ -66,7 +66,6 @@
           <Badge
             text={badge.text()}
             tone={badge.tone}
-            dot={false}
             icon={badge.icon}
             hint={badge.hint?.(entry, ticker.now)}
           />

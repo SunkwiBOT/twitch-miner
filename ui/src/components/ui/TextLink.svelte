@@ -6,7 +6,7 @@
   import ExternalAnchor from "./ExternalAnchor.svelte";
   import { linkPair } from "./link-pair.svelte";
   import LinkText from "./LinkText.svelte";
-  import { LINK_SIZES, LinkMark, LinkSize } from "./link.constants";
+  import { LINK_SIZES, LinkMark, LinkSize, LinkTone } from "./link.constants";
 
   type TextLinkPropsType = {
     text: string;
@@ -14,11 +14,11 @@
       | (Extract<LinkTargetType, { url: string }> & { mark: LinkMark })
       | Extract<LinkTargetType, { open: () => void }>;
     size: LinkSize;
+    tone?: LinkTone;
     lead?: Snippet;
-    class?: string;
   };
 
-  let { text, target, size, lead, class: className }: TextLinkPropsType = $props();
+  let { text, target, size, tone = LinkTone.STRONG, lead }: TextLinkPropsType = $props();
 
   const pair = linkPair();
   const mark = $derived("url" in target ? target.mark : LinkMark.NONE);
@@ -28,13 +28,12 @@
       "group/link min-w-0 text-left",
       LINK_SIZES[size].text,
       fit ? "inline-flex max-w-full items-center gap-1.5 align-bottom" : "inline",
-      className,
     ),
   );
 </script>
 
 {#snippet content()}
-  {#if lead}{@render lead()}{/if}<LinkText {text} {mark} {size} {fit} />
+  {#if lead}{@render lead()}{/if}<LinkText {text} {mark} {size} {tone} {fit} />
 {/snippet}
 
 {#if "url" in target}
