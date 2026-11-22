@@ -22,7 +22,7 @@
   import Tip from "../../ui/Tip.svelte";
   import GameName from "../../ui/GameName.svelte";
   import ViewerCount from "../../ui/ViewerCount.svelte";
-  import { AVATAR_CLASSES, AvatarSize, ThumbSize } from "../../ui/picture.constants";
+  import { AvatarSize, ThumbSize } from "../../ui/picture.constants";
   import { BadgeTone } from "../../../lib/tones.constants";
   import { BalanceAlign } from "../../ui/ui.constants";
   import { IconName } from "../../../lib/icons.constants";
@@ -39,18 +39,45 @@
   let { streamer, channel, view, beside, onmeasure }: StreamerRowPropsType = $props();
 
   let rowWidth = $state(0);
-  let besideWidth = $state(0);
+  let balanceWidth = $state(0);
   let nameWidth = $state(0);
   let nameRoom = $state(0);
+  let content = $state<HTMLElement>();
+  let column = $state<HTMLElement>();
+  let nameLine = $state<HTMLElement>();
+  let metaLine = $state<HTMLElement>();
 
   const name = $derived(channel?.display_name ?? streamer.login);
   const cut = $derived(nameWidth > nameRoom);
 
-  // ! The list picks one placement for every row: each row reports whether its whole name and its balance fit side by side.
+  // ! Synchronous: the line goes back to its width before the browser paints.
+  const naturalWidth = (line: HTMLElement): number => {
+    const width = line.style.width;
+
+    line.style.width = "max-content";
+
+    const natural = line.offsetWidth;
+
+    line.style.width = width;
+
+    return natural;
+  };
+
+  // ! The list picks one placement for every row: each row reports whether its lines at their natural width and its balance fit side by side.
   $effect(() => {
     const login = streamer.login;
 
-    onmeasure(login, besideWidth <= rowWidth);
+    void [view, channel, name];
+
+    if (!content || !column || !nameLine || !metaLine) {
+      return;
+    }
+
+    const lines = Math.max(naturalWidth(nameLine), naturalWidth(metaLine));
+    const gap = parseFloat(getComputedStyle(content).columnGap);
+    const need = column.offsetLeft + lines + (balanceWidth > 0 ? gap + balanceWidth : 0);
+
+    onmeasure(login, need <= rowWidth);
 
     return () => onmeasure(login, null);
   });
@@ -82,20 +109,15 @@
 {/snippet}
 
 <div class="relative flex min-w-0 flex-1" bind:clientWidth={rowWidth}>
-  <div
-    class="invisible absolute flex w-max items-center gap-3"
-    aria-hidden="true"
-    inert
-    bind:offsetWidth={besideWidth}
-  >
-    <span class={["shrink-0", AVATAR_CLASSES[AvatarSize.MD]]}></span>
+  <div class="invisible absolute flex w-max flex-col items-start" aria-hidden="true" inert>
     <span class="inline-flex items-center gap-1.5" bind:offsetWidth={nameWidth}>
       <LinkText text={name} mark={LinkMark.END} size={LinkSize.MD} fit={false} />
     </span>
-    {@render balance(BalanceAlign.END)}
+    <div bind:offsetWidth={balanceWidth}>{@render balance(BalanceAlign.END)}</div>
   </div>
   <div
     class={["flex min-w-0 flex-1 items-center gap-3 transition", !streamer.enabled && "grayscale"]}
+    bind:this={content}
   >
     <LinkPair>
       <span class={["inline-flex transition", !streamer.enabled && "opacity-50"]}>
@@ -108,8 +130,12 @@
           />
         </LinkTwin>
       </span>
-      <div class="flex min-w-0 flex-1 flex-col gap-0.5">
-        <span class="flex min-w-0 flex-wrap items-center gap-1.5" bind:clientWidth={nameRoom}>
+      <div class="flex min-w-0 flex-1 flex-col gap-0.5" bind:this={column}>
+        <span
+          class="flex min-w-0 flex-wrap items-center gap-1.5"
+          bind:clientWidth={nameRoom}
+          bind:this={nameLine}
+        >
           {#if cut}
             <Tip text={name}>
               {#snippet children(props)}
@@ -131,6 +157,7 @@
         </span>
         <span
           class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-muted-foreground"
+          bind:this={metaLine}
         >
           {#if channel?.live}
             {#if channel.game}<GameName
