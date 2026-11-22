@@ -8,7 +8,6 @@
     CommandList,
   } from "$lib/components/ui/command";
   import { Popover, PopoverContent, PopoverTrigger } from "$lib/components/ui/popover";
-  import { cn } from "$lib/utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { overlay } from "../../lib/state/overlay.svelte";
   import Avatar from "./Avatar.svelte";
@@ -19,7 +18,9 @@
   import { IconName } from "../../lib/icons.constants";
   import {
     CHECKED_OPTION,
+    MENU_DESCRIBED_WIDTH_CLASSES,
     MENU_EDGE_GAP,
+    MENU_FIT_WIDTH_CLASSES,
     MENU_ITEM_CLASSES,
     MenuAlign,
     SELECT_SEARCH_FROM,
@@ -107,10 +108,9 @@
     {/snippet}
   </PopoverTrigger>
   <PopoverContent
-    class={cn(
-      "max-h-(--bits-popover-content-available-height) w-(--bits-popover-anchor-width) min-w-56 p-0",
-      options.some((option) => option.description || option.meta) && "min-w-80",
-    )}
+    class={options.some((option) => option.description || option.meta)
+      ? MENU_DESCRIBED_WIDTH_CLASSES
+      : MENU_FIT_WIDTH_CLASSES}
     align={align === MenuAlign.RIGHT ? "end" : "start"}
     collisionPadding={{
       top: MENU_EDGE_GAP,

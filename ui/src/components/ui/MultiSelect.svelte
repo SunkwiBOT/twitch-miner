@@ -20,6 +20,7 @@
   import { IconName } from "../../lib/icons.constants";
   import {
     MENU_EDGE_GAP,
+    MENU_FIT_WIDTH_CLASSES,
     MULTI_ALL_VALUE,
     MULTI_CHECKED_OPTION,
     MULTI_ITEM_CLASSES,
@@ -183,7 +184,7 @@
     {/snippet}
   </PopoverTrigger>
   <PopoverContent
-    class="max-h-(--bits-popover-content-available-height) w-(--bits-popover-anchor-width) min-w-56 p-0"
+    class={MENU_FIT_WIDTH_CLASSES}
     align={align === MenuAlign.RIGHT ? "end" : "start"}
     collisionPadding={{
       top: MENU_EDGE_GAP,
