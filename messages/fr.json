@@ -477,7 +477,7 @@
     }
   ],
   "catalogue_new": "Nouveau",
-  "catalogue_link_required": "Liaison du compte de l'éditeur requise",
+  "badge_link_unknown": "Liaison inconnue",
   "catalogue_sort_ending": "Bientôt terminées",
   "catalogue_sort_new": "Plus récentes",
   "catalogue_sort_game": "Catégorie A→Z",
@@ -1235,7 +1235,7 @@
   "queue_hint_blocked_set_aside": "{minutes} minutes de visionnage réel sans progression l'ont mise de côté ; la moindre progression la fait revenir aussitôt.",
   "badge_hint_linked": "Compte de l'éditeur lié : les drops peuvent être réclamés",
   "badge_hint_not_linked": "Liez le compte de l'éditeur pour réclamer les drops",
-  "badge_hint_link_required": "Demande un compte de l'éditeur lié",
+  "badge_hint_link_unknown": "Twitch ne dit pas si le compte de l'éditeur est lié ; la réclamation peut attendre la liaison",
   "badge_hint_claimed": "Déjà dans votre inventaire Twitch",
   "badge_hint_owned": "Ce compte a déjà ce badge : le mineur ne le mine pas",
   "badge_hint_ready": "Gagné : il reste à le réclamer",

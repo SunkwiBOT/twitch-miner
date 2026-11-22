@@ -16,6 +16,7 @@
   import { BadgeTone } from "../../lib/tones.constants";
   import { CARD_LIFT_CLASSES } from "../ui/ui.constants";
   import LinkBadge from "./LinkBadge.svelte";
+  import { linkFacet } from "../../lib/accounts/campaign-groups.utils";
   import TimeLeftTag from "./TimeLeftTag.svelte";
 
   type CampaignCardPropsType = {
@@ -75,7 +76,7 @@
       })}
       tone={BadgeTone.NEUTRAL}
     />
-    <LinkBadge linked={campaign.linked} />
+    <LinkBadge link={linkFacet(campaign)} />
     {@render tags?.()}
   </span>
 </button>

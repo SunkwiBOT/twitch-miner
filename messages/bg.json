@@ -477,7 +477,7 @@
     }
   ],
   "catalogue_new": "Ново",
-  "catalogue_link_required": "Изисква свързан акаунт на издателя",
+  "badge_link_unknown": "Свързването е неизвестно",
   "catalogue_sort_ending": "Свършват скоро",
   "catalogue_sort_new": "Най-нови",
   "catalogue_sort_game": "Категория А→Я",
@@ -1235,7 +1235,7 @@
   "queue_hint_blocked_set_aside": "{minutes} минути реално гледане без напредък я отложиха; всякакъв напредък я връща веднага.",
   "badge_hint_linked": "Акаунтът на издателя е свързан: drops могат да се вземат",
   "badge_hint_not_linked": "Свържете акаунта на издателя, за да вземете drops",
-  "badge_hint_link_required": "Изисква свързан акаунт на издателя",
+  "badge_hint_link_unknown": "Twitch не съобщава дали акаунтът на издателя е свързан; получаването може да изчака свързването",
   "badge_hint_claimed": "Вече е в инвентара ви в Twitch",
   "badge_hint_owned": "Този акаунт вече има тази значка: майнерът не я копае",
   "badge_hint_ready": "Спечелено: остава само да се вземе",

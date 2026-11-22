@@ -477,7 +477,7 @@
     }
   ],
   "catalogue_new": "Nueva",
-  "catalogue_link_required": "Requiere vincular la cuenta del editor",
+  "badge_link_unknown": "Vinculación desconocida",
   "catalogue_sort_ending": "Terminan pronto",
   "catalogue_sort_new": "Más recientes",
   "catalogue_sort_game": "Categoría A→Z",
@@ -1235,7 +1235,7 @@
   "queue_hint_blocked_set_aside": "{minutes} minutos de visionado real sin progreso la aplazaron; cualquier progreso la trae de vuelta al instante.",
   "badge_hint_linked": "Cuenta del editor vinculada: se pueden reclamar los drops",
   "badge_hint_not_linked": "Vincula la cuenta del editor para reclamar los drops",
-  "badge_hint_link_required": "Requiere una cuenta del editor vinculada",
+  "badge_hint_link_unknown": "Twitch no indica si la cuenta del editor está vinculada; el reclamo puede esperar a la vinculación",
   "badge_hint_claimed": "Ya está en tu inventario de Twitch",
   "badge_hint_owned": "Esta cuenta ya tiene esta insignia: el minero no la mina",
   "badge_hint_ready": "Ganado: solo falta reclamarlo",

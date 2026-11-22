@@ -42,6 +42,11 @@ export const badgeMinable = (badge: GlobalBadgeType, now: number): boolean =>
 export const badgeNeedsSub = (badge: GlobalBadgeType): boolean =>
   (badge.requirement?.required_subs ?? 0) > 0;
 
+// ! The core watches only quest groups without subscriptions (`quests.rs`): any count it lacks, or no
+// watch time at all, leaves the group to a subscription.
+export const questSubsOnly = (group: QuestGroupType): boolean =>
+  group.current_subs < group.required_subs || group.required_minutes === 0;
+
 export const badgeIsNew = (badge: GlobalBadgeType, now: number): boolean =>
   now - time(badge.first_seen_at) < NEW_BADGE_MS;
 
@@ -246,7 +251,7 @@ const groupState = (
     return AccountBadgeState.CLAIMABLE;
   }
 
-  if (subsMissing(group) || group.required_minutes === 0) {
+  if (questSubsOnly(group)) {
     return AccountBadgeState.SUB_ONLY;
   }
 

@@ -477,7 +477,7 @@
     }
   ],
   "catalogue_new": "Nieuw",
-  "catalogue_link_required": "Koppeling van uitgeversaccount vereist",
+  "badge_link_unknown": "Koppeling onbekend",
   "catalogue_sort_ending": "Eindigt binnenkort",
   "catalogue_sort_new": "Nieuwste",
   "catalogue_sort_game": "Categorie A→Z",
@@ -1235,7 +1235,7 @@
   "queue_hint_blocked_set_aside": "{minutes} minuten echt kijken zonder voortgang zette haar opzij; elke voortgang brengt haar meteen terug.",
   "badge_hint_linked": "Uitgeversaccount gekoppeld: de drops kunnen geclaimd worden",
   "badge_hint_not_linked": "Koppel het uitgeversaccount om de drops te claimen",
-  "badge_hint_link_required": "Vereist een gekoppeld uitgeversaccount",
+  "badge_hint_link_unknown": "Twitch zegt niet of het uitgeversaccount gekoppeld is; het claimen kan op de koppeling wachten",
   "badge_hint_claimed": "Staat al in je Twitch-inventaris",
   "badge_hint_owned": "Dit account heeft deze badge al: de miner mint hem niet",
   "badge_hint_ready": "Verdiend: hoeft alleen nog geclaimd te worden",

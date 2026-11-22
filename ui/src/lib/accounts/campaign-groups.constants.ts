@@ -114,8 +114,10 @@ export const CAMPAIGN_FACETS: readonly CampaignFacet[] = [
   CampaignFacet.REWARD,
 ];
 
+// ! In the core's "linked first" rank order (`Campaign::link_standing`), a campaign without a link last.
 export enum LinkFacet {
   LINKED = "LINKED",
+  UNKNOWN = "UNKNOWN",
   NOT_LINKED = "NOT_LINKED",
   NO_LINK = "NO_LINK",
 }

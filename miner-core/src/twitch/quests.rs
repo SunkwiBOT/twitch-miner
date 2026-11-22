@@ -238,7 +238,14 @@ impl Quest {
                 name: group.label().to_owned(),
                 starts_at: self.starts_at,
                 ends_at: self.ends_at,
-                required_minutes: group.required_minutes,
+                // ! Unlike a Drops reward, a quest's subscription group (and the badge of a whole
+                // collection, gated the same way) needs its count first: its watch time does not
+                // count until then, so the drop carries none and waits for the subscriptions.
+                required_minutes: if group.subs_met() {
+                    group.required_minutes
+                } else {
+                    0
+                },
                 required_subs: group.required_subs,
                 current_subs: group.current_subs,
                 current_minutes: group.current_minutes(now),

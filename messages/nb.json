@@ -477,7 +477,7 @@
     }
   ],
   "catalogue_new": "Ny",
-  "catalogue_link_required": "Krever kobling av utgiverkonto",
+  "badge_link_unknown": "Kobling ukjent",
   "catalogue_sort_ending": "Slutter snart",
   "catalogue_sort_new": "Nyeste",
   "catalogue_sort_game": "Kategori A→Å",
@@ -1107,7 +1107,7 @@
   "queue_hint_blocked_set_aside": "{minutes} minutter reell seeing uten fremgang la den til side; enhver fremgang bringer den straks tilbake.",
   "badge_hint_linked": "Utgiverkonto koblet: dropsene kan hentes",
   "badge_hint_not_linked": "Koble utgiverkontoen for å hente dropsene",
-  "badge_hint_link_required": "Krever en koblet utgiverkonto",
+  "badge_hint_link_unknown": "Twitch sier ikke om utgiverkontoen er koblet; innløsningen kan vente på koblingen",
   "badge_hint_claimed": "Allerede i Twitch-beholdningen din",
   "badge_hint_owned": "Denne kontoen har allerede dette merket: mineren miner det ikke",
   "badge_hint_ready": "Opptjent: må bare hentes",

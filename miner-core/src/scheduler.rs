@@ -466,12 +466,11 @@ fn automatic_key(
     now: DateTime<Utc>,
     excluded: &[String],
 ) -> (QueueReason, u8, i64) {
-    let linked_rank = u8::from(
-        linked_first
-            && campaign.kind != CampaignKind::Quest
-            && campaign.needs_link()
-            && campaign.linked != Some(true),
-    );
+    let linked_rank = if linked_first {
+        campaign.link_standing() as u8
+    } else {
+        0
+    };
 
     match order {
         DropsOrder::EndingSoonest => (
@@ -664,7 +663,7 @@ fn pick_channel<'a>(
     let behind_subs = campaign
         .drops
         .iter()
-        .any(|d| d.required_subs > 0 && d.subs_met() && !d.complete());
+        .any(|d| d.required_subs > 0 && d.subs_counted() && !d.complete());
     let subscriber =
         |channel: &Channel| behind_subs && subscribed.contains(&channel.login.as_str());
 

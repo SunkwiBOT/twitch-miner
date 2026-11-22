@@ -477,7 +477,7 @@
     }
   ],
   "catalogue_new": "Nova",
-  "catalogue_link_required": "Requer associar a conta da editora",
+  "badge_link_unknown": "Ligação desconhecida",
   "catalogue_sort_ending": "Terminam em breve",
   "catalogue_sort_new": "Mais recentes",
   "catalogue_sort_game": "Categoria A→Z",
@@ -1235,7 +1235,7 @@
   "queue_hint_blocked_set_aside": "{minutes} minutos de visualização real sem progresso puseram-na de lado; qualquer progresso traz-a de volta de imediato.",
   "badge_hint_linked": "Conta da editora ligada: os drops podem ser resgatados",
   "badge_hint_not_linked": "Ligue a conta da editora para resgatar os drops",
-  "badge_hint_link_required": "Requer uma conta da editora ligada",
+  "badge_hint_link_unknown": "A Twitch não indica se a conta da editora está ligada; o resgate pode esperar pela ligação",
   "badge_hint_claimed": "Já está no seu inventário da Twitch",
   "badge_hint_owned": "Esta conta já tem este emblema: o minerador não o minera",
   "badge_hint_ready": "Ganho: só falta resgatar",

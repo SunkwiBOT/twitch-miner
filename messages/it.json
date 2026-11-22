@@ -477,7 +477,7 @@
     }
   ],
   "catalogue_new": "Nuova",
-  "catalogue_link_required": "Richiede il collegamento dell'account editore",
+  "badge_link_unknown": "Collegamento sconosciuto",
   "catalogue_sort_ending": "In scadenza",
   "catalogue_sort_new": "Più recenti",
   "catalogue_sort_game": "Categoria A→Z",
@@ -1235,7 +1235,7 @@
   "queue_hint_blocked_set_aside": "{minutes} minuti di visione reale senza progressi l'hanno accantonata; qualsiasi progresso la fa tornare subito.",
   "badge_hint_linked": "Account editore collegato: i drop si possono riscattare",
   "badge_hint_not_linked": "Collega l'account editore per riscattare i drop",
-  "badge_hint_link_required": "Richiede un account editore collegato",
+  "badge_hint_link_unknown": "Twitch non dice se l'account editore è collegato; il riscatto potrebbe attendere il collegamento",
   "badge_hint_claimed": "Già nel tuo inventario Twitch",
   "badge_hint_owned": "Questo account ha già questo badge: il miner non lo mina",
   "badge_hint_ready": "Ottenuto: va solo riscattato",

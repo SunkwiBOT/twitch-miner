@@ -477,7 +477,7 @@
     }
   ],
   "catalogue_new": "Ny",
-  "catalogue_link_required": "Kræver tilknyttet udgiverkonto",
+  "badge_link_unknown": "Tilknytning ukendt",
   "catalogue_sort_ending": "Slutter snart",
   "catalogue_sort_new": "Nyeste",
   "catalogue_sort_game": "Kategori A→Å",
@@ -1107,7 +1107,7 @@
   "queue_hint_blocked_set_aside": "{minutes} minutters reel visning uden fremgang satte den til side; enhver fremgang bringer den straks tilbage.",
   "badge_hint_linked": "Udgiverkonto tilknyttet: drops kan indløses",
   "badge_hint_not_linked": "Tilknyt udgiverkontoen for at indløse dropsene",
-  "badge_hint_link_required": "Kræver en tilknyttet udgiverkonto",
+  "badge_hint_link_unknown": "Twitch oplyser ikke, om udgiverkontoen er tilknyttet; indløsningen kan vente på tilknytningen",
   "badge_hint_claimed": "Allerede i din Twitch-beholdning",
   "badge_hint_owned": "Denne konto har allerede denne badge: mineren miner den ikke",
   "badge_hint_ready": "Optjent: mangler kun at blive indløst",

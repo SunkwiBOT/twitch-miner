@@ -38,6 +38,9 @@ import LockOpenIcon from "@lucide/svelte/icons/lock-open";
 import LogInIcon from "@lucide/svelte/icons/log-in";
 import LogOutIcon from "@lucide/svelte/icons/log-out";
 import MenuIcon from "@lucide/svelte/icons/menu";
+import PanelLeftCloseIcon from "@lucide/svelte/icons/panel-left-close";
+import PanelLeftOpenIcon from "@lucide/svelte/icons/panel-left-open";
+import CircleQuestionMarkIcon from "@lucide/svelte/icons/circle-question-mark";
 import MinusIcon from "@lucide/svelte/icons/minus";
 import MoonIcon from "@lucide/svelte/icons/moon";
 import OctagonXIcon from "@lucide/svelte/icons/octagon-x";
@@ -86,6 +89,9 @@ export const ICONS: Record<IconName, LucideIconType | IconDrawingType> = {
   [IconName.INFO]: InfoIcon,
   [IconName.X]: XIcon,
   [IconName.MENU]: MenuIcon,
+  [IconName.PANEL_CLOSE]: PanelLeftCloseIcon,
+  [IconName.PANEL_OPEN]: PanelLeftOpenIcon,
+  [IconName.HELP]: CircleQuestionMarkIcon,
   [IconName.REFRESH]: RotateCwIcon,
   [IconName.TRASH]: TrashIcon,
   [IconName.UP]: ChevronUpIcon,

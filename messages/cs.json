@@ -489,7 +489,7 @@
     }
   ],
   "catalogue_new": "Nové",
-  "catalogue_link_required": "Vyžaduje propojení účtu vydavatele",
+  "badge_link_unknown": "Propojení neznámé",
   "catalogue_sort_ending": "Brzy končí",
   "catalogue_sort_new": "Nejnovější",
   "catalogue_sort_game": "Kategorie A→Z",
@@ -1278,7 +1278,7 @@
   "queue_hint_blocked_set_aside": "{minutes} minut reálného sledování bez postupu ji odložilo; jakýkoli postup ji okamžitě vrátí zpět.",
   "badge_hint_linked": "Účet vydavatele propojen: dropy lze vyzvednout",
   "badge_hint_not_linked": "Propojte účet vydavatele, abyste mohli vyzvednout dropy",
-  "badge_hint_link_required": "Vyžaduje propojený účet vydavatele",
+  "badge_hint_link_unknown": "Twitch neuvádí, zda je účet vydavatele propojený; vyzvednutí může na propojení počkat",
   "badge_hint_claimed": "Už je ve vašem inventáři Twitch",
   "badge_hint_owned": "Tento účet už tento odznak má: miner ho netěží",
   "badge_hint_ready": "Získáno: stačí vyzvednout",

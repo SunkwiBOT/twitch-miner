@@ -7,6 +7,7 @@ import {
   CLAIMED_VIEW,
   EVOLUTION_OFF_VIEW,
   IGNORED_VIEW,
+  LINK_UNKNOWN_VIEW,
   MINING_VIEW,
   NOT_LINKED_VIEW,
   NOT_SELECTED_VIEW,
@@ -301,13 +302,15 @@ const FACET_LABELS: Record<CampaignFacet, () => string> = {
 
 const LINK_LABELS: Record<LinkFacet, () => string> = {
   [LinkFacet.LINKED]: () => t.dashboard_linked(),
-  [LinkFacet.NOT_LINKED]: () => t.dashboard_not_linked(),
+  [LinkFacet.UNKNOWN]: LINK_UNKNOWN_VIEW.text,
+  [LinkFacet.NOT_LINKED]: NOT_LINKED_VIEW.text,
   [LinkFacet.NO_LINK]: () => t.rewards_link_none(),
 };
 
 const LINK_ICONS: Record<LinkFacet, IconName> = {
   [LinkFacet.LINKED]: IconName.LINK,
-  [LinkFacet.NOT_LINKED]: IconName.ALERT,
+  [LinkFacet.UNKNOWN]: LINK_UNKNOWN_VIEW.icon,
+  [LinkFacet.NOT_LINKED]: NOT_LINKED_VIEW.icon,
   [LinkFacet.NO_LINK]: IconName.CHECK,
 };
 

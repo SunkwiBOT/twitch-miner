@@ -451,7 +451,7 @@
     }
   ],
   "catalogue_new": "Uusi",
-  "catalogue_link_required": "Julkaisijatilin linkitys vaaditaan",
+  "badge_link_unknown": "Linkitys tuntematon",
   "catalogue_sort_ending": "Päättyy pian",
   "catalogue_sort_new": "Uusimmat",
   "catalogue_sort_game": "Kategoria A→Ö",
@@ -1183,7 +1183,7 @@
   "queue_hint_blocked_set_aside": "{minutes} minuuttia todellista katselua ilman edistymistä siirsi sen sivuun; mikä tahansa edistyminen tuo sen heti takaisin.",
   "badge_hint_linked": "Julkaisijatili linkitetty: dropit voi lunastaa",
   "badge_hint_not_linked": "Linkitä julkaisijatili lunastaaksesi dropit",
-  "badge_hint_link_required": "Vaatii linkitetyn julkaisijatilin",
+  "badge_hint_link_unknown": "Twitch ei kerro, onko julkaisijatili linkitetty; lunastus voi odottaa linkitystä",
   "badge_hint_claimed": "Jo Twitch-inventaariossasi",
   "badge_hint_owned": "Tällä tilillä on jo tämä merkki: louhija ei louhi sitä",
   "badge_hint_ready": "Ansaittu: pitää vain lunastaa",

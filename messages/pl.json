@@ -488,7 +488,7 @@
     }
   ],
   "catalogue_new": "Nowa",
-  "catalogue_link_required": "Wymaga połączenia konta wydawcy",
+  "badge_link_unknown": "Połączenie nieznane",
   "catalogue_sort_ending": "Wkrótce koniec",
   "catalogue_sort_new": "Najnowsze",
   "catalogue_sort_game": "Kategoria A→Z",
@@ -1139,7 +1139,7 @@
   "queue_hint_blocked_set_aside": "{minutes} minut rzeczywistego oglądania bez postępu odłożyło ją; każdy postęp natychmiast ją przywraca.",
   "badge_hint_linked": "Konto wydawcy połączone: dropy można odebrać",
   "badge_hint_not_linked": "Połącz konto wydawcy, aby odebrać dropy",
-  "badge_hint_link_required": "Wymaga połączonego konta wydawcy",
+  "badge_hint_link_unknown": "Twitch nie podaje, czy konto wydawcy jest połączone; odebranie może czekać na połączenie",
   "badge_hint_claimed": "Już w Twoim ekwipunku Twitch",
   "badge_hint_owned": "To konto ma już tę odznakę: miner jej nie kopie",
   "badge_hint_ready": "Zdobyte: wystarczy odebrać",

@@ -13,9 +13,10 @@ import { relativeTime } from "../time/time.utils";
 
 export type RewardType = { campaign: CampaignType; drop: TimedDropType };
 
-// ! Only Twitch's own count says a subscription was made: until then the reward waits.
-export const subsMissing = (item: { required_subs: number; current_subs: number }): boolean =>
-  item.current_subs < item.required_subs;
+// ! Twitch earns a drop on either its watch time or its subscription count (the core's
+// `TimedDrop::subs_met`): only a drop without watch time waits for Twitch's own count.
+export const subsMissing = (drop: TimedDropType): boolean =>
+  drop.required_minutes === 0 && drop.current_subs < drop.required_subs;
 
 export const dropDone = (drop: TimedDropType): boolean =>
   drop.repeat ? drop.periods_done >= drop.repeat.times : drop.claimed;

@@ -78,6 +78,13 @@ export const NOT_LINKED_VIEW = {
   hint: () => t.badge_hint_not_linked(),
 } satisfies BadgeViewType;
 
+export const LINK_UNKNOWN_VIEW = {
+  text: () => t.badge_link_unknown(),
+  tone: BadgeTone.NEUTRAL,
+  icon: IconName.HELP,
+  hint: () => t.badge_hint_link_unknown(),
+} satisfies BadgeViewType;
+
 export const SUB_REQUIRED_VIEW = {
   text: () => t.campaign_progress_sub_required(),
   tone: BadgeTone.WARNING,

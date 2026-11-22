@@ -21,7 +21,7 @@ import {
 } from "../catalogue/campaign.utils";
 import { campaignOf, catalogueCampaign } from "../catalogue/catalogue.svelte";
 import { ProgressState, type AccountProgressType } from "../catalogue/progress.constants";
-import { badgeKey, badgeNeedsSub } from "./badges.utils";
+import { badgeKey, badgeNeedsSub, questSubsOnly } from "./badges.utils";
 
 export type BadgeProgressType = AccountProgressType & {
   done: number;
@@ -159,7 +159,7 @@ export const badgeProgress = (
       done: group.repeat
         ? group.grant_count >= group.repeat.times
         : group.status === QuestStatus.CLAIMED,
-      subs: subsMissing(group) || group.required_minutes === 0,
+      subs: questSubsOnly(group),
       reachable: quest.sitewide && group.status !== QuestStatus.UNKNOWN,
       started: group.current_minutes > 0 || group.grant_count > 0,
       evolution: group.evolution,

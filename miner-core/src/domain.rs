@@ -183,10 +183,13 @@ pub struct TimedDrop {
 }
 
 impl TimedDrop {
+    // ! A drop without watch time is earned by its subscriptions alone, not by its zero minutes.
     pub fn complete(&self) -> bool {
         match self.repeat {
             Some(repeat) => self.periods_done >= repeat.times,
-            None => self.claimed || self.current_minutes >= self.required_minutes,
+            None => {
+                self.claimed || (self.current_minutes >= self.required_minutes && self.subs_met())
+            }
         }
     }
 
@@ -239,8 +242,14 @@ impl TimedDrop {
 
     // ! Only Twitch's own count says a subscription was made: one running
     // already, Prime or a renewal never counts for a drop.
-    pub fn subs_met(&self) -> bool {
+    pub fn subs_counted(&self) -> bool {
         self.current_subs >= self.required_subs
+    }
+
+    // ! Twitch earns a drop on either its watch time or its subscription count:
+    // only a drop without watch time waits for the subscriptions.
+    pub fn subs_met(&self) -> bool {
+        self.required_minutes > 0 || self.subs_counted()
     }
 
     pub fn minable(&self, excluded: &[String]) -> bool {
@@ -257,6 +266,14 @@ impl TimedDrop {
     pub fn gives_badge(&self) -> bool {
         self.benefits.iter().any(|b| b.kind == BenefitKind::Badge)
     }
+}
+
+// ! In rank order: "linked first" mines a known link, then an unknown one, then a known lack.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+pub enum LinkStanding {
+    Ready,
+    Unknown,
+    NotLinked,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default, TS)]
@@ -327,6 +344,20 @@ impl Campaign {
         let mut benefits = self.drops.iter().flat_map(|d| &d.benefits).peekable();
 
         benefits.peek().is_none() || benefits.any(|b| b.kind != BenefitKind::Badge)
+    }
+
+    // ! `linked` stays unknown for a campaign the account never started, from the public
+    // catalogue, when no other campaign of its game says how that game account stands.
+    pub fn link_standing(&self) -> LinkStanding {
+        if self.kind == CampaignKind::Quest || !self.needs_link() {
+            return LinkStanding::Ready;
+        }
+
+        match self.linked {
+            Some(true) => LinkStanding::Ready,
+            None => LinkStanding::Unknown,
+            Some(false) => LinkStanding::NotLinked,
+        }
     }
 
     pub fn active_at(&self, now: DateTime<Utc>) -> bool {

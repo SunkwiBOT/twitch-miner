@@ -6,6 +6,7 @@
   import { t } from "../../../lib/i18n/i18n.svelte";
   import { escapeEmphasis } from "../../../lib/text.utils";
   import LinkBadge from "../../catalogue/LinkBadge.svelte";
+  import { LinkFacet } from "../../../lib/accounts/campaign-groups.constants";
   import EmptyState from "../../ui/EmptyState.svelte";
   import ExternalButton from "../../ui/ExternalButton.svelte";
   import List from "../../ui/List.svelte";
@@ -59,7 +60,7 @@
                 onfollow={() => refreshWhenBack(account.id)}
               />
             {:else}
-              <LinkBadge linked={false} />
+              <LinkBadge link={LinkFacet.NOT_LINKED} />
             {/if}
           {/snippet}
         </ListRow>

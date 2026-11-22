@@ -477,7 +477,7 @@
     }
   ],
   "catalogue_new": "Ny",
-  "catalogue_link_required": "Kräver länkat utgivarkonto",
+  "badge_link_unknown": "Koppling okänd",
   "catalogue_sort_ending": "Slutar snart",
   "catalogue_sort_new": "Nyast",
   "catalogue_sort_game": "Kategori A→Ö",
@@ -1136,7 +1136,7 @@
   "queue_hint_blocked_set_aside": "{minutes} minuters verklig visning utan framsteg lade den åt sidan; alla framsteg för tillbaka den direkt.",
   "badge_hint_linked": "Utgivarkonto kopplat: dropsen kan hämtas",
   "badge_hint_not_linked": "Koppla utgivarkontot för att hämta dropsen",
-  "badge_hint_link_required": "Kräver ett kopplat utgivarkonto",
+  "badge_hint_link_unknown": "Twitch anger inte om utgivarkontot är kopplat; inlösen kan vänta på kopplingen",
   "badge_hint_claimed": "Redan i ditt Twitch-förråd",
   "badge_hint_owned": "Det här kontot har redan märket: minern minar det inte",
   "badge_hint_ready": "Intjänad: behöver bara hämtas",

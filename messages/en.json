@@ -482,7 +482,7 @@
     }
   ],
   "catalogue_new": "New",
-  "catalogue_link_required": "Publisher account link required",
+  "badge_link_unknown": "Link unknown",
   "catalogue_sort_ending": "Ending soon",
   "catalogue_sort_new": "Newest",
   "catalogue_sort_game": "Category A→Z",
@@ -1279,7 +1279,7 @@
   "queue_hint_blocked_set_aside": "{minutes} minutes of real watching with no progress set it aside; any progress brings it back right away.",
   "badge_hint_linked": "Publisher account linked: the drops can be claimed",
   "badge_hint_not_linked": "Link the publisher account to claim the drops",
-  "badge_hint_link_required": "Needs a linked publisher account",
+  "badge_hint_link_unknown": "Twitch doesn't say whether the publisher account is linked; the claim may wait for the link",
   "badge_hint_claimed": "Already in your Twitch inventory",
   "badge_hint_owned": "This account already has this badge: the miner does not mine it",
   "badge_hint_ready": "Earned: it only needs to be claimed",

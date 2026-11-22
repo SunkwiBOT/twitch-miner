@@ -477,7 +477,7 @@
     }
   ],
   "catalogue_new": "Neu",
-  "catalogue_link_required": "Verknüpfung des Herausgeberkontos erforderlich",
+  "badge_link_unknown": "Verknüpfung unbekannt",
   "catalogue_sort_ending": "Endet bald",
   "catalogue_sort_new": "Neueste",
   "catalogue_sort_game": "Kategorie A→Z",
@@ -1235,7 +1235,7 @@
   "queue_hint_blocked_set_aside": "{minutes} Minuten echtes Zuschauen ohne Fortschritt haben sie zurückgestellt; jeder Fortschritt holt sie sofort zurück.",
   "badge_hint_linked": "Herausgeberkonto verknüpft: Drops können eingelöst werden",
   "badge_hint_not_linked": "Herausgeberkonto verknüpfen, um die Drops einzulösen",
-  "badge_hint_link_required": "Benötigt ein verknüpftes Herausgeberkonto",
+  "badge_hint_link_unknown": "Twitch sagt nicht, ob das Herausgeberkonto verknüpft ist; das Einlösen kann auf die Verknüpfung warten",
   "badge_hint_claimed": "Schon in Ihrem Twitch-Inventar",
   "badge_hint_owned": "Dieses Konto hat das Abzeichen schon: der Miner mint es nicht",
   "badge_hint_ready": "Verdient: muss nur noch eingelöst werden",

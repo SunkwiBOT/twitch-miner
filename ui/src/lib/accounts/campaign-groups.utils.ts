@@ -171,16 +171,21 @@ const FACET_VALUES: readonly FacetValueType[] = [
   })),
 ];
 
-export const linkFacet = (campaign: CampaignType): LinkFacet | null => {
+// ! The core's rule (`Campaign::link_standing`): Twitch leaves the link unknown on a campaign the
+// account never started, when no other campaign of its game tells. A queue row brings its own state.
+export const linkFacet = (
+  campaign: CampaignType,
+  linked: boolean | null | undefined = campaign.linked,
+): LinkFacet => {
   if (campaign.kind === CampaignKind.QUEST || !needsLink(campaign)) {
     return LinkFacet.NO_LINK;
   }
 
-  if (campaign.linked === undefined) {
-    return null;
+  if (linked === undefined || linked === null) {
+    return LinkFacet.UNKNOWN;
   }
 
-  return campaign.linked ? LinkFacet.LINKED : LinkFacet.NOT_LINKED;
+  return linked ? LinkFacet.LINKED : LinkFacet.NOT_LINKED;
 };
 
 export const campaignFacets = (
@@ -189,7 +194,6 @@ export const campaignFacets = (
 ): FacetValueType[] => {
   const { campaign } = entry;
   const drops = campaign.drops.filter((drop) => !excluded.has(drop.id));
-  const link = linkFacet(campaign);
   const kinds = new Set(drops.flatMap((drop) => drop.benefits.map((b) => b.kind)));
   const facets: FacetValueType[] = [
     { facet: CampaignFacet.STATE, value: entry.state },
@@ -198,15 +202,12 @@ export const campaignFacets = (
       facet: CampaignFacet.REQUIREMENT,
       value: drops.some(subsMissing) ? RequirementFacet.SUBSCRIPTION : RequirementFacet.WATCH_TIME,
     },
+    { facet: CampaignFacet.LINK, value: linkFacet(campaign) },
     ...[...kinds].map((value): FacetValueType => ({ facet: CampaignFacet.REWARD, value })),
   ];
 
   if (entry.queued) {
     facets.push({ facet: CampaignFacet.REASON, value: entry.queued.reason });
-  }
-
-  if (link) {
-    facets.push({ facet: CampaignFacet.LINK, value: link });
   }
 
   return facets;

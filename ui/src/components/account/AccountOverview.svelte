@@ -30,6 +30,7 @@
   import AccountActivity from "../AccountActivity.svelte";
   import ActivityFeed from "../ActivityFeed.svelte";
   import LinkBadge from "../catalogue/LinkBadge.svelte";
+  import { linkFacet } from "../../lib/accounts/campaign-groups.utils";
   import RewardTiles from "../catalogue/RewardTiles.svelte";
   import TextButton from "../ui/TextButton.svelte";
   import { Card } from "$lib/components/ui/card";
@@ -120,7 +121,7 @@
                   fallback={IconName.GIFT}
                 />
               {/snippet}
-              {#snippet trailing()}<LinkBadge linked={q.linked} />{/snippet}
+              {#snippet trailing()}{#if c}<LinkBadge link={linkFacet(c, q.linked)} />{/if}{/snippet}
             </ListRow>
           {/each}
         </List>

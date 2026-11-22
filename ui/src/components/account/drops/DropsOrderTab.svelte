@@ -31,6 +31,8 @@
   import { escapeEmphasis, strong } from "../../../lib/text.utils";
   import TextButton from "../../ui/TextButton.svelte";
   import LinkBadge from "../../catalogue/LinkBadge.svelte";
+  import { LinkFacet } from "../../../lib/accounts/campaign-groups.constants";
+  import { linkFacet } from "../../../lib/accounts/campaign-groups.utils";
   import Badge from "../../ui/Badge.svelte";
   import ConfirmDialog from "../../ui/ConfirmDialog.svelte";
   import DetailLine from "../../ui/DetailLine.svelte";
@@ -182,7 +184,9 @@
               <Badge
                 {...queueStateView(account, item, ticker.now) ?? queueReasonView(item.reason)}
               />
-              {#if item.linked === false}<LinkBadge linked={false} />{/if}
+              {#if c && linkFacet(c, item.linked) !== LinkFacet.LINKED}<LinkBadge
+                  link={linkFacet(c, item.linked)}
+                />{/if}
             </span>
           </span>
           <DetailLine

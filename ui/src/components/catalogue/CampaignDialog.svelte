@@ -48,6 +48,8 @@
   import AccountProgressList from "./AccountProgressList.svelte";
   import CampaignActions from "./CampaignActions.svelte";
   import LinkBadge from "./LinkBadge.svelte";
+  import { LinkFacet } from "../../lib/accounts/campaign-groups.constants";
+  import { linkFacet } from "../../lib/accounts/campaign-groups.utils";
   import RewardTiles from "./RewardTiles.svelte";
 
   type CampaignDialogPropsType = {
@@ -180,7 +182,7 @@
               tone={BadgeTone.NEUTRAL}
               icon={IconName.GIFT}
             />
-            <LinkBadge linked={view.linked} needed={view.link_url !== undefined} />
+            <LinkBadge link={linkFacet(view)} />
             {#if view.in_inventory}<Badge
                 text={t.campaigns_filter_in_progress()}
                 tone={BadgeTone.ACCENT}
@@ -297,7 +299,9 @@
     {#if progress.length > 0}
       <AccountProgressList entries={progress}>
         {#snippet tags(entry)}
-          {#if entry.linked === false}<LinkBadge linked={false} />{/if}
+          {#if linkFacet(view, entry.linked) !== LinkFacet.LINKED}<LinkBadge
+              link={linkFacet(view, entry.linked)}
+            />{/if}
           {#if entry.state === ProgressState.SET_ASIDE && entry.setAsideUntil}
             <Badge text={setAsideLabel(entry.setAsideUntil, ticker.now)} tone={BadgeTone.WARNING} />
           {/if}
