@@ -64,7 +64,7 @@
 
   $effect(() => {
     if (list) {
-      centerOption(list, CHECKED_OPTION);
+      return centerOption(list, CHECKED_OPTION);
     }
   });
 

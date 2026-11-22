@@ -248,7 +248,9 @@
             />
           {/each}
         </span>
-        <span><RichText text={t.login_setup_for_many({ count: strong(accounts.length) })} /></span>
+        <span>
+          <RichText text={t.login_setup_for_many({ accountCount: strong(accounts.length) })} />
+        </span>
       {/if}
     </p>
     <SetupStepper {steps} current={stepIndex} disabled={finishing} ongo={goTo} />

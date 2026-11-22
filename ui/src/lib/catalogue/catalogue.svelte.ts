@@ -126,3 +126,25 @@ export const campaignsOf = (account: AccountSnapshotType): CampaignType[] =>
 
 export const campaignOf = (account: AccountSnapshotType, id: string): CampaignType | undefined =>
   combinedOf(account).byId.get(id) ?? catalogueCampaign(id);
+
+// ! A quest or a campaign outside the catalogue lives only on the accounts that see it.
+export const knownCampaign = (
+  accounts: AccountSnapshotType[],
+  id: string,
+): CampaignType | undefined => {
+  const listed = catalogueCampaign(id);
+
+  if (listed) {
+    return listed;
+  }
+
+  for (const account of accounts) {
+    const campaign = combinedOf(account).byId.get(id);
+
+    if (campaign) {
+      return campaign;
+    }
+  }
+
+  return undefined;
+};

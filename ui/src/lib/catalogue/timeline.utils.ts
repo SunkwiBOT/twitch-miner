@@ -279,8 +279,8 @@ export const campaignTimelineRows = (
       },
     })),
     (items) =>
-      `${t.catalogue_campaigns({ count: items.length })} · ${t.catalogue_rewards({
-        count: items.reduce((sum, item) => sum + item.value.drops.length, 0),
+      `${t.catalogue_campaigns({ campaignCount: items.length })} · ${t.catalogue_rewards({
+        rewardCount: items.reduce((sum, item) => sum + item.value.drops.length, 0),
       })}`,
   );
 

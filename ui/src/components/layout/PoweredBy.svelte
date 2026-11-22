@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
 
   import { cn } from "$lib/utils";
-  import { followLink } from "../../lib/links/links.utils";
+  import ExternalAnchor from "../ui/ExternalAnchor.svelte";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { PARTNERS, REPO_URL, ROTATION_FADE_MS, ROTATION_MS } from "../../lib/partners.constants";
   import Icon from "../ui/Icon.svelte";
@@ -54,14 +54,12 @@
   });
 </script>
 
-<a
+<ExternalAnchor
+  url={entry.url}
   class={cn(
     "group/link flex items-center gap-2.5 rounded-md p-1.5 transition-opacity duration-300 hover:bg-sidebar-accent",
     fading && "opacity-0",
   )}
-  href={entry.url}
-  rel="noreferrer"
-  onclick={(event) => followLink(event, entry.url)}
   onpointerenter={() => (hovered = true)}
   onpointerleave={() => (hovered = false)}
   onfocus={() => (focused = true)}
@@ -82,4 +80,4 @@
       <LinkText text={entry.name} mark={LinkMark.END} size={LinkSize.MD} fit={true} />
     </span>
   </span>
-</a>
+</ExternalAnchor>

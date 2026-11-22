@@ -72,7 +72,9 @@
   <UpdateBadge />
   {#if app.page !== Page.HOME}<QuietWindowBadge class="@max-[50rem]:hidden" />{/if}
   {#if current}
-    {#if paused}<span class="contents @max-[40rem]:order-last @max-[40rem]:flex @max-[40rem]:basis-full">
+    {#if paused}<span
+        class="contents @max-[40rem]:order-last @max-[40rem]:flex @max-[40rem]:basis-full"
+      >
         <AccountStatusBadges account={current} />
       </span>
     {:else if wideLayout.current}<span class="contents @max-[65rem]:hidden">

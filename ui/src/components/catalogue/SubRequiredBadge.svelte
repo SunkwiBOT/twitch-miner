@@ -11,7 +11,7 @@
 
 <Badge
   class={className}
-  text={t.badge_progress_sub_required()}
+  text={t.campaign_progress_sub_required()}
   tone={BadgeTone.WARNING}
   dot={false}
   icon={IconName.ALERT}

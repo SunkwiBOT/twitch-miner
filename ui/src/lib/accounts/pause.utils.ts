@@ -4,11 +4,7 @@
 
 import { wallMsToZoneMs, zoneWallMs } from "../time/time.utils";
 
-export const PAUSE_PRESET_MINUTES = {
-  THIRTY_MIN: 30,
-  ONE_HOUR: 60,
-  FOUR_HOURS: 240,
-} as const;
+export const PAUSE_CUSTOM_DEFAULT_MINUTES = 60;
 
 export const PAUSE_TOMORROW_HOUR = 9;
 

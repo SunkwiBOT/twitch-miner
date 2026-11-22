@@ -102,7 +102,7 @@
       label={t.requests_types()}
       allLabel={t.requests_types_all()}
       noneLabel={t.requests_types_none()}
-      countLabel={(count) => t.requests_types_count({ count })}
+      countLabel={(count) => t.requests_types_count({ typeCount: count })}
       align={MenuAlign.LEFT}
       onchange={(next) => (hidden = offered.filter((kind) => !next.includes(kind)))}
     />

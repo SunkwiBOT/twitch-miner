@@ -57,7 +57,7 @@
       class="now-tab rounded-r-md bg-primary text-xs font-bold text-primary-foreground"
       style:left="{nowPercent}%"
     >
-      {t.timeline_now({ time: formatClock(now) })}
+      {t.timeline_now({ nowTime: formatClock(now) })}
     </div>
   </div>
 </div>

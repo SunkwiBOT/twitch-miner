@@ -9,8 +9,13 @@
     REWARDS_PAGE_TAB_SLUGS,
     RewardsPageTab,
   } from "../../lib/accounts/accounts.constants";
-  import { CampaignGroup } from "../../lib/accounts/campaign-groups.constants";
-  import { accountCampaigns } from "../../lib/accounts/campaign-groups.utils";
+  import { CAMPAIGN_GROUPS, CampaignGroup } from "../../lib/accounts/campaign-groups.constants";
+  import {
+    accountCampaigns,
+    excludedDropIds,
+    visibleCampaigns,
+    type CampaignGroupsType,
+  } from "../../lib/accounts/campaign-groups.utils";
   import { groupOptions, groupsCount } from "../../lib/accounts/campaign-states.utils";
   import { laneEnabled } from "../../lib/accounts/mining-order.utils";
   import { accountBadges, ownedBadges } from "../../lib/badges/badges.utils";
@@ -21,6 +26,7 @@
   import { campaignGivesBadge } from "../../lib/catalogue/campaign.utils";
   import { campaignsOf } from "../../lib/catalogue/catalogue.svelte";
   import { t } from "../../lib/i18n/i18n.svelte";
+  import { normalizeSearch } from "../../lib/search/search.utils";
   import { editsOf } from "../../lib/state/edits.svelte";
   import { AccountField } from "../../lib/state/state.constants";
   import { openTab, showTab } from "../../lib/state/router";
@@ -53,6 +59,20 @@
   const groups = $derived(
     accountCampaigns(account, campaignsOf(account).filter(campaignGivesBadge)),
   );
+
+  let query = $state("");
+  let hidden = $state<string[]>([]);
+
+  // ! The same search and filters the list below shows under: no counter claims a different total.
+  const visibleGroups = $derived.by((): CampaignGroupsType => {
+    const needle = normalizeSearch(query);
+    const off = new Set(hidden);
+    const excluded = excludedDropIds(account);
+
+    return Object.fromEntries(
+      CAMPAIGN_GROUPS.map((g) => [g, visibleCampaigns(groups[g], needle, off, excluded)]),
+    ) as CampaignGroupsType;
+  });
 
   const badgesOn = $derived(
     laneEnabled(account.settings.drops.mining_order, MiningLaneKind.BADGES),
@@ -93,7 +113,7 @@
           value: RewardsPageTab.CAMPAIGNS,
           label: t.drops_tab_campaigns(),
           icon: IconName.GRID,
-          count: groupsCount(groups) + owned.length,
+          count: groupsCount(visibleGroups),
         },
       ]}
     />
@@ -149,7 +169,7 @@
       label={t.rewards_groups_label()}
       onchange={(next) => showTab(BADGES_GROUP_SLUGS, next)}
       options={[
-        ...groupOptions(groups),
+        ...groupOptions(visibleGroups),
         {
           value: BadgesGroup.OWNED,
           label: t.account_badges_owned(),
@@ -161,15 +181,15 @@
     {#if group === BadgesGroup.OWNED}
       <OwnedBadgesTab {account} {owned} onopen={(badge) => openBadgeSheet(badge, account.id)} />
     {:else}
-      {#key group}
-        <RewardsTab
-          {account}
-          {group}
-          entries={groups[group]}
-          icon={IconName.AWARD}
-          onopen={openCampaign}
-        />
-      {/key}
+      <RewardsTab
+        {account}
+        {group}
+        entries={groups[group]}
+        icon={IconName.AWARD}
+        bind:query
+        bind:hidden
+        onopen={openCampaign}
+      />
     {/if}
   {/if}
   <AccountSaveBar {account} />

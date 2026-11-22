@@ -72,13 +72,13 @@
       {#if source}
         <RichText
           text={t.bulk_hint({
-            count: strong(count),
+            changeCount: strong(count),
             account: personMarker(0),
           })}
           people={[{ name: source.display_name, avatar: source.avatar_url, channel: null }]}
         />
       {:else}
-        <RichText text={t.bulk_hint_chosen({ count: strong(count) })} />
+        <RichText text={t.bulk_hint_chosen({ changeCount: strong(count) })} />
       {/if}
     </p>
     <CheckList
@@ -87,7 +87,10 @@
       label={t.bulk_accounts()}
       allLabel={t.common_select_all()}
       noneLabel={t.common_select_none()}
-      countLabel={t.common_selected_count({ count: selected.length, total: applicableCount })}
+      countLabel={t.common_selected_count({
+        selectedCount: selected.length,
+        total: applicableCount,
+      })}
       empty={t.bulk_no_accounts()}
       onchange={(value) => (selected = value)}
     />
@@ -104,7 +107,7 @@
     />
     <ActionButton
       icon={IconName.CHECK}
-      label={t.bulk_apply({ count: selected.length })}
+      label={t.bulk_apply({ changeCount: selected.length })}
       busyLabel={t.bulk_applying()}
       busy={applying}
       disabled={selected.length === 0}

@@ -113,7 +113,7 @@
       return;
     }
 
-    saveChange(t.change_streamers_edited({ count: strong(logins.size) }), (settings) =>
+    saveChange(t.change_streamers_edited({ streamerCount: strong(logins.size) }), (settings) =>
       setStreamersOptions(settings, logins, values, changes),
     );
 

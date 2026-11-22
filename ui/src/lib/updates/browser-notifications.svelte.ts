@@ -17,6 +17,19 @@ export const browserNotifications = $state<BrowserNotificationsStateType>({
   bannerDismissed: recall(KEY_STORAGE_UPDATE_BANNER) !== null,
 });
 
+// ! The answer can also change in the browser's own site settings, or in another tab. A browser
+// that cannot report it keeps the answer read at load and after each ask.
+if (browserNotifications.permission !== null && "permissions" in navigator) {
+  navigator.permissions.query({ name: "notifications" }).then(
+    (status) => {
+      status.onchange = () => {
+        browserNotifications.permission = browserNotificationPermission();
+      };
+    },
+    () => undefined,
+  );
+}
+
 export const allowBrowserNotifications = async (): Promise<void> => {
   browserNotifications.permission = await askBrowserNotifications();
 };

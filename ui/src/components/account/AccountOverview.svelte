@@ -70,7 +70,7 @@
 
 <PageBody>
   {#if account.problem === ErrorApiMessage.BEACON_BLOCKED}
-    <Notice tone={NoticeTone.WARNING} text={t.beacon_blocked()} />
+    <Notice tone={NoticeTone.WARNING} text={describeCode(ErrorApiMessage.BEACON_BLOCKED)} />
   {:else if account.problem && account.status !== AccountStatus.LOGIN_REQUIRED}
     <Notice tone={NoticeTone.DANGER} text={describeCode(account.problem)} />
   {/if}

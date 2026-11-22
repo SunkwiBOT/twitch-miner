@@ -1,15 +1,15 @@
 import type { NotificationEventsType } from "../../lib/bindings/NotificationEventsType";
 import { NotificationTarget } from "../../lib/bindings/NotificationTarget";
 import { t } from "../../lib/i18n/i18n.svelte";
+import { list } from "../../lib/format.utils";
+import { coreLimits } from "../../lib/state/limits";
 import { code } from "../../lib/text.utils";
 import { PROXY_EXAMPLE } from "../account/account.constants";
 
 export const proxyHint = (): string =>
   t.settings_proxy_hint({
     example: code(PROXY_EXAMPLE),
-    socks5h: code("socks5h://"),
-    http: code("http://"),
-    https: code("https://"),
+    proxySchemes: list(coreLimits().proxy_schemes.map((scheme) => code(`${scheme}://`))),
   });
 
 export const NOTIFY_LABELS: Record<keyof NotificationEventsType, () => string> = {

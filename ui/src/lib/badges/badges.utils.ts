@@ -127,7 +127,7 @@ export const badgeTimelineRows = (
         },
       ];
     }),
-    (items) => t.badges_count({ count: items.length }),
+    (items) => t.badges_count({ badgeCount: items.length }),
   );
 
 export enum AccountBadgeState {
@@ -484,6 +484,6 @@ export const collectionText = (rule: BadgeRequirementType): string => {
   }
 
   return rule.collection?.chest_size
-    ? t.badges_collection_chest({ collection, count: rule.collection.chest_size })
+    ? t.badges_collection_chest({ collection, chestCount: rule.collection.chest_size })
     : t.badges_collection({ collection });
 };

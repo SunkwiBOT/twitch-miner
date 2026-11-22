@@ -52,7 +52,9 @@
 
     const count = number(selected.length);
 
-    return all ? t.common_select_none_count({ count }) : t.common_select_all_count({ count });
+    return all
+      ? t.common_select_none_count({ itemCount: count })
+      : t.common_select_all_count({ itemCount: count });
   });
 
   $effect(() => {
@@ -82,11 +84,11 @@
       {selectLabel}
     </label>
     <span class="sr-only" role="status">
-      {t.common_selected_count({ count: selected.length, total: streamers.length })}
+      {t.common_selected_count({ selectedCount: selected.length, total: streamers.length })}
     </span>
     {#if selected.length > 0}
       <TextButton
-        label={t.points_edit_selected({ count: selected.length })}
+        label={t.points_edit_selected({ selectedCount: selected.length })}
         icon={IconName.EDIT}
         variant={ButtonVariant.OUTLINE}
         size={ButtonSize.SM}

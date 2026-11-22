@@ -25,7 +25,7 @@
   const status = $derived.by(() => {
     switch (tracking) {
       case BalanceTracking.LIVE:
-        return t.spam_balance_changed({ time: changedAgo(changedAt, now) });
+        return t.spam_balance_changed({ updatedTime: changedAgo(changedAt, now) });
       case BalanceTracking.PAUSED:
         return t.spam_balance_paused();
       case BalanceTracking.FAILING:

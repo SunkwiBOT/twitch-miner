@@ -69,10 +69,12 @@
     choices={[
       {
         value: watchedChannels.maxWatchedChannels,
-        title: t.slots_two_title(),
-        description: t.slots_two_hint(watchedChannels),
+        title: t.slots_max_title(watchedChannels),
+        description: t.slots_max_hint(watchedChannels),
       },
-      { value: 1, title: t.slots_one_title(), description: t.slots_one_hint() },
+      ...(watchedChannels.maxWatchedChannels > 1
+        ? [{ value: 1, title: t.slots_one_title(), description: t.slots_one_hint() }]
+        : []),
     ]}
   />
 </Panel>

@@ -93,7 +93,7 @@
 
     if (done > 0) {
       toast(ToastKind.SUCCESS, t.inventory_claimed_title(), {
-        description: t.inventory_claimed_all({ count: strong(done) }),
+        description: t.inventory_claimed_all({ claimCount: strong(done) }),
         account: { url: account.avatar_url, name: account.display_name, channel: null },
       });
     }

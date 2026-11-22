@@ -48,7 +48,7 @@
   />
   {#if wait > 0}
     <span id={waitId} class="text-hint text-muted-foreground">
-      <RichText text={t.common_refresh_wait({ time: strong(mmss(wait)) })} />
+      <RichText text={t.common_refresh_wait({ waitTime: strong(mmss(wait)) })} />
     </span>
   {/if}
 </span>

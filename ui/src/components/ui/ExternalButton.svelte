@@ -1,7 +1,13 @@
 <script lang="ts">
   import { Button } from "$lib/components/ui/button";
   import { cn } from "$lib/utils";
-  import { followBadgeLink, followCampaignLink, followLink } from "../../lib/links/links.utils";
+  import {
+    EXTERNAL_LINK_REL,
+    externalLinkOnClick,
+    followBadgeLink,
+    followCampaignLink,
+    followLink,
+  } from "../../lib/links/links.utils";
   import Icon from "./Icon.svelte";
   import {
     BUTTON_ICON_SIZES,
@@ -47,28 +53,25 @@
 
   const iconSize = $derived(BUTTON_ICON_SIZES[size]);
 
-  const follow = (event: MouseEvent): void => {
+  const follow = (event: MouseEvent, linkUrl: string): void => {
     if (resolve?.kind === ResolveKind.CAMPAIGN) {
-      followCampaignLink(event, resolve.accountId, resolve.campaignId, url);
+      followCampaignLink(event, resolve.accountId, resolve.campaignId, linkUrl);
     } else if (resolve?.kind === ResolveKind.BADGE) {
-      followBadgeLink(event, resolve.badgeKey, url);
+      followBadgeLink(event, resolve.badgeKey, linkUrl);
     } else {
-      followLink(event, url);
+      followLink(event, linkUrl);
     }
   };
 </script>
 
 <Button
   href={url}
-  rel="noreferrer"
+  rel={EXTERNAL_LINK_REL}
   variant={BUTTON_VARIANTS[variant]}
   size={BUTTON_SIZES[size]}
   class={cn("no-underline hover:no-underline", BUTTON_VARIANT_CLASSES[variant], className)}
   aria-label={ariaLabel}
-  onclick={(event: MouseEvent) => {
-    follow(event);
-    onfollow?.();
-  }}
+  onclick={externalLinkOnClick(url, follow, onfollow)}
 >
   {#if icon}<Icon name={icon} size={iconSize} />{/if}
   <span class="truncate">{label}</span>

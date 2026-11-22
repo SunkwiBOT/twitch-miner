@@ -26,16 +26,16 @@ export const evolutionBlocked = (evolution: EvolutionType | undefined, enabled: 
 
 export const watchText = (time: string, repeat: RepeatType | undefined): string => {
   if (!repeat) {
-    return t.reward_watch({ time });
+    return t.reward_watch({ watchTime: time });
   }
 
   if (repeat.every_hours === DAY_HOURS) {
-    return t.reward_watch_daily({ time, days: repeat.times });
+    return t.reward_watch_daily({ watchTime: time, days: repeat.times });
   }
 
   return repeat.every_hours
-    ? t.reward_watch_every({ time, hours: repeat.every_hours, count: repeat.times })
-    : t.reward_watch_times({ time, count: repeat.times });
+    ? t.reward_watch_every({ watchTime: time, hours: repeat.every_hours, timesCount: repeat.times })
+    : t.reward_watch_times({ watchTime: time, timesCount: repeat.times });
 };
 
 export const periodsText = (done: number, repeat: RepeatType): string => {
@@ -84,8 +84,8 @@ export const campaignEnd = (endsAt: string, now: number): string => {
   const time = strong(relativeTime(endsAt, now));
 
   return new Date(endsAt).getTime() > now
-    ? t.dashboard_ends_in({ time })
-    : t.dashboard_ended_ago({ time });
+    ? t.dashboard_ends_in({ endsTime: time })
+    : t.dashboard_ended_ago({ endedTime: time });
 };
 
 // ! Same rule as `util::game_slug` in the core.

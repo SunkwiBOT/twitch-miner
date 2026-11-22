@@ -75,7 +75,7 @@
     label={t.common_account()}
     allLabel={t.common_accounts_all()}
     noneLabel={t.common_accounts_none()}
-    countLabel={(count) => t.common_accounts_count({ count })}
+    countLabel={(count) => t.common_accounts_count({ accountCount: count })}
     align={MenuAlign.LEFT}
     onchange={onselect}
   />

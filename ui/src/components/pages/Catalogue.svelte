@@ -54,11 +54,11 @@
       {#if snapshot.catalog.updated_at}
         <RichText
           text={t.catalogue_last_update({
-            time: strong(relativeTime(snapshot.catalog.updated_at, ticker.now)),
+            updatedTime: strong(relativeTime(snapshot.catalog.updated_at, ticker.now)),
           })}
         />{#if snapshot.catalog.fetched_at}{" · "}<RichText
             text={t.catalogue_fetched({
-              time: strong(relativeTime(snapshot.catalog.fetched_at, ticker.now)),
+              fetchedTime: strong(relativeTime(snapshot.catalog.fetched_at, ticker.now)),
               minutes: strong(Math.round(snapshot.catalog.interval_seconds / 60)),
             })}
           />{/if}

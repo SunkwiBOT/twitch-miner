@@ -16,6 +16,7 @@
   import { TWITCH_BONUS_CHEST_MINUTES } from "../../lib/points/points.constants";
   import { strong } from "../../lib/text.utils";
   import { boundNumberInput } from "../../lib/input.utils";
+  import { coreLimits } from "../../lib/state/limits";
   import { Input } from "$lib/components/ui/input";
   import FormField from "../ui/FormField.svelte";
   import Select from "../ui/Select.svelte";
@@ -39,6 +40,8 @@
   >;
 
   let { options = $bindable(), mixed, onchange }: StreamerOptionsPropsType = $props();
+
+  const limits = $derived(coreLimits());
 
   const strategyOptions = $derived(
     Object.values(Strategy).map((strategy) => ({
@@ -243,8 +246,8 @@
           t.streamer_predictions_percentage(),
           StreamerOption.PERCENTAGE,
           "percentage",
-          1,
-          100,
+          limits.bet_percentage_min,
+          limits.bet_percentage_max,
           undefined,
         )}
         {@render numberField(
@@ -252,8 +255,8 @@
           t.streamer_predictions_max(),
           StreamerOption.MAX_POINTS,
           "max_points",
-          1,
-          250000,
+          limits.bet_points_min,
+          limits.bet_points_max,
           undefined,
         )}
         <div class={timing === BetTiming.AT_OPEN ? "col-span-2" : undefined}>
@@ -262,7 +265,7 @@
             t.streamer_predictions_min(),
             StreamerOption.MIN_POINTS,
             "min_points",
-            1,
+            limits.bet_points_min,
             undefined,
             undefined,
           )}
@@ -273,8 +276,8 @@
             t.streamer_predictions_delay(),
             StreamerOption.DELAY_SECONDS,
             "delay_seconds",
-            2,
-            300,
+            limits.bet_delay_seconds_min,
+            limits.bet_delay_seconds_max,
             undefined,
           )}
         {/if}
@@ -285,8 +288,8 @@
               t.streamer_predictions_timing_percent(),
               StreamerOption.TIMING_PERCENT,
               "timing_percent",
-              1,
-              99,
+              limits.bet_timing_percent_min,
+              limits.bet_timing_percent_max,
               undefined,
             )}
           </div>
@@ -298,8 +301,8 @@
           t.streamer_predictions_gap(),
           StreamerOption.PERCENTAGE_GAP,
           "percentage_gap",
-          0,
-          100,
+          limits.bet_gap_percent_min,
+          limits.bet_gap_percent_max,
           t.streamer_predictions_gap_hint(),
         )}
       {/if}

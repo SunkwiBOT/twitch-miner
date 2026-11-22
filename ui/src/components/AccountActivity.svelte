@@ -70,15 +70,15 @@
 {#snippet watched(slot: SlotViewType)}
   <span class="text-xs text-muted-foreground">
     <span class="inline-block">
-      <RichText text={t.dashboard_watching_since({ time: strong(formatClock(slot.since)) })} />
+      <RichText text={t.dashboard_watching_since({ sinceTime: strong(formatClock(slot.since)) })} />
     </span>{#if slot.last_beacon_at}{" · "}<span class="inline-block">
         <RichText
           text={t.slot_last_minute({
-            time: strong(relativeTime(slot.last_beacon_at, ticker.now)),
+            lastMinuteTime: strong(relativeTime(slot.last_beacon_at, ticker.now)),
           })}
         />
       </span>{/if}{" · "}<span class="inline-block">
-      <RichText text={t.slot_segments({ count: strong(number(slot.segments_requested)) })} />
+      <RichText text={t.slot_segments({ segmentCount: strong(number(slot.segments_requested)) })} />
     </span>
   </span>
 {/snippet}
@@ -191,7 +191,13 @@
         <div class="flex min-w-0 flex-col gap-1.5">
           <span class="flex"><MiningBadge kind={slot.miner} /></span>
           <span class="flex min-w-0 flex-col">
-            <span class="truncate font-semibold">{progress.game}</span>
+            <GameName
+              name={progress.game}
+              url={gameUrl(progress.game, undefined)}
+              art={gameArt(progress.game, undefined)}
+              size={ThumbSize.XS}
+              inSentence={false}
+            />
             {@render subtitle()}
           </span>
         </div>

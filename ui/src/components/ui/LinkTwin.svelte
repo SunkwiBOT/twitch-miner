@@ -2,8 +2,8 @@
   import type { Snippet } from "svelte";
 
   import { t } from "../../lib/i18n/i18n.svelte";
-  import { followLink } from "../../lib/links/links.utils";
   import type { LinkTargetType } from "../../lib/text.utils";
+  import ExternalAnchor from "./ExternalAnchor.svelte";
   import { linkPair } from "./link-pair.svelte";
 
   type LinkTwinPropsType = { target: LinkTargetType; live: boolean; children: Snippet };
@@ -21,19 +21,16 @@
 
 <!-- ! The name's own link is the one tabbed to and read: this one only widens the picture into the same target. -->
 {#if "url" in target}
-  {@const url = target.url}
-  <a
+  <ExternalAnchor
+    url={target.url}
     class="inline-flex shrink-0"
-    href={url}
-    rel="noreferrer"
-    tabindex="-1"
-    aria-hidden="true"
-    onclick={(event) => followLink(event, url)}
+    tabindex={-1}
+    ariaHidden={true}
     onpointerenter={() => hover(true)}
     onpointerleave={() => hover(false)}
   >
     {@render children()}
-  </a>
+  </ExternalAnchor>
 {:else}
   <button
     class="inline-flex shrink-0 rounded-md"

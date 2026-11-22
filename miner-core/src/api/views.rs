@@ -202,11 +202,24 @@ pub struct BadgeCatalogView {
     pub next_manual_refresh_at: DateTime<Utc>,
 }
 
+// ! Only present for `InstallKind::Binary`, built from the one shared prefix constant
+// and the running server's own processor (see `binary_asset_arch`), so the UI never
+// globs for the file that matches it.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[ts(rename = "BinaryAssetType")]
+pub struct BinaryAsset {
+    pub prefix: String,
+    pub arch: String,
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, TS)]
 #[ts(rename = "SnapshotType")]
 pub struct Snapshot {
     pub version: String,
     pub install_kind: super::InstallKind,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub binary_asset: Option<BinaryAsset>,
     // ! The dashboard's interface build: a tab that loaded another one reloads, even when the version is the same.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
@@ -261,6 +274,18 @@ pub struct CoreLimits {
     pub spam_redeem_text_max_chars: u32,
     pub requests_bucket_minutes: u32,
     pub max_watched_channels: u32,
+    pub bet_percentage_min: u32,
+    pub bet_percentage_max: u32,
+    pub bet_points_min: u32,
+    pub bet_points_max: u32,
+    pub bet_delay_seconds_min: u32,
+    pub bet_delay_seconds_max: u32,
+    pub bet_timing_percent_min: u32,
+    pub bet_timing_percent_max: u32,
+    pub bet_gap_percent_min: u32,
+    pub bet_gap_percent_max: u32,
+    pub proxy_schemes: [crate::config::ProxyScheme; 6],
+    pub pause_preset_minutes: [u32; 3],
 }
 
 impl CoreLimits {
@@ -276,6 +301,18 @@ impl CoreLimits {
         spam_redeem_text_max_chars: crate::spam::REDEEM_TEXT_MAX_CHARS as u32,
         requests_bucket_minutes: crate::requests::BUCKET_MINUTES as u32,
         max_watched_channels: crate::config::MAX_WATCHED_CHANNELS as u32,
+        bet_percentage_min: *crate::config::BET_PERCENTAGE.start() as u32,
+        bet_percentage_max: *crate::config::BET_PERCENTAGE.end() as u32,
+        bet_points_min: crate::config::BET_POINTS_MIN,
+        bet_points_max: crate::predictions::MAX_PREDICTION_POINTS as u32,
+        bet_delay_seconds_min: *crate::config::BET_DELAY_SECONDS.start(),
+        bet_delay_seconds_max: *crate::config::BET_DELAY_SECONDS.end(),
+        bet_timing_percent_min: *crate::config::BET_TIMING_PERCENT.start() as u32,
+        bet_timing_percent_max: *crate::config::BET_TIMING_PERCENT.end() as u32,
+        bet_gap_percent_min: *crate::config::BET_GAP_PERCENT.start() as u32,
+        bet_gap_percent_max: *crate::config::BET_GAP_PERCENT.end() as u32,
+        proxy_schemes: crate::config::ProxyScheme::ALL,
+        pause_preset_minutes: crate::config::PAUSE_PRESET_MINUTES,
     };
 }
 

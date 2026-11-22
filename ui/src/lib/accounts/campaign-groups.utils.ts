@@ -7,7 +7,7 @@ import { QueueBlock } from "../bindings/QueueBlock";
 import type { QueueItemType } from "../bindings/QueueItemType";
 import { QueueReason } from "../bindings/QueueReason";
 import { minesCampaign } from "../catalogue/campaign-progress.utils";
-import { dropDone, needsLink, subsMissing } from "../catalogue/campaign.utils";
+import { campaignMatches, dropDone, needsLink, subsMissing } from "../catalogue/campaign.utils";
 import { MINUTE_MS } from "../time/time.constants";
 import {
   CAMPAIGN_FACETS,
@@ -44,13 +44,19 @@ const queueState = (account: AccountSnapshotType, item: QueueItemType): Campaign
   return item.blocked ? QUEUE_BLOCK_STATES[item.blocked] : CampaignState.QUEUED;
 };
 
+// ! Excluded drops are left out: the user opted out of them, they never count toward a campaign's claim state.
+export const excludedDropIds = (account: AccountSnapshotType): ReadonlySet<string> =>
+  new Set(account.settings.drops.exclude_drop_ids);
+
 // ! A reward watched to the end waits for its claim until Twitch counts it as claimed.
 export const claimedState = (
   account: AccountSnapshotType,
   campaign: CampaignType,
 ): CampaignState => {
+  const excluded = excludedDropIds(account);
+  const drops = campaign.drops.filter((drop) => !excluded.has(drop.id));
   const refused = new Set(account.refused_claims);
-  const unclaimed = campaign.drops.some(
+  const unclaimed = drops.some(
     (drop) =>
       !dropDone(drop) &&
       !drop.badge_owned &&
@@ -59,7 +65,7 @@ export const claimedState = (
   );
   const linking = needsLink(campaign);
 
-  if (campaign.drops.some((drop) => refused.has(drop.id))) {
+  if (drops.some((drop) => refused.has(drop.id))) {
     return CampaignState.CLAIM_FAILED;
   }
 
@@ -69,7 +75,7 @@ export const claimedState = (
       : CampaignState.DONE;
   }
 
-  if (campaign.drops.some(subsMissing)) {
+  if (drops.some(subsMissing)) {
     return CampaignState.DONE_SUB_REQUIRED;
   }
 
@@ -173,17 +179,20 @@ export const linkFacet = (campaign: CampaignType): LinkFacet | null => {
   return campaign.linked ? LinkFacet.LINKED : LinkFacet.NOT_LINKED;
 };
 
-export const campaignFacets = (entry: AccountCampaignType): FacetValueType[] => {
+export const campaignFacets = (
+  entry: AccountCampaignType,
+  excluded: ReadonlySet<string>,
+): FacetValueType[] => {
   const { campaign } = entry;
+  const drops = campaign.drops.filter((drop) => !excluded.has(drop.id));
   const link = linkFacet(campaign);
-  const kinds = new Set(campaign.drops.flatMap((drop) => drop.benefits.map((b) => b.kind)));
+  const kinds = new Set(drops.flatMap((drop) => drop.benefits.map((b) => b.kind)));
   const facets: FacetValueType[] = [
     { facet: CampaignFacet.STATE, value: entry.state },
     {
+      // ! The account's own situation: a drop whose subscription it already holds asks for nothing more.
       facet: CampaignFacet.REQUIREMENT,
-      value: campaign.drops.some((drop) => drop.required_subs > 0)
-        ? RequirementFacet.SUBSCRIPTION
-        : RequirementFacet.WATCH_TIME,
+      value: drops.some(subsMissing) ? RequirementFacet.SUBSCRIPTION : RequirementFacet.WATCH_TIME,
     },
     ...[...kinds].map((value): FacetValueType => ({ facet: CampaignFacet.REWARD, value })),
   ];
@@ -199,15 +208,24 @@ export const campaignFacets = (entry: AccountCampaignType): FacetValueType[] => 
   return facets;
 };
 
-export const facetOptions = (entries: readonly AccountCampaignType[]): FacetValueType[] => {
-  const present = new Set(entries.flatMap((entry) => campaignFacets(entry).map(facetKey)));
+export const facetOptions = (
+  entries: readonly AccountCampaignType[],
+  excluded: ReadonlySet<string>,
+): FacetValueType[] => {
+  const present = new Set(
+    entries.flatMap((entry) => campaignFacets(entry, excluded).map(facetKey)),
+  );
 
   return FACET_VALUES.filter((option) => present.has(facetKey(option)));
 };
 
 // ! Values of one facet widen the choice, facets narrow it: a campaign shows when each of its facets keeps one value ticked.
-export const facetsShown = (entry: AccountCampaignType, hidden: ReadonlySet<string>): boolean => {
-  const values = campaignFacets(entry);
+export const facetsShown = (
+  entry: AccountCampaignType,
+  hidden: ReadonlySet<string>,
+  excluded: ReadonlySet<string>,
+): boolean => {
+  const values = campaignFacets(entry, excluded);
 
   return CAMPAIGN_FACETS.every((facet) => {
     const own = values.filter((value) => value.facet === facet);
@@ -215,3 +233,14 @@ export const facetsShown = (entry: AccountCampaignType, hidden: ReadonlySet<stri
     return own.length === 0 || own.some((value) => !hidden.has(facetKey(value)));
   });
 };
+
+// ! What a counter and a list agree on showing: the same search and facet filters, nothing raw.
+export const visibleCampaigns = (
+  entries: readonly AccountCampaignType[],
+  needle: string,
+  hidden: ReadonlySet<string>,
+  excluded: ReadonlySet<string>,
+): AccountCampaignType[] =>
+  entries.filter(
+    (entry) => campaignMatches(entry.campaign, needle) && facetsShown(entry, hidden, excluded),
+  );

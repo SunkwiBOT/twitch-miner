@@ -275,13 +275,13 @@
       const { token_import_max: importMax, token_line_max_chars: lineMaxChars } = coreLimits();
 
       if (tokens.length > importMax) {
-        pasteError = t.import_tokens_too_many({ max: strong(importMax) });
+        pasteError = t.import_tokens_too_many({ maxTokens: strong(importMax) });
 
         return;
       }
 
       if (tokens.some((token) => token.length > lineMaxChars)) {
-        pasteError = t.import_tokens_line_too_long({ max: strong(lineMaxChars) });
+        pasteError = t.import_tokens_line_too_long({ maxLineLength: strong(lineMaxChars) });
 
         return;
       }
@@ -766,7 +766,7 @@
     {/if}
     {#if !checking && checkAgainCount > 0}
       <TextButton
-        label={t.import_check_again({ count: checkAgainCount })}
+        label={t.import_check_again({ entryCount: checkAgainCount })}
         icon={IconName.REFRESH}
         variant={ButtonVariant.OUTLINE}
         size={ButtonSize.MD}

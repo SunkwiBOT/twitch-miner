@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { FILLED_ICONS, ICONS } from "./icons.constants";
+  import { FILLED_ICONS, ICONS } from "./icon-registry.constants";
   import type { IconName } from "../../lib/icons.constants";
 
   type IconPropsType = { name: IconName; size: number; class?: string };

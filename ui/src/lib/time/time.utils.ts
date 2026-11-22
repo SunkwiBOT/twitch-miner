@@ -184,15 +184,17 @@ export const relativeTime = (iso: string | undefined, now: number): string => {
 
   if (diff < 0) {
     if (minutes < 60) {
-      return t.time_minutes_ago({ count: minutes });
+      return t.time_minutes_ago({ minutesCount: minutes });
     }
 
-    return hours < 48 ? t.time_hours_ago({ count: hours }) : t.time_days_ago({ count: days });
+    return hours < 48
+      ? t.time_hours_ago({ hoursCount: hours })
+      : t.time_days_ago({ daysCount: days });
   }
 
   if (minutes < 60) {
-    return t.time_in_minutes({ count: minutes });
+    return t.time_in_minutes({ minutesCount: minutes });
   }
 
-  return hours < 48 ? t.time_in_hours({ count: hours }) : t.time_in_days({ count: days });
+  return hours < 48 ? t.time_in_hours({ hoursCount: hours }) : t.time_in_days({ daysCount: days });
 };

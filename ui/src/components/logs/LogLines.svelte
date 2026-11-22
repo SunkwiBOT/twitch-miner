@@ -122,7 +122,7 @@
       label={t.logs_levels()}
       allLabel={t.logs_levels_all()}
       noneLabel={t.logs_levels_none()}
-      countLabel={(count) => t.logs_levels_count({ count })}
+      countLabel={(count) => t.logs_levels_count({ levelCount: count })}
       align={MenuAlign.LEFT}
       onchange={filterLevels}
     />

@@ -24,10 +24,10 @@ pub use responses::{
     StreamerPredictions, UpdateCheck, UpdateCheckResponse,
 };
 pub use views::{
-    AccountSnapshot, AccountStats, AccountStatus, BadgeCatalogView, CampaignProgress, CatalogView,
-    CoreLimits, DropProgressView, DropState, ImportTokenOutcome, ImportTokensFlowStatus,
-    ImportTokensFlowView, LoginFlowStatus, LoginFlowView, SlotView, Snapshot, StreamerView,
-    TokenCheck,
+    AccountSnapshot, AccountStats, AccountStatus, BadgeCatalogView, BinaryAsset, CampaignProgress,
+    CatalogView, CoreLimits, DropProgressView, DropState, ImportTokenOutcome,
+    ImportTokensFlowStatus, ImportTokensFlowView, LoginFlowStatus, LoginFlowView, SlotView,
+    Snapshot, StreamerView, TokenCheck,
 };
 
 use serde::{Deserialize, Serialize};
@@ -47,6 +47,21 @@ pub enum InstallKind {
 impl InstallKind {
     pub fn is_server(self) -> bool {
         self != Self::Desktop
+    }
+}
+
+// ! Matches the release workflow's Linux server asset names
+// (`twitch-miner-server_<version>_linux_x64`/`_linux_arm64`, `.github/workflows/release.yml`):
+// the only other place this name is built.
+pub const BINARY_ASSET_PREFIX: &str = "twitch-miner-server_";
+
+// ! `std::env::consts::ARCH` names the processor the way Rust does (`x86_64`/`aarch64`);
+// the release asset names it the way the Docker build's platform folders do instead.
+pub fn binary_asset_arch() -> Option<&'static str> {
+    match std::env::consts::ARCH {
+        "x86_64" => Some("linux_x64"),
+        "aarch64" => Some("linux_arm64"),
+        _ => None,
     }
 }
 

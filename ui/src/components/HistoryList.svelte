@@ -136,7 +136,7 @@
         }
 
         if (result.path) {
-          toast(ToastKind.SUCCESS, t.export_csv_saved({ path: code(result.path) }));
+          toast(ToastKind.SUCCESS, t.export_csv_saved(), { description: code(result.path) });
         }
       }
     } catch (e: any) {
@@ -172,7 +172,7 @@
       label={t.journal_types()}
       allLabel={t.journal_types_all()}
       noneLabel={t.journal_types_none()}
-      countLabel={(count) => t.journal_types_count({ count })}
+      countLabel={(count) => t.journal_types_count({ typeCount: count })}
       align={MenuAlign.RIGHT}
       onchange={showKinds}
     />
@@ -290,7 +290,7 @@
           </span>
           <span class="shrink-0 font-medium tabular-nums text-muted-foreground">
             {(entry.count === 1 ? t.export_counts_count_one : t.export_counts_count)({
-              count: entry.count,
+              claimCount: entry.count,
             })}
           </span>
         </li>

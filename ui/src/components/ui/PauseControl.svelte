@@ -9,7 +9,7 @@
   import { PAUSE_LABELS, RESUME_LABELS } from "../../lib/accounts/accounts.utils";
   import {
     fromLocalInputValue,
-    PAUSE_PRESET_MINUTES,
+    PAUSE_CUSTOM_DEFAULT_MINUTES,
     PAUSE_TOMORROW_HOUR,
     toLocalInputValue,
     untilInMinutes,
@@ -21,6 +21,8 @@
   import { overlay } from "../../lib/state/overlay.svelte";
   import { ticker } from "../../lib/state/ticker.svelte";
   import { formatClock } from "../../lib/time/time.utils";
+  import { longDuration } from "../../lib/format.utils";
+  import { coreLimits } from "../../lib/state/limits";
   import { timePreferences } from "../../lib/time/time.svelte";
   import ActionButton from "./ActionButton.svelte";
   import Dialog from "./Dialog.svelte";
@@ -63,16 +65,15 @@
     ),
   );
 
-  const tomorrowClock = $derived.by(() => {
-    void ticker.now;
-
-    return formatClock(
-      untilTomorrowAt(PAUSE_TOMORROW_HOUR, Date.now(), timePreferences.zone).toISOString(),
-    );
-  });
+  const tomorrowClock = $derived(
+    formatClock(
+      untilTomorrowAt(PAUSE_TOMORROW_HOUR, ticker.now, timePreferences.zone).toISOString(),
+    ),
+  );
 
   const customUntil = $derived(fromLocalInputValue(customValue, timePreferences.zone));
-  const customValid = $derived(customUntil !== null && customUntil > new Date());
+  const customValid = $derived(customUntil !== null && customUntil.getTime() > ticker.now);
+  const presets = $derived(coreLimits().pause_preset_minutes);
   const busy = $derived(pausing || resuming);
   const busyLabel = $derived(resuming ? t.action_resuming() : t.action_pausing());
 
@@ -97,7 +98,7 @@
   const openCustom = (): void => {
     open = false;
     customValue = toLocalInputValue(
-      untilInMinutes(PAUSE_PRESET_MINUTES.ONE_HOUR, Date.now()),
+      untilInMinutes(PAUSE_CUSTOM_DEFAULT_MINUTES, Date.now()),
       timePreferences.zone,
     );
     customOpen = true;
@@ -162,34 +163,22 @@
             {t.pause_preset_until_resumed()}
           </CommandItem>
           <CommandSeparator class="my-1" />
-          <CommandItem
-            value="30m"
-            class={MENU_ITEM_CLASSES}
-            onSelect={() => void pause(untilInMinutes(PAUSE_PRESET_MINUTES.THIRTY_MIN, Date.now()))}
-          >
-            {t.pause_preset_30m()}
-          </CommandItem>
-          <CommandItem
-            value="1h"
-            class={MENU_ITEM_CLASSES}
-            onSelect={() => void pause(untilInMinutes(PAUSE_PRESET_MINUTES.ONE_HOUR, Date.now()))}
-          >
-            {t.pause_preset_1h()}
-          </CommandItem>
-          <CommandItem
-            value="4h"
-            class={MENU_ITEM_CLASSES}
-            onSelect={() => void pause(untilInMinutes(PAUSE_PRESET_MINUTES.FOUR_HOURS, Date.now()))}
-          >
-            {t.pause_preset_4h()}
-          </CommandItem>
+          {#each presets as minutes (minutes)}
+            <CommandItem
+              value={`preset-${minutes}`}
+              class={MENU_ITEM_CLASSES}
+              onSelect={() => void pause(untilInMinutes(minutes, Date.now()))}
+            >
+              {longDuration(minutes)}
+            </CommandItem>
+          {/each}
           <CommandItem
             value="tomorrow"
             class={MENU_ITEM_CLASSES}
             onSelect={() =>
               void pause(untilTomorrowAt(PAUSE_TOMORROW_HOUR, Date.now(), timePreferences.zone))}
           >
-            {t.pause_preset_tomorrow({ time: tomorrowClock })}
+            {t.pause_preset_tomorrow({ resumeTime: tomorrowClock })}
           </CommandItem>
           <CommandItem value="custom" class={MENU_ITEM_CLASSES} onSelect={openCustom}>
             {t.pause_preset_custom()}

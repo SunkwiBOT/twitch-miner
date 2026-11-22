@@ -14,7 +14,7 @@ export enum UpdateStage {
 
 export const UPDATE_TOAST_KEY = "update";
 
-export const UPDATE_NOTIFIED_STORAGE_KEY = "updates:notifiedVersion";
+export const UPDATE_NOTIFICATION_TAG = "update-available";
 
 export const APP_ICON_URL = "/app-icon.png";
 
@@ -35,8 +35,8 @@ export const IMAGE_UPDATE_COMMANDS: readonly string[] = [
   "docker compose up -d",
 ];
 
-// ! The file names, path and service of the README's systemd section.
-export const BINARY_ASSET_PREFIX = "twitch-miner-server_";
+// ! The path and service of the README's systemd section; the asset's own name comes
+// from the server (`binary_asset` in the snapshot), never copied here.
 export const BINARY_PATH = "/usr/local/bin/twitch-miner";
 export const BINARY_SERVICE = "twitch-miner";
 

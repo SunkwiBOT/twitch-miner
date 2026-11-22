@@ -1,9 +1,10 @@
 <script lang="ts">
   import { CampaignGroup } from "../../../lib/accounts/campaign-groups.constants";
   import {
+    excludedDropIds,
     expectedStartIn,
     facetOptions,
-    facetsShown,
+    visibleCampaigns,
     type AccountCampaignType,
   } from "../../../lib/accounts/campaign-groups.utils";
   import {
@@ -16,7 +17,6 @@
   } from "../../../lib/accounts/campaign-states.utils";
   import type { AccountSnapshotType } from "../../../lib/bindings/AccountSnapshotType";
   import type { CampaignType } from "../../../lib/bindings/CampaignType";
-  import { campaignMatches } from "../../../lib/catalogue/campaign.utils";
   import { TIMELINE_VIEW_SLUGS, TimelineView } from "../../../lib/catalogue/timeline.constants";
   import { t } from "../../../lib/i18n/i18n.svelte";
   import type { IconName } from "../../../lib/icons.constants";
@@ -39,29 +39,32 @@
     group: CampaignGroup;
     entries: AccountCampaignType[];
     icon: IconName;
+    query: string;
+    hidden: string[];
     onopen: (campaign: CampaignType) => void;
   };
 
-  let { account, group, entries, icon, onopen }: RewardsTabPropsType = $props();
-
-  let query = $state("");
-  let hidden = $state<string[]>([]);
+  let {
+    account,
+    group,
+    entries,
+    icon,
+    query = $bindable(),
+    hidden = $bindable(),
+    onopen,
+  }: RewardsTabPropsType = $props();
 
   const view = $derived(
     openTab(Object.values(TimelineView), TIMELINE_VIEW_SLUGS, TimelineView.TIMELINE),
   );
-  const options = $derived(filterOptions(facetOptions(entries)));
+  const excluded = $derived(excludedDropIds(account));
+  const options = $derived(filterOptions(facetOptions(entries, excluded)));
   const offered = $derived(options.map((option) => option.value));
   const ticked = $derived(offered.filter((key) => !hidden.includes(key)));
 
-  const shown = $derived.by(() => {
-    const needle = normalizeSearch(query);
-    const off = new Set(hidden);
-
-    return entries.filter(
-      (entry) => campaignMatches(entry.campaign, needle) && facetsShown(entry, off),
-    );
-  });
+  const shown = $derived(
+    visibleCampaigns(entries, normalizeSearch(query), new Set(hidden), excluded),
+  );
 
   const byId = $derived(new Map(entries.map((entry) => [entry.campaign.id, entry])));
 
@@ -93,7 +96,7 @@
         label={t.rewards_filter()}
         allLabel={t.rewards_filter_all()}
         noneLabel={t.rewards_filter_none()}
-        countLabel={(count) => t.rewards_filter_count({ count })}
+        countLabel={(count) => t.rewards_filter_count({ choiceCount: count })}
         align={MenuAlign.LEFT}
         onchange={showFacets}
       />

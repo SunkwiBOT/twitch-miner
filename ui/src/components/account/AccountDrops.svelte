@@ -10,13 +10,19 @@
     CAMPAIGN_GROUPS,
     CampaignGroup,
   } from "../../lib/accounts/campaign-groups.constants";
-  import { accountCampaigns } from "../../lib/accounts/campaign-groups.utils";
+  import {
+    accountCampaigns,
+    excludedDropIds,
+    visibleCampaigns,
+    type CampaignGroupsType,
+  } from "../../lib/accounts/campaign-groups.utils";
   import { groupOptions, groupsCount } from "../../lib/accounts/campaign-states.utils";
   import { ignoredItems } from "../../lib/accounts/drops.utils";
   import type { AccountSnapshotType } from "../../lib/bindings/AccountSnapshotType";
   import type { CampaignType } from "../../lib/bindings/CampaignType";
   import { campaignsOf } from "../../lib/catalogue/catalogue.svelte";
   import { t } from "../../lib/i18n/i18n.svelte";
+  import { normalizeSearch } from "../../lib/search/search.utils";
   import { app } from "../../lib/state/app.svelte";
   import { openTab, showTab } from "../../lib/state/router";
   import { openCampaignSheet } from "../../lib/state/sheets";
@@ -39,6 +45,20 @@
   const hasOthers = $derived((app.snapshot?.accounts.length ?? 0) > 1);
   const ignored = $derived(ignoredItems(account));
   const groups = $derived(accountCampaigns(account, campaignsOf(account)));
+
+  let query = $state("");
+  let hidden = $state<string[]>([]);
+
+  // ! The same search and filters the list below shows under: no counter claims a different total.
+  const visibleGroups = $derived.by((): CampaignGroupsType => {
+    const needle = normalizeSearch(query);
+    const off = new Set(hidden);
+    const excluded = excludedDropIds(account);
+
+    return Object.fromEntries(
+      CAMPAIGN_GROUPS.map((g) => [g, visibleCampaigns(groups[g], needle, off, excluded)]),
+    ) as CampaignGroupsType;
+  });
 
   const tab = $derived(
     openTab(Object.values(RewardsPageTab), REWARDS_PAGE_TAB_SLUGS, RewardsPageTab.ORDER),
@@ -73,7 +93,7 @@
           value: RewardsPageTab.CAMPAIGNS,
           label: t.drops_tab_campaigns(),
           icon: IconName.GRID,
-          count: groupsCount(groups),
+          count: groupsCount(visibleGroups),
         },
       ]}
     />
@@ -101,17 +121,17 @@
       value={group}
       label={t.rewards_groups_label()}
       onchange={(next) => showTab(CAMPAIGN_GROUP_SLUGS, next)}
-      options={groupOptions(groups)}
+      options={groupOptions(visibleGroups)}
     />
-    {#key group}
-      <RewardsTab
-        {account}
-        {group}
-        entries={groups[group]}
-        icon={IconName.GIFT}
-        onopen={openCampaign}
-      />
-    {/key}
+    <RewardsTab
+      {account}
+      {group}
+      entries={groups[group]}
+      icon={IconName.GIFT}
+      bind:query
+      bind:hidden
+      onopen={openCampaign}
+    />
   {/if}
   <AccountSaveBar {account} />
 </PageBody>

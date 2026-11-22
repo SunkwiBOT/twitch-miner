@@ -1,6 +1,5 @@
 <script lang="ts">
   // ! Links come from code, never the text: every dynamic value goes through `strong`, `code` or `escapeEmphasis`.
-  import { channelUrl } from "../../lib/links/twitch.utils";
   import {
     parseRichText,
     RichTextPartKind,
@@ -8,7 +7,7 @@
     type TextPersonType,
   } from "../../lib/text.utils";
   import Avatar from "./Avatar.svelte";
-  import ChannelAvatar from "./ChannelAvatar.svelte";
+  import ChannelLink from "./ChannelLink.svelte";
   import InlineCode from "./InlineCode.svelte";
   import TextLink from "./TextLink.svelte";
   import { AvatarSize } from "./picture.constants";
@@ -26,15 +25,13 @@
 </script>
 
 {#each parts as part, index (index)}{#if part.kind === RichTextPartKind.PERSON && part.person.channel}{@const channel =
-      part.person.channel}{@const person = part.person}<TextLink
-      text={person.name}
-      target={{ url: channelUrl(channel), mark: LinkMark.NONE }}
-      size={LinkSize.MD}
-    >
-      {#snippet lead()}
-        <ChannelAvatar url={person.avatar} name={person.name} size={AvatarSize.SM} live={false} />
-      {/snippet}
-    </TextLink>{:else if part.kind === RichTextPartKind.PERSON}<span
+      part.person.channel}<ChannelLink
+      login={channel}
+      name={part.person.name}
+      avatar={part.person.avatar}
+      size={AvatarSize.SM}
+      mark={part.endsSentence ? LinkMark.OVERLAY : LinkMark.NONE}
+    />{:else if part.kind === RichTextPartKind.PERSON}<span
       class="inline-flex items-center gap-1 align-[-0.3em]"
     >
       <Avatar url={part.person.avatar} name={part.person.name} size={AvatarSize.XS} /><strong

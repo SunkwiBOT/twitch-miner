@@ -46,11 +46,11 @@
 
   const stats = (a: (typeof snapshot.accounts)[number]): string[] =>
     [
-      t.accounts_stats_drops({ count: strong(number(a.stats.drops_claimed)) }),
-      t.accounts_stats_points({ count: strong(number(a.stats.points_earned)) }),
-      t.accounts_stats_minutes({ count: strong(number(a.stats.minutes_watched)) }),
+      t.accounts_stats_drops({ dropCount: strong(number(a.stats.drops_claimed)) }),
+      t.accounts_stats_points({ pointCount: strong(number(a.stats.points_earned)) }),
+      t.accounts_stats_minutes({ watchedMinutes: strong(number(a.stats.minutes_watched)) }),
       a.stats.bonuses_claimed > 0
-        ? t.accounts_stats_bonuses({ count: strong(number(a.stats.bonuses_claimed)) })
+        ? t.accounts_stats_bonuses({ bonusCount: strong(number(a.stats.bonuses_claimed)) })
         : "",
       a.stats.predictions_won + a.stats.predictions_lost > 0
         ? t.accounts_stats_bets({

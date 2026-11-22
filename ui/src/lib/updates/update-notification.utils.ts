@@ -1,14 +1,15 @@
 import { isTauri } from "../api/tauri";
-import type { MinerEventType } from "../bindings/MinerEventType";
+import { EventKind } from "../bindings/EventKind";
 import { EVENT_KIND_LABELS } from "../events/labels.utils";
 import { t } from "../i18n/i18n.svelte";
 import { app } from "../state/app.svelte";
 import { recall, remember } from "../state/storage.utils";
+import { KEY_STORAGE_UPDATE_NOTIFIED } from "../state/storage.constants";
 import {
   APP_ICON_URL,
   BROWSER_PERMISSIONS,
   BrowserPermission,
-  UPDATE_NOTIFIED_STORAGE_KEY,
+  UPDATE_NOTIFICATION_TAG,
 } from "./updates.constants";
 
 // ! Browsers only offer notifications in a secure context: a dashboard opened
@@ -27,27 +28,24 @@ export const askBrowserNotifications = async (): Promise<BrowserPermission | nul
 };
 
 // ! The desktop app shows it from the backend; in a browser, every open tab
-// receives the event, and the stored version keeps it to one notification.
-export const notifyUpdate = (event: MinerEventType): void => {
-  const version = event.context.version;
-
+// receives the event or a snapshot naming the version, and the stored version keeps it to one notification.
+export const notifyUpdate = (version: string | undefined): void => {
   if (
     isTauri() ||
     version === undefined ||
     !app.snapshot?.settings.notifications.system_update ||
     browserNotificationPermission() !== BrowserPermission.GRANTED ||
-    recall(UPDATE_NOTIFIED_STORAGE_KEY) === version
+    recall(KEY_STORAGE_UPDATE_NOTIFIED) === version
   ) {
     return;
   }
 
-  remember(UPDATE_NOTIFIED_STORAGE_KEY, version);
-
-  const notification = new Notification(EVENT_KIND_LABELS[event.kind](), {
+  const notification = new Notification(EVENT_KIND_LABELS[EventKind.UPDATE_AVAILABLE](), {
     body: t.ev_update_available({ version }),
     icon: APP_ICON_URL,
-    tag: UPDATE_NOTIFIED_STORAGE_KEY,
+    tag: UPDATE_NOTIFICATION_TAG,
   });
 
+  remember(KEY_STORAGE_UPDATE_NOTIFIED, version);
   notification.onclick = () => window.focus();
 };

@@ -59,7 +59,7 @@
 
   $effect(() => {
     if (list) {
-      centerOption(list, MULTI_CHECKED_OPTION);
+      return centerOption(list, MULTI_CHECKED_OPTION);
     }
   });
 

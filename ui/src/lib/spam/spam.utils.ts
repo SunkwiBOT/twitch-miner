@@ -52,7 +52,7 @@ export const burstOutcome = (count: number, result: BurstResultType): string => 
   return sent > 0
     ? t.spam_sent_partial({
         sent: strong(number(sent)),
-        count: strong(number(count)),
+        totalCount: strong(number(count)),
         reason: reasons,
       })
     : t.spam_sent_none({ reason: reasons });
@@ -127,7 +127,7 @@ export const changedAgo = (iso: string, now: number): string => {
   const ms = now - Date.parse(iso);
 
   return ms < MINUTE_MS
-    ? t.spam_seconds_ago({ count: Math.max(1, Math.round(ms / SECOND_MS)) })
+    ? t.spam_seconds_ago({ secondsCount: Math.max(1, Math.round(ms / SECOND_MS)) })
     : relativeTime(iso, now);
 };
 

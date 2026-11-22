@@ -1,19 +1,17 @@
 <script lang="ts">
-  import { untrack } from "svelte";
-
-  import { fetchHistory } from "../../../lib/api/client";
-  import type { OwnedBadgeType } from "../../../lib/badges/badges.utils";
+  import { Skeleton } from "$lib/components/ui/skeleton";
   import { badgeList } from "../../../lib/badges/badges.svelte";
+  import {
+    BADGE_TILE_CLASSES,
+    OWNED_BADGES_SKELETON_COUNT,
+  } from "../../../lib/badges/badges.constants";
+  import type { OwnedBadgeType } from "../../../lib/badges/badges.utils";
+  import { loadOwnedClaims, ownedClaimsOf } from "../../../lib/badges/owned-claims.svelte";
   import { unlockDates } from "../../../lib/badges/owned-dates.utils";
   import type { AccountSnapshotType } from "../../../lib/bindings/AccountSnapshotType";
-  import { EventKind } from "../../../lib/bindings/EventKind";
   import type { GlobalBadgeType } from "../../../lib/bindings/GlobalBadgeType";
-  import type { MinerEventType } from "../../../lib/bindings/MinerEventType";
-  import { describeError } from "../../../lib/errors/errors.utils";
   import { t } from "../../../lib/i18n/i18n.svelte";
   import { matchesSearch, normalizeSearch } from "../../../lib/search/search.utils";
-  import { ToastKind } from "../../../lib/state/state.constants";
-  import { toast } from "../../../lib/state/toasts";
   import { formatDate } from "../../../lib/time/time.utils";
   import BadgeTile from "../../ui/BadgeTile.svelte";
   import EmptyState from "../../ui/EmptyState.svelte";
@@ -29,7 +27,8 @@
   let { account, owned, onopen }: OwnedBadgesTabPropsType = $props();
 
   let query = $state("");
-  let claims = $state.raw<MinerEventType[] | null>(null);
+
+  const claims = $derived(ownedClaimsOf(account.id));
 
   const shown = $derived.by(() => {
     const needle = normalizeSearch(query);
@@ -37,32 +36,10 @@
     return owned.filter((badge) => !needle || matchesSearch(badge.title, needle));
   });
 
-  const dates = $derived(claims && unlockDates(account, claims, badgeList.badges));
-
-  const loadClaims = async (accountId: string): Promise<void> => {
-    const found: MinerEventType[] = [];
-    let before: number | undefined;
-
-    try {
-      do {
-        const page = await fetchHistory({
-          account_ids: [accountId],
-          kinds: [EventKind.DROP_CLAIMED],
-          before_id: before,
-        });
-
-        found.push(...page.events);
-        before = page.next_before_id;
-      } while (before !== undefined);
-
-      claims = found;
-    } catch (e: unknown) {
-      toast(ToastKind.ERROR, t.action_failed(), { description: describeError(e) });
-    }
-  };
+  const dates = $derived(claims.events && unlockDates(account, claims.events, badgeList.badges));
 
   $effect(() => {
-    void loadClaims(untrack(() => account.id));
+    void loadOwnedClaims(account.id);
   });
 
   const detail = (badge: OwnedBadgeType): string | undefined => {
@@ -78,8 +55,24 @@
   };
 </script>
 
-<Panel title={t.account_badges_owned()} count={owned.length}>
-  {#if owned.length === 0}
+{#snippet tileSkeleton()}
+  <li class={BADGE_TILE_CLASSES} aria-hidden="true">
+    <Skeleton class="size-9 shrink-0 rounded-md" />
+    <span class="flex min-w-0 flex-1 flex-col gap-1.5">
+      <Skeleton class="h-3.5 w-2/3" />
+      <Skeleton class="h-3 w-1/2" />
+    </span>
+  </li>
+{/snippet}
+
+<Panel title={t.account_badges_owned()} count={shown.length}>
+  {#if claims.loading && claims.events === null}
+    <ul class="grid grid-cols-[repeat(auto-fill,minmax(min(250px,100%),1fr))] gap-2.5">
+      {#each { length: OWNED_BADGES_SKELETON_COUNT }, index (index)}
+        {@render tileSkeleton()}
+      {/each}
+    </ul>
+  {:else if owned.length === 0}
     <EmptyState text={t.account_badges_empty_owned()} />
   {:else}
     <div class="w-full max-w-96">

@@ -1,14 +1,13 @@
 import type { AccountSnapshotType } from "../bindings/AccountSnapshotType";
 import type { AppInfoType } from "../bindings/AppInfoType";
 import type { AuthStatusType } from "../bindings/AuthStatusType";
-import type { CampaignType } from "../bindings/CampaignType";
-import type { GlobalBadgeType } from "../bindings/GlobalBadgeType";
 import type { MinerEventType } from "../bindings/MinerEventType";
 import type { SnapshotType } from "../bindings/SnapshotType";
 import type { StartupProblemType } from "../bindings/StartupProblemType";
 import { Page } from "./state.constants";
 
-type SheetType<T> = { item: T; accountId: string | null };
+// ! The item itself is never kept: a sheet names a campaign id or badge key, SheetHost looks the live one up.
+type SheetType = { key: string; accountId: string | null };
 
 type AuthStateType = AuthStatusType & { checked: boolean };
 
@@ -23,8 +22,8 @@ type AppStateType = {
   loginDialog: boolean;
   closeDialog: boolean;
   feedbackDialog: boolean;
-  campaignSheet: SheetType<CampaignType> | null;
-  badgeSheet: SheetType<GlobalBadgeType> | null;
+  campaignSheet: SheetType | null;
+  badgeSheet: SheetType | null;
   navDrawer: boolean;
   liveEvents: MinerEventType[];
   logsAccount: string | null;

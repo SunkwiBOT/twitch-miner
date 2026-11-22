@@ -23,7 +23,7 @@
 {/if}
 {#if item.chest && item.badges.length > 1}
   <Badge
-    text={t.reward_chest({ count: item.chest })}
+    text={t.reward_chest({ chestCount: item.chest })}
     tone={BadgeTone.ACCENT}
     dot={false}
     icon={IconName.GIFT}
@@ -86,7 +86,7 @@
   {/if}
   {#if item.state === AccountBadgeState.WAITING && item.nextAt}
     <Badge
-      text={t.quest_next_window({ time: relativeTime(item.nextAt, ticker.now) })}
+      text={t.quest_next_window({ windowTime: relativeTime(item.nextAt, ticker.now) })}
       tone={BadgeTone.INFO}
       dot={false}
       icon={IconName.CLOCK}

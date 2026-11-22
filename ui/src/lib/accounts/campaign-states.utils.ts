@@ -83,7 +83,7 @@ const STATE_VIEWS: Record<CampaignState, StateViewType> = {
     icon: IconName.CLOCK,
     hint: (entry, now) =>
       t.badge_hint_blocked_set_aside({
-        time: strong(relativeTime(entry.queued?.set_aside_until, now)),
+        retryTime: strong(relativeTime(entry.queued?.set_aside_until, now)),
       }),
   },
   [CampaignState.CLAIMED_LINKED]: {
@@ -157,7 +157,7 @@ const STATE_VIEWS: Record<CampaignState, StateViewType> = {
       }),
   },
   [CampaignState.SUB_REQUIRED]: {
-    text: () => t.badge_progress_sub_required(),
+    text: () => t.campaign_progress_sub_required(),
     tone: BadgeTone.WARNING,
     icon: IconName.ALERT,
     hint: () => t.badge_hint_sub_only(),
@@ -265,7 +265,7 @@ export const overlaid = (state: CampaignState): boolean =>
   STATE_GROUPS[state] !== CampaignGroup.TO_MINE;
 
 export const etaView = (startsIn: number): CampaignStateViewType => ({
-  text: t.rewards_eta({ time: shortDuration(startsIn) }),
+  text: t.rewards_eta({ etaTime: shortDuration(startsIn) }),
   tone: BadgeTone.INFO,
   icon: IconName.CLOCK,
   hint: t.rewards_eta_hint(),

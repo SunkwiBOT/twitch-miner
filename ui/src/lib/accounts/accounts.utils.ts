@@ -63,7 +63,7 @@ export const accountStateLabel = (
   }
 
   return t.pause_badge({
-    time:
+    resumeTime:
       formatDate(until, true) === formatDate(now, true)
         ? formatClock(until)
         : formatShortDateTime(until),
@@ -86,7 +86,7 @@ export const accountStateHint = (
   const until = pausedUntil(account, now);
 
   return until
-    ? t.pause_badge_hint({ time: strong(formatShortDateTime(until)) })
+    ? t.pause_badge_hint({ resumeTime: strong(formatShortDateTime(until)) })
     : t.badge_hint_paused();
 };
 
@@ -183,7 +183,7 @@ export const QUEUE_REASON_ICONS: Record<QueueReason, IconName> = {
 };
 
 export const setAsideLabel = (until: string | null | undefined, now: number): string =>
-  until ? t.dashboard_queue_blocked_set_aside({ time: relativeTime(until, now) }) : "";
+  until ? t.dashboard_queue_blocked_set_aside({ retryTime: relativeTime(until, now) }) : "";
 
 const QUEUE_BLOCK_LABELS: Record<QueueBlock, (item: QueueItemType, now: number) => string> = {
   [QueueBlock.NO_LIVE_CHANNEL]: () => t.dashboard_queue_blocked_no_live_channel(),

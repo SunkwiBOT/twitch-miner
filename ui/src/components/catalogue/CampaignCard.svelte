@@ -63,7 +63,7 @@
   <span class="-mt-1 truncate text-xs text-muted-foreground">{campaign.game.name}</span>
   <span class="flex flex-wrap gap-1">
     <Badge
-      text={t.catalogue_rewards({ count: campaign.drops.length })}
+      text={t.catalogue_rewards({ rewardCount: campaign.drops.length })}
       tone={BadgeTone.NEUTRAL}
       dot={false}
     />

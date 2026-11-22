@@ -9,22 +9,26 @@
   import { BadgeSource } from "../../lib/bindings/BadgeSource";
   import type { GlobalBadgeType } from "../../lib/bindings/GlobalBadgeType";
   import { categoryUrl, watchText } from "../../lib/catalogue/campaign.utils";
+  import { catalogueCampaign } from "../../lib/catalogue/catalogue.svelte";
   import { gameArt } from "../../lib/catalogue/games.utils";
   import { ensureChannels, knownChannels } from "../../lib/channels/channels.svelte";
   import { minutes } from "../../lib/format.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { strong } from "../../lib/text.utils";
   import { formatDate } from "../../lib/time/time.utils";
+  import { openCampaignSheet } from "../../lib/state/sheets";
   import Badge from "../ui/Badge.svelte";
   import SubRequiredBadge from "../catalogue/SubRequiredBadge.svelte";
   import TextButton from "../ui/TextButton.svelte";
+  import TextLink from "../ui/TextLink.svelte";
   import ChannelLink from "../ui/ChannelLink.svelte";
   import GameName from "../ui/GameName.svelte";
   import Thumb from "../ui/Thumb.svelte";
   import { BadgeTone } from "../../lib/tones.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
-  import { CARD_LIFT_CLASSES, STRETCHED_BUTTON_CLASSES } from "../ui/ui.constants";
+  import { CARD_LIFT_CLASSES, RAISED_CLASSES, STRETCHED_BUTTON_CLASSES } from "../ui/ui.constants";
   import { IconName } from "../../lib/icons.constants";
+  import { LinkSize } from "../ui/link.constants";
   import { ThumbShape, ThumbSize } from "../ui/picture.constants";
 
   type BadgeCardPropsType = {
@@ -37,6 +41,9 @@
   let { badge, now, evolvesFrom, onopen }: BadgeCardPropsType = $props();
 
   const requirement = $derived(badge.requirement);
+  const linkedCampaign = $derived(
+    requirement?.campaign_id ? catalogueCampaign(requirement.campaign_id) : undefined,
+  );
   const ended = $derived(badgeEnded(badge, now));
 
   $effect(() => {
@@ -80,9 +87,7 @@
         class="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 group-has-focus-visible:opacity-100"
         onclick={onopen}
       />
-      <div
-        class="pointer-events-none relative z-10 flex flex-wrap gap-1.5 empty:hidden *:pointer-events-auto"
-      >
+      <div class={[RAISED_CLASSES, "flex flex-wrap gap-1.5 empty:hidden"]}>
         {#if badgeMinable(badge, now)}
           <Badge
             text={t.badges_minable()}
@@ -129,7 +134,7 @@
                   url={categoryUrl(requirement.game_name, game?.slug)}
                   art={gameArt(requirement.game_name, game?.box_art_url)}
                   size={ThumbSize.XS}
-                  inSentence={true}
+                  inSentence={false}
                 />
               </span>
             {/if}
@@ -140,7 +145,7 @@
           {#if requirement.source === BadgeSource.DROPS}
             <span class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-muted-foreground">
               {#if requirement.channel_count > 0}
-                <span>{t.campaign_channels_some({ count: requirement.channel_count })}</span>
+                <span>{t.campaign_channels_some({ channelCount: requirement.channel_count })}</span>
                 {#each requirement.channels as login (login)}{@const channel =
                     knownChannels[login]}<span class="relative z-10">
                     <ChannelLink
@@ -150,7 +155,7 @@
                     />
                   </span>{/each}
               {:else if requirement.categories.length > 1}
-                {t.campaign_channels_categories({ count: requirement.categories.length })}
+                {t.campaign_channels_categories({ categoryCount: requirement.categories.length })}
               {:else}
                 {t.campaign_channels_any()}
               {/if}
@@ -159,7 +164,17 @@
           {#if requirement.collection}
             <span class="text-muted-foreground">{collectionText(requirement)}</span>
           {:else if requirement.campaign_name}
-            <span class="truncate text-muted-foreground">{requirement.campaign_name}</span>
+            {#if linkedCampaign}
+              <span class="relative z-10 min-w-0 truncate text-muted-foreground">
+                <TextLink
+                  text={requirement.campaign_name}
+                  target={{ open: () => openCampaignSheet(linkedCampaign, null) }}
+                  size={LinkSize.SM}
+                />
+              </span>
+            {:else}
+              <span class="truncate text-muted-foreground">{requirement.campaign_name}</span>
+            {/if}
           {/if}
           {#if requirement.ends_at && !ended}
             <span class="text-muted-foreground">

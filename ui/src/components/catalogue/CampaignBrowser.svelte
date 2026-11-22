@@ -71,7 +71,7 @@
     {rows}
     now={ticker.now}
     {zoom}
-    moreLabel={t.timeline_show_all({ count: rows.length })}
+    moreLabel={t.timeline_show_all({ categoryCount: rows.length })}
     {onopen}
   />
 {:else}

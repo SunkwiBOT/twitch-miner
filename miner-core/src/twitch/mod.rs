@@ -27,6 +27,7 @@ use serde_json::Value;
 use tokio::sync::{RwLock, Semaphore};
 use zeroize::Zeroizing;
 
+use crate::config::ProxyScheme;
 use crate::error::{Error, NetworkErrorKind, Result};
 use crate::requests::{address_target, RequestKind, RequestLog};
 use identity::AccountIdentity;
@@ -455,12 +456,12 @@ pub fn parse_proxy(url: &str) -> Result<reqwest::Proxy> {
     let parsed =
         url::Url::parse(url).map_err(|_| Error::InvalidProxy("the proxy is not a URL".into()))?;
 
-    if !matches!(
-        parsed.scheme(),
-        "http" | "https" | "socks5" | "socks5h" | "socks4" | "socks4a"
-    ) {
+    if !ProxyScheme::ALL
+        .iter()
+        .any(|scheme| scheme.as_str() == parsed.scheme())
+    {
         return Err(Error::InvalidProxy(
-            "the proxy must start with http://, https://, socks4:// or socks5://".into(),
+            "the proxy scheme is not supported".into(),
         ));
     }
 

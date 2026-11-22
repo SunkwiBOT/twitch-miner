@@ -1,14 +1,13 @@
 use chrono::{DateTime, Duration, Utc};
 
-use crate::config::{BetFilter, BetTiming, FilterBy, FilterOp, PredictionSettings, Strategy};
+use crate::config::{
+    BetFilter, BetTiming, FilterBy, FilterOp, PredictionSettings, Strategy, BET_TIMING_PERCENT,
+};
 use crate::domain::{PredictionEvent, PredictionOutcome};
 
 pub const MAX_PREDICTION_POINTS: i64 = 250_000;
 // ! Twitch refuses a prediction under 10 points.
 const MIN_PREDICTION_POINTS: i64 = 10;
-
-const TIMING_PERCENT_MIN: u8 = 1;
-const TIMING_PERCENT_MAX: u8 = 99;
 
 pub fn bet_time(event: &PredictionEvent, settings: &PredictionSettings) -> DateTime<Utc> {
     match settings.timing {
@@ -21,7 +20,7 @@ pub fn bet_time(event: &PredictionEvent, settings: &PredictionSettings) -> DateT
             let percent = i64::from(
                 settings
                     .timing_percent
-                    .clamp(TIMING_PERCENT_MIN, TIMING_PERCENT_MAX),
+                    .clamp(*BET_TIMING_PERCENT.start(), *BET_TIMING_PERCENT.end()),
             );
 
             let share = event.window_seconds.saturating_mul(10 * percent);

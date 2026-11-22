@@ -2,6 +2,7 @@
 import type { AccountSettingsPatchType } from "./AccountSettingsPatchType";
 import type { AccountSnapshotType } from "./AccountSnapshotType";
 import type { BadgeCatalogViewType } from "./BadgeCatalogViewType";
+import type { BinaryAssetType } from "./BinaryAssetType";
 import type { CatalogViewType } from "./CatalogViewType";
 import type { CoreLimitsType } from "./CoreLimitsType";
 import type { GlobalSettingsType } from "./GlobalSettingsType";
@@ -14,6 +15,7 @@ import type { VaultStatusType } from "./VaultStatusType";
 export type SnapshotType = {
   version: string;
   install_kind: InstallKind;
+  binary_asset?: BinaryAssetType;
   build?: string;
   update_available?: string;
   update_checked_at?: string;

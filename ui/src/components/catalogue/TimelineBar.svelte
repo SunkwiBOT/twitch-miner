@@ -41,17 +41,19 @@
     }
 
     return item.end < todayEnd
-      ? t.timeline_ends_today({ time: strong(formatClock(item.end)) })
+      ? t.timeline_ends_today({ endTime: strong(formatClock(item.end)) })
       : t.timeline_ends_on({
           date: strong(formatWeekdayDayMonth(item.end)),
-          time: strong(formatClock(item.end)),
+          endTime: strong(formatClock(item.end)),
         });
   });
 
   const left = $derived(item.end - now);
 
   const pill = $derived(
-    left > 0 && left < TIMELINE_PILL_MS ? t.timeline_left({ time: shortDuration(left) }) : "",
+    left > 0 && left < TIMELINE_PILL_MS
+      ? t.timeline_left({ remainingTime: shortDuration(left) })
+      : "",
   );
 
   const labelWidth = $derived(

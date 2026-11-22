@@ -36,3 +36,8 @@ export const TWITCH_CATEGORY_URL = "https://www.twitch.tv/directory/category";
 export const TWITCH_SEARCH_URL = "https://www.twitch.tv/search";
 export const TWITCH_CONNECTIONS_URL = "https://www.twitch.tv/settings/connections";
 export const TWITCH_ACTIVATE_ADDRESS = "twitch.tv/activate";
+
+// ! The hosts Twitch's channel-points beacon needs reachable, from `miner-core/src/miner/account/slots.rs`.
+export const TWITCH_BEACON_HOST = "spade.twitch.tv";
+export const TWITCH_BEACON_SCIENCE_HOST = "spade.sci.twitch.tv";
+export const TWITCH_BEACON_SCIENCE_EDGE_HOST = "science-edge-external-prod-*.elb.amazonaws.com";

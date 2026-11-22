@@ -13,7 +13,7 @@ use super::banners::Banners;
 use super::record_event;
 use super::spam_points::{spam_channels, SpamAccess, SpamPoints};
 use crate::api::{
-    AccountSnapshot, AccountStats, AccountStatus, BadgeCatalogView, BadgesResponse,
+    AccountSnapshot, AccountStats, AccountStatus, BadgeCatalogView, BadgesResponse, BinaryAsset,
     CatalogResponse, CatalogView, CategoryCount, ChannelsLookupResponse, Command, CoreLimits,
     DropsByCategory, HistoryCurveQuery, HistoryCurveResponse, HistoryExportQuery,
     HistoryExportResponse, HistoryQuery, HistoryResponse, HistoryStatsQuery, HistoryStatsResponse,
@@ -21,10 +21,10 @@ use crate::api::{
     LoginFlowView, LogsQuery, LogsReportResponse, LogsResponse, NotificationTarget,
     NotificationTest, NotificationTestRequest, PointsByDay, ProxyTestResponse, RedeemRequest,
     RefreshCount, RequestsQuery, RequestsResponse, Snapshot, StreamerMinutes, StreamerPoints,
-    StreamerPredictions, TokenCheck, CHANNELS_LOOKUP_MAX, FOLLOWS_MAX, HISTORY_EXPORT_MAX,
-    HISTORY_LIMIT_DEFAULT, HISTORY_LIMIT_MAX, HISTORY_STATS_MAX_SPAN_DAYS, HISTORY_STATS_TOP_MAX,
-    LOGS_LIMIT_DEFAULT, LOGS_LIMIT_MAX, REQUESTS_LIMIT_DEFAULT, REQUESTS_LIMIT_MAX,
-    TOKENS_IMPORT_MAX, TOKEN_LINE_MAX_CHARS,
+    StreamerPredictions, TokenCheck, BINARY_ASSET_PREFIX, CHANNELS_LOOKUP_MAX, FOLLOWS_MAX,
+    HISTORY_EXPORT_MAX, HISTORY_LIMIT_DEFAULT, HISTORY_LIMIT_MAX, HISTORY_STATS_MAX_SPAN_DAYS,
+    HISTORY_STATS_TOP_MAX, LOGS_LIMIT_DEFAULT, LOGS_LIMIT_MAX, REQUESTS_LIMIT_DEFAULT,
+    REQUESTS_LIMIT_MAX, TOKENS_IMPORT_MAX, TOKEN_LINE_MAX_CHARS,
 };
 use crate::badges::{BadgeCatalog, BadgeCatalogClient};
 use crate::catalog::{Catalog, CatalogClient};
@@ -71,7 +71,50 @@ fn read_recent(store: &Store) -> Result<Vec<MinerEvent>> {
     Ok(store.history(&filter, None, RECENT_EVENTS)?.0)
 }
 
-// ! Only reads the catalogue already fetched: never a Twitch request of its own.
+// ! A fresh read of this one account right before the save, so a pause or a settings
+// save landing in between (see `Manager::account_settings`) is never clobbered by a
+// stale copy of the other fields.
+fn complete_one_account_game_entries(
+    store: &Store,
+    account_id: &str,
+    campaigns: &[Campaign],
+) -> Option<AccountRecord> {
+    let mut record = match store.account(account_id) {
+        Ok(Some(record)) => record,
+        Ok(None) => return None,
+        Err(error) => {
+            tracing::warn!(%error, account = %account_id, "category entries not completed");
+
+            return None;
+        }
+    };
+
+    let settings = &mut record.settings;
+    let changed = [
+        &mut settings.drops.priority_games,
+        &mut settings.drops.exclude_games,
+        &mut settings.badges.exclude_games,
+    ]
+    .into_iter()
+    .map(|entries| crate::catalog::complete_game_entries(entries, campaigns))
+    .fold(false, |changed, completed| changed | completed);
+
+    if !changed {
+        return None;
+    }
+
+    match store.save_account_settings(&record.id, &record.settings) {
+        Ok(()) => Some(record),
+        Err(error) => {
+            tracing::warn!(%error, account = %record.id, "completed category entries not saved");
+
+            None
+        }
+    }
+}
+
+// ! Only used before the manager (and the lock every other account-settings write
+// takes, `account_settings`) exists: nothing can race a write yet, so none is needed here.
 fn complete_account_game_entries(store: &Store, campaigns: &[Campaign]) -> Vec<AccountRecord> {
     let accounts = match store.accounts() {
         Ok(accounts) => accounts,
@@ -83,31 +126,8 @@ fn complete_account_game_entries(store: &Store, campaigns: &[Campaign]) -> Vec<A
     };
 
     accounts
-        .into_iter()
-        .filter_map(|mut record| {
-            let settings = &mut record.settings;
-            let changed = [
-                &mut settings.drops.priority_games,
-                &mut settings.drops.exclude_games,
-                &mut settings.badges.exclude_games,
-            ]
-            .into_iter()
-            .map(|entries| crate::catalog::complete_game_entries(entries, campaigns))
-            .fold(false, |changed, completed| changed | completed);
-
-            if !changed {
-                return None;
-            }
-
-            match store.save_account_settings(&record.id, &record.settings) {
-                Ok(()) => Some(record),
-                Err(error) => {
-                    tracing::warn!(%error, account = %record.id, "completed category entries not saved");
-
-                    None
-                }
-            }
-        })
+        .iter()
+        .filter_map(|record| complete_one_account_game_entries(store, &record.id, campaigns))
         .collect()
 }
 
@@ -270,6 +290,11 @@ pub struct Manager {
     install_kind: InstallKind,
     settings: RwLock<GlobalSettings>,
     accounts: Mutex<HashMap<String, AccountHandle>>,
+    // ! Shared by every writer of an account's settings (a pause, a settings save, the
+    // catalogue's category completion): each re-reads the account fresh under this
+    // lock and writes back right away, so none of them can clobber another's change
+    // with a stale copy.
+    account_settings: Mutex<()>,
     carried_stats: std::sync::Mutex<HashMap<String, AccountStats>>,
     events: broadcast::Sender<MinerEvent>,
     notifier: Notifier,
@@ -374,6 +399,7 @@ impl Manager {
             install_kind,
             settings: RwLock::new(settings),
             accounts: Mutex::new(HashMap::new()),
+            account_settings: Mutex::new(()),
             carried_stats: std::sync::Mutex::new(HashMap::new()),
             events,
             login: Mutex::new(None),
@@ -547,8 +573,26 @@ impl Manager {
 
     async fn complete_catalog_game_entries(&self) {
         let campaigns = self.catalog.state.read().await.campaigns.clone();
+        let accounts = match self.store.accounts() {
+            Ok(accounts) => accounts,
+            Err(error) => {
+                tracing::warn!(%error, "category entries not completed");
 
-        for record in complete_account_game_entries(&self.store, &campaigns) {
+                return;
+            }
+        };
+
+        for account in accounts {
+            let completed = {
+                let _guard = self.account_settings.lock().await;
+
+                complete_one_account_game_entries(&self.store, &account.id, &campaigns)
+            };
+
+            let Some(record) = completed else {
+                continue;
+            };
+
             let commands = self
                 .accounts
                 .lock()
@@ -1246,21 +1290,27 @@ impl Manager {
             .streamers
             .retain(|streamer| seen.insert(streamer.login.clone()));
 
-        let stored = self
-            .store
-            .account(account_id)?
-            .ok_or_else(|| Error::UnknownAccount(account_id.to_owned()))?;
-        let previous_proxy = stored.settings.proxy;
-        // ! Only `PauseAccount`/`PauseAllAccounts` write this: a settings
-        // save from the UI must not erase or resurrect a scheduled pause.
-        settings.paused_until = stored.settings.paused_until;
+        let previous_proxy = {
+            let _guard = self.account_settings.lock().await;
 
-        let defaults = &mut settings.points.streamer_defaults;
+            let stored = self
+                .store
+                .account(account_id)?
+                .ok_or_else(|| Error::UnknownAccount(account_id.to_owned()))?;
+            let previous_proxy = stored.settings.proxy;
+            // ! Only `PauseAccount`/`PauseAllAccounts` write this: a settings
+            // save from the UI must not erase or resurrect a scheduled pause.
+            settings.paused_until = stored.settings.paused_until;
 
-        defaults.login = String::new();
-        defaults.enabled = true;
+            let defaults = &mut settings.points.streamer_defaults;
 
-        self.store.save_account_settings(account_id, &settings)?;
+            defaults.login = String::new();
+            defaults.enabled = true;
+
+            self.store.save_account_settings(account_id, &settings)?;
+
+            previous_proxy
+        };
 
         if previous_proxy != settings.proxy {
             self.respawn_account(account_id).await?;
@@ -2231,10 +2281,18 @@ impl Manager {
         let update_available = locked(&self.update_available).clone();
         let update_checked_at = *locked(&self.update_checked_at);
         let star_prompt = locked(&self.star_prompt_at).is_some_and(|at| Utc::now() >= at);
+        let binary_asset = (self.install_kind == InstallKind::Binary)
+            .then(crate::api::binary_asset_arch)
+            .flatten()
+            .map(|arch| BinaryAsset {
+                prefix: BINARY_ASSET_PREFIX.to_owned(),
+                arch: arch.to_owned(),
+            });
 
         Ok(Snapshot {
             version: crate::VERSION.to_owned(),
             install_kind: self.install_kind,
+            binary_asset,
             build: None,
             update_available,
             update_checked_at,
@@ -2698,19 +2756,25 @@ impl Manager {
         account_id: &str,
         until: Option<chrono::DateTime<Utc>>,
     ) -> Result<()> {
-        let record = self
-            .store
-            .account(account_id)?
-            .ok_or_else(|| Error::UnknownAccount(account_id.to_owned()))?;
-        let mut settings = record.settings;
-        // ! Not compared against `now`: a scheduled pause whose deadline just
-        // passed is still a pause to resume from, not a no-op, or the auto
-        // clear in `resume_due_accounts` would silently lose its event.
-        let was_paused = settings.paused_until.is_some();
-        let enabled = settings.enabled;
+        let (login, was_paused, enabled, settings) = {
+            let _guard = self.account_settings.lock().await;
 
-        settings.paused_until = until;
-        self.store.save_account_settings(account_id, &settings)?;
+            let record = self
+                .store
+                .account(account_id)?
+                .ok_or_else(|| Error::UnknownAccount(account_id.to_owned()))?;
+            let mut settings = record.settings;
+            // ! Not compared against `now`: a scheduled pause whose deadline just
+            // passed is still a pause to resume from, not a no-op, or the auto
+            // clear in `resume_due_accounts` would silently lose its event.
+            let was_paused = settings.paused_until.is_some();
+            let enabled = settings.enabled;
+
+            settings.paused_until = until;
+            self.store.save_account_settings(account_id, &settings)?;
+
+            (record.login, was_paused, enabled, settings)
+        };
 
         let commands = self
             .accounts
@@ -2728,16 +2792,13 @@ impl Manager {
         let resumed = until.is_none() && was_paused && enabled && !self.quiet_window_now().await;
 
         match until {
-            Some(until) => self.emit_pause_event(
-                account_id,
-                &record.login,
-                PauseReason::Scheduled,
-                Some(until),
-            ),
+            Some(until) => {
+                self.emit_pause_event(account_id, &login, PauseReason::Scheduled, Some(until))
+            }
             // ! Only when this clear actually resumes mining: the manual
             // switch or the quiet window can still keep the account paused,
             // which emits its own Resumed event once it lifts.
-            None if resumed => self.emit_resume_event(account_id, &record.login),
+            None if resumed => self.emit_resume_event(account_id, &login),
             None => {}
         }
 

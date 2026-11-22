@@ -97,6 +97,7 @@ const applySnapshot = (snapshot: SnapshotType): void => {
   app.snapshot = snapshot;
   showPreferences(snapshot.settings);
   followSnapshotAccounts(snapshot);
+  notifyUpdate(snapshot.update_available);
 };
 
 export const refresh = async (): Promise<void> => {
@@ -227,7 +228,7 @@ export const connect = async (): Promise<void> => {
       app.liveEvents = [event, ...app.liveEvents].slice(0, LIVE_EVENTS_MAX);
 
       if (event.kind === EventKind.UPDATE_AVAILABLE) {
-        notifyUpdate(event);
+        notifyUpdate(event.context.version);
       }
 
       const kind = TOAST_EVENT_KINDS[event.kind];

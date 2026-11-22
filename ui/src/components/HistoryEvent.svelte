@@ -10,17 +10,14 @@
   } from "../lib/events/events.constants";
   import { eventIcon } from "../lib/events/events.utils";
   import { EVENT_KIND_LABELS, MINER_LABELS } from "../lib/events/labels.utils";
-  import { channelUrl } from "../lib/links/twitch.utils";
+  import ChannelLink from "./ui/ChannelLink.svelte";
   import { app } from "../lib/state/app.svelte";
   import { formatShortDateTime } from "../lib/time/time.utils";
   import Avatar from "./ui/Avatar.svelte";
   import Badge from "./ui/Badge.svelte";
-  import ChannelAvatar from "./ui/ChannelAvatar.svelte";
-  import TextLink from "./ui/TextLink.svelte";
   import RewardImage from "./ui/RewardImage.svelte";
   import RichText from "./ui/RichText.svelte";
   import Thumb from "./ui/Thumb.svelte";
-  import { LinkMark, LinkSize } from "./ui/link.constants";
   import { AvatarSize, THUMB_PIXELS, ThumbShape, ThumbSize } from "./ui/picture.constants";
 
   type HistoryEventPropsType = {
@@ -57,15 +54,7 @@
 
 {#snippet channelLink(channel: string, size: AvatarSize)}
   {@const channelName = event.context.channel_name ?? channel}
-  <TextLink
-    text={channelName}
-    target={{ url: channelUrl(channel), mark: LinkMark.END }}
-    size={LinkSize.MD}
-  >
-    {#snippet lead()}
-      <ChannelAvatar url={event.context.avatar} name={channelName} {size} live={false} />
-    {/snippet}
-  </TextLink>
+  <ChannelLink login={channel} name={channelName} avatar={event.context.avatar} {size} />
 {/snippet}
 
 {#snippet kindBadge()}

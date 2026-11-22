@@ -101,7 +101,7 @@
 
     if (offered && items.length > 0) {
       return {
-        label: t.import_add({ count: selected.length }),
+        label: t.import_add({ entryCount: selected.length }),
         icon: IconName.PLUS,
         busy: false,
         busyLabel: "",
@@ -140,13 +140,13 @@
       label={t.import_title()}
       allLabel={t.common_select_all()}
       noneLabel={t.common_select_none()}
-      countLabel={t.common_selected_count({ count: selected.length, total: items.length })}
+      countLabel={t.common_selected_count({ selectedCount: selected.length, total: items.length })}
       empty={already > 0 ? t.import_none_new() : t.import_nothing()}
       onchange={(logins) => (picked = { offered: offeredLogins, logins })}
     />
     {#if already > 0 && candidates.length > 0}
       <p class="text-hint text-muted-foreground">
-        <RichText text={t.import_already({ count: strong(already) })} />
+        <RichText text={t.import_already({ entryCount: strong(already) })} />
       </p>
     {/if}
   {/if}

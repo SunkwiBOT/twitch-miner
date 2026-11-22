@@ -44,7 +44,7 @@
             name={IconName.WATCH_STREAK}
             size={13}
             class="-translate-y-px"
-          /><span class="sr-only">{t.streamer_streak({ count: number(streak) })}</span>
+          /><span class="sr-only">{t.streamer_streak({ streakCount: number(streak) })}</span>
         </span>{/if}
     </span>
   {/if}

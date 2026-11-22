@@ -213,7 +213,7 @@
           />{/if}
         {#if benefit?.chest_size && benefit.badges.length > 1}
           <small class="text-tiny text-muted-foreground">
-            {t.reward_chest({ count: benefit.chest_size })}
+            {t.reward_chest({ chestCount: benefit.chest_size })}
           </small>
           <span class="flex flex-wrap justify-center gap-0.5">
             {#each benefit.badges as badge (`${badge.set_id}/${badge.version}`)}

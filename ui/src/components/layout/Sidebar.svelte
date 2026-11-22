@@ -11,7 +11,7 @@
   import { t } from "../../lib/i18n/i18n.svelte";
   import { REPO_URL } from "../../lib/partners.constants";
   import { BETA_PAGES, PAGE_ICONS, Page } from "../../lib/state/state.constants";
-  import { followLink } from "../../lib/links/links.utils";
+  import ExternalAnchor from "../ui/ExternalAnchor.svelte";
   import { app } from "../../lib/state/app.svelte";
   import { isAccountPage, navigate } from "../../lib/state/router";
   import { run } from "../../lib/state/session";
@@ -105,15 +105,13 @@
   aria-label={t.nav_main()}
 >
   <div class="flex min-h-0 flex-1 flex-col gap-0.5 overflow-y-auto px-2.5 py-3">
-    <a
+    <ExternalAnchor
+      url={REPO_URL}
       class="mb-2 flex items-center gap-2.5 rounded-md border border-transparent px-2 py-1.5 text-nav-title leading-tight font-bold text-foreground no-underline hover:border-border hover:bg-sidebar-accent"
-      href={REPO_URL}
-      rel="noreferrer"
-      onclick={(event) => followLink(event, REPO_URL)}
     >
       <img class="size-8 shrink-0 [image-rendering:pixelated]" src="/app-icon.svg" alt="" />
       <span>{APP_TITLE}</span>
-    </a>
+    </ExternalAnchor>
     {#each main as item (item.page)}
       <button
         class={itemClass(navActive(item.page), false)}

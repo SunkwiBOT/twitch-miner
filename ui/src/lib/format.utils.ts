@@ -22,6 +22,18 @@ export const minutes = (count: number): string =>
     unitDisplay: "long",
   }).format(count);
 
+export const longDuration = (count: number): string =>
+  count % 60 === 0
+    ? new Intl.NumberFormat(locale.current, {
+        style: "unit",
+        unit: DurationUnit.HOUR,
+        unitDisplay: "long",
+      }).format(count / 60)
+    : minutes(count);
+
+export const list = (items: string[]): string =>
+  new Intl.ListFormat(locale.current, { type: "disjunction" }).format(items);
+
 export const formatPercent = (value: number): string =>
   new Intl.NumberFormat(locale.current, { style: "percent", maximumFractionDigits: 0 }).format(
     value / 100,

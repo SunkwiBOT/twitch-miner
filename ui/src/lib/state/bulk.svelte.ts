@@ -116,7 +116,7 @@ export const applyToAccounts = async (accountIds: string[]): Promise<void> => {
 
   if (applied > 0) {
     toast(ToastKind.SUCCESS, t.bulk_applied_title(), {
-      description: t.common_accounts_count({ count: strong(number(applied)) }),
+      description: t.common_accounts_count({ accountCount: strong(number(applied)) }),
     });
   }
 };

@@ -43,8 +43,7 @@
   import RichText from "../ui/RichText.svelte";
   import TextButton from "../ui/TextButton.svelte";
   import BadgeTile from "../ui/BadgeTile.svelte";
-  import Thumb from "../ui/Thumb.svelte";
-  import { ThumbShape, ThumbSize } from "../ui/picture.constants";
+  import { ThumbSize } from "../ui/picture.constants";
   import { BadgeTone } from "../../lib/tones.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import { IconName } from "../../lib/icons.constants";
@@ -222,24 +221,14 @@
   <div class="contents" bind:this={body}>
     {#if shown}
       {#if previous}
-        {@const before = previous}
         <button
-          class="flex w-fit max-w-full min-w-0 items-center gap-2 text-left text-hint transition-colors hover:text-link-hover"
+          class="flex w-fit items-center gap-2 text-left font-semibold text-link transition-colors hover:text-link-hover"
           type="button"
-          aria-label={t.badge_dialog_back({ badge: before.title })}
           data-badge-back
           onclick={back}
         >
-          <Icon name={IconName.ARROW_LEFT} size={14} class="shrink-0 text-link" />
-          <Thumb
-            src={before.image_url}
-            round={false}
-            contain={true}
-            size={ThumbSize.XS}
-            shape={ThumbShape.SQUARE}
-            fallback={IconName.AWARD}
-          />
-          <span class="truncate font-semibold text-link">{before.title}</span>
+          <Icon name={IconName.ARROW_LEFT} size={14} class="shrink-0" />
+          {t.common_back()}
         </button>
       {/if}
       <div class="flex items-start gap-4">
@@ -287,7 +276,7 @@
               {#if requirement.required_subs > 0}
                 <span class="text-muted-foreground">
                   <RichText
-                    text={t.badge_dialog_subs({ count: strong(requirement.required_subs) })}
+                    text={t.badge_dialog_subs({ subCount: strong(requirement.required_subs) })}
                   />
                 </span>
               {/if}
@@ -297,9 +286,9 @@
               <span class="text-muted-foreground">
                 <RichText
                   text={requirement.channel_count > 0
-                    ? t.campaign_channels_some({ count: strong(requirement.channel_count) })
+                    ? t.campaign_channels_some({ channelCount: strong(requirement.channel_count) })
                     : categories.length > 1
-                      ? t.campaign_channels_categories({ count: strong(categories.length) })
+                      ? t.campaign_channels_categories({ categoryCount: strong(categories.length) })
                       : t.campaign_channels_any()}
                 />
               </span>
@@ -353,7 +342,7 @@
                   url={categoryUrl(category.name, category.slug)}
                   art={gameArt(category.name, category.box_art_url)}
                   size={ThumbSize.XS}
-                  inSentence={true}
+                  inSentence={false}
                 />
               </li>
             {/each}

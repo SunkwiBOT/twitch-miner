@@ -46,6 +46,7 @@ async fn locked_snapshot(manager: &Manager) -> Snapshot {
     Snapshot {
         version: miner_core::VERSION.to_owned(),
         install_kind: miner_core::api::InstallKind::Desktop,
+        binary_asset: None,
         build: None,
         update_available: None,
         update_checked_at: None,

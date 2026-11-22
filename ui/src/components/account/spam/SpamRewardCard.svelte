@@ -91,7 +91,7 @@
         class="absolute top-1/2 left-1/2 inline-flex -translate-1/2 items-center gap-1 rounded-md bg-background/90 px-1.5 py-0.5 text-xs font-semibold whitespace-nowrap tabular-nums"
       >
         <Icon name={IconName.CLOCK} size={12} />{t.spam_reward_cooldown({
-          time: countdown(cooldownLeft),
+          cooldownTime: countdown(cooldownLeft),
         })}
       </span>
     {/if}

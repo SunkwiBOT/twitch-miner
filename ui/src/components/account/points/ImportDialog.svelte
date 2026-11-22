@@ -62,7 +62,7 @@
     void changedWhenSaved(
       updateAccountSettings(into.id, append),
       into.id,
-      t.change_streamers_imported({ count: strong(logins.length) }),
+      t.change_streamers_imported({ streamerCount: strong(logins.length) }),
       append,
     );
   };
@@ -116,7 +116,7 @@
       />
     {:else}
       <TextButton
-        label={t.import_add({ count: 0 })}
+        label={t.import_add({ entryCount: 0 })}
         icon={IconName.PLUS}
         variant={ButtonVariant.PRIMARY}
         size={ButtonSize.MD}

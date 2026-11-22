@@ -11,16 +11,52 @@ use crate::predictions::MAX_PREDICTION_POINTS;
 // ! Twitch credits at most two channels per account at a time.
 pub const MAX_WATCHED_CHANNELS: u8 = 2;
 const SLOTS: RangeInclusive<u8> = 1..=MAX_WATCHED_CHANNELS;
-const BET_PERCENTAGE: RangeInclusive<u8> = 1..=100;
-const BET_TIMING_PERCENT: RangeInclusive<u8> = 1..=99;
-const BET_GAP_PERCENT: RangeInclusive<u8> = 0..=100;
+pub const BET_PERCENTAGE: RangeInclusive<u8> = 1..=100;
+pub const BET_TIMING_PERCENT: RangeInclusive<u8> = 1..=99;
+pub const BET_GAP_PERCENT: RangeInclusive<u8> = 0..=100;
 // ! A bet placed at the very close reaches Twitch once betting has closed.
-const BET_DELAY_SECONDS: RangeInclusive<u32> = 2..=300;
+pub const BET_DELAY_SECONDS: RangeInclusive<u32> = 2..=300;
+pub const BET_POINTS_MIN: u32 = 1;
+// ! The durations the pause menu offers, after « Until I resume » and before tomorrow and a custom time.
+pub const PAUSE_PRESET_MINUTES: [u32; 3] = [30, 60, 240];
 const TEXT_MAX_CHARS: usize = 2048;
 const TIME_ZONE_MAX_CHARS: usize = 64;
 pub const SPAM_DELAY_MIN_MS: u32 = 0;
 pub const SPAM_DELAY_MAX_MS: u32 = 5_000;
 const MINUTES_IN_DAY_MAX: u16 = 1439;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[serde(rename_all = "lowercase")]
+pub enum ProxyScheme {
+    Http,
+    Https,
+    Socks4,
+    Socks4a,
+    Socks5,
+    Socks5h,
+}
+
+impl ProxyScheme {
+    pub const ALL: [Self; 6] = [
+        Self::Socks5h,
+        Self::Socks5,
+        Self::Socks4a,
+        Self::Socks4,
+        Self::Http,
+        Self::Https,
+    ];
+
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            Self::Http => "http",
+            Self::Https => "https",
+            Self::Socks4 => "socks4",
+            Self::Socks4a => "socks4a",
+            Self::Socks5 => "socks5",
+            Self::Socks5h => "socks5h",
+        }
+    }
+}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default, TS)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
@@ -541,11 +577,11 @@ impl PredictionSettings {
         within("timing_percent", self.timing_percent, &BET_TIMING_PERCENT)?;
         within("percentage_gap", self.percentage_gap, &BET_GAP_PERCENT)?;
         within("delay_seconds", self.delay_seconds, &BET_DELAY_SECONDS)?;
-        within("min_points", self.min_points, &(1..=u32::MAX))?;
+        within("min_points", self.min_points, &(BET_POINTS_MIN..=u32::MAX))?;
         within(
             "max_points",
             i64::from(self.max_points),
-            &(1..=MAX_PREDICTION_POINTS),
+            &(i64::from(BET_POINTS_MIN)..=MAX_PREDICTION_POINTS),
         )?;
 
         match self.filter {

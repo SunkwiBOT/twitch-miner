@@ -31,7 +31,7 @@
   <Icon name={IconName.CLOCK} size={16} class="mt-0.5 shrink-0 text-muted-foreground" />
   <p class="m-0 flex-1 leading-snug">
     <span aria-hidden="true">
-      <RichText text={t.lock_warning_message({ time: strong(mmss(remaining)) })} />
+      <RichText text={t.lock_warning_message({ lockTime: strong(mmss(remaining)) })} />
     </span>
     <span class="sr-only">{t.lock_warning_message_a11y()}</span>
   </p>

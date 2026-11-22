@@ -2,19 +2,23 @@
   import type { Snippet } from "svelte";
 
   import { cn } from "$lib/utils";
-  import { followLink } from "../../lib/links/links.utils";
+  import type { LinkTargetType } from "../../lib/text.utils";
+  import ExternalAnchor from "./ExternalAnchor.svelte";
   import { linkPair } from "./link-pair.svelte";
   import LinkText from "./LinkText.svelte";
   import { LINK_SIZES, LinkMark, LinkSize } from "./link.constants";
 
   type TextLinkPropsType = {
     text: string;
-    target: { url: string; mark: LinkMark } | { open: () => void };
+    target:
+      | (Extract<LinkTargetType, { url: string }> & { mark: LinkMark })
+      | Extract<LinkTargetType, { open: () => void }>;
     size: LinkSize;
     lead?: Snippet;
+    class?: string;
   };
 
-  let { text, target, size, lead }: TextLinkPropsType = $props();
+  let { text, target, size, lead, class: className }: TextLinkPropsType = $props();
 
   const pair = linkPair();
   const mark = $derived("url" in target ? target.mark : LinkMark.NONE);
@@ -24,6 +28,7 @@
       "group/link min-w-0 text-left",
       LINK_SIZES[size].text,
       fit ? "inline-flex max-w-full items-center gap-1.5 align-bottom" : "inline",
+      className,
     ),
   );
 </script>
@@ -33,16 +38,9 @@
 {/snippet}
 
 {#if "url" in target}
-  {@const url = target.url}
-  <a
-    class={classes}
-    href={url}
-    rel="noreferrer"
-    data-twin-hover={pair?.hovered || undefined}
-    onclick={(event) => followLink(event, url)}
-  >
+  <ExternalAnchor url={target.url} class={classes} dataTwinHover={pair?.hovered}>
     {@render content()}
-  </a>
+  </ExternalAnchor>
 {:else}
   <button
     class={classes}

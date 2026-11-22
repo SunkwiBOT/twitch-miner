@@ -36,15 +36,17 @@
   import DetailLine from "../../ui/DetailLine.svelte";
   import GameName from "../../ui/GameName.svelte";
   import IconButton from "../../ui/IconButton.svelte";
+  import LinkText from "../../ui/LinkText.svelte";
   import Panel from "../../ui/Panel.svelte";
   import ProgressLine from "../../ui/ProgressLine.svelte";
   import SortableList from "../../ui/SortableList.svelte";
   import Thumb from "../../ui/Thumb.svelte";
   import TiledArt from "../../ui/TiledArt.svelte";
   import { ButtonSize, ButtonType, ButtonVariant } from "../../ui/button.constants";
+  import { LinkMark, LinkSize } from "../../ui/link.constants";
   import { IconName } from "../../../lib/icons.constants";
   import { ThumbShape, ThumbSize } from "../../ui/picture.constants";
-  import { STRETCHED_BUTTON_CLASSES } from "../../ui/ui.constants";
+  import { RAISED_CLASSES, STRETCHED_BUTTON_CLASSES } from "../../ui/ui.constants";
   import GameDialog from "../GameDialog.svelte";
 
   type DropsOrderTabPropsType = {
@@ -157,16 +159,27 @@
           shape={ThumbShape.BOX_ART}
           fallback={IconName.GIFT}
         />
-        <button
-          class={cn(STRETCHED_BUTTON_CLASSES, "flex min-w-0 flex-1 flex-col gap-0.5")}
-          type="button"
-          onclick={() => c && onopen(c)}
-        >
+        <span class="flex min-w-0 flex-1 flex-col gap-0.5">
           <span class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
-            <span class={cn("truncate font-semibold", c && "text-link")}>
-              {c ? campaignHeading(c) : item.campaign_id}
-            </span>
-            <span class="inline-flex max-w-full flex-wrap items-center gap-1.5">
+            {#if c}
+              <button
+                class={cn(STRETCHED_BUTTON_CLASSES, "group/link block min-w-0 truncate")}
+                type="button"
+                onclick={() => onopen(c)}
+              >
+                <LinkText
+                  text={campaignHeading(c)}
+                  mark={LinkMark.NONE}
+                  size={LinkSize.MD}
+                  fit={true}
+                />
+              </button>
+            {:else}
+              <span class="truncate font-semibold">{item.campaign_id}</span>
+            {/if}
+            <span
+              class={cn(RAISED_CLASSES, "inline-flex max-w-full flex-wrap items-center gap-1.5")}
+            >
               <Badge
                 {...queueStateView(account, item, ticker.now) ?? queueReasonView(item.reason)}
                 dot={false}
@@ -189,7 +202,7 @@
               stacked={false}
             />
           </span>
-        </button>
+        </span>
       {/snippet}
       {#snippet actions(item)}
         {@const on = drops.selected_campaign_ids.includes(item.campaign_id)}

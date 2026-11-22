@@ -397,7 +397,7 @@ pub fn sample_in(language: &str) -> MinerEvent {
     let title = i18n::text(
         language,
         "notify_test_title",
-        &[("text", &i18n::event_text(language, &event))],
+        &[("eventText", &i18n::event_text(language, &event))],
     );
 
     MinerEvent { title, ..event }

@@ -31,7 +31,9 @@ export const PROGRESS_BADGES: Record<ProgressState, ProgressBadgeType> = {
     icon: IconName.CLOCK,
     hint: (entry, now) =>
       entry.setAsideUntil
-        ? t.badge_hint_blocked_set_aside({ time: strong(relativeTime(entry.setAsideUntil, now)) })
+        ? t.badge_hint_blocked_set_aside({
+            retryTime: strong(relativeTime(entry.setAsideUntil, now)),
+          })
         : "",
   },
   [ProgressState.IN_PROGRESS]: {

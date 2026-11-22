@@ -24,15 +24,17 @@
   import IconButton from "../../ui/IconButton.svelte";
   import List from "../../ui/List.svelte";
   import ListRow from "../../ui/ListRow.svelte";
+  import LinkText from "../../ui/LinkText.svelte";
   import Panel from "../../ui/Panel.svelte";
   import ProgressLine from "../../ui/ProgressLine.svelte";
   import SortableList from "../../ui/SortableList.svelte";
   import Thumb from "../../ui/Thumb.svelte";
   import { BadgeTone } from "../../../lib/tones.constants";
   import { ButtonSize, ButtonVariant } from "../../ui/button.constants";
+  import { LinkMark, LinkSize } from "../../ui/link.constants";
   import { IconName } from "../../../lib/icons.constants";
   import { ThumbShape, ThumbSize } from "../../ui/picture.constants";
-  import { STRETCHED_BUTTON_CLASSES } from "../../ui/ui.constants";
+  import { RAISED_CLASSES, STRETCHED_BUTTON_CLASSES } from "../../ui/ui.constants";
   import BadgeStateBadges from "./BadgeStateBadges.svelte";
 
   type BadgesOrderTabPropsType = {
@@ -87,10 +89,21 @@
       {@const item = queued(row.campaignId)}
       {@const campaign = row.campaign}
       {@const state = item ? queueStateView(account, item, ticker.now) : null}
-      {#snippet body()}
+      {@render thumb(first)}
+      <span class="flex min-w-0 flex-1 flex-col gap-0.5">
         <span class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
-          <span class={["truncate font-semibold", campaign && "text-link"]}>{titleOf(row)}</span>
-          <span class="inline-flex max-w-full flex-wrap items-center gap-1.5">
+          {#if campaign}
+            <button
+              class={[STRETCHED_BUTTON_CLASSES, "group/link block min-w-0 truncate"]}
+              type="button"
+              onclick={() => onopen(campaign)}
+            >
+              <LinkText text={titleOf(row)} mark={LinkMark.NONE} size={LinkSize.MD} fit={true} />
+            </button>
+          {:else}
+            <span class="truncate font-semibold">{titleOf(row)}</span>
+          {/if}
+          <span class={[RAISED_CLASSES, "inline-flex max-w-full flex-wrap items-center gap-1.5"]}>
             {#if state}<Badge
                 {...state}
                 dot={false}
@@ -110,19 +123,7 @@
             <ProgressLine current={row.current} required={row.required} stacked={false} />
           </span>
         {/if}
-      {/snippet}
-      {@render thumb(first)}
-      {#if campaign}
-        <button
-          class={[STRETCHED_BUTTON_CLASSES, "flex min-w-0 flex-1 flex-col gap-0.5"]}
-          type="button"
-          onclick={() => onopen(campaign)}
-        >
-          {@render body()}
-        </button>
-      {:else}
-        <span class="flex min-w-0 flex-1 flex-col gap-0.5">{@render body()}</span>
-      {/if}
+      </span>
     {/snippet}
     {#snippet actions(row)}
       {@const on = chosen(row.campaignId)}

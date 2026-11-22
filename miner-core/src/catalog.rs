@@ -179,10 +179,12 @@ pub fn complete_game_entries(entries: &mut Vec<GameEntry>, campaigns: &[Campaign
     let before = entries.len();
     let mut seen = HashSet::new();
 
-    entries.retain(|entry| match entry.id.as_deref().filter(|id| !id.is_empty()) {
-        Some(id) => seen.insert(id.to_owned()),
-        None => true,
-    });
+    entries.retain(
+        |entry| match entry.id.as_deref().filter(|id| !id.is_empty()) {
+            Some(id) => seen.insert(id.to_owned()),
+            None => true,
+        },
+    );
 
     changed || entries.len() != before
 }

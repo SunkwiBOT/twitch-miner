@@ -47,7 +47,7 @@ export enum RichTextPartKind {
 export type RichTextPartType =
   | { kind: RichTextPartKind.TEXT | RichTextPartKind.STRONG | RichTextPartKind.CODE; text: string }
   | { kind: RichTextPartKind.LINK; link: TextLinkType; endsSentence: boolean }
-  | { kind: RichTextPartKind.PERSON; person: TextPersonType };
+  | { kind: RichTextPartKind.PERSON; person: TextPersonType; endsSentence: boolean };
 
 export const parseRichText = (
   text: string,
@@ -70,7 +70,7 @@ export const parseRichText = (
       const person = people.at(Number(token.slice(1, -1)));
 
       if (person) {
-        parts.push({ kind: RichTextPartKind.PERSON, person });
+        parts.push({ kind: RichTextPartKind.PERSON, person, endsSentence: false });
       }
     } else if (token.startsWith(CODE_DELIMITER)) {
       parts.push({ kind: RichTextPartKind.CODE, text: token.slice(1, -1) });
@@ -85,6 +85,11 @@ export const parseRichText = (
 
     if (part.kind === RichTextPartKind.LINK) {
       parts[index] = { ...part, endsSentence: true };
+      break;
+    }
+
+    if (part.kind === RichTextPartKind.PERSON) {
+      parts[index] = { ...part, endsSentence: Boolean(part.person.channel) };
       break;
     }
 

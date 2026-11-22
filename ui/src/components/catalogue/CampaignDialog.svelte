@@ -156,7 +156,7 @@
           <div class="flex flex-wrap gap-1.5">
             <Badge
               text={left(view) > 0
-                ? t.campaign_time_left({ time: shortDuration(left(view)) })
+                ? t.campaign_time_left({ remainingTime: shortDuration(left(view)) })
                 : t.campaign_ended()}
               tone={left(view) <= 0
                 ? BadgeTone.MUTED
@@ -167,7 +167,7 @@
               icon={IconName.CLOCK}
             />
             <Badge
-              text={t.catalogue_rewards({ count: view.drops.length })}
+              text={t.catalogue_rewards({ rewardCount: view.drops.length })}
               tone={BadgeTone.NEUTRAL}
               dot={false}
               icon={IconName.GIFT}
@@ -183,9 +183,11 @@
           <span class="text-hint text-muted-foreground">
             <RichText
               text={view.allowed_channels.length
-                ? t.campaign_channels_some({ count: strong(view.allowed_channels.length) })
+                ? t.campaign_channels_some({ channelCount: strong(view.allowed_channels.length) })
                 : view.categories.length > 1
-                  ? t.campaign_channels_categories({ count: strong(view.categories.length) })
+                  ? t.campaign_channels_categories({
+                      categoryCount: strong(view.categories.length),
+                    })
                   : t.campaign_channels_any()}
             />{" · "}<RichText text={campaignEnd(view.ends_at, ticker.now)} />
           </span>

@@ -1,8 +1,15 @@
 import axios from "axios";
 
+import { FORWARDED_FOR_HEADER } from "../../components/settings/settings.constants";
 import type { ApiErrorType } from "../bindings/ApiErrorType";
 import { ErrorApiMessage } from "../bindings/ErrorApiMessage";
 import { t } from "../i18n/i18n.svelte";
+import {
+  TWITCH_BEACON_HOST,
+  TWITCH_BEACON_SCIENCE_EDGE_HOST,
+  TWITCH_BEACON_SCIENCE_HOST,
+} from "../partners.constants";
+import { code } from "../text.utils";
 
 class ApiError extends Error {
   readonly code: ErrorApiMessage;
@@ -59,7 +66,12 @@ const MESSAGES: Record<ErrorApiMessage, (code: ErrorApiMessage) => string> = {
   [ErrorApiMessage.INVALID_STREAMER_LOGIN]: () => t.error_invalid_streamer_login(),
   [ErrorApiMessage.PASSPHRASE_REQUIRED]: () => t.error_passphrase_required(),
   [ErrorApiMessage.NOTIFICATION_FAILED]: () => t.error_notification_failed(),
-  [ErrorApiMessage.BEACON_BLOCKED]: () => t.beacon_blocked(),
+  [ErrorApiMessage.BEACON_BLOCKED]: () =>
+    t.beacon_blocked({
+      beaconHost: code(TWITCH_BEACON_HOST),
+      beaconScienceHost: code(TWITCH_BEACON_SCIENCE_HOST),
+      beaconScienceEdgeHost: code(TWITCH_BEACON_SCIENCE_EDGE_HOST),
+    }),
   [ErrorApiMessage.CATALOG_RATE_LIMITED]: () => t.error_catalog_rate_limited(),
   [ErrorApiMessage.UNAUTHORIZED]: () => t.error_dashboard_unauthorized(),
   [ErrorApiMessage.WRONG_PASSWORD]: () => t.auth_wrong(),
@@ -69,7 +81,8 @@ const MESSAGES: Record<ErrorApiMessage, (code: ErrorApiMessage) => string> = {
   [ErrorApiMessage.OPEN_URL_REFUSED]: () => t.error_open_url_refused(),
   [ErrorApiMessage.OPEN_URL_FAILED]: () => t.error_open_url_failed(),
   [ErrorApiMessage.HTTPS_REQUIRED]: () => t.error_https_required(),
-  [ErrorApiMessage.FORWARDED_FOR_REQUIRED]: () => t.error_forwarded_for_required(),
+  [ErrorApiMessage.FORWARDED_FOR_REQUIRED]: () =>
+    t.error_forwarded_for_required({ forwardedForHeader: code(FORWARDED_FOR_HEADER) }),
   [ErrorApiMessage.PROXY_NOT_LOCAL]: () => t.error_proxy_not_local(),
   [ErrorApiMessage.CROSS_SITE_REQUEST]: () => t.error_cross_site_request(),
   [ErrorApiMessage.UPDATE_SIGNATURE_REFUSED]: () => t.error_update_signature_refused(),

@@ -7,6 +7,8 @@
   import { t } from "../../lib/i18n/i18n.svelte";
   import { IconName } from "../../lib/icons.constants";
   import Icon from "./Icon.svelte";
+  import LinkText from "./LinkText.svelte";
+  import { LinkMark, LinkSize } from "./link.constants";
   import Thumb from "./Thumb.svelte";
   import { ThumbShape, ThumbSize } from "./picture.constants";
 
@@ -29,7 +31,7 @@
   }: BadgeTilePropsType = $props();
 </script>
 
-{#snippet content()}
+{#snippet content(interactive: boolean)}
   <Thumb
     src={image}
     round={false}
@@ -39,27 +41,30 @@
     fallback={IconName.AWARD}
   />
   <span class="flex min-w-0 flex-col">
-    <span
-      class={cn(
-        "min-w-0 truncate font-semibold",
-        small ? "text-xs" : "text-sm",
-        onclick && "text-link",
-      )}
-    >
-      {title}
-    </span>
+    {#if interactive}
+      <LinkText
+        text={title}
+        mark={LinkMark.NONE}
+        size={small ? LinkSize.SM : LinkSize.MD}
+        fit={true}
+      />
+    {:else}
+      <span class={cn("min-w-0 truncate font-semibold", small ? "text-xs" : "text-sm")}>
+        {title}
+      </span>
+    {/if}
     {#if detail}<span class="min-w-0 truncate text-xs text-muted-foreground">{detail}</span>{/if}
   </span>
 {/snippet}
 
 {#if onclick}
   <button
-    class={cn(BADGE_TILE_CLASSES, BADGE_TILE_INTERACTIVE_CLASSES)}
+    class={cn(BADGE_TILE_CLASSES, BADGE_TILE_INTERACTIVE_CLASSES, "group/link")}
     type="button"
     title={tooltip ? title : undefined}
     {onclick}
   >
-    {@render content()}
+    {@render content(true)}
     <span
       class="absolute inset-y-0 right-0 flex items-center gap-1 rounded-r-lg bg-linear-to-l from-accent from-75% to-transparent pr-2.5 pl-6 text-xs font-semibold text-link opacity-0 transition-opacity group-hover/tile:opacity-100 group-focus-visible/tile:opacity-100"
       aria-hidden="true"
@@ -69,6 +74,6 @@
   </button>
 {:else}
   <div class={BADGE_TILE_CLASSES} title={tooltip ? title : undefined}>
-    {@render content()}
+    {@render content(false)}
   </div>
 {/if}

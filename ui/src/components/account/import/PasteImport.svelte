@@ -84,7 +84,7 @@
     const lookupMax = coreLimits().channels_lookup_max;
 
     if (names.length > lookupMax) {
-      problem = t.import_too_many({ max: strong(lookupMax) });
+      problem = t.import_too_many({ maxNames: strong(lookupMax) });
 
       return;
     }
@@ -244,7 +244,9 @@
         aria-busy={checking}
       >
         {#if entries.length === 0}
-          <RichText text={t.import_paste_hint({ max: strong(coreLimits().channels_lookup_max) })} />
+          <RichText
+            text={t.import_paste_hint({ maxNames: strong(coreLimits().channels_lookup_max) })}
+          />
         {:else if checking}
           <RichText
             text={t.import_progress({ done: strong(done), total: strong(entries.length) })}
@@ -259,7 +261,7 @@
         <div class="flex flex-wrap gap-2">
           {#if unchecked > 0 && !checking}
             <TextButton
-              label={t.import_check_again({ count: unchecked })}
+              label={t.import_check_again({ entryCount: unchecked })}
               icon={IconName.REFRESH}
               variant={ButtonVariant.OUTLINE}
               size={ButtonSize.MD}

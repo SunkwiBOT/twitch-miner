@@ -132,19 +132,27 @@ fn relative_in(language: &str, until: DateTime<Utc>, now: DateTime<Utc>) -> Stri
         return text(
             language,
             "time_in_minutes",
-            &[("count", &minutes.to_string())],
+            &[("minutesCount", &minutes.to_string())],
         );
     }
 
     let hours = (seconds as f64 / 3600.0).round() as i64;
 
     if hours < 48 {
-        return text(language, "time_in_hours", &[("count", &hours.to_string())]);
+        return text(
+            language,
+            "time_in_hours",
+            &[("hoursCount", &hours.to_string())],
+        );
     }
 
     let days = (seconds as f64 / 86400.0).round() as i64;
 
-    text(language, "time_in_days", &[("count", &days.to_string())])
+    text(
+        language,
+        "time_in_days",
+        &[("daysCount", &days.to_string())],
+    )
 }
 
 fn pattern(language: &str, text: &'static Text, args: &[(&str, &str)]) -> &'static str {
@@ -472,7 +480,7 @@ pub fn event_text(language: &str, event: &MinerEvent) -> String {
                     &[
                         ("campaign", campaign),
                         ("minutes", &count(i64::from(minutes))),
-                        ("time", &relative_in(language, until, event.at)),
+                        ("retryTime", &relative_in(language, until, event.at)),
                     ],
                 ),
                 _ => None,
@@ -485,7 +493,7 @@ pub fn event_text(language: &str, event: &MinerEvent) -> String {
             (Some(PauseReason::QuietWindow), _) => say("ev_paused_quiet_window", &[]),
             (_, Some(until)) => say(
                 "ev_paused_scheduled",
-                &[("time", &relative_in(language, until, event.at))],
+                &[("resumeTime", &relative_in(language, until, event.at))],
             ),
             _ => say("ev_paused", &[]),
         },

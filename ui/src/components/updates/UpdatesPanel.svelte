@@ -37,7 +37,7 @@
 
   const lastChecked = $derived(
     checkedAt
-      ? t.updates_last_checked({ time: strong(relativeTime(checkedAt, ticker.now)) })
+      ? t.updates_last_checked({ checkedTime: strong(relativeTime(checkedAt, ticker.now)) })
       : t.updates_never_checked(),
   );
 </script>

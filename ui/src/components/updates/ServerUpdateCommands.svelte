@@ -12,18 +12,32 @@
 
   let { version }: ServerUpdateCommandsPropsType = $props();
 
-  const steps = $derived.by((): { hint: string; commands: string } | null => {
-    switch (app.snapshot?.install_kind) {
-      case InstallKind.DOCKER:
-        return { hint: t.updates_pull_image(), commands: IMAGE_UPDATE_COMMANDS.join("\n") };
-      case InstallKind.BINARY:
-        return {
-          hint: t.updates_replace_binary(),
-          commands: binaryUpdateCommands(version).join("\n"),
-        };
-      default:
-        return null;
-    }
+  type UpdateStepsType = { hint: string; commands: string } | null;
+
+  const steps = $derived.by((): UpdateStepsType => {
+    const installKind = app.snapshot?.install_kind;
+
+    if (!installKind) return null;
+
+    const byKind: Record<InstallKind, () => UpdateStepsType> = {
+      [InstallKind.DESKTOP]: () => null,
+      [InstallKind.DOCKER]: () => ({
+        hint: t.updates_pull_image(),
+        commands: IMAGE_UPDATE_COMMANDS.join("\n"),
+      }),
+      [InstallKind.BINARY]: () => {
+        const asset = app.snapshot?.binary_asset;
+
+        return asset
+          ? {
+              hint: t.updates_replace_binary(),
+              commands: binaryUpdateCommands(version, asset).join("\n"),
+            }
+          : null;
+      },
+    };
+
+    return byKind[installKind]();
   });
 </script>
 

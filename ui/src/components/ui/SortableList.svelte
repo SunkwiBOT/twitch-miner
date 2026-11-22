@@ -7,6 +7,7 @@
   import IconButton from "./IconButton.svelte";
   import { ButtonSize, ButtonVariant } from "./button.constants";
   import { IconName } from "../../lib/icons.constants";
+  import { RAISED_CLASSES } from "./ui.constants";
 
   type SortableListPropsType = {
     items: T[];
@@ -137,7 +138,10 @@
             </span>
             <div class="flex min-w-0 flex-1 items-center gap-3">{@render row(item, index)}</div>
             <div
-              class="pointer-events-none relative z-10 flex shrink-0 items-center gap-1.5 *:pointer-events-auto max-sm:w-full max-sm:justify-end"
+              class={[
+                RAISED_CLASSES,
+                "flex shrink-0 items-center gap-1.5 max-sm:w-full max-sm:justify-end",
+              ]}
             >
               {#if actions}{@render actions(item, index)}{/if}
               <IconButton

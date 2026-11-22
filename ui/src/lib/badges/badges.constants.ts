@@ -18,3 +18,5 @@ export const NEW_BADGE_MS = 7 * 24 * 60 * 60 * 1000;
 export const BADGE_TILE_CLASSES = "flex min-w-0 items-center gap-2.5 rounded-lg border p-2";
 export const BADGE_TILE_INTERACTIVE_CLASSES =
   "group/tile relative text-left transition-colors hover:bg-accent focus-visible:bg-accent";
+
+export const OWNED_BADGES_SKELETON_COUNT = 6;

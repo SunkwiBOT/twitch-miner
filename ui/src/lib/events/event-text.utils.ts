@@ -13,7 +13,13 @@ import { channelUrl } from "../links/twitch.utils";
 import { account } from "../state/app.svelte";
 import { openBadgeSheet, openCampaignSheet } from "../state/sheets";
 import { relativeTime } from "../time/time.utils";
-import { escapeEmphasis, linkMarker, strong, type TextLinkType } from "../text.utils";
+import {
+  escapeEmphasis,
+  linkMarker,
+  strong,
+  type LinkTargetType,
+  type TextLinkType,
+} from "../text.utils";
 
 type ShortLongTextType = [short: () => string, long: (args: { channel: string }) => string];
 
@@ -30,9 +36,9 @@ const WATCH_POINTS_TEXTS: Record<PointsReason, ShortLongTextType> = {
   [PointsReason.LIST_ORDER]: [t.ev_watch_points_list_order_short, t.ev_watch_points_list_order],
 };
 
-type LinkTargetType = { url: string } | { open: () => void } | null;
+type EventLinkTargetType = LinkTargetType | null;
 
-const campaignSheet = (event: MinerEventType): LinkTargetType => {
+const campaignSheet = (event: MinerEventType): EventLinkTargetType => {
   const id = event.context.campaign_id;
   const owner = account(event.account_id);
   const campaign =
@@ -41,7 +47,7 @@ const campaignSheet = (event: MinerEventType): LinkTargetType => {
   return campaign ? { open: () => openCampaignSheet(campaign, owner?.id ?? null) } : null;
 };
 
-const badgeSheet = (event: MinerEventType): LinkTargetType => {
+const badgeSheet = (event: MinerEventType): EventLinkTargetType => {
   const key = event.context.badge_key;
   const badge = badgeList.badges.find((item) => badgeKey(item.set_id, item.version_id) === key);
   const accountId = account(event.account_id)?.id ?? null;
@@ -63,7 +69,7 @@ export const eventText = (
   const context = event.context;
   const links: TextLinkType[] = [];
 
-  const named = (label: string | undefined, target: LinkTargetType): string | undefined => {
+  const named = (label: string | undefined, target: EventLinkTargetType): string | undefined => {
     if (label === undefined) {
       return undefined;
     }
@@ -123,7 +129,9 @@ export const eventText = (
           ? t.ev_campaign_set_aside({
               campaign,
               minutes: bold(context.required) ?? "",
-              time: strong(relativeTime(context.set_aside_until, new Date(event.at).getTime())),
+              retryTime: strong(
+                relativeTime(context.set_aside_until, new Date(event.at).getTime()),
+              ),
             })
           : fallback;
       case EventKind.CAMPAIGN_RETRIED:
@@ -196,7 +204,7 @@ export const eventText = (
 
         const sent = context.sent ?? 0;
         const parts = {
-          count: bold(context.count) ?? "",
+          rewardCount: bold(context.count) ?? "",
           reward: strong(context.reward_title),
           points: bold(context.spent ?? 0) ?? "",
         };
@@ -292,7 +300,7 @@ export const eventText = (
 
         if (context.pause_until) {
           return t.ev_paused_scheduled({
-            time: strong(relativeTime(context.pause_until, new Date(event.at).getTime())),
+            resumeTime: strong(relativeTime(context.pause_until, new Date(event.at).getTime())),
           });
         }
 

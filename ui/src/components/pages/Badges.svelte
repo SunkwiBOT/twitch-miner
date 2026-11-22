@@ -73,7 +73,7 @@
     const error = t.badges_error({ error: strong(describeCode(list.problem)) });
     const retry = strong(retryIn < HOUR_MS ? mmss(retryIn) : shortDuration(retryIn));
 
-    return retryIn > 0 ? `${error} ${t.badges_retry({ time: retry })}` : error;
+    return retryIn > 0 ? `${error} ${t.badges_retry({ retryTime: retry })}` : error;
   });
   const shown = $derived(
     visibleBadges(badgeList.badges, filter, normalizeSearch(query), ticker.now),
@@ -100,11 +100,11 @@
       {#if list.updated_at}
         <RichText
           text={t.catalogue_last_update({
-            time: strong(relativeTime(list.updated_at, ticker.now)),
+            updatedTime: strong(relativeTime(list.updated_at, ticker.now)),
           })}
         />{#if list.fetched_at}{" · "}<RichText
             text={t.catalogue_fetched({
-              time: strong(relativeTime(list.fetched_at, ticker.now)),
+              fetchedTime: strong(relativeTime(list.fetched_at, ticker.now)),
               minutes: strong(Math.round(list.interval_seconds / 60)),
             })}
           />{/if}
@@ -175,7 +175,7 @@
         {rows}
         now={ticker.now}
         {zoom}
-        moreLabel={t.badges_show_all_rows({ count: rows.length })}
+        moreLabel={t.badges_show_all_rows({ categoryCount: rows.length })}
         onopen={(badge) => openBadgeSheet(badge, null)}
       />
     {/if}
