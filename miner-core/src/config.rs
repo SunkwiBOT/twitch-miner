@@ -159,7 +159,7 @@ impl GameEntry {
 // ! A list never holds the same category twice: the first entry stays where it is, and takes the
 // id and image of a later duplicate when it has none.
 pub fn dedup_game_entries(entries: &mut Vec<GameEntry>) {
-    let mut kept: Vec<GameEntry> = Vec::with_capacity(entries.len());
+    let mut kept: Vec<GameEntry> = Vec::new();
 
     for entry in entries.drain(..) {
         match kept.iter_mut().find(|known| known.same_category(&entry)) {
