@@ -5,7 +5,7 @@
     campaignEnd,
     campaignHeading,
     campaignSubtitle,
-    categoryNames,
+    categoryUrl,
     onDropsPage,
     sitewideQuest,
   } from "../../lib/catalogue/campaign.utils";
@@ -33,8 +33,15 @@
   import ActionButton from "../ui/ActionButton.svelte";
   import Badge from "../ui/Badge.svelte";
   import Dialog from "../ui/Dialog.svelte";
+  import ChannelLink from "../ui/ChannelLink.svelte";
   import ExternalButton from "../ui/ExternalButton.svelte";
+  import GameName from "../ui/GameName.svelte";
+  import OverflowNames from "../ui/OverflowNames.svelte";
   import RichText from "../ui/RichText.svelte";
+  import { NAMES_SHOWN } from "../ui/name-list.constants";
+  import { ThumbSize } from "../ui/picture.constants";
+  import { gameArt } from "../../lib/catalogue/games.utils";
+  import { ensureChannels, knownChannels } from "../../lib/channels/channels.svelte";
   import { BadgeTone } from "../../lib/tones.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import { IconName } from "../../lib/icons.constants";
@@ -94,6 +101,12 @@
   );
 
   const ignoredDrops = $derived(picked.flatMap((a) => a.settings.drops.exclude_drop_ids));
+
+  $effect(() => {
+    if (view?.allowed_channels.length) {
+      ensureChannels(view.allowed_channels.slice(0, NAMES_SHOWN).map((channel) => channel.login));
+    }
+  });
 
   const left = (c: CampaignType): number => new Date(c.ends_at).getTime() - ticker.now;
 
@@ -188,10 +201,44 @@
                   : t.campaign_channels_any()}
             />{" · "}<RichText text={campaignEnd(view.ends_at, ticker.now)} />
           </span>
-          {#if !view.allowed_channels.length && view.categories.length > 1}
-            <span class="line-clamp-2 text-hint text-muted-foreground">
-              {categoryNames(view.categories)}
-            </span>
+          {#if view.allowed_channels.length}
+            <OverflowNames
+              items={view.allowed_channels}
+              shown={NAMES_SHOWN}
+              title={t.badge_dialog_channels()}
+              key={(channel) => channel.login}
+              words={(channel) => [channel.login, channel.display_name]}
+              class="gap-x-4 gap-y-2 text-hint"
+              itemClass="min-w-0"
+              onopen={(all) => ensureChannels(all.map((channel) => channel.login))}
+            >
+              {#snippet item(channel)}
+                <ChannelLink
+                  login={channel.login}
+                  name={channel.display_name}
+                  avatar={knownChannels[channel.login]?.avatar_url}
+                />
+              {/snippet}
+            </OverflowNames>
+          {:else if view.categories.length > 1}
+            <OverflowNames
+              items={view.categories}
+              shown={NAMES_SHOWN}
+              title={t.badge_dialog_categories()}
+              key={(category) => category.name}
+              words={(category) => [category.name]}
+              class="gap-x-4 gap-y-2 text-hint"
+              itemClass="min-w-0"
+            >
+              {#snippet item(category)}
+                <GameName
+                  name={category.name}
+                  url={categoryUrl(category.name, category.slug)}
+                  art={gameArt(category.name, category.box_art_url)}
+                  size={ThumbSize.XS}
+                />
+              {/snippet}
+            </OverflowNames>
           {/if}
           <div class="flex flex-wrap gap-2">
             {#if onDropsPage(view)}

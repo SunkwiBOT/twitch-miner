@@ -1749,6 +1749,7 @@
   "badge_dialog_open_campaign": "Deschide campania",
   "badge_dialog_categories": "Categorii",
   "badge_dialog_channels": "Canale",
+  "name_list_show_all": "{title}: arată lista completă ({count})",
   "badge_dialog_collection": "Colecție",
   "badge_dialog_evolution": "Evoluție",
   "badge_dialog_evolves_from": "Twitch numără această insignă doar cât timp {badge} e purtată: minerul o pune chiar înainte de minare și nu o mai pune la loc pe cea veche.",

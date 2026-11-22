@@ -1718,6 +1718,7 @@
   "badge_dialog_open_campaign": "Apri la campagna",
   "badge_dialog_categories": "Categorie",
   "badge_dialog_channels": "Canali",
+  "name_list_show_all": "{title}: mostra l'elenco completo ({count})",
   "badge_dialog_collection": "Collezione",
   "badge_dialog_evolution": "Evoluzione",
   "badge_dialog_evolves_from": "Twitch conta questo badge solo mentre {badge} è equipaggiato: il miner lo equipaggia subito prima di minare e non rimette il badge precedente.",

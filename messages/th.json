@@ -1255,6 +1255,7 @@
   "badge_dialog_open_campaign": "เปิดแคมเปญ",
   "badge_dialog_categories": "หมวดหมู่",
   "badge_dialog_channels": "ช่อง",
+  "name_list_show_all": "{title}: แสดงทั้งหมด {count} รายการ",
   "badge_dialog_collection": "คอลเลกชัน",
   "badge_dialog_evolution": "วิวัฒนาการ",
   "badge_dialog_evolves_from": "Twitch จะนับตรานี้เฉพาะตอนที่ติด {badge} อยู่: ตัวขุดจะติดตรานั้นก่อนเริ่มขุด และจะไม่เปลี่ยนกลับเป็นตราเดิม",

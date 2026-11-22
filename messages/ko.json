@@ -1255,6 +1255,7 @@
   "badge_dialog_open_campaign": "캠페인 열기",
   "badge_dialog_categories": "카테고리",
   "badge_dialog_channels": "채널",
+  "name_list_show_all": "{title}: {count}개 모두 보기",
   "badge_dialog_collection": "컬렉션",
   "badge_dialog_evolution": "진화",
   "badge_dialog_evolves_from": "Twitch는 {badge} 배지를 장착한 동안에만 이 배지를 인정해요: 마이닝 도구가 마이닝 직전에 장착하고, 이전 배지로 되돌리지 않아요.",

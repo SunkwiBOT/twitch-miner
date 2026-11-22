@@ -1727,6 +1727,7 @@
   "badge_dialog_open_campaign": "Campagne openen",
   "badge_dialog_categories": "Categorieën",
   "badge_dialog_channels": "Kanalen",
+  "name_list_show_all": "{title}: alle {count} tonen",
   "badge_dialog_collection": "Collectie",
   "badge_dialog_evolution": "Evolutie",
   "badge_dialog_evolves_from": "Twitch telt deze badge alleen zolang {badge} is opgezet: de miner zet die op vlak voor het minen en zet de oude badge niet terug.",

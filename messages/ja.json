@@ -1255,6 +1255,7 @@
   "badge_dialog_open_campaign": "キャンペーンを開く",
   "badge_dialog_categories": "カテゴリ",
   "badge_dialog_channels": "チャンネル",
+  "name_list_show_all": "{title}：{count} 件すべて表示",
   "badge_dialog_collection": "コレクション",
   "badge_dialog_evolution": "進化",
   "badge_dialog_evolves_from": "Twitch は {badge} を装備している間だけこのバッジをカウントします：マイナーはマイニングの直前に装備し、元のバッジには戻しません。",

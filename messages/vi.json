@@ -1255,6 +1255,7 @@
   "badge_dialog_open_campaign": "Mở chiến dịch",
   "badge_dialog_categories": "Danh mục",
   "badge_dialog_channels": "Kênh",
+  "name_list_show_all": "{title}: hiện tất cả {count}",
   "badge_dialog_collection": "Bộ sưu tập",
   "badge_dialog_evolution": "Tiến hóa",
   "badge_dialog_evolves_from": "Twitch chỉ tính huy hiệu này khi {badge} đang được gắn: trình đào gắn nó ngay trước khi đào và không gắn lại huy hiệu cũ.",

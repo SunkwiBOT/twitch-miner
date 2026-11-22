@@ -1773,6 +1773,7 @@
   "badge_dialog_open_campaign": "Open the campaign",
   "badge_dialog_categories": "Categories",
   "badge_dialog_channels": "Channels",
+  "name_list_show_all": "{title}: show all {count}",
   "badge_dialog_collection": "Collection",
   "badge_dialog_evolution": "Evolution",
   "badge_dialog_evolves_from": "Twitch counts this badge only while {badge} is equipped: the miner equips it just before mining and does not put the old badge back.",

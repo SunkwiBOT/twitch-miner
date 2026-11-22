@@ -1619,6 +1619,7 @@
   "badge_dialog_open_campaign": "Otwórz kampanię",
   "badge_dialog_categories": "Kategorie",
   "badge_dialog_channels": "Kanały",
+  "name_list_show_all": "{title}: pokaż wszystkie ({count})",
   "badge_dialog_collection": "Kolekcja",
   "badge_dialog_evolution": "Ewolucja",
   "badge_dialog_evolves_from": "Twitch liczy tę odznakę tylko wtedy, gdy założona jest {badge}: miner zakłada ją tuż przed kopaniem i nie przywraca poprzedniej odznaki.",

@@ -1285,6 +1285,7 @@
   "badge_dialog_open_campaign": "Kampány megnyitása",
   "badge_dialog_categories": "Kategóriák",
   "badge_dialog_channels": "Csatornák",
+  "name_list_show_all": "{title}: az összes megjelenítése ({count})",
   "badge_dialog_collection": "Gyűjtemény",
   "badge_dialog_evolution": "Fejlődés",
   "badge_dialog_evolves_from": "A Twitch csak akkor számolja ezt a jelvényt, ha a(z) {badge} fel van téve: a bányász közvetlenül a bányászás előtt felteszi, és nem teszi vissza a régi jelvényt.",

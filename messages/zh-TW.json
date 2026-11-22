@@ -1258,6 +1258,7 @@
   "badge_dialog_open_campaign": "開啟活動",
   "badge_dialog_categories": "分類",
   "badge_dialog_channels": "頻道",
+  "name_list_show_all": "{title}：顯示全部 {count} 個",
   "badge_dialog_collection": "系列",
   "badge_dialog_evolution": "進化",
   "badge_dialog_evolves_from": "Twitch 只在配戴 {badge} 時才計入此徽章：挖掘器會在挖取前配戴它，且不會換回原本的徽章。",

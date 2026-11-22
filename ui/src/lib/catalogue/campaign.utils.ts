@@ -2,7 +2,6 @@ import { BenefitKind } from "../bindings/BenefitKind";
 import { CampaignKind } from "../bindings/CampaignKind";
 import type { CampaignType } from "../bindings/CampaignType";
 import type { EvolutionType } from "../bindings/EvolutionType";
-import type { GameType } from "../bindings/GameType";
 import type { RepeatType } from "../bindings/RepeatType";
 import type { TimedDropType } from "../bindings/TimedDropType";
 import { t } from "../i18n/i18n.svelte";
@@ -76,9 +75,6 @@ export const dropTotals = (drop: TimedDropType): { current: number; required: nu
     closed: drop.claimed,
     repeat: drop.repeat,
   });
-
-export const categoryNames = (categories: GameType[]): string =>
-  categories.map((category) => category.name).join(", ");
 
 export const campaignEnd = (endsAt: string, now: number): string => {
   const time = strong(relativeTime(endsAt, now));

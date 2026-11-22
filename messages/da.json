@@ -1576,6 +1576,7 @@
   "badge_dialog_open_campaign": "Åbn kampagnen",
   "badge_dialog_categories": "Kategorier",
   "badge_dialog_channels": "Kanaler",
+  "name_list_show_all": "{title}: vis alle {count}",
   "badge_dialog_collection": "Samling",
   "badge_dialog_evolution": "Udvikling",
   "badge_dialog_evolves_from": "Twitch tæller kun dette badge, mens {badge} er taget på: mineren tager det på lige før mining og sætter ikke det gamle badge tilbage.",

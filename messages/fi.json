@@ -1666,6 +1666,7 @@
   "badge_dialog_open_campaign": "Avaa kampanja",
   "badge_dialog_categories": "Kategoriat",
   "badge_dialog_channels": "Kanavat",
+  "name_list_show_all": "{title}: näytä kaikki {count}",
   "badge_dialog_collection": "Kokoelma",
   "badge_dialog_evolution": "Kehitys",
   "badge_dialog_evolves_from": "Twitch laskee tämän merkin vain, kun {badge} on käytössä: louhija ottaa sen käyttöön juuri ennen louhintaa eikä palauta vanhaa merkkiä.",

@@ -1727,6 +1727,7 @@
   "badge_dialog_open_campaign": "Ouvrir la campagne",
   "badge_dialog_categories": "Catégories",
   "badge_dialog_channels": "Chaînes",
+  "name_list_show_all": "{title}\u00a0: afficher les {count}",
   "badge_dialog_collection": "Collection",
   "badge_dialog_evolution": "Évolution",
   "badge_dialog_evolves_from": "Twitch ne compte ce badge que si {badge} est équipé : le mineur l'équipe juste avant de le miner et ne remet pas l'ancien badge.",

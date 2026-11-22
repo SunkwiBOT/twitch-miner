@@ -1285,6 +1285,7 @@
   "badge_dialog_open_campaign": "Kampanyayı aç",
   "badge_dialog_categories": "Kategoriler",
   "badge_dialog_channels": "Kanallar",
+  "name_list_show_all": "{title}: tümünü göster ({count})",
   "badge_dialog_collection": "Koleksiyon",
   "badge_dialog_evolution": "Evrim",
   "badge_dialog_evolves_from": "Twitch bu rozeti yalnızca {badge} takılıyken sayar: madenci onu kazmadan hemen önce takar ve eski rozeti geri takmaz.",

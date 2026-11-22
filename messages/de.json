@@ -1718,6 +1718,7 @@
   "badge_dialog_open_campaign": "Kampagne öffnen",
   "badge_dialog_categories": "Kategorien",
   "badge_dialog_channels": "Kanäle",
+  "name_list_show_all": "{title}: alle {count} anzeigen",
   "badge_dialog_collection": "Sammlung",
   "badge_dialog_evolution": "Entwicklung",
   "badge_dialog_evolves_from": "Twitch zählt dieses Abzeichen nur, solange {badge} angelegt ist: Der Miner legt es kurz vor dem Minen an und setzt das alte Abzeichen nicht wieder ein.",

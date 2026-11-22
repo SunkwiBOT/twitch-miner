@@ -1727,6 +1727,7 @@
   "badge_dialog_open_campaign": "Отваряне на кампанията",
   "badge_dialog_categories": "Категории",
   "badge_dialog_channels": "Канали",
+  "name_list_show_all": "{title}: покажи всички ({count})",
   "badge_dialog_collection": "Колекция",
   "badge_dialog_evolution": "Еволюция",
   "badge_dialog_evolves_from": "Twitch брои тази значка само докато {badge} е сложена: майнерът я слага точно преди копаенето и не връща старата значка.",

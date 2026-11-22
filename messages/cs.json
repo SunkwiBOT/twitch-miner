@@ -1784,6 +1784,7 @@
   "badge_dialog_open_campaign": "Otevřít kampaň",
   "badge_dialog_categories": "Kategorie",
   "badge_dialog_channels": "Kanály",
+  "name_list_show_all": "{title}: zobrazit všechny ({count})",
   "badge_dialog_collection": "Sbírka",
   "badge_dialog_evolution": "Vývoj",
   "badge_dialog_evolves_from": "Twitch tento odznak počítá, jen když je nasazen {badge}: miner ho nasadí těsně před těžbou a starý odznak už nevrátí.",

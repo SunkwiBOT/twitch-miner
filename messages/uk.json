@@ -1665,6 +1665,7 @@
   "badge_dialog_open_campaign": "Відкрити кампанію",
   "badge_dialog_categories": "Категорії",
   "badge_dialog_channels": "Канали",
+  "name_list_show_all": "{title}: показати всі ({count})",
   "badge_dialog_collection": "Колекція",
   "badge_dialog_evolution": "Еволюція",
   "badge_dialog_evolves_from": "Twitch зараховує цей значок, лише поки надягнуто {badge}: майнер надягає його просто перед майнінгом і не повертає попередній значок.",

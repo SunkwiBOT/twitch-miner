@@ -6,13 +6,11 @@
   import type { AccountSnapshotType } from "../../../lib/bindings/AccountSnapshotType";
   import type { ChannelType } from "../../../lib/bindings/ChannelType";
   import type { StreamerSettingsType } from "../../../lib/bindings/StreamerSettingsType";
-  import { number } from "../../../lib/format.utils";
   import { t } from "../../../lib/i18n/i18n.svelte";
   import StreamerChip from "../../accounts/StreamerChip.svelte";
-  import { Badge as BadgeRoot } from "$lib/components/ui/badge";
   import Dialog from "../../ui/Dialog.svelte";
+  import OverflowNames from "../../ui/OverflowNames.svelte";
   import TextButton from "../../ui/TextButton.svelte";
-  import { BADGE_VARIANTS, BadgeVariant } from "../../ui/badge.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "../../ui/button.constants";
   import { IconName } from "../../../lib/icons.constants";
   import StreamerOptions from "../StreamerOptions.svelte";
@@ -55,10 +53,6 @@
 
   const shownMixed = $derived(mixed.filter((option) => !touched.includes(option)));
 
-  const chips = $derived(
-    group.length > GROUP_CHIPS_MAX ? group.slice(0, GROUP_CHIPS_MAX - 1) : group,
-  );
-
   const touch = (option: StreamerOption): void => {
     touched = [...new Set([...touched, ...withParts(option)])];
   };
@@ -93,18 +87,18 @@
 >
   <div class="flex flex-col gap-4">
     <div class="flex flex-col gap-2">
-      <div class="flex flex-wrap gap-1.5">
-        {#each chips as streamer (streamer.login)}<StreamerChip
-            login={streamer.login}
-            channel={channelOf(streamer.login)}
-          />{/each}
-        {#if chips.length < group.length}<BadgeRoot
-            variant={BADGE_VARIANTS[BadgeVariant.CHIP]}
-            class="h-7 px-2.5 text-hint font-semibold"
-          >
-            +{number(group.length - chips.length)}
-          </BadgeRoot>{/if}
-      </div>
+      <OverflowNames
+        items={group}
+        shown={group.length > GROUP_CHIPS_MAX ? GROUP_CHIPS_MAX - 1 : GROUP_CHIPS_MAX}
+        title={t.account_points_streamers()}
+        key={(streamer) => streamer.login}
+        words={(streamer) => [streamer.login, channelOf(streamer.login)?.display_name ?? ""]}
+        class="items-center gap-1.5"
+      >
+        {#snippet item(streamer)}
+          <StreamerChip login={streamer.login} channel={channelOf(streamer.login)} />
+        {/snippet}
+      </OverflowNames>
       <p class="text-hint text-muted-foreground">{t.points_group_hint()}</p>
     </div>
 

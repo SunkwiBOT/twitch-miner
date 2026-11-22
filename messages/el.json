@@ -1727,6 +1727,7 @@
   "badge_dialog_open_campaign": "Άνοιγμα της καμπάνιας",
   "badge_dialog_categories": "Κατηγορίες",
   "badge_dialog_channels": "Κανάλια",
+  "name_list_show_all": "{title}: εμφάνιση όλων ({count})",
   "badge_dialog_collection": "Συλλογή",
   "badge_dialog_evolution": "Εξέλιξη",
   "badge_dialog_evolves_from": "Το Twitch μετράει αυτό το σήμα μόνο όσο είναι φορεμένο το {badge}: ο miner το φοράει λίγο πριν την εξόρυξη και δεν ξαναβάζει το παλιό σήμα.",

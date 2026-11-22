@@ -1727,6 +1727,7 @@
   "badge_dialog_open_campaign": "Abrir la campaña",
   "badge_dialog_categories": "Categorías",
   "badge_dialog_channels": "Canales",
+  "name_list_show_all": "{title}: ver la lista completa ({count})",
   "badge_dialog_collection": "Colección",
   "badge_dialog_evolution": "Evolución",
   "badge_dialog_evolves_from": "Twitch solo cuenta esta insignia mientras {badge} está puesta: el minero se la pone justo antes de minar y no vuelve a poner la insignia anterior.",

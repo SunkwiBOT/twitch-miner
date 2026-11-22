@@ -1605,6 +1605,7 @@
   "badge_dialog_open_campaign": "Öppna kampanjen",
   "badge_dialog_categories": "Kategorier",
   "badge_dialog_channels": "Kanaler",
+  "name_list_show_all": "{title}: visa alla {count}",
   "badge_dialog_collection": "Samling",
   "badge_dialog_evolution": "Utveckling",
   "badge_dialog_evolves_from": "Twitch räknar bara det här märket medan {badge} är påsatt: minern sätter på det strax innan mining och sätter inte tillbaka det gamla märket.",

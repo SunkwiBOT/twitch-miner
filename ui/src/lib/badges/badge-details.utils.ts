@@ -1,4 +1,6 @@
 import type { AccountSnapshotType } from "../bindings/AccountSnapshotType";
+import type { BadgeRequirementType } from "../bindings/BadgeRequirementType";
+import type { GameType } from "../bindings/GameType";
 import type { BadgeRefType } from "../bindings/BadgeRefType";
 import { BenefitKind } from "../bindings/BenefitKind";
 import type { CampaignType } from "../bindings/CampaignType";
@@ -208,6 +210,28 @@ export const badgeCampaign = (
   }
 
   return catalogueCampaign(id) ?? null;
+};
+
+// ! The badge list sends its first channels only; the campaign it belongs to lists them all.
+export const badgeChannels = (
+  requirement: BadgeRequirementType,
+  campaign: CampaignType | null | undefined,
+): string[] =>
+  campaign && campaign.allowed_channels.length > requirement.channels.length
+    ? campaign.allowed_channels.map((channel) => channel.login)
+    : requirement.channels;
+
+// ! The badge's own category leads; a requirement listing none still names its game.
+export const badgeCategories = (requirement: BadgeRequirementType): GameType[] => {
+  const main = requirement.game_name
+    ? (requirement.categories.find((category) => category.name === requirement.game_name) ?? {
+        id: requirement.game_id ?? "",
+        name: requirement.game_name,
+      })
+    : undefined;
+  const others = requirement.categories.filter((category) => category !== main);
+
+  return main ? [main, ...others] : others;
 };
 
 export const chestBadges = (campaign: CampaignType | null): BadgeRefType[] =>

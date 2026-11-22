@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { cn } from "$lib/utils";
+  import { badgeCategories, badgeChannels } from "../../lib/badges/badge-details.utils";
   import {
     badgeEnded,
     badgeIsNew,
@@ -23,7 +25,8 @@
   import TextLink from "../ui/TextLink.svelte";
   import ChannelLink from "../ui/ChannelLink.svelte";
   import GameName from "../ui/GameName.svelte";
-  import NameList from "../ui/NameList.svelte";
+  import OverflowNames from "../ui/OverflowNames.svelte";
+  import { CARD_NAMES_SHOWN } from "../ui/name-list.constants";
   import Thumb from "../ui/Thumb.svelte";
   import { BadgeTone } from "../../lib/tones.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
@@ -47,9 +50,12 @@
   );
   const ended = $derived(badgeEnded(badge, now));
 
+  const categories = $derived(requirement ? badgeCategories(requirement) : []);
+  const channels = $derived(requirement ? badgeChannels(requirement, linkedCampaign) : []);
+
   $effect(() => {
-    if (requirement?.channels.length) {
-      ensureChannels(requirement.channels);
+    if (channels.length) {
+      ensureChannels(channels.slice(0, CARD_NAMES_SHOWN));
     }
   });
 </script>
@@ -125,36 +131,50 @@
                 {watchText(minutes(requirement.required_minutes), requirement.repeat)}
               </span>
             {/if}
-            {#if requirement.game_name}
-              {@const game = requirement.categories.find((c) => c.name === requirement.game_name)}
-              <span class={[RAISED_CLASSES, "inline-flex max-w-full min-w-0"]}>
-                <GameName
-                  name={requirement.game_name}
-                  url={categoryUrl(requirement.game_name, game?.slug)}
-                  art={gameArt(requirement.game_name, game?.box_art_url)}
-                  size={ThumbSize.XS}
-                />
-              </span>
-            {/if}
-            {#if requirement.categories.length > 1}
-              <span class="text-muted-foreground">+{requirement.categories.length - 1}</span>
+            {#if categories.length > 0}
+              <OverflowNames
+                items={categories}
+                shown={CARD_NAMES_SHOWN}
+                title={t.badge_dialog_categories()}
+                key={(category) => category.name}
+                words={(category) => [category.name]}
+                class="contents"
+                itemClass={cn(RAISED_CLASSES, "inline-flex max-w-full min-w-0")}
+              >
+                {#snippet item(category)}
+                  <GameName
+                    name={category.name}
+                    url={categoryUrl(category.name, category.slug)}
+                    art={gameArt(category.name, category.box_art_url)}
+                    size={ThumbSize.XS}
+                  />
+                {/snippet}
+              </OverflowNames>
             {/if}
           </span>
           {#if requirement.source === BadgeSource.DROPS}
             <div class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-muted-foreground">
               {#if requirement.channel_count > 0}
                 <span>{t.campaign_channels_some({ channelCount: requirement.channel_count })}</span>
-                <NameList class="contents">
-                  {#each requirement.channels as login (login)}{@const channel =
-                      knownChannels[login]}
-                    <li class={RAISED_CLASSES}>
-                      <ChannelLink
-                        {login}
-                        name={channel?.display_name ?? login}
-                        avatar={channel?.avatar_url}
-                      />
-                    </li>{/each}
-                </NameList>
+                <OverflowNames
+                  items={channels}
+                  shown={CARD_NAMES_SHOWN}
+                  title={t.badge_dialog_channels()}
+                  key={(login) => login}
+                  words={(login) => [login, knownChannels[login]?.display_name ?? login]}
+                  class="contents"
+                  itemClass={RAISED_CLASSES}
+                  onopen={ensureChannels}
+                >
+                  {#snippet item(login)}
+                    {@const channel = knownChannels[login]}
+                    <ChannelLink
+                      {login}
+                      name={channel?.display_name ?? login}
+                      avatar={channel?.avatar_url}
+                    />
+                  {/snippet}
+                </OverflowNames>
               {:else if requirement.categories.length > 1}
                 {t.campaign_channels_categories({ categoryCount: requirement.categories.length })}
               {:else}

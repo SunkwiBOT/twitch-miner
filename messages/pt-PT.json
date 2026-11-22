@@ -1727,6 +1727,7 @@
   "badge_dialog_open_campaign": "Abrir a campanha",
   "badge_dialog_categories": "Categorias",
   "badge_dialog_channels": "Canais",
+  "name_list_show_all": "{title}: ver a lista completa ({count})",
   "badge_dialog_collection": "Coleção",
   "badge_dialog_evolution": "Evolução",
   "badge_dialog_evolves_from": "A Twitch só conta este emblema enquanto {badge} está equipado: o minerador equipa-o mesmo antes de minerar e não volta a pôr o emblema antigo.",

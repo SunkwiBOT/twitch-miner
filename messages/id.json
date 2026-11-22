@@ -1255,6 +1255,7 @@
   "badge_dialog_open_campaign": "Buka kampanye",
   "badge_dialog_categories": "Kategori",
   "badge_dialog_channels": "Saluran",
+  "name_list_show_all": "{title}: tampilkan semua {count}",
   "badge_dialog_collection": "Koleksi",
   "badge_dialog_evolution": "Evolusi",
   "badge_dialog_evolves_from": "Twitch hanya menghitung lencana ini selama {badge} terpasang: penambang memasangnya tepat sebelum menambang dan tidak memasang kembali lencana lama.",

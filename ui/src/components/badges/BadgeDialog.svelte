@@ -3,6 +3,8 @@
 
   import {
     badgeCampaign,
+    badgeCategories,
+    badgeChannels,
     badgeEvolution,
     badgeProgress,
     chestBadges,
@@ -39,7 +41,8 @@
   import Dialog from "../ui/Dialog.svelte";
   import ExternalButton from "../ui/ExternalButton.svelte";
   import GameName from "../ui/GameName.svelte";
-  import NameList from "../ui/NameList.svelte";
+  import OverflowNames from "../ui/OverflowNames.svelte";
+  import { NAMES_SHOWN } from "../ui/name-list.constants";
   import Icon from "../ui/Icon.svelte";
   import RichText from "../ui/RichText.svelte";
   import TextButton from "../ui/TextButton.svelte";
@@ -116,17 +119,13 @@
 
     return id && ends && Date.parse(ends) > ticker.now ? id : null;
   });
-  const categories = $derived(
-    requirement?.categories.length
-      ? requirement.categories
-      : requirement?.game_name
-        ? [{ id: requirement.game_id ?? "", name: requirement.game_name }]
-        : [],
-  );
+  const categories = $derived(requirement ? badgeCategories(requirement) : []);
+
+  const channels = $derived(requirement ? badgeChannels(requirement, campaign) : []);
 
   $effect(() => {
-    if (requirement?.channels.length) {
-      ensureChannels(requirement.channels);
+    if (channels.length) {
+      ensureChannels(channels.slice(0, NAMES_SHOWN));
     }
   });
 
@@ -357,36 +356,52 @@
       {#if categories.length > 0}
         <section class="flex flex-col gap-2">
           {@render section(t.badge_dialog_categories(), categories.length)}
-          <NameList class="gap-x-4 gap-y-2 text-hint">
-            {#each categories as category (category.name)}
-              <li class="min-w-0">
-                <GameName
-                  name={category.name}
-                  url={categoryUrl(category.name, category.slug)}
-                  art={gameArt(category.name, category.box_art_url)}
-                  size={ThumbSize.XS}
-                />
-              </li>
-            {/each}
-          </NameList>
+          <OverflowNames
+            items={categories}
+            shown={NAMES_SHOWN}
+            title={t.badge_dialog_categories()}
+            key={(category) => category.name}
+            words={(category) => [category.name]}
+            class="gap-x-4 gap-y-2 text-hint"
+            itemClass="min-w-0"
+          >
+            {#snippet item(category)}
+              <GameName
+                name={category.name}
+                url={categoryUrl(category.name, category.slug)}
+                art={gameArt(category.name, category.box_art_url)}
+                size={ThumbSize.XS}
+              />
+            {/snippet}
+          </OverflowNames>
         </section>
       {/if}
 
-      {#if requirement && requirement.channels.length > 0}
+      {#if requirement && channels.length > 0}
         <section class="flex flex-col gap-2">
-          {@render section(t.badge_dialog_channels(), requirement.channel_count)}
-          <NameList class="gap-x-4 gap-y-2 text-hint">
-            {#each requirement.channels as login (login)}
+          {@render section(
+            t.badge_dialog_channels(),
+            Math.max(requirement.channel_count, channels.length),
+          )}
+          <OverflowNames
+            items={channels}
+            shown={NAMES_SHOWN}
+            title={t.badge_dialog_channels()}
+            key={(login) => login}
+            words={(login) => [login, knownChannels[login]?.display_name ?? login]}
+            class="gap-x-4 gap-y-2 text-hint"
+            itemClass="min-w-0"
+            onopen={ensureChannels}
+          >
+            {#snippet item(login)}
               {@const channel = knownChannels[login]}
-              <li class="min-w-0">
-                <ChannelLink
-                  {login}
-                  name={channel?.display_name ?? login}
-                  avatar={channel?.avatar_url}
-                />
-              </li>
-            {/each}
-          </NameList>
+              <ChannelLink
+                {login}
+                name={channel?.display_name ?? login}
+                avatar={channel?.avatar_url}
+              />
+            {/snippet}
+          </OverflowNames>
         </section>
       {/if}
 

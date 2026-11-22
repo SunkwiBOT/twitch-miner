@@ -1665,6 +1665,7 @@
   "badge_dialog_open_campaign": "Открыть кампанию",
   "badge_dialog_categories": "Категории",
   "badge_dialog_channels": "Каналы",
+  "name_list_show_all": "{title}: показать все ({count})",
   "badge_dialog_collection": "Коллекция",
   "badge_dialog_evolution": "Эволюция",
   "badge_dialog_evolves_from": "Twitch засчитывает этот значок, только пока надет {badge}: майнер надевает его прямо перед майнингом и не возвращает прежний значок.",
