@@ -23,6 +23,7 @@
   import { normalizeSearch } from "../../../lib/search/search.utils";
   import { openTab, showTab } from "../../../lib/state/router";
   import { ticker } from "../../../lib/state/ticker.svelte";
+  import { strong } from "../../../lib/text.utils";
   import CampaignBrowser from "../../catalogue/CampaignBrowser.svelte";
   import CampaignOverlay from "../../catalogue/CampaignOverlay.svelte";
   import { CATALOGUE_SORTS, QUEUE_SORTS } from "../../catalogue/catalogue.constants";
@@ -96,7 +97,7 @@
         label={t.rewards_filter()}
         allLabel={t.rewards_filter_all()}
         noneLabel={t.rewards_filter_none()}
-        countLabel={(count) => t.rewards_filter_count({ choiceCount: count })}
+        countLabel={(count) => t.rewards_filter_count({ choiceCount: strong(count) })}
         align={MenuAlign.LEFT}
         onchange={showFacets}
       />

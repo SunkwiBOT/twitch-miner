@@ -23,7 +23,7 @@
 {/if}
 {#if item.chest && item.badges.length > 1}
   <Badge
-    text={t.reward_chest({ chestCount: item.chest })}
+    text={t.reward_chest({ chestCount: strong(item.chest) })}
     tone={BadgeTone.ACCENT}
     icon={IconName.GIFT}
     hint={t.reward_chest_hint({
@@ -57,7 +57,7 @@
   />
 {:else if item.state === AccountBadgeState.EVOLUTION_LOCKED}
   <Badge
-    text={t.badge_evolution_locked({ badge: from })}
+    text={t.badge_evolution_locked({ badge: strong(from) })}
     tone={BadgeTone.WARNING}
     icon={IconName.LOCK}
     hint={t.badge_hint_evolution_locked({ badge: strong(from) })}
@@ -72,14 +72,14 @@
 {:else}
   {#if from}
     <Badge
-      text={t.badge_evolution({ badge: from })}
+      text={t.badge_evolution({ badge: strong(from) })}
       tone={BadgeTone.INFO}
       hint={t.badge_hint_evolution({ badge: strong(from) })}
     />
   {/if}
   {#if item.state === AccountBadgeState.WAITING && item.nextAt}
     <Badge
-      text={t.quest_next_window({ windowTime: relativeTime(item.nextAt, ticker.now) })}
+      text={t.quest_next_window({ windowTime: strong(relativeTime(item.nextAt, ticker.now)) })}
       tone={BadgeTone.INFO}
       icon={IconName.CLOCK}
     />

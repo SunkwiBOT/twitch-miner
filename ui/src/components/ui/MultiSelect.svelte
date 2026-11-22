@@ -12,9 +12,11 @@
   import { Popover, PopoverContent, PopoverTrigger } from "$lib/components/ui/popover";
   import { cn } from "$lib/utils";
   import { t } from "../../lib/i18n/i18n.svelte";
+  import { escapeEmphasis } from "../../lib/text.utils";
   import { overlay } from "../../lib/state/overlay.svelte";
   import Avatar from "./Avatar.svelte";
   import Icon from "./Icon.svelte";
+  import RichText from "./RichText.svelte";
   import { AvatarSize } from "./picture.constants";
   import { BUTTON_VARIANTS, ButtonVariant } from "./button.constants";
   import { IconName } from "../../lib/icons.constants";
@@ -88,7 +90,7 @@
 
     const only = options.find((option) => option.value === values[0]);
 
-    return values.length === 1 && only ? only.label : countLabel(values.length);
+    return values.length === 1 && only ? escapeEmphasis(only.label) : countLabel(values.length);
   });
 
   const pictures = $derived(
@@ -177,7 +179,7 @@
               {/each}
             </span>
           {/if}
-          <span class="truncate">{summary}</span>
+          <span class="truncate"><RichText text={summary} /></span>
         </span>
         <Icon name={IconName.CHEVRONS_UP_DOWN} size={16} class="opacity-50" />
       </Button>

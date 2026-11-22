@@ -478,23 +478,31 @@
   "catalogue_title": "Каталог",
   "catalogue_rewards": [
     {
-      "declarations": ["input rewardCount", "local rewardCountPlural = rewardCount: plural"],
+      "declarations": [
+        "input rewardCount",
+        "input formattedRewardCount",
+        "local rewardCountPlural = rewardCount: plural"
+      ],
       "selectors": ["rewardCountPlural"],
       "match": {
-        "rewardCountPlural=one": "{rewardCount} нагорода",
-        "rewardCountPlural=few": "{rewardCount} нагороди",
-        "rewardCountPlural=*": "{rewardCount} нагород"
+        "rewardCountPlural=one": "{formattedRewardCount} нагорода",
+        "rewardCountPlural=few": "{formattedRewardCount} нагороди",
+        "rewardCountPlural=*": "{formattedRewardCount} нагород"
       }
     }
   ],
   "catalogue_campaigns": [
     {
-      "declarations": ["input campaignCount", "local campaignCountPlural = campaignCount: plural"],
+      "declarations": [
+        "input campaignCount",
+        "input formattedCampaignCount",
+        "local campaignCountPlural = campaignCount: plural"
+      ],
       "selectors": ["campaignCountPlural"],
       "match": {
-        "campaignCountPlural=one": "{campaignCount} кампанія",
-        "campaignCountPlural=few": "{campaignCount} кампанії",
-        "campaignCountPlural=*": "{campaignCount} кампаній"
+        "campaignCountPlural=one": "{formattedCampaignCount} кампанія",
+        "campaignCountPlural=few": "{formattedCampaignCount} кампанії",
+        "campaignCountPlural=*": "{formattedCampaignCount} кампаній"
       }
     }
   ],
@@ -1311,11 +1319,15 @@
   "points_edit_selected": "Редагувати ({selectedCount})",
   "points_group_title": [
     {
-      "declarations": ["input selectedCount", "local selectedCountPlural = selectedCount: plural"],
+      "declarations": [
+        "input selectedCount",
+        "input formattedSelectedCount",
+        "local selectedCountPlural = selectedCount: plural"
+      ],
       "selectors": ["selectedCountPlural"],
       "match": {
-        "selectedCountPlural=one": "Редагування {selectedCount} стримера",
-        "selectedCountPlural=*": "Редагування {selectedCount} стримерів"
+        "selectedCountPlural=one": "Редагування {formattedSelectedCount} стримера",
+        "selectedCountPlural=*": "Редагування {formattedSelectedCount} стримерів"
       }
     }
   ],
@@ -1554,12 +1566,17 @@
   "ev_rewards_redeemed_partial_short": "{rewardCount} × {reward} — надіслано {sent}/{total}, балів: {points}",
   "ev_rewards_refused": [
     {
-      "declarations": ["input refused", "input reason", "local refusedPlural = refused: plural"],
+      "declarations": [
+        "input refused",
+        "input formattedRefused",
+        "input reason",
+        "local refusedPlural = refused: plural"
+      ],
       "selectors": ["refusedPlural"],
       "match": {
-        "refusedPlural=one": "{refused} відхилено: {reason}",
-        "refusedPlural=few": "{refused} відхилено: {reason}",
-        "refusedPlural=*": "{refused} відхилено: {reason}"
+        "refusedPlural=one": "{formattedRefused} відхилено: {reason}",
+        "refusedPlural=few": "{formattedRefused} відхилено: {reason}",
+        "refusedPlural=*": "{formattedRefused} відхилено: {reason}"
       }
     }
   ],
@@ -1592,12 +1609,16 @@
   "badges_retry": "Наступна спроба через {retryTime}.",
   "badges_count": [
     {
-      "declarations": ["input badgeCount", "local badgeCountPlural = badgeCount: plural"],
+      "declarations": [
+        "input badgeCount",
+        "input formattedBadgeCount",
+        "local badgeCountPlural = badgeCount: plural"
+      ],
       "selectors": ["badgeCountPlural"],
       "match": {
-        "badgeCountPlural=one": "{badgeCount} значок",
-        "badgeCountPlural=few": "{badgeCount} значки",
-        "badgeCountPlural=*": "{badgeCount} значків"
+        "badgeCountPlural=one": "{formattedBadgeCount} значок",
+        "badgeCountPlural=few": "{formattedBadgeCount} значки",
+        "badgeCountPlural=*": "{formattedBadgeCount} значків"
       }
     }
   ],

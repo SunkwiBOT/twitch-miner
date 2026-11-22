@@ -8,7 +8,7 @@
   import { languageOptions, t } from "../../lib/i18n/i18n.svelte";
   import { ToastKind } from "../../lib/state/state.constants";
   import { toast } from "../../lib/state/toasts";
-  import { escapeEmphasis, strong } from "../../lib/text.utils";
+  import { strong } from "../../lib/text.utils";
   import { Input } from "$lib/components/ui/input";
   import BrowserNotificationsAccess from "./BrowserNotificationsAccess.svelte";
   import ActionButton from "../ui/ActionButton.svelte";
@@ -50,7 +50,7 @@
         toast(ToastKind.ERROR, t.settings_test_failed_title(), {
           description: t.settings_test_failed({
             service: strong(target),
-            error: escapeEmphasis(describeCode(result.problem)),
+            error: strong(describeCode(result.problem)),
           }),
         });
       } else {

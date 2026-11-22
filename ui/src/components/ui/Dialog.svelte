@@ -11,6 +11,7 @@
   import { cn } from "$lib/utils";
   import DialogActions from "./DialogActions.svelte";
   import IconButton from "./IconButton.svelte";
+  import RichText from "./RichText.svelte";
   import { ButtonSize, ButtonVariant } from "./button.constants";
   import { IconName } from "../../lib/icons.constants";
 
@@ -125,7 +126,7 @@
       >
         <DialogTitle class="flex items-center gap-2.5 pr-8 text-base font-semibold">
           {#if lead}{@render lead()}{/if}
-          <span class="line-clamp-2 min-w-0 break-words">{title}</span>
+          <span class="line-clamp-2 min-w-0 break-words"><RichText text={title} /></span>
         </DialogTitle>
       </DialogHeader>
       <div class="absolute top-[18px] right-4">

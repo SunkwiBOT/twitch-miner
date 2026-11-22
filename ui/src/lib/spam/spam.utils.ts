@@ -26,7 +26,7 @@ const REFUSAL_LABELS: Partial<Record<string, () => string>> = {
 };
 
 const refusalLabel = (code: string): string =>
-  REFUSAL_LABELS[code]?.() ?? t.spam_reason_unknown({ refusalCode: code });
+  REFUSAL_LABELS[code]?.() ?? t.spam_reason_unknown({ refusalCode: strong(code) });
 
 export const reasonsLabel = (
   refusals: readonly string[],

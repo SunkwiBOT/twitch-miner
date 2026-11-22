@@ -138,7 +138,7 @@
                 </span>
               {/if}
               {#if detail}<span class="truncate">
-                  {showAccount && e.account_id ? "· " : ""}{detail}
+                  {showAccount && e.account_id ? "· " : ""}<RichText text={detail} />
                 </span>{/if}
             </span>
           {/if}

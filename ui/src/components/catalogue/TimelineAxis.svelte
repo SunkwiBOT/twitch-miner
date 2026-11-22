@@ -2,7 +2,9 @@
   import { getTickLabelStep } from "../../lib/catalogue/timeline.utils";
   import type { TimelineRangeType, TimelineTickType } from "../../lib/catalogue/timeline.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
+  import { strong } from "../../lib/text.utils";
   import { formatClock, formatDayMonth, formatWeekdayDay } from "../../lib/time/time.utils";
+  import RichText from "../ui/RichText.svelte";
   import { LABEL_ROOM_PX, TimelineZoom } from "../../lib/catalogue/timeline.constants";
 
   type TimelineAxisPropsType = {
@@ -54,10 +56,10 @@
       </div>
     {/each}
     <div
-      class="now-tab rounded-r-md bg-primary text-xs font-bold text-primary-foreground"
+      class="now-tab rounded-r-md bg-primary text-xs font-medium text-primary-foreground [&_strong]:font-bold"
       style:left="{nowPercent}%"
     >
-      {t.timeline_now({ nowTime: formatClock(now) })}
+      <RichText text={t.timeline_now({ nowTime: strong(formatClock(now)) })} />
     </div>
   </div>
 </div>

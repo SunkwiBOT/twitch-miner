@@ -6,6 +6,7 @@ import { BoxArtSize } from "../format.constants";
 import { boxArt, number } from "../format.utils";
 import { t } from "../i18n/i18n.svelte";
 import { reasonsLabel } from "../spam/spam.utils";
+import { escapeEmphasis, strong } from "../text.utils";
 import { type EventTextType, eventText } from "./event-text.utils";
 
 export type RedeemedRewardType = { url: string; color: string | undefined };
@@ -15,15 +16,25 @@ const burstDetail = (event: MinerEventType): string => {
   const refused = count - sent - cancelled;
 
   return [
-    refused > 0 ? t.ev_rewards_refused({ refused, reason: reasonsLabel(refusals, failures) }) : "",
-    cancelled > 0 ? t.spam_cancelled({ count: cancelled, formattedCount: number(cancelled) }) : "",
+    refused > 0
+      ? t.ev_rewards_refused({
+          refused,
+          formattedRefused: strong(number(refused)),
+          reason: reasonsLabel(refusals, failures),
+        })
+      : "",
+    cancelled > 0
+      ? t.spam_cancelled({ count: cancelled, formattedCount: strong(number(cancelled)) })
+      : "",
   ]
     .filter(Boolean)
     .join(" · ");
 };
 
 export const eventDetail = (event: MinerEventType): string | undefined =>
-  event.kind === EventKind.REWARD_REDEEMED ? burstDetail(event) : event.detail;
+  event.kind === EventKind.REWARD_REDEEMED
+    ? burstDetail(event)
+    : event.detail && escapeEmphasis(event.detail);
 
 export const redeemedReward = (event: MinerEventType): RedeemedRewardType | null =>
   event.kind === EventKind.REWARD_REDEEMED && event.context.reward

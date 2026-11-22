@@ -424,21 +424,29 @@
   "catalogue_title": "Luettelo",
   "catalogue_rewards": [
     {
-      "declarations": ["input rewardCount", "local rewardCountPlural = rewardCount: plural"],
+      "declarations": [
+        "input rewardCount",
+        "input formattedRewardCount",
+        "local rewardCountPlural = rewardCount: plural"
+      ],
       "selectors": ["rewardCountPlural"],
       "match": {
-        "rewardCountPlural=one": "{rewardCount} palkinto",
-        "rewardCountPlural=*": "{rewardCount} palkintoa"
+        "rewardCountPlural=one": "{formattedRewardCount} palkinto",
+        "rewardCountPlural=*": "{formattedRewardCount} palkintoa"
       }
     }
   ],
   "catalogue_campaigns": [
     {
-      "declarations": ["input campaignCount", "local campaignCountPlural = campaignCount: plural"],
+      "declarations": [
+        "input campaignCount",
+        "input formattedCampaignCount",
+        "local campaignCountPlural = campaignCount: plural"
+      ],
       "selectors": ["campaignCountPlural"],
       "match": {
-        "campaignCountPlural=one": "{campaignCount} kampanja",
-        "campaignCountPlural=*": "{campaignCount} kampanjaa"
+        "campaignCountPlural=one": "{formattedCampaignCount} kampanja",
+        "campaignCountPlural=*": "{formattedCampaignCount} kampanjaa"
       }
     }
   ],
@@ -1305,7 +1313,7 @@
   "points_reason_list_order_hint": "Katsotaan streamaajalistan järjestyksessä",
   "points_streamer_defaults_hint": "Lisätty streamaaja (käsin, tuomalla tai käyttöönotossa) aloittaa näillä valinnoilla.",
   "points_edit_selected": "Muokkaa ({selectedCount})",
-  "points_group_title": "Muokkaa {selectedCount} streamaajaa",
+  "points_group_title": "Muokkaa {formattedSelectedCount} streamaajaa",
   "points_group_hint": "Vain muuttamasi valinnat koskevat näitä streamaajia; valinta, jossa lukee ”Vaihtelee”, säilyttää kunkin oman arvon, kunnes muutat sitä.",
   "streamer_option_mixed": "Vaihtelee",
   "setting_with_mark": "{option} ({optionNote})",
@@ -1559,11 +1567,16 @@
   "ev_rewards_redeemed_partial_short": "{rewardCount} × {reward} — {sent}/{total} lähetetty, {points} pistettä",
   "ev_rewards_refused": [
     {
-      "declarations": ["input refused", "input reason", "local refusedPlural = refused: plural"],
+      "declarations": [
+        "input refused",
+        "input formattedRefused",
+        "input reason",
+        "local refusedPlural = refused: plural"
+      ],
       "selectors": ["refusedPlural"],
       "match": {
-        "refusedPlural=one": "{refused} hylätty: {reason}",
-        "refusedPlural=*": "{refused} hylätty: {reason}"
+        "refusedPlural=one": "{formattedRefused} hylätty: {reason}",
+        "refusedPlural=*": "{formattedRefused} hylätty: {reason}"
       }
     }
   ],
@@ -1595,11 +1608,15 @@
   "badges_retry": "Uusi yritys {retryTime} kuluttua.",
   "badges_count": [
     {
-      "declarations": ["input badgeCount", "local badgeCountPlural = badgeCount: plural"],
+      "declarations": [
+        "input badgeCount",
+        "input formattedBadgeCount",
+        "local badgeCountPlural = badgeCount: plural"
+      ],
       "selectors": ["badgeCountPlural"],
       "match": {
-        "badgeCountPlural=one": "{badgeCount} merkki",
-        "badgeCountPlural=*": "{badgeCount} merkkiä"
+        "badgeCountPlural=one": "{formattedBadgeCount} merkki",
+        "badgeCountPlural=*": "{formattedBadgeCount} merkkiä"
       }
     }
   ],

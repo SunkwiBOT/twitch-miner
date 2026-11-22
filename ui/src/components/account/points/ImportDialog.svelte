@@ -117,7 +117,7 @@
       />
     {:else}
       <TextButton
-        label={t.import_add({ entryCount: 0 })}
+        label={t.import_add({ entryCount: strong(0) })}
         icon={IconName.PLUS}
         variant={ButtonVariant.PRIMARY}
         size={ButtonSize.MD}

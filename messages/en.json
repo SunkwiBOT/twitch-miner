@@ -455,21 +455,29 @@
   "catalogue_title": "Catalogue",
   "catalogue_rewards": [
     {
-      "declarations": ["input rewardCount", "local rewardCountPlural = rewardCount: plural"],
+      "declarations": [
+        "input rewardCount",
+        "input formattedRewardCount",
+        "local rewardCountPlural = rewardCount: plural"
+      ],
       "selectors": ["rewardCountPlural"],
       "match": {
-        "rewardCountPlural=one": "{rewardCount} reward",
-        "rewardCountPlural=*": "{rewardCount} rewards"
+        "rewardCountPlural=one": "{formattedRewardCount} reward",
+        "rewardCountPlural=*": "{formattedRewardCount} rewards"
       }
     }
   ],
   "catalogue_campaigns": [
     {
-      "declarations": ["input campaignCount", "local campaignCountPlural = campaignCount: plural"],
+      "declarations": [
+        "input campaignCount",
+        "input formattedCampaignCount",
+        "local campaignCountPlural = campaignCount: plural"
+      ],
       "selectors": ["campaignCountPlural"],
       "match": {
-        "campaignCountPlural=one": "{campaignCount} campaign",
-        "campaignCountPlural=*": "{campaignCount} campaigns"
+        "campaignCountPlural=one": "{formattedCampaignCount} campaign",
+        "campaignCountPlural=*": "{formattedCampaignCount} campaigns"
       }
     }
   ],
@@ -1403,11 +1411,15 @@
   "points_edit_selected": "Edit ({selectedCount})",
   "points_group_title": [
     {
-      "declarations": ["input selectedCount", "local selectedCountPlural = selectedCount: plural"],
+      "declarations": [
+        "input selectedCount",
+        "input formattedSelectedCount",
+        "local selectedCountPlural = selectedCount: plural"
+      ],
       "selectors": ["selectedCountPlural"],
       "match": {
-        "selectedCountPlural=one": "Edit {selectedCount} streamer",
-        "selectedCountPlural=*": "Edit {selectedCount} streamers"
+        "selectedCountPlural=one": "Edit {formattedSelectedCount} streamer",
+        "selectedCountPlural=*": "Edit {formattedSelectedCount} streamers"
       }
     }
   ],
@@ -1664,11 +1676,16 @@
   "ev_rewards_redeemed_partial_short": "{rewardCount} × {reward} — {sent}/{total} sent, {points} points",
   "ev_rewards_refused": [
     {
-      "declarations": ["input refused", "input reason", "local refusedPlural = refused: plural"],
+      "declarations": [
+        "input refused",
+        "input formattedRefused",
+        "input reason",
+        "local refusedPlural = refused: plural"
+      ],
       "selectors": ["refusedPlural"],
       "match": {
-        "refusedPlural=one": "{refused} refused: {reason}",
-        "refusedPlural=*": "{refused} refused: {reason}"
+        "refusedPlural=one": "{formattedRefused} refused: {reason}",
+        "refusedPlural=*": "{formattedRefused} refused: {reason}"
       }
     }
   ],
@@ -1700,11 +1717,15 @@
   "badges_retry": "Next try in {retryTime}.",
   "badges_count": [
     {
-      "declarations": ["input badgeCount", "local badgeCountPlural = badgeCount: plural"],
+      "declarations": [
+        "input badgeCount",
+        "input formattedBadgeCount",
+        "local badgeCountPlural = badgeCount: plural"
+      ],
       "selectors": ["badgeCountPlural"],
       "match": {
-        "badgeCountPlural=one": "{badgeCount} badge",
-        "badgeCountPlural=*": "{badgeCount} badges"
+        "badgeCountPlural=one": "{formattedBadgeCount} badge",
+        "badgeCountPlural=*": "{formattedBadgeCount} badges"
       }
     }
   ],

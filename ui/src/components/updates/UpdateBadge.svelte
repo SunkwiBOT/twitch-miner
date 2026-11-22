@@ -36,7 +36,7 @@
 
 {#snippet label(text: string)}
   <Icon name={IconName.IMPORT} size={14} />
-  {text}
+  <RichText {text} />
   <Sparkles />
 {/snippet}
 
@@ -49,7 +49,7 @@
       type={ButtonType.BUTTON}
       onclick={showUpdate}
     >
-      {@render label(t.updates_badge({ version }))}
+      {@render label(t.updates_badge({ version: strong(version) }))}
     </Button>
   {:else}
     <Popover bind:open>
@@ -63,7 +63,7 @@
             type={ButtonType.BUTTON}
             aria-expanded={open}
           >
-            {@render label(t.updates_badge({ version }))}
+            {@render label(t.updates_badge({ version: strong(version) }))}
           </Button>
         {/snippet}
       </PopoverTrigger>

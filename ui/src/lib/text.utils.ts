@@ -36,6 +36,10 @@ export const strong = (value: string | number): string =>
 export const code = (value: string): string =>
   `${CODE_DELIMITER}${value.replace(DELIMITERS, "")}${CODE_DELIMITER}`;
 
+// ! For attributes (`aria-label`, `title`) that cannot show markup; links and people never reach them.
+export const plainText = (text: string): string =>
+  text.replaceAll(EMPHASIS, "").replace(DELIMITERS, "");
+
 export enum RichTextPartKind {
   TEXT = "TEXT",
   STRONG = "STRONG",

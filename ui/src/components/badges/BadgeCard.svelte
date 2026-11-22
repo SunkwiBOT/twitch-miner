@@ -20,6 +20,7 @@
   import { formatDate } from "../../lib/time/time.utils";
   import { openCampaignSheet } from "../../lib/state/sheets";
   import Badge from "../ui/Badge.svelte";
+  import RichText from "../ui/RichText.svelte";
   import SubRequiredBadge from "../catalogue/SubRequiredBadge.svelte";
   import TextButton from "../ui/TextButton.svelte";
   import TextLink from "../ui/TextLink.svelte";
@@ -102,7 +103,7 @@
         {/if}
         {#if evolvesFrom}
           <Badge
-            text={t.badge_evolution({ badge: evolvesFrom })}
+            text={t.badge_evolution({ badge: strong(evolvesFrom) })}
             tone={BadgeTone.INFO}
             hint={t.badge_hint_evolution({ badge: strong(evolvesFrom) })}
           />
@@ -121,9 +122,9 @@
         <div class="flex flex-col gap-0.5 text-xs">
           <div class="flex min-w-0 flex-wrap items-center gap-x-1.5">
             {#if requirement.required_minutes > 0}
-              <span class="font-semibold">
-                {watchText(minutes(requirement.required_minutes), requirement.repeat)}
-              </span>
+              <RichText
+                text={watchText(minutes(requirement.required_minutes), requirement.repeat)}
+              />
             {/if}
             {#if categories.length > 0}
               <OverflowNames
@@ -149,7 +150,11 @@
           {#if requirement.source === BadgeSource.DROPS}
             <div class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-muted-foreground">
               {#if requirement.channel_count > 0}
-                <span>{t.campaign_channels_some({ channelCount: requirement.channel_count })}</span>
+                <RichText
+                  text={t.campaign_channels_some({
+                    channelCount: strong(requirement.channel_count),
+                  })}
+                />
                 <OverflowNames
                   items={channels}
                   shown={CARD_NAMES_SHOWN}
@@ -170,14 +175,20 @@
                   {/snippet}
                 </OverflowNames>
               {:else if requirement.categories.length > 1}
-                {t.campaign_channels_categories({ categoryCount: requirement.categories.length })}
+                <RichText
+                  text={t.campaign_channels_categories({
+                    categoryCount: strong(requirement.categories.length),
+                  })}
+                />
               {:else}
                 {t.campaign_channels_any()}
               {/if}
             </div>
           {/if}
           {#if requirement.collection}
-            <span class="text-muted-foreground">{collectionText(requirement)}</span>
+            <span class="text-muted-foreground">
+              <RichText text={collectionText(requirement)} />
+            </span>
           {:else if requirement.campaign_name}
             {#if linkedCampaign}
               <span class={[RAISED_CLASSES, "min-w-0 truncate text-muted-foreground"]}>
@@ -194,7 +205,9 @@
           {/if}
           {#if requirement.ends_at && !ended}
             <span class="text-muted-foreground">
-              {t.badges_until({ date: formatDate(requirement.ends_at, true) })}
+              <RichText
+                text={t.badges_until({ date: strong(formatDate(requirement.ends_at, true)) })}
+              />
             </span>
           {/if}
         </div>

@@ -9,6 +9,7 @@
   import Icon from "./Icon.svelte";
   import LinkText from "./LinkText.svelte";
   import { LinkMark, LinkSize } from "./link.constants";
+  import RichText from "./RichText.svelte";
   import Thumb from "./Thumb.svelte";
   import { ThumbShape, ThumbSize } from "./picture.constants";
 
@@ -53,7 +54,9 @@
         {title}
       </span>
     {/if}
-    {#if detail}<span class="min-w-0 truncate text-xs text-muted-foreground">{detail}</span>{/if}
+    {#if detail}<span class="min-w-0 truncate text-xs text-muted-foreground">
+        <RichText text={detail} />
+      </span>{/if}
   </span>
 {/snippet}
 

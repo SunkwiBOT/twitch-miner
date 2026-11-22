@@ -114,7 +114,9 @@
   <span class="text-right whitespace-nowrap text-muted-foreground @max-2xl:sr-only @2xl:block">
     {elapsed(entry.duration_ms)}
     {#if entry.group}
-      {PART_SEPARATOR}{t.requests_max({ duration: elapsed(entry.group.max_ms) })}
+      {PART_SEPARATOR}<RichText
+        text={t.requests_max({ duration: strong(elapsed(entry.group.max_ms)) })}
+      />
     {/if}
   </span>
 </div>

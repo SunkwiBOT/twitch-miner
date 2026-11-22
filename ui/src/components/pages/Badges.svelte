@@ -175,7 +175,7 @@
         {rows}
         now={ticker.now}
         {zoom}
-        moreLabel={t.badges_show_all_rows({ categoryCount: rows.length })}
+        moreLabel={t.badges_show_all_rows({ categoryCount: strong(rows.length) })}
         onopen={(badge) => openBadgeSheet(badge, null)}
       />
     {/if}

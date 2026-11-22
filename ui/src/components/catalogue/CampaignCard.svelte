@@ -5,7 +5,8 @@
   import type { CampaignType } from "../../lib/bindings/CampaignType";
   import { QueueReason } from "../../lib/bindings/QueueReason";
   import { BoxArtSize } from "../../lib/format.constants";
-  import { boxArt, shortDuration } from "../../lib/format.utils";
+  import { boxArt, number, shortDuration } from "../../lib/format.utils";
+  import { strong } from "../../lib/text.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { ticker } from "../../lib/state/ticker.svelte";
   import { NEW_MS, URGENT_MS } from "./catalogue.constants";
@@ -40,7 +41,7 @@
     {@render cover?.()}
     {#if left > 0}
       <span class="absolute bottom-1.5 left-1.5">
-        <TimeLeftTag text={shortDuration(left)} urgent={left < URGENT_MS} />
+        <TimeLeftTag text={strong(shortDuration(left))} urgent={left < URGENT_MS} />
       </span>
     {:else}
       <span class="absolute bottom-1.5 left-1.5 rounded-4xl bg-background">
@@ -66,7 +67,10 @@
   <span class="-mt-1 truncate text-xs text-muted-foreground">{campaign.game.name}</span>
   <span class="flex flex-wrap gap-1">
     <Badge
-      text={t.catalogue_rewards({ rewardCount: campaign.drops.length })}
+      text={t.catalogue_rewards({
+        rewardCount: campaign.drops.length,
+        formattedRewardCount: strong(number(campaign.drops.length)),
+      })}
       tone={BadgeTone.NEUTRAL}
     />
     <LinkBadge linked={campaign.linked} />

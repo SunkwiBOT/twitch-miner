@@ -12,6 +12,7 @@
   import { t } from "../../lib/i18n/i18n.svelte";
   import { openTab, showTab } from "../../lib/state/router";
   import { ticker } from "../../lib/state/ticker.svelte";
+  import { strong } from "../../lib/text.utils";
   import Segmented from "../ui/Segmented.svelte";
   import CampaignCard from "./CampaignCard.svelte";
   import Timeline from "./Timeline.svelte";
@@ -71,7 +72,7 @@
     {rows}
     now={ticker.now}
     {zoom}
-    moreLabel={t.timeline_show_all({ categoryCount: rows.length })}
+    moreLabel={t.timeline_show_all({ categoryCount: strong(rows.length) })}
     {onopen}
   />
 {:else}

@@ -265,7 +265,7 @@ export const overlaid = (state: CampaignState): boolean =>
   STATE_GROUPS[state] !== CampaignGroup.TO_MINE;
 
 export const etaView = (startsIn: number): CampaignStateViewType => ({
-  text: t.rewards_eta({ etaTime: shortDuration(startsIn) }),
+  text: t.rewards_eta({ etaTime: strong(shortDuration(startsIn)) }),
   tone: BadgeTone.INFO,
   icon: IconName.CLOCK,
   hint: t.rewards_eta_hint(),

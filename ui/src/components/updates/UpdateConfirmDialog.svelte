@@ -36,10 +36,12 @@
 
   const spoken = $derived.by((): string => {
     if (updates.stage === UpdateStage.INSTALLING) {
-      return t.updates_restarting({ version });
+      return t.updates_restarting({ version: strong(version) });
     }
 
-    return updates.stage === UpdateStage.DOWNLOADING ? t.updates_downloading({ version }) : "";
+    return updates.stage === UpdateStage.DOWNLOADING
+      ? t.updates_downloading({ version: strong(version) })
+      : "";
   });
 
   const close = (): void => {
@@ -49,7 +51,7 @@
 
 <Dialog
   open={updates.confirming && version !== ""}
-  title={t.updates_confirm_title({ version })}
+  title={t.updates_confirm_title({ version: strong(version) })}
   wide={false}
   closable={!busy}
   closeOnOutside={true}
@@ -65,7 +67,7 @@
         })}
       />
     </p>
-    <p class="sr-only" aria-live="polite">{spoken}</p>
+    <p class="sr-only" aria-live="polite"><RichText text={spoken} /></p>
     <div>
       {#if status}
         <div class="mt-3 flex flex-col gap-2">

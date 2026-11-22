@@ -1,5 +1,6 @@
 <script lang="ts">
   import { cn } from "$lib/utils";
+  import RichText from "../ui/RichText.svelte";
 
   type TimeLeftTagPropsType = { text: string; urgent: boolean };
 
@@ -8,9 +9,9 @@
 
 <span
   class={cn(
-    "inline-flex h-4.5 shrink-0 items-center rounded-md px-1.5 text-xs font-bold",
+    "inline-flex h-4.5 shrink-0 items-center rounded-md px-1.5 text-xs font-medium [&_strong]:font-bold",
     urgent ? "bg-live text-live-foreground" : "bg-background/85 text-foreground",
   )}
 >
-  {text}
+  <RichText {text} />
 </span>

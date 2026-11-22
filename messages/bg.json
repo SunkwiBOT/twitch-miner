@@ -450,21 +450,29 @@
   "catalogue_title": "Каталог",
   "catalogue_rewards": [
     {
-      "declarations": ["input rewardCount", "local rewardCountPlural = rewardCount: plural"],
+      "declarations": [
+        "input rewardCount",
+        "input formattedRewardCount",
+        "local rewardCountPlural = rewardCount: plural"
+      ],
       "selectors": ["rewardCountPlural"],
       "match": {
-        "rewardCountPlural=one": "{rewardCount} награда",
-        "rewardCountPlural=*": "{rewardCount} награди"
+        "rewardCountPlural=one": "{formattedRewardCount} награда",
+        "rewardCountPlural=*": "{formattedRewardCount} награди"
       }
     }
   ],
   "catalogue_campaigns": [
     {
-      "declarations": ["input campaignCount", "local campaignCountPlural = campaignCount: plural"],
+      "declarations": [
+        "input campaignCount",
+        "input formattedCampaignCount",
+        "local campaignCountPlural = campaignCount: plural"
+      ],
       "selectors": ["campaignCountPlural"],
       "match": {
-        "campaignCountPlural=one": "{campaignCount} кампания",
-        "campaignCountPlural=*": "{campaignCount} кампании"
+        "campaignCountPlural=one": "{formattedCampaignCount} кампания",
+        "campaignCountPlural=*": "{formattedCampaignCount} кампании"
       }
     }
   ],
@@ -1359,11 +1367,15 @@
   "points_edit_selected": "Редактирай ({selectedCount})",
   "points_group_title": [
     {
-      "declarations": ["input selectedCount", "local selectedCountPlural = selectedCount: plural"],
+      "declarations": [
+        "input selectedCount",
+        "input formattedSelectedCount",
+        "local selectedCountPlural = selectedCount: plural"
+      ],
       "selectors": ["selectedCountPlural"],
       "match": {
-        "selectedCountPlural=one": "Редактиране на {selectedCount} стриймър",
-        "selectedCountPlural=*": "Редактиране на {selectedCount} стриймъри"
+        "selectedCountPlural=one": "Редактиране на {formattedSelectedCount} стриймър",
+        "selectedCountPlural=*": "Редактиране на {formattedSelectedCount} стриймъри"
       }
     }
   ],
@@ -1620,11 +1632,16 @@
   "ev_rewards_redeemed_partial_short": "{rewardCount} × {reward} — изпратени {sent}/{total}, {points} точки",
   "ev_rewards_refused": [
     {
-      "declarations": ["input refused", "input reason", "local refusedPlural = refused: plural"],
+      "declarations": [
+        "input refused",
+        "input formattedRefused",
+        "input reason",
+        "local refusedPlural = refused: plural"
+      ],
       "selectors": ["refusedPlural"],
       "match": {
-        "refusedPlural=one": "{refused} отказана: {reason}",
-        "refusedPlural=*": "{refused} отказани: {reason}"
+        "refusedPlural=one": "{formattedRefused} отказана: {reason}",
+        "refusedPlural=*": "{formattedRefused} отказани: {reason}"
       }
     }
   ],
@@ -1656,11 +1673,15 @@
   "badges_retry": "Нов опит след {retryTime}.",
   "badges_count": [
     {
-      "declarations": ["input badgeCount", "local badgeCountPlural = badgeCount: plural"],
+      "declarations": [
+        "input badgeCount",
+        "input formattedBadgeCount",
+        "local badgeCountPlural = badgeCount: plural"
+      ],
       "selectors": ["badgeCountPlural"],
       "match": {
-        "badgeCountPlural=one": "{badgeCount} значка",
-        "badgeCountPlural=*": "{badgeCount} значки"
+        "badgeCountPlural=one": "{formattedBadgeCount} значка",
+        "badgeCountPlural=*": "{formattedBadgeCount} значки"
       }
     }
   ],

@@ -766,7 +766,7 @@
     {/if}
     {#if !checking && checkAgainCount > 0}
       <TextButton
-        label={t.import_check_again({ entryCount: checkAgainCount })}
+        label={t.import_check_again({ entryCount: strong(checkAgainCount) })}
         icon={IconName.REFRESH}
         variant={ButtonVariant.OUTLINE}
         size={ButtonSize.MD}

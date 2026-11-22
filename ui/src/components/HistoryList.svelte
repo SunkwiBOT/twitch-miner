@@ -32,7 +32,7 @@
   import { openTab, showTab } from "../lib/state/router";
   import { ToastKind } from "../lib/state/state.constants";
   import { toast } from "../lib/state/toasts";
-  import { code } from "../lib/text.utils";
+  import { code, strong } from "../lib/text.utils";
   import {
     HISTORY_EVENT_MIN_WIDTH_PX,
     HISTORY_MORE_SKELETON_ROWS,
@@ -203,7 +203,7 @@
       label={t.journal_types()}
       allLabel={t.journal_types_all()}
       noneLabel={t.journal_types_none()}
-      countLabel={(count) => t.journal_types_count({ typeCount: count })}
+      countLabel={(count) => t.journal_types_count({ typeCount: strong(count) })}
       align={MenuAlign.RIGHT}
       onchange={showKinds}
     />

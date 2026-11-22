@@ -14,6 +14,7 @@
   import { ToastKind } from "../../lib/state/state.constants";
   import { app } from "../../lib/state/app.svelte";
   import { toast } from "../../lib/state/toasts";
+  import { strong } from "../../lib/text.utils";
   import TextButton from "../ui/TextButton.svelte";
   import { Card } from "$lib/components/ui/card";
   import { cn } from "$lib/utils";
@@ -122,7 +123,7 @@
       label={t.logs_levels()}
       allLabel={t.logs_levels_all()}
       noneLabel={t.logs_levels_none()}
-      countLabel={(count) => t.logs_levels_count({ levelCount: count })}
+      countLabel={(count) => t.logs_levels_count({ levelCount: strong(count) })}
       align={MenuAlign.LEFT}
       onchange={filterLevels}
     />

@@ -19,8 +19,9 @@ import {
   type TimelineRowType,
 } from "../catalogue/timeline.utils";
 import { BoxArtSize } from "../format.constants";
-import { boxArt } from "../format.utils";
+import { boxArt, number } from "../format.utils";
 import { matchesSearch } from "../search/search.utils";
+import { strong } from "../text.utils";
 import { t } from "../i18n/i18n.svelte";
 import type { BadgeRequirementType } from "../bindings/BadgeRequirementType";
 import type { IgnoredType } from "../accounts/drops.utils";
@@ -127,7 +128,11 @@ export const badgeTimelineRows = (
         },
       ];
     }),
-    (items) => t.badges_count({ badgeCount: items.length }),
+    (items) =>
+      t.badges_count({
+        badgeCount: items.length,
+        formattedBadgeCount: strong(number(items.length)),
+      }),
   );
 
 export enum AccountBadgeState {
@@ -477,13 +482,13 @@ export const ownedBadges = (
 };
 
 export const collectionText = (rule: BadgeRequirementType): string => {
-  const collection = rule.campaign_name ?? "";
+  const collection = strong(rule.campaign_name ?? "");
 
   if (rule.collection?.complete_all) {
     return t.badges_collection_all({ collection });
   }
 
   return rule.collection?.chest_size
-    ? t.badges_collection_chest({ collection, chestCount: rule.collection.chest_size })
+    ? t.badges_collection_chest({ collection, chestCount: strong(rule.collection.chest_size) })
     : t.badges_collection({ collection });
 };

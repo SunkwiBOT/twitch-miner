@@ -460,23 +460,31 @@
   "catalogue_title": "Katalog",
   "catalogue_rewards": [
     {
-      "declarations": ["input rewardCount", "local rewardCountPlural = rewardCount: plural"],
+      "declarations": [
+        "input rewardCount",
+        "input formattedRewardCount",
+        "local rewardCountPlural = rewardCount: plural"
+      ],
       "selectors": ["rewardCountPlural"],
       "match": {
-        "rewardCountPlural=one": "{rewardCount} odměna",
-        "rewardCountPlural=few": "{rewardCount} odměny",
-        "rewardCountPlural=*": "{rewardCount} odměn"
+        "rewardCountPlural=one": "{formattedRewardCount} odměna",
+        "rewardCountPlural=few": "{formattedRewardCount} odměny",
+        "rewardCountPlural=*": "{formattedRewardCount} odměn"
       }
     }
   ],
   "catalogue_campaigns": [
     {
-      "declarations": ["input campaignCount", "local campaignCountPlural = campaignCount: plural"],
+      "declarations": [
+        "input campaignCount",
+        "input formattedCampaignCount",
+        "local campaignCountPlural = campaignCount: plural"
+      ],
       "selectors": ["campaignCountPlural"],
       "match": {
-        "campaignCountPlural=one": "{campaignCount} kampaň",
-        "campaignCountPlural=few": "{campaignCount} kampaně",
-        "campaignCountPlural=*": "{campaignCount} kampaní"
+        "campaignCountPlural=one": "{formattedCampaignCount} kampaň",
+        "campaignCountPlural=few": "{formattedCampaignCount} kampaně",
+        "campaignCountPlural=*": "{formattedCampaignCount} kampaní"
       }
     }
   ],
@@ -1403,12 +1411,16 @@
   "points_edit_selected": "Upravit ({selectedCount})",
   "points_group_title": [
     {
-      "declarations": ["input selectedCount", "local selectedCountPlural = selectedCount: plural"],
+      "declarations": [
+        "input selectedCount",
+        "input formattedSelectedCount",
+        "local selectedCountPlural = selectedCount: plural"
+      ],
       "selectors": ["selectedCountPlural"],
       "match": {
-        "selectedCountPlural=one": "Upravit {selectedCount} streamera",
-        "selectedCountPlural=few": "Upravit {selectedCount} streamery",
-        "selectedCountPlural=*": "Upravit {selectedCount} streamerů"
+        "selectedCountPlural=one": "Upravit {formattedSelectedCount} streamera",
+        "selectedCountPlural=few": "Upravit {formattedSelectedCount} streamery",
+        "selectedCountPlural=*": "Upravit {formattedSelectedCount} streamerů"
       }
     }
   ],
@@ -1673,12 +1685,17 @@
   "ev_rewards_redeemed_partial_short": "{rewardCount} × {reward} — odesláno {sent}/{total}, {points} bodů",
   "ev_rewards_refused": [
     {
-      "declarations": ["input refused", "input reason", "local refusedPlural = refused: plural"],
+      "declarations": [
+        "input refused",
+        "input formattedRefused",
+        "input reason",
+        "local refusedPlural = refused: plural"
+      ],
       "selectors": ["refusedPlural"],
       "match": {
-        "refusedPlural=one": "{refused} odmítnut: {reason}",
-        "refusedPlural=few": "{refused} odmítnuty: {reason}",
-        "refusedPlural=*": "{refused} odmítnuto: {reason}"
+        "refusedPlural=one": "{formattedRefused} odmítnut: {reason}",
+        "refusedPlural=few": "{formattedRefused} odmítnuty: {reason}",
+        "refusedPlural=*": "{formattedRefused} odmítnuto: {reason}"
       }
     }
   ],
@@ -1711,12 +1728,16 @@
   "badges_retry": "Další pokus za {retryTime}.",
   "badges_count": [
     {
-      "declarations": ["input badgeCount", "local badgeCountPlural = badgeCount: plural"],
+      "declarations": [
+        "input badgeCount",
+        "input formattedBadgeCount",
+        "local badgeCountPlural = badgeCount: plural"
+      ],
       "selectors": ["badgeCountPlural"],
       "match": {
-        "badgeCountPlural=one": "{badgeCount} odznak",
-        "badgeCountPlural=few": "{badgeCount} odznaky",
-        "badgeCountPlural=*": "{badgeCount} odznaků"
+        "badgeCountPlural=one": "{formattedBadgeCount} odznak",
+        "badgeCountPlural=few": "{formattedBadgeCount} odznaky",
+        "badgeCountPlural=*": "{formattedBadgeCount} odznaků"
       }
     }
   ],

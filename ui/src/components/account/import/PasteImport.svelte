@@ -261,7 +261,7 @@
         <div class="flex flex-wrap gap-2">
           {#if unchecked > 0 && !checking}
             <TextButton
-              label={t.import_check_again({ entryCount: unchecked })}
+              label={t.import_check_again({ entryCount: strong(unchecked) })}
               icon={IconName.REFRESH}
               variant={ButtonVariant.OUTLINE}
               size={ButtonSize.MD}

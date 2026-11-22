@@ -2,6 +2,7 @@
   import { Button } from "$lib/components/ui/button";
   import { cn } from "$lib/utils";
   import Icon from "./Icon.svelte";
+  import RichText from "./RichText.svelte";
   import {
     BUTTON_ICON_SIZES,
     BUTTON_SIZES,
@@ -50,5 +51,5 @@
   {onclick}
 >
   <Icon name={icon} size={iconSize} />
-  {label}
+  <RichText text={label} />
 </Button>

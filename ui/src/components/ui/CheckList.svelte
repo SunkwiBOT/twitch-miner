@@ -16,6 +16,7 @@
   import Avatar from "./Avatar.svelte";
   import ChannelAvatar from "./ChannelAvatar.svelte";
   import EmptyState from "./EmptyState.svelte";
+  import RichText from "./RichText.svelte";
   import { AvatarSize } from "./picture.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "./button.constants";
   import { IconName } from "../../lib/icons.constants";
@@ -55,7 +56,7 @@
 {:else}
   <div class="flex flex-col overflow-hidden rounded-lg border">
     <div class="flex flex-wrap items-center justify-between gap-2 border-b bg-muted/50 px-3 py-2">
-      <span class="text-hint text-muted-foreground">{countLabel}</span>
+      <span class="text-hint text-muted-foreground"><RichText text={countLabel} /></span>
       <div class="flex gap-1.5">
         <TextButton
           label={allLabel}

@@ -9,8 +9,9 @@
   import { coreLimits } from "../../../lib/state/limits";
   import { burstKey, burstProgress, runningBursts } from "../../../lib/spam/spam.svelte";
   import { countdown, maxCount, UNAVAILABLE_BADGES } from "../../../lib/spam/spam.utils";
-  import { escapeEmphasis } from "../../../lib/text.utils";
+  import { escapeEmphasis, strong } from "../../../lib/text.utils";
   import Badge from "../../ui/Badge.svelte";
+  import RichText from "../../ui/RichText.svelte";
   import Icon from "../../ui/Icon.svelte";
   import Spinner from "../../ui/Spinner.svelte";
   import Tip from "../../ui/Tip.svelte";
@@ -40,6 +41,9 @@
   const running = $derived(runningBursts[burstKey(accountId, login, reward.id)]);
   const sending = $derived(
     running ? { done: burstProgress[running.id] ?? 0, total: running.total } : null,
+  );
+  const progress = $derived(
+    sending ? t.spam_redeeming({ done: strong(sending.done), total: strong(sending.total) }) : "",
   );
 
   const badge = $derived(UNAVAILABLE_BADGES[status]);
@@ -88,11 +92,11 @@
     />
     {#if cooling}
       <span
-        class="absolute top-1/2 left-1/2 inline-flex -translate-1/2 items-center gap-1 rounded-md bg-background/90 px-1.5 py-0.5 text-xs font-semibold whitespace-nowrap tabular-nums"
+        class="absolute top-1/2 left-1/2 inline-flex -translate-1/2 items-center gap-1 rounded-md bg-background/90 px-1.5 py-0.5 text-xs font-medium whitespace-nowrap tabular-nums"
       >
-        <Icon name={IconName.CLOCK} size={12} />{t.spam_reward_cooldown({
-          cooldownTime: countdown(cooldownLeft),
-        })}
+        <Icon name={IconName.CLOCK} size={12} /><RichText
+          text={t.spam_reward_cooldown({ cooldownTime: strong(countdown(cooldownLeft)) })}
+        />
       </span>
     {/if}
   </div>
@@ -151,7 +155,7 @@
         />
       {/if}
       <span class="sr-only" aria-live="polite">
-        {sending ? t.spam_redeeming({ done: sending.done, total: sending.total }) : ""}
+        <RichText text={progress} />
       </span>
       <span class="mt-auto">
         {#snippet button(props: Record<string, unknown>)}
@@ -165,7 +169,7 @@
           >
             {#if sending}
               <Spinner size={14} />
-              {t.spam_redeeming({ done: sending.done, total: sending.total })}
+              <RichText text={progress} />
             {:else}
               <Icon name={IconName.ZAP} size={14} />
               {t.spam_redeem()}

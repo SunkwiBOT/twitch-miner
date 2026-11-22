@@ -450,21 +450,29 @@
   "catalogue_title": "Catalogo",
   "catalogue_rewards": [
     {
-      "declarations": ["input rewardCount", "local rewardCountPlural = rewardCount: plural"],
+      "declarations": [
+        "input rewardCount",
+        "input formattedRewardCount",
+        "local rewardCountPlural = rewardCount: plural"
+      ],
       "selectors": ["rewardCountPlural"],
       "match": {
-        "rewardCountPlural=one": "{rewardCount} ricompensa",
-        "rewardCountPlural=*": "{rewardCount} ricompense"
+        "rewardCountPlural=one": "{formattedRewardCount} ricompensa",
+        "rewardCountPlural=*": "{formattedRewardCount} ricompense"
       }
     }
   ],
   "catalogue_campaigns": [
     {
-      "declarations": ["input campaignCount", "local campaignCountPlural = campaignCount: plural"],
+      "declarations": [
+        "input campaignCount",
+        "input formattedCampaignCount",
+        "local campaignCountPlural = campaignCount: plural"
+      ],
       "selectors": ["campaignCountPlural"],
       "match": {
-        "campaignCountPlural=one": "{campaignCount} campagna",
-        "campaignCountPlural=*": "{campaignCount} campagne"
+        "campaignCountPlural=one": "{formattedCampaignCount} campagna",
+        "campaignCountPlural=*": "{formattedCampaignCount} campagne"
       }
     }
   ],
@@ -1357,7 +1365,7 @@
   "points_reason_list_order_hint": "Guardato nell'ordine della lista degli streamer",
   "points_streamer_defaults_hint": "Uno streamer aggiunto (a mano, con l'importazione o durante la configurazione) parte con queste opzioni.",
   "points_edit_selected": "Modifica ({selectedCount})",
-  "points_group_title": "Modifica {selectedCount} streamer",
+  "points_group_title": "Modifica {formattedSelectedCount} streamer",
   "points_group_hint": "Solo le opzioni che cambi si applicano a questi streamer; un'opzione segnata «Misto» mantiene il valore di ciascuno finché non la cambi.",
   "streamer_option_mixed": "Misto",
   "setting_with_mark": "{option} ({optionNote})",
@@ -1611,11 +1619,16 @@
   "ev_rewards_redeemed_partial_short": "{rewardCount} × {reward} — {sent}/{total} inviati, {points} punti",
   "ev_rewards_refused": [
     {
-      "declarations": ["input refused", "input reason", "local refusedPlural = refused: plural"],
+      "declarations": [
+        "input refused",
+        "input formattedRefused",
+        "input reason",
+        "local refusedPlural = refused: plural"
+      ],
       "selectors": ["refusedPlural"],
       "match": {
-        "refusedPlural=one": "{refused} rifiutato: {reason}",
-        "refusedPlural=*": "{refused} rifiutati: {reason}"
+        "refusedPlural=one": "{formattedRefused} rifiutato: {reason}",
+        "refusedPlural=*": "{formattedRefused} rifiutati: {reason}"
       }
     }
   ],
@@ -1647,11 +1660,15 @@
   "badges_retry": "Nuovo tentativo tra {retryTime}.",
   "badges_count": [
     {
-      "declarations": ["input badgeCount", "local badgeCountPlural = badgeCount: plural"],
+      "declarations": [
+        "input badgeCount",
+        "input formattedBadgeCount",
+        "local badgeCountPlural = badgeCount: plural"
+      ],
       "selectors": ["badgeCountPlural"],
       "match": {
-        "badgeCountPlural=one": "{badgeCount} badge",
-        "badgeCountPlural=*": "{badgeCount} badge"
+        "badgeCountPlural=one": "{formattedBadgeCount} badge",
+        "badgeCountPlural=*": "{formattedBadgeCount} badge"
       }
     }
   ],

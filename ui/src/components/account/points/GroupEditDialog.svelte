@@ -6,7 +6,9 @@
   import type { AccountSnapshotType } from "../../../lib/bindings/AccountSnapshotType";
   import type { ChannelType } from "../../../lib/bindings/ChannelType";
   import type { StreamerSettingsType } from "../../../lib/bindings/StreamerSettingsType";
+  import { number } from "../../../lib/format.utils";
   import { t } from "../../../lib/i18n/i18n.svelte";
+  import { strong } from "../../../lib/text.utils";
   import StreamerChip from "../../accounts/StreamerChip.svelte";
   import Dialog from "../../ui/Dialog.svelte";
   import OverflowNames from "../../ui/OverflowNames.svelte";
@@ -78,7 +80,10 @@
 
 <Dialog
   {open}
-  title={t.points_group_title({ selectedCount: group.length })}
+  title={t.points_group_title({
+    selectedCount: group.length,
+    formattedSelectedCount: strong(number(group.length)),
+  })}
   wide={true}
   closable={true}
   closeOnOutside={true}

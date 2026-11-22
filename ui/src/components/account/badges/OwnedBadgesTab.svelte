@@ -12,6 +12,7 @@
   import type { GlobalBadgeType } from "../../../lib/bindings/GlobalBadgeType";
   import { t } from "../../../lib/i18n/i18n.svelte";
   import { matchesSearch, normalizeSearch } from "../../../lib/search/search.utils";
+  import { strong } from "../../../lib/text.utils";
   import { formatDate } from "../../../lib/time/time.utils";
   import BadgeTile from "../../ui/BadgeTile.svelte";
   import EmptyState from "../../ui/EmptyState.svelte";
@@ -50,7 +51,7 @@
     const at = dates.get(badge.key);
 
     return at
-      ? t.owned_badge_unlocked({ date: formatDate(at, true) })
+      ? t.owned_badge_unlocked({ date: strong(formatDate(at, true)) })
       : t.owned_badge_date_unknown();
   };
 </script>

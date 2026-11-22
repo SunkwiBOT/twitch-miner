@@ -461,23 +461,31 @@
   "catalogue_title": "Catalog",
   "catalogue_rewards": [
     {
-      "declarations": ["input rewardCount", "local rewardCountPlural = rewardCount: plural"],
+      "declarations": [
+        "input rewardCount",
+        "input formattedRewardCount",
+        "local rewardCountPlural = rewardCount: plural"
+      ],
       "selectors": ["rewardCountPlural"],
       "match": {
-        "rewardCountPlural=one": "{rewardCount} recompensă",
-        "rewardCountPlural=few": "{rewardCount} recompense",
-        "rewardCountPlural=*": "{rewardCount} de recompense"
+        "rewardCountPlural=one": "{formattedRewardCount} recompensă",
+        "rewardCountPlural=few": "{formattedRewardCount} recompense",
+        "rewardCountPlural=*": "{formattedRewardCount} de recompense"
       }
     }
   ],
   "catalogue_campaigns": [
     {
-      "declarations": ["input campaignCount", "local campaignCountPlural = campaignCount: plural"],
+      "declarations": [
+        "input campaignCount",
+        "input formattedCampaignCount",
+        "local campaignCountPlural = campaignCount: plural"
+      ],
       "selectors": ["campaignCountPlural"],
       "match": {
-        "campaignCountPlural=one": "{campaignCount} campanie",
-        "campaignCountPlural=few": "{campaignCount} campanii",
-        "campaignCountPlural=*": "{campaignCount} de campanii"
+        "campaignCountPlural=one": "{formattedCampaignCount} campanie",
+        "campaignCountPlural=few": "{formattedCampaignCount} campanii",
+        "campaignCountPlural=*": "{formattedCampaignCount} de campanii"
       }
     }
   ],
@@ -1368,12 +1376,16 @@
   "points_edit_selected": "Editează ({selectedCount})",
   "points_group_title": [
     {
-      "declarations": ["input selectedCount", "local selectedCountPlural = selectedCount: plural"],
+      "declarations": [
+        "input selectedCount",
+        "input formattedSelectedCount",
+        "local selectedCountPlural = selectedCount: plural"
+      ],
       "selectors": ["selectedCountPlural"],
       "match": {
-        "selectedCountPlural=one": "Editează {selectedCount} streamer",
-        "selectedCountPlural=few": "Editează {selectedCount} streameri",
-        "selectedCountPlural=*": "Editează {selectedCount} de streameri"
+        "selectedCountPlural=one": "Editează {formattedSelectedCount} streamer",
+        "selectedCountPlural=few": "Editează {formattedSelectedCount} streameri",
+        "selectedCountPlural=*": "Editează {formattedSelectedCount} de streameri"
       }
     }
   ],
@@ -1638,12 +1650,17 @@
   "ev_rewards_redeemed_partial_short": "{rewardCount} × {reward} — {sent}/{total} trimise, {points} puncte",
   "ev_rewards_refused": [
     {
-      "declarations": ["input refused", "input reason", "local refusedPlural = refused: plural"],
+      "declarations": [
+        "input refused",
+        "input formattedRefused",
+        "input reason",
+        "local refusedPlural = refused: plural"
+      ],
       "selectors": ["refusedPlural"],
       "match": {
-        "refusedPlural=one": "{refused} refuzată: {reason}",
-        "refusedPlural=few": "{refused} refuzate: {reason}",
-        "refusedPlural=*": "{refused} de refuzate: {reason}"
+        "refusedPlural=one": "{formattedRefused} refuzată: {reason}",
+        "refusedPlural=few": "{formattedRefused} refuzate: {reason}",
+        "refusedPlural=*": "{formattedRefused} de refuzate: {reason}"
       }
     }
   ],
@@ -1676,12 +1693,16 @@
   "badges_retry": "Nouă încercare peste {retryTime}.",
   "badges_count": [
     {
-      "declarations": ["input badgeCount", "local badgeCountPlural = badgeCount: plural"],
+      "declarations": [
+        "input badgeCount",
+        "input formattedBadgeCount",
+        "local badgeCountPlural = badgeCount: plural"
+      ],
       "selectors": ["badgeCountPlural"],
       "match": {
-        "badgeCountPlural=one": "{badgeCount} insignă",
-        "badgeCountPlural=few": "{badgeCount} insigne",
-        "badgeCountPlural=*": "{badgeCount} de insigne"
+        "badgeCountPlural=one": "{formattedBadgeCount} insignă",
+        "badgeCountPlural=few": "{formattedBadgeCount} insigne",
+        "badgeCountPlural=*": "{formattedBadgeCount} de insigne"
       }
     }
   ],

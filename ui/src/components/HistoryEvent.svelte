@@ -98,7 +98,9 @@
         {@render eventPicture()}
         <span class="flex min-w-0 flex-col">
           {@render sentenceText()}
-          {#if detail}<span class="truncate text-xs text-muted-foreground">{detail}</span>{/if}
+          {#if detail}<span class="truncate text-xs text-muted-foreground">
+              <RichText text={detail} />
+            </span>{/if}
         </span>
       </span>
     </TableCell>
@@ -124,7 +126,9 @@
     {@render eventPicture()}
     <div class="flex min-w-0 flex-1 flex-col gap-1">
       {@render sentenceText()}
-      {#if detail}<span class="text-xs break-words text-muted-foreground">{detail}</span>{/if}
+      {#if detail}<span class="text-xs break-words text-muted-foreground">
+          <RichText text={detail} />
+        </span>{/if}
       <span class="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs text-muted-foreground">
         <span class="tabular-nums">{formatShortDateTime(event.at)}</span>
         {#if showAccount && event.account_id}

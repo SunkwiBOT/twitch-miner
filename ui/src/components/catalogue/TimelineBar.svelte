@@ -55,7 +55,7 @@
 
   const pill = $derived(
     left > 0 && left < TIMELINE_PILL_MS
-      ? t.timeline_left({ remainingTime: shortDuration(left) })
+      ? t.timeline_left({ remainingTime: strong(shortDuration(left)) })
       : "",
   );
 

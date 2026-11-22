@@ -85,7 +85,7 @@
     }
 
     return drop.required_minutes > 0
-      ? watchText(strong(shortDuration(drop.required_minutes * MINUTE_MS)), drop.repeat)
+      ? watchText(shortDuration(drop.required_minutes * MINUTE_MS), drop.repeat)
       : t.reward_watch_stream();
   };
 
@@ -209,7 +209,7 @@
           />{/if}
         {#if benefit?.chest_size && benefit.badges.length > 1}
           <small class="text-tiny text-muted-foreground">
-            {t.reward_chest({ chestCount: benefit.chest_size })}
+            <RichText text={t.reward_chest({ chestCount: strong(benefit.chest_size) })} />
           </small>
           <span class="flex flex-wrap justify-center gap-0.5">
             {#each benefit.badges as badge (`${badge.set_id}/${badge.version}`)}

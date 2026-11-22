@@ -1,12 +1,13 @@
 import { CampaignStatus } from "../bindings/CampaignStatus";
 import type { CampaignType } from "../bindings/CampaignType";
 import { BoxArtSize } from "../format.constants";
-import { boxArt } from "../format.utils";
+import { boxArt, number } from "../format.utils";
 import { t } from "../i18n/i18n.svelte";
 import type { IconName } from "../icons.constants";
 import { LABEL_CHARACTER_PX } from "../text-metrics.utils";
 import { DAY_MS } from "../time/time.constants";
 import { zoneOffsetMs } from "../time/time.utils";
+import { strong } from "../text.utils";
 import type { BadgeTone } from "../tones.constants";
 import {
   BarKey,
@@ -258,10 +259,14 @@ export const campaignTimelineRows = (
         tag: tagOf(campaign),
       },
     })),
-    (items) =>
-      `${t.catalogue_campaigns({ campaignCount: items.length })} · ${t.catalogue_rewards({
-        rewardCount: items.reduce((sum, item) => sum + item.value.drops.length, 0),
-      })}`,
+    (items) => {
+      const rewardCount = items.reduce((sum, item) => sum + item.value.drops.length, 0);
+
+      return `${t.catalogue_campaigns({
+        campaignCount: items.length,
+        formattedCampaignCount: strong(number(items.length)),
+      })} · ${t.catalogue_rewards({ rewardCount, formattedRewardCount: strong(number(rewardCount)) })}`;
+    },
   );
 
 export type LaneLayoutType = {

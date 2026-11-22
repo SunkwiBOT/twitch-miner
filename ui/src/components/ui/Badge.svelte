@@ -2,6 +2,7 @@
   import { Badge as BadgeRoot } from "$lib/components/ui/badge";
   import { cn } from "$lib/utils";
   import Icon from "./Icon.svelte";
+  import RichText from "./RichText.svelte";
   import Tip from "./Tip.svelte";
   import { BADGE_TONE_CLASSES, BADGE_VARIANTS, BadgeVariant } from "./badge.constants";
   import { BadgeTone } from "../../lib/tones.constants";
@@ -24,7 +25,9 @@
 {#snippet content()}
   {#if icon}<Icon name={icon} size={12} class="shrink-0" />{/if}
   <!-- ! The padding keeps ink past the line box (Thai marks) inside the clip. -->
-  <span class="-m-0.5 min-w-0 overflow-hidden p-0.5 leading-3.5 text-ellipsis">{text}</span>
+  <span class="-m-0.5 min-w-0 overflow-hidden p-0.5 leading-3.5 text-ellipsis [&_strong]:font-bold">
+    <RichText {text} />
+  </span>
 {/snippet}
 
 {#if hint}

@@ -8,6 +8,7 @@
   import { accountStateHint, accountStateLabel } from "../../lib/accounts/accounts.utils";
   import type { AccountSnapshotType } from "../../lib/bindings/AccountSnapshotType";
   import { ticker } from "../../lib/state/ticker.svelte";
+  import { plainText } from "../../lib/text.utils";
   import Icon from "./Icon.svelte";
   import Tip from "./Tip.svelte";
 
@@ -26,7 +27,7 @@
     <span
       {...props}
       role="img"
-      aria-label={label}
+      aria-label={plainText(label)}
       tabindex="-1"
       class={cn("inline-flex shrink-0 cursor-help", ACCOUNT_STATE_ICON_CLASSES[current])}
     >

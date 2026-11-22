@@ -260,9 +260,9 @@
           {#if requirement}
             <div class="flex flex-col gap-1 text-hint">
               {#if requirement.required_minutes > 0}
-                <span class="font-semibold">
-                  {watchText(minutes(requirement.required_minutes), requirement.repeat)}
-                </span>
+                <RichText
+                  text={watchText(minutes(requirement.required_minutes), requirement.repeat)}
+                />
               {/if}
               {#if requirement.required_subs > 0}
                 <span class="text-muted-foreground">
@@ -326,7 +326,9 @@
         <section class="flex flex-col gap-2">
           {@render section(t.badge_dialog_collection(), null)}
           {#if requirement?.collection}
-            <p class="text-hint text-muted-foreground">{collectionText(requirement)}</p>
+            <p class="text-hint text-muted-foreground">
+              <RichText text={collectionText(requirement)} />
+            </p>
           {/if}
           {#if chest.length > 0}
             <ul class="grid grid-cols-[repeat(auto-fill,minmax(min(170px,100%),1fr))] gap-2">
@@ -438,7 +440,7 @@
             {/if}
             {#if evolution?.from && lacksFrom(entry)}
               <Badge
-                text={t.badge_evolution_locked({ badge: evolution.from.title })}
+                text={t.badge_evolution_locked({ badge: strong(evolution.from.title) })}
                 tone={BadgeTone.WARNING}
                 icon={IconName.LOCK}
                 hint={t.badge_hint_evolution_locked({ badge: strong(evolution.from.title) })}

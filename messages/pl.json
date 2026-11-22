@@ -459,23 +459,31 @@
   "catalogue_title": "Katalog",
   "catalogue_rewards": [
     {
-      "declarations": ["input rewardCount", "local rewardCountPlural = rewardCount: plural"],
+      "declarations": [
+        "input rewardCount",
+        "input formattedRewardCount",
+        "local rewardCountPlural = rewardCount: plural"
+      ],
       "selectors": ["rewardCountPlural"],
       "match": {
-        "rewardCountPlural=one": "{rewardCount} nagroda",
-        "rewardCountPlural=few": "{rewardCount} nagrody",
-        "rewardCountPlural=*": "{rewardCount} nagród"
+        "rewardCountPlural=one": "{formattedRewardCount} nagroda",
+        "rewardCountPlural=few": "{formattedRewardCount} nagrody",
+        "rewardCountPlural=*": "{formattedRewardCount} nagród"
       }
     }
   ],
   "catalogue_campaigns": [
     {
-      "declarations": ["input campaignCount", "local campaignCountPlural = campaignCount: plural"],
+      "declarations": [
+        "input campaignCount",
+        "input formattedCampaignCount",
+        "local campaignCountPlural = campaignCount: plural"
+      ],
       "selectors": ["campaignCountPlural"],
       "match": {
-        "campaignCountPlural=one": "{campaignCount} kampania",
-        "campaignCountPlural=few": "{campaignCount} kampanie",
-        "campaignCountPlural=*": "{campaignCount} kampanii"
+        "campaignCountPlural=one": "{formattedCampaignCount} kampania",
+        "campaignCountPlural=few": "{formattedCampaignCount} kampanie",
+        "campaignCountPlural=*": "{formattedCampaignCount} kampanii"
       }
     }
   ],
@@ -1264,11 +1272,15 @@
   "points_edit_selected": "Edytuj ({selectedCount})",
   "points_group_title": [
     {
-      "declarations": ["input selectedCount", "local selectedCountPlural = selectedCount: plural"],
+      "declarations": [
+        "input selectedCount",
+        "input formattedSelectedCount",
+        "local selectedCountPlural = selectedCount: plural"
+      ],
       "selectors": ["selectedCountPlural"],
       "match": {
-        "selectedCountPlural=one": "Edycja {selectedCount} streamera",
-        "selectedCountPlural=*": "Edycja {selectedCount} streamerów"
+        "selectedCountPlural=one": "Edycja {formattedSelectedCount} streamera",
+        "selectedCountPlural=*": "Edycja {formattedSelectedCount} streamerów"
       }
     }
   ],
@@ -1508,12 +1520,17 @@
   "ev_rewards_redeemed_partial_short": "{rewardCount} × {reward} — wysłano {sent}/{total}, {points} pkt",
   "ev_rewards_refused": [
     {
-      "declarations": ["input refused", "input reason", "local refusedPlural = refused: plural"],
+      "declarations": [
+        "input refused",
+        "input formattedRefused",
+        "input reason",
+        "local refusedPlural = refused: plural"
+      ],
       "selectors": ["refusedPlural"],
       "match": {
-        "refusedPlural=one": "{refused} odrzucone: {reason}",
-        "refusedPlural=few": "{refused} odrzucone: {reason}",
-        "refusedPlural=*": "{refused} odrzuconych: {reason}"
+        "refusedPlural=one": "{formattedRefused} odrzucone: {reason}",
+        "refusedPlural=few": "{formattedRefused} odrzucone: {reason}",
+        "refusedPlural=*": "{formattedRefused} odrzuconych: {reason}"
       }
     }
   ],
@@ -1546,12 +1563,16 @@
   "badges_retry": "Kolejna próba za {retryTime}.",
   "badges_count": [
     {
-      "declarations": ["input badgeCount", "local badgeCountPlural = badgeCount: plural"],
+      "declarations": [
+        "input badgeCount",
+        "input formattedBadgeCount",
+        "local badgeCountPlural = badgeCount: plural"
+      ],
       "selectors": ["badgeCountPlural"],
       "match": {
-        "badgeCountPlural=one": "{badgeCount} odznaka",
-        "badgeCountPlural=few": "{badgeCount} odznaki",
-        "badgeCountPlural=*": "{badgeCount} odznak"
+        "badgeCountPlural=one": "{formattedBadgeCount} odznaka",
+        "badgeCountPlural=few": "{formattedBadgeCount} odznaki",
+        "badgeCountPlural=*": "{formattedBadgeCount} odznak"
       }
     }
   ],

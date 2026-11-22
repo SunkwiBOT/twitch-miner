@@ -8,7 +8,9 @@
     BalanceTracking,
   } from "../../../lib/spam/spam.constants";
   import { BALANCE_HINTS, changedAgo } from "../../../lib/spam/spam.utils";
+  import { strong } from "../../../lib/text.utils";
   import Icon from "../../ui/Icon.svelte";
+  import RichText from "../../ui/RichText.svelte";
   import Tip from "../../ui/Tip.svelte";
   import { IconName } from "../../../lib/icons.constants";
 
@@ -25,7 +27,7 @@
   const status = $derived.by(() => {
     switch (tracking) {
       case BalanceTracking.LIVE:
-        return t.spam_balance_changed({ updatedTime: changedAgo(changedAt, now) });
+        return t.spam_balance_changed({ updatedTime: strong(changedAgo(changedAt, now)) });
       case BalanceTracking.PAUSED:
         return t.spam_balance_paused();
       case BalanceTracking.FAILING:
@@ -57,7 +59,7 @@
           size={12}
           class={cn("shrink-0", BALANCE_ICON_CLASSES[tracking])}
         />
-        {status}
+        <RichText text={status} />
       </button>
     {/snippet}
   </Tip>

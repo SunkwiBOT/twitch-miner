@@ -6,7 +6,9 @@
   import { ensureBanners, knownBanners } from "../../../lib/channels/channels.svelte";
   import { number } from "../../../lib/format.utils";
   import { t } from "../../../lib/i18n/i18n.svelte";
+  import { strong } from "../../../lib/text.utils";
   import IconButton from "../../ui/IconButton.svelte";
+  import RichText from "../../ui/RichText.svelte";
   import SortableList from "../../ui/SortableList.svelte";
   import TextButton from "../../ui/TextButton.svelte";
   import TiledArt from "../../ui/TiledArt.svelte";
@@ -50,7 +52,7 @@
       return t.common_select_all();
     }
 
-    const count = number(selected.length);
+    const count = strong(number(selected.length));
 
     return all
       ? t.common_select_none_count({ itemCount: count })
@@ -81,14 +83,19 @@
         indeterminate={selected.length > 0 && !all}
         onCheckedChange={() => onselect(all ? [] : streamers.map((s) => s.login))}
       />
-      {selectLabel}
+      <RichText text={selectLabel} />
     </label>
     <span class="sr-only" role="status">
-      {t.common_selected_count({ selectedCount: selected.length, total: streamers.length })}
+      <RichText
+        text={t.common_selected_count({
+          selectedCount: strong(selected.length),
+          total: strong(streamers.length),
+        })}
+      />
     </span>
     {#if selected.length > 0}
       <TextButton
-        label={t.points_edit_selected({ selectedCount: selected.length })}
+        label={t.points_edit_selected({ selectedCount: strong(selected.length) })}
         icon={IconName.EDIT}
         variant={ButtonVariant.OUTLINE}
         size={ButtonSize.SM}

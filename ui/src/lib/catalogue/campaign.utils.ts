@@ -23,18 +23,24 @@ export const dropDone = (drop: TimedDropType): boolean =>
 export const evolutionBlocked = (evolution: EvolutionType | undefined, enabled: boolean): boolean =>
   evolution !== undefined && (!evolution.from || !evolution.owned || !enabled);
 
-export const watchText = (time: string, repeat: RepeatType | undefined): string => {
+export const watchText = (duration: string, repeat: RepeatType | undefined): string => {
+  const watchTime = strong(duration);
+
   if (!repeat) {
-    return t.reward_watch({ watchTime: time });
+    return t.reward_watch({ watchTime });
   }
 
   if (repeat.every_hours === DAY_HOURS) {
-    return t.reward_watch_daily({ watchTime: time, days: repeat.times });
+    return t.reward_watch_daily({ watchTime, days: strong(repeat.times) });
   }
 
   return repeat.every_hours
-    ? t.reward_watch_every({ watchTime: time, hours: repeat.every_hours, timesCount: repeat.times })
-    : t.reward_watch_times({ watchTime: time, timesCount: repeat.times });
+    ? t.reward_watch_every({
+        watchTime,
+        hours: strong(repeat.every_hours),
+        timesCount: strong(repeat.times),
+      })
+    : t.reward_watch_times({ watchTime, timesCount: strong(repeat.times) });
 };
 
 export const periodsText = (done: number, repeat: RepeatType): string => {

@@ -1,6 +1,7 @@
 <script lang="ts" generics="T">
   import { getLaneLayout } from "../../lib/catalogue/timeline.utils";
   import type { TimelineRangeType, TimelineRowType } from "../../lib/catalogue/timeline.utils";
+  import RichText from "../ui/RichText.svelte";
   import TimelineBar from "./TimelineBar.svelte";
 
   type TimelineRowPropsType = {
@@ -46,7 +47,9 @@
     {/if}
     <span class="flex min-w-0 flex-col">
       <span class="line-clamp-2 font-semibold break-words">{row.name}</span>
-      <span class="truncate text-xs text-muted-foreground max-[860px]:hidden">{row.detail}</span>
+      <span class="truncate text-xs text-muted-foreground max-[860px]:hidden">
+        <RichText text={row.detail} />
+      </span>
     </span>
   </button>
   <div class="lane transition-colors group-hover:bg-accent">

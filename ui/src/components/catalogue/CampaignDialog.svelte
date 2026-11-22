@@ -19,7 +19,7 @@
   import { setAsideLabel } from "../../lib/accounts/accounts.utils";
   import { refreshWhenBack } from "../../lib/accounts/refresh.utils";
   import { campaignUrl } from "../../lib/links/twitch.utils";
-  import { boxArt, shortDuration } from "../../lib/format.utils";
+  import { boxArt, number, shortDuration } from "../../lib/format.utils";
   import { BoxArtSize } from "../../lib/format.constants";
   import { ResolveKind } from "../ui/external-button.constants";
   import { t } from "../../lib/i18n/i18n.svelte";
@@ -163,7 +163,7 @@
           <div class="flex flex-wrap gap-1.5">
             <Badge
               text={left(view) > 0
-                ? t.campaign_time_left({ remainingTime: shortDuration(left(view)) })
+                ? t.campaign_time_left({ remainingTime: strong(shortDuration(left(view))) })
                 : t.campaign_ended()}
               tone={left(view) <= 0
                 ? BadgeTone.MUTED
@@ -173,7 +173,10 @@
               icon={IconName.CLOCK}
             />
             <Badge
-              text={t.catalogue_rewards({ rewardCount: view.drops.length })}
+              text={t.catalogue_rewards({
+                rewardCount: view.drops.length,
+                formattedRewardCount: strong(number(view.drops.length)),
+              })}
               tone={BadgeTone.NEUTRAL}
               icon={IconName.GIFT}
             />

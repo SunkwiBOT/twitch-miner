@@ -89,8 +89,8 @@
       allLabel={t.common_select_all()}
       noneLabel={t.common_select_none()}
       countLabel={t.common_selected_count({
-        selectedCount: selected.length,
-        total: applicableCount,
+        selectedCount: strong(selected.length),
+        total: strong(applicableCount),
       })}
       empty={t.bulk_no_accounts()}
       onchange={(value) => (selected = value)}
@@ -108,7 +108,7 @@
     />
     <ActionButton
       icon={IconName.CHECK}
-      label={t.bulk_apply({ changeCount: selected.length })}
+      label={t.bulk_apply({ changeCount: strong(selected.length) })}
       busyLabel={t.bulk_applying()}
       busy={applying}
       disabled={selected.length === 0}

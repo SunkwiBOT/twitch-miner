@@ -450,21 +450,29 @@
   "catalogue_title": "Catalogus",
   "catalogue_rewards": [
     {
-      "declarations": ["input rewardCount", "local rewardCountPlural = rewardCount: plural"],
+      "declarations": [
+        "input rewardCount",
+        "input formattedRewardCount",
+        "local rewardCountPlural = rewardCount: plural"
+      ],
       "selectors": ["rewardCountPlural"],
       "match": {
-        "rewardCountPlural=one": "{rewardCount} beloning",
-        "rewardCountPlural=*": "{rewardCount} beloningen"
+        "rewardCountPlural=one": "{formattedRewardCount} beloning",
+        "rewardCountPlural=*": "{formattedRewardCount} beloningen"
       }
     }
   ],
   "catalogue_campaigns": [
     {
-      "declarations": ["input campaignCount", "local campaignCountPlural = campaignCount: plural"],
+      "declarations": [
+        "input campaignCount",
+        "input formattedCampaignCount",
+        "local campaignCountPlural = campaignCount: plural"
+      ],
       "selectors": ["campaignCountPlural"],
       "match": {
-        "campaignCountPlural=one": "{campaignCount} campagne",
-        "campaignCountPlural=*": "{campaignCount} campagnes"
+        "campaignCountPlural=one": "{formattedCampaignCount} campagne",
+        "campaignCountPlural=*": "{formattedCampaignCount} campagnes"
       }
     }
   ],
@@ -1359,11 +1367,15 @@
   "points_edit_selected": "Bewerken ({selectedCount})",
   "points_group_title": [
     {
-      "declarations": ["input selectedCount", "local selectedCountPlural = selectedCount: plural"],
+      "declarations": [
+        "input selectedCount",
+        "input formattedSelectedCount",
+        "local selectedCountPlural = selectedCount: plural"
+      ],
       "selectors": ["selectedCountPlural"],
       "match": {
-        "selectedCountPlural=one": "{selectedCount} streamer bewerken",
-        "selectedCountPlural=*": "{selectedCount} streamers bewerken"
+        "selectedCountPlural=one": "{formattedSelectedCount} streamer bewerken",
+        "selectedCountPlural=*": "{formattedSelectedCount} streamers bewerken"
       }
     }
   ],
@@ -1620,11 +1632,16 @@
   "ev_rewards_redeemed_partial_short": "{rewardCount} × {reward} — {sent}/{total} verzonden, {points} punten",
   "ev_rewards_refused": [
     {
-      "declarations": ["input refused", "input reason", "local refusedPlural = refused: plural"],
+      "declarations": [
+        "input refused",
+        "input formattedRefused",
+        "input reason",
+        "local refusedPlural = refused: plural"
+      ],
       "selectors": ["refusedPlural"],
       "match": {
-        "refusedPlural=one": "{refused} geweigerd: {reason}",
-        "refusedPlural=*": "{refused} geweigerd: {reason}"
+        "refusedPlural=one": "{formattedRefused} geweigerd: {reason}",
+        "refusedPlural=*": "{formattedRefused} geweigerd: {reason}"
       }
     }
   ],
@@ -1656,11 +1673,15 @@
   "badges_retry": "Volgende poging over {retryTime}.",
   "badges_count": [
     {
-      "declarations": ["input badgeCount", "local badgeCountPlural = badgeCount: plural"],
+      "declarations": [
+        "input badgeCount",
+        "input formattedBadgeCount",
+        "local badgeCountPlural = badgeCount: plural"
+      ],
       "selectors": ["badgeCountPlural"],
       "match": {
-        "badgeCountPlural=one": "{badgeCount} badge",
-        "badgeCountPlural=*": "{badgeCount} badges"
+        "badgeCountPlural=one": "{formattedBadgeCount} badge",
+        "badgeCountPlural=*": "{formattedBadgeCount} badges"
       }
     }
   ],
