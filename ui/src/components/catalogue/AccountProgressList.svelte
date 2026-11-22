@@ -8,11 +8,15 @@
     type AccountProgressType,
   } from "../../lib/catalogue/progress.constants";
   import { t } from "../../lib/i18n/i18n.svelte";
+  import { matchesSearch, normalizeSearch } from "../../lib/search/search.utils";
   import { ticker } from "../../lib/state/ticker.svelte";
   import Avatar from "../ui/Avatar.svelte";
   import Badge from "../ui/Badge.svelte";
   import ProgressLine from "../ui/ProgressLine.svelte";
+  import SearchField from "../ui/SearchField.svelte";
+  import SearchNoResult from "../ui/SearchNoResult.svelte";
   import Segmented from "../ui/Segmented.svelte";
+  import { SELECT_SEARCH_FROM } from "../ui/menu.constants";
   import { AvatarSize } from "../ui/picture.constants";
   import { PROGRESS_BADGES, progressSummary } from "./progress.utils";
   import SubRequiredBadge from "./SubRequiredBadge.svelte";
@@ -26,12 +30,22 @@
   let { entries, tags, action }: AccountProgressListPropsType = $props();
 
   let picked = $state<ProgressState | typeof ALL_PROGRESS>(ALL_PROGRESS);
+  let query = $state("");
 
   const summary = $derived(progressSummary(entries));
   const filter = $derived(summary.some((item) => item.state === picked) ? picked : ALL_PROGRESS);
-  const shown = $derived(
-    filter === ALL_PROGRESS ? entries : entries.filter((entry) => entry.state === filter),
-  );
+  const searchable = $derived(entries.length >= SELECT_SEARCH_FROM);
+  const shown = $derived.by(() => {
+    const needle = searchable ? normalizeSearch(query) : "";
+
+    return entries.filter(
+      (entry) =>
+        (filter === ALL_PROGRESS || entry.state === filter) &&
+        (!needle ||
+          matchesSearch(entry.account.display_name, needle) ||
+          matchesSearch(entry.account.login, needle)),
+    );
+  });
 </script>
 
 <section class="flex flex-col gap-2">
@@ -52,7 +66,20 @@
       ]}
     />
   {/if}
-  <ul class="flex flex-col divide-y rounded-lg border">
+  {#if searchable}
+    <SearchField
+      placeholder={t.common_search()}
+      aria-label={t.common_search()}
+      bind:value={query}
+      busy={false}
+    />
+    <SearchNoResult shown={shown.length === 0} {query} />
+  {/if}
+  <ul
+    class="flex max-h-96 flex-col divide-y overflow-y-auto overscroll-contain rounded-lg border"
+    hidden={shown.length === 0}
+    data-account-progress-list
+  >
     {#each shown as entry (entry.account.id)}
       {@const badge = PROGRESS_BADGES[entry.state]}
       <li class="flex flex-wrap items-center gap-x-3 gap-y-1.5 px-2.5 py-2">
