@@ -21,6 +21,7 @@
   import { number } from "../../lib/format.utils";
   import { escapeEmphasis } from "../../lib/text.utils";
   import AccountStateIcon from "../ui/AccountStateIcon.svelte";
+  import AppLogo from "../ui/AppLogo.svelte";
   import Avatar from "../ui/Avatar.svelte";
   import Badge from "../ui/Badge.svelte";
   import BetaBadge from "../ui/BetaBadge.svelte";
@@ -109,6 +110,21 @@
 
   const navActive = (page: Page): boolean =>
     app.page === page || (page === Page.STATS && app.page === Page.STATS_STREAMER);
+
+  const RAIL_COUNT_MAX = 99;
+
+  // ! The rail's corner badge stays small: past two digits it says "99+", the tooltip says the count.
+  const railCount = (count: number): string =>
+    count > RAIL_COUNT_MAX ? `${number(RAIL_COUNT_MAX)}+` : number(count);
+
+  const railName = (item: NavItemType): string =>
+    [
+      item.label,
+      item.count ? number(item.count) : null,
+      BETA_PAGES.has(item.page) ? t.common_beta() : null,
+    ]
+      .filter(Boolean)
+      .join(" · ");
 </script>
 
 <!-- ! In the rail every name moves to an instant tooltip and stays the control's accessible name. -->
@@ -140,7 +156,7 @@
           rail ? "justify-center px-1" : "px-2",
         )}
       >
-        <img class="size-8 shrink-0 [image-rendering:pixelated]" src="/app-icon.svg" alt="" />
+        <AppLogo class="size-8" />
         <span class={rail ? "sr-only" : "contents"}>
           <LinkText
             text={APP_TITLE}
@@ -176,20 +192,24 @@
           aria-current={navActive(item.page) ? "page" : undefined}
           onclick={() => navigate(item.page)}
         >
-          <Icon name={PAGE_ICONS[item.page]} size={18} class="shrink-0" /><span
-            class={rail ? "sr-only" : "truncate"}
-          >
-            {item.label}
+          <span class="relative flex shrink-0">
+            <Icon name={PAGE_ICONS[item.page]} size={18} />
+            {#if rail && item.count}<span
+                aria-hidden="true"
+                class="pointer-events-none absolute -top-[7px] -right-3 flex h-3.5 min-w-3.5 items-center justify-center rounded-full bg-muted px-0.5 text-[9px] leading-none font-semibold text-foreground tabular-nums ring-2 ring-sidebar"
+              >
+                {railCount(item.count)}
+              </span>{/if}
+          </span><span class={rail ? "sr-only" : "truncate"}>
+            {item.label}{#if rail && item.count}&nbsp;{number(item.count)}{/if}
           </span>
           {#if BETA_PAGES.has(item.page) && !rail}<BetaBadge />{/if}
-          {#if item.count}<span
-              class={rail ? "pointer-events-none absolute -top-1.5 -right-1 flex" : "ml-auto flex"}
-            >
+          {#if item.count && !rail}<span class="ml-auto flex">
               <Badge text={number(item.count)} tone={BadgeTone.NEUTRAL} />
             </span>{/if}
         </button>
       {/snippet}
-      {@render named(item.label, mainBody)}
+      {@render named(railName(item), mainBody)}
     {/each}
 
     {#if rail}
@@ -293,7 +313,7 @@
                 {#if BETA_PAGES.has(item.page) && !rail}<BetaBadge />{/if}
               </button>
             {/snippet}
-            {@render named(item.label, subBody)}
+            {@render named(railName(item), subBody)}
           {/each}
         </div>
       {/if}

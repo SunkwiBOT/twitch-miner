@@ -30,7 +30,7 @@ built into the desktop app and the Docker image, and ships the font and the icon
 
 ## The author's artwork
 
-The app icon (`ui/public/app-icon.svg`, the PNG icons and favicons in `ui/public/`,
+The app logo (`ui/public/app-mark.svg`, the PNG icons and favicons in `ui/public/`,
 `src-tauri/icons/`, `miner-core/assets/notify-test/logo.png`) and the logos of the
 author's other projects in `ui/public/partners/` (Twitch Drops API, Twitch Alerts,
 Kick Alerts) are by the author, Sunkwi, and are under the project's MIT licence unless

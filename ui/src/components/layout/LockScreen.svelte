@@ -8,6 +8,7 @@
   import { app } from "../../lib/state/app.svelte";
   import { connect, refresh, sessionEnded } from "../../lib/state/session";
   import { toast } from "../../lib/state/toasts";
+  import AppLogo from "../ui/AppLogo.svelte";
   import ActionButton from "../ui/ActionButton.svelte";
   import FormField from "../ui/FormField.svelte";
   import SecretInput from "../ui/SecretInput.svelte";
@@ -68,7 +69,7 @@
     class="flex w-full max-w-100 flex-col gap-4 rounded-xl border bg-card p-7 shadow-lg"
     onsubmit={submit}
   >
-    <img class="size-16 self-center [image-rendering:pixelated]" src="/app-icon.svg" alt="" />
+    <AppLogo class="size-16 self-center" />
     <h1 class="text-center text-xl font-semibold">
       {dashboard ? t.auth_title() : t.unlock_title()}
     </h1>

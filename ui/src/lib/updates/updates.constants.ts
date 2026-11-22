@@ -16,8 +16,6 @@ export const UPDATE_TOAST_KEY = "update";
 
 export const UPDATE_NOTIFICATION_TAG = "update-available";
 
-export const APP_ICON_URL = "/app-icon.png";
-
 export enum BrowserPermission {
   DEFAULT = "default",
   GRANTED = "granted",

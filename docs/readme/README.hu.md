@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="../../ui/public/app-icon.svg" width="112" height="112" alt="A Twitch Miner logója">
+  <img src="../../ui/public/app-mark.svg" width="112" height="112" alt="A Twitch Miner logója">
 </p>
 
 <h1 align="center">Twitch Miner</h1>

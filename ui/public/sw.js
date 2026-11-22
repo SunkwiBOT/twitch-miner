@@ -1,7 +1,7 @@
 // ! Only the "no connection" screen is cached: everything else comes from the network, never old or private data.
 const CACHE = "offline";
 const OFFLINE_PAGE = "/offline.html";
-const KEPT = [OFFLINE_PAGE, "/offline.js", "/offline-texts.js", "/app-icon.svg", "/favicon.png"];
+const KEPT = [OFFLINE_PAGE, "/offline.js", "/offline-texts.js", "/app-mark.svg", "/favicon.png"];
 
 // ! 502-504: a reverse proxy answering for a server that is down.
 const PROXY_DOWN = new Set([502, 503, 504]);

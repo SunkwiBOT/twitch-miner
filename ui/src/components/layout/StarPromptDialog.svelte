@@ -7,6 +7,7 @@
   import Dialog from "../ui/Dialog.svelte";
   import ExternalButton from "../ui/ExternalButton.svelte";
   import TextButton from "../ui/TextButton.svelte";
+  import AppLogo from "../ui/AppLogo.svelte";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import { IconName } from "../../lib/icons.constants";
 
@@ -33,7 +34,7 @@
   onclose={close}
 >
   <div class="flex items-start gap-3">
-    <img class="size-12 shrink-0 [image-rendering:pixelated]" src="/app-icon.svg" alt="" />
+    <AppLogo class="size-12" />
     <p class="text-sm text-muted-foreground">{t.star_prompt_text()}</p>
   </div>
 

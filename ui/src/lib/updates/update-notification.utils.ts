@@ -5,8 +5,8 @@ import { t } from "../i18n/i18n.svelte";
 import { app } from "../state/app.svelte";
 import { recall, remember } from "../state/storage.utils";
 import { KEY_STORAGE_UPDATE_NOTIFIED } from "../state/storage.constants";
+import { APP_ICON_URL } from "../partners.constants";
 import {
-  APP_ICON_URL,
   BROWSER_PERMISSIONS,
   BrowserPermission,
   UPDATE_NOTIFICATION_TAG,

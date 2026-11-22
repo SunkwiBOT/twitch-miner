@@ -9,6 +9,7 @@
   import { toast } from "../../lib/state/toasts";
   import CopyButton from "../ui/CopyButton.svelte";
   import FormField from "../ui/FormField.svelte";
+  import AppLogo from "../ui/AppLogo.svelte";
   import TextButton from "../ui/TextButton.svelte";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import { CopyLayout, NOTICE_TONE_CLASSES, NoticeTone } from "../ui/ui.constants";
@@ -29,7 +30,7 @@
 
 <div class="grid h-full w-full place-items-center bg-background p-6">
   <div class="flex w-full max-w-150 flex-col gap-4 rounded-xl border bg-card p-7 shadow-lg">
-    <img class="size-16 self-center [image-rendering:pixelated]" src="/app-icon.svg" alt="" />
+    <AppLogo class="size-16 self-center" />
     <h1 class="text-center text-xl font-semibold">{t.startup_title()}</h1>
     <p class="text-center text-hint text-muted-foreground">{t.startup_text()}</p>
     <p
