@@ -1,3 +1,4 @@
 export const HISTORY_PAGE_SIZE = 100;
 export const HISTORY_SKELETON_ROWS = 8;
 export const HISTORY_MORE_SKELETON_ROWS = 2;
+export const HISTORY_EVENT_MIN_WIDTH_PX = 288;

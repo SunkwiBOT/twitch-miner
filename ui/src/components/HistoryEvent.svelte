@@ -82,7 +82,7 @@
       <TableCell>
         {#if event.account_id}
           <span
-            class="inline-flex max-w-40 min-w-32 items-center gap-1.5 whitespace-nowrap"
+            class="inline-flex max-w-40 items-center gap-1.5 whitespace-nowrap"
             title={accountName}
           >
             <Avatar url={owner?.avatar_url} name={accountName} size={AvatarSize.XS} />
@@ -93,7 +93,7 @@
         {/if}
       </TableCell>
     {/if}
-    <TableCell class="max-w-0 min-w-72 whitespace-normal">
+    <TableCell class="max-w-0 whitespace-normal">
       <span class="flex items-center gap-2.5">
         {@render eventPicture()}
         <span class="flex min-w-0 flex-col">
@@ -105,7 +105,7 @@
     <TableCell>
       {#if login}
         <span
-          class="inline-flex max-w-48 min-w-40 whitespace-nowrap"
+          class="inline-flex max-w-48 whitespace-nowrap"
           title={event.context.channel_name ?? login}
         >
           {@render channelLink(login, AvatarSize.MD)}

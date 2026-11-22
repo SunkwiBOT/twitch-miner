@@ -28,13 +28,13 @@
   import { shownEvent, unnamedChannels } from "../lib/events/shown.svelte";
   import { PagedFeed } from "../lib/feed/feed.svelte";
   import { t } from "../lib/i18n/i18n.svelte";
-  import { wideLayout } from "../lib/state/viewport.svelte";
   import { app } from "../lib/state/app.svelte";
   import { openTab, showTab } from "../lib/state/router";
   import { ToastKind } from "../lib/state/state.constants";
   import { toast } from "../lib/state/toasts";
   import { code } from "../lib/text.utils";
   import {
+    HISTORY_EVENT_MIN_WIDTH_PX,
     HISTORY_MORE_SKELETON_ROWS,
     HISTORY_PAGE_SIZE,
     HISTORY_SKELETON_ROWS,
@@ -149,6 +149,26 @@
   $effect(() => {
     ensureChannels(unnamedChannels(feed.items));
   });
+
+  let room = $state(0);
+  let table = $state<HTMLTableElement | null>(null);
+  let eventHead = $state<HTMLTableCellElement | null>(null);
+  // ! Every column but the event sizes to its content, so the table's need is measured while it shows and kept while the cards do.
+  let tableNeed = $state(0);
+  const tableFits = $derived(room >= tableNeed);
+
+  $effect(() => {
+    void shown;
+    void room;
+
+    if (table && eventHead) {
+      tableNeed = Math.ceil(
+        table.getBoundingClientRect().width -
+          eventHead.getBoundingClientRect().width +
+          HISTORY_EVENT_MIN_WIDTH_PX,
+      );
+    }
+  });
 </script>
 
 <div class="mb-3 flex flex-wrap items-center gap-2.5">
@@ -194,7 +214,13 @@
     <TableRow class="hover:bg-transparent">
       <TableHead class="pl-0">{t.journal_col_time()}</TableHead>
       {#if showAccount}<TableHead>{t.journal_col_account()}</TableHead>{/if}
-      <TableHead class="w-full">{t.journal_col_event()}</TableHead>
+      <TableHead
+        class="w-full"
+        style="min-width: {HISTORY_EVENT_MIN_WIDTH_PX}px"
+        bind:ref={eventHead}
+      >
+        {t.journal_col_event()}
+      </TableHead>
       <TableHead>{t.journal_col_channel()}</TableHead>
       <TableHead>{t.journal_col_type()}</TableHead>
       <TableHead>{t.journal_col_miner()}</TableHead>
@@ -233,38 +259,44 @@
 {/snippet}
 
 {#if feed.loading && feed.items.length === 0}
-  {#if wideLayout.current}
-    <Table class="text-hint">
-      {@render head()}
-      <TableBody>{@render skeleton(HISTORY_SKELETON_ROWS)}</TableBody>
-    </Table>
-  {:else}
-    <ul class="flex flex-col divide-y text-hint">{@render cardSkeleton(HISTORY_SKELETON_ROWS)}</ul>
-  {/if}
+  <div bind:clientWidth={room}>
+    {#if tableFits}
+      <Table class="text-hint" bind:ref={table}>
+        {@render head()}
+        <TableBody>{@render skeleton(HISTORY_SKELETON_ROWS)}</TableBody>
+      </Table>
+    {:else}
+      <ul class="flex flex-col divide-y text-hint">
+        {@render cardSkeleton(HISTORY_SKELETON_ROWS)}
+      </ul>
+    {/if}
+  </div>
 {:else if feed.items.length === 0 && feed.problem}
   <EmptyState title={t.history_load_failed()} text={feed.problem} icon={IconName.ALERT} />
 {:else if feed.items.length === 0}
   <EmptyState text={t.history_empty()} />
 {:else}
-  {#if wideLayout.current}
-    <Table class="text-hint">
-      {@render head()}
-      <TableBody>
+  <div bind:clientWidth={room}>
+    {#if tableFits}
+      <Table class="text-hint" bind:ref={table}>
+        {@render head()}
+        <TableBody>
+          {#each shown as event (event.id)}
+            <HistoryEvent {event} {showAccount} wide={true} />
+          {/each}
+          {#if feed.loadingMore}{@render skeleton(HISTORY_MORE_SKELETON_ROWS)}{/if}
+        </TableBody>
+      </Table>
+    {:else}
+      <!-- ! Narrower than the table's columns, it would scroll sideways or cut its badges: one card per event. -->
+      <ul class="flex flex-col divide-y text-hint">
         {#each shown as event (event.id)}
-          <HistoryEvent {event} {showAccount} wide={true} />
+          <HistoryEvent {event} {showAccount} wide={false} />
         {/each}
-        {#if feed.loadingMore}{@render skeleton(HISTORY_MORE_SKELETON_ROWS)}{/if}
-      </TableBody>
-    </Table>
-  {:else}
-    <!-- ! On a phone the table's six columns leave the event a few letters: one card per event. -->
-    <ul class="flex flex-col divide-y text-hint">
-      {#each shown as event (event.id)}
-        <HistoryEvent {event} {showAccount} wide={false} />
-      {/each}
-      {#if feed.loadingMore}{@render cardSkeleton(HISTORY_MORE_SKELETON_ROWS)}{/if}
-    </ul>
-  {/if}
+        {#if feed.loadingMore}{@render cardSkeleton(HISTORY_MORE_SKELETON_ROWS)}{/if}
+      </ul>
+    {/if}
+  </div>
   <LoadMoreSentinel
     label={t.history_load_more()}
     busy={feed.loadingMore}
