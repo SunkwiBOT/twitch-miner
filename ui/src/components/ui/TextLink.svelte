@@ -7,6 +7,8 @@
   import { linkPair } from "./link-pair.svelte";
   import { nameListKind } from "./name-list.svelte";
   import LinkText from "./LinkText.svelte";
+  import { INLINE_PICTURE_CLASSES } from "./ui.constants";
+  import { inRunningText } from "./running-text.svelte";
   import {
     LINK_SIZES,
     LinkMark,
@@ -38,6 +40,7 @@
 
   const pair = linkPair();
   const listKind = nameListKind();
+  const running = inRunningText();
   const mark = $derived.by(() => {
     if (listKind === NameListKind.WRAP || !("url" in target)) {
       return LinkMark.NONE;
@@ -57,13 +60,19 @@
     cn(
       "group/link min-w-0 text-left",
       LINK_SIZES[size].text,
-      fit ? "inline-flex max-w-full items-center gap-1.5 align-bottom" : "inline",
+      fit &&
+        (running
+          ? "inline-flex max-w-full items-baseline gap-1.5 align-baseline"
+          : "inline-flex max-w-full items-center gap-1.5 align-bottom"),
+      !fit && "inline",
     ),
   );
 </script>
 
 {#snippet content()}
-  {#if lead}{@render lead()}{/if}<LinkText {text} {mark} {size} {tone} {rest} {fit} />
+  {#if lead}<span class={running ? INLINE_PICTURE_CLASSES : "inline-flex shrink-0"}>
+      {@render lead()}
+    </span>{/if}<LinkText {text} {mark} {size} {tone} {rest} {fit} />
 {/snippet}
 
 {#if "url" in target}

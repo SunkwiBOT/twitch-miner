@@ -971,25 +971,25 @@
   "bulk_applied_title": "Accounts updated",
   "bulk_apply": "Apply ({changeCount})",
   "bulk_apply_others": "Apply to other accounts",
-  "bulk_changes": "{formattedCount} changes",
+  "bulk_changes": "{formattedCount} changes saved on {account}",
   "bulk_hint": "The changes made on {account} ({changeCount}) are made again on the ticked accounts. Each account keeps the rest of its settings.",
   "bulk_hint_chosen": "The changes made on the chosen accounts ({changeCount}) are made again on the ticked accounts. Each account keeps the rest of its settings.",
   "bulk_no_accounts": "No other account.",
   "bulk_nothing_to_change": "Nothing to change on this account",
   "bulk_title": "Apply to other accounts",
-  "change_campaign_moved": "{campaign} moved successfully",
-  "change_copied_drops": "Drops settings of {sourceAccount} copied successfully",
-  "change_copied_points": "Points settings of {sourceAccount} copied successfully",
-  "change_ignored": "Ignored successfully: {campaignOrReward}",
-  "change_unignored": "Mined again: {campaignOrReward}",
-  "change_settings": "Settings saved successfully",
-  "change_streamer_added": "{streamer} added successfully",
-  "change_streamer_disabled": "{streamer} paused successfully",
-  "change_streamer_enabled": "{streamer} enabled successfully",
-  "change_streamer_edited": "Options of {streamer} saved successfully",
-  "change_streamer_moved": "{streamer} moved successfully",
-  "change_streamer_removed": "{streamer} removed successfully",
-  "change_streamers_imported": "Streamers imported successfully: {streamerCount}",
+  "change_campaign_moved": "Campaign moved",
+  "change_copied_drops": "Drops settings copied",
+  "change_copied_points": "Points settings copied",
+  "change_ignored": "Ignored",
+  "change_unignored": "Mined again",
+  "change_settings": "Settings saved",
+  "change_streamer_added": "Streamer added",
+  "change_streamer_disabled": "Streamer paused",
+  "change_streamer_enabled": "Streamer enabled",
+  "change_streamer_edited": "Streamer options saved",
+  "change_streamer_moved": "Streamer moved",
+  "change_streamer_removed": "Streamer removed",
+  "change_streamers_imported": "Streamers imported",
   "common_back": "Back",
   "common_edit": "Edit",
   "common_next": "Next",
@@ -1120,7 +1120,7 @@
   "accounts_stats_bets": "Bets won / lost: {won} / {lost}",
   "accounts_stats_bonuses": "Bonus chests: {bonusCount}",
   "catalogue_fetched": "fetched {fetchedTime}, again every {minutes} min",
-  "change_order_reset": "Automatic order restored successfully",
+  "change_order_reset": "Automatic order restored",
   "event_kind_goal_contributed": "Community goal",
   "ev_goal_contributed": [
     {
@@ -1281,7 +1281,7 @@
   "queue_hint_blocked_set_aside": "{minutes} minutes of real watching with no progress set it aside; any progress brings it back right away.",
   "badge_hint_linked": "Publisher account linked: the drops can be claimed",
   "badge_hint_not_linked": "Link the publisher account to claim the drops",
-  "badge_hint_link_unknown": "Twitch doesn't say whether the publisher account is linked; the claim may wait for the link",
+  "badge_hint_link_unknown": "Twitch doesn't say yet whether the publisher account is linked. It does once the campaign starts, after a few minutes of watching.",
   "badge_hint_claimed": "Already in your Twitch inventory",
   "badge_hint_owned": "This account already has this badge: the miner does not mine it",
   "badge_hint_ready": "Earned: it only needs to be claimed",
@@ -1387,7 +1387,7 @@
   "drops_streamers_first": "My streamers first for Drops and badges",
   "drops_streamers_first_hint": "For a campaign or a badge, a channel of your list that counts for it (the right category with Drops, or a category of the Twitch event) comes before an unknown channel: Drops, badges and points in the same place.",
   "points_streamer_defaults": "Default options for new streamers",
-  "change_streamer_defaults": "Default options for new streamers saved successfully",
+  "change_streamer_defaults": "Default options saved",
   "streamer_predictions_timing": "When to bet",
   "bet_timing_at_open": "As soon as voting opens",
   "bet_timing_at_open_hint": "Bets as soon as voting opens: the strategies have little data then.",
@@ -1423,7 +1423,7 @@
   "points_group_hint": "Only the options you change apply to these streamers; an option marked “Mixed” keeps each one's own value until you change it.",
   "streamer_option_mixed": "Mixed",
   "setting_with_mark": "{option} ({optionNote})",
-  "change_streamers_edited": "Streamers edited successfully: {streamerCount}",
+  "change_streamers_edited": "Streamers edited",
   "points_defaults_offer_title": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -1800,9 +1800,9 @@
   "campaign_selecting": "Adding…",
   "campaign_unselect": "Remove from my selection",
   "campaign_unselecting": "Removing…",
-  "change_selected": "Added to the selection: {campaignOrReward}",
-  "change_unselected": "Removed from the selection: {campaignOrReward}",
-  "change_prioritized": "Placed at the top of the mining order: {campaignOrReward}",
+  "change_selected": "Added to the selection",
+  "change_unselected": "Removed from the selection",
+  "change_prioritized": "Placed at the top of the mining order",
   "selection_not_selected": "Not selected",
   "badges_not_selected_hint": "“Only my selection” is on: mark this badge with a star to mine it.",
   "account_badges_mining_off": "Badges are switched off in this account's “What to mine, in order”: they are shown, not mined.",
@@ -1814,5 +1814,52 @@
   "badge_hint_quest_not_minable": "Twitch names no category or channel the miner can watch for it",
   "account_badges_not_mined": "Not mined",
   "account_badges_not_mined_hint": "Shown, not mined: you must first subscribe or gift a subscription on a channel in the category, another badge is needed first, or Twitch names no channel the miner can watch.",
-  "export_counts_count_one": "{claimCount} claimed"
+  "export_counts_count_one": "{claimCount} claimed",
+  "change_settings_detail": "{account}'s settings changed",
+  "change_streamer_defaults_detail": "New streamers added to {account} will start with these options",
+  "change_order_reset_detail": "{account}'s mining order follows the automatic order again",
+  "change_campaign_moved_detail": "{campaign} moved in the mining order of {account}",
+  "change_ignored_detail": "{campaign} will no longer be mined on {account}",
+  "change_unignored_detail": "{campaign} will be mined again on {account}",
+  "change_selected_detail": "{campaign} was added to the selection of {account}",
+  "change_unselected_detail": "{campaign} was removed from the selection of {account}",
+  "change_prioritized_detail": "{campaign} is now mined first on {account}",
+  "change_streamer_added_detail": "{streamer} was added to {account}'s list",
+  "change_streamer_edited_detail": "{streamer}'s options were saved for {account}",
+  "change_streamer_removed_detail": "{streamer} was removed from {account}'s list",
+  "change_streamer_enabled_detail": "{streamer} is watched again for {account}",
+  "change_streamer_disabled_detail": "{streamer} is paused for {account}",
+  "change_streamer_moved_detail": "{streamer} was moved to position {position} in {account}'s list",
+  "change_copied_drops_detail": "{sourceAccount}'s Drops settings were copied to {account}",
+  "change_copied_points_detail": "{sourceAccount}'s points settings were copied to {account}",
+  "change_streamers_edited_detail": [
+    {
+      "declarations": [
+        "input count",
+        "input streamerCount",
+        "input account",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{streamerCount} streamer edited in {account}'s list",
+        "countPlural=*": "{streamerCount} streamers edited in {account}'s list"
+      }
+    }
+  ],
+  "change_streamers_imported_detail": [
+    {
+      "declarations": [
+        "input count",
+        "input streamerCount",
+        "input account",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{streamerCount} streamer imported into {account}'s list",
+        "countPlural=*": "{streamerCount} streamers imported into {account}'s list"
+      }
+    }
+  ]
 }

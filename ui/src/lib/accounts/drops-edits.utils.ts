@@ -1,13 +1,13 @@
 import type { AccountSettingsType } from "../bindings/AccountSettingsType";
 import type { AccountSnapshotType } from "../bindings/AccountSnapshotType";
+import type { CampaignType } from "../bindings/CampaignType";
 import type { DropsSettingsType } from "../bindings/DropsSettingsType";
 import type { GameEntryType } from "../bindings/GameEntryType";
 import { campaignOf } from "../catalogue/catalogue.svelte";
 import { gameEntryKey, gameKeysLike, sameGame } from "../catalogue/games.utils";
-import { t } from "../i18n/i18n.svelte";
-import { changedWhenSaved } from "../state/bulk.svelte";
+import { accountChange, campaignChange, changedWhenSaved } from "../state/bulk.svelte";
 import { updateAccountSettings } from "../state/account-settings.svelte";
-import { strong } from "../text.utils";
+import { ChangeKind } from "../state/state.constants";
 import type { BadgesList, DropsGameList, DropsList } from "./accounts.constants";
 import {
   applyDelta,
@@ -37,7 +37,7 @@ export const editDropsList = (
   void changedWhenSaved(
     saveDrops(account, (drops) => (drops[field] = next)),
     account.id,
-    t.change_settings(),
+    accountChange(ChangeKind.SETTINGS),
     (settings) => {
       settings.drops[field] = applyDelta(settings.drops[field], delta);
     },
@@ -61,7 +61,7 @@ const editGames = (
   void changedWhenSaved(
     updateAccountSettings(account.id, (settings) => list.write(settings, next)),
     account.id,
-    t.change_settings(),
+    accountChange(ChangeKind.SETTINGS),
     (settings) => {
       const current = list.read(settings);
 
@@ -110,7 +110,7 @@ export const editBadgesList = (
   void changedWhenSaved(
     updateAccountSettings(account.id, (settings) => (settings.badges[field] = next)),
     account.id,
-    t.change_settings(),
+    accountChange(ChangeKind.SETTINGS),
     (settings) => {
       settings.badges[field] = applyDelta(settings.badges[field], delta);
     },
@@ -129,9 +129,11 @@ export const setSelected = (
   void changedWhenSaved(
     updateAccountSettings(account.id, apply),
     account.id,
-    selected
-      ? t.change_selected({ campaignOrReward: strong(name) })
-      : t.change_unselected({ campaignOrReward: strong(name) }),
+    campaignChange(
+      selected ? ChangeKind.SELECTED : ChangeKind.UNSELECTED,
+      name,
+      campaignOf(account, campaignId),
+    ),
     apply,
   );
 };
@@ -146,7 +148,7 @@ export const movePriorityGame = (
   void changedWhenSaved(
     saveDrops(account, (drops) => (drops.priority_games = list)),
     account.id,
-    t.change_settings(),
+    accountChange(ChangeKind.SETTINGS),
     (settings) => {
       const current = settings.drops.priority_games;
       const keys = gameKeysLike(current, list);
@@ -164,14 +166,14 @@ export const movePriorityGame = (
 const reorderCampaigns = (account: AccountSnapshotType, order: string[], id: string): void => {
   const place = placeOf(order, id);
 
-  const campaign = campaignOf(account, id)?.name ?? id;
+  const campaign = campaignOf(account, id);
 
   void changedWhenSaved(
     saveDrops(account, (drops) => {
       drops.campaign_order = pinnedPrefix(order, [...drops.campaign_order, id]);
     }),
     account.id,
-    t.change_campaign_moved({ campaign: strong(campaign) }),
+    campaignChange(ChangeKind.CAMPAIGN_MOVED, campaign?.name ?? id, campaign),
     (settings, target) => {
       const next = moveLike(miningOrder(settings, target), id, place);
 
@@ -197,6 +199,7 @@ export const reorderWithin = (account: AccountSnapshotType, part: string[], id: 
 
 export const setBadgesIgnored = (
   account: AccountSnapshotType,
+  campaign: CampaignType | null,
   dropIds: string[],
   name: string,
 ): void => {
@@ -209,7 +212,7 @@ export const setBadgesIgnored = (
   void changedWhenSaved(
     updateAccountSettings(account.id, apply),
     account.id,
-    t.change_ignored({ campaignOrReward: strong(name) }),
+    campaignChange(ChangeKind.IGNORED, name, campaign),
     apply,
   );
 };
@@ -218,7 +221,7 @@ export const resetQueue = (account: AccountSnapshotType): void => {
   void changedWhenSaved(
     saveDrops(account, (drops) => (drops.campaign_order = [])),
     account.id,
-    t.change_order_reset(),
+    accountChange(ChangeKind.ORDER_RESET),
     (settings) => (settings.drops.campaign_order = []),
   );
 };
@@ -233,9 +236,10 @@ export const setIgnored = (
       ? setDropIgnoredIn(settings, item.id, ignored)
       : setCampaignIgnoredIn(settings, item.id, ignored);
 
-  const text = ignored
-    ? t.change_ignored({ campaignOrReward: strong(item.name) })
-    : t.change_unignored({ campaignOrReward: strong(item.name) });
-
-  void changedWhenSaved(updateAccountSettings(account.id, apply), account.id, text, apply);
+  void changedWhenSaved(
+    updateAccountSettings(account.id, apply),
+    account.id,
+    campaignChange(ignored ? ChangeKind.IGNORED : ChangeKind.UNIGNORED, item.name, item.campaign),
+    apply,
+  );
 };

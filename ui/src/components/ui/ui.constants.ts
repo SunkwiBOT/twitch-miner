@@ -51,3 +51,7 @@ export const STRETCHED_BUTTON_CLASSES =
 
 // ! Clicks between the raised children still reach the stretched button under them.
 export const RAISED_CLASSES = "pointer-events-none relative z-10 *:pointer-events-auto";
+
+// ! A picture beside a name in running text: its bottom on the baseline, then lowered so its centre meets the x-height's, leaving the line's baseline alone.
+export const INLINE_PICTURE_CLASSES =
+  "inline-flex shrink-0 self-baseline translate-y-[calc(50%-0.3em)]";

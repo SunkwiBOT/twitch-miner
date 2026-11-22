@@ -927,25 +927,25 @@
   "bulk_applied_title": "Οι λογαριασμοί ενημερώθηκαν",
   "bulk_apply": "Εφαρμογή ({changeCount})",
   "bulk_apply_others": "Εφαρμογή σε άλλους λογαριασμούς",
-  "bulk_changes": "{formattedCount} αλλαγές",
+  "bulk_changes": "{formattedCount} αλλαγές αποθηκεύτηκαν στο {account}",
   "bulk_hint": "Οι αλλαγές του {account} ({changeCount}) επαναλαμβάνονται στους επιλεγμένους λογαριασμούς. Κάθε λογαριασμός κρατά τις υπόλοιπες ρυθμίσεις του.",
   "bulk_hint_chosen": "Οι αλλαγές των λογαριασμών που διαλέξατε ({changeCount}) επαναλαμβάνονται στους επιλεγμένους λογαριασμούς. Κάθε λογαριασμός κρατά τις υπόλοιπες ρυθμίσεις του.",
   "bulk_no_accounts": "Κανένας άλλος λογαριασμός.",
   "bulk_nothing_to_change": "Τίποτα για αλλαγή σε αυτόν τον λογαριασμό",
   "bulk_title": "Εφαρμογή σε άλλους λογαριασμούς",
-  "change_campaign_moved": "Η καμπάνια {campaign} μετακινήθηκε επιτυχώς",
-  "change_copied_drops": "Οι ρυθμίσεις Drops του {sourceAccount} αντιγράφηκαν επιτυχώς",
-  "change_copied_points": "Οι ρυθμίσεις πόντων του {sourceAccount} αντιγράφηκαν επιτυχώς",
-  "change_ignored": "Παραβλέφθηκε επιτυχώς: {campaignOrReward}",
-  "change_unignored": "Εξόρυξη ξανά: {campaignOrReward}",
-  "change_settings": "Οι ρυθμίσεις αποθηκεύτηκαν επιτυχώς",
-  "change_streamer_added": "Το κανάλι {streamer} προστέθηκε επιτυχώς",
-  "change_streamer_disabled": "Το κανάλι {streamer} τέθηκε σε παύση επιτυχώς",
-  "change_streamer_enabled": "Το κανάλι {streamer} ενεργοποιήθηκε επιτυχώς",
-  "change_streamer_edited": "Οι επιλογές για {streamer} αποθηκεύτηκαν επιτυχώς",
-  "change_streamer_moved": "Το κανάλι {streamer} μετακινήθηκε επιτυχώς",
-  "change_streamer_removed": "Το κανάλι {streamer} αφαιρέθηκε επιτυχώς",
-  "change_streamers_imported": "Επιτυχής εισαγωγή streamers: {streamerCount}",
+  "change_campaign_moved": "Η καμπάνια μετακινήθηκε",
+  "change_copied_drops": "Οι ρυθμίσεις Drops αντιγράφηκαν",
+  "change_copied_points": "Οι ρυθμίσεις πόντων αντιγράφηκαν",
+  "change_ignored": "Αγνοείται",
+  "change_unignored": "Εξορύσσεται ξανά",
+  "change_settings": "Οι ρυθμίσεις αποθηκεύτηκαν",
+  "change_streamer_added": "Το κανάλι προστέθηκε",
+  "change_streamer_disabled": "Το κανάλι τέθηκε σε παύση",
+  "change_streamer_enabled": "Το κανάλι ενεργοποιήθηκε",
+  "change_streamer_edited": "Οι επιλογές καναλιού αποθηκεύτηκαν",
+  "change_streamer_moved": "Το κανάλι μετακινήθηκε",
+  "change_streamer_removed": "Το κανάλι αφαιρέθηκε",
+  "change_streamers_imported": "Τα κανάλια εισήχθησαν",
   "common_back": "Πίσω",
   "common_edit": "Επεξεργασία",
   "common_next": "Επόμενο",
@@ -1076,7 +1076,7 @@
   "accounts_stats_bets": "Στοιχήματα κερδισμένα / χαμένα: {won} / {lost}",
   "accounts_stats_bonuses": "Μπόνους σεντούκια: {bonusCount}",
   "catalogue_fetched": "λήψη {fetchedTime}, ξανά κάθε {minutes} λεπ.",
-  "change_order_reset": "Η αυτόματη σειρά επανήλθε επιτυχώς",
+  "change_order_reset": "Η αυτόματη σειρά επανήλθε",
   "event_kind_goal_contributed": "Στόχος κοινότητας",
   "ev_goal_contributed": [
     {
@@ -1237,7 +1237,7 @@
   "queue_hint_blocked_set_aside": "{minutes} λεπτά πραγματικής παρακολούθησης χωρίς πρόοδο την έθεσαν στην άκρη· οποιαδήποτε πρόοδος την επαναφέρει αμέσως.",
   "badge_hint_linked": "Ο λογαριασμός εκδότη συνδέθηκε: τα drops μπορούν να εξαργυρωθούν",
   "badge_hint_not_linked": "Συνδέστε τον λογαριασμό εκδότη για να εξαργυρώσετε τα drops",
-  "badge_hint_link_unknown": "Το Twitch δεν λέει αν ο λογαριασμός του εκδότη είναι συνδεδεμένος· η εξαργύρωση ίσως περιμένει τη σύνδεση",
+  "badge_hint_link_unknown": "Το Twitch δεν λέει ακόμη αν ο λογαριασμός του εκδότη είναι συνδεδεμένος. Το λέει μόλις ξεκινήσει η καμπάνια, μετά από λίγα λεπτά παρακολούθησης.",
   "badge_hint_claimed": "Ήδη στο απόθεμά σας στο Twitch",
   "badge_hint_owned": "Αυτός ο λογαριασμός έχει ήδη αυτό το σήμα: ο miner δεν το εξορύσσει",
   "badge_hint_ready": "Κερδήθηκε: μένει μόνο η εξαργύρωση",
@@ -1343,7 +1343,7 @@
   "drops_streamers_first": "Πρώτα οι streamers μου για Drops και σήματα",
   "drops_streamers_first_hint": "Για μια καμπάνια ή ένα σήμα, ένα κανάλι της λίστας σας που μετράει γι' αυτό (η σωστή κατηγορία με Drops ή μια κατηγορία του συμβάντος του Twitch) προηγείται από ένα άγνωστο κανάλι: Drops, σήματα και πόντοι στο ίδιο μέρος.",
   "points_streamer_defaults": "Προεπιλεγμένες επιλογές για τους νέους streamers",
-  "change_streamer_defaults": "Οι προεπιλεγμένες επιλογές για τους νέους streamers αποθηκεύτηκαν επιτυχώς",
+  "change_streamer_defaults": "Οι προεπιλεγμένες επιλογές αποθηκεύτηκαν",
   "streamer_predictions_timing": "Πότε να ποντάρει",
   "bet_timing_at_open": "Μόλις ανοίξει η ψηφοφορία",
   "bet_timing_at_open_hint": "Ποντάρει μόλις ανοίξει η ψηφοφορία: οι στρατηγικές έχουν τότε λίγα δεδομένα.",
@@ -1379,7 +1379,7 @@
   "points_group_hint": "Εφαρμόζονται μόνο οι επιλογές που αλλάζετε· μια επιλογή με την ένδειξη «Μικτό» κρατά την τιμή κάθε streamer μέχρι να την αλλάξετε.",
   "streamer_option_mixed": "Μικτό",
   "setting_with_mark": "{option} ({optionNote})",
-  "change_streamers_edited": "Επιτυχής επεξεργασία streamers: {streamerCount}",
+  "change_streamers_edited": "Τα κανάλια τροποποιήθηκαν",
   "points_defaults_offer_title": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -1754,9 +1754,9 @@
   "campaign_selecting": "Προσθήκη…",
   "campaign_unselect": "Αφαίρεση από την επιλογή μου",
   "campaign_unselecting": "Αφαίρεση…",
-  "change_selected": "Προστέθηκε στην επιλογή: {campaignOrReward}",
-  "change_unselected": "Αφαιρέθηκε από την επιλογή: {campaignOrReward}",
-  "change_prioritized": "Τοποθετήθηκε στην κορυφή της σειράς εξόρυξης: {campaignOrReward}",
+  "change_selected": "Προστέθηκε στην επιλογή",
+  "change_unselected": "Αφαιρέθηκε από την επιλογή",
+  "change_prioritized": "Μπήκε στην κορυφή της σειράς εξόρυξης",
   "selection_not_selected": "Μη επιλεγμένο",
   "badges_not_selected_hint": "Το «Μόνο η επιλογή μου» είναι ενεργό: βάλτε αστέρι σε αυτό το σήμα για να εξορυχθεί.",
   "account_badges_mining_off": "Τα σήματα είναι απενεργοποιημένα στο «Τι να εξορύσσεται, με σειρά» αυτού του λογαριασμού: εμφανίζονται, αλλά δεν εξορύσσονται.",
@@ -1814,5 +1814,52 @@
   "settings_discord_test": "Δοκιμή",
   "settings_telegram_test": "Δοκιμή",
   "settings_webhook_test": "Δοκιμή",
-  "export_counts_count_one": "{claimCount} παραλήφθηκε"
+  "export_counts_count_one": "{claimCount} παραλήφθηκε",
+  "change_settings_detail": "Οι ρυθμίσεις του {account} άλλαξαν",
+  "change_streamer_defaults_detail": "Τα νέα κανάλια του {account} θα ξεκινούν με αυτές τις επιλογές",
+  "change_order_reset_detail": "Η σειρά εξόρυξης του {account} ακολουθεί ξανά την αυτόματη σειρά",
+  "change_campaign_moved_detail": "Η καμπάνια {campaign} μετακινήθηκε στη σειρά εξόρυξης του {account}",
+  "change_ignored_detail": "Η καμπάνια {campaign} δεν θα εξορύσσεται πια στο {account}",
+  "change_unignored_detail": "Η καμπάνια {campaign} θα εξορύσσεται ξανά στο {account}",
+  "change_selected_detail": "Η καμπάνια {campaign} προστέθηκε στην επιλογή του {account}",
+  "change_unselected_detail": "Η καμπάνια {campaign} αφαιρέθηκε από την επιλογή του {account}",
+  "change_prioritized_detail": "Η καμπάνια {campaign} εξορύσσεται πλέον πρώτη στο {account}",
+  "change_streamer_added_detail": "Το κανάλι {streamer} προστέθηκε στη λίστα του {account}",
+  "change_streamer_edited_detail": "Οι επιλογές του {streamer} αποθηκεύτηκαν για το {account}",
+  "change_streamer_removed_detail": "Το κανάλι {streamer} αφαιρέθηκε από τη λίστα του {account}",
+  "change_streamer_enabled_detail": "Το κανάλι {streamer} παρακολουθείται ξανά για το {account}",
+  "change_streamer_disabled_detail": "Το κανάλι {streamer} είναι σε παύση για το {account}",
+  "change_streamer_moved_detail": "Το κανάλι {streamer} μετακινήθηκε στη θέση {position} στη λίστα του {account}",
+  "change_copied_drops_detail": "Οι ρυθμίσεις Drops του {sourceAccount} αντιγράφηκαν στο {account}",
+  "change_copied_points_detail": "Οι ρυθμίσεις πόντων του {sourceAccount} αντιγράφηκαν στο {account}",
+  "change_streamers_edited_detail": [
+    {
+      "declarations": [
+        "input count",
+        "input streamerCount",
+        "input account",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{streamerCount} κανάλι τροποποιήθηκε στη λίστα του {account}",
+        "countPlural=*": "{streamerCount} κανάλια τροποποιήθηκαν στη λίστα του {account}"
+      }
+    }
+  ],
+  "change_streamers_imported_detail": [
+    {
+      "declarations": [
+        "input count",
+        "input streamerCount",
+        "input account",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{streamerCount} κανάλι εισήχθη στη λίστα του {account}",
+        "countPlural=*": "{streamerCount} κανάλια εισήχθησαν στη λίστα του {account}"
+      }
+    }
+  ]
 }

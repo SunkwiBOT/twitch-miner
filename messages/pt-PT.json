@@ -927,25 +927,25 @@
   "bulk_applied_title": "Contas atualizadas",
   "bulk_apply": "Aplicar ({changeCount})",
   "bulk_apply_others": "Aplicar a outras contas",
-  "bulk_changes": "{formattedCount} alterações",
+  "bulk_changes": "{formattedCount} alterações guardadas em {account}",
   "bulk_hint": "As alterações feitas em {account} ({changeCount}) são repetidas nas contas assinaladas. Cada conta mantém o resto das suas definições.",
   "bulk_hint_chosen": "As alterações feitas nas contas escolhidas ({changeCount}) são repetidas nas contas assinaladas. Cada conta mantém o resto das suas definições.",
   "bulk_no_accounts": "Nenhuma outra conta.",
   "bulk_nothing_to_change": "Nada a alterar nesta conta",
   "bulk_title": "Aplicar a outras contas",
-  "change_campaign_moved": "{campaign} movida com sucesso",
-  "change_copied_drops": "Definições de Drops de {sourceAccount} copiadas com sucesso",
-  "change_copied_points": "Definições de pontos de {sourceAccount} copiadas com sucesso",
-  "change_ignored": "Ignorado com sucesso: {campaignOrReward}",
-  "change_unignored": "Volta a ser minerado: {campaignOrReward}",
-  "change_settings": "Definições guardadas com sucesso",
-  "change_streamer_added": "{streamer} adicionado com sucesso",
-  "change_streamer_disabled": "{streamer} colocado em pausa com sucesso",
-  "change_streamer_enabled": "{streamer} ativado com sucesso",
-  "change_streamer_edited": "Opções de {streamer} guardadas com sucesso",
-  "change_streamer_moved": "{streamer} movido com sucesso",
-  "change_streamer_removed": "{streamer} removido com sucesso",
-  "change_streamers_imported": "Streamers importados com sucesso: {streamerCount}",
+  "change_campaign_moved": "Campanha movida",
+  "change_copied_drops": "Definições de Drops copiadas",
+  "change_copied_points": "Definições de pontos copiadas",
+  "change_ignored": "Ignorado",
+  "change_unignored": "Minerado de novo",
+  "change_settings": "Definições guardadas",
+  "change_streamer_added": "Streamer adicionado",
+  "change_streamer_disabled": "Streamer em pausa",
+  "change_streamer_enabled": "Streamer ativado",
+  "change_streamer_edited": "Opções do streamer guardadas",
+  "change_streamer_moved": "Streamer movido",
+  "change_streamer_removed": "Streamer removido",
+  "change_streamers_imported": "Streamers importados",
   "common_back": "Voltar",
   "common_edit": "Editar",
   "common_next": "Seguinte",
@@ -1076,7 +1076,7 @@
   "accounts_stats_bets": "Apostas ganhas / perdidas: {won} / {lost}",
   "accounts_stats_bonuses": "Baús de bónus: {bonusCount}",
   "catalogue_fetched": "obtido {fetchedTime}, de novo a cada {minutes} min",
-  "change_order_reset": "Ordem automática reposta com sucesso",
+  "change_order_reset": "Ordem automática reposta",
   "event_kind_goal_contributed": "Meta da comunidade",
   "ev_goal_contributed": [
     {
@@ -1237,7 +1237,7 @@
   "queue_hint_blocked_set_aside": "{minutes} minutos de visualização real sem progresso puseram-na de lado; qualquer progresso traz-a de volta de imediato.",
   "badge_hint_linked": "Conta da editora ligada: os drops podem ser resgatados",
   "badge_hint_not_linked": "Ligue a conta da editora para resgatar os drops",
-  "badge_hint_link_unknown": "A Twitch não indica se a conta da editora está ligada; o resgate pode esperar pela ligação",
+  "badge_hint_link_unknown": "A Twitch ainda não diz se a conta do editor está associada. Di-lo assim que a campanha começa, após alguns minutos a ver.",
   "badge_hint_claimed": "Já está no seu inventário da Twitch",
   "badge_hint_owned": "Esta conta já tem este emblema: o minerador não o minera",
   "badge_hint_ready": "Ganho: só falta resgatar",
@@ -1343,7 +1343,7 @@
   "drops_streamers_first": "Os meus streamers primeiro para os Drops e os emblemas",
   "drops_streamers_first_hint": "Numa campanha ou num emblema, um canal da sua lista que conta para ele (a categoria certa com Drops ou uma categoria do evento da Twitch) vem antes de um canal desconhecido: Drops, emblemas e pontos no mesmo sítio.",
   "points_streamer_defaults": "Opções predefinidas para novos streamers",
-  "change_streamer_defaults": "Opções predefinidas para novos streamers guardadas com sucesso",
+  "change_streamer_defaults": "Opções predefinidas guardadas",
   "streamer_predictions_timing": "Quando apostar",
   "bet_timing_at_open": "Assim que a votação abrir",
   "bet_timing_at_open_hint": "Aposta assim que a votação abre: as estratégias têm então poucos dados.",
@@ -1379,7 +1379,7 @@
   "points_group_hint": "Só as opções que alterar se aplicam a estes streamers; uma opção marcada como «Misto» mantém o valor de cada um até a alterar.",
   "streamer_option_mixed": "Misto",
   "setting_with_mark": "{option} ({optionNote})",
-  "change_streamers_edited": "Streamers editados com sucesso: {streamerCount}",
+  "change_streamers_edited": "Streamers editados",
   "points_defaults_offer_title": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -1754,9 +1754,9 @@
   "campaign_selecting": "A adicionar…",
   "campaign_unselect": "Remover da minha seleção",
   "campaign_unselecting": "A remover…",
-  "change_selected": "Adicionado à seleção: {campaignOrReward}",
-  "change_unselected": "Removido da seleção: {campaignOrReward}",
-  "change_prioritized": "Colocado no topo da ordem de mineração: {campaignOrReward}",
+  "change_selected": "Adicionado à seleção",
+  "change_unselected": "Removido da seleção",
+  "change_prioritized": "Colocado no topo da ordem de mineração",
   "selection_not_selected": "Não selecionada",
   "badges_not_selected_hint": "«Só a minha seleção» está ativado: marque este emblema com uma estrela para o minerar.",
   "account_badges_mining_off": "Os emblemas estão desativados em «O que minerar, por ordem» desta conta: são apresentados, mas não são minerados.",
@@ -1814,5 +1814,52 @@
   "settings_discord_test": "Testar",
   "settings_telegram_test": "Testar",
   "settings_webhook_test": "Testar",
-  "export_counts_count_one": "{claimCount} reclamado"
+  "export_counts_count_one": "{claimCount} reclamado",
+  "change_settings_detail": "As definições de {account} foram alteradas",
+  "change_streamer_defaults_detail": "Os novos streamers de {account} começam com estas opções",
+  "change_order_reset_detail": "A ordem de mineração de {account} volta a seguir a ordem automática",
+  "change_campaign_moved_detail": "{campaign} foi movida na ordem de mineração de {account}",
+  "change_ignored_detail": "{campaign} deixará de ser minerada em {account}",
+  "change_unignored_detail": "{campaign} voltará a ser minerada em {account}",
+  "change_selected_detail": "{campaign} foi adicionada à seleção de {account}",
+  "change_unselected_detail": "{campaign} foi removida da seleção de {account}",
+  "change_prioritized_detail": "{campaign} passa a ser minerada primeiro em {account}",
+  "change_streamer_added_detail": "{streamer} foi adicionado à lista de {account}",
+  "change_streamer_edited_detail": "As opções de {streamer} foram guardadas para {account}",
+  "change_streamer_removed_detail": "{streamer} foi removido da lista de {account}",
+  "change_streamer_enabled_detail": "{streamer} volta a ser seguido para {account}",
+  "change_streamer_disabled_detail": "{streamer} está em pausa para {account}",
+  "change_streamer_moved_detail": "{streamer} foi movido para a posição {position} na lista de {account}",
+  "change_copied_drops_detail": "Definições de Drops de {sourceAccount} copiadas para {account}",
+  "change_copied_points_detail": "Definições de pontos de {sourceAccount} copiadas para {account}",
+  "change_streamers_edited_detail": [
+    {
+      "declarations": [
+        "input count",
+        "input streamerCount",
+        "input account",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{streamerCount} streamer editado na lista de {account}",
+        "countPlural=*": "{streamerCount} streamers editados na lista de {account}"
+      }
+    }
+  ],
+  "change_streamers_imported_detail": [
+    {
+      "declarations": [
+        "input count",
+        "input streamerCount",
+        "input account",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{streamerCount} streamer importado para a lista de {account}",
+        "countPlural=*": "{streamerCount} streamers importados para a lista de {account}"
+      }
+    }
+  ]
 }

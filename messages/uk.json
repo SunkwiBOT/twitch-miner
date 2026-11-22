@@ -877,12 +877,17 @@
   "bulk_apply_others": "Застосувати до інших облікових записів",
   "bulk_changes": [
     {
-      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
+      "declarations": [
+        "input count",
+        "input formattedCount",
+        "input account",
+        "local countPlural = count: plural"
+      ],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{formattedCount} зміна",
-        "countPlural=few": "{formattedCount} зміни",
-        "countPlural=*": "{formattedCount} змін"
+        "countPlural=one": "{formattedCount} зміну збережено на акаунті {account}",
+        "countPlural=few": "{formattedCount} зміни збережено на акаунті {account}",
+        "countPlural=*": "{formattedCount} змін збережено на акаунті {account}"
       }
     }
   ],
@@ -891,19 +896,19 @@
   "bulk_no_accounts": "Інших облікових записів немає.",
   "bulk_nothing_to_change": "На цьому обліковому записі нічого змінювати",
   "bulk_title": "Застосувати до інших облікових записів",
-  "change_campaign_moved": "Кампанію {campaign} успішно переміщено",
-  "change_copied_drops": "Налаштування Drops з {sourceAccount} успішно скопійовано",
-  "change_copied_points": "Налаштування балів з {sourceAccount} успішно скопійовано",
-  "change_ignored": "Успішно проігноровано: {campaignOrReward}",
-  "change_unignored": "Знову майниться: {campaignOrReward}",
-  "change_settings": "Налаштування успішно збережено",
-  "change_streamer_added": "Стримера {streamer} успішно додано",
-  "change_streamer_disabled": "Стримера {streamer} успішно поставлено на паузу",
-  "change_streamer_enabled": "Стримера {streamer} успішно увімкнено",
-  "change_streamer_edited": "Параметри стримера {streamer} успішно збережено",
-  "change_streamer_moved": "Стримера {streamer} успішно переміщено",
-  "change_streamer_removed": "Стримера {streamer} успішно видалено",
-  "change_streamers_imported": "Стримерів успішно імпортовано: {streamerCount}",
+  "change_campaign_moved": "Кампанію переміщено",
+  "change_copied_drops": "Налаштування Drops скопійовано",
+  "change_copied_points": "Налаштування балів скопійовано",
+  "change_ignored": "Ігнорується",
+  "change_unignored": "Знову видобувається",
+  "change_settings": "Налаштування збережено",
+  "change_streamer_added": "Стримера додано",
+  "change_streamer_disabled": "Стримера призупинено",
+  "change_streamer_enabled": "Стримера ввімкнено",
+  "change_streamer_edited": "Параметри стримера збережено",
+  "change_streamer_moved": "Стримера переміщено",
+  "change_streamer_removed": "Стримера вилучено",
+  "change_streamers_imported": "Стримерів імпортовано",
   "common_back": "Назад",
   "common_edit": "Редагувати",
   "common_next": "Далі",
@@ -1046,7 +1051,7 @@
   "accounts_stats_bets": "Ставки виграно / програно: {won} / {lost}",
   "accounts_stats_bonuses": "Бонусні скрині: {bonusCount}",
   "catalogue_fetched": "отримано {fetchedTime}, далі кожні {minutes} хв",
-  "change_order_reset": "Автоматичний порядок успішно відновлено",
+  "change_order_reset": "Автоматичний порядок відновлено",
   "event_kind_goal_contributed": "Ціль спільноти",
   "ev_goal_contributed": "Внесок {points} у «{goal}» на {channel}",
   "ev_goal_contributed_short": "Внесок {points} у «{goal}»",
@@ -1188,7 +1193,7 @@
   "queue_hint_blocked_set_aside": "{minutes} хвилин реального перегляду без прогресу відклали її; будь-який прогрес одразу повертає її назад.",
   "badge_hint_linked": "Акаунт видавця прив’язано: дропи можна отримати",
   "badge_hint_not_linked": "Прив’яжіть акаунт видавця, щоб отримувати дропи",
-  "badge_hint_link_unknown": "Twitch не повідомляє, чи прив'язано акаунт видавця; отримання може чекати на прив'язку",
+  "badge_hint_link_unknown": "Twitch поки не повідомляє, чи прив'язано акаунт видавця. Це стає відомо, щойно кампанія починається, після кількох хвилин перегляду.",
   "badge_hint_claimed": "Уже у вашому інвентарі Twitch",
   "badge_hint_owned": "Цей акаунт уже має цей значок: майнер його не майнить",
   "badge_hint_ready": "Зароблено: лишилося тільки отримати",
@@ -1295,7 +1300,7 @@
   "drops_streamers_first": "Спочатку мої стримери для Drops і значків",
   "drops_streamers_first_hint": "У кампанії або для значка канал із вашого списку, який для них зараховується (потрібна категорія з Drops або категорія події Twitch), іде раніше за незнайомий канал: Drops, значки й бали в одному місці.",
   "points_streamer_defaults": "Типові параметри нових стримерів",
-  "change_streamer_defaults": "Типові параметри нових стримерів успішно збережено",
+  "change_streamer_defaults": "Параметри за замовчуванням збережено",
   "streamer_predictions_timing": "Коли ставити",
   "bet_timing_at_open": "Одразу після відкриття голосування",
   "bet_timing_at_open_hint": "Ставить, щойно відкривається голосування: у стратегій тоді мало даних.",
@@ -1331,7 +1336,7 @@
   "points_group_hint": "Застосовуються лише параметри, які ви зміните; параметр із позначкою «Різні» зберігає значення кожного стримера, доки ви його не зміните.",
   "streamer_option_mixed": "Різні",
   "setting_with_mark": "{option} ({optionNote})",
-  "change_streamers_edited": "Стримерів успішно змінено: {streamerCount}",
+  "change_streamers_edited": "Стримерів змінено",
   "points_defaults_offer_title": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -1692,9 +1697,9 @@
   "campaign_selecting": "Додавання…",
   "campaign_unselect": "Прибрати з мого вибору",
   "campaign_unselecting": "Прибирання…",
-  "change_selected": "Додано до вибору: {campaignOrReward}",
-  "change_unselected": "Прибрано з вибору: {campaignOrReward}",
-  "change_prioritized": "Переміщено на початок порядку майнінгу: {campaignOrReward}",
+  "change_selected": "Додано до вибору",
+  "change_unselected": "Вилучено з вибору",
+  "change_prioritized": "Поставлено на початок порядку видобування",
   "selection_not_selected": "Не вибрано",
   "badges_not_selected_hint": "«Лише мій вибір» увімкнено: позначте цей значок зірочкою, щоб майнити його.",
   "account_badges_mining_off": "Значки вимкнено в пункті «Що майнити і в якому порядку» цього акаунта: вони показуються, але не майняться.",
@@ -1752,5 +1757,54 @@
   "settings_discord_test": "Перевірити",
   "settings_telegram_test": "Перевірити",
   "settings_webhook_test": "Перевірити",
-  "export_counts_count_one": "Отримано: {claimCount}"
+  "export_counts_count_one": "Отримано: {claimCount}",
+  "change_settings_detail": "Налаштування акаунта {account} змінено",
+  "change_streamer_defaults_detail": "Нові стримери акаунта {account} отримають ці параметри",
+  "change_order_reset_detail": "Порядок видобування акаунта {account} знову автоматичний",
+  "change_campaign_moved_detail": "{campaign} переміщено в порядку видобування акаунта {account}",
+  "change_ignored_detail": "{campaign} більше не видобувається на акаунті {account}",
+  "change_unignored_detail": "{campaign} знову видобувається на акаунті {account}",
+  "change_selected_detail": "{campaign} додано до вибору акаунта {account}",
+  "change_unselected_detail": "{campaign} вилучено з вибору акаунта {account}",
+  "change_prioritized_detail": "{campaign} тепер видобувається першим на акаунті {account}",
+  "change_streamer_added_detail": "Стримера {streamer} додано до списку акаунта {account}",
+  "change_streamer_edited_detail": "Параметри стримера {streamer} збережено для акаунта {account}",
+  "change_streamer_removed_detail": "Стримера {streamer} вилучено зі списку акаунта {account}",
+  "change_streamer_enabled_detail": "Стример {streamer} знову відстежується для акаунта {account}",
+  "change_streamer_disabled_detail": "Стримера {streamer} призупинено для акаунта {account}",
+  "change_streamer_moved_detail": "Стримера {streamer} переміщено на позицію {position} у списку акаунта {account}",
+  "change_copied_drops_detail": "Налаштування Drops акаунта {sourceAccount} скопійовано в акаунт {account}",
+  "change_copied_points_detail": "Налаштування балів акаунта {sourceAccount} скопійовано в акаунт {account}",
+  "change_streamers_edited_detail": [
+    {
+      "declarations": [
+        "input count",
+        "input streamerCount",
+        "input account",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Змінено {streamerCount} стримера в списку акаунта {account}",
+        "countPlural=few": "Змінено {streamerCount} стримери в списку акаунта {account}",
+        "countPlural=*": "Змінено {streamerCount} стримерів у списку акаунта {account}"
+      }
+    }
+  ],
+  "change_streamers_imported_detail": [
+    {
+      "declarations": [
+        "input count",
+        "input streamerCount",
+        "input account",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Імпортовано {streamerCount} стримера до списку акаунта {account}",
+        "countPlural=few": "Імпортовано {streamerCount} стримери до списку акаунта {account}",
+        "countPlural=*": "Імпортовано {streamerCount} стримерів до списку акаунта {account}"
+      }
+    }
+  ]
 }

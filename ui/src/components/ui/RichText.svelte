@@ -17,7 +17,8 @@
   import Thumb from "./Thumb.svelte";
   import { AvatarSize, ThumbShape, ThumbSize } from "./picture.constants";
   import { LinkMark, LinkSize } from "./link.constants";
-  import { RAISED_CLASSES } from "./ui.constants";
+  import { INLINE_PICTURE_CLASSES, RAISED_CLASSES } from "./ui.constants";
+  import { provideRunningText } from "./running-text.svelte";
 
   type RichTextPropsType = {
     text: string;
@@ -27,6 +28,8 @@
   };
 
   let { text, links = [], people = [], categories = [] }: RichTextPropsType = $props();
+
+  provideRunningText();
 
   const parts = $derived(parseRichText(text, links, people, categories));
 </script>
@@ -52,11 +55,11 @@
         size={AvatarSize.SM}
         mark={part.endsSentence ? LinkMark.OVERLAY : LinkMark.NONE}
       />{:else if part.kind === RichTextPartKind.PERSON}<span
-        class="inline-flex items-center gap-1 align-[-0.3em]"
+        class="inline-flex items-baseline gap-1 align-baseline"
       >
-        <Avatar url={part.person.avatar} name={part.person.name} size={AvatarSize.XS} /><strong
-          class="font-semibold in-[.text-muted-foreground]:text-foreground"
-        >
+        <span class={INLINE_PICTURE_CLASSES}>
+          <Avatar url={part.person.avatar} name={part.person.name} size={AvatarSize.XS} />
+        </span><strong class="font-semibold in-[.text-muted-foreground]:text-foreground">
           {part.person.name}
         </strong>
       </span>{:else if part.kind === RichTextPartKind.CATEGORY && part.category.url}<span
@@ -69,9 +72,9 @@
           mark={part.endsSentence ? LinkMark.OVERLAY : LinkMark.NONE}
         />
       </span>{:else if part.kind === RichTextPartKind.CATEGORY}<span
-        class="inline-flex items-center gap-1 align-[-0.3em]"
+        class="inline-flex items-baseline gap-1 align-baseline"
       >
-        {@render boxArtThumb(part.category)}<strong
+        <span class={INLINE_PICTURE_CLASSES}>{@render boxArtThumb(part.category)}</span><strong
           class="font-semibold in-[.text-muted-foreground]:text-foreground"
         >
           {part.category.name}

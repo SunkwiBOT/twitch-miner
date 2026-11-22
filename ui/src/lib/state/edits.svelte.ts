@@ -6,8 +6,8 @@ import type { AccountSettingsType } from "../bindings/AccountSettingsType";
 import type { AccountSnapshotType } from "../bindings/AccountSnapshotType";
 import { sameValue } from "../compare.utils";
 import { t } from "../i18n/i18n.svelte";
-import { changed } from "./bulk.svelte";
-import { AccountField, ToastKind } from "./state.constants";
+import { accountChange, changed } from "./bulk.svelte";
+import { AccountField, ChangeKind, ToastKind } from "./state.constants";
 import { updateAccountSettings } from "./account-settings.svelte";
 import { toast } from "./toasts";
 
@@ -95,7 +95,7 @@ export const saveAccountEdits = async (account: AccountSnapshotType): Promise<bo
     return true;
   }
 
-  changed([account.id], undefined, (settings) => {
+  changed([account.id], accountChange(ChangeKind.SETTINGS), (settings) => {
     for (const [, change] of shared) {
       change(settings);
     }

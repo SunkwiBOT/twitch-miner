@@ -146,6 +146,7 @@
         onclick={() =>
           setBadgesIgnored(
             account,
+            row.campaign,
             row.items.map((item) => item.dropId),
             titleOf(row),
           )}

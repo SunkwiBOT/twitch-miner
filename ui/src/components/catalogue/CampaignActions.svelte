@@ -10,7 +10,13 @@
   import type { AccountSettingsType } from "../../lib/bindings/AccountSettingsType";
   import type { AccountSnapshotType } from "../../lib/bindings/AccountSnapshotType";
   import { app } from "../../lib/state/app.svelte";
-  import { changeAccounts } from "../../lib/state/bulk.svelte";
+  import {
+    campaignChange,
+    type CampaignChangeKind,
+    changeAccounts,
+  } from "../../lib/state/bulk.svelte";
+  import { campaignOf } from "../../lib/catalogue/catalogue.svelte";
+  import { ChangeKind } from "../../lib/state/state.constants";
   import { strong } from "../../lib/text.utils";
   import ActionButton from "../ui/ActionButton.svelte";
   import MultiSelect from "../ui/MultiSelect.svelte";
@@ -39,7 +45,6 @@
 
   const accounts = $derived(app.snapshot?.accounts ?? []);
   const chosen = $derived(accounts.filter((a) => selected.includes(a.id)));
-  const campaignOrReward = $derived(strong(name));
   const idle = $derived(campaignId === null ? t.badge_no_running_campaign() : undefined);
   const unminable = $derived(idle ?? (minable ? undefined : t.campaign_nothing_to_mine()));
 
@@ -53,7 +58,7 @@
 
   const act = async (
     key: CampaignAction,
-    text: string,
+    kind: CampaignChangeKind,
     change: (settings: AccountSettingsType, id: string) => void,
   ): Promise<void> => {
     if (campaignId === null) {
@@ -62,8 +67,12 @@
 
     const id = campaignId;
 
+    const campaign = chosen.map((account) => campaignOf(account, id)).find(Boolean);
+
     busy = key;
-    await changeAccounts(selected, text, (settings) => change(settings, id));
+    await changeAccounts(selected, campaignChange(kind, name, campaign), (settings) =>
+      change(settings, id),
+    );
     busy = null;
   };
 </script>
@@ -92,10 +101,10 @@
   type={ButtonType.BUTTON}
   onclick={() =>
     allIgnore
-      ? act(CampaignAction.RESTORE, t.change_unignored({ campaignOrReward }), (settings, id) =>
+      ? act(CampaignAction.RESTORE, ChangeKind.UNIGNORED, (settings, id) =>
           setCampaignIgnoredIn(settings, id, false),
         )
-      : act(CampaignAction.IGNORE, t.change_ignored({ campaignOrReward }), (settings, id) =>
+      : act(CampaignAction.IGNORE, ChangeKind.IGNORED, (settings, id) =>
           setCampaignIgnoredIn(settings, id, true),
         )}
 />
@@ -111,10 +120,10 @@
   type={ButtonType.BUTTON}
   onclick={() =>
     allSelected
-      ? act(CampaignAction.UNSELECT, t.change_unselected({ campaignOrReward }), (settings, id) =>
+      ? act(CampaignAction.UNSELECT, ChangeKind.UNSELECTED, (settings, id) =>
           setCampaignSelectedIn(settings, id, false),
         )
-      : act(CampaignAction.SELECT, t.change_selected({ campaignOrReward }), (settings, id) =>
+      : act(CampaignAction.SELECT, ChangeKind.SELECTED, (settings, id) =>
           setCampaignSelectedIn(settings, id, true),
         )}
 />
@@ -129,7 +138,5 @@
   size={ButtonSize.MD}
   type={ButtonType.BUTTON}
   onclick={() =>
-    act(CampaignAction.FIRST, t.change_prioritized({ campaignOrReward }), (settings, id) =>
-      prioritizeIn(settings, id),
-    )}
+    act(CampaignAction.FIRST, ChangeKind.PRIORITIZED, (settings, id) => prioritizeIn(settings, id))}
 />

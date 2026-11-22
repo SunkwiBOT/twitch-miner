@@ -954,12 +954,17 @@
   "bulk_apply_others": "Použít na další účty",
   "bulk_changes": [
     {
-      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
+      "declarations": [
+        "input count",
+        "input formattedCount",
+        "input account",
+        "local countPlural = count: plural"
+      ],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{formattedCount} změna",
-        "countPlural=few": "{formattedCount} změny",
-        "countPlural=*": "{formattedCount} změn"
+        "countPlural=one": "{formattedCount} změna uložena na účtu {account}",
+        "countPlural=few": "{formattedCount} změny uloženy na účtu {account}",
+        "countPlural=*": "{formattedCount} změn uloženo na účtu {account}"
       }
     }
   ],
@@ -968,19 +973,19 @@
   "bulk_no_accounts": "Žádný jiný účet.",
   "bulk_nothing_to_change": "Na tomto účtu není co měnit",
   "bulk_title": "Použít na další účty",
-  "change_campaign_moved": "Kampaň {campaign} úspěšně přesunuta",
-  "change_copied_drops": "Nastavení Drops z účtu {sourceAccount} úspěšně zkopírováno",
-  "change_copied_points": "Nastavení bodů z účtu {sourceAccount} úspěšně zkopírováno",
-  "change_ignored": "Úspěšně ignorováno: {campaignOrReward}",
-  "change_unignored": "Opět se těží: {campaignOrReward}",
-  "change_settings": "Nastavení úspěšně uloženo",
-  "change_streamer_added": "Streamer {streamer} úspěšně přidán",
-  "change_streamer_disabled": "Streamer {streamer} úspěšně pozastaven",
-  "change_streamer_enabled": "Streamer {streamer} úspěšně zapnut",
-  "change_streamer_edited": "Možnosti streamera {streamer} úspěšně uloženy",
-  "change_streamer_moved": "Streamer {streamer} úspěšně přesunut",
-  "change_streamer_removed": "Streamer {streamer} úspěšně odebrán",
-  "change_streamers_imported": "Streameři úspěšně importováni: {streamerCount}",
+  "change_campaign_moved": "Kampaň přesunuta",
+  "change_copied_drops": "Nastavení Drops zkopírováno",
+  "change_copied_points": "Nastavení bodů zkopírováno",
+  "change_ignored": "Ignorováno",
+  "change_unignored": "Znovu se těží",
+  "change_settings": "Nastavení uloženo",
+  "change_streamer_added": "Streamer přidán",
+  "change_streamer_disabled": "Streamer pozastaven",
+  "change_streamer_enabled": "Streamer zapnut",
+  "change_streamer_edited": "Možnosti streamera uloženy",
+  "change_streamer_moved": "Streamer přesunut",
+  "change_streamer_removed": "Streamer odebrán",
+  "change_streamers_imported": "Streameři importováni",
   "common_back": "Zpět",
   "common_edit": "Upravit",
   "common_next": "Další",
@@ -1115,7 +1120,7 @@
   "accounts_stats_bets": "Sázky vyhrané / prohrané: {won} / {lost}",
   "accounts_stats_bonuses": "Bonusové truhly: {bonusCount}",
   "catalogue_fetched": "staženo {fetchedTime}, znovu každých {minutes} min",
-  "change_order_reset": "Automatické pořadí úspěšně obnoveno",
+  "change_order_reset": "Automatické pořadí obnoveno",
   "event_kind_goal_contributed": "Komunitní cíl",
   "ev_goal_contributed": [
     {
@@ -1280,7 +1285,7 @@
   "queue_hint_blocked_set_aside": "{minutes} minut reálného sledování bez postupu ji odložilo; jakýkoli postup ji okamžitě vrátí zpět.",
   "badge_hint_linked": "Účet vydavatele propojen: dropy lze vyzvednout",
   "badge_hint_not_linked": "Propojte účet vydavatele, abyste mohli vyzvednout dropy",
-  "badge_hint_link_unknown": "Twitch neuvádí, zda je účet vydavatele propojený; vyzvednutí může na propojení počkat",
+  "badge_hint_link_unknown": "Twitch zatím neříká, zda je účet vydavatele propojený. Řekne to, jakmile kampaň začne, po několika minutách sledování.",
   "badge_hint_claimed": "Už je ve vašem inventáři Twitch",
   "badge_hint_owned": "Tento účet už tento odznak má: miner ho netěží",
   "badge_hint_ready": "Získáno: stačí vyzvednout",
@@ -1387,7 +1392,7 @@
   "drops_streamers_first": "Moji streameři první pro Drops a odznaky",
   "drops_streamers_first_hint": "U kampaně nebo odznaku má kanál z vašeho seznamu, který se pro ně počítá (správná kategorie s Drops nebo kategorie události Twitche), přednost před neznámým kanálem: Drops, odznaky i body na jednom místě.",
   "points_streamer_defaults": "Výchozí možnosti nových streamerů",
-  "change_streamer_defaults": "Výchozí možnosti nových streamerů úspěšně uloženy",
+  "change_streamer_defaults": "Výchozí možnosti uloženy",
   "streamer_predictions_timing": "Kdy vsadit",
   "bet_timing_at_open": "Hned po otevření hlasování",
   "bet_timing_at_open_hint": "Vsadí, jakmile se hlasování otevře: strategie mají tehdy málo dat.",
@@ -1424,7 +1429,7 @@
   "points_group_hint": "Použijí se jen možnosti, které změníte; možnost označená jako „Smíšené“ si u každého streamera ponechá jeho hodnotu, dokud ji nezměníte.",
   "streamer_option_mixed": "Smíšené",
   "setting_with_mark": "{option} ({optionNote})",
-  "change_streamers_edited": "Streameři úspěšně upraveni: {streamerCount}",
+  "change_streamers_edited": "Streameři upraveni",
   "points_defaults_offer_title": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -1811,9 +1816,9 @@
   "campaign_selecting": "Přidává se…",
   "campaign_unselect": "Odebrat z mého výběru",
   "campaign_unselecting": "Odebírá se…",
-  "change_selected": "Přidáno do výběru: {campaignOrReward}",
-  "change_unselected": "Odebráno z výběru: {campaignOrReward}",
-  "change_prioritized": "Umístěno na začátek pořadí těžby: {campaignOrReward}",
+  "change_selected": "Přidáno do výběru",
+  "change_unselected": "Odebráno z výběru",
+  "change_prioritized": "Umístěno na začátek pořadí těžby",
   "selection_not_selected": "Nevybráno",
   "badges_not_selected_hint": "„Jen můj výběr“ je zapnuto: označte tento odznak hvězdičkou, aby se těžil.",
   "account_badges_mining_off": "Odznaky jsou vypnuté v položce „Co těžit a v jakém pořadí“ tohoto účtu: zobrazují se, ale netěží se.",
@@ -1871,5 +1876,54 @@
   "settings_discord_test": "Otestovat",
   "settings_telegram_test": "Otestovat",
   "settings_webhook_test": "Otestovat",
-  "export_counts_count_one": "{claimCount} vyzvednuto"
+  "export_counts_count_one": "{claimCount} vyzvednuto",
+  "change_settings_detail": "Nastavení účtu {account} se změnilo",
+  "change_streamer_defaults_detail": "Noví streameři účtu {account} začnou s těmito možnostmi",
+  "change_order_reset_detail": "Pořadí těžby účtu {account} je opět automatické",
+  "change_campaign_moved_detail": "{campaign} bylo přesunuto v pořadí těžby účtu {account}",
+  "change_ignored_detail": "{campaign} se už na účtu {account} nebude těžit",
+  "change_unignored_detail": "{campaign} se na účtu {account} bude znovu těžit",
+  "change_selected_detail": "{campaign} bylo přidáno do výběru účtu {account}",
+  "change_unselected_detail": "{campaign} bylo odebráno z výběru účtu {account}",
+  "change_prioritized_detail": "{campaign} se teď na účtu {account} těží jako první",
+  "change_streamer_added_detail": "Streamer {streamer} byl přidán do seznamu účtu {account}",
+  "change_streamer_edited_detail": "Možnosti streamera {streamer} byly uloženy pro účet {account}",
+  "change_streamer_removed_detail": "Streamer {streamer} byl odebrán ze seznamu účtu {account}",
+  "change_streamer_enabled_detail": "Streamer {streamer} je pro účet {account} znovu sledován",
+  "change_streamer_disabled_detail": "Streamer {streamer} je pro účet {account} pozastaven",
+  "change_streamer_moved_detail": "Streamer {streamer} byl přesunut na pozici {position} v seznamu účtu {account}",
+  "change_copied_drops_detail": "Nastavení Drops účtu {sourceAccount} zkopírováno na účet {account}",
+  "change_copied_points_detail": "Nastavení bodů účtu {sourceAccount} zkopírováno na účet {account}",
+  "change_streamers_edited_detail": [
+    {
+      "declarations": [
+        "input count",
+        "input streamerCount",
+        "input account",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Upraven {streamerCount} streamer v seznamu účtu {account}",
+        "countPlural=few": "Upraveni {streamerCount} streameři v seznamu účtu {account}",
+        "countPlural=*": "Upraveno {streamerCount} streamerů v seznamu účtu {account}"
+      }
+    }
+  ],
+  "change_streamers_imported_detail": [
+    {
+      "declarations": [
+        "input count",
+        "input streamerCount",
+        "input account",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Importován {streamerCount} streamer do seznamu účtu {account}",
+        "countPlural=few": "Importováni {streamerCount} streameři do seznamu účtu {account}",
+        "countPlural=*": "Importováno {streamerCount} streamerů do seznamu účtu {account}"
+      }
+    }
+  ]
 }

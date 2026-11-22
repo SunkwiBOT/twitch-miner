@@ -846,12 +846,17 @@
   "bulk_apply_others": "Zastosuj do innych kont",
   "bulk_changes": [
     {
-      "declarations": ["input count", "input formattedCount", "local countPlural = count: plural"],
+      "declarations": [
+        "input count",
+        "input formattedCount",
+        "input account",
+        "local countPlural = count: plural"
+      ],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{formattedCount} zmiana",
-        "countPlural=few": "{formattedCount} zmiany",
-        "countPlural=*": "{formattedCount} zmian"
+        "countPlural=one": "{formattedCount} zmiana zapisana na koncie {account}",
+        "countPlural=few": "{formattedCount} zmiany zapisane na koncie {account}",
+        "countPlural=*": "{formattedCount} zmian zapisanych na koncie {account}"
       }
     }
   ],
@@ -860,19 +865,19 @@
   "bulk_no_accounts": "Brak innych kont.",
   "bulk_nothing_to_change": "Nic do zmiany na tym koncie",
   "bulk_title": "Zastosuj do innych kont",
-  "change_campaign_moved": "Pomyślnie przeniesiono {campaign}",
-  "change_copied_drops": "Pomyślnie skopiowano ustawienia Drops z konta {sourceAccount}",
-  "change_copied_points": "Pomyślnie skopiowano ustawienia punktów z konta {sourceAccount}",
-  "change_ignored": "Pomyślnie zignorowano: {campaignOrReward}",
-  "change_unignored": "Znów kopane: {campaignOrReward}",
-  "change_settings": "Pomyślnie zapisano ustawienia",
-  "change_streamer_added": "Pomyślnie dodano {streamer}",
-  "change_streamer_disabled": "Pomyślnie wstrzymano {streamer}",
-  "change_streamer_enabled": "Pomyślnie włączono {streamer}",
-  "change_streamer_edited": "Pomyślnie zapisano opcje streamera {streamer}",
-  "change_streamer_moved": "Pomyślnie przeniesiono {streamer}",
-  "change_streamer_removed": "Pomyślnie usunięto {streamer}",
-  "change_streamers_imported": "Pomyślnie zaimportowano streamerów: {streamerCount}",
+  "change_campaign_moved": "Przeniesiono kampanię",
+  "change_copied_drops": "Skopiowano ustawienia Drops",
+  "change_copied_points": "Skopiowano ustawienia punktów",
+  "change_ignored": "Zignorowano",
+  "change_unignored": "Ponownie kopane",
+  "change_settings": "Zapisano ustawienia",
+  "change_streamer_added": "Dodano streamera",
+  "change_streamer_disabled": "Wstrzymano streamera",
+  "change_streamer_enabled": "Włączono streamera",
+  "change_streamer_edited": "Zapisano opcje streamera",
+  "change_streamer_moved": "Przeniesiono streamera",
+  "change_streamer_removed": "Usunięto streamera",
+  "change_streamers_imported": "Zaimportowano streamerów",
   "common_back": "Wstecz",
   "common_edit": "Edytuj",
   "common_next": "Dalej",
@@ -1007,7 +1012,7 @@
   "accounts_stats_bets": "Zakłady wygrane / przegrane: {won} / {lost}",
   "accounts_stats_bonuses": "Skrzynki bonusowe: {bonusCount}",
   "catalogue_fetched": "pobrano {fetchedTime}, potem co {minutes} min",
-  "change_order_reset": "Pomyślnie przywrócono automatyczną kolejność",
+  "change_order_reset": "Przywrócono automatyczną kolejność",
   "event_kind_goal_contributed": "Cel społeczności",
   "ev_goal_contributed": "Przekazano {points} pkt do „{goal}” na {channel}",
   "ev_goal_contributed_short": "Przekazano {points} pkt do „{goal}”",
@@ -1141,7 +1146,7 @@
   "queue_hint_blocked_set_aside": "{minutes} minut rzeczywistego oglądania bez postępu odłożyło ją; każdy postęp natychmiast ją przywraca.",
   "badge_hint_linked": "Konto wydawcy połączone: dropy można odebrać",
   "badge_hint_not_linked": "Połącz konto wydawcy, aby odebrać dropy",
-  "badge_hint_link_unknown": "Twitch nie podaje, czy konto wydawcy jest połączone; odebranie może czekać na połączenie",
+  "badge_hint_link_unknown": "Twitch jeszcze nie mówi, czy konto wydawcy jest połączone. Mówi to, gdy kampania się zacznie, po kilku minutach oglądania.",
   "badge_hint_claimed": "Już w Twoim ekwipunku Twitch",
   "badge_hint_owned": "To konto ma już tę odznakę: miner jej nie kopie",
   "badge_hint_ready": "Zdobyte: wystarczy odebrać",
@@ -1248,7 +1253,7 @@
   "drops_streamers_first": "Najpierw moi streamerzy dla Drops i odznak",
   "drops_streamers_first_hint": "W kampanii lub dla odznaki kanał z Twojej listy, który się liczy (właściwa kategoria z Drops lub kategoria wydarzenia Twitcha), ma pierwszeństwo przed nieznanym kanałem: Drops, odznaki i punkty w jednym miejscu.",
   "points_streamer_defaults": "Domyślne opcje nowych streamerów",
-  "change_streamer_defaults": "Pomyślnie zapisano domyślne opcje nowych streamerów",
+  "change_streamer_defaults": "Zapisano opcje domyślne",
   "streamer_predictions_timing": "Kiedy obstawiać",
   "bet_timing_at_open": "Od razu po otwarciu głosowania",
   "bet_timing_at_open_hint": "Obstawia, gdy tylko głosowanie się otworzy: strategie mają wtedy mało danych.",
@@ -1284,7 +1289,7 @@
   "points_group_hint": "Stosowane są tylko opcje, które zmienisz; opcja oznaczona jako „Mieszane” zachowuje wartość każdego streamera, dopóki jej nie zmienisz.",
   "streamer_option_mixed": "Mieszane",
   "setting_with_mark": "{option} ({optionNote})",
-  "change_streamers_edited": "Pomyślnie edytowano streamerów: {streamerCount}",
+  "change_streamers_edited": "Zmieniono streamerów",
   "points_defaults_offer_title": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -1646,9 +1651,9 @@
   "campaign_selecting": "Dodawanie…",
   "campaign_unselect": "Usuń z mojego wyboru",
   "campaign_unselecting": "Usuwanie…",
-  "change_selected": "Dodano do wyboru: {campaignOrReward}",
-  "change_unselected": "Usunięto z wyboru: {campaignOrReward}",
-  "change_prioritized": "Umieszczono na początku kolejności kopania: {campaignOrReward}",
+  "change_selected": "Dodano do wyboru",
+  "change_unselected": "Usunięto z wyboru",
+  "change_prioritized": "Umieszczono na początku kolejności kopania",
   "selection_not_selected": "Nie wybrano",
   "badges_not_selected_hint": "„Tylko mój wybór” jest włączony: oznacz tę odznakę gwiazdką, aby ją kopać.",
   "account_badges_mining_off": "Odznaki są wyłączone w opcji „Co kopać, w jakiej kolejności” tego konta: są wyświetlane, ale nie są kopane.",
@@ -1706,5 +1711,54 @@
   "settings_discord_test": "Testuj",
   "settings_telegram_test": "Testuj",
   "settings_webhook_test": "Testuj",
-  "export_counts_count_one": "{claimCount} odebrane"
+  "export_counts_count_one": "{claimCount} odebrane",
+  "change_settings_detail": "Ustawienia konta {account} zostały zmienione",
+  "change_streamer_defaults_detail": "Nowi streamerzy konta {account} zaczną z tymi opcjami",
+  "change_order_reset_detail": "Kolejność kopania konta {account} znów jest automatyczna",
+  "change_campaign_moved_detail": "{campaign} przeniesiono w kolejności kopania konta {account}",
+  "change_ignored_detail": "{campaign} nie będzie już kopane na koncie {account}",
+  "change_unignored_detail": "{campaign} znów będzie kopane na koncie {account}",
+  "change_selected_detail": "{campaign} dodano do wyboru konta {account}",
+  "change_unselected_detail": "{campaign} usunięto z wyboru konta {account}",
+  "change_prioritized_detail": "{campaign} jest teraz kopane jako pierwsze na koncie {account}",
+  "change_streamer_added_detail": "Streamer {streamer} został dodany do listy konta {account}",
+  "change_streamer_edited_detail": "Opcje streamera {streamer} zapisano dla konta {account}",
+  "change_streamer_removed_detail": "Streamer {streamer} został usunięty z listy konta {account}",
+  "change_streamer_enabled_detail": "Streamer {streamer} jest znów śledzony dla konta {account}",
+  "change_streamer_disabled_detail": "Streamer {streamer} jest wstrzymany dla konta {account}",
+  "change_streamer_moved_detail": "Streamer {streamer} został przeniesiony na pozycję {position} na liście konta {account}",
+  "change_copied_drops_detail": "Ustawienia Drops konta {sourceAccount} skopiowano na konto {account}",
+  "change_copied_points_detail": "Ustawienia punktów konta {sourceAccount} skopiowano na konto {account}",
+  "change_streamers_edited_detail": [
+    {
+      "declarations": [
+        "input count",
+        "input streamerCount",
+        "input account",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Zmieniono {streamerCount} streamera na liście konta {account}",
+        "countPlural=few": "Zmieniono {streamerCount} streamerów na liście konta {account}",
+        "countPlural=*": "Zmieniono {streamerCount} streamerów na liście konta {account}"
+      }
+    }
+  ],
+  "change_streamers_imported_detail": [
+    {
+      "declarations": [
+        "input count",
+        "input streamerCount",
+        "input account",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Zaimportowano {streamerCount} streamera na listę konta {account}",
+        "countPlural=few": "Zaimportowano {streamerCount} streamerów na listę konta {account}",
+        "countPlural=*": "Zaimportowano {streamerCount} streamerów na listę konta {account}"
+      }
+    }
+  ]
 }

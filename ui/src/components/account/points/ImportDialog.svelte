@@ -5,7 +5,8 @@
   import type { ChannelType } from "../../../lib/bindings/ChannelType";
   import { rememberChannels } from "../../../lib/channels/channels.svelte";
   import { t } from "../../../lib/i18n/i18n.svelte";
-  import { changedWhenSaved } from "../../../lib/state/bulk.svelte";
+  import { changedWhenSaved, streamersCounted } from "../../../lib/state/bulk.svelte";
+  import { ChangeKind } from "../../../lib/state/state.constants";
   import { updateAccountSettings } from "../../../lib/state/account-settings.svelte";
   import { app } from "../../../lib/state/app.svelte";
   import { strong } from "../../../lib/text.utils";
@@ -62,7 +63,7 @@
     void changedWhenSaved(
       updateAccountSettings(into.id, append),
       into.id,
-      t.change_streamers_imported({ streamerCount: strong(logins.length) }),
+      streamersCounted(ChangeKind.STREAMERS_IMPORTED, logins.length),
       append,
     );
   };

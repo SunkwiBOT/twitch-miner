@@ -828,25 +828,25 @@
   "bulk_applied_title": "Konti opdateret",
   "bulk_apply": "Anvend ({changeCount})",
   "bulk_apply_others": "Anvend på andre konti",
-  "bulk_changes": "{formattedCount} ændringer",
+  "bulk_changes": "{formattedCount} ændringer gemt på {account}",
   "bulk_hint": "Ændringerne på {account} ({changeCount}) gentages på de afkrydsede konti. Hver konto beholder resten af sine indstillinger.",
   "bulk_hint_chosen": "Ændringerne på de valgte konti ({changeCount}) gentages på de afkrydsede konti. Hver konto beholder resten af sine indstillinger.",
   "bulk_no_accounts": "Ingen anden konto.",
   "bulk_nothing_to_change": "Intet at ændre på denne konto",
   "bulk_title": "Anvend på andre konti",
-  "change_campaign_moved": "{campaign} flyttet med succes",
-  "change_copied_drops": "Drops-indstillinger fra {sourceAccount} kopieret med succes",
-  "change_copied_points": "Point-indstillinger fra {sourceAccount} kopieret med succes",
-  "change_ignored": "Ignoreret med succes: {campaignOrReward}",
-  "change_unignored": "Mines igen: {campaignOrReward}",
-  "change_settings": "Indstillinger gemt med succes",
-  "change_streamer_added": "{streamer} tilføjet med succes",
-  "change_streamer_disabled": "{streamer} sat på pause med succes",
-  "change_streamer_enabled": "{streamer} aktiveret med succes",
-  "change_streamer_edited": "Indstillinger for {streamer} gemt med succes",
-  "change_streamer_moved": "{streamer} flyttet med succes",
-  "change_streamer_removed": "{streamer} fjernet med succes",
-  "change_streamers_imported": "Streamere importeret med succes: {streamerCount}",
+  "change_campaign_moved": "Kampagne flyttet",
+  "change_copied_drops": "Drops-indstillinger kopieret",
+  "change_copied_points": "Pointindstillinger kopieret",
+  "change_ignored": "Ignoreret",
+  "change_unignored": "Mines igen",
+  "change_settings": "Indstillinger gemt",
+  "change_streamer_added": "Streamer tilføjet",
+  "change_streamer_disabled": "Streamer sat på pause",
+  "change_streamer_enabled": "Streamer aktiveret",
+  "change_streamer_edited": "Streamerens indstillinger gemt",
+  "change_streamer_moved": "Streamer flyttet",
+  "change_streamer_removed": "Streamer fjernet",
+  "change_streamers_imported": "Streamere importeret",
   "common_back": "Tilbage",
   "common_edit": "Redigér",
   "common_next": "Næste",
@@ -977,7 +977,7 @@
   "accounts_stats_bets": "Væddemål vundet / tabt: {won} / {lost}",
   "accounts_stats_bonuses": "Bonuskister: {bonusCount}",
   "catalogue_fetched": "hentet {fetchedTime}, igen hvert {minutes}. minut",
-  "change_order_reset": "Automatisk rækkefølge gendannet med succes",
+  "change_order_reset": "Automatisk rækkefølge gendannet",
   "event_kind_goal_contributed": "Fællesskabsmål",
   "ev_goal_contributed": "{points} point givet til »{goal}« på {channel}",
   "ev_goal_contributed_short": "{points} point givet til »{goal}«",
@@ -1109,7 +1109,7 @@
   "queue_hint_blocked_set_aside": "{minutes} minutters reel visning uden fremgang satte den til side; enhver fremgang bringer den straks tilbage.",
   "badge_hint_linked": "Udgiverkonto tilknyttet: drops kan indløses",
   "badge_hint_not_linked": "Tilknyt udgiverkontoen for at indløse dropsene",
-  "badge_hint_link_unknown": "Twitch oplyser ikke, om udgiverkontoen er tilknyttet; indløsningen kan vente på tilknytningen",
+  "badge_hint_link_unknown": "Twitch siger endnu ikke, om udgiverens konto er tilknyttet. Det gør den, så snart kampagnen starter, efter et par minutters visning.",
   "badge_hint_claimed": "Allerede i din Twitch-beholdning",
   "badge_hint_owned": "Denne konto har allerede denne badge: mineren miner den ikke",
   "badge_hint_ready": "Optjent: mangler kun at blive indløst",
@@ -1215,7 +1215,7 @@
   "drops_streamers_first": "Mine streamere først til Drops og badges",
   "drops_streamers_first_hint": "I en kampagne eller for et badge kommer en kanal fra din liste, der tæller for den (den rigtige kategori med Drops eller en kategori i Twitch-begivenheden), før en ukendt kanal: Drops, badges og point samme sted.",
   "points_streamer_defaults": "Standardindstillinger for nye streamere",
-  "change_streamer_defaults": "Standardindstillinger for nye streamere gemt med succes",
+  "change_streamer_defaults": "Standardindstillinger gemt",
   "streamer_predictions_timing": "Hvornår der satses",
   "bet_timing_at_open": "Så snart afstemningen åbner",
   "bet_timing_at_open_hint": "Satser, så snart afstemningen åbner: strategierne har da kun få data.",
@@ -1251,7 +1251,7 @@
   "points_group_hint": "Kun de indstillinger, du ændrer, gælder for disse streamere; en indstilling markeret »Blandet« beholder hver streamers egen værdi, indtil du ændrer den.",
   "streamer_option_mixed": "Blandet",
   "setting_with_mark": "{option} ({optionNote})",
-  "change_streamers_edited": "Streamere redigeret med succes: {streamerCount}",
+  "change_streamers_edited": "Streamere redigeret",
   "points_defaults_offer_title": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -1603,9 +1603,9 @@
   "campaign_selecting": "Føjer til…",
   "campaign_unselect": "Fjern fra mit valg",
   "campaign_unselecting": "Fjerner…",
-  "change_selected": "Føjet til valget: {campaignOrReward}",
-  "change_unselected": "Fjernet fra valget: {campaignOrReward}",
-  "change_prioritized": "Placeret øverst i mining-rækkefølgen: {campaignOrReward}",
+  "change_selected": "Tilføjet til udvalget",
+  "change_unselected": "Fjernet fra udvalget",
+  "change_prioritized": "Sat øverst i mining-rækkefølgen",
   "selection_not_selected": "Ikke valgt",
   "badges_not_selected_hint": "»Kun mit valg« er slået til: giv dette badge en stjerne for at mine det.",
   "account_badges_mining_off": "Badges er slået fra i denne kontos »Hvad der skal mines, i rækkefølge«: de vises, men mines ikke.",
@@ -1663,5 +1663,52 @@
   "settings_discord_test": "Test",
   "settings_telegram_test": "Test",
   "settings_webhook_test": "Test",
-  "export_counts_count_one": "{claimCount} indløst"
+  "export_counts_count_one": "{claimCount} indløst",
+  "change_settings_detail": "Indstillingerne for {account} er ændret",
+  "change_streamer_defaults_detail": "Nye streamere for {account} starter med disse indstillinger",
+  "change_order_reset_detail": "Mining-rækkefølgen for {account} følger igen den automatiske rækkefølge",
+  "change_campaign_moved_detail": "{campaign} er flyttet i mining-rækkefølgen for {account}",
+  "change_ignored_detail": "{campaign} mines ikke længere på {account}",
+  "change_unignored_detail": "{campaign} mines igen på {account}",
+  "change_selected_detail": "{campaign} er tilføjet til udvalget for {account}",
+  "change_unselected_detail": "{campaign} er fjernet fra udvalget for {account}",
+  "change_prioritized_detail": "{campaign} mines nu først på {account}",
+  "change_streamer_added_detail": "{streamer} er tilføjet til listen for {account}",
+  "change_streamer_edited_detail": "Indstillingerne for {streamer} er gemt for {account}",
+  "change_streamer_removed_detail": "{streamer} er fjernet fra listen for {account}",
+  "change_streamer_enabled_detail": "{streamer} følges igen for {account}",
+  "change_streamer_disabled_detail": "{streamer} er sat på pause for {account}",
+  "change_streamer_moved_detail": "{streamer} er flyttet til plads {position} på listen for {account}",
+  "change_copied_drops_detail": "Drops-indstillingerne fra {sourceAccount} er kopieret til {account}",
+  "change_copied_points_detail": "Pointindstillingerne fra {sourceAccount} er kopieret til {account}",
+  "change_streamers_edited_detail": [
+    {
+      "declarations": [
+        "input count",
+        "input streamerCount",
+        "input account",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{streamerCount} streamer redigeret på listen for {account}",
+        "countPlural=*": "{streamerCount} streamere redigeret på listen for {account}"
+      }
+    }
+  ],
+  "change_streamers_imported_detail": [
+    {
+      "declarations": [
+        "input count",
+        "input streamerCount",
+        "input account",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{streamerCount} streamer importeret til listen for {account}",
+        "countPlural=*": "{streamerCount} streamere importeret til listen for {account}"
+      }
+    }
+  ]
 }

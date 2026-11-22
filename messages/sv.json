@@ -828,25 +828,25 @@
   "bulk_applied_title": "Konton uppdaterade",
   "bulk_apply": "Tillämpa ({changeCount})",
   "bulk_apply_others": "Tillämpa på andra konton",
-  "bulk_changes": "{formattedCount} ändringar",
+  "bulk_changes": "{formattedCount} ändringar sparade på {account}",
   "bulk_hint": "Ändringarna på {account} ({changeCount}) görs om på de markerade kontona. Varje konto behåller resten av sina inställningar.",
   "bulk_hint_chosen": "Ändringarna på de valda kontona ({changeCount}) görs om på de markerade kontona. Varje konto behåller resten av sina inställningar.",
   "bulk_no_accounts": "Inget annat konto.",
   "bulk_nothing_to_change": "Inget att ändra på det här kontot",
   "bulk_title": "Tillämpa på andra konton",
-  "change_campaign_moved": "{campaign} har flyttats",
-  "change_copied_drops": "Drops-inställningarna från {sourceAccount} har kopierats",
-  "change_copied_points": "Poänginställningarna från {sourceAccount} har kopierats",
-  "change_ignored": "Ignoreras nu: {campaignOrReward}",
-  "change_unignored": "Minas igen: {campaignOrReward}",
+  "change_campaign_moved": "Kampanjen har flyttats",
+  "change_copied_drops": "Drops-inställningarna har kopierats",
+  "change_copied_points": "Poänginställningarna har kopierats",
+  "change_ignored": "Ignoreras",
+  "change_unignored": "Minas igen",
   "change_settings": "Inställningarna har sparats",
-  "change_streamer_added": "{streamer} har lagts till",
-  "change_streamer_disabled": "{streamer} har pausats",
-  "change_streamer_enabled": "{streamer} har aktiverats",
-  "change_streamer_edited": "Alternativen för {streamer} har sparats",
-  "change_streamer_moved": "{streamer} har flyttats",
-  "change_streamer_removed": "{streamer} har tagits bort",
-  "change_streamers_imported": "Streamers har importerats: {streamerCount}",
+  "change_streamer_added": "Streamern har lagts till",
+  "change_streamer_disabled": "Streamern har pausats",
+  "change_streamer_enabled": "Streamern har aktiverats",
+  "change_streamer_edited": "Streamerns alternativ har sparats",
+  "change_streamer_moved": "Streamern har flyttats",
+  "change_streamer_removed": "Streamern har tagits bort",
+  "change_streamers_imported": "Streamrarna har importerats",
   "common_back": "Tillbaka",
   "common_edit": "Redigera",
   "common_next": "Nästa",
@@ -977,7 +977,7 @@
   "accounts_stats_bets": "Vadslagningar vunna / förlorade: {won} / {lost}",
   "accounts_stats_bonuses": "Bonuskistor: {bonusCount}",
   "catalogue_fetched": "hämtad {fetchedTime}, sedan med {minutes} min mellanrum",
-  "change_order_reset": "Automatisk ordning har återställts",
+  "change_order_reset": "Automatisk ordning återställd",
   "event_kind_goal_contributed": "Communitymål",
   "ev_goal_contributed": [
     {
@@ -1138,7 +1138,7 @@
   "queue_hint_blocked_set_aside": "{minutes} minuters verklig visning utan framsteg lade den åt sidan; alla framsteg för tillbaka den direkt.",
   "badge_hint_linked": "Utgivarkonto kopplat: dropsen kan hämtas",
   "badge_hint_not_linked": "Koppla utgivarkontot för att hämta dropsen",
-  "badge_hint_link_unknown": "Twitch anger inte om utgivarkontot är kopplat; inlösen kan vänta på kopplingen",
+  "badge_hint_link_unknown": "Twitch säger ännu inte om utgivarens konto är länkat. Det framgår när kampanjen börjar, efter några minuters tittande.",
   "badge_hint_claimed": "Redan i ditt Twitch-förråd",
   "badge_hint_owned": "Det här kontot har redan märket: minern minar det inte",
   "badge_hint_ready": "Intjänad: behöver bara hämtas",
@@ -1244,7 +1244,7 @@
   "drops_streamers_first": "Mina streamers först för Drops och märken",
   "drops_streamers_first_hint": "För en kampanj eller ett märke kommer en kanal från din lista som räknas för den (rätt kategori med Drops eller en kategori i Twitch-händelsen) före en okänd kanal: Drops, märken och poäng på samma ställe.",
   "points_streamer_defaults": "Standardalternativ för nya streamers",
-  "change_streamer_defaults": "Standardalternativen för nya streamers har sparats",
+  "change_streamer_defaults": "Standardalternativen har sparats",
   "streamer_predictions_timing": "Tidpunkt för satsning",
   "bet_timing_at_open": "Så fort röstningen öppnar",
   "bet_timing_at_open_hint": "Satsar så fort röstningen öppnar: strategierna har då lite data.",
@@ -1280,7 +1280,7 @@
   "points_group_hint": "Bara alternativen du ändrar gäller för de här streamersen; ett alternativ märkt ”Blandat” behåller var och ens eget värde tills du ändrar det.",
   "streamer_option_mixed": "Blandat",
   "setting_with_mark": "{option} ({optionNote})",
-  "change_streamers_edited": "Streamers har redigerats: {streamerCount}",
+  "change_streamers_edited": "Streamrarna har redigerats",
   "points_defaults_offer_title": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -1632,9 +1632,9 @@
   "campaign_selecting": "Lägger till…",
   "campaign_unselect": "Ta bort från mitt urval",
   "campaign_unselecting": "Tar bort…",
-  "change_selected": "Tillagt i urvalet: {campaignOrReward}",
-  "change_unselected": "Borttaget från urvalet: {campaignOrReward}",
-  "change_prioritized": "Placerad överst i miningordningen: {campaignOrReward}",
+  "change_selected": "Tillagd i urvalet",
+  "change_unselected": "Borttagen från urvalet",
+  "change_prioritized": "Placerad först i minningsordningen",
   "selection_not_selected": "Inte vald",
   "badges_not_selected_hint": "”Bara mitt urval” är på: ge det här märket en stjärna för att mina det.",
   "account_badges_mining_off": "Märken är avstängda i ”Vad som ska minas, i ordning” för det här kontot: de visas, men minas inte.",
@@ -1692,5 +1692,52 @@
   "settings_discord_test": "Testa",
   "settings_telegram_test": "Testa",
   "settings_webhook_test": "Testa",
-  "export_counts_count_one": "{claimCount} hämtad"
+  "export_counts_count_one": "{claimCount} hämtad",
+  "change_settings_detail": "Inställningarna för {account} har ändrats",
+  "change_streamer_defaults_detail": "Nya streamrar för {account} börjar med de här alternativen",
+  "change_order_reset_detail": "Minningsordningen för {account} följer den automatiska ordningen igen",
+  "change_campaign_moved_detail": "{campaign} har flyttats i minningsordningen för {account}",
+  "change_ignored_detail": "{campaign} minas inte längre på {account}",
+  "change_unignored_detail": "{campaign} minas igen på {account}",
+  "change_selected_detail": "{campaign} har lagts till i urvalet för {account}",
+  "change_unselected_detail": "{campaign} har tagits bort från urvalet för {account}",
+  "change_prioritized_detail": "{campaign} minas nu först på {account}",
+  "change_streamer_added_detail": "{streamer} har lagts till i listan för {account}",
+  "change_streamer_edited_detail": "Alternativen för {streamer} har sparats för {account}",
+  "change_streamer_removed_detail": "{streamer} har tagits bort från listan för {account}",
+  "change_streamer_enabled_detail": "{streamer} följs igen för {account}",
+  "change_streamer_disabled_detail": "{streamer} är pausad för {account}",
+  "change_streamer_moved_detail": "{streamer} har flyttats till plats {position} i listan för {account}",
+  "change_copied_drops_detail": "Drops-inställningarna från {sourceAccount} har kopierats till {account}",
+  "change_copied_points_detail": "Poänginställningarna från {sourceAccount} har kopierats till {account}",
+  "change_streamers_edited_detail": [
+    {
+      "declarations": [
+        "input count",
+        "input streamerCount",
+        "input account",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{streamerCount} streamer redigerad i listan för {account}",
+        "countPlural=*": "{streamerCount} streamrar redigerade i listan för {account}"
+      }
+    }
+  ],
+  "change_streamers_imported_detail": [
+    {
+      "declarations": [
+        "input count",
+        "input streamerCount",
+        "input account",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{streamerCount} streamer importerad till listan för {account}",
+        "countPlural=*": "{streamerCount} streamrar importerade till listan för {account}"
+      }
+    }
+  ]
 }

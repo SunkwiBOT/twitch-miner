@@ -927,25 +927,25 @@
   "bulk_applied_title": "Акаунтите са обновени",
   "bulk_apply": "Приложи ({changeCount})",
   "bulk_apply_others": "Приложи към други акаунти",
-  "bulk_changes": "{formattedCount} промени",
+  "bulk_changes": "{formattedCount} промени са запазени в {account}",
   "bulk_hint": "Промените, направени в {account} ({changeCount}), се повтарят в отметнатите акаунти. Всеки акаунт запазва останалите си настройки.",
   "bulk_hint_chosen": "Промените, направени в избраните акаунти ({changeCount}), се повтарят в отметнатите акаунти. Всеки акаунт запазва останалите си настройки.",
   "bulk_no_accounts": "Няма друг акаунт.",
   "bulk_nothing_to_change": "На този акаунт няма какво да се променя",
   "bulk_title": "Приложи към други акаунти",
-  "change_campaign_moved": "{campaign} е преместена успешно",
-  "change_copied_drops": "Настройките за Drops на {sourceAccount} са копирани успешно",
-  "change_copied_points": "Настройките за точки на {sourceAccount} са копирани успешно",
-  "change_ignored": "Успешно игнорирано: {campaignOrReward}",
-  "change_unignored": "Отново се копае: {campaignOrReward}",
-  "change_settings": "Настройките са запазени успешно",
-  "change_streamer_added": "{streamer} е добавен успешно",
-  "change_streamer_disabled": "{streamer} е поставен на пауза успешно",
-  "change_streamer_enabled": "{streamer} е включен успешно",
-  "change_streamer_edited": "Опциите на {streamer} са запазени успешно",
-  "change_streamer_moved": "{streamer} е преместен успешно",
-  "change_streamer_removed": "{streamer} е премахнат успешно",
-  "change_streamers_imported": "Успешно импортирани стриймъри: {streamerCount}",
+  "change_campaign_moved": "Кампанията е преместена",
+  "change_copied_drops": "Настройките за Drops са копирани",
+  "change_copied_points": "Настройките за точки са копирани",
+  "change_ignored": "Игнорирано",
+  "change_unignored": "Отново се копае",
+  "change_settings": "Настройките са запазени",
+  "change_streamer_added": "Стриймърът е добавен",
+  "change_streamer_disabled": "Стриймърът е на пауза",
+  "change_streamer_enabled": "Стриймърът е включен",
+  "change_streamer_edited": "Опциите на стриймъра са запазени",
+  "change_streamer_moved": "Стриймърът е преместен",
+  "change_streamer_removed": "Стриймърът е премахнат",
+  "change_streamers_imported": "Стриймърите са импортирани",
   "common_back": "Назад",
   "common_edit": "Редактирай",
   "common_next": "Напред",
@@ -1076,7 +1076,7 @@
   "accounts_stats_bets": "Залози спечелени / загубени: {won} / {lost}",
   "accounts_stats_bonuses": "Бонус сандъци: {bonusCount}",
   "catalogue_fetched": "получено {fetchedTime}, после на всеки {minutes} мин",
-  "change_order_reset": "Автоматичният ред е възстановен успешно",
+  "change_order_reset": "Автоматичният ред е възстановен",
   "event_kind_goal_contributed": "Цел на общността",
   "ev_goal_contributed": [
     {
@@ -1237,7 +1237,7 @@
   "queue_hint_blocked_set_aside": "{minutes} минути реално гледане без напредък я отложиха; всякакъв напредък я връща веднага.",
   "badge_hint_linked": "Акаунтът на издателя е свързан: drops могат да се вземат",
   "badge_hint_not_linked": "Свържете акаунта на издателя, за да вземете drops",
-  "badge_hint_link_unknown": "Twitch не съобщава дали акаунтът на издателя е свързан; получаването може да изчака свързването",
+  "badge_hint_link_unknown": "Twitch още не казва дали акаунтът на издателя е свързан. Казва го веднага щом кампанията започне, след няколко минути гледане.",
   "badge_hint_claimed": "Вече е в инвентара ви в Twitch",
   "badge_hint_owned": "Този акаунт вече има тази значка: майнерът не я копае",
   "badge_hint_ready": "Спечелено: остава само да се вземе",
@@ -1343,7 +1343,7 @@
   "drops_streamers_first": "Първо моите стриймъри за Drops и значки",
   "drops_streamers_first_hint": "За дадена кампания или значка канал от списъка ви, който се брои за нея (правилната категория с Drops или категория на събитието на Twitch), е преди непознат канал: Drops, значки и точки на едно място.",
   "points_streamer_defaults": "Опции по подразбиране за новите стриймъри",
-  "change_streamer_defaults": "Опциите по подразбиране за новите стриймъри са запазени успешно",
+  "change_streamer_defaults": "Опциите по подразбиране са запазени",
   "streamer_predictions_timing": "Кога да се залага",
   "bet_timing_at_open": "Веднага щом гласуването се отвори",
   "bet_timing_at_open_hint": "Залага веднага щом гласуването се отвори: тогава стратегиите имат малко данни.",
@@ -1379,7 +1379,7 @@
   "points_group_hint": "Прилагат се само опциите, които промените; опция, отбелязана като „Смесено“, запазва стойността на всеки стриймър, докато не я промените.",
   "streamer_option_mixed": "Смесено",
   "setting_with_mark": "{option} ({optionNote})",
-  "change_streamers_edited": "Успешно редактирани стриймъри: {streamerCount}",
+  "change_streamers_edited": "Стриймърите са променени",
   "points_defaults_offer_title": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -1754,9 +1754,9 @@
   "campaign_selecting": "Добавяне…",
   "campaign_unselect": "Премахване от моя избор",
   "campaign_unselecting": "Премахване…",
-  "change_selected": "Добавено към избора: {campaignOrReward}",
-  "change_unselected": "Премахнато от избора: {campaignOrReward}",
-  "change_prioritized": "Поставено начело в реда на копаене: {campaignOrReward}",
+  "change_selected": "Добавено към избора",
+  "change_unselected": "Премахнато от избора",
+  "change_prioritized": "Поставено начело на реда за копаене",
   "selection_not_selected": "Не е избрано",
   "badges_not_selected_hint": "„Само моят избор“ е включено: отбележете тази значка със звезда, за да се копае.",
   "account_badges_mining_off": "Значките са изключени в „Какво да се копае, по ред“ на този акаунт: показват се, но не се копаят.",
@@ -1814,5 +1814,52 @@
   "settings_discord_test": "Тествай",
   "settings_telegram_test": "Тествай",
   "settings_webhook_test": "Тествай",
-  "export_counts_count_one": "{claimCount} получен"
+  "export_counts_count_one": "{claimCount} получен",
+  "change_settings_detail": "Настройките на {account} са променени",
+  "change_streamer_defaults_detail": "Новите стриймъри на {account} ще започват с тези опции",
+  "change_order_reset_detail": "Редът за копаене на {account} отново е автоматичен",
+  "change_campaign_moved_detail": "{campaign} е преместена в реда за копаене на {account}",
+  "change_ignored_detail": "{campaign} вече няма да се копае в {account}",
+  "change_unignored_detail": "{campaign} отново ще се копае в {account}",
+  "change_selected_detail": "{campaign} е добавена към избора на {account}",
+  "change_unselected_detail": "{campaign} е премахната от избора на {account}",
+  "change_prioritized_detail": "{campaign} вече се копае първа в {account}",
+  "change_streamer_added_detail": "{streamer} е добавен в списъка на {account}",
+  "change_streamer_edited_detail": "Опциите на {streamer} са запазени за {account}",
+  "change_streamer_removed_detail": "{streamer} е премахнат от списъка на {account}",
+  "change_streamer_enabled_detail": "{streamer} отново се следи за {account}",
+  "change_streamer_disabled_detail": "{streamer} е на пауза за {account}",
+  "change_streamer_moved_detail": "{streamer} е преместен на позиция {position} в списъка на {account}",
+  "change_copied_drops_detail": "Настройките за Drops на {sourceAccount} са копирани в {account}",
+  "change_copied_points_detail": "Настройките за точки на {sourceAccount} са копирани в {account}",
+  "change_streamers_edited_detail": [
+    {
+      "declarations": [
+        "input count",
+        "input streamerCount",
+        "input account",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{streamerCount} стриймър е променен в списъка на {account}",
+        "countPlural=*": "{streamerCount} стриймъри са променени в списъка на {account}"
+      }
+    }
+  ],
+  "change_streamers_imported_detail": [
+    {
+      "declarations": [
+        "input count",
+        "input streamerCount",
+        "input account",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{streamerCount} стриймър е импортиран в списъка на {account}",
+        "countPlural=*": "{streamerCount} стриймъри са импортирани в списъка на {account}"
+      }
+    }
+  ]
 }

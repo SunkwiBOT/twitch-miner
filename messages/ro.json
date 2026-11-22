@@ -927,25 +927,25 @@
   "bulk_applied_title": "Conturi actualizate",
   "bulk_apply": "Aplică ({changeCount})",
   "bulk_apply_others": "Aplică la alte conturi",
-  "bulk_changes": "{formattedCount} modificări",
+  "bulk_changes": "{formattedCount} modificări salvate pe {account}",
   "bulk_hint": "Modificările făcute pe {account} ({changeCount}) sunt refăcute pe conturile bifate. Fiecare cont își păstrează restul setărilor.",
   "bulk_hint_chosen": "Modificările făcute pe conturile alese ({changeCount}) sunt refăcute pe conturile bifate. Fiecare cont își păstrează restul setărilor.",
   "bulk_no_accounts": "Niciun alt cont.",
   "bulk_nothing_to_change": "Nimic de schimbat pe acest cont",
   "bulk_title": "Aplică la alte conturi",
-  "change_campaign_moved": "{campaign} mutată cu succes",
-  "change_copied_drops": "Setările Drops ale lui {sourceAccount} copiate cu succes",
-  "change_copied_points": "Setările de puncte ale lui {sourceAccount} copiate cu succes",
-  "change_ignored": "Ignorat cu succes: {campaignOrReward}",
-  "change_unignored": "Minat din nou: {campaignOrReward}",
-  "change_settings": "Setări salvate cu succes",
-  "change_streamer_added": "{streamer} adăugat cu succes",
-  "change_streamer_disabled": "{streamer} pus pe pauză cu succes",
-  "change_streamer_enabled": "{streamer} activat cu succes",
-  "change_streamer_edited": "Opțiunile pentru {streamer} salvate cu succes",
-  "change_streamer_moved": "{streamer} mutat cu succes",
-  "change_streamer_removed": "{streamer} eliminat cu succes",
-  "change_streamers_imported": "Streameri importați cu succes: {streamerCount}",
+  "change_campaign_moved": "Campanie mutată",
+  "change_copied_drops": "Setări Drops copiate",
+  "change_copied_points": "Setări de puncte copiate",
+  "change_ignored": "Ignorat",
+  "change_unignored": "Minat din nou",
+  "change_settings": "Setări salvate",
+  "change_streamer_added": "Streamer adăugat",
+  "change_streamer_disabled": "Streamer pus pe pauză",
+  "change_streamer_enabled": "Streamer activat",
+  "change_streamer_edited": "Opțiunile streamerului salvate",
+  "change_streamer_moved": "Streamer mutat",
+  "change_streamer_removed": "Streamer eliminat",
+  "change_streamers_imported": "Streameri importați",
   "common_back": "Înapoi",
   "common_edit": "Editează",
   "common_next": "Următorul",
@@ -1080,7 +1080,7 @@
   "accounts_stats_bets": "Pariuri câștigate / pierdute: {won} / {lost}",
   "accounts_stats_bonuses": "Cufere bonus: {bonusCount}",
   "catalogue_fetched": "preluat {fetchedTime}, apoi la fiecare {minutes} min",
-  "change_order_reset": "Ordinea automată a fost restabilită cu succes",
+  "change_order_reset": "Ordine automată restabilită",
   "event_kind_goal_contributed": "Obiectiv al comunității",
   "ev_goal_contributed": [
     {
@@ -1245,7 +1245,7 @@
   "queue_hint_blocked_set_aside": "{minutes} de minute de vizionare reală fără progres au amânat-o; orice progres o aduce înapoi imediat.",
   "badge_hint_linked": "Cont de editor legat: drop-urile pot fi revendicate",
   "badge_hint_not_linked": "Leagă contul de editor ca să revendici drop-urile",
-  "badge_hint_link_unknown": "Twitch nu spune dacă contul de editor este conectat; revendicarea poate aștepta conectarea",
+  "badge_hint_link_unknown": "Twitch nu spune încă dacă contul editorului este conectat. O spune imediat ce începe campania, după câteva minute de vizionare.",
   "badge_hint_claimed": "Deja în inventarul tău Twitch",
   "badge_hint_owned": "Acest cont are deja această insignă: minerul nu o minează",
   "badge_hint_ready": "Câștigat: mai trebuie doar revendicat",
@@ -1352,7 +1352,7 @@
   "drops_streamers_first": "Streamerii mei mai întâi pentru Drops și insigne",
   "drops_streamers_first_hint": "Pentru o campanie sau o insignă, un canal din lista ta care contează pentru ea (categoria potrivită cu Drops sau o categorie a evenimentului Twitch) vine înaintea unui canal necunoscut: Drops, insigne și puncte în același loc.",
   "points_streamer_defaults": "Opțiuni implicite pentru streamerii noi",
-  "change_streamer_defaults": "Opțiunile implicite pentru streamerii noi au fost salvate cu succes",
+  "change_streamer_defaults": "Opțiuni implicite salvate",
   "streamer_predictions_timing": "Momentul pariului",
   "bet_timing_at_open": "Imediat ce se deschide votul",
   "bet_timing_at_open_hint": "Pariază imediat ce se deschide votul: strategiile au atunci puține date.",
@@ -1389,7 +1389,7 @@
   "points_group_hint": "Se aplică doar opțiunile pe care le schimbi; o opțiune marcată „Mixt” păstrează valoarea fiecărui streamer până când o schimbi.",
   "streamer_option_mixed": "Mixt",
   "setting_with_mark": "{option} ({optionNote})",
-  "change_streamers_edited": "Streameri editați cu succes: {streamerCount}",
+  "change_streamers_edited": "Streameri modificați",
   "points_defaults_offer_title": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -1776,9 +1776,9 @@
   "campaign_selecting": "Se adaugă…",
   "campaign_unselect": "Scoate din selecția mea",
   "campaign_unselecting": "Se scoate…",
-  "change_selected": "Adăugat în selecție: {campaignOrReward}",
-  "change_unselected": "Scos din selecție: {campaignOrReward}",
-  "change_prioritized": "Plasat în fruntea ordinii de minare: {campaignOrReward}",
+  "change_selected": "Adăugat la selecție",
+  "change_unselected": "Eliminat din selecție",
+  "change_prioritized": "Pus în fruntea ordinii de minare",
   "selection_not_selected": "Neselectată",
   "badges_not_selected_hint": "„Doar selecția mea” este activat: marchează această insignă cu o stea ca să fie minată.",
   "account_badges_mining_off": "Insignele sunt dezactivate în „Ce să se mineze, în ordine” al acestui cont: sunt afișate, dar nu sunt minate.",
@@ -1836,5 +1836,54 @@
   "settings_discord_test": "Testează",
   "settings_telegram_test": "Testează",
   "settings_webhook_test": "Testează",
-  "export_counts_count_one": "{claimCount} revendicat"
+  "export_counts_count_one": "{claimCount} revendicat",
+  "change_settings_detail": "Setările contului {account} s-au schimbat",
+  "change_streamer_defaults_detail": "Streamerii noi ai contului {account} pornesc cu aceste opțiuni",
+  "change_order_reset_detail": "Ordinea de minare a contului {account} urmează din nou ordinea automată",
+  "change_campaign_moved_detail": "{campaign} a fost mutată în ordinea de minare a contului {account}",
+  "change_ignored_detail": "{campaign} nu va mai fi minată pe {account}",
+  "change_unignored_detail": "{campaign} va fi minată din nou pe {account}",
+  "change_selected_detail": "{campaign} a fost adăugată la selecția contului {account}",
+  "change_unselected_detail": "{campaign} a fost eliminată din selecția contului {account}",
+  "change_prioritized_detail": "{campaign} este acum minată prima pe {account}",
+  "change_streamer_added_detail": "{streamer} a fost adăugat în lista contului {account}",
+  "change_streamer_edited_detail": "Opțiunile lui {streamer} au fost salvate pentru {account}",
+  "change_streamer_removed_detail": "{streamer} a fost eliminat din lista contului {account}",
+  "change_streamer_enabled_detail": "{streamer} este din nou urmărit pentru {account}",
+  "change_streamer_disabled_detail": "{streamer} este pe pauză pentru {account}",
+  "change_streamer_moved_detail": "{streamer} a fost mutat pe poziția {position} în lista contului {account}",
+  "change_copied_drops_detail": "Setările Drops ale contului {sourceAccount} au fost copiate pe {account}",
+  "change_copied_points_detail": "Setările de puncte ale contului {sourceAccount} au fost copiate pe {account}",
+  "change_streamers_edited_detail": [
+    {
+      "declarations": [
+        "input count",
+        "input streamerCount",
+        "input account",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{streamerCount} streamer modificat în lista contului {account}",
+        "countPlural=few": "{streamerCount} streameri modificați în lista contului {account}",
+        "countPlural=*": "{streamerCount} de streameri modificați în lista contului {account}"
+      }
+    }
+  ],
+  "change_streamers_imported_detail": [
+    {
+      "declarations": [
+        "input count",
+        "input streamerCount",
+        "input account",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{streamerCount} streamer importat în lista contului {account}",
+        "countPlural=few": "{streamerCount} streameri importați în lista contului {account}",
+        "countPlural=*": "{streamerCount} de streameri importați în lista contului {account}"
+      }
+    }
+  ]
 }

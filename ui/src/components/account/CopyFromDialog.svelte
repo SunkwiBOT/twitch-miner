@@ -3,8 +3,8 @@
   import type { AccountSettingsType } from "../../lib/bindings/AccountSettingsType";
   import type { AccountSnapshotType } from "../../lib/bindings/AccountSnapshotType";
   import { t } from "../../lib/i18n/i18n.svelte";
-  import { personMarker, strong } from "../../lib/text.utils";
-  import { changedWhenSaved } from "../../lib/state/bulk.svelte";
+  import { personMarker } from "../../lib/text.utils";
+  import { changedWhenSaved, settingsCopied } from "../../lib/state/bulk.svelte";
   import { updateAccountSettings } from "../../lib/state/account-settings.svelte";
   import { app } from "../../lib/state/app.svelte";
   import TextButton from "../ui/TextButton.svelte";
@@ -39,7 +39,7 @@
       return;
     }
 
-    const source = { name: from.display_name, url: from.avatar_url, channel: null };
+    const source = { name: from.display_name, avatar: from.avatar_url, channel: null };
     const copied = drops
       ? { drops: $state.snapshot(from.settings.drops) }
       : { points: $state.snapshot(from.settings.points) };
@@ -54,11 +54,12 @@
       }
     };
 
-    const text = drops
-      ? t.change_copied_drops({ sourceAccount: strong(source.name) })
-      : t.change_copied_points({ sourceAccount: strong(source.name) });
-
-    void changedWhenSaved(updateAccountSettings(account.id, take), account.id, text, take, source);
+    void changedWhenSaved(
+      updateAccountSettings(account.id, take),
+      account.id,
+      settingsCopied(drops, source),
+      take,
+    );
     onclose();
   };
 </script>

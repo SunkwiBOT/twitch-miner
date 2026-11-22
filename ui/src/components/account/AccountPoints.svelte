@@ -27,11 +27,18 @@
   } from "../../lib/channels/channels.svelte";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { subscriberPriorityHint } from "../../lib/points/points.utils";
-  import { personMarker, strong } from "../../lib/text.utils";
-  import { changedWhenSaved } from "../../lib/state/bulk.svelte";
+  import { personMarker, type TextPersonType } from "../../lib/text.utils";
+  import {
+    accountChange,
+    type ChangeToastType,
+    changedWhenSaved,
+    streamerChange,
+    streamerMoved,
+    streamersCounted,
+  } from "../../lib/state/bulk.svelte";
+  import { ChangeKind } from "../../lib/state/state.constants";
   import { updateAccountSettings } from "../../lib/state/account-settings.svelte";
   import { app } from "../../lib/state/app.svelte";
-  import type { ToastSubjectType } from "../../lib/state/toasts";
   import IconButton from "../ui/IconButton.svelte";
   import PageBody from "../ui/PageBody.svelte";
   import Panel from "../ui/Panel.svelte";
@@ -59,24 +66,17 @@
     ensureChannels(streamers.map((s) => s.login).filter((login) => !channelOf(login)));
   });
 
-  const subjectOf = (login: string): ToastSubjectType => {
+  const subjectOf = (login: string): TextPersonType => {
     const channel = channelOf(login);
 
-    return { url: channel?.avatar_url, name: channel?.display_name ?? login, channel: login };
+    return { avatar: channel?.avatar_url, name: channel?.display_name ?? login, channel: login };
   };
 
   const saveChange = (
-    text: string,
+    said: ChangeToastType,
     apply: (settings: AccountSettingsType) => void,
-    subject?: ToastSubjectType,
   ): void => {
-    void changedWhenSaved(
-      updateAccountSettings(account.id, apply),
-      account.id,
-      text,
-      apply,
-      subject,
-    );
+    void changedWhenSaved(updateAccountSettings(account.id, apply), account.id, said, apply);
   };
 
   let adding = $state(false);
@@ -113,7 +113,7 @@
       return;
     }
 
-    saveChange(t.change_streamers_edited({ streamerCount: strong(logins.size) }), (settings) =>
+    saveChange(streamersCounted(ChangeKind.STREAMERS_EDITED, logins.size), (settings) =>
       setStreamersOptions(settings, logins, values, changes),
     );
 
@@ -137,19 +137,18 @@
 
     const { options, values } = offer;
 
-    saveChange(t.change_streamer_defaults(), (settings) =>
+    saveChange(accountChange(ChangeKind.STREAMER_DEFAULTS), (settings) =>
       setStreamerDefaults(settings, values, options),
     );
   };
 
   const setEnabled = (login: string, enabled: boolean): void => {
-    const subject = subjectOf(login);
-    const streamer = strong(subject.name);
-
     saveChange(
-      enabled ? t.change_streamer_enabled({ streamer }) : t.change_streamer_disabled({ streamer }),
+      streamerChange(
+        enabled ? ChangeKind.STREAMER_ENABLED : ChangeKind.STREAMER_DISABLED,
+        subjectOf(login),
+      ),
       (settings) => setStreamerEnabled(settings, login, enabled),
-      subject,
     );
   };
 
@@ -157,12 +156,8 @@
   const removingChannel = $derived(removing ? channelOf(removing) : undefined);
 
   const remove = (login: string): void => {
-    const subject = subjectOf(login);
-
-    saveChange(
-      t.change_streamer_removed({ streamer: strong(subject.name) }),
-      (settings) => removeStreamer(settings, login),
-      subject,
+    saveChange(streamerChange(ChangeKind.STREAMER_REMOVED, subjectOf(login)), (settings) =>
+      removeStreamer(settings, login),
     );
   };
 
@@ -171,12 +166,9 @@
       list.map((item) => item.login),
       moved.login,
     );
-    const subject = subjectOf(moved.login);
 
-    saveChange(
-      t.change_streamer_moved({ streamer: strong(subject.name) }),
-      (settings) => moveStreamer(settings, moved.login, place),
-      subject,
+    saveChange(streamerMoved(subjectOf(moved.login), place.index), (settings) =>
+      moveStreamer(settings, moved.login, place),
     );
   };
 

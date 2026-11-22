@@ -875,25 +875,25 @@
   "bulk_applied_title": "Tilit päivitetty",
   "bulk_apply": "Käytä ({changeCount})",
   "bulk_apply_others": "Käytä muihin tileihin",
-  "bulk_changes": "{formattedCount} muutosta",
+  "bulk_changes": "{formattedCount} muutosta tallennettu tilille {account}",
   "bulk_hint": "Tilillä {account} tehdyt muutokset ({changeCount}) tehdään uudelleen valituille tileille. Kukin tili säilyttää muut asetuksensa.",
   "bulk_hint_chosen": "Valitsemillasi tileillä tehdyt muutokset ({changeCount}) tehdään uudelleen merkityille tileille. Kukin tili säilyttää muut asetuksensa.",
   "bulk_no_accounts": "Ei muita tilejä.",
   "bulk_nothing_to_change": "Tällä tilillä ei ole muutettavaa",
   "bulk_title": "Käytä muihin tileihin",
-  "change_campaign_moved": "{campaign} siirretty onnistuneesti",
-  "change_copied_drops": "Drops-asetukset kopioitu onnistuneesti tililtä {sourceAccount}",
-  "change_copied_points": "Pisteasetukset kopioitu onnistuneesti tililtä {sourceAccount}",
-  "change_ignored": "Ohitettu onnistuneesti: {campaignOrReward}",
-  "change_unignored": "Louhitaan taas: {campaignOrReward}",
-  "change_settings": "Asetukset tallennettu onnistuneesti",
-  "change_streamer_added": "{streamer} lisätty onnistuneesti",
-  "change_streamer_disabled": "{streamer} asetettu tauolle onnistuneesti",
-  "change_streamer_enabled": "{streamer} otettu käyttöön onnistuneesti",
-  "change_streamer_edited": "Streamaajan {streamer} valinnat tallennettu onnistuneesti",
-  "change_streamer_moved": "{streamer} siirretty onnistuneesti",
-  "change_streamer_removed": "{streamer} poistettu onnistuneesti",
-  "change_streamers_imported": "Streamaajat tuotu onnistuneesti: {streamerCount}",
+  "change_campaign_moved": "Kampanja siirretty",
+  "change_copied_drops": "Drops-asetukset kopioitu",
+  "change_copied_points": "Pisteasetukset kopioitu",
+  "change_ignored": "Ohitettu",
+  "change_unignored": "Louhitaan taas",
+  "change_settings": "Asetukset tallennettu",
+  "change_streamer_added": "Striimaaja lisätty",
+  "change_streamer_disabled": "Striimaaja keskeytetty",
+  "change_streamer_enabled": "Striimaaja käytössä",
+  "change_streamer_edited": "Striimaajan asetukset tallennettu",
+  "change_streamer_moved": "Striimaaja siirretty",
+  "change_streamer_removed": "Striimaaja poistettu",
+  "change_streamers_imported": "Striimaajat tuotu",
   "common_back": "Takaisin",
   "common_edit": "Muokkaa",
   "common_next": "Seuraava",
@@ -1024,7 +1024,7 @@
   "accounts_stats_bets": "Vedot voitetut / hävityt: {won} / {lost}",
   "accounts_stats_bonuses": "Bonusarkut: {bonusCount}",
   "catalogue_fetched": "haettu {fetchedTime}, uudelleen {minutes} min välein",
-  "change_order_reset": "Automaattinen järjestys palautettu onnistuneesti",
+  "change_order_reset": "Automaattinen järjestys palautettu",
   "event_kind_goal_contributed": "Yhteisötavoite",
   "ev_goal_contributed": [
     {
@@ -1185,7 +1185,7 @@
   "queue_hint_blocked_set_aside": "{minutes} minuuttia todellista katselua ilman edistymistä siirsi sen sivuun; mikä tahansa edistyminen tuo sen heti takaisin.",
   "badge_hint_linked": "Julkaisijatili linkitetty: dropit voi lunastaa",
   "badge_hint_not_linked": "Linkitä julkaisijatili lunastaaksesi dropit",
-  "badge_hint_link_unknown": "Twitch ei kerro, onko julkaisijatili linkitetty; lunastus voi odottaa linkitystä",
+  "badge_hint_link_unknown": "Twitch ei vielä kerro, onko julkaisijan tili yhdistetty. Se kertoo sen heti kampanjan alettua, muutaman katseluminuutin jälkeen.",
   "badge_hint_claimed": "Jo Twitch-inventaariossasi",
   "badge_hint_owned": "Tällä tilillä on jo tämä merkki: louhija ei louhi sitä",
   "badge_hint_ready": "Ansaittu: pitää vain lunastaa",
@@ -1291,7 +1291,7 @@
   "drops_streamers_first": "Omat streamaajat ensin Dropseissa ja merkeissä",
   "drops_streamers_first_hint": "Kampanjassa tai merkissä listasi kanava, joka lasketaan siihen (oikea kategoria Dropsien kanssa tai Twitch-tapahtuman kategoria), menee tuntemattoman kanavan edelle: Dropsit, merkit ja pisteet samassa paikassa.",
   "points_streamer_defaults": "Uusien streamaajien oletusvalinnat",
-  "change_streamer_defaults": "Uusien streamaajien oletusvalinnat tallennettu onnistuneesti",
+  "change_streamer_defaults": "Oletusasetukset tallennettu",
   "streamer_predictions_timing": "Panostuksen ajankohta",
   "bet_timing_at_open": "Heti kun äänestys avautuu",
   "bet_timing_at_open_hint": "Panostaa heti, kun äänestys avautuu: strategioilla on silloin vähän tietoa.",
@@ -1314,7 +1314,7 @@
   "points_group_hint": "Vain muuttamasi valinnat koskevat näitä streamaajia; valinta, jossa lukee ”Vaihtelee”, säilyttää kunkin oman arvon, kunnes muutat sitä.",
   "streamer_option_mixed": "Vaihtelee",
   "setting_with_mark": "{option} ({optionNote})",
-  "change_streamers_edited": "Streamaajat muokattu onnistuneesti: {streamerCount}",
+  "change_streamers_edited": "Striimaajia muokattu",
   "points_defaults_offer_title": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -1689,9 +1689,9 @@
   "campaign_selecting": "Lisätään…",
   "campaign_unselect": "Poista valinnastani",
   "campaign_unselecting": "Poistetaan…",
-  "change_selected": "Lisätty valintaan: {campaignOrReward}",
-  "change_unselected": "Poistettu valinnasta: {campaignOrReward}",
-  "change_prioritized": "Siirretty louhintajärjestyksen kärkeen: {campaignOrReward}",
+  "change_selected": "Lisätty valintaan",
+  "change_unselected": "Poistettu valinnasta",
+  "change_prioritized": "Siirretty louhintajärjestyksen kärkeen",
   "selection_not_selected": "Ei valittu",
   "badges_not_selected_hint": "”Vain valintani” on päällä: merkitse tämä merkki tähdellä, jotta se louhitaan.",
   "account_badges_mining_off": "Merkit on poistettu käytöstä tämän tilin kohdassa ”Mitä louhitaan, järjestyksessä”: ne näytetään, mutta niitä ei louhita.",
@@ -1749,5 +1749,52 @@
   "settings_discord_test": "Testaa",
   "settings_telegram_test": "Testaa",
   "settings_webhook_test": "Testaa",
-  "export_counts_count_one": "{claimCount} lunastettu"
+  "export_counts_count_one": "{claimCount} lunastettu",
+  "change_settings_detail": "Tilin {account} asetukset muuttuivat",
+  "change_streamer_defaults_detail": "Tilin {account} uudet striimaajat alkavat näillä asetuksilla",
+  "change_order_reset_detail": "Tilin {account} louhintajärjestys seuraa taas automaattista järjestystä",
+  "change_campaign_moved_detail": "{campaign} siirrettiin tilin {account} louhintajärjestyksessä",
+  "change_ignored_detail": "Kohdetta {campaign} ei enää louhita tilillä {account}",
+  "change_unignored_detail": "{campaign} louhitaan taas tilillä {account}",
+  "change_selected_detail": "{campaign} lisättiin tilin {account} valintaan",
+  "change_unselected_detail": "{campaign} poistettiin tilin {account} valinnasta",
+  "change_prioritized_detail": "{campaign} louhitaan nyt ensin tilillä {account}",
+  "change_streamer_added_detail": "{streamer} lisättiin tilin {account} listalle",
+  "change_streamer_edited_detail": "Striimaajan {streamer} asetukset tallennettiin tilille {account}",
+  "change_streamer_removed_detail": "{streamer} poistettiin tilin {account} listalta",
+  "change_streamer_enabled_detail": "{streamer} on taas seurannassa tilillä {account}",
+  "change_streamer_disabled_detail": "{streamer} on keskeytetty tilillä {account}",
+  "change_streamer_moved_detail": "{streamer} siirrettiin sijalle {position} tilin {account} listalla",
+  "change_copied_drops_detail": "Tilin {sourceAccount} Drops-asetukset kopioitiin tilille {account}",
+  "change_copied_points_detail": "Tilin {sourceAccount} pisteasetukset kopioitiin tilille {account}",
+  "change_streamers_edited_detail": [
+    {
+      "declarations": [
+        "input count",
+        "input streamerCount",
+        "input account",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{streamerCount} striimaaja muokattu tilin {account} listalla",
+        "countPlural=*": "{streamerCount} striimaajaa muokattu tilin {account} listalla"
+      }
+    }
+  ],
+  "change_streamers_imported_detail": [
+    {
+      "declarations": [
+        "input count",
+        "input streamerCount",
+        "input account",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{streamerCount} striimaaja tuotu tilin {account} listalle",
+        "countPlural=*": "{streamerCount} striimaajaa tuotu tilin {account} listalle"
+      }
+    }
+  ]
 }

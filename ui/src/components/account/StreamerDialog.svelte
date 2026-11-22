@@ -11,7 +11,8 @@
   import { describeError } from "../../lib/errors/errors.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { escapeEmphasis, personMarker, strong, type TextPersonType } from "../../lib/text.utils";
-  import { changedWhenSaved } from "../../lib/state/bulk.svelte";
+  import { changedWhenSaved, streamerChange } from "../../lib/state/bulk.svelte";
+  import { ChangeKind } from "../../lib/state/state.constants";
   import { updateAccountSettings } from "../../lib/state/account-settings.svelte";
   import TextButton from "../ui/TextButton.svelte";
   import Dialog from "../ui/Dialog.svelte";
@@ -126,7 +127,7 @@
 
     const next = $state.snapshot(draft);
     const subject = {
-      url: channel?.avatar_url,
+      avatar: channel?.avatar_url,
       name: channel?.display_name ?? next.login,
       channel: next.login,
     };
@@ -143,7 +144,7 @@
       void changedWhenSaved(
         saved,
         account.id,
-        t.change_streamer_edited({ streamer: strong(subject.name) }),
+        streamerChange(ChangeKind.STREAMER_EDITED, subject),
         (settings) => {
           const index = settings.points.streamers.findIndex((s) => s.login === next.login);
 
@@ -152,7 +153,6 @@
             settings.points.streamers[index] = { ...structuredClone(next), enabled };
           }
         },
-        subject,
       );
     } else {
       const order = [...account.settings.points.streamers.map((s) => s.login), next.login];
@@ -167,7 +167,7 @@
       void changedWhenSaved(
         saved,
         account.id,
-        t.change_streamer_added({ streamer: strong(subject.name) }),
+        streamerChange(ChangeKind.STREAMER_ADDED, subject),
         (settings) => {
           const logins = settings.points.streamers.map((s) => s.login);
           const placed = insertLike(logins, next.login, place);
@@ -180,7 +180,6 @@
             );
           }
         },
-        subject,
       );
     }
 

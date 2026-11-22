@@ -927,25 +927,25 @@
   "bulk_applied_title": "Konten aktualisiert",
   "bulk_apply": "Anwenden ({changeCount})",
   "bulk_apply_others": "Auf andere Konten anwenden",
-  "bulk_changes": "{formattedCount} Änderungen",
+  "bulk_changes": "{formattedCount} Änderungen auf {account} gespeichert",
   "bulk_hint": "Die an {account} vorgenommenen Änderungen ({changeCount}) werden auf den angehakten Konten wiederholt. Jedes Konto behält seine übrigen Einstellungen.",
   "bulk_hint_chosen": "Die an den gewählten Konten vorgenommenen Änderungen ({changeCount}) werden auf den angehakten Konten wiederholt. Jedes Konto behält seine übrigen Einstellungen.",
   "bulk_no_accounts": "Kein anderes Konto.",
   "bulk_nothing_to_change": "Nichts zu ändern bei diesem Konto",
   "bulk_title": "Auf andere Konten anwenden",
-  "change_campaign_moved": "{campaign} erfolgreich verschoben",
-  "change_copied_drops": "Drops-Einstellungen von {sourceAccount} erfolgreich kopiert",
-  "change_copied_points": "Punkte-Einstellungen von {sourceAccount} erfolgreich kopiert",
-  "change_ignored": "Erfolgreich ignoriert: {campaignOrReward}",
-  "change_unignored": "Wieder gemint: {campaignOrReward}",
-  "change_settings": "Einstellungen erfolgreich gespeichert",
-  "change_streamer_added": "{streamer} erfolgreich hinzugefügt",
-  "change_streamer_disabled": "{streamer} erfolgreich pausiert",
-  "change_streamer_enabled": "{streamer} erfolgreich aktiviert",
-  "change_streamer_edited": "Optionen von {streamer} erfolgreich gespeichert",
-  "change_streamer_moved": "{streamer} erfolgreich verschoben",
-  "change_streamer_removed": "{streamer} erfolgreich entfernt",
-  "change_streamers_imported": "Streamer erfolgreich importiert: {streamerCount}",
+  "change_campaign_moved": "Kampagne verschoben",
+  "change_copied_drops": "Drops-Einstellungen kopiert",
+  "change_copied_points": "Punkte-Einstellungen kopiert",
+  "change_ignored": "Ignoriert",
+  "change_unignored": "Wird wieder gefarmt",
+  "change_settings": "Einstellungen gespeichert",
+  "change_streamer_added": "Streamer hinzugefügt",
+  "change_streamer_disabled": "Streamer pausiert",
+  "change_streamer_enabled": "Streamer aktiviert",
+  "change_streamer_edited": "Streamer-Optionen gespeichert",
+  "change_streamer_moved": "Streamer verschoben",
+  "change_streamer_removed": "Streamer entfernt",
+  "change_streamers_imported": "Streamer importiert",
   "common_back": "Zurück",
   "common_edit": "Bearbeiten",
   "common_next": "Weiter",
@@ -1076,7 +1076,7 @@
   "accounts_stats_bets": "Wetten gewonnen / verloren: {won} / {lost}",
   "accounts_stats_bonuses": "Bonus-Truhen: {bonusCount}",
   "catalogue_fetched": "abgerufen {fetchedTime}, erneut alle {minutes} Min.",
-  "change_order_reset": "Automatische Reihenfolge erfolgreich wiederhergestellt",
+  "change_order_reset": "Automatische Reihenfolge wiederhergestellt",
   "event_kind_goal_contributed": "Community-Ziel",
   "ev_goal_contributed": [
     {
@@ -1237,7 +1237,7 @@
   "queue_hint_blocked_set_aside": "{minutes} Minuten echtes Zuschauen ohne Fortschritt haben sie zurückgestellt; jeder Fortschritt holt sie sofort zurück.",
   "badge_hint_linked": "Herausgeberkonto verknüpft: Drops können eingelöst werden",
   "badge_hint_not_linked": "Herausgeberkonto verknüpfen, um die Drops einzulösen",
-  "badge_hint_link_unknown": "Twitch sagt nicht, ob das Herausgeberkonto verknüpft ist; das Einlösen kann auf die Verknüpfung warten",
+  "badge_hint_link_unknown": "Twitch sagt noch nicht, ob das Konto des Publishers verknüpft ist. Das zeigt sich, sobald die Kampagne beginnt, nach ein paar Minuten Zuschauen.",
   "badge_hint_claimed": "Schon in Ihrem Twitch-Inventar",
   "badge_hint_owned": "Dieses Konto hat das Abzeichen schon: der Miner mint es nicht",
   "badge_hint_ready": "Verdient: muss nur noch eingelöst werden",
@@ -1343,7 +1343,7 @@
   "drops_streamers_first": "Meine Streamer zuerst für Drops und Abzeichen",
   "drops_streamers_first_hint": "Bei einer Kampagne oder einem Abzeichen kommt ein Kanal aus Ihrer Liste, der dafür zählt (die richtige Kategorie mit Drops oder eine Kategorie des Twitch-Events), vor einem unbekannten Kanal: Drops, Abzeichen und Punkte am selben Ort.",
   "points_streamer_defaults": "Standardoptionen für neue Streamer",
-  "change_streamer_defaults": "Standardoptionen für neue Streamer erfolgreich gespeichert",
+  "change_streamer_defaults": "Standardoptionen gespeichert",
   "streamer_predictions_timing": "Zeitpunkt der Wette",
   "bet_timing_at_open": "Sobald die Abstimmung öffnet",
   "bet_timing_at_open_hint": "Wettet, sobald die Abstimmung öffnet: Die Strategien haben dann wenig Daten.",
@@ -1366,7 +1366,7 @@
   "points_group_hint": "Nur die Optionen, die Sie ändern, gelten für diese Streamer; eine als „Gemischt“ markierte Option behält bei jedem seinen eigenen Wert, bis Sie sie ändern.",
   "streamer_option_mixed": "Gemischt",
   "setting_with_mark": "{option} ({optionNote})",
-  "change_streamers_edited": "Streamer erfolgreich bearbeitet: {streamerCount}",
+  "change_streamers_edited": "Streamer bearbeitet",
   "points_defaults_offer_title": [
     {
       "declarations": ["input count", "local countPlural = count: plural"],
@@ -1741,9 +1741,9 @@
   "campaign_selecting": "Wird hinzugefügt…",
   "campaign_unselect": "Aus meiner Auswahl entfernen",
   "campaign_unselecting": "Wird entfernt…",
-  "change_selected": "Zur Auswahl hinzugefügt: {campaignOrReward}",
-  "change_unselected": "Aus der Auswahl entfernt: {campaignOrReward}",
-  "change_prioritized": "An die Spitze der Mining-Reihenfolge gesetzt: {campaignOrReward}",
+  "change_selected": "Zur Auswahl hinzugefügt",
+  "change_unselected": "Aus der Auswahl entfernt",
+  "change_prioritized": "An die Spitze der Farm-Reihenfolge gesetzt",
   "selection_not_selected": "Nicht ausgewählt",
   "badges_not_selected_hint": "„Nur meine Auswahl“ ist an: Markieren Sie dieses Abzeichen mit einem Stern, um es zu minen.",
   "account_badges_mining_off": "Abzeichen sind in „Was gemint wird, der Reihe nach“ dieses Kontos ausgeschaltet: sie werden angezeigt, aber nicht gemint.",
@@ -1801,5 +1801,52 @@
   "settings_discord_test": "Testen",
   "settings_telegram_test": "Testen",
   "settings_webhook_test": "Testen",
-  "export_counts_count_one": "{claimCount} eingelöst"
+  "export_counts_count_one": "{claimCount} eingelöst",
+  "change_settings_detail": "Die Einstellungen von {account} wurden geändert",
+  "change_streamer_defaults_detail": "Neue Streamer von {account} starten mit diesen Optionen",
+  "change_order_reset_detail": "Die Farm-Reihenfolge von {account} folgt wieder der automatischen Reihenfolge",
+  "change_campaign_moved_detail": "{campaign} wurde in der Farm-Reihenfolge von {account} verschoben",
+  "change_ignored_detail": "{campaign} wird auf {account} nicht mehr gefarmt",
+  "change_unignored_detail": "{campaign} wird auf {account} wieder gefarmt",
+  "change_selected_detail": "{campaign} wurde zur Auswahl von {account} hinzugefügt",
+  "change_unselected_detail": "{campaign} wurde aus der Auswahl von {account} entfernt",
+  "change_prioritized_detail": "{campaign} wird auf {account} jetzt zuerst gefarmt",
+  "change_streamer_added_detail": "{streamer} wurde zur Liste von {account} hinzugefügt",
+  "change_streamer_edited_detail": "Die Optionen von {streamer} wurden für {account} gespeichert",
+  "change_streamer_removed_detail": "{streamer} wurde aus der Liste von {account} entfernt",
+  "change_streamer_enabled_detail": "{streamer} wird für {account} wieder verfolgt",
+  "change_streamer_disabled_detail": "{streamer} ist für {account} pausiert",
+  "change_streamer_moved_detail": "{streamer} wurde in der Liste von {account} auf Position {position} verschoben",
+  "change_copied_drops_detail": "Drops-Einstellungen von {sourceAccount} auf {account} kopiert",
+  "change_copied_points_detail": "Punkte-Einstellungen von {sourceAccount} auf {account} kopiert",
+  "change_streamers_edited_detail": [
+    {
+      "declarations": [
+        "input count",
+        "input streamerCount",
+        "input account",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{streamerCount} Streamer in der Liste von {account} bearbeitet",
+        "countPlural=*": "{streamerCount} Streamer in der Liste von {account} bearbeitet"
+      }
+    }
+  ],
+  "change_streamers_imported_detail": [
+    {
+      "declarations": [
+        "input count",
+        "input streamerCount",
+        "input account",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{streamerCount} Streamer in die Liste von {account} importiert",
+        "countPlural=*": "{streamerCount} Streamer in die Liste von {account} importiert"
+      }
+    }
+  ]
 }

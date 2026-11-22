@@ -12,18 +12,23 @@
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import { IconName } from "../../lib/icons.constants";
 
-  let { kind, title, description, account, action, onclose }: ToastCardPropsType = $props();
+  let {
+    kind,
+    title,
+    description,
+    people,
+    categories,
+    account,
+    action,
+    onclose,
+  }: ToastCardPropsType = $props();
 </script>
 
 <div
   class="relative flex w-toast max-w-[calc(100vw-2rem)] items-start gap-3 rounded-lg border bg-popover p-3 pr-10 text-sm text-popover-foreground shadow-lg"
   role={kind === ToastKind.ERROR ? "alert" : "status"}
 >
-  {#if account?.channel}
-    <ChannelAvatar url={account.url} name={account.name} size={AvatarSize.SM} live={false} />
-  {:else if account}
-    <Avatar url={account.url} name={account.name} size={AvatarSize.SM} />
-  {:else if kind === ToastKind.ERROR}
+  {#if kind === ToastKind.ERROR}
     <Icon name={IconName.OCTAGON_X} size={16} class="mt-0.5 shrink-0 text-destructive" />
   {:else if kind === ToastKind.SUCCESS}
     <Icon name={IconName.CIRCLE_CHECK} size={16} class="mt-0.5 shrink-0 text-success-emphasis" />
@@ -31,11 +36,25 @@
     <Icon name={IconName.INFO} size={16} class="mt-0.5 shrink-0 text-info-emphasis" />
   {/if}
   <div class="flex min-w-0 flex-1 flex-col gap-2">
-    <p class="m-0 flex flex-col leading-snug break-words">
-      <span class="font-semibold"><RichText text={title} /></span>
-      {#if account}<span class="font-semibold">{account.name}</span>{/if}
-      {#if description}<RichText text={description} />{/if}
-    </p>
+    <div class="flex flex-col gap-1 leading-snug break-words">
+      <p class="m-0 font-semibold"><RichText text={title} /></p>
+      {#if account}
+        <p class="m-0 flex min-w-0 items-center gap-2">
+          {#if account.channel}
+            <ChannelAvatar
+              url={account.url}
+              name={account.name}
+              size={AvatarSize.SM}
+              live={false}
+            />
+          {:else}
+            <Avatar url={account.url} name={account.name} size={AvatarSize.SM} />
+          {/if}
+          <strong class="min-w-0 truncate font-semibold">{account.name}</strong>
+        </p>
+      {/if}
+      {#if description}<p class="m-0"><RichText text={description} {people} {categories} /></p>{/if}
+    </div>
     {#if action}
       <TextButton
         label={action.label}

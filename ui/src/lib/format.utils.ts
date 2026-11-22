@@ -1,6 +1,7 @@
 import { locale } from "./i18n/i18n.svelte";
 import { type BoxArtSize, DurationUnit } from "./format.constants";
 import { MINUTE_MS, SECOND_MS } from "./time/time.constants";
+import { personMarker } from "./text.utils";
 
 export const number = (value: number): string =>
   new Intl.NumberFormat(locale.current).format(value);
@@ -30,6 +31,12 @@ export const longDuration = (count: number): string =>
         unitDisplay: "long",
       }).format(count / 60)
     : minutes(count);
+
+// ! The persons `from`…`from + count - 1` of a sentence, joined as a list ("A, B and C").
+export const peopleMarkers = (from: number, count: number): string =>
+  new Intl.ListFormat(locale.current, { type: "conjunction" }).format(
+    Array.from({ length: count }, (_, index) => personMarker(from + index)),
+  );
 
 export const list = (items: string[]): string =>
   new Intl.ListFormat(locale.current, { type: "disjunction" }).format(items);

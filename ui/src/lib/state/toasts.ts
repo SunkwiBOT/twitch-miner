@@ -10,7 +10,7 @@ import { isTauri } from "../api/tauri";
 import { describeError } from "../errors/errors.utils";
 import type { IconName } from "../icons.constants";
 import { t } from "../i18n/i18n.svelte";
-import { strong } from "../text.utils";
+import { strong, type TextCategoryType, type TextPersonType } from "../text.utils";
 import { app } from "./app.svelte";
 import {
   LINK_TOAST_KEY,
@@ -28,6 +28,8 @@ export type ToastCardPropsType = {
   kind: ToastKind;
   title: string;
   description: string | null;
+  people: TextPersonType[];
+  categories: TextCategoryType[];
   account: ToastSubjectType | null;
   action: ToastActionType | null;
   onclose: () => void;
@@ -37,6 +39,8 @@ export type LockWarningToastPropsType = { deadline: number; onclose: () => void 
 
 type ToastOptionsType = {
   description?: string;
+  people?: TextPersonType[];
+  categories?: TextCategoryType[];
   account?: ToastSubjectType;
   action?: ToastActionType;
   key?: string;
@@ -77,6 +81,8 @@ export const toast = (kind: ToastKind, title: string, options: ToastOptionsType 
       kind,
       title,
       description: options.description ?? null,
+      people: options.people ?? [],
+      categories: options.categories ?? [],
       account: options.account ?? null,
       action: options.action ?? null,
       onclose: () => dismissToast(id),
