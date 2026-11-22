@@ -180,23 +180,24 @@
   escolhe primeiro a que tem recompensas do tipo que você prefere (emblema, emote, item do
   jogo). Ele nunca passa por cima da sua ordem de mineração.
 
-- **Emblemas (beta).** A página Emblemas lista todos os emblemas globais do chat da
-  Twitch e como obtê-los. Cada conta tem a própria página Emblemas: os emblemas em
-  andamento com o progresso deles, os que ela ainda pode obter e os que já possui. O
-  minerador vai atrás dos emblemas das campanhas Drops e das missões da Twitch, e pula os
-  que a conta já possui. Um emblema a assistir todo dia é minerado de novo a cada dia até
-  o último (“20 min por dia, 3 dias”), e conta um canal de qualquer uma das categorias da
-  campanha. Um baú dá “1 emblema aleatório entre N”. Um emblema que exige inscrição é
-  minerado depois que você se inscreve ou presenteia uma inscrição durante a campanha, em um canal da categoria, e a Twitch conta a inscrição. Uma inscrição já em andamento, uma inscrição Prime ou uma renovação não contam. Nada é minerado
-  antes do início da campanha. Em “O que minerar, em ordem”, arraste as categorias
-  prioritárias, os emblemas e as outras campanhas Drops para a ordem que quiser, ou
-  desative um deles. Uma missão da Twitch só é minerada em um canal em que a Twitch a
-  oferece no painel de Drops. Uma evolução (Pichu → Pikachu) é minerada assim que a conta
-  tem o emblema do qual ela evolui: o minerador equipa sozinho esse emblema logo antes e
-  não volta a pôr o antigo; “Minerar as evoluções de emblemas”, nas configurações de
-  emblemas da conta, desativa isso. Um clique em um emblema abre os detalhes dele: o
-  requisito completo, todas as categorias e canais, a coleção, a evolução e o progresso
-  de cada conta. Este recurso está em beta.
+- **Emblemas (beta).** A página Emblemas lista todos os emblemas globais do chat da Twitch
+  e como obtê-los. Cada conta tem a própria página Emblemas: os emblemas em andamento com
+  o progresso deles, os que ela ainda pode obter e os que já possui. O minerador vai atrás
+  dos emblemas das campanhas Drops e das missões da Twitch, e pula os que a conta já
+  possui. Um emblema a assistir todo dia é minerado de novo a cada dia até o último (“20
+  min por dia, 3 dias”), e conta um canal de qualquer uma das categorias da campanha. Um
+  baú dá “1 emblema aleatório entre N”. Um emblema que exige inscrição é minerado depois
+  que você se inscreve ou presenteia uma inscrição durante a campanha, em um canal da
+  categoria, e a Twitch conta a inscrição. Uma inscrição já em andamento, uma inscrição
+  Prime ou uma renovação não contam. Nada é minerado antes do início da campanha. Em “O
+  que minerar, em ordem”, arraste as categorias prioritárias, os emblemas e as outras
+  campanhas Drops para a ordem que quiser, ou desative um deles. Uma missão da Twitch só é
+  minerada em um canal em que a Twitch a oferece no painel de Drops. Uma evolução (Pichu →
+  Pikachu) é minerada assim que a conta tem o emblema do qual ela evolui: o minerador
+  equipa sozinho esse emblema logo antes e não volta a pôr o antigo; “Minerar as evoluções
+  de emblemas”, nas configurações de emblemas da conta, desativa isso. Um clique em um
+  emblema abre os detalhes dele: o requisito completo, todas as categorias e canais, a
+  coleção, a evolução e o progresso de cada conta. Este recurso está em beta.
 
   <details open><summary>Ver em ação</summary>
   <img src="../media/pt-BR/badges.avif" alt="A página Emblemas, os emblemas de uma conta e depois “O que minerar, em ordem” com Emblemas arrastados para o topo">
@@ -557,18 +558,21 @@ discreta.
 
 **Uma campanha não está sendo minerada, ou um drop não avança.**\
 Abra a página **Drops** da conta. Em “Ordem de mineração”, cada campanha em espera diz o
-motivo: “Nenhum canal ao vivo” ou “Aguardando (uma campanha por vez)”. “O Twitch não contabiliza isso — nova tentativa …” significa que 30 minutos de visualização real não
+motivo: “Nenhum canal ao vivo” ou “Aguardando (uma campanha por vez)”. “O Twitch não
+contabiliza isso — nova tentativa …” significa que 30 minutos de visualização real não
 trouxeram nenhum progresso do lado da Twitch: a campanha é colocada de lado e tentada de
 novo automaticamente no tempo mostrado, ou antes, se o progresso reaparecer primeiro. Uma
-campanha que
-não aparece nessa lista foi deixada de fora: por “O que minerar, em ordem”, pela opção
-“Quais campanhas”, por uma regra da aba **Exclusões**, porque não dá tempo de
-concluí-la, ou porque todas as recompensas que restam exigem inscrição. Uma recompensa que exige inscrição espera você se inscrever ou presentear uma inscrição durante a campanha, em um canal da categoria (uma inscrição já em andamento, uma inscrição Prime ou uma renovação não contam), um emblema
-a assistir todo dia espera o dia seguinte, nada é minerado antes do início da campanha, e
-um drop que vem depois de outro espera o primeiro terminar. No modo **Só pontos**, o
-minerador não escolhe nenhuma campanha. “Minerar primeiro”, na ficha de uma campanha,
-coloca-a no topo; uma campanha ignorada pode voltar com “Minerar novamente”, na aba
-**Exclusões**. A aba **Campanhas** mostra os mesmos motivos no grupo **Bloqueadas**.
+campanha que não aparece nessa lista foi deixada de fora: por “O que minerar, em ordem”,
+pela opção “Quais campanhas”, por uma regra da aba **Exclusões**, porque não dá tempo de
+concluí-la, ou porque todas as recompensas que restam exigem inscrição. Uma recompensa que
+exige inscrição espera você se inscrever ou presentear uma inscrição durante a campanha,
+em um canal da categoria (uma inscrição já em andamento, uma inscrição Prime ou uma
+renovação não contam), um emblema a assistir todo dia espera o dia seguinte, nada é
+minerado antes do início da campanha, e um drop que vem depois de outro espera o primeiro
+terminar. No modo **Só pontos**, o minerador não escolhe nenhuma campanha. “Minerar
+primeiro”, na ficha de uma campanha, coloca-a no topo; uma campanha ignorada pode voltar
+com “Minerar novamente”, na aba **Exclusões**. A aba **Campanhas** mostra os mesmos
+motivos no grupo **Bloqueadas**.
 
 **Preciso vincular a conta da editora?**\
 Para resgatar, sim: desde outubro de 2026, a Twitch só deixa resgatar um drop quando a

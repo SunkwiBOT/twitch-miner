@@ -52,12 +52,6 @@
 
   const categories = $derived(requirement ? badgeCategories(requirement) : []);
   const channels = $derived(requirement ? badgeChannels(requirement, linkedCampaign) : []);
-
-  $effect(() => {
-    if (channels.length) {
-      ensureChannels(channels.slice(0, CARD_NAMES_SHOWN));
-    }
-  });
 </script>
 
 <!-- ! The title button covers the whole card; links, hinted badges and the details button sit above it. -->
@@ -125,7 +119,7 @@
       {/if}
       {#if requirement}
         <div class="flex flex-col gap-0.5 text-xs">
-          <span class="flex min-w-0 flex-wrap items-center gap-x-1.5">
+          <div class="flex min-w-0 flex-wrap items-center gap-x-1.5">
             {#if requirement.required_minutes > 0}
               <span class="font-semibold">
                 {watchText(minutes(requirement.required_minutes), requirement.repeat)}
@@ -135,7 +129,7 @@
               <OverflowNames
                 items={categories}
                 shown={CARD_NAMES_SHOWN}
-                title={t.badge_dialog_categories()}
+                title={t.list_categories_title()}
                 key={(category) => category.name}
                 words={(category) => [category.name]}
                 class="contents"
@@ -151,7 +145,7 @@
                 {/snippet}
               </OverflowNames>
             {/if}
-          </span>
+          </div>
           {#if requirement.source === BadgeSource.DROPS}
             <div class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-muted-foreground">
               {#if requirement.channel_count > 0}
@@ -159,12 +153,12 @@
                 <OverflowNames
                   items={channels}
                   shown={CARD_NAMES_SHOWN}
-                  title={t.badge_dialog_channels()}
+                  title={t.list_channels_title()}
                   key={(login) => login}
                   words={(login) => [login, knownChannels[login]?.display_name ?? login]}
                   class="contents"
                   itemClass={RAISED_CLASSES}
-                  onopen={ensureChannels}
+                  onshow={ensureChannels}
                 >
                   {#snippet item(login)}
                     {@const channel = knownChannels[login]}

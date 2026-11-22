@@ -8,19 +8,13 @@ import {
   SPARKLE_SIZE_STEPS_PER_PX,
   SPARKLE_TONES,
   SparkleTone,
-  type SparkleRangeType,
 } from "./sparkles.constants";
-
-export type RandomSourceType = () => number;
-
-export type SparklePositionType = { x: number; y: number };
-
-export type SparkleType = SparklePositionType & {
-  id: number;
-  size: number;
-  tone: SparkleTone;
-  burst: boolean;
-};
+import type {
+  RandomSourceType,
+  SparklePositionType,
+  SparkleRangeType,
+  SparkleType,
+} from "./sparkles.types";
 
 const between = (range: SparkleRangeType, random: RandomSourceType): number =>
   range.min + random() * (range.max - range.min);

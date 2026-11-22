@@ -70,12 +70,8 @@ export const PERCENT = 100;
 
 export const MIN_BAR_PERCENT = 0.4;
 
-export const NAME_CHARACTER_PX = 7;
-export const END_CHARACTER_PX = 6.2;
-export const PILL_CHARACTER_PX = 6.2;
-export const PILL_EXTRA_PX = 16;
-export const LABEL_PADDING_PX = 30;
-export const LABEL_IMAGE_PX = 24;
+// ! Inside a bar, its label sits this far from each end; outside, this far from the bar.
+export const BAR_PADDING_PX = 8;
 
 export const TICK_LABEL_PADDING_PX = 12;
 

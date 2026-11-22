@@ -179,21 +179,22 @@
   jejíž odměny odpovídají vašemu oblíbenému typu (odznak, emote, herní předmět). Vaše
   pořadí těžby nikdy nepřebije.
 
-- **Odznaky (beta).** Stránka Odznaky uvádí všechny globální chatové odznaky Twitche a
-  jak je získat. Každý účet má svou stránku Odznaky: rozpracované odznaky s jejich
-  postupem, ty, které ještě může získat, a ty, které vlastní. Miner jde po odznacích
-  z kampaní Drops a questů Twitche a vynechá ty, které účet už má. Odznak, který je třeba
-  sledovat každý den, se těží znovu každý den až do posledního („20 min denně, počet dní:
-  3“), a počítá se kanál z kterékoli kategorie kampaně. Truhla dává „1 náhodný odznak
-  z N“. Odznak, který vyžaduje předplatné, se těží, jakmile si během kampaně předplatíte nebo darujete předplatné na kanálu z dané kategorie a Twitch
-  ho započítá. Už běžící předplatné, předplatné Prime ani prodloužení se nepočítají. Před začátkem kampaně se nic netěží. V „Co těžit a v jakém pořadí“
-  přetáhněte prioritní kategorie, odznaky a ostatní kampaně Drops do požadovaného pořadí, nebo
-  některou z nich vypněte. Quest Twitche se těží jen na kanálu, kde ho Twitch nabízí ve
-  svém panelu Drops. Vývoj (Pichu → Pikachu) se těží, jakmile účet vlastní odznak, ze
-  kterého se vyvíjí: miner si ten odznak těsně předtím sám nasadí a starý už nevrátí;
-  „Těžit vývoje odznaků“ v nastavení odznaků účtu tohle vypne. Kliknutím na odznak se
-  otevřou jeho podrobnosti: celý požadavek, všechny kategorie a kanály, sbírka, vývoj a
-  postup každého účtu. Tato funkce je v betaverzi.
+- **Odznaky (beta).** Stránka Odznaky uvádí všechny globální chatové odznaky Twitche a jak
+  je získat. Každý účet má svou stránku Odznaky: rozpracované odznaky s jejich postupem,
+  ty, které ještě může získat, a ty, které vlastní. Miner jde po odznacích z kampaní Drops
+  a questů Twitche a vynechá ty, které účet už má. Odznak, který je třeba sledovat každý
+  den, se těží znovu každý den až do posledního („20 min denně, počet dní: 3“), a počítá
+  se kanál z kterékoli kategorie kampaně. Truhla dává „1 náhodný odznak z N“. Odznak,
+  který vyžaduje předplatné, se těží, jakmile si během kampaně předplatíte nebo darujete
+  předplatné na kanálu z dané kategorie a Twitch ho započítá. Už běžící předplatné,
+  předplatné Prime ani prodloužení se nepočítají. Před začátkem kampaně se nic netěží. V
+  „Co těžit a v jakém pořadí“ přetáhněte prioritní kategorie, odznaky a ostatní kampaně
+  Drops do požadovaného pořadí, nebo některou z nich vypněte. Quest Twitche se těží jen na
+  kanálu, kde ho Twitch nabízí ve svém panelu Drops. Vývoj (Pichu → Pikachu) se těží,
+  jakmile účet vlastní odznak, ze kterého se vyvíjí: miner si ten odznak těsně předtím sám
+  nasadí a starý už nevrátí; „Těžit vývoje odznaků“ v nastavení odznaků účtu tohle vypne.
+  Kliknutím na odznak se otevřou jeho podrobnosti: celý požadavek, všechny kategorie a
+  kanály, sbírka, vývoj a postup každého účtu. Tato funkce je v betaverzi.
 
   <details open><summary>Ukázka v akci</summary>
   <img src="../media/cs/badges.avif" alt="Stránka Odznaky, odznaky jednoho účtu a pak „Co těžit a v jakém pořadí“ s odznaky přetaženými na začátek">
@@ -542,15 +543,18 @@ streamerům. Nastavení „Jeden kanál“ v **Nastavení účtu** je nenápadn�
 
 **Kampaň se netěží nebo drop nepostupuje.**\
 Otevřete stránku **Drops** daného účtu. V části „Pořadí těžby“ každá čekající kampaň uvádí
-důvod: „Žádný kanál nevysílá“ nebo „Čeká (jedna kampaň najednou)“. „Twitch nezapočítává — další pokus …“ znamená, že 30 minut reálného sledování nepřineslo
-žádný postup na straně Twitche: kampaň je odložena stranou a automaticky zkoušena
-znovu po uvedené době, nebo dříve, pokud se postup objeví znovu dřív. Kampaň, která se
-v tomto seznamu neobjevuje, byla vynechána: přes „Co těžit a v jakém pořadí“, nastavením
-„Které kampaně“, pravidlem na kartě **Vyloučení**, proto, že ji nejde dokončit včas, nebo proto, že všechny zbývající odměny vyžadují předplatné.
-Odměna, která vyžaduje předplatné, čeká, dokud si během kampaně nepředplatíte nebo nedarujete předplatné na kanálu z dané kategorie (už běžící předplatné, předplatné Prime ani prodloužení se nepočítají), odznak, který je
-třeba sledovat každý den, čeká na další den, před začátkem kampaně se nic netěží, a drop,
-který navazuje na jiný, čeká, dokud není ten první hotový. V režimu **Jen body** miner
-nevybírá žádnou kampaň. „Těžit přednostně“ v podrobnostech kampaně ji přesune na začátek;
+důvod: „Žádný kanál nevysílá“ nebo „Čeká (jedna kampaň najednou)“. „Twitch nezapočítává —
+další pokus …“ znamená, že 30 minut reálného sledování nepřineslo žádný postup na straně
+Twitche: kampaň je odložena stranou a automaticky zkoušena znovu po uvedené době, nebo
+dříve, pokud se postup objeví znovu dřív. Kampaň, která se v tomto seznamu neobjevuje,
+byla vynechána: přes „Co těžit a v jakém pořadí“, nastavením „Které kampaně“, pravidlem na
+kartě **Vyloučení**, proto, že ji nejde dokončit včas, nebo proto, že všechny zbývající
+odměny vyžadují předplatné. Odměna, která vyžaduje předplatné, čeká, dokud si během
+kampaně nepředplatíte nebo nedarujete předplatné na kanálu z dané kategorie (už běžící
+předplatné, předplatné Prime ani prodloužení se nepočítají), odznak, který je třeba
+sledovat každý den, čeká na další den, před začátkem kampaně se nic netěží, a drop, který
+navazuje na jiný, čeká, dokud není ten první hotový. V režimu **Jen body** miner nevybírá
+žádnou kampaň. „Těžit přednostně“ v podrobnostech kampaně ji přesune na začátek;
 ignorovaná kampaň se může vrátit přes „Znovu těžit“ na kartě **Vyloučení**. Karta
 **Kampaně** ve skupině **Blokované** ukazuje stejné důvody.
 

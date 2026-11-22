@@ -11,7 +11,9 @@
 </script>
 
 <span class="text-xs text-muted-foreground">
-  {#each shown as part, index (index)}{#if index > 0}{" · "}{/if}<span class="inline-block">
+  {#each shown as part, index (index)}{#if index > 0}{" · "}{/if}<span
+      class="inline-block max-w-full"
+    >
       <RichText text={part} />
     </span>{/each}
 </span>

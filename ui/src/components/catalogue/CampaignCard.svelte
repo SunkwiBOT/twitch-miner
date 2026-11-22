@@ -38,12 +38,15 @@
   <span class="relative block aspect-[3/4] overflow-hidden rounded-lg bg-muted {CARD_LIFT_CLASSES}">
     {#if art}<img class="block size-full object-cover" src={art} alt="" loading="lazy" />{/if}
     {@render cover?.()}
-    <span class="absolute bottom-1.5 left-1.5">
-      <TimeLeftTag
-        text={left > 0 ? shortDuration(left) : t.campaign_ended()}
-        urgent={left > 0 && left < URGENT_MS}
-      />
-    </span>
+    {#if left > 0}
+      <span class="absolute bottom-1.5 left-1.5">
+        <TimeLeftTag text={shortDuration(left)} urgent={left < URGENT_MS} />
+      </span>
+    {:else}
+      <span class="absolute bottom-1.5 left-1.5 rounded-4xl bg-background">
+        <Badge text={t.campaign_ended()} tone={BadgeTone.MUTED} />
+      </span>
+    {/if}
     {#if ordered || isNew}
       <span class="absolute top-1.5 right-1.5 rounded-4xl bg-background">
         {#if ordered}

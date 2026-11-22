@@ -184,24 +184,26 @@
   deren Belohnungen zu Ihrer bevorzugten Art passen (Abzeichen, Emote, Spielgegenstand).
   Ihre Mining-Reihenfolge überstimmt er nie.
 
-- **Abzeichen (Beta).** Die Seite Abzeichen listet alle globalen Chat-Abzeichen von
-  Twitch auf und wie man sie bekommt. Jedes Konto hat seine eigene Abzeichen-Seite: die
-  laufenden Abzeichen mit ihrem Fortschritt, die noch erhältlichen und die, die es
-  besitzt. Der Miner holt sich die Abzeichen aus Drops-Kampagnen und Twitch-Quests und
-  überspringt die, die das Konto schon besitzt. Ein Abzeichen, das jeden Tag geschaut
-  werden muss, wird jeden Tag erneut gemint, bis zum letzten („20 Min. pro Tag, 3 Tage“),
-  und ein Kanal in einer beliebigen Kategorie der Kampagne zählt. Eine Truhe gibt
-  „1 zufälliges Abzeichen aus N“. Ein Abzeichen, das ein Abo braucht, wird gemint, sobald
-  Sie während der Kampagne auf einem Kanal der Kategorie ein Abo abgeschlossen oder verschenkt haben und Twitch es zählt. Ein laufendes Abo, ein Prime-Abo oder eine Verlängerung zählt nicht. Vor dem Start seiner Kampagne wird nichts
-  gemint. Ziehen Sie in „Was gemint wird, der Reihe nach“ Prioritätskategorien, Abzeichen und
-  andere Drops-Kampagnen in die gewünschte Reihenfolge, oder schalten Sie eine davon aus.
-  Eine Twitch-Quest wird nur auf einem Kanal gemint, auf dem Twitch sie in seinem
-  Drops-Bereich anbietet. Eine Entwicklung (Pichu → Pikachu) wird gemint, sobald das Konto
-  das Abzeichen besitzt, aus dem sie sich entwickelt: Der Miner legt dieses Abzeichen kurz
-  vorher selbst an und setzt das alte nicht wieder ein; „Abzeichen-Entwicklungen minen“ in
-  den Abzeichen-Einstellungen des Kontos schaltet das aus. Ein Klick auf ein Abzeichen
-  öffnet seine Details: die ganze Voraussetzung, alle Kategorien und Kanäle, die Sammlung,
-  die Entwicklung und den Fortschritt jedes Kontos. Diese Funktion ist in der Beta.
+- **Abzeichen (Beta).** Die Seite Abzeichen listet alle globalen Chat-Abzeichen von Twitch
+  auf und wie man sie bekommt. Jedes Konto hat seine eigene Abzeichen-Seite: die laufenden
+  Abzeichen mit ihrem Fortschritt, die noch erhältlichen und die, die es besitzt. Der
+  Miner holt sich die Abzeichen aus Drops-Kampagnen und Twitch-Quests und überspringt die,
+  die das Konto schon besitzt. Ein Abzeichen, das jeden Tag geschaut werden muss, wird
+  jeden Tag erneut gemint, bis zum letzten („20 Min. pro Tag, 3 Tage“), und ein Kanal in
+  einer beliebigen Kategorie der Kampagne zählt. Eine Truhe gibt „1 zufälliges Abzeichen
+  aus N“. Ein Abzeichen, das ein Abo braucht, wird gemint, sobald Sie während der Kampagne
+  auf einem Kanal der Kategorie ein Abo abgeschlossen oder verschenkt haben und Twitch es
+  zählt. Ein laufendes Abo, ein Prime-Abo oder eine Verlängerung zählt nicht. Vor dem
+  Start seiner Kampagne wird nichts gemint. Ziehen Sie in „Was gemint wird, der Reihe
+  nach“ Prioritätskategorien, Abzeichen und andere Drops-Kampagnen in die gewünschte
+  Reihenfolge, oder schalten Sie eine davon aus. Eine Twitch-Quest wird nur auf einem
+  Kanal gemint, auf dem Twitch sie in seinem Drops-Bereich anbietet. Eine Entwicklung
+  (Pichu → Pikachu) wird gemint, sobald das Konto das Abzeichen besitzt, aus dem sie sich
+  entwickelt: Der Miner legt dieses Abzeichen kurz vorher selbst an und setzt das alte
+  nicht wieder ein; „Abzeichen-Entwicklungen minen“ in den Abzeichen-Einstellungen des
+  Kontos schaltet das aus. Ein Klick auf ein Abzeichen öffnet seine Details: die ganze
+  Voraussetzung, alle Kategorien und Kanäle, die Sammlung, die Entwicklung und den
+  Fortschritt jedes Kontos. Diese Funktion ist in der Beta.
 
   <details open><summary>In Aktion ansehen</summary>
   <img src="../media/de/badges.avif" alt="Die Seite Abzeichen, die Abzeichen eines Kontos, dann „Was gemint wird, der Reihe nach“ mit Abzeichen an die Spitze gezogen">
@@ -580,15 +582,17 @@ Kampagne den Grund: „Kein Kanal live“ oder „Wartet (eine Kampagne nach der
 „Twitch zählt es nicht — nächster Versuch …“ bedeutet, dass 30 Minuten echte
 Wiedergabezeit keinen Fortschritt auf Twitchs Seite gebracht haben: Die Kampagne wird
 zurückgestellt und automatisch nach der angezeigten Zeit erneut versucht, oder früher,
-falls zuerst wieder Fortschritt auftaucht. Eine
-Kampagne, die nicht in dieser Liste erscheint, wurde aussortiert: durch „Was gemint wird,
-der Reihe nach“, durch die Einstellung „Welche Kampagnen“, durch eine Regel im Tab
-**Ausschlüsse**, weil sie nicht rechtzeitig fertig werden kann oder weil alle ihre restlichen Belohnungen ein Abo brauchen. Eine Belohnung, die ein
-Abo voraussetzt, wartet, bis Sie während der Kampagne auf einem Kanal der Kategorie ein Abo abschließen oder verschenken (ein laufendes Abo, ein Prime-Abo oder eine Verlängerung zählt nicht), ein Abzeichen, das jeden Tag
-geschaut werden muss, wartet auf den nächsten Tag, vor dem Start seiner Kampagne wird
-nichts gemint, und ein Drop, der auf einen anderen folgt, wartet, bis der erste fertig
-ist. Im Modus **Nur Punkte** wählt der Miner keine Kampagne. „Vorrangig minen“ in den
-Details einer Kampagne setzt sie an die Spitze; eine ignorierte Kampagne lässt sich im Tab
+falls zuerst wieder Fortschritt auftaucht. Eine Kampagne, die nicht in dieser Liste
+erscheint, wurde aussortiert: durch „Was gemint wird, der Reihe nach“, durch die
+Einstellung „Welche Kampagnen“, durch eine Regel im Tab **Ausschlüsse**, weil sie nicht
+rechtzeitig fertig werden kann oder weil alle ihre restlichen Belohnungen ein Abo
+brauchen. Eine Belohnung, die ein Abo voraussetzt, wartet, bis Sie während der Kampagne
+auf einem Kanal der Kategorie ein Abo abschließen oder verschenken (ein laufendes Abo, ein
+Prime-Abo oder eine Verlängerung zählt nicht), ein Abzeichen, das jeden Tag geschaut
+werden muss, wartet auf den nächsten Tag, vor dem Start seiner Kampagne wird nichts
+gemint, und ein Drop, der auf einen anderen folgt, wartet, bis der erste fertig ist. Im
+Modus **Nur Punkte** wählt der Miner keine Kampagne. „Vorrangig minen“ in den Details
+einer Kampagne setzt sie an die Spitze; eine ignorierte Kampagne lässt sich im Tab
 **Ausschlüsse** mit „Wieder minen“ zurückholen. Der Tab **Kampagnen** zeigt in der Gruppe
 **Blockiert** dieselben Gründe.
 

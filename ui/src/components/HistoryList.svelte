@@ -157,6 +157,17 @@
   let tableNeed = $state(0);
   const tableFits = $derived(room >= tableNeed);
 
+  // ! New content (a filter, new events) may need less room: the table is tried again, and measured before it paints.
+  $effect(() => {
+    void shown;
+
+    untrack(() => {
+      if (!tableFits) {
+        tableNeed = 0;
+      }
+    });
+  });
+
   $effect(() => {
     void shown;
     void room;

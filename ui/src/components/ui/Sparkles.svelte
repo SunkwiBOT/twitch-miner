@@ -1,6 +1,7 @@
 <script lang="ts">
-  // ! Four-point stars around the host (this layer's parent, `relative`): one now and then, more under the pointer, a burst on a press. Paused off screen and in a hidden tab; decorative.
+  // ! The host, this layer's parent, must be `relative`.
   import { cn } from "$lib/utils";
+  import { MouseButton } from "../../lib/state/state.constants";
   import {
     MAX_SPARKLES,
     SPARKLE_BURST_COUNT,
@@ -8,12 +9,12 @@
     SPARKLE_BURST_STEP_MS,
     SPARKLE_LIFETIME_MS,
     SPARKLE_PATH,
-    SPARKLE_PRIMARY_BUTTON,
     SPARKLE_REMOVAL_MARGIN_MS,
     SPARKLE_TONE_CLASSES,
     SPARKLE_VIEW_BOX,
   } from "./sparkles.constants";
-  import { createSparkle, pickSparkleDelay, type SparkleType } from "./sparkles.utils";
+  import { createSparkle, pickSparkleDelay } from "./sparkles.utils";
+  import type { SparkleType } from "./sparkles.types";
 
   let layer = $state<HTMLSpanElement | null>(null);
   let sparkles = $state<SparkleType[]>([]);
@@ -114,7 +115,7 @@
     };
     // ! The burst starts on the press, not the release; a keyboard click (`detail` 0) still throws it.
     const onPointerDown = (event: PointerEvent): void => {
-      if (event.button === SPARKLE_PRIMARY_BUTTON) {
+      if (event.button === MouseButton.PRIMARY) {
         burst();
       }
     };

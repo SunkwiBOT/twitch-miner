@@ -184,20 +184,22 @@
   choisit d'abord celle dont les récompenses correspondent au type que vous préférez
   (badge, emote, objet en jeu). Il ne passe jamais devant votre ordre de minage.
 - **Badges (bêta).** La page Badges liste tous les badges de chat globaux de Twitch et
-  comment les obtenir. Chaque compte a sa page Badges : les badges en cours avec leur
+  comment les obtenir. Chaque compte a sa page Badges : les badges en cours avec leur
   progression, ceux encore à obtenir et ceux qu'il possède. Le mineur va chercher les
   badges des campagnes Drops et des quêtes Twitch, et passe ceux que le compte a déjà. Un
-  badge à regarder chaque jour est miné de nouveau chaque jour jusqu'au dernier (« 20 min
-  par jour, 3 jours »), et une chaîne de n'importe laquelle des catégories de la campagne
-  compte. Un coffre donne « 1 badge au hasard parmi N ». Un badge qui demande un abonnement
-  est miné une fois que vous vous êtes abonné ou avez offert un abonnement pendant la campagne, sur une chaîne de la catégorie, et que Twitch le compte. Un abonnement déjà en cours, un abonnement Prime ou un renouvellement ne comptent pas. Rien n'est
-  miné avant le début de sa campagne. Dans « Quoi miner, dans l'ordre », glissez les catégories
-  prioritaires, les badges et les autres campagnes Drops dans l'ordre voulu, ou
+  badge à regarder chaque jour est miné de nouveau chaque jour jusqu'au dernier (« 20 min
+  par jour, 3 jours »), et une chaîne de n'importe laquelle des catégories de la campagne
+  compte. Un coffre donne « 1 badge au hasard parmi N ». Un badge qui demande un
+  abonnement est miné une fois que vous vous êtes abonné ou avez offert un abonnement
+  pendant la campagne, sur une chaîne de la catégorie, et que Twitch le compte. Un
+  abonnement déjà en cours, un abonnement Prime ou un renouvellement ne comptent pas. Rien
+  n'est miné avant le début de sa campagne. Dans « Quoi miner, dans l'ordre », glissez les
+  catégories prioritaires, les badges et les autres campagnes Drops dans l'ordre voulu, ou
   désactivez-en un. Une quête Twitch n'est minée que sur une chaîne où Twitch la propose
   dans son panneau Drops. Une évolution (Pichu → Pikachu) est minée dès que le compte
-  possède le badge dont elle évolue : le mineur équipe lui-même ce badge juste avant et ne
-  remet pas l'ancien ; « Miner les évolutions de badges », dans les réglages des badges du
-  compte, désactive cela. Un clic sur un badge ouvre ses détails : l'exigence complète,
+  possède le badge dont elle évolue : le mineur équipe lui-même ce badge juste avant et ne
+  remet pas l'ancien ; « Miner les évolutions de badges », dans les réglages des badges du
+  compte, désactive cela. Un clic sur un badge ouvre ses détails : l'exigence complète,
   toutes les catégories et les chaînes, la collection, l'évolution et la progression de
   chaque compte. Cette fonction est en bêta.
 
@@ -563,21 +565,23 @@ compte**, est plus discret.
 ### Drops
 
 **Une campagne n'est pas minée, ou un drop ne progresse pas.**\
-Ouvrez la page **Drops** du compte. Dans « Ordre de minage », chaque campagne en attente dit
-pourquoi : « Aucune chaîne en direct » ou « En attente (une campagne à la fois) ». « Twitch
-ne compte pas — nouvel essai dans … » signifie que 30 minutes de visionnage réel n'ont
-apporté aucune progression côté Twitch : la campagne est mise de côté et réessayée
+Ouvrez la page **Drops** du compte. Dans « Ordre de minage », chaque campagne en attente
+dit pourquoi : « Aucune chaîne en direct » ou « En attente (une campagne à la fois) ».
+« Twitch ne compte pas — nouvel essai dans … » signifie que 30 minutes de visionnage réel
+n'ont apporté aucune progression côté Twitch : la campagne est mise de côté et réessayée
 automatiquement, ou plus tôt si une progression réapparaît avant. Une campagne qui
-n'apparaît pas dans cette liste a été écartée :
-par « Quoi miner, dans l'ordre », par le réglage « Quelles campagnes », par une règle de
-l'onglet **Exclusions**, parce qu'elle ne peut pas finir à temps, ou parce que toutes les récompenses qui lui restent demandent un abonnement. Une récompense qui
-demande un abonnement attend que vous vous abonniez ou offriez un abonnement pendant la campagne, sur une chaîne de la catégorie (un abonnement déjà en cours, un abonnement Prime ou un renouvellement ne comptent pas), un badge à regarder
-chaque jour attend le jour suivant, rien n'est miné avant le début de sa campagne, et un
-drop qui en suit un autre attend que le premier soit fini. En mode **Points uniquement**,
-le mineur ne choisit aucune campagne. « Miner en priorité », dans la fiche d'une campagne,
-la met en tête ; une campagne ignorée peut revenir avec « Miner à nouveau », dans l'onglet
-**Exclusions**. L'onglet **Campagnes** montre les mêmes raisons dans le groupe
-**Bloquées**.
+n'apparaît pas dans cette liste a été écartée : par « Quoi miner, dans l'ordre », par le
+réglage « Quelles campagnes », par une règle de l'onglet **Exclusions**, parce qu'elle ne
+peut pas finir à temps, ou parce que toutes les récompenses qui lui restent demandent un
+abonnement. Une récompense qui demande un abonnement attend que vous vous abonniez ou
+offriez un abonnement pendant la campagne, sur une chaîne de la catégorie (un abonnement
+déjà en cours, un abonnement Prime ou un renouvellement ne comptent pas), un badge à
+regarder chaque jour attend le jour suivant, rien n'est miné avant le début de sa
+campagne, et un drop qui en suit un autre attend que le premier soit fini. En mode
+**Points uniquement**, le mineur ne choisit aucune campagne. « Miner en priorité », dans
+la fiche d'une campagne, la met en tête ; une campagne ignorée peut revenir avec « Miner à
+nouveau », dans l'onglet **Exclusions**. L'onglet **Campagnes** montre les mêmes raisons
+dans le groupe **Bloquées**.
 
 **Faut-il lier le compte de l'éditeur ?**\
 Pour réclamer, oui : depuis octobre 2026, Twitch ne laisse réclamer un drop que si le

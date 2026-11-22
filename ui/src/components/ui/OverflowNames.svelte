@@ -1,5 +1,5 @@
 <script lang="ts" generics="T">
-  import type { Snippet } from "svelte";
+  import { untrack, type Snippet } from "svelte";
 
   import { badgeVariants } from "$lib/components/ui/badge";
   import { Popover, PopoverContent, PopoverTrigger } from "$lib/components/ui/popover";
@@ -27,7 +27,7 @@
     item: Snippet<[T]>;
     class?: string;
     itemClass?: string;
-    onopen?: (items: T[]) => void;
+    onshow?: (items: T[]) => void;
   };
 
   let {
@@ -39,7 +39,7 @@
     item,
     class: className,
     itemClass,
-    onopen,
+    onshow,
   }: OverflowNamesPropsType = $props();
 
   let open = $state(false);
@@ -56,17 +56,22 @@
       : items;
   });
 
-  // ! The hidden names are read (pictures, lookups) only once someone asks for them.
+  // ! Callers read names (pictures, lookups) only for what is on screen: the first ones, then every one once opened.
+  $effect(() => {
+    const names = visible;
+
+    untrack(() => onshow?.(names));
+  });
+
   const toggled = (next: boolean): void => {
     if (next) {
-      onopen?.(items);
+      onshow?.(items);
     } else {
       query = "";
     }
   };
 </script>
 
-<!-- ! The first names stay in the flow; the counter opens every name, same links, in a popover that searches and scrolls. -->
 <NameList class={className}>
   {#each visible as entry (key(entry))}<li class={itemClass}>{@render item(entry)}</li>{/each}
   {#if hidden > 0}<li class={itemClass}>
@@ -82,7 +87,7 @@
               )}
             >
               +{number(hidden)}<span class="sr-only">
-                {t.name_list_show_all({ title, count: number(items.length) })}
+                {t.name_list_show_all({ listTitle: title, nameCount: number(items.length) })}
               </span><Icon name={IconName.DOWN} size={12} />
             </button>
           {/snippet}

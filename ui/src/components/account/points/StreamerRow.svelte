@@ -25,6 +25,7 @@
   import { BalanceAlign } from "../../ui/ui.constants";
   import { IconName } from "../../../lib/icons.constants";
   import { LinkMark, LinkSize } from "../../ui/link.constants";
+  import { STREAMER_NAME_ROOM_PX } from "../../../lib/accounts/accounts.constants";
 
   type StreamerRowPropsType = {
     streamer: StreamerSettingsType;
@@ -33,6 +34,12 @@
   };
 
   let { streamer, channel, view }: StreamerRowPropsType = $props();
+
+  let rowWidth = $state(0);
+  let balanceWidth = $state(0);
+
+  // ! The balance sits on the right, beside the switch, while the name keeps its room next to it; only a row too narrow for both puts it under the name.
+  const beside = $derived(rowWidth - balanceWidth >= STREAMER_NAME_ROOM_PX);
 </script>
 
 {#snippet balance(align: BalanceAlign)}
@@ -52,7 +59,10 @@
   {/if}
 {/snippet}
 
-<div class="@container/streamer flex min-w-0 flex-1">
+<div class="relative flex min-w-0 flex-1" bind:clientWidth={rowWidth}>
+  <div class="invisible absolute w-max" aria-hidden="true" inert bind:offsetWidth={balanceWidth}>
+    {@render balance(BalanceAlign.END)}
+  </div>
   <div
     class={["flex min-w-0 flex-1 items-center gap-3 transition", !streamer.enabled && "grayscale"]}
   >
@@ -102,10 +112,9 @@
             <span class="truncate">{t.points_offline_hint()}</span>
           {/if}
         </span>
-        <!-- ! In a narrow row the balance goes under the name, which keeps the whole width. -->
-        <div class="@min-[36rem]/streamer:hidden">{@render balance(BalanceAlign.START)}</div>
+        {#if !beside}{@render balance(BalanceAlign.START)}{/if}
       </div>
-      <div class="@max-[36rem]/streamer:hidden">{@render balance(BalanceAlign.END)}</div>
+      {#if beside}{@render balance(BalanceAlign.END)}{/if}
     </LinkPair>
   </div>
 </div>

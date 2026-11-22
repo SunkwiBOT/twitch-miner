@@ -191,16 +191,18 @@
   het account al heeft. Een badge die je elke dag moet kijken, wordt elke dag opnieuw
   gemined tot de laatste (“20 min per dag, 3 dagen”), en een kanaal in een van de
   categorieën van de campagne telt mee. Een kist geeft “1 willekeurige badge uit N”. Een
-  badge waarvoor een abonnement nodig is, wordt gemined zodra je tijdens de campagne een abonnement hebt
-  genomen of cadeau hebt gedaan op een kanaal in de categorie en Twitch het telt. Een lopend abonnement, een Prime-abonnement of een verlenging telt niet. Vóór de start van de campagne wordt niets gemined. Sleep in
-  “Wat te minen, op volgorde” prioriteitscategorieën, badges en andere Drops-campagnes in de
-  volgorde die je wilt, of zet er een uit. Een Twitch-quest wordt alleen gemined op een
-  kanaal waar Twitch hem in zijn Drops-paneel aanbiedt. Een evolutie (Pichu → Pikachu)
-  wordt gemined zodra het account de badge heeft waaruit ze evolueert: de miner zet die
-  badge vlak ervoor zelf op en zet de oude niet terug; “Badge-evoluties minen”, in de
-  badge-instellingen van het account, zet dit uit. Een klik op een badge opent de details:
-  de volledige voorwaarde, alle categorieën en kanalen, de collectie, de evolutie en de
-  voortgang van elk account. Deze functie is in bèta.
+  badge waarvoor een abonnement nodig is, wordt gemined zodra je tijdens de campagne een
+  abonnement hebt genomen of cadeau hebt gedaan op een kanaal in de categorie en Twitch
+  het telt. Een lopend abonnement, een Prime-abonnement of een verlenging telt niet. Vóór
+  de start van de campagne wordt niets gemined. Sleep in “Wat te minen, op volgorde”
+  prioriteitscategorieën, badges en andere Drops-campagnes in de volgorde die je wilt, of
+  zet er een uit. Een Twitch-quest wordt alleen gemined op een kanaal waar Twitch hem in
+  zijn Drops-paneel aanbiedt. Een evolutie (Pichu → Pikachu) wordt gemined zodra het
+  account de badge heeft waaruit ze evolueert: de miner zet die badge vlak ervoor zelf op
+  en zet de oude niet terug; “Badge-evoluties minen”, in de badge-instellingen van het
+  account, zet dit uit. Een klik op een badge opent de details: de volledige voorwaarde,
+  alle categorieën en kanalen, de collectie, de evolutie en de voortgang van elk account.
+  Deze functie is in bèta.
 
   <details open><summary>Bekijk het in actie</summary>
   <img src="../media/nl/badges.avif" alt="De pagina Badges, de badges van een account en dan “Wat te minen, op volgorde” met Badges bovenaan gesleept">
@@ -558,17 +560,20 @@ de campagne en het andere je streamers. De instelling “Eén kanaal”, in
 
 **Een campagne wordt niet gemined, of een drop maakt geen voortgang.**\
 Open de pagina **Drops** van het account. Onder “Minevolgorde” staat bij elke wachtende
-campagne waarom: “Geen kanaal live” of “Wacht (één campagne tegelijk)”. “Twitch telt het niet — nieuwe poging …” betekent dat 30 minuten echt kijken geen voortgang opleverden aan
-de kant van Twitch: de campagne wordt opzijgezet en automatisch opnieuw geprobeerd
-binnen de getoonde tijd, of eerder als er intussen voortgang terugkomt. Een campagne die
-niet in die lijst staat, is buiten beschouwing gelaten: door “Wat te minen, op volgorde”,
-door de instelling “Welke campagnes”, door een regel op het tabblad **Uitsluitingen**,
-omdat ze niet op tijd af kan, of omdat alle beloningen die ze nog heeft een abonnement vereisen. Een beloning waarvoor een abonnement nodig is, wacht tot je
-tijdens de campagne een abonnement neemt of cadeau doet op een kanaal in de categorie (een lopend abonnement, een Prime-abonnement of een verlenging telt niet), een badge die je elke dag moet kijken, wacht op de
-volgende dag, vóór de start van de campagne wordt niets gemined, en een drop die op een
-andere volgt, wacht tot de eerste klaar is. In de modus **Alleen punten** kiest de miner
-geen campagne. “Eerst minen”, in de details van een campagne, zet haar bovenaan; een
-genegeerde campagne komt terug met “Weer minen”, op het tabblad **Uitsluitingen**. Het
+campagne waarom: “Geen kanaal live” of “Wacht (één campagne tegelijk)”. “Twitch telt het
+niet — nieuwe poging …” betekent dat 30 minuten echt kijken geen voortgang opleverden aan
+de kant van Twitch: de campagne wordt opzijgezet en automatisch opnieuw geprobeerd binnen
+de getoonde tijd, of eerder als er intussen voortgang terugkomt. Een campagne die niet in
+die lijst staat, is buiten beschouwing gelaten: door “Wat te minen, op volgorde”, door de
+instelling “Welke campagnes”, door een regel op het tabblad **Uitsluitingen**, omdat ze
+niet op tijd af kan, of omdat alle beloningen die ze nog heeft een abonnement vereisen.
+Een beloning waarvoor een abonnement nodig is, wacht tot je tijdens de campagne een
+abonnement neemt of cadeau doet op een kanaal in de categorie (een lopend abonnement, een
+Prime-abonnement of een verlenging telt niet), een badge die je elke dag moet kijken,
+wacht op de volgende dag, vóór de start van de campagne wordt niets gemined, en een drop
+die op een andere volgt, wacht tot de eerste klaar is. In de modus **Alleen punten** kiest
+de miner geen campagne. “Eerst minen”, in de details van een campagne, zet haar bovenaan;
+een genegeerde campagne komt terug met “Weer minen”, op het tabblad **Uitsluitingen**. Het
 tabblad **Campagnes** toont dezelfde redenen in de groep **Geblokkeerd**.
 
 **Moet ik het uitgeversaccount koppelen?**\

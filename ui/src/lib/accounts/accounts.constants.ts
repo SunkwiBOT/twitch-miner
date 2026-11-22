@@ -56,6 +56,9 @@ export const PROXY_CREDENTIALS_MASK = "•••";
 
 export const GROUP_CHIPS_MAX = 16;
 
+// ! A streamer row's room for its picture, its gap and a name of about eight letters, left once its balance sits beside them.
+export const STREAMER_NAME_ROOM_PX = 128;
+
 export const U32_MAX = 4_294_967_295;
 
 export enum StreamerOption {

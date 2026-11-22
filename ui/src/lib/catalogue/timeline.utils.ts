@@ -11,15 +11,9 @@ import type { BadgeTone } from "../tones.constants";
 import {
   BarKey,
   BarLabelPlacement,
-  END_CHARACTER_PX,
-  LABEL_IMAGE_PX,
-  LABEL_PADDING_PX,
   LANE_GAP,
   MIN_BAR_PERCENT,
-  NAME_CHARACTER_PX,
   PERCENT,
-  PILL_CHARACTER_PX,
-  PILL_EXTRA_PX,
   SINGLE_LANE_HEIGHT,
   SINGLE_LANE_PADDING,
   STACKED_LANE_HEIGHT,
@@ -161,20 +155,6 @@ export const getBarGeometry = (
     progress: Math.min(PERCENT, Math.max(0, run)),
   };
 };
-
-export const estimateLabelWidth = (
-  name: string,
-  endLabel: string,
-  pills: readonly string[],
-  image: boolean,
-): number =>
-  name.length * NAME_CHARACTER_PX +
-  endLabel.length * END_CHARACTER_PX +
-  pills
-    .filter((pill) => pill !== "")
-    .reduce((sum, pill) => sum + pill.length * PILL_CHARACTER_PX + PILL_EXTRA_PX, 0) +
-  (image ? LABEL_IMAGE_PX : 0) +
-  LABEL_PADDING_PX;
 
 export const getLabelPlacement = (
   geometry: Pick<BarGeometryType, "left" | "width">,

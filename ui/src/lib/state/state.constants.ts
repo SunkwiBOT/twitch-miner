@@ -86,6 +86,7 @@ export enum HistoryMode {
 }
 
 export enum MouseButton {
+  PRIMARY = 0,
   BACK = 3,
   FORWARD = 4,
 }

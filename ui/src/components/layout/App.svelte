@@ -41,7 +41,6 @@
   import StartupProblem from "./StartupProblem.svelte";
   import Toasts from "./Toasts.svelte";
   import Topbar from "./Topbar.svelte";
-  import { TOOLTIP_DELAY_MS } from "../ui/ui.constants";
 
   const current = $derived(account(app.selectedAccount));
 
@@ -145,7 +144,7 @@
 />
 <svelte:document onvisibilitychange={noteReturn} onscrollcapture={noteActivity} />
 
-<TooltipProvider delayDuration={TOOLTIP_DELAY_MS}>
+<TooltipProvider>
   {#if app.startupProblem}
     <StartupProblem problem={app.startupProblem} />
   {:else if !app.auth.checked}

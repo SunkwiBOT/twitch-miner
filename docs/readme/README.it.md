@@ -184,19 +184,21 @@
 
 - **Badge (beta).** La pagina Badge elenca tutti i badge globali della chat di Twitch e
   come ottenerli. Ogni account ha la sua pagina Badge: i badge in corso con i loro
-  progressi, quelli ancora da ottenere e quelli che possiede. Il miner punta ai badge delle
-  campagne Drops e delle missioni Twitch, e salta quelli che l'account possiede già. Un
-  badge da guardare ogni giorno viene minato di nuovo ogni giorno fino all'ultimo («20 min
-  al giorno, 3 giorni»), e conta un canale di una qualsiasi delle categorie della campagna.
-  Un forziere dà «1 badge a caso su N». Un badge che richiede un abbonamento viene minato
-  una volta che ti sei abbonato o hai regalato un abbonamento durante la campagna, su un canale della categoria, e Twitch lo conta. Un abbonamento già attivo, un abbonamento Prime o un rinnovo non contano. Niente viene minato prima dell'inizio
-  della sua campagna. In «Cosa minare, in ordine», trascina le categorie prioritarie, i badge e
+  progressi, quelli ancora da ottenere e quelli che possiede. Il miner punta ai badge
+  delle campagne Drops e delle missioni Twitch, e salta quelli che l'account possiede già.
+  Un badge da guardare ogni giorno viene minato di nuovo ogni giorno fino all'ultimo («20
+  min al giorno, 3 giorni»), e conta un canale di una qualsiasi delle categorie della
+  campagna. Un forziere dà «1 badge a caso su N». Un badge che richiede un abbonamento
+  viene minato una volta che ti sei abbonato o hai regalato un abbonamento durante la
+  campagna, su un canale della categoria, e Twitch lo conta. Un abbonamento già attivo, un
+  abbonamento Prime o un rinnovo non contano. Niente viene minato prima dell'inizio della
+  sua campagna. In «Cosa minare, in ordine», trascina le categorie prioritarie, i badge e
   le altre campagne Drops nell'ordine che vuoi, oppure disattivane uno. Una missione
   Twitch viene minata solo su un canale in cui Twitch la offre nel suo pannello Drops.
   Un'evoluzione (Pichu → Pikachu) viene minata appena l'account possiede il badge da cui
   evolve: il miner equipaggia da solo quel badge subito prima e non rimette quello
-  precedente; «Mina le evoluzioni dei badge», nelle impostazioni dei badge dell'account, lo
-  disattiva. Un clic su un badge apre i suoi dettagli: il requisito completo, tutte le
+  precedente; «Mina le evoluzioni dei badge», nelle impostazioni dei badge dell'account,
+  lo disattiva. Un clic su un badge apre i suoi dettagli: il requisito completo, tutte le
   categorie e i canali, la collezione, l'evoluzione e i progressi di ogni account. Questa
   funzione è in beta.
 
@@ -559,19 +561,22 @@ campagna e l'altro i tuoi streamer. L'impostazione «Un canale», in
 
 **Una campagna non viene minata, o un drop non avanza.**\
 Apri la pagina **Drops** dell'account. In «Ordine di mining», ogni campagna in attesa
-spiega perché: «Nessun canale in diretta» o «In attesa (una campagna alla volta)». «Twitch non la conta — nuovo tentativo …» significa che 30 minuti di visione reale
-non hanno portato progressi dal lato di Twitch: la campagna viene messa da parte e
-ritentata automaticamente nel tempo indicato, o prima se nel frattempo riappare un
-progresso. Una
+spiega perché: «Nessun canale in diretta» o «In attesa (una campagna alla volta)». «Twitch
+non la conta — nuovo tentativo …» significa che 30 minuti di visione reale non hanno
+portato progressi dal lato di Twitch: la campagna viene messa da parte e ritentata
+automaticamente nel tempo indicato, o prima se nel frattempo riappare un progresso. Una
 campagna che non compare in quell'elenco è stata scartata: da «Cosa minare, in ordine»,
 dall'impostazione «Quali campagne», da una regola della scheda **Esclusioni**, oppure
-perché non può finire in tempo o perché tutte le ricompense che le restano richiedono un abbonamento. Una ricompensa che richiede un abbonamento aspetta che tu
-ti abboni o regali un abbonamento durante la campagna, su un canale della categoria (un abbonamento già attivo, un abbonamento Prime o un rinnovo non contano), un badge da guardare ogni giorno aspetta il giorno dopo, niente viene
-minato prima dell'inizio della sua campagna, e un drop che ne segue un altro aspetta che
-il primo sia completato. In modalità **Solo punti**, il miner non sceglie alcuna
-campagna. «Mina per prima», nei dettagli di una campagna, la porta in cima; una campagna
-ignorata può tornare con «Mina di nuovo», nella scheda **Esclusioni**. La scheda
-**Campagne** mostra gli stessi motivi nel gruppo **Bloccate**.
+perché non può finire in tempo o perché tutte le ricompense che le restano richiedono un
+abbonamento. Una ricompensa che richiede un abbonamento aspetta che tu ti abboni o regali
+un abbonamento durante la campagna, su un canale della categoria (un abbonamento già
+attivo, un abbonamento Prime o un rinnovo non contano), un badge da guardare ogni giorno
+aspetta il giorno dopo, niente viene minato prima dell'inizio della sua campagna, e un
+drop che ne segue un altro aspetta che il primo sia completato. In modalità **Solo
+punti**, il miner non sceglie alcuna campagna. «Mina per prima», nei dettagli di una
+campagna, la porta in cima; una campagna ignorata può tornare con «Mina di nuovo», nella
+scheda **Esclusioni**. La scheda **Campagne** mostra gli stessi motivi nel gruppo
+**Bloccate**.
 
 **Devo collegare l'account editore?**\
 Per riscattare, sì: da ottobre 2026 Twitch permette di riscattare un drop solo se

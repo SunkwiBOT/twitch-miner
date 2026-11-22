@@ -69,15 +69,15 @@
 
 {#snippet watched(slot: SlotViewType)}
   <span class="text-xs text-muted-foreground">
-    <span class="inline-block">
+    <span class="inline-block max-w-full">
       <RichText text={t.dashboard_watching_since({ sinceTime: strong(formatClock(slot.since)) })} />
-    </span>{#if slot.last_beacon_at}{" · "}<span class="inline-block">
+    </span>{#if slot.last_beacon_at}{" · "}<span class="inline-block max-w-full">
         <RichText
           text={t.slot_last_minute({
             lastMinuteTime: strong(relativeTime(slot.last_beacon_at, ticker.now)),
           })}
         />
-      </span>{/if}{" · "}<span class="inline-block">
+      </span>{/if}{" · "}<span class="inline-block max-w-full">
       <RichText text={t.slot_segments({ segmentCount: strong(number(slot.segments_requested)) })} />
     </span>
   </span>
@@ -236,21 +236,27 @@
           {@render points(
             slot.purpose.kind === SlotPurposeKind.POINTS ? slot.purpose.reason : null,
           )}
-          <TextLink
-            text={slot.channel.display_name}
-            target={{ url: channelUrl(slot.channel.login), mark: LinkMark.END }}
-            size={LinkSize.MD}
-          />
-          <span class="flex min-w-0 items-center gap-2 text-hint text-muted-foreground">
-            {#if slot.channel.game}<GameName
-                name={slot.channel.game.name}
-                url={gameUrl(slot.channel.game.name, slot.channel.game.slug)}
-                art={gameArt(slot.channel.game.name, slot.channel.game.box_art_url)}
-                size={ThumbSize.XS}
-              />{/if}
-            {#if slot.channel.viewers !== undefined}<ViewerCount
-                count={slot.channel.viewers}
-              />{/if}
+          <!-- ! One line, name · category · viewers, wrapping between the parts only when the card has no room. -->
+          <span
+            class="flex min-w-0 flex-wrap items-center gap-x-1.5 gap-y-0.5 text-hint text-muted-foreground"
+            data-slot="streamer-meta"
+          >
+            <TextLink
+              text={slot.channel.display_name}
+              target={{ url: channelUrl(slot.channel.login), mark: LinkMark.END }}
+              size={LinkSize.MD}
+            />
+            {#if slot.channel.game}<span class="flex max-w-full min-w-0 items-center gap-1.5">
+                <span aria-hidden="true">·</span><GameName
+                  name={slot.channel.game.name}
+                  url={gameUrl(slot.channel.game.name, slot.channel.game.slug)}
+                  art={gameArt(slot.channel.game.name, slot.channel.game.box_art_url)}
+                  size={ThumbSize.XS}
+                />
+              </span>{/if}
+            {#if slot.channel.viewers !== undefined}<span class="flex items-center gap-1.5">
+                <span aria-hidden="true">·</span><ViewerCount count={slot.channel.viewers} />
+              </span>{/if}
           </span>
         </div>
       </LinkPair>

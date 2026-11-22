@@ -7,8 +7,6 @@ export enum BalanceAlign {
 
 export const COPIED_FEEDBACK_MS = 1_800;
 
-export const TOOLTIP_DELAY_MS = 400;
-
 export enum CopyLayout {
   ICON = "ICON",
   LABELLED = "LABELLED",

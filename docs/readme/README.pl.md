@@ -187,15 +187,17 @@
   Drops i zadań Twitcha i pomija te, które konto już ma. Odznaka do oglądania codziennie
   jest kopana od nowa każdego dnia aż do ostatniego („20 min dziennie, 3 dni”), a liczy
   się kanał z dowolnej kategorii kampanii. Skrzynka daje „1 losowa odznaka z N”. Odznaka
-  wymagająca subskrypcji jest kopana, gdy w trakcie kampanii wykupisz lub podarujesz subskrypcję na kanale z tej kategorii i Twitch ją policzy. Trwająca już subskrypcja, subskrypcja Prime ani odnowienie się nie liczą.
-  Przed startem kampanii nic nie jest kopane. W „Co kopać, w jakiej kolejności” ustaw
-  przeciąganiem kategorie priorytetowe, odznaki i inne kampanie Drops w wybranej kolejności albo
-  wyłącz którąś z nich. Zadanie Twitcha jest kopane tylko na kanale, na którym Twitch
-  oferuje je w swoim panelu Drops. Ewolucja (Pichu → Pikachu) jest kopana, gdy tylko konto
-  ma odznakę, z której ewoluuje: miner sam zakłada tę odznakę tuż przedtem i nie przywraca
-  poprzedniej; „Kop ewolucje odznak” w ustawieniach odznak konta wyłącza to. Kliknięcie
-  odznaki otwiera jej szczegóły: pełny wymóg, wszystkie kategorie i kanały, kolekcję,
-  ewolucję i postęp każdego konta. Ta funkcja jest w wersji beta.
+  wymagająca subskrypcji jest kopana, gdy w trakcie kampanii wykupisz lub podarujesz
+  subskrypcję na kanale z tej kategorii i Twitch ją policzy. Trwająca już subskrypcja,
+  subskrypcja Prime ani odnowienie się nie liczą. Przed startem kampanii nic nie jest
+  kopane. W „Co kopać, w jakiej kolejności” ustaw przeciąganiem kategorie priorytetowe,
+  odznaki i inne kampanie Drops w wybranej kolejności albo wyłącz którąś z nich. Zadanie
+  Twitcha jest kopane tylko na kanale, na którym Twitch oferuje je w swoim panelu Drops.
+  Ewolucja (Pichu → Pikachu) jest kopana, gdy tylko konto ma odznakę, z której ewoluuje:
+  miner sam zakłada tę odznakę tuż przedtem i nie przywraca poprzedniej; „Kop ewolucje
+  odznak” w ustawieniach odznak konta wyłącza to. Kliknięcie odznaki otwiera jej
+  szczegóły: pełny wymóg, wszystkie kategorie i kanały, kolekcję, ewolucję i postęp
+  każdego konta. Ta funkcja jest w wersji beta.
 
   <details open><summary>Zobacz w akcji</summary>
   <img src="../media/pl/badges.avif" alt="Strona Odznaki, odznaki jednego konta, a potem „Co kopać, w jakiej kolejności” z Odznakami przeciągniętymi na początek">
@@ -552,17 +554,19 @@ dyskretniejsze.
 Otwórz stronę **Drops** danego konta. W sekcji „Kolejność kopania” każda oczekująca
 kampania podaje powód: „Brak kanału na żywo” lub „Oczekiwanie (jedna kampania naraz)”.
 „Twitch tego nie liczy — kolejna próba …” oznacza, że 30 minut rzeczywistego oglądania nie
-przyniosło żadnego postępu po stronie Twitcha: kampania zostaje odłożona na bok i ponawiana
-automatycznie po wskazanym czasie, albo wcześniej, jeśli postęp pojawi się ponownie.
-Kampania, której nie ma na tej liście, została pominięta: przez „Co kopać, w jakiej
-kolejności”, przez ustawienie „Które kampanie”, przez regułę na karcie **Wykluczenia**,
-dlatego, że nie da się jej ukończyć na czas, albo dlatego, że wszystkie pozostałe nagrody wymagają subskrypcji. Nagroda wymagająca subskrypcji czeka,
-aż w trakcie kampanii wykupisz lub podarujesz subskrypcję na kanale z tej kategorii (trwająca już subskrypcja, subskrypcja Prime ani odnowienie się nie liczą), odznaka do oglądania codziennie czeka na kolejny dzień, przed startem
-kampanii nic nie jest kopane, a drop, który następuje po innym, czeka, aż pierwszy
-zostanie ukończony. W trybie **Tylko punkty** miner nie wybiera żadnej kampanii.
-„Kop najpierw” w szczegółach kampanii przenosi ją na górę; ignorowana kampania może
-wrócić dzięki „Kop ponownie” na karcie **Wykluczenia**. Karta **Kampanie** pokazuje te
-same powody w grupie **Zablokowane**.
+przyniosło żadnego postępu po stronie Twitcha: kampania zostaje odłożona na bok i
+ponawiana automatycznie po wskazanym czasie, albo wcześniej, jeśli postęp pojawi się
+ponownie. Kampania, której nie ma na tej liście, została pominięta: przez „Co kopać, w
+jakiej kolejności”, przez ustawienie „Które kampanie”, przez regułę na karcie
+**Wykluczenia**, dlatego, że nie da się jej ukończyć na czas, albo dlatego, że wszystkie
+pozostałe nagrody wymagają subskrypcji. Nagroda wymagająca subskrypcji czeka, aż w trakcie
+kampanii wykupisz lub podarujesz subskrypcję na kanale z tej kategorii (trwająca już
+subskrypcja, subskrypcja Prime ani odnowienie się nie liczą), odznaka do oglądania
+codziennie czeka na kolejny dzień, przed startem kampanii nic nie jest kopane, a drop,
+który następuje po innym, czeka, aż pierwszy zostanie ukończony. W trybie **Tylko punkty**
+miner nie wybiera żadnej kampanii. „Kop najpierw” w szczegółach kampanii przenosi ją na
+górę; ignorowana kampania może wrócić dzięki „Kop ponownie” na karcie **Wykluczenia**.
+Karta **Kampanie** pokazuje te same powody w grupie **Zablokowane**.
 
 **Czy muszę połączyć konto wydawcy?**\
 Żeby odebrać nagrodę, tak: od października 2026 r. Twitch pozwala odebrać drop tylko

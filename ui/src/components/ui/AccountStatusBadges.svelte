@@ -5,10 +5,12 @@
     AccountState,
   } from "../../lib/accounts/account-state.constants";
   import { accountState } from "../../lib/accounts/account-state.utils";
-  import { accountStateHint, accountStateLabel } from "../../lib/accounts/accounts.utils";
-  import { AccountStatus } from "../../lib/bindings/AccountStatus";
+  import {
+    accountStateHint,
+    accountStateLabel,
+    activeMiners,
+  } from "../../lib/accounts/accounts.utils";
   import type { AccountSnapshotType } from "../../lib/bindings/AccountSnapshotType";
-  import { MinerKind } from "../../lib/bindings/MinerKind";
   import { ticker } from "../../lib/state/ticker.svelte";
   import Badge from "./Badge.svelte";
   import MiningBadge from "./MiningBadge.svelte";
@@ -19,13 +21,7 @@
 
   const current = $derived(accountState(account, ticker.now));
 
-  const miners = $derived(
-    current === AccountState.PAUSED || account.status !== AccountStatus.MINING
-      ? []
-      : Object.values(MinerKind).filter((kind) =>
-          account.slots.some((slot) => slot.miner === kind),
-        ),
-  );
+  const miners = $derived(current === AccountState.PAUSED ? [] : activeMiners(account));
 </script>
 
 {#each miners as kind (kind)}<MiningBadge {kind} />{/each}

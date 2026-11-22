@@ -21,6 +21,7 @@
 </script>
 
 <span
+  data-slot="points-balance"
   class={[
     "flex shrink-0 flex-col gap-0.5",
     end ? "min-w-22 items-end text-right" : "items-start text-left",

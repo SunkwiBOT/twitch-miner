@@ -181,23 +181,24 @@
   pe cea ale cărei recompense se potrivesc tipului preferat (insignă, emote, obiect din
   joc). Nu îți depășește niciodată ordinea de minare.
 
-- **Insigne (beta).** Pagina Insigne listează toate insignele globale din chatul Twitch
-  și cum le obții. Fiecare cont are propria pagină Insigne: insignele în desfășurare cu
-  progresul lor, cele pe care le mai poate obține și cele pe care le are. Minerul
-  țintește insignele din campaniile Drops și misiunile Twitch și le sare pe cele pe care
-  contul le are deja. O insignă de urmărit în fiecare zi este minată din nou în fiecare
-  zi, până la ultima („20 min. pe zi, 3 zile”), iar un canal din oricare dintre
-  categoriile campaniei contează. Un cufăr dă „1 insignă la întâmplare din N”. O insignă
-  care cere un abonament este minată după ce te-ai abonat sau ai oferit un abonament cadou în timpul campaniei, pe un canal din categorie, și Twitch îl
-  numără. Un abonament deja activ, un abonament Prime sau o reînnoire nu contează. Nimic nu este minat înainte de începutul campaniei. În „Ce să se mineze, în
-  ordine”, trage categoriile prioritare, insignele și celelalte campanii Drops în ordinea
-  dorită sau dezactivează una dintre ele. O misiune Twitch este minată doar pe un canal
-  unde Twitch o oferă în panoul său Drops. O evoluție (Pichu → Pikachu) este minată imediat
-  ce contul are insigna din care evoluează: minerul își pune singur acea insignă chiar
-  înainte și nu o mai pune la loc pe cea veche; „Minează evoluțiile insignelor”, în
-  setările de insigne ale contului, dezactivează asta. Un clic pe o insignă îi deschide
-  detaliile: cerința completă, toate categoriile și canalele, colecția, evoluția și
-  progresul fiecărui cont. Această funcție este în beta.
+- **Insigne (beta).** Pagina Insigne listează toate insignele globale din chatul Twitch și
+  cum le obții. Fiecare cont are propria pagină Insigne: insignele în desfășurare cu
+  progresul lor, cele pe care le mai poate obține și cele pe care le are. Minerul țintește
+  insignele din campaniile Drops și misiunile Twitch și le sare pe cele pe care contul le
+  are deja. O insignă de urmărit în fiecare zi este minată din nou în fiecare zi, până la
+  ultima („20 min. pe zi, 3 zile”), iar un canal din oricare dintre categoriile campaniei
+  contează. Un cufăr dă „1 insignă la întâmplare din N”. O insignă care cere un abonament
+  este minată după ce te-ai abonat sau ai oferit un abonament cadou în timpul campaniei,
+  pe un canal din categorie, și Twitch îl numără. Un abonament deja activ, un abonament
+  Prime sau o reînnoire nu contează. Nimic nu este minat înainte de începutul campaniei.
+  În „Ce să se mineze, în ordine”, trage categoriile prioritare, insignele și celelalte
+  campanii Drops în ordinea dorită sau dezactivează una dintre ele. O misiune Twitch este
+  minată doar pe un canal unde Twitch o oferă în panoul său Drops. O evoluție (Pichu →
+  Pikachu) este minată imediat ce contul are insigna din care evoluează: minerul își pune
+  singur acea insignă chiar înainte și nu o mai pune la loc pe cea veche; „Minează
+  evoluțiile insignelor”, în setările de insigne ale contului, dezactivează asta. Un clic
+  pe o insignă îi deschide detaliile: cerința completă, toate categoriile și canalele,
+  colecția, evoluția și progresul fiecărui cont. Această funcție este în beta.
 
   <details open><summary>Vezi în acțiune</summary>
   <img src="../media/ro/badges.avif" alt="Pagina Insigne, insignele unui cont, apoi „Ce să se mineze, în ordine” cu Insigne trase primele">
@@ -551,19 +552,22 @@ iar celălalt streamerii tăi. Setarea „Un canal”, din **Setări cont**, e m
 ### Drops
 
 **O campanie nu este minată sau un drop nu avansează.**\
-Deschide pagina **Drops** a contului. În „Ordinea de minare”, fiecare campanie în așteptare
-spune de ce: „Niciun canal live” sau „În așteptare (o campanie pe rând)”. „Twitch nu o contorizează — reîncercare …” înseamnă că 30 de minute de vizionare reală nu au adus niciun
-progres din partea Twitch: campania este pusă deoparte și reîncercată automat după timpul
-afișat, sau mai devreme, dacă progresul reapare înainte. O campanie care
-nu apare în acea listă a fost lăsată deoparte: de „Ce să se mineze, în ordine”, de
-setarea „Ce campanii”, de o regulă din fila **Excluderi**, pentru că nu se poate
-termina la timp sau pentru că toate recompensele rămase cer un abonament. O recompensă care cere un abonament așteaptă să te abonezi sau să oferi un abonament cadou în timpul campaniei, pe un canal din categorie (un abonament deja activ, un abonament Prime sau o reînnoire nu contează), o
-insignă de urmărit în fiecare zi așteaptă ziua următoare, nimic nu este minat înainte de
-începutul campaniei, iar un drop care urmează după altul așteaptă ca primul să se
-termine. În modul **Doar puncte**, minerul nu alege nicio campanie. „Minează cu
-prioritate”, în fișa unei campanii, o pune pe primul loc; o campanie ignorată poate
-reveni cu „Minează din nou”, din fila **Excluderi**. Fila **Campanii** arată aceleași
-motive în grupul **Blocate**.
+Deschide pagina **Drops** a contului. În „Ordinea de minare”, fiecare campanie în
+așteptare spune de ce: „Niciun canal live” sau „În așteptare (o campanie pe rând)”.
+„Twitch nu o contorizează — reîncercare …” înseamnă că 30 de minute de vizionare reală nu
+au adus niciun progres din partea Twitch: campania este pusă deoparte și reîncercată
+automat după timpul afișat, sau mai devreme, dacă progresul reapare înainte. O campanie
+care nu apare în acea listă a fost lăsată deoparte: de „Ce să se mineze, în ordine”, de
+setarea „Ce campanii”, de o regulă din fila **Excluderi**, pentru că nu se poate termina
+la timp sau pentru că toate recompensele rămase cer un abonament. O recompensă care cere
+un abonament așteaptă să te abonezi sau să oferi un abonament cadou în timpul campaniei,
+pe un canal din categorie (un abonament deja activ, un abonament Prime sau o reînnoire nu
+contează), o insignă de urmărit în fiecare zi așteaptă ziua următoare, nimic nu este minat
+înainte de începutul campaniei, iar un drop care urmează după altul așteaptă ca primul să
+se termine. În modul **Doar puncte**, minerul nu alege nicio campanie. „Minează cu
+prioritate”, în fișa unei campanii, o pune pe primul loc; o campanie ignorată poate reveni
+cu „Minează din nou”, din fila **Excluderi**. Fila **Campanii** arată aceleași motive în
+grupul **Blocate**.
 
 **Trebuie să conectez contul de editor?**\
 Pentru revendicare, da: din octombrie 2026, Twitch permite revendicarea unui drop doar

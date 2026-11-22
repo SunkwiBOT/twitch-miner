@@ -89,7 +89,7 @@
     <div class="flex flex-col gap-2">
       <OverflowNames
         items={group}
-        shown={group.length > GROUP_CHIPS_MAX ? GROUP_CHIPS_MAX - 1 : GROUP_CHIPS_MAX}
+        shown={GROUP_CHIPS_MAX}
         title={t.account_points_streamers()}
         key={(streamer) => streamer.login}
         words={(streamer) => [streamer.login, channelOf(streamer.login)?.display_name ?? ""]}

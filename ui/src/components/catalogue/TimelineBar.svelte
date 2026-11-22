@@ -1,6 +1,5 @@
 <script lang="ts" generics="T">
   import {
-    estimateLabelWidth,
     getBarGeometry,
     getLabelPlacement,
     getNextBarIndex,
@@ -10,7 +9,11 @@
   import { t } from "../../lib/i18n/i18n.svelte";
   import { strong } from "../../lib/text.utils";
   import { formatClock, formatDayMonth, formatWeekdayDayMonth } from "../../lib/time/time.utils";
-  import { BarLabelPlacement, TIMELINE_PILL_MS } from "../../lib/catalogue/timeline.constants";
+  import {
+    BAR_PADDING_PX,
+    BarLabelPlacement,
+    TIMELINE_PILL_MS,
+  } from "../../lib/catalogue/timeline.constants";
   import Badge from "../ui/Badge.svelte";
   import RichText from "../ui/RichText.svelte";
   import TimeLeftTag from "./TimeLeftTag.svelte";
@@ -56,14 +59,10 @@
       : "",
   );
 
-  const labelWidth = $derived(
-    estimateLabelWidth(
-      item.name,
-      endLabel.replaceAll("**", ""),
-      [pill, item.tag?.text ?? ""],
-      image !== null,
-    ),
-  );
+  let measured = $state(0);
+
+  // ! Measured, never guessed: a label wider than its bar is drawn outside, so no bar cuts its own label.
+  const labelWidth = $derived(measured + 2 * BAR_PADDING_PX);
 
   const placement = $derived(
     geometry ? getLabelPlacement(geometry, laneWidth, labelWidth) : BarLabelPlacement.INSIDE,
@@ -116,7 +115,7 @@
 {/snippet}
 
 {#if geometry}
-  <div class="item">
+  <div class="item" style:--bar-pad="{BAR_PADDING_PX}px">
     <button
       class="lane-hit"
       type="button"
@@ -124,6 +123,14 @@
       aria-hidden="true"
       onclick={() => onopen(item.value)}
     ></button>
+    <span
+      class="measure text-hint font-semibold"
+      aria-hidden="true"
+      inert
+      bind:offsetWidth={measured}
+    >
+      {@render label()}
+    </span>
     <div class="line" style:height="{height}px">
       <button
         class="bar text-hint font-semibold text-foreground"
@@ -174,6 +181,18 @@
   .line {
     position: relative;
   }
+  .measure {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    line-height: 1.2;
+    white-space: nowrap;
+    visibility: hidden;
+    pointer-events: none;
+  }
   .lane-hit {
     position: absolute;
     inset: 0;
@@ -191,7 +210,7 @@
     align-items: center;
     gap: 6px;
     min-width: 6px;
-    padding: 0 8px;
+    padding: 0 var(--bar-pad);
     border: 0;
     border-radius: var(--radius);
     background: linear-gradient(to right, var(--muted) 0 var(--p), var(--input) var(--p));
@@ -245,7 +264,7 @@
   .beside {
     position: absolute;
     top: 50%;
-    left: calc(100% + 8px);
+    left: calc(100% + var(--bar-pad));
     display: flex;
     align-items: center;
     gap: 6px;
@@ -253,7 +272,7 @@
   }
   .beside.left {
     left: auto;
-    right: calc(100% + 8px);
+    right: calc(100% + var(--bar-pad));
   }
   /* ! Clicks fall through to the lane's own target. */
   .below {

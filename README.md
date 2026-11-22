@@ -181,20 +181,22 @@
   overrides your mining order.
 
 - **Badges (beta).** The Badges page lists every global Twitch chat badge and how to get
-  it. Each account has its own Badges page: the badges in progress with their progress, the
-  ones still to get and the ones it owns. The miner goes after the badges of Drops
+  it. Each account has its own Badges page: the badges in progress with their progress,
+  the ones still to get and the ones it owns. The miner goes after the badges of Drops
   campaigns and Twitch quests, and skips those the account already owns. A badge watched
   every day is mined again each day until the last one (“20 min per day, 3 days”), and a
   channel in any of the campaign's categories counts. A chest gives “1 random badge out of
-  N”. A badge that needs a subscription is mined once you have subscribed or gifted a subscription during the campaign, on a channel in the category, and
-  Twitch counts it; a subscription already running, a Prime subscription or a renewal does not count. Nothing is mined before its campaign starts. In “What to mine, in
-  order”, drag priority categories, badges and other Drops campaigns into the order you want,
-  or switch one off. A Twitch quest is mined only on a channel where Twitch offers it in
-  its Drops panel. An evolution (Pichu → Pikachu) is mined once the account owns the badge
-  it evolves from: the miner equips that badge itself just before and does not put the old
-  one back; “Mine badge evolutions”, in the account's badge settings, turns this off. A
-  click on a badge opens its details: the whole requirement, every category and channel,
-  the collection, the evolution and each account's progress. This feature is in beta.
+  N”. A badge that needs a subscription is mined once you have subscribed or gifted a
+  subscription during the campaign, on a channel in the category, and Twitch counts it; a
+  subscription already running, a Prime subscription or a renewal does not count. Nothing
+  is mined before its campaign starts. In “What to mine, in order”, drag priority
+  categories, badges and other Drops campaigns into the order you want, or switch one off.
+  A Twitch quest is mined only on a channel where Twitch offers it in its Drops panel. An
+  evolution (Pichu → Pikachu) is mined once the account owns the badge it evolves from:
+  the miner equips that badge itself just before and does not put the old one back; “Mine
+  badge evolutions”, in the account's badge settings, turns this off. A click on a badge
+  opens its details: the whole requirement, every category and channel, the collection,
+  the evolution and each account's progress. This feature is in beta.
 
   <details open><summary>See it in action</summary>
   <img src="docs/media/en/badges.avif" alt="The Badges page, an account's badges, then “What to mine, in order” with Badges dragged first">
@@ -551,19 +553,21 @@ is quieter.
 ### Drops
 
 **A campaign is not being mined, or a drop is not progressing.**\
-Open the account's **Drops** page. In “Mining order”, each waiting campaign says why:
-“No live channel” or “Waiting (one campaign at a time)”. “Twitch isn't crediting it —
-retrying …” means 30 minutes of real watching brought no progress on Twitch's side: the
-campaign is set aside and tried again automatically in the time shown, or sooner if
-progress reappears first. A campaign that does not appear in that list was left out —
-open the **Campaigns** tab's **Blocked** group to see why: by
-“What to mine, in order”, by the “Which campaigns”
-setting, by a rule in the **Exclusions** tab, because it cannot finish in time, or because all the rewards it has left need a subscription. A
-reward that needs a subscription waits until you subscribe or gift a subscription during the campaign, on a channel in the category (a subscription already running, a Prime subscription or a renewal does not count), a badge watched
-every day waits for its next day, nothing is mined before its campaign starts, and a drop
-that follows another one waits until the first is done. In **Points only** mode, the miner
-picks no campaign. “Mine first”, in a campaign's details, puts it at the top; an ignored
-campaign can come back with “Mine again”, in the **Exclusions** tab.
+Open the account's **Drops** page. In “Mining order”, each waiting campaign says why: “No
+live channel” or “Waiting (one campaign at a time)”. “Twitch isn't crediting it — retrying
+…” means 30 minutes of real watching brought no progress on Twitch's side: the campaign is
+set aside and tried again automatically in the time shown, or sooner if progress reappears
+first. A campaign that does not appear in that list was left out — open the **Campaigns**
+tab's **Blocked** group to see why: by “What to mine, in order”, by the “Which campaigns”
+setting, by a rule in the **Exclusions** tab, because it cannot finish in time, or because
+all the rewards it has left need a subscription. A reward that needs a subscription waits
+until you subscribe or gift a subscription during the campaign, on a channel in the
+category (a subscription already running, a Prime subscription or a renewal does not
+count), a badge watched every day waits for its next day, nothing is mined before its
+campaign starts, and a drop that follows another one waits until the first is done. In
+**Points only** mode, the miner picks no campaign. “Mine first”, in a campaign's details,
+puts it at the top; an ignored campaign can come back with “Mine again”, in the
+**Exclusions** tab.
 
 **Do I need to link the publisher account?**\
 To claim, yes: since October 2026, Twitch only lets you claim a drop when the publisher account

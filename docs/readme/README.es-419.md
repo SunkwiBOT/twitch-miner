@@ -189,16 +189,18 @@
   insignias en curso con su progreso, las que aún puede conseguir y las que tiene. El
   minero va por las insignias de las campañas de Drops y las misiones de Twitch, y omite
   las que la cuenta ya tiene. Una insignia que hay que mirar cada día se vuelve a minar
-  cada día hasta el último (“20 min al día, 3 días”), y cuenta un canal de cualquiera de las
-  categorías de la campaña. Un cofre da “1 insignia al azar entre N”. Una insignia que
-  requiere una suscripción se mina cuando te suscribiste o regalaste una suscripción durante la campaña, en un canal de la categoría, y Twitch la cuenta. Una suscripción ya en curso, una suscripción con Prime o una renovación no cuentan. No
-  se mina nada antes de que empiece su campaña. En "Qué minar, en orden", arrastra las
-  categorías prioritarias, las insignias y las otras campañas de Drops al orden que quieras, o
-  desactiva alguno. Una misión de Twitch solo se mina en un canal donde Twitch la ofrece en
-  su panel de Drops. Una evolución (Pichu → Pikachu) se mina en cuanto la cuenta tiene la
-  insignia de la que evoluciona: el minero se pone él mismo esa insignia justo antes y no
-  vuelve a poner la anterior; “Minar las evoluciones de insignias”, en la configuración de
-  insignias de la cuenta, lo desactiva. Un clic en una insignia abre sus detalles: el
+  cada día hasta el último (“20 min al día, 3 días”), y cuenta un canal de cualquiera de
+  las categorías de la campaña. Un cofre da “1 insignia al azar entre N”. Una insignia que
+  requiere una suscripción se mina cuando te suscribiste o regalaste una suscripción
+  durante la campaña, en un canal de la categoría, y Twitch la cuenta. Una suscripción ya
+  en curso, una suscripción con Prime o una renovación no cuentan. No se mina nada antes
+  de que empiece su campaña. En "Qué minar, en orden", arrastra las categorías
+  prioritarias, las insignias y las otras campañas de Drops al orden que quieras, o
+  desactiva alguno. Una misión de Twitch solo se mina en un canal donde Twitch la ofrece
+  en su panel de Drops. Una evolución (Pichu → Pikachu) se mina en cuanto la cuenta tiene
+  la insignia de la que evoluciona: el minero se pone él mismo esa insignia justo antes y
+  no vuelve a poner la anterior; “Minar las evoluciones de insignias”, en la configuración
+  de insignias de la cuenta, lo desactiva. Un clic en una insignia abre sus detalles: el
   requisito completo, todas las categorías y los canales, la colección, la evolución y el
   progreso de cada cuenta. Esta función está en beta.
 
@@ -566,18 +568,21 @@ campaña y el otro a tus streamers. La opción “Un canal”, en
 
 **Una campaña no se mina, o un drop no avanza.**\
 Abre la página **Drops** de la cuenta. En “Orden de minado”, cada campaña en espera indica
-por qué: “Ningún canal en vivo” o “En espera (una campaña a la vez)”. “Twitch no lo cuenta — próximo intento …” significa que 30 minutos de visionado real no generaron
-progreso del lado de Twitch: la campaña se deja de lado y se reintenta automáticamente en el
-tiempo indicado, o antes si reaparece progreso. Una campaña que no aparece en esa lista
-quedó descartada: por “Qué minar, en orden”, por la opción “Qué campañas”, por una regla de
-la pestaña **Exclusiones**, porque no alcanza a terminar a tiempo o porque todas las recompensas que le quedan requieren una suscripción. Una recompensa que
-requiere una suscripción espera a que te suscribas o regales una suscripción durante la campaña, en un canal de la categoría (una suscripción ya en curso, una suscripción con Prime o una renovación no cuentan), una insignia que hay que mirar
-cada día espera al día siguiente, no se mina nada antes de que empiece su campaña, y un drop
-que va después de otro espera a que el primero termine. En el modo **Solo puntos**, el
-minero no elige ninguna campaña. “Minar primero”, en la ficha de una campaña, la pone al
-principio; una campaña ignorada puede volver con “Volver a minar”, en la pestaña
-**Exclusiones**. La pestaña **Campañas** muestra los mismos motivos en el grupo
-**Bloqueadas**.
+por qué: “Ningún canal en vivo” o “En espera (una campaña a la vez)”. “Twitch no lo
+cuenta — próximo intento …” significa que 30 minutos de visionado real no generaron
+progreso del lado de Twitch: la campaña se deja de lado y se reintenta automáticamente en
+el tiempo indicado, o antes si reaparece progreso. Una campaña que no aparece en esa lista
+quedó descartada: por “Qué minar, en orden”, por la opción “Qué campañas”, por una regla
+de la pestaña **Exclusiones**, porque no alcanza a terminar a tiempo o porque todas las
+recompensas que le quedan requieren una suscripción. Una recompensa que requiere una
+suscripción espera a que te suscribas o regales una suscripción durante la campaña, en un
+canal de la categoría (una suscripción ya en curso, una suscripción con Prime o una
+renovación no cuentan), una insignia que hay que mirar cada día espera al día siguiente,
+no se mina nada antes de que empiece su campaña, y un drop que va después de otro espera a
+que el primero termine. En el modo **Solo puntos**, el minero no elige ninguna campaña.
+“Minar primero”, en la ficha de una campaña, la pone al principio; una campaña ignorada
+puede volver con “Volver a minar”, en la pestaña **Exclusiones**. La pestaña **Campañas**
+muestra los mismos motivos en el grupo **Bloqueadas**.
 
 **¿Tengo que vincular la cuenta del editor?**\
 Para reclamar, sí: desde octubre de 2026, Twitch solo permite reclamar un drop cuando la

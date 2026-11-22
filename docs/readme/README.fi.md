@@ -188,17 +188,18 @@
   edistymisineen, vielä saatavat merkit ja tilin omat merkit. Louhija tavoittelee
   Drops-kampanjoiden ja Twitchin questien merkkejä ja ohittaa ne, jotka tilillä jo on.
   Joka päivä katsottava merkki louhitaan uudelleen joka päivä viimeiseen asti (”20 min
-  päivässä, 3 päivää”), ja mikä tahansa kanava kampanjan kategorioista kelpaa. Arkku
-  antaa ”1 satunnainen merkki, vaihtoehtoja N”. Tilausta vaativa merkki louhitaan, kun
-  olet tilannut tai lahjoittanut tilauksen kampanjan aikana jollakin kategorian kanavalla ja Twitch laskee sen. Jo käynnissä oleva tilaus, Prime-tilaus tai uusinta ei kelpaa. Mitään ei louhita ennen kampanjan
-  alkua. Vedä kohdassa ”Mitä louhitaan, järjestyksessä” prioriteettikategoriat, merkit ja muut
-  Drops-kampanjat haluamaasi järjestykseen tai kytke jokin niistä pois. Twitchin quest
-  louhitaan vain kanavalla, jolla Twitch tarjoaa sitä Drops-paneelissaan. Kehitys (Pichu →
-  Pikachu) louhitaan heti, kun tilillä on merkki, josta se kehittyy: louhija ottaa sen
-  merkin itse käyttöön juuri ennen eikä palauta vanhaa; ”Louhi merkkien kehitykset” tilin
-  merkkiasetuksissa kytkee tämän pois. Merkin napsauttaminen avaa sen tiedot: koko
-  vaatimuksen, kaikki kategoriat ja kanavat, kokoelman, kehityksen ja jokaisen tilin
-  edistymisen. Tämä ominaisuus on beta-vaiheessa.
+  päivässä, 3 päivää”), ja mikä tahansa kanava kampanjan kategorioista kelpaa. Arkku antaa
+  ”1 satunnainen merkki, vaihtoehtoja N”. Tilausta vaativa merkki louhitaan, kun olet
+  tilannut tai lahjoittanut tilauksen kampanjan aikana jollakin kategorian kanavalla ja
+  Twitch laskee sen. Jo käynnissä oleva tilaus, Prime-tilaus tai uusinta ei kelpaa. Mitään
+  ei louhita ennen kampanjan alkua. Vedä kohdassa ”Mitä louhitaan, järjestyksessä”
+  prioriteettikategoriat, merkit ja muut Drops-kampanjat haluamaasi järjestykseen tai
+  kytke jokin niistä pois. Twitchin quest louhitaan vain kanavalla, jolla Twitch tarjoaa
+  sitä Drops-paneelissaan. Kehitys (Pichu → Pikachu) louhitaan heti, kun tilillä on
+  merkki, josta se kehittyy: louhija ottaa sen merkin itse käyttöön juuri ennen eikä
+  palauta vanhaa; ”Louhi merkkien kehitykset” tilin merkkiasetuksissa kytkee tämän pois.
+  Merkin napsauttaminen avaa sen tiedot: koko vaatimuksen, kaikki kategoriat ja kanavat,
+  kokoelman, kehityksen ja jokaisen tilin edistymisen. Tämä ominaisuus on beta-vaiheessa.
 
   <details open><summary>Katso toiminnassa</summary>
   <img src="../media/fi/badges.avif" alt="Merkit-sivu, tilin merkit ja sitten ”Mitä louhitaan, järjestyksessä”, jossa Merkit on vedetty ensimmäiseksi">
@@ -563,16 +564,19 @@ kanava palvelee kampanjaa ja toinen streamaajiasi. ”Yksi kanava” -asetus koh
 
 **Kampanjaa ei louhita, tai drop ei edisty.**\
 Avaa tilin **Drops**-sivu. Kohdassa ”Louhintajärjestys” jokainen odottava kampanja kertoo
-syyn: ”Ei kanavaa livenä” tai ”Odottaa (yksi kampanja kerrallaan)”. ”Twitch ei laske sitä — uusi yritys …” tarkoittaa, että 30 minuuttia aitoa katselua ei tuonut edistystä Twitchin
-puolella: kampanja siirretään syrjään ja sitä yritetään uudelleen automaattisesti
+syyn: ”Ei kanavaa livenä” tai ”Odottaa (yksi kampanja kerrallaan)”. ”Twitch ei laske
+sitä — uusi yritys …” tarkoittaa, että 30 minuuttia aitoa katselua ei tuonut edistystä
+Twitchin puolella: kampanja siirretään syrjään ja sitä yritetään uudelleen automaattisesti
 näytettynä aikana, tai aiemmin, jos edistystä ilmenee ensin. Kampanja, joka ei näy tässä
 listassa, on jätetty pois: kohdan ”Mitä louhitaan, järjestyksessä” vuoksi, ”Mitkä
 kampanjat” -asetuksella, **Ohitukset**-välilehden säännöllä, siksi, ettei se ehdi
-valmistua ajoissa, tai siksi, että kaikki sen jäljellä olevat palkinnot vaativat tilauksen. Tilausta vaativa palkinto odottaa, kunnes tilaat tai lahjoitat tilauksen kampanjan aikana jollakin kategorian kanavalla (jo käynnissä oleva tilaus, Prime-tilaus tai uusinta ei kelpaa),
-joka päivä katsottava merkki odottaa seuraavaa päivää, mitään ei louhita ennen kampanjan
-alkua, ja toista seuraava drop odottaa, kunnes ensimmäinen on valmis. **Vain pisteet**
--tilassa louhija ei valitse kampanjaa. ”Louhi ensin” kampanjan tiedoissa nostaa sen
-kärkeen; ohitetun kampanjan saa takaisin valinnalla ”Louhi taas”
+valmistua ajoissa, tai siksi, että kaikki sen jäljellä olevat palkinnot vaativat
+tilauksen. Tilausta vaativa palkinto odottaa, kunnes tilaat tai lahjoitat tilauksen
+kampanjan aikana jollakin kategorian kanavalla (jo käynnissä oleva tilaus, Prime-tilaus
+tai uusinta ei kelpaa), joka päivä katsottava merkki odottaa seuraavaa päivää, mitään ei
+louhita ennen kampanjan alkua, ja toista seuraava drop odottaa, kunnes ensimmäinen on
+valmis. **Vain pisteet** -tilassa louhija ei valitse kampanjaa. ”Louhi ensin” kampanjan
+tiedoissa nostaa sen kärkeen; ohitetun kampanjan saa takaisin valinnalla ”Louhi taas”
 **Ohitukset**-välilehdellä. **Kampanjat**-välilehden **Estetyt**-ryhmä näyttää samat syyt.
 
 **Pitääkö julkaisijatili linkittää?**\

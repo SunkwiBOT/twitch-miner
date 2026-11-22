@@ -14,10 +14,12 @@ import { BadgeTone } from "../tones.constants";
 import { AccountState, PauseScope } from "./account-state.constants";
 import { scheduledPause } from "./account-state.utils";
 import { PROXY_CREDENTIALS_MASK } from "./accounts.constants";
+import { MinerKind } from "../bindings/MinerKind";
+import { MINING_BADGE_HINTS, MINING_BADGE_TEXTS } from "../events/labels.utils";
 
 const STATUS_LABELS: Record<AccountStatus, () => string> = {
   [AccountStatus.STARTING]: () => t.status_starting(),
-  [AccountStatus.MINING]: () => t.status_mining(),
+  [AccountStatus.MINING]: () => t.status_looking(),
   [AccountStatus.IDLE]: () => t.status_idle(),
   [AccountStatus.PAUSED]: () => t.status_paused(),
   [AccountStatus.LOGIN_REQUIRED]: () => t.status_login_required(),
@@ -31,11 +33,17 @@ export const MODE_LABELS: Record<Mode, () => string> = {
 
 const STATUS_HINTS: Record<AccountStatus, (() => string) | null> = {
   [AccountStatus.STARTING]: null,
-  [AccountStatus.MINING]: () => t.badge_hint_mining(),
+  [AccountStatus.MINING]: null,
   [AccountStatus.IDLE]: null,
   [AccountStatus.PAUSED]: () => t.badge_hint_paused(),
   [AccountStatus.LOGIN_REQUIRED]: () => t.badge_hint_login_required(),
 };
+
+// ! A mining account names what it mines, in its Mining badges' words; with no channel watched yet, it is still looking.
+export const activeMiners = (account: AccountSnapshotType): MinerKind[] =>
+  account.status === AccountStatus.MINING
+    ? Object.values(MinerKind).filter((kind) => account.slots.some((slot) => slot.miner === kind))
+    : [];
 
 // ! A pause for a while names its end; one until resumed is the switch alone.
 const pausedUntil = (account: AccountSnapshotType, now: number): string | null =>
@@ -53,7 +61,11 @@ export const accountStateLabel = (
   }
 
   if (state !== AccountState.PAUSED) {
-    return STATUS_LABELS[account.status]();
+    const miners = activeMiners(account);
+
+    return miners.length > 0
+      ? miners.map((kind) => MINING_BADGE_TEXTS[kind]()).join(" · ")
+      : STATUS_LABELS[account.status]();
   }
 
   const until = pausedUntil(account, now);
@@ -80,14 +92,16 @@ export const accountStateHint = (
   }
 
   if (state !== AccountState.PAUSED) {
-    return STATUS_HINTS[account.status]?.();
+    const miners = activeMiners(account);
+
+    return miners.length > 0
+      ? miners.map((kind) => MINING_BADGE_HINTS[kind]()).join(" · ")
+      : STATUS_HINTS[account.status]?.();
   }
 
   const until = pausedUntil(account, now);
 
-  return until
-    ? t.pause_badge_hint({ resumeTime: strong(formatShortDateTime(until)) })
-    : t.badge_hint_paused();
+  return until ? t.pause_badge_hint() : t.badge_hint_paused();
 };
 
 export const PAUSE_LABELS: Record<PauseScope, () => string> = {

@@ -189,10 +189,12 @@
   badge, der skal ses hver dag, bliver minet igen hver dag indtil den sidste (»20 min. pr.
   dag, 3 dage«), og en kanal i en hvilken som helst af kampagnens kategorier tæller. En
   kiste giver »1 tilfældigt badge ud af N«. Et badge, der kræver et abonnement, bliver
-  minet, når du har abonneret eller givet et abonnement i gave under kampagnen, på en kanal i kategorien, og Twitch tæller det. Et igangværende abonnement, et Prime-abonnement eller en fornyelse tæller ikke. Intet bliver minet,
-  før kampagnen starter. I »Hvad der skal mines, i rækkefølge« trækker du prioriterede
-  kategorier, badges og andre Drops-kampagner i den rækkefølge, du vil have, eller slår en af
-  dem fra. En Twitch-quest bliver kun minet på en kanal, hvor Twitch tilbyder den i sit
+  minet, når du har abonneret eller givet et abonnement i gave under kampagnen, på en
+  kanal i kategorien, og Twitch tæller det. Et igangværende abonnement, et
+  Prime-abonnement eller en fornyelse tæller ikke. Intet bliver minet, før kampagnen
+  starter. I »Hvad der skal mines, i rækkefølge« trækker du prioriterede kategorier,
+  badges og andre Drops-kampagner i den rækkefølge, du vil have, eller slår en af dem fra.
+  En Twitch-quest bliver kun minet på en kanal, hvor Twitch tilbyder den i sit
   Drops-panel. En udvikling (Pichu → Pikachu) bliver minet, så snart kontoen ejer det
   badge, den udvikler sig fra: mineren tager selv det badge på lige før og sætter ikke det
   gamle tilbage; »Min badge-udviklinger« i kontoens badge-indstillinger slår det fra. Et
@@ -557,15 +559,18 @@ kampagnen og den anden til dine streamere. Indstillingen »Én kanal« i
 
 **En kampagne bliver ikke minet, eller et drop gør ingen fremskridt.**\
 Åbn kontoens side **Drops**. Under »Mining-rækkefølge« står der ved hver ventende kampagne
-hvorfor: »Ingen kanal live« eller »Venter (én kampagne ad gangen)«. »Twitch tæller det ikke — nyt forsøg …« betyder, at 30 minutters reel seertid ikke gav
-fremskridt på Twitchs side: kampagnen sættes til side og forsøges automatisk igen
-efter den viste tid, eller før, hvis fremskridt dukker op først. En kampagne, der ikke
-vises i listen, er sorteret fra: af »Hvad der skal mines, i rækkefølge«, af indstillingen
-»Hvilke kampagner«, af en regel på fanen **Udelukkelser**, fordi den ikke kan nå at
-blive færdig, eller fordi alle dens resterende belønninger kræver et abonnement. En belønning, der kræver et abonnement, venter, til du abonnerer eller giver et abonnement i gave under kampagnen, på en kanal i kategorien (et igangværende abonnement, et Prime-abonnement eller en fornyelse tæller ikke),
-et badge, der skal ses hver dag, venter på næste dag, intet bliver minet, før kampagnen
-starter, og et drop, der følger efter et andet, venter, til det første er færdigt. I
-tilstanden **Kun point** vælger mineren ingen kampagne. »Sæt først i
+hvorfor: »Ingen kanal live« eller »Venter (én kampagne ad gangen)«. »Twitch tæller det
+ikke — nyt forsøg …« betyder, at 30 minutters reel seertid ikke gav fremskridt på Twitchs
+side: kampagnen sættes til side og forsøges automatisk igen efter den viste tid, eller
+før, hvis fremskridt dukker op først. En kampagne, der ikke vises i listen, er sorteret
+fra: af »Hvad der skal mines, i rækkefølge«, af indstillingen »Hvilke kampagner«, af en
+regel på fanen **Udelukkelser**, fordi den ikke kan nå at blive færdig, eller fordi alle
+dens resterende belønninger kræver et abonnement. En belønning, der kræver et abonnement,
+venter, til du abonnerer eller giver et abonnement i gave under kampagnen, på en kanal i
+kategorien (et igangværende abonnement, et Prime-abonnement eller en fornyelse tæller
+ikke), et badge, der skal ses hver dag, venter på næste dag, intet bliver minet, før
+kampagnen starter, og et drop, der følger efter et andet, venter, til det første er
+færdigt. I tilstanden **Kun point** vælger mineren ingen kampagne. »Sæt først i
 mining-rækkefølgen« i en kampagnes detaljer sætter den øverst; en ignoreret kampagne kan
 komme tilbage med »Medtag i mining igen« på fanen **Udelukkelser**. Fanen **Kampagner**
 viser de samme grunde i gruppen **Blokerede**.

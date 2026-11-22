@@ -1,4 +1,4 @@
-export type SparkleRangeType = { min: number; max: number };
+import type { SparkleRangeType } from "./sparkles.types";
 
 // ! One sparkle between two others at rest, quicker under the pointer.
 export const SPARKLE_REST_DELAY_MS: SparkleRangeType = { min: 380, max: 760 };
@@ -31,19 +31,13 @@ export const SPARKLE_LABEL_BOX: Record<"x" | "y", SparkleRangeType> = {
 // ! The label box covers about a fifth of the area: a few draws are enough.
 export const SPARKLE_POSITION_DRAWS = 32;
 
-export const SPARKLE_PRIMARY_BUTTON = 0;
-
 export enum SparkleTone {
   SPARKLE = "SPARKLE",
   GOLD = "GOLD",
   BRAND = "BRAND",
 }
 
-export const SPARKLE_TONES: readonly SparkleTone[] = [
-  SparkleTone.SPARKLE,
-  SparkleTone.GOLD,
-  SparkleTone.BRAND,
-];
+export const SPARKLE_TONES: readonly SparkleTone[] = Object.values(SparkleTone);
 
 export const SPARKLE_TONE_CLASSES: Record<SparkleTone, string> = {
   [SparkleTone.SPARKLE]: "text-sparkle",

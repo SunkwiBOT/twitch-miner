@@ -188,15 +188,17 @@
   Twitch-quests, og hopper over dem kontoen allerede har. Et merke som skal ses hver dag,
   mines på nytt hver dag til den siste («20 min per dag, 3 dager»), og en kanal i hvilken
   som helst av kampanjens kategorier teller. En kiste gir «1 tilfeldig merke av N». Et
-  merke som krever abonnement, mines når du har abonnert eller gitt bort et abonnement under kampanjen, på en kanal i kategorien, og Twitch teller det. Et pågående abonnement, et Prime-abonnement eller en fornyelse teller ikke. Ingenting
-  mines før kampanjen starter. I «Hva som skal mines, i rekkefølge» drar du prioriterte
-  kategorier, merker og andre Drops-kampanjer i den rekkefølgen du vil, eller slår av en av dem.
-  En Twitch-quest mines bare på en kanal der Twitch tilbyr den i Drops-panelet sitt. En
-  utvikling (Pichu → Pikachu) mines så snart kontoen eier merket den utvikler seg fra:
-  mineren tar selv på det merket rett før og setter ikke det gamle tilbake; «Min
-  merkeutviklinger» i kontoens merkeinnstillinger slår det av. Et klikk på et merke åpner
-  detaljene: hele kravet, alle kategorier og kanaler, samlingen, utviklingen og hver kontos
-  fremgang. Denne funksjonen er i beta.
+  merke som krever abonnement, mines når du har abonnert eller gitt bort et abonnement
+  under kampanjen, på en kanal i kategorien, og Twitch teller det. Et pågående abonnement,
+  et Prime-abonnement eller en fornyelse teller ikke. Ingenting mines før kampanjen
+  starter. I «Hva som skal mines, i rekkefølge» drar du prioriterte kategorier, merker og
+  andre Drops-kampanjer i den rekkefølgen du vil, eller slår av en av dem. En Twitch-quest
+  mines bare på en kanal der Twitch tilbyr den i Drops-panelet sitt. En utvikling (Pichu →
+  Pikachu) mines så snart kontoen eier merket den utvikler seg fra: mineren tar selv på
+  det merket rett før og setter ikke det gamle tilbake; «Min merkeutviklinger» i kontoens
+  merkeinnstillinger slår det av. Et klikk på et merke åpner detaljene: hele kravet, alle
+  kategorier og kanaler, samlingen, utviklingen og hver kontos fremgang. Denne funksjonen
+  er i beta.
 
   <details open><summary>Se det i aksjon</summary>
   <img src="../media/nb/badges.avif" alt="Siden Merker, merkene til en konto og deretter «Hva som skal mines, i rekkefølge» med Merker dratt øverst">
@@ -559,18 +561,21 @@ kampanjen og den andre til streamerne dine. Innstillingen «Én kanal», i
 
 **En kampanje mines ikke, eller en drop gjør ingen fremgang.**\
 Åpne siden **Drops** for kontoen. Under «Mining-rekkefølge» står det ved hver ventende
-kampanje hvorfor: «Ingen kanal direkte» eller «Venter (én kampanje om gangen)». «Twitch teller det ikke — nytt forsøk …» betyr at 30 minutter med reell titting ikke ga
-noen fremgang på Twitchs side: kampanjen settes til side og prøves automatisk på nytt
-innen tiden som vises, eller tidligere hvis fremgang dukker opp igjen først. En
-kampanje som ikke vises i listen, er sortert bort: av «Hva som skal mines, i rekkefølge»,
-av innstillingen «Hvilke kampanjer», av en regel i fanen **Unntak**, fordi den ikke
-rekker å bli ferdig i tide, eller fordi alle de gjenstående belønningene krever abonnement. En belønning som krever abonnement, venter til du
-abonnerer eller gir bort et abonnement under kampanjen, på en kanal i kategorien (et pågående abonnement, et Prime-abonnement eller en fornyelse teller ikke), et merke som skal ses hver dag, venter på neste dag, ingenting mines før
-kampanjen starter, og en drop som følger etter en annen, venter til den første er ferdig.
-I modusen **Bare poeng** velger mineren ingen kampanje. «Sett først i
-mining-rekkefølgen», i detaljene til en kampanje, setter den øverst; en ignorert kampanje
-kan komme tilbake med «Ta med i mining igjen», i fanen **Unntak**. Fanen **Kampanjer**
-viser de samme grunnene i gruppen **Blokkerte**.
+kampanje hvorfor: «Ingen kanal direkte» eller «Venter (én kampanje om gangen)». «Twitch
+teller det ikke — nytt forsøk …» betyr at 30 minutter med reell titting ikke ga noen
+fremgang på Twitchs side: kampanjen settes til side og prøves automatisk på nytt innen
+tiden som vises, eller tidligere hvis fremgang dukker opp igjen først. En kampanje som
+ikke vises i listen, er sortert bort: av «Hva som skal mines, i rekkefølge», av
+innstillingen «Hvilke kampanjer», av en regel i fanen **Unntak**, fordi den ikke rekker å
+bli ferdig i tide, eller fordi alle de gjenstående belønningene krever abonnement. En
+belønning som krever abonnement, venter til du abonnerer eller gir bort et abonnement
+under kampanjen, på en kanal i kategorien (et pågående abonnement, et Prime-abonnement
+eller en fornyelse teller ikke), et merke som skal ses hver dag, venter på neste dag,
+ingenting mines før kampanjen starter, og en drop som følger etter en annen, venter til
+den første er ferdig. I modusen **Bare poeng** velger mineren ingen kampanje. «Sett først
+i mining-rekkefølgen», i detaljene til en kampanje, setter den øverst; en ignorert
+kampanje kan komme tilbake med «Ta med i mining igjen», i fanen **Unntak**. Fanen
+**Kampanjer** viser de samme grunnene i gruppen **Blokkerte**.
 
 **Må jeg koble utgiverkontoen?**\
 For å hente, ja: siden oktober 2026 lar Twitch deg bare hente en drop når utgiverkontoen er

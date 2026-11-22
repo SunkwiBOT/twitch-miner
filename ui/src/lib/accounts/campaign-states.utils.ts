@@ -141,7 +141,7 @@ const STATE_VIEWS: Record<CampaignState, StateViewType> = {
     hint: () => t.badge_hint_evolution_off(),
   },
   [CampaignState.POINTS_ONLY]: {
-    text: () => t.mode_points_title(),
+    text: () => t.campaign_state_points_only(),
     tone: BadgeTone.NEUTRAL,
     icon: IconName.CHANNEL_POINTS,
     hint: () =>

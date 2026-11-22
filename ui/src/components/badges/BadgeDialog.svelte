@@ -123,12 +123,6 @@
 
   const channels = $derived(requirement ? badgeChannels(requirement, campaign) : []);
 
-  $effect(() => {
-    if (channels.length) {
-      ensureChannels(channels.slice(0, NAMES_SHOWN));
-    }
-  });
-
   const dates = $derived.by((): string => {
     const starts = requirement?.starts_at;
     const ends = requirement?.ends_at;
@@ -355,11 +349,11 @@
 
       {#if categories.length > 0}
         <section class="flex flex-col gap-2">
-          {@render section(t.badge_dialog_categories(), categories.length)}
+          {@render section(t.list_categories_title(), categories.length)}
           <OverflowNames
             items={categories}
             shown={NAMES_SHOWN}
-            title={t.badge_dialog_categories()}
+            title={t.list_categories_title()}
             key={(category) => category.name}
             words={(category) => [category.name]}
             class="gap-x-4 gap-y-2 text-hint"
@@ -380,18 +374,18 @@
       {#if requirement && channels.length > 0}
         <section class="flex flex-col gap-2">
           {@render section(
-            t.badge_dialog_channels(),
+            t.list_channels_title(),
             Math.max(requirement.channel_count, channels.length),
           )}
           <OverflowNames
             items={channels}
             shown={NAMES_SHOWN}
-            title={t.badge_dialog_channels()}
+            title={t.list_channels_title()}
             key={(login) => login}
             words={(login) => [login, knownChannels[login]?.display_name ?? login]}
             class="gap-x-4 gap-y-2 text-hint"
             itemClass="min-w-0"
-            onopen={ensureChannels}
+            onshow={ensureChannels}
           >
             {#snippet item(login)}
               {@const channel = knownChannels[login]}

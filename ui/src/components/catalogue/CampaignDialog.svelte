@@ -102,12 +102,6 @@
 
   const ignoredDrops = $derived(picked.flatMap((a) => a.settings.drops.exclude_drop_ids));
 
-  $effect(() => {
-    if (view?.allowed_channels.length) {
-      ensureChannels(view.allowed_channels.slice(0, NAMES_SHOWN).map((channel) => channel.login));
-    }
-  });
-
   const left = (c: CampaignType): number => new Date(c.ends_at).getTime() - ticker.now;
 
   const claim = async (entry: CampaignProgressType): Promise<void> => {
@@ -205,12 +199,12 @@
             <OverflowNames
               items={view.allowed_channels}
               shown={NAMES_SHOWN}
-              title={t.badge_dialog_channels()}
+              title={t.list_channels_title()}
               key={(channel) => channel.login}
               words={(channel) => [channel.login, channel.display_name]}
               class="gap-x-4 gap-y-2 text-hint"
               itemClass="min-w-0"
-              onopen={(all) => ensureChannels(all.map((channel) => channel.login))}
+              onshow={(names) => ensureChannels(names.map((channel) => channel.login))}
             >
               {#snippet item(channel)}
                 <ChannelLink
@@ -224,7 +218,7 @@
             <OverflowNames
               items={view.categories}
               shown={NAMES_SHOWN}
-              title={t.badge_dialog_categories()}
+              title={t.list_categories_title()}
               key={(category) => category.name}
               words={(category) => [category.name]}
               class="gap-x-4 gap-y-2 text-hint"

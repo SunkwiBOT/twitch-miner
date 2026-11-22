@@ -186,21 +186,23 @@
   belüli tárgy). A te bányászati sorrendedet sosem írja felül.
 - **Jelvények (béta).** A Jelvények oldal felsorolja a Twitch összes globális
   chatjelvényét, és azt, hogyan szerezhetők meg. Minden fióknak saját Jelvények oldala
-  van: a folyamatban lévő jelvények a haladásukkal, a még megszerezhetők és a
-  birtokoltak. A bányász a Drops-kampányok és a Twitch-küldetések jelvényeire megy rá, és
-  kihagyja azokat, amelyek már megvannak a fióknak. A minden nap nézendő jelvényt minden
-  nap újra bányássza az utolsóig („20 p naponta, 3 napon át”), és a kampány bármelyik
+  van: a folyamatban lévő jelvények a haladásukkal, a még megszerezhetők és a birtokoltak.
+  A bányász a Drops-kampányok és a Twitch-küldetések jelvényeire megy rá, és kihagyja
+  azokat, amelyek már megvannak a fióknak. A minden nap nézendő jelvényt minden nap újra
+  bányássza az utolsóig („20 p naponta, 3 napon át”), és a kampány bármelyik
   kategóriájának csatornája számít. Egy láda „1 véletlen jelvény N közül” jutalmat ad. Az
-  előfizetést igénylő jelvényt akkor bányássza, amikor a kampány alatt előfizettél vagy előfizetést ajándékoztál a kategória egyik csatornáján, és a Twitch
-  beszámította. Egy már futó előfizetés, egy Prime-előfizetés vagy egy megújítás nem számít. A kampány kezdete előtt semmit sem bányászik. A „Mit bányásszon,
-  sorrendben” részben húzd a kívánt sorrendbe a prioritás kategóriákat, a jelvényeket és a
-  többi Drops-kampányt, vagy kapcsolj ki közülük egyet. Egy Twitch-küldetést csak olyan
-  csatornán bányászik, ahol a Twitch a Drops-paneljén felkínálja. Egy fejlődést (Pichu →
-  Pikachu) akkor bányászik, amikor a fióknak már megvan a jelvény, amelyből fejlődik: a
-  bányász közvetlenül előtte maga teszi fel ezt a jelvényt, és nem teszi vissza a régit; a
-  fiók jelvénybeállításaiban a „Jelvényfejlődések bányászása” ezt kikapcsolja. Egy
-  jelvényre kattintva megnyílnak a részletei: a teljes feltétel, az összes kategória és
-  csatorna, a gyűjtemény, a fejlődés és minden fiók haladása. Ez a funkció béta állapotú.
+  előfizetést igénylő jelvényt akkor bányássza, amikor a kampány alatt előfizettél vagy
+  előfizetést ajándékoztál a kategória egyik csatornáján, és a Twitch beszámította. Egy
+  már futó előfizetés, egy Prime-előfizetés vagy egy megújítás nem számít. A kampány
+  kezdete előtt semmit sem bányászik. A „Mit bányásszon, sorrendben” részben húzd a kívánt
+  sorrendbe a prioritás kategóriákat, a jelvényeket és a többi Drops-kampányt, vagy
+  kapcsolj ki közülük egyet. Egy Twitch-küldetést csak olyan csatornán bányászik, ahol a
+  Twitch a Drops-paneljén felkínálja. Egy fejlődést (Pichu → Pikachu) akkor bányászik,
+  amikor a fióknak már megvan a jelvény, amelyből fejlődik: a bányász közvetlenül előtte
+  maga teszi fel ezt a jelvényt, és nem teszi vissza a régit; a fiók jelvénybeállításaiban
+  a „Jelvényfejlődések bányászása” ezt kikapcsolja. Egy jelvényre kattintva megnyílnak a
+  részletei: a teljes feltétel, az összes kategória és csatorna, a gyűjtemény, a fejlődés
+  és minden fiók haladása. Ez a funkció béta állapotú.
 
   <details open><summary>Működés közben</summary>
   <img src="../media/hu/badges.avif" alt="A Jelvények oldal, egy fiók jelvényei, majd a „Mit bányásszon, sorrendben” a Jelvények elejére húzva">
@@ -558,17 +560,21 @@ feltűnésmentesebb.
 
 **Egy kampányt nem bányászik, vagy egy drop nem halad.**\
 Nyisd meg a fiók **Drops** oldalát. A „Bányászási sorrend” részben minden várakozó kampány
-megmondja, miért vár: „Nincs élő csatorna” vagy „Várakozik (egyszerre egy kampány)”. „A Twitch nem számolja el — újra …” azt jelenti, hogy 30 perc valódi nézés sem
-hozott előrehaladást a Twitch oldalán: a kampány félretevésre kerül, és a megjelenített időn
+megmondja, miért vár: „Nincs élő csatorna” vagy „Várakozik (egyszerre egy kampány)”. „A
+Twitch nem számolja el — újra …” azt jelenti, hogy 30 perc valódi nézés sem hozott
+előrehaladást a Twitch oldalán: a kampány félretevésre kerül, és a megjelenített időn
 belül automatikusan újrapróbálja, vagy hamarabb, ha előbb halad valamennyit. Az a kampány,
-amely nem szerepel ebben a listában, kimaradt: a „Mit bányásszon, sorrendben” miatt, a „Mely
-kampányok” beállítás miatt, a **Kizárások** lap egy szabálya miatt, mert nem fejezhető
-be időben, vagy mert minden hátralévő jutalmához előfizetés kell. Az előfizetést igénylő jutalom megvárja, amíg a kampány alatt előfizetsz vagy előfizetést ajándékozol a kategória egyik csatornáján (egy már futó előfizetés, egy Prime-előfizetés vagy egy megújítás nem számít), a minden nap
-nézendő jelvény a következő napot várja, a kampány kezdete előtt semmit sem bányászik, a
-másikat követő drop pedig megvárja, amíg az első elkészül. **Csak pontok** módban a bányász
-nem választ kampányt. A kampány adatlapján a „Bányászás elsőként” a lista élére teszi; egy
-mellőzött kampány az „Újbóli bányászás” gombbal térhet vissza, a **Kizárások** lapon.
-A **Kampányok** fül **Blokkolt** csoportja ugyanezeket az okokat mutatja.
+amely nem szerepel ebben a listában, kimaradt: a „Mit bányásszon, sorrendben” miatt, a
+„Mely kampányok” beállítás miatt, a **Kizárások** lap egy szabálya miatt, mert nem
+fejezhető be időben, vagy mert minden hátralévő jutalmához előfizetés kell. Az előfizetést
+igénylő jutalom megvárja, amíg a kampány alatt előfizetsz vagy előfizetést ajándékozol a
+kategória egyik csatornáján (egy már futó előfizetés, egy Prime-előfizetés vagy egy
+megújítás nem számít), a minden nap nézendő jelvény a következő napot várja, a kampány
+kezdete előtt semmit sem bányászik, a másikat követő drop pedig megvárja, amíg az első
+elkészül. **Csak pontok** módban a bányász nem választ kampányt. A kampány adatlapján a
+„Bányászás elsőként” a lista élére teszi; egy mellőzött kampány az „Újbóli bányászás”
+gombbal térhet vissza, a **Kizárások** lapon. A **Kampányok** fül **Blokkolt** csoportja
+ugyanezeket az okokat mutatja.
 
 **Össze kell kapcsolnom a kiadói fiókot?**\
 A begyűjtéshez igen: 2026 októbere óta a Twitch csak akkor enged begyűjteni egy dropot, ha
