@@ -259,6 +259,7 @@
                 label={t.campaign_open_twitch()}
                 variant={ButtonVariant.PRIMARY}
                 size={ButtonSize.SM}
+                icon={IconName.TWITCH}
               />
             {/if}
             {#if view.link_url && view.linked !== true}

@@ -307,6 +307,7 @@
                 label={t.campaign_open_twitch()}
                 variant={campaign ? ButtonVariant.OUTLINE : ButtonVariant.PRIMARY}
                 size={ButtonSize.SM}
+                icon={IconName.TWITCH}
               />
             {/if}
             {#if shown.web_url}

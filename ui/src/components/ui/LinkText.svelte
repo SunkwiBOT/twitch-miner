@@ -36,9 +36,11 @@
   <span
     class={cn(
       "shrink-0 text-link",
-      mark === LinkMark.OVERLAY
-        ? "absolute bottom-0 left-full ml-1.5 hidden link-active:inline-block"
-        : "opacity-0 transition-opacity link-active:opacity-100",
+      mark === LinkMark.OVERLAY &&
+        "absolute bottom-0 left-full ml-1.5 hidden link-active:inline-block",
+      mark === LinkMark.PUSH && "hidden link-active:inline-flex",
+      (mark === LinkMark.START || mark === LinkMark.END) &&
+        "opacity-0 transition-opacity link-active:opacity-100",
     )}
   >
     <Icon name={IconName.EXTERNAL} size={LINK_SIZES[size].icon} />
@@ -56,4 +58,4 @@
   )}
 >
   {text}{#if mark === LinkMark.OVERLAY}{@render icon()}{/if}
-</span>{#if mark === LinkMark.END}{@render icon()}{/if}
+</span>{#if mark === LinkMark.END || mark === LinkMark.PUSH}{@render icon()}{/if}

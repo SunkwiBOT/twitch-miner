@@ -32,6 +32,7 @@
   import type { TextCategoryType } from "../../lib/text.utils";
   import GameName from "./GameName.svelte";
   import NameList from "./NameList.svelte";
+  import { NameListKind } from "./link.constants";
   import { ThumbSize } from "./picture.constants";
 
   type TagInputPropsType = {
@@ -133,7 +134,7 @@
 
 <div class="flex flex-col gap-2">
   {#if items.length}
-    <NameList class="gap-1.5">
+    <NameList kind={NameListKind.WRAP} class="gap-1.5">
       {#each items as item (key(item))}
         {@const shown = category?.(item)}
         <li class="flex">

@@ -6,6 +6,7 @@
   import ExternalButton from "../ui/ExternalButton.svelte";
   import Panel from "../ui/Panel.svelte";
   import { ButtonSize, ButtonVariant } from "../ui/button.constants";
+  import { IconName } from "../../lib/icons.constants";
 
   const minutes = $derived(Math.round((app.snapshot?.catalog.interval_seconds ?? 0) / 60));
 </script>
@@ -23,6 +24,7 @@
       label={DROPS_API_NAME}
       variant={ButtonVariant.OUTLINE}
       size={ButtonSize.MD}
+      icon={IconName.GLOBE}
     />
   </div>
 </Panel>

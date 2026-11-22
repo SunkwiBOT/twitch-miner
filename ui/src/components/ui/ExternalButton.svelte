@@ -32,7 +32,7 @@
     label: string;
     variant: ButtonVariant;
     size: ButtonSize;
-    icon?: IconName;
+    icon: IconName;
     ariaLabel?: string;
     class?: string;
     resolve?: ResolveType;
@@ -69,20 +69,12 @@
   rel={EXTERNAL_LINK_REL}
   variant={BUTTON_VARIANTS[variant]}
   size={BUTTON_SIZES[size]}
-  class={cn(
-    "group/external no-underline hover:no-underline",
-    BUTTON_VARIANT_CLASSES[variant],
-    className,
-  )}
+  class={cn("no-underline hover:no-underline", BUTTON_VARIANT_CLASSES[variant], className)}
   aria-label={ariaLabel}
   onclick={externalLinkOnClick(url, follow, onfollow)}
 >
-  {#if icon}<Icon name={icon} size={iconSize} />{/if}
+  <Icon name={icon} size={iconSize} />
   <span class="truncate">{label}</span>
-  <!-- ! Like a text link: the external mark shows on hover or focus only, its room kept so the label never moves. -->
-  <span
-    class="shrink-0 opacity-0 transition-opacity group-hover/external:opacity-70 group-focus-visible/external:opacity-70"
-  >
-    <Icon name={IconName.EXTERNAL} size={iconSize - 1} />
-  </span>
+  <!-- ! Unlike a text link, a button that opens an external page always shows the mark. -->
+  <Icon name={IconName.EXTERNAL} size={iconSize} class="opacity-70" />
 </Button>

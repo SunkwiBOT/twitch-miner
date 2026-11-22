@@ -1,10 +1,12 @@
 import { getContext, setContext } from "svelte";
 
+import type { NameListKind } from "./link.constants";
+
 const NAME_LIST = Symbol("name-list");
 
-// ! A list of names that wraps shows no external icon: its room at rest would open gaps between the names.
-export const provideNameList = (): void => {
-  setContext(NAME_LIST, true);
+export const provideNameList = (kind: NameListKind): void => {
+  setContext(NAME_LIST, kind);
 };
 
-export const inNameList = (): boolean => getContext<boolean | undefined>(NAME_LIST) === true;
+export const nameListKind = (): NameListKind | undefined =>
+  getContext<NameListKind | undefined>(NAME_LIST);

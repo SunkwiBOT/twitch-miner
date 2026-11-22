@@ -42,10 +42,21 @@ export const LINK_RESTS: Record<LinkRest, string> = {
 
 // ! Where an external link shows its icon on hover. START and END keep the icon's room at rest,
 // so a name never shifts; OVERLAY keeps none and draws the icon over what follows (a sentence's
-// final period, the room around a centered line), so nothing shows a gap or moves.
+// final period, the room around a centered line), so nothing shows a gap or moves. PUSH keeps no
+// room either and pushes what follows on hover: the owner's choice for a « name · category » run only.
 export enum LinkMark {
   NONE = "NONE",
   START = "START",
   END = "END",
   OVERLAY = "OVERLAY",
+  PUSH = "PUSH",
+}
+
+// ! WRAP: a list of names that wraps, with no external icon (its room would open gaps between names).
+// COLUMN: one name per row, where the hover icon opens no gap, so each link keeps its own mark.
+// RUN: names inline with « · » separators, whose END marks become PUSH.
+export enum NameListKind {
+  WRAP = "WRAP",
+  COLUMN = "COLUMN",
+  RUN = "RUN",
 }

@@ -16,6 +16,7 @@
   import SearchField from "./SearchField.svelte";
   import SearchNoResult from "./SearchNoResult.svelte";
   import { BADGE_CHIP_CLASSES, BADGE_VARIANTS, BadgeVariant } from "./badge.constants";
+  import { NameListKind } from "./link.constants";
   import { MENU_EDGE_GAP, SELECT_SEARCH_FROM } from "./menu.constants";
 
   type OverflowNamesPropsType = {
@@ -72,7 +73,7 @@
   };
 </script>
 
-<NameList class={className}>
+<NameList kind={NameListKind.WRAP} class={className}>
   {#each visible as entry (key(entry))}<li class={itemClass}>{@render item(entry)}</li>{/each}
   {#if hidden > 0}<li class={itemClass}>
       <Popover bind:open onOpenChange={toggled}>
@@ -117,7 +118,8 @@
             <SearchNoResult shown={found.length === 0} {query} />
           {/if}
           <NameList
-            class="max-h-72 flex-col flex-nowrap gap-y-2 overflow-y-auto overscroll-contain p-0.5 text-hint"
+            kind={NameListKind.COLUMN}
+            class="max-h-72 gap-y-2 overflow-y-auto overscroll-contain p-0.5 text-hint"
           >
             {#each found as entry (key(entry))}<li class="min-w-0">{@render item(entry)}</li>{/each}
           </NameList>

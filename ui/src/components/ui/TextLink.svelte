@@ -5,9 +5,16 @@
   import type { LinkTargetType } from "../../lib/text.utils";
   import ExternalAnchor from "./ExternalAnchor.svelte";
   import { linkPair } from "./link-pair.svelte";
-  import { inNameList } from "./name-list.svelte";
+  import { nameListKind } from "./name-list.svelte";
   import LinkText from "./LinkText.svelte";
-  import { LINK_SIZES, LinkMark, LinkRest, LinkSize, LinkTone } from "./link.constants";
+  import {
+    LINK_SIZES,
+    LinkMark,
+    LinkRest,
+    LinkSize,
+    LinkTone,
+    NameListKind,
+  } from "./link.constants";
 
   type TextLinkPropsType = {
     text: string;
@@ -30,9 +37,22 @@
   }: TextLinkPropsType = $props();
 
   const pair = linkPair();
-  const listed = inNameList();
-  const mark = $derived(listed || !("url" in target) ? LinkMark.NONE : target.mark);
-  const fit = $derived(lead !== undefined || mark === LinkMark.START || mark === LinkMark.END);
+  const listKind = nameListKind();
+  const mark = $derived.by(() => {
+    if (listKind === NameListKind.WRAP || !("url" in target)) {
+      return LinkMark.NONE;
+    }
+
+    return listKind === NameListKind.RUN && target.mark === LinkMark.END
+      ? LinkMark.PUSH
+      : target.mark;
+  });
+  const fit = $derived(
+    lead !== undefined ||
+      mark === LinkMark.START ||
+      mark === LinkMark.END ||
+      mark === LinkMark.PUSH,
+  );
   const classes = $derived(
     cn(
       "group/link min-w-0 text-left",
