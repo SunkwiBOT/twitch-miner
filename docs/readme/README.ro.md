@@ -63,7 +63,7 @@
 </p>
 
 <p align="center">
-  <img src="../media/ro/presentation.avif" alt="Prezentare video a Twitch Miner">
+  <img src="../media/en/presentation.avif" alt="Prezentare video a Twitch Miner">
 </p>
 
 ## <a name="features"></a>Funcționalități
@@ -74,50 +74,38 @@
   propriul mod: **Drops și puncte** (un canal pentru cea mai bună campanie, celălalt pentru
   streamerii tăi), **Doar Drops** sau **Doar puncte**.
 
-  <details open><summary>Vezi în acțiune</summary>
-  <img src="../media/ro/accounts-mining.avif" alt="Mai multe conturi care minează în același timp, pe pagina Acasă">
-  </details>
+  <img src="../media/en/accounts-mining.avif" alt="Mai multe conturi care minează în același timp, pe pagina Acasă">
 
 - **Un asistent pentru fiecare cont nou.** După autentificare, pornește de la setările
   implicite sau de la cele ale altui cont. Alege modul, campaniile și streamerii, apoi
   „Începe minarea” sau „Salvează și pornește mai târziu”.
 
-  <details open><summary>Vezi în acțiune</summary>
-  <img src="../media/ro/account-setup.avif" alt="Asistentul de configurare al unui cont nou, pas cu pas">
-  </details>
+  <img src="../media/en/account-setup.avif" alt="Asistentul de configurare al unui cont nou, pas cu pas">
 
 - **O modificare aplicată altor conturi dintr-un clic.** După ce schimbi ceva la un cont,
   mesajul de confirmare îți oferă „Aplică la alte conturi”. Modificarea se repetă pe
   conturile bifate, care își păstrează restul setărilor.
 
-  <details open><summary>Vezi în acțiune</summary>
-  <img src="../media/ro/apply-to-accounts.avif" alt="O modificare repetată pe alte conturi cu „Aplică la alte conturi”">
-  </details>
+  <img src="../media/en/apply-to-accounts.avif" alt="O modificare repetată pe alte conturi cu „Aplică la alte conturi”">
 
 - **Adaugă un streamer.** Pornește imediat cu opțiunile implicite: cele ale aplicației sau
   cele alese de tine pentru acest cont. Ajustează-le pe loc, dacă e nevoie: cufere bonus,
   raiduri, momente, serie de vizionare, chat, predicții.
 
-  <details open><summary>Vezi în acțiune</summary>
-  <img src="../media/ro/streamer-add.avif" alt="Un streamer adăugat prin căutarea Twitch, apoi opțiunile lui">
-  </details>
+  <img src="../media/en/streamer-add.avif" alt="Un streamer adăugat prin căutarea Twitch, apoi opțiunile lui">
 
 - **Editează un streamer.** „Editează” îi deschide opțiunile: cufere bonus, raiduri,
   momente, serie de vizionare, chat, predicții… Un comutator îl activează sau îl
   dezactivează fără să-l scoată din listă.
 
-  <details open><summary>Vezi în acțiune</summary>
-  <img src="../media/ro/streamer-edit.avif" alt="Opțiunile unui streamer, deschise din rândul lui">
-  </details>
+  <img src="../media/en/streamer-edit.avif" alt="Opțiunile unui streamer, deschise din rândul lui">
 
 - **Editează mai mulți streameri deodată.** Bifează-i, apoi „Editează cei N streameri
   selectați”. Se aplică doar opțiunile pe care le schimbi. O opțiune care diferă între ei
   apare ca „Mixt”, iar comutatorul ei devine două butoane, „Da” și „Nu”. Apoi aplicația îți
   propune să le faci opțiunile implicite pentru streamerii noi.
 
-  <details open><summary>Vezi în acțiune</summary>
-  <img src="../media/ro/streamers-group-edit.avif" alt="Editarea mai multor streameri, cu opțiuni „Mixt”">
-  </details>
+  <img src="../media/en/streamers-group-edit.avif" alt="Editarea mai multor streameri, cu opțiuni „Mixt”">
 
 - **Importă streameri.** Lipește o listă (până la 500 de nume) sau refolosește lista altui
   cont ori canalele pe care le urmărește contul. Lista este verificată, ca să fie adăugate
@@ -125,9 +113,7 @@
   Actualizările în direct acoperă 46 de streameri pe cont: următorii din listă nu primesc
   raiduri, momente sau predicții.
 
-  <details open><summary>Vezi în acțiune</summary>
-  <img src="../media/ro/streamers-import.avif" alt="Importul de streameri: o listă lipită, alt cont, canalele urmărite">
-  </details>
+  <img src="../media/en/streamers-import.avif" alt="Importul de streameri: o listă lipită, alt cont, canalele urmărite">
 
 - **Spam Points.** Revendică o recompensă personalizată a unui canal de mai multe ori la
   rând. Alege un canal din lista ta de Puncte sau orice canal găsit prin căutarea Twitch:
@@ -135,9 +121,7 @@
   (până la 25, în limita soldului), apoi „Revendică”. Rezultatul apare la sfârșitul seriei,
   iar fiecare serie are rândul ei în Jurnal.
 
-  <details open><summary>Vezi în acțiune</summary>
-  <img src="../media/ro/spam-points.avif" alt="Spam Points: un canal ales, 10 × o recompensă cu mesaj revendicată, revendicările apar în chatul Twitch al canalului, apoi rândul din Jurnal">
-  </details>
+  <img src="../media/en/spam-points.avif" alt="Spam Points: un canal ales, 10 × o recompensă cu mesaj revendicată, revendicările apar în chatul Twitch al canalului, apoi rândul din Jurnal">
 
 ### Drops
 
@@ -145,9 +129,7 @@
   conectarea contului de editor, „Minează cu prioritate”. Lista vine de la proiectul
   [Twitch Drops API](https://drops.sunkwi.com) și se reîmprospătează la fiecare 5 minute.
 
-  <details open><summary>Vezi în acțiune</summary>
-  <img src="../media/ro/drops-catalogue.avif" alt="Catalogul sub formă de calendar, căutarea și fișa unei campanii">
-  </details>
+  <img src="../media/en/drops-catalogue.avif" alt="Catalogul sub formă de calendar, căutarea și fișa unei campanii">
 
 - **Ordinea ta de minare.** Trage campaniile în ordinea dorită. Cele noi își găsesc singure
   locul: întâi categoriile tale prioritare, apoi cele care se termină mai devreme sau cărora
@@ -155,9 +137,7 @@
   recompensă și sari peste campaniile care nu se pot termina la timp. „Minează cu
   prioritate”, în fișa unei campanii, o pune pe primul loc.
 
-  <details open><summary>Vezi în acțiune</summary>
-  <img src="../media/ro/drops-order.avif" alt="Ordinea de minare, categoriile prioritare și excluderile">
-  </details>
+  <img src="../media/en/drops-order.avif" alt="Ordinea de minare, categoriile prioritare și excluderile">
 
 - **Inventar și „Revendică tot”.** Pagina Inventar împarte recompensele în „De revendicat”,
   „În desfășurare” și „Revendicate”. Revendică-le pe rând, pe toate odată sau activează
@@ -165,17 +145,13 @@
   După „Conectează contul de editor”, contul este citit din nou imediat ce revii în
   aplicație, așa că legătura apare pe loc.
 
-  <details open><summary>Vezi în acțiune</summary>
-  <img src="../media/ro/drops-inventory.avif" alt="Inventarul și butonul „Revendică tot”">
-  </details>
+  <img src="../media/en/drops-inventory.avif" alt="Inventarul și butonul „Revendică tot”">
 
 - **„Streamerii mei mai întâi pentru Drops și insigne”.** Pentru campania curentă, un streamer din
   lista ta al cărui live contează pentru acea campanie trece înaintea celorlalte canale.
   Același canal avansează drop-ul și îți aduce punctele lui de canal. Activat implicit.
 
-  <details open><summary>Vezi în acțiune</summary>
-  <img src="../media/ro/drops-streamers-first.avif" alt="Un streamer din listă, urmărit pentru Drops și pentru punctele lui">
-  </details>
+  <img src="../media/en/drops-streamers-first.avif" alt="Un streamer din listă, urmărit pentru Drops și pentru punctele lui">
 
 - **Prioritatea recompenselor.** Când două campanii au același rang, minerul o alege întâi
   pe cea ale cărei recompense se potrivesc tipului preferat (insignă, emote, obiect din
@@ -200,9 +176,7 @@
   pe o insignă îi deschide detaliile: cerința completă, toate categoriile și canalele,
   colecția, evoluția și progresul fiecărui cont. Această funcție este în beta.
 
-  <details open><summary>Vezi în acțiune</summary>
-  <img src="../media/ro/badges.avif" alt="Pagina Insigne, insignele unui cont, apoi „Ce să se mineze, în ordine” cu Insigne trase primele">
-  </details>
+  <img src="../media/en/badges.avif" alt="Pagina Insigne, insignele unui cont, apoi „Ce să se mineze, în ordine” cu Insigne trase primele">
 
 ### Monitorizare
 
@@ -215,18 +189,14 @@
   eroare pe [GitHub](https://github.com/SunkwiBOT/twitch-miner/issues) sau
   [Discord](https://discord.gg/support-bots-891685895781113886).
 
-  <details open><summary>Vezi în acțiune</summary>
-  <img src="../media/ro/journal-requests.avif" alt="Jurnalul filtrat, apoi Loguri tehnice › Cereri">
-  </details>
+  <img src="../media/en/journal-requests.avif" alt="Jurnalul filtrat, apoi Loguri tehnice › Cereri">
 
 - **O pagină Statistici.** Puncte câștigate, drops revendicate, timp de vizionare și
   predicții câștigate în ultimele 7, 30 sau 90 de zile, cu cel mai bun streamer sau cea mai
   bună categorie în spatele fiecărei cifre. O curbă a punctelor per streamer arată soldul
   în timp, cu marcaje pentru serii, raiduri, momente și predicții și un indiciu la fiecare.
 
-  <details open><summary>Vezi în acțiune</summary>
-  <img src="../media/ro/stats.avif" alt="Plăcile paginii Statistici pe 30 de zile, apoi curba de puncte a unui streamer cu un marcaj">
-  </details>
+  <img src="../media/en/stats.avif" alt="Plăcile paginii Statistici pe 30 de zile, apoi curba de puncte a unui streamer cu un marcaj">
 
 - **Pauză și pauză zilnică.** Un singur buton de pauză, pentru un cont sau pentru toate:
   pauză până reiei, sau pentru 30 de minute, 1 oră, 4 ore, până mâine la 09:00, sau o dată
@@ -259,9 +229,7 @@
   și funcționează prin HTTPS în spatele unui proxy. Cinci parole greșite la rând blochează
   adresa IP timp de 30 de secunde.
 
-  <details open><summary>Vezi în acțiune</summary>
-  <img src="../media/ro/security-lock.avif" alt="Lacătul: aplicația blocată, apoi deblocată cu parola ei">
-  </details>
+  <img src="../media/en/security-lock.avif" alt="Lacătul: aplicația blocată, apoi deblocată cu parola ei">
 
 - **Actualizări semnate, niciodată automate.** În bara de sus apare o insignă „Actualizare”
   cu numărul versiunii, iar o notificare de pe desktop te anunță și ea, activă implicit
@@ -272,9 +240,7 @@
   versiune semnată de proiect. Și panoul Docker, și binarul systemd te anunță, cu
   comenzile de rulat.
 
-  <details open><summary>Vezi în acțiune</summary>
-  <img src="../media/ro/updates.avif" alt="Insigna „Actualizare”, confirmarea, apoi instalarea">
-  </details>
+  <img src="../media/en/updates.avif" alt="Insigna „Actualizare”, confirmarea, apoi instalarea">
 
 ### Și în plus
 
@@ -287,9 +253,7 @@
 - 29 de limbi, teme întunecată și luminoasă, notificări desktop, pictogramă în bara de
   sistem, pornire odată cu sistemul.
 
-  <details open><summary>Vezi în acțiune</summary>
-  <img src="../media/ro/basics.avif" alt="Limbi, temele luminoasă și întunecată, o notificare desktop și pictograma din bara de sistem">
-  </details>
+  <img src="../media/en/basics.avif" alt="Limbi, temele luminoasă și întunecată, o notificare desktop și pictograma din bara de sistem">
 
 - **Adăugarea conturilor prin lipirea unei liste de tokenuri.** Ești deja conectat în altă parte? Lipește o listă de tokenuri de acces, câte unul pe linie (până la 50); fiecare este verificat în timp real, cu un contor „Verificate: n/N” și reîncercare pentru fiecare linie eșuată, apoi un singur pas de setări se aplică întregului lot. Importul în sine rulează în fundal, cu progres în timp real pe fiecare cont, poate fi anulat pe parcurs, iar o reîncercare ulterioară retrimite doar conturile care au eșuat. Eliminarea unui cont importat astfel oferă și revocarea tokenului pe Twitch.
 

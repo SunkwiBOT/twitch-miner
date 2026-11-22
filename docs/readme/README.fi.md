@@ -63,7 +63,7 @@
 </p>
 
 <p align="center">
-  <img src="../media/fi/presentation.avif" alt="Videoesittely Twitch Minerista">
+  <img src="../media/en/presentation.avif" alt="Videoesittely Twitch Minerista">
 </p>
 
 ## <a name="features"></a>Ominaisuudet
@@ -74,41 +74,31 @@
   louhintatilassaan: **Drops ja pisteet** (yksi kanava parhaalle kampanjalle, toinen
   streamaajillesi), **Vain Drops** tai **Vain pisteet**.
 
-  <details open><summary>Katso toiminnassa</summary>
-  <img src="../media/fi/accounts-mining.avif" alt="Useita tilejä louhimassa samaan aikaan Etusivulla">
-  </details>
+  <img src="../media/en/accounts-mining.avif" alt="Useita tilejä louhimassa samaan aikaan Etusivulla">
 
 - **Ohjattu käyttöönotto jokaiselle uudelle tilille.** Kirjautumisen jälkeen voit aloittaa
   oletusasetuksista tai toisen tilin asetuksista. Valitse louhintatila, kampanjat ja
   streamaajat, ja sitten ”Aloita louhinta” tai ”Tallenna ja aloita myöhemmin”.
 
-  <details open><summary>Katso toiminnassa</summary>
-  <img src="../media/fi/account-setup.avif" alt="Uuden tilin ohjattu käyttöönotto vaihe vaiheelta">
-  </details>
+  <img src="../media/en/account-setup.avif" alt="Uuden tilin ohjattu käyttöönotto vaihe vaiheelta">
 
 - **Muutos muihin tileihin yhdellä napsautuksella.** Kun olet muuttanut jotain tilillä,
   vahvistusviesti tarjoaa vaihtoehdon ”Käytä muihin tileihin”. Muutos tehdään uudelleen
   valitsemillesi tileille, ja niiden muut asetukset säilyvät ennallaan.
 
-  <details open><summary>Katso toiminnassa</summary>
-  <img src="../media/fi/apply-to-accounts.avif" alt="Muutos tehdään uudelleen muille tileille toiminnolla ”Käytä muihin tileihin”">
-  </details>
+  <img src="../media/en/apply-to-accounts.avif" alt="Muutos tehdään uudelleen muille tileille toiminnolla ”Käytä muihin tileihin”">
 
 - **Lisää streamaaja.** Se aloittaa heti oletusvalinnoilla: sovelluksen omilla tai niillä,
   jotka olet valinnut tälle tilille. Säädä niitä tarvittaessa saman tien: bonusarkut,
   raidit, hetket, katseluputki, chat, ennustukset.
 
-  <details open><summary>Katso toiminnassa</summary>
-  <img src="../media/fi/streamer-add.avif" alt="Streamaajan lisääminen Twitch-haulla ja sen jälkeen sen valinnat">
-  </details>
+  <img src="../media/en/streamer-add.avif" alt="Streamaajan lisääminen Twitch-haulla ja sen jälkeen sen valinnat">
 
 - **Muokkaa streamaajaa.** ”Muokkaa” avaa sen valinnat: bonusarkut, raidit, hetket,
   katseluputki, chat, ennustukset… Kytkin ottaa sen käyttöön tai poistaa sen käytöstä
   poistamatta sitä listalta.
 
-  <details open><summary>Katso toiminnassa</summary>
-  <img src="../media/fi/streamer-edit.avif" alt="Streamaajan valinnat avattuna sen riviltä">
-  </details>
+  <img src="../media/en/streamer-edit.avif" alt="Streamaajan valinnat avattuna sen riviltä">
 
 - **Muokkaa useita streamaajia kerralla.** Valitse ne ja sitten ”Muokkaa N valittua
   streamaajaa”. Vain muuttamasi valinnat otetaan käyttöön. Valinta, joka vaihtelee niiden
@@ -116,9 +106,7 @@
   ”Kyllä” ja ”Ei”. Sovellus tarjoutuu sen jälkeen tallentamaan ne uusien streamaajien
   oletusvalinnoiksi.
 
-  <details open><summary>Katso toiminnassa</summary>
-  <img src="../media/fi/streamers-group-edit.avif" alt="Useiden streamaajien muokkaus, valintoina ”Vaihtelee”">
-  </details>
+  <img src="../media/en/streamers-group-edit.avif" alt="Useiden streamaajien muokkaus, valintoina ”Vaihtelee”">
 
 - **Tuo streamaajia.** Liitä lista (enintään 500 nimeä) tai käytä toisen tilin listaa tai
   tilin seuraamia kanavia. Lista tarkistetaan, jotta vain olemassa olevat kanavat
@@ -126,9 +114,7 @@
   Reaaliaikaiset päivitykset kattavat 46 streamaajaa tiliä kohden: listan seuraavat eivät
   saa raideja, hetkiä eivätkä ennustuksia.
 
-  <details open><summary>Katso toiminnassa</summary>
-  <img src="../media/fi/streamers-import.avif" alt="Streamaajien tuonti: liitetty lista, toinen tili, seuratut kanavat">
-  </details>
+  <img src="../media/en/streamers-import.avif" alt="Streamaajien tuonti: liitetty lista, toinen tili, seuratut kanavat">
 
 - **Spam Points.** Lunasta kanavan oma palkinto useita kertoja peräkkäin. Valitse kanava
   Pisteet-listastasi tai mikä tahansa Twitch-haulla löytyvä kanava: sen palkinnot näkyvät
@@ -136,9 +122,7 @@
   rajoissa) ja valitse sitten ”Lunasta”. Tulos näkyy sarjan päätyttyä, ja jokaisesta
   sarjasta jää oma rivinsä Päiväkirjaan.
 
-  <details open><summary>Katso toiminnassa</summary>
-  <img src="../media/fi/spam-points.avif" alt="Spam Points: valittu kanava, 10 × lunastettu viestillinen palkinto, lunastukset ilmestyvät kanavan Twitch-chattiin ja sitten rivi Päiväkirjassa">
-  </details>
+  <img src="../media/en/spam-points.avif" alt="Spam Points: valittu kanava, 10 × lunastettu viestillinen palkinto, lunastukset ilmestyvät kanavan Twitch-chattiin ja sitten rivi Päiväkirjassa">
 
 ### Drops
 
@@ -147,9 +131,7 @@
   [Twitch Drops API](https://drops.sunkwi.com) -projektista ja päivittyy 5 minuutin
   välein.
 
-  <details open><summary>Katso toiminnassa</summary>
-  <img src="../media/fi/drops-catalogue.avif" alt="Luettelo kalenterina, haku ja kampanjan tiedot">
-  </details>
+  <img src="../media/en/drops-catalogue.avif" alt="Luettelo kalenterina, haku ja kampanjan tiedot">
 
 - **Oma louhintajärjestyksesi.** Vedä kampanjat haluamaasi järjestykseen. Uudet löytävät
   paikkansa itse: ensin prioriteettikategoriasi, sitten lähimpänä päättyvät tai ne, joissa on
@@ -157,9 +139,7 @@
   palkinto, ja ohita kampanjat, jotka eivät ehdi valmistua ajoissa. ”Louhi ensin”
   kampanjan tiedoissa nostaa sen kärkeen.
 
-  <details open><summary>Katso toiminnassa</summary>
-  <img src="../media/fi/drops-order.avif" alt="Louhintajärjestys, prioriteettikategoriat ja ohitukset">
-  </details>
+  <img src="../media/en/drops-order.avif" alt="Louhintajärjestys, prioriteettikategoriat ja ohitukset">
 
 - **Varasto ja ”Lunasta kaikki”.** Varasto-sivu jakaa palkinnot ryhmiin
   ”Lunastettavissa”, ”Kesken” ja ”Lunastetut”. Lunasta ne yksi kerrallaan tai kaikki
@@ -167,17 +147,13 @@
   Kun olet valinnut ”Linkitä julkaisijatili”, tili luetaan uudelleen heti, kun palaat
   sovellukseen, joten linkitys näkyy saman tien.
 
-  <details open><summary>Katso toiminnassa</summary>
-  <img src="../media/fi/drops-inventory.avif" alt="Varasto ja ”Lunasta kaikki” -painike">
-  </details>
+  <img src="../media/en/drops-inventory.avif" alt="Varasto ja ”Lunasta kaikki” -painike">
 
 - **”Omat streamaajat ensin Dropseissa ja merkeissä”.** Nykyisessä kampanjassa listasi streamaaja,
   jonka lähetys lasketaan kampanjaan, menee muiden kanavien edelle. Sama kanava edistää
   dropia ja kerryttää sinulle kanavansa pisteitä. Oletuksena käytössä.
 
-  <details open><summary>Katso toiminnassa</summary>
-  <img src="../media/fi/drops-streamers-first.avif" alt="Listan streamaaja, jota katsotaan sekä Dropsien että pisteiden vuoksi">
-  </details>
+  <img src="../media/en/drops-streamers-first.avif" alt="Listan streamaaja, jota katsotaan sekä Dropsien että pisteiden vuoksi">
 
 - **Palkintojen tärkeysjärjestys.** Kun kaksi kampanjaa on samalla sijalla, louhija
   valitsee ensin sen, jonka palkinnot vastaavat suosimaasi tyyppiä (merkki, emote, pelin
@@ -201,9 +177,7 @@
   Merkin napsauttaminen avaa sen tiedot: koko vaatimuksen, kaikki kategoriat ja kanavat,
   kokoelman, kehityksen ja jokaisen tilin edistymisen. Tämä ominaisuus on beta-vaiheessa.
 
-  <details open><summary>Katso toiminnassa</summary>
-  <img src="../media/fi/badges.avif" alt="Merkit-sivu, tilin merkit ja sitten ”Mitä louhitaan, järjestyksessä”, jossa Merkit on vedetty ensimmäiseksi">
-  </details>
+  <img src="../media/en/badges.avif" alt="Merkit-sivu, tilin merkit ja sitten ”Mitä louhitaan, järjestyksessä”, jossa Merkit on vedetty ensimmäiseksi">
 
 ### Seuranta
 
@@ -217,9 +191,7 @@
   [GitHubissa](https://github.com/SunkwiBOT/twitch-miner/issues) tai
   [Discordissa](https://discord.gg/support-bots-891685895781113886).
 
-  <details open><summary>Katso toiminnassa</summary>
-  <img src="../media/fi/journal-requests.avif" alt="Suodatettu Päiväkirja ja sitten Tekniset lokit › Pyynnöt">
-  </details>
+  <img src="../media/en/journal-requests.avif" alt="Suodatettu Päiväkirja ja sitten Tekniset lokit › Pyynnöt">
 
 - **Tilastot-sivu.** Ansaitut pisteet, lunastetut dropsit, katsottu aika ja voitetut
   ennustukset 7, 30 tai 90 päivältä, kärjessä olevan streamaajan tai kategorian kanssa
@@ -227,9 +199,7 @@
   merkintöineen katseluputkista, raideista, hetkistä ja ennustuksista sekä
   työkaluvihjeellä jokaisessa.
 
-  <details open><summary>Katso toiminnassa</summary>
-  <img src="../media/fi/stats.avif" alt="Tilastot-sivun ruudut 30 päivältä, sitten streamaajan pistekäyrä merkillä">
-  </details>
+  <img src="../media/en/stats.avif" alt="Tilastot-sivun ruudut 30 päivältä, sitten streamaajan pistekäyrä merkillä">
 
 - **Keskeytys ja päivittäinen tauko.** Yksi keskeytyspainike, yhdelle tilille tai kaikille:
   keskeytä, kunnes jatkat, tai 30 minuutiksi, 1 tunniksi, 4 tunniksi, huomiseen klo 09.00
@@ -265,9 +235,7 @@
   lukittuu muutaman minuutin käyttämättömyyden jälkeen ja toimii HTTPS:n yli proxyn
   takana. Viisi väärää salasanaa peräkkäin estää IP-osoitteen 30 sekunniksi.
 
-  <details open><summary>Katso toiminnassa</summary>
-  <img src="../media/fi/security-lock.avif" alt="Riippulukko: sovellus lukittuna ja sitten avattuna salasanallaan">
-  </details>
+  <img src="../media/en/security-lock.avif" alt="Riippulukko: sovellus lukittuna ja sitten avattuna salasanallaan">
 
 - **Allekirjoitetut päivitykset, ei koskaan automaattisesti.** Yläpalkkiin ilmestyy
   ”Päivitys”-merkki ja versionumero, ja työpöytäilmoitus kertoo samasta asiasta, oletuksena
@@ -278,9 +246,7 @@
   Vain projektin allekirjoittama versio asennetaan. Docker-hallintapaneeli ja
   systemd-binääri ilmoittavat myös ja kertovat suoritettavat komennot.
 
-  <details open><summary>Katso toiminnassa</summary>
-  <img src="../media/fi/updates.avif" alt="”Päivitys”-merkki, vahvistus ja sitten asennus">
-  </details>
+  <img src="../media/en/updates.avif" alt="”Päivitys”-merkki, vahvistus ja sitten asennus">
 
 ### Lisäksi
 
@@ -293,9 +259,7 @@
 - 29 kieltä, tumma ja vaalea teema, työpöytäilmoitukset, ilmoitusalueen kuvake,
   käynnistys järjestelmän mukana.
 
-  <details open><summary>Katso toiminnassa</summary>
-  <img src="../media/fi/basics.avif" alt="Kielet, vaalea ja tumma teema, työpöytäilmoitus ja ilmoitusalueen kuvake">
-  </details>
+  <img src="../media/en/basics.avif" alt="Kielet, vaalea ja tumma teema, työpöytäilmoitus ja ilmoitusalueen kuvake">
 
 - **Tilien lisääminen liittämällä tokenit.** Oletko jo kirjautunut muualla? Liitä luettelo käyttötokeneista, yksi riviä kohden (enintään 50); jokainen tarkistetaan reaaliajassa, laskurina ”Tarkistettu: n/N”, ja epäonnistuneet rivit voi yrittää uudelleen; sen jälkeen yksi asetusvaihe koskee koko erää. Tuonti käynnistyy taustalla ja näyttää kunkin tilin edistymisen reaaliajassa; sen voi perua kesken kaiken, ja myöhempi uudelleenyritys lähettää uudelleen vain epäonnistuneet tilit. Tällä tavalla tuodun tilin poistaminen tarjoaa myös tokenin kumoamisen Twitchissä.
 

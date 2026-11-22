@@ -63,7 +63,7 @@
 </p>
 
 <p align="center">
-  <img src="../media/nl/presentation.avif" alt="Video-overzicht van Twitch Miner">
+  <img src="../media/en/presentation.avif" alt="Video-overzicht van Twitch Miner">
 </p>
 
 ## <a name="features"></a>Functies
@@ -74,42 +74,32 @@
   **Drops en punten** (één kanaal voor de beste campagne, het andere voor je streamers),
   **Alleen Drops** of **Alleen punten**.
 
-  <details open><summary>Bekijk het in actie</summary>
-  <img src="../media/nl/accounts-mining.avif" alt="Meerdere accounts die tegelijk minen, op de pagina Home">
-  </details>
+  <img src="../media/en/accounts-mining.avif" alt="Meerdere accounts die tegelijk minen, op de pagina Home">
 
 - **Een wizard voor elk nieuw account.** Begin na het aanmelden met de standaardinstellingen
   of met die van een ander account. Kies de modus, de campagnes en de streamers, en daarna
   “Beginnen met minen” of “Opslaan en later starten”.
 
-  <details open><summary>Bekijk het in actie</summary>
-  <img src="../media/nl/account-setup.avif" alt="De instelwizard van een nieuw account, stap voor stap">
-  </details>
+  <img src="../media/en/account-setup.avif" alt="De instelwizard van een nieuw account, stap voor stap">
 
 - **Eén wijziging met één klik op andere accounts toepassen.** Nadat je iets op een account
   hebt gewijzigd, biedt de bevestigingsmelding “Toepassen op andere accounts” aan. De
   wijziging wordt herhaald op de accounts die je aanvinkt, en die behouden de rest van hun
   instellingen.
 
-  <details open><summary>Bekijk het in actie</summary>
-  <img src="../media/nl/apply-to-accounts.avif" alt="Een wijziging die met “Toepassen op andere accounts” op andere accounts wordt herhaald">
-  </details>
+  <img src="../media/en/apply-to-accounts.avif" alt="Een wijziging die met “Toepassen op andere accounts” op andere accounts wordt herhaald">
 
 - **Een streamer toevoegen.** Hij start meteen met de standaardopties: die van de app, of
   die je voor dit account hebt gekozen. Pas ze zo nodig meteen aan: bonuskisten, raids,
   momenten, kijkreeks, chat, voorspellingen.
 
-  <details open><summary>Bekijk het in actie</summary>
-  <img src="../media/nl/streamer-add.avif" alt="Een streamer toevoegen via de zoekfunctie van Twitch, daarna zijn opties">
-  </details>
+  <img src="../media/en/streamer-add.avif" alt="Een streamer toevoegen via de zoekfunctie van Twitch, daarna zijn opties">
 
 - **Een streamer bewerken.** “Bewerken” opent zijn opties: bonuskisten, raids, momenten,
   kijkreeks, chat, voorspellingen… Met een schakelaar zet je hem aan of uit, zonder hem uit
   de lijst te halen.
 
-  <details open><summary>Bekijk het in actie</summary>
-  <img src="../media/nl/streamer-edit.avif" alt="De opties van een streamer, geopend vanuit zijn rij">
-  </details>
+  <img src="../media/en/streamer-edit.avif" alt="De opties van een streamer, geopend vanuit zijn rij">
 
 - **Meerdere streamers tegelijk bewerken.** Vink ze aan en kies “De N geselecteerde
   streamers bewerken”. Alleen de opties die je wijzigt, worden toegepast. Een optie die
@@ -117,9 +107,7 @@
   “Nee”. Daarna stelt de app voor om er de standaardopties voor nieuwe streamers van te
   maken.
 
-  <details open><summary>Bekijk het in actie</summary>
-  <img src="../media/nl/streamers-group-edit.avif" alt="Meerdere streamers bewerken, met opties op “Gemengd”">
-  </details>
+  <img src="../media/en/streamers-group-edit.avif" alt="Meerdere streamers bewerken, met opties op “Gemengd”">
 
 - **Streamers importeren.** Plak een lijst (tot 500 namen), of neem de lijst van een ander
   account of de kanalen die het account volgt over. De lijst wordt gecontroleerd, zodat
@@ -127,9 +115,7 @@
   Live-updates gelden voor 46 streamers per account: de volgende in de lijst krijgen geen
   raids, momenten of voorspellingen.
 
-  <details open><summary>Bekijk het in actie</summary>
-  <img src="../media/nl/streamers-import.avif" alt="Streamers importeren: geplakte lijst, ander account, gevolgde kanalen">
-  </details>
+  <img src="../media/en/streamers-import.avif" alt="Streamers importeren: geplakte lijst, ander account, gevolgde kanalen">
 
 - **Spam Points.** Wissel een aangepaste beloning van een kanaal meerdere keren achter
   elkaar in. Kies een kanaal uit je Puntenlijst, of een willekeurig kanaal dat je via de
@@ -138,9 +124,7 @@
   resultaat verschijnt aan het einde van de reeks, en elke reeks krijgt een eigen regel
   in het Journaal.
 
-  <details open><summary>Bekijk het in actie</summary>
-  <img src="../media/nl/spam-points.avif" alt="Spam Points: een kanaal gekozen, 10 × een beloning met bericht ingewisseld, de inwisselingen verschijnen in de Twitch-chat van het kanaal, daarna de regel in het Journaal">
-  </details>
+  <img src="../media/en/spam-points.avif" alt="Spam Points: een kanaal gekozen, 10 × een beloning met bericht ingewisseld, de inwisselingen verschijnen in de Twitch-chat van het kanaal, daarna de regel in het Journaal">
 
 ### Drops
 
@@ -148,9 +132,7 @@
   koppeling van het uitgeversaccount, “Eerst minen”. De lijst komt van het project
   [Twitch Drops API](https://drops.sunkwi.com) en wordt elke 5 minuten ververst.
 
-  <details open><summary>Bekijk het in actie</summary>
-  <img src="../media/nl/drops-catalogue.avif" alt="De Catalogus als kalender, de zoekfunctie en de details van een campagne">
-  </details>
+  <img src="../media/en/drops-catalogue.avif" alt="De Catalogus als kalender, de zoekfunctie en de details van een campagne">
 
 - **Jouw minevolgorde.** Sleep de campagnes in de volgorde die je wilt. Nieuwe campagnes
   vinden zelf hun plek: eerst je prioriteitscategorieën, daarna het dichtstbijzijnde einde of de
@@ -158,9 +140,7 @@
   en sla de campagnes over die niet op tijd af kunnen. “Eerst minen”, in de details van een
   campagne, zet haar bovenaan.
 
-  <details open><summary>Bekijk het in actie</summary>
-  <img src="../media/nl/drops-order.avif" alt="De minevolgorde, de prioriteitscategorieën en de uitsluitingen">
-  </details>
+  <img src="../media/en/drops-order.avif" alt="De minevolgorde, de prioriteitscategorieën en de uitsluitingen">
 
 - **Inventaris en “Alles claimen”.** De pagina Inventaris verdeelt de beloningen over
   “Te claimen”, “Lopend” en “Geclaimd”. Claim ze een voor een of allemaal tegelijk, of zet
@@ -168,17 +148,13 @@
   Na “Uitgeversaccount koppelen” wordt het account opnieuw gelezen zodra je terugkomt in de
   app, zodat de koppeling meteen te zien is.
 
-  <details open><summary>Bekijk het in actie</summary>
-  <img src="../media/nl/drops-inventory.avif" alt="De inventaris en de knop “Alles claimen”">
-  </details>
+  <img src="../media/en/drops-inventory.avif" alt="De inventaris en de knop “Alles claimen”">
 
 - **“Mijn streamers eerst voor Drops en badges”.** Voor de huidige campagne gaat een streamer uit je
   lijst wiens stream voor die campagne telt, voor op andere kanalen. Hetzelfde kanaal
   brengt de drop verder en levert je zijn kanaalpunten op. Standaard aan.
 
-  <details open><summary>Bekijk het in actie</summary>
-  <img src="../media/nl/drops-streamers-first.avif" alt="Een streamer uit de lijst, bekeken voor de Drops en voor zijn punten">
-  </details>
+  <img src="../media/en/drops-streamers-first.avif" alt="Een streamer uit de lijst, bekeken voor de Drops en voor zijn punten">
 
 - **Beloningsprioriteit.** Staan twee campagnes gelijk, dan kiest de miner eerst die met
   beloningen van het soort dat jij het liefst hebt (badge, emote, game-item). Hij gaat
@@ -204,9 +180,7 @@
   alle categorieën en kanalen, de collectie, de evolutie en de voortgang van elk account.
   Deze functie is in bèta.
 
-  <details open><summary>Bekijk het in actie</summary>
-  <img src="../media/nl/badges.avif" alt="De pagina Badges, de badges van een account en dan “Wat te minen, op volgorde” met Badges bovenaan gesleept">
-  </details>
+  <img src="../media/en/badges.avif" alt="De pagina Badges, de badges van een account en dan “Wat te minen, op volgorde” met Badges bovenaan gesleept">
 
 ### Bijhouden
 
@@ -220,18 +194,14 @@
   [GitHub](https://github.com/SunkwiBOT/twitch-miner/issues) of
   [Discord](https://discord.gg/support-bots-891685895781113886).
 
-  <details open><summary>Bekijk het in actie</summary>
-  <img src="../media/nl/journal-requests.avif" alt="Het gefilterde Journaal, daarna Technisch logboek › Verzoeken">
-  </details>
+  <img src="../media/en/journal-requests.avif" alt="Het gefilterde Journaal, daarna Technisch logboek › Verzoeken">
 
 - **Een Statistieken-pagina.** Verdiende punten, geclaimde drops, kijktijd en gewonnen
   voorspellingen over 7, 30 of 90 dagen, met de topstreamer of -categorie achter elk
   cijfer. Een puntencurve per streamer toont het saldo in de tijd, met markeringen voor
   kijkreeksen, raids, momenten en voorspellingen en een tooltip op elk.
 
-  <details open><summary>Bekijk het in actie</summary>
-  <img src="../media/nl/stats.avif" alt="De Statistieken-tegels over 30 dagen, daarna een streamer-puntencurve met een markering">
-  </details>
+  <img src="../media/en/stats.avif" alt="De Statistieken-tegels over 30 dagen, daarna een streamer-puntencurve met een markering">
 
 - **Pauze en dagelijkse pauze.** Eén pauzeknop, voor één account of voor alle accounts:
   pauzeer tot je hervat, of voor 30 minuten, 1 uur, 4 uur, tot morgen 09:00 of een
@@ -264,9 +234,7 @@
   zichzelf na een paar minuten zonder activiteit en draait het via HTTPS achter een proxy.
   Vijf verkeerde wachtwoorden op rij blokkeren het IP-adres 30 seconden lang.
 
-  <details open><summary>Bekijk het in actie</summary>
-  <img src="../media/nl/security-lock.avif" alt="Het slotje: de app vergrendeld, daarna ontgrendeld met het wachtwoord">
-  </details>
+  <img src="../media/en/security-lock.avif" alt="Het slotje: de app vergrendeld, daarna ontgrendeld met het wachtwoord">
 
 - **Ondertekende updates, nooit automatisch.** In de bovenste balk verschijnt een badge
   “Update” met het versienummer, en een desktopmelding laat het ook weten, standaard
@@ -278,9 +246,7 @@
   Docker-dashboard en de systemd-binary laten het ook weten, met de commando's die je
   moet uitvoeren.
 
-  <details open><summary>Bekijk het in actie</summary>
-  <img src="../media/nl/updates.avif" alt="De badge “Update”, de bevestiging, daarna de installatie">
-  </details>
+  <img src="../media/en/updates.avif" alt="De badge “Update”, de bevestiging, daarna de installatie">
 
 ### En verder
 
@@ -293,9 +259,7 @@
 - 29 talen, donker en licht thema, bureaubladmeldingen, een pictogram in het systeemvak,
   starten met het systeem.
 
-  <details open><summary>Bekijk het in actie</summary>
-  <img src="../media/nl/basics.avif" alt="Talen, licht en donker thema, een bureaubladmelding en het pictogram in het systeemvak">
-  </details>
+  <img src="../media/en/basics.avif" alt="Talen, licht en donker thema, een bureaubladmelding en het pictogram in het systeemvak">
 
 - **Accounts toevoegen door tokens te plakken.** Al elders ingelogd? Plak een lijst met toegangstokens, één per regel (maximaal 50); elk token wordt live gecontroleerd, met een teller “Gecontroleerd: n/N” en een nieuwe poging voor elke regel die is mislukt, waarna één instellingenstap op de hele batch wordt toegepast. De import loopt op de achtergrond, met live voortgang per account, kan halverwege worden geannuleerd, en een latere nieuwe poging stuurt alleen de mislukte accounts opnieuw. Bij het verwijderen van een op deze manier geïmporteerd account wordt ook aangeboden het token op Twitch in te trekken.
 

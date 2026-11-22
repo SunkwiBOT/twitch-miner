@@ -74,50 +74,38 @@
   **Drops and points** (one channel for the best campaign, the other for your streamers),
   **Drops only** or **Points only**.
 
-  <details open><summary>See it in action</summary>
   <img src="docs/media/en/accounts-mining.avif" alt="Several accounts mining at the same time, on the Home page">
-  </details>
 
 - **A wizard for each new account.** After signing in, start from the default settings or
   from another account's. Choose the mode, the campaigns and the streamers, then
   “Start mining” or “Save and start later”.
 
-  <details open><summary>See it in action</summary>
   <img src="docs/media/en/account-setup.avif" alt="The setup wizard of a new account, step by step">
-  </details>
 
 - **One change applied to other accounts in one click.** After you change something on an
   account, the confirmation message offers “Apply to other accounts”. The change is made
   again on the accounts you tick, and they keep the rest of their settings.
 
-  <details open><summary>See it in action</summary>
   <img src="docs/media/en/apply-to-accounts.avif" alt="A change made again on other accounts with “Apply to other accounts”">
-  </details>
 
 - **Add a streamer.** It starts right away with the default options: the app's, or the
   ones you chose for this account. Adjust them on the spot if needed: bonus chests, raids,
   moments, watch streak, chat, predictions.
 
-  <details open><summary>See it in action</summary>
   <img src="docs/media/en/streamer-add.avif" alt="Adding a streamer through the Twitch search, then its options">
-  </details>
 
 - **Edit a streamer.** “Edit” opens its options: bonus chests, raids, moments, watch
   streak, chat, predictions… A switch turns it on or off without removing it from the
   list.
 
-  <details open><summary>See it in action</summary>
   <img src="docs/media/en/streamer-edit.avif" alt="A streamer's options, opened from its row">
-  </details>
 
 - **Edit several streamers at once.** Tick them, then “Edit the N selected streamers”.
   Only the options you change are applied. An option that differs between them shows
   “Mixed”, and its switch becomes two buttons, “Yes” and “No”. The app then offers to make
   them the default options for new streamers.
 
-  <details open><summary>See it in action</summary>
   <img src="docs/media/en/streamers-group-edit.avif" alt="Editing several streamers, with “Mixed” options">
-  </details>
 
 - **Import streamers.** Paste a list (up to 500 names), or reuse another account's list or
   the channels the account follows. The list is checked so that only channels that exist
@@ -125,9 +113,7 @@
   Live updates cover 46 streamers per account: the next ones in the list get no raids,
   moments or predictions.
 
-  <details open><summary>See it in action</summary>
   <img src="docs/media/en/streamers-import.avif" alt="Importing streamers: a pasted list, another account, followed channels">
-  </details>
 
 - **Spam Points.** Redeem a channel's custom reward several times in a row. Pick a channel
   from your Points list, or any channel found with the Twitch search: its rewards show
@@ -135,9 +121,7 @@
   then “Redeem”. The result shows when the burst ends, and each burst has its line in the
   Journal.
 
-  <details open><summary>See it in action</summary>
   <img src="docs/media/en/spam-points.avif" alt="Spam Points: a channel picked, 10 × a reward with a message redeemed, the redemptions landing in the channel's Twitch chat, then the Journal line">
-  </details>
 
 ### Drops
 
@@ -145,18 +129,14 @@
   account linking, “Mine first”. The list comes from the
   [Twitch Drops API](https://drops.sunkwi.com) project and refreshes every 5 minutes.
 
-  <details open><summary>See it in action</summary>
   <img src="docs/media/en/drops-catalogue.avif" alt="The Catalogue as a calendar, the search and a campaign's details">
-  </details>
 
 - **Your mining order.** Drag the campaigns into the order you want. New ones find their
   own place: your priority categories first, then the soonest end or the fewest minutes left.
   Exclude categories, words, a campaign or a single reward, and skip the campaigns that cannot
   finish in time. “Mine first”, in a campaign's details, puts it at the top.
 
-  <details open><summary>See it in action</summary>
   <img src="docs/media/en/drops-order.avif" alt="The mining order, the priority categories and the exclusions">
-  </details>
 
 - **Inventory and “Claim all”.** The Inventory page sorts rewards into “To claim”,
   “In progress” and “Claimed”. Claim them one by one, all at once, or turn on
@@ -164,17 +144,13 @@
   After “Link the publisher account”, the account is read again as soon as you come back to
   the app, so the link shows right away.
 
-  <details open><summary>See it in action</summary>
   <img src="docs/media/en/drops-inventory.avif" alt="The inventory and the “Claim all” button">
-  </details>
 
 - **“My streamers first for Drops and badges”.** For the current campaign, a streamer from your list
   whose stream counts for that campaign comes before other channels. The same channel
   moves the drop forward and earns you its channel points. On by default.
 
-  <details open><summary>See it in action</summary>
   <img src="docs/media/en/drops-streamers-first.avif" alt="A streamer from the list, watched for the Drops and for its points">
-  </details>
 
 - **Reward priority.** When two campaigns are equally ranked, the miner first picks the
   one whose rewards match your preferred type (badge, emote, in-game item). It never
@@ -198,9 +174,7 @@
   opens its details: the whole requirement, every category and channel, the collection,
   the evolution and each account's progress. This feature is in beta.
 
-  <details open><summary>See it in action</summary>
   <img src="docs/media/en/badges.avif" alt="The Badges page, an account's badges, then “What to mine, in order” with Badges dragged first">
-  </details>
 
 ### Tracking
 
@@ -213,18 +187,14 @@
   [GitHub](https://github.com/SunkwiBOT/twitch-miner/issues) or
   [Discord](https://discord.gg/support-bots-891685895781113886).
 
-  <details open><summary>See it in action</summary>
   <img src="docs/media/en/journal-requests.avif" alt="The filtered Journal, then Technical logs › Requests">
-  </details>
 
 - **A Statistics page.** Points earned, drops claimed, time watched and predictions won over
   7, 30 or 90 days, with the top streamer or category behind each number. A per-streamer
   points curve shows the balance over time, with markers for streaks, raids, moments and
   predictions and a tooltip on each.
 
-  <details open><summary>See it in action</summary>
   <img src="docs/media/en/stats.avif" alt="The Statistics tiles over 30 days, then a streamer's points curve with a marker">
-  </details>
 
 - **Pause and a daily pause.** One pause button, for one account or for all of them: pause
   until you resume, or for 30 minutes, 1 hour, 4 hours, until tomorrow at 09:00, or a custom
@@ -257,9 +227,7 @@
   and runs over HTTPS behind a proxy. Five wrong passwords in a row block the IP address
   for 30 seconds.
 
-  <details open><summary>See it in action</summary>
   <img src="docs/media/en/security-lock.avif" alt="The padlock: the app locked, then unlocked with its password">
-  </details>
 
 - **Signed updates, never automatic.** An “Update” badge with the version number appears
   in the top bar, and a desktop notification tells you too, on by default (a switch in
@@ -269,9 +237,7 @@
   a version signed by the project is installed. The Docker dashboard and the systemd
   binary tell you too, with the commands to run.
 
-  <details open><summary>See it in action</summary>
   <img src="docs/media/en/updates.avif" alt="The “Update” badge, the confirmation, then the install">
-  </details>
 
 ### And also
 
@@ -283,9 +249,7 @@
 - 29 languages, dark and light themes, desktop notifications, a tray icon, start with the
   system.
 
-  <details open><summary>See it in action</summary>
   <img src="docs/media/en/basics.avif" alt="Languages, light and dark themes, a desktop notification and the tray icon">
-  </details>
 
 - **Import a list of tokens.** Already signed in elsewhere? Paste a list of access
   tokens, one per line (up to 50); each is checked live, with a “Checked: n/N”

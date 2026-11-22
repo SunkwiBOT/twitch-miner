@@ -63,7 +63,7 @@
 </p>
 
 <p align="center">
-  <img src="../media/zh-TW/presentation.avif" alt="Twitch Miner 影片介紹">
+  <img src="../media/en/presentation.avif" alt="Twitch Miner 影片介紹">
 </p>
 
 ## <a name="features"></a>功能
@@ -72,99 +72,69 @@
 
 - **一個應用程式，想用多少帳號都可以。** 每個帳號依照自己的模式各自挖取：**Drops 和點數**（一個頻道用於最佳活動，另一個用於你的實況主）、**僅 Drops** 或**僅點數**。
 
-  <details open><summary>觀看示範</summary>
-  <img src="../media/zh-TW/accounts-mining.avif" alt="首頁上多個帳號同時挖取">
-  </details>
+  <img src="../media/en/accounts-mining.avif" alt="首頁上多個帳號同時挖取">
 
 - **每個新帳號都有設定精靈。** 登入後，可以從預設設定開始，也可以沿用另一個帳號的設定。選好模式、活動和實況主，再按「開始挖取」或「儲存並稍後開始」。
 
-  <details open><summary>觀看示範</summary>
-  <img src="../media/zh-TW/account-setup.avif" alt="新帳號的設定精靈，逐步示範">
-  </details>
+  <img src="../media/en/account-setup.avif" alt="新帳號的設定精靈，逐步示範">
 
 - **一次變更，一鍵套用到其他帳號。** 在某個帳號上做了變更後，確認訊息會提供「套用到其他帳號」。這項變更會在你勾選的帳號上再做一次，這些帳號的其他設定則維持不變。
 
-  <details open><summary>觀看示範</summary>
-  <img src="../media/zh-TW/apply-to-accounts.avif" alt="透過「套用到其他帳號」把一項變更同步到其他帳號">
-  </details>
+  <img src="../media/en/apply-to-accounts.avif" alt="透過「套用到其他帳號」把一項變更同步到其他帳號">
 
 - **新增實況主。** 實況主會立即以預設選項開始挖取：應用程式的預設選項，或你為這個帳號選定的選項。需要的話可以當場調整：獎勵寶箱、Raid、時刻、連續觀看紀錄、聊天室、預測。
 
-  <details open><summary>觀看示範</summary>
-  <img src="../media/zh-TW/streamer-add.avif" alt="透過 Twitch 搜尋新增實況主，接著查看它的選項">
-  </details>
+  <img src="../media/en/streamer-add.avif" alt="透過 Twitch 搜尋新增實況主，接著查看它的選項">
 
 - **編輯實況主。** 「編輯」會開啟它的選項：獎勵寶箱、Raid、時刻、連續觀看紀錄、聊天室、預測……用一個開關就能啟用或停用它，不必把它從清單中移除。
 
-  <details open><summary>觀看示範</summary>
-  <img src="../media/zh-TW/streamer-edit.avif" alt="從實況主所在列開啟它的選項">
-  </details>
+  <img src="../media/en/streamer-edit.avif" alt="從實況主所在列開啟它的選項">
 
 - **一次編輯多位實況主。** 勾選他們，再按「編輯所選的 N 位實況主」。只有你變更的選項才會套用。各實況主之間設定不同的選項會顯示為「混合」，它的開關會變成「是」和「否」兩個按鈕。接著，應用程式會詢問是否要把這些選項設為新實況主的預設選項。
 
-  <details open><summary>觀看示範</summary>
-  <img src="../media/zh-TW/streamers-group-edit.avif" alt="同時編輯多位實況主，其中有顯示為「混合」的選項">
-  </details>
+  <img src="../media/en/streamers-group-edit.avif" alt="同時編輯多位實況主，其中有顯示為「混合」的選項">
 
 - **匯入實況主。** 貼上一份清單（最多 500 個名稱），或沿用另一個帳號的清單，或使用該帳號追隨的頻道。清單會先經過檢查，只加入確實存在的頻道。即時更新每個帳號最多涵蓋 46 位實況主：清單中之後的實況主收不到 Raid、時刻和預測。
 
-  <details open><summary>觀看示範</summary>
-  <img src="../media/zh-TW/streamers-import.avif" alt="匯入實況主：貼上的清單、另一個帳號、追隨的頻道">
-  </details>
+  <img src="../media/en/streamers-import.avif" alt="匯入實況主：貼上的清單、另一個帳號、追隨的頻道">
 
 - **Spam Points。** 將某個頻道的自訂獎勵連續兌換多次。從你的點數清單中選擇頻道，或透過 Twitch 搜尋找到任何頻道：它的獎勵會和帳號的餘額一起顯示，餘額即時讀取。設定數量（最多 25 次，且不超過餘額），再按「兌換」。連發結束時會顯示結果，每次連發都會在「紀錄」中留下一筆。
 
-  <details open><summary>觀看示範</summary>
-  <img src="../media/zh-TW/spam-points.avif" alt="Spam Points：選擇一個頻道，將一項附留言的獎勵兌換 10 次，兌換出現在頻道的 Twitch 聊天室中，接著是紀錄中的那一筆">
-  </details>
+  <img src="../media/en/spam-points.avif" alt="Spam Points：選擇一個頻道，將一項附留言的獎勵兌換 10 次，兌換出現在頻道的 Twitch 聊天室中，接著是紀錄中的那一筆">
 
 ### Drops
 
 - **所有進行中的 Drops 活動。** 每個活動都有自己的詳細資料：獎勵、發行商帳號連結、「優先挖取」。清單來自 [Twitch Drops API](https://drops.sunkwi.com) 專案，每 5 分鐘更新一次。
 
-  <details open><summary>觀看示範</summary>
-  <img src="../media/zh-TW/drops-catalogue.avif" alt="以月曆呈現的目錄、搜尋和某個活動的詳細資料">
-  </details>
+  <img src="../media/en/drops-catalogue.avif" alt="以月曆呈現的目錄、搜尋和某個活動的詳細資料">
 
 - **你的挖取順序。** 把活動拖曳成你想要的順序。新活動會自動排到合適的位置：先是你的優先分類，再來是最早結束或剩餘分鐘數最少的活動。可以排除分類、關鍵字、某個活動或單一獎勵，並略過來不及完成的活動。在活動的詳細資料中按「優先挖取」，就能把它排到最前面。
 
-  <details open><summary>觀看示範</summary>
-  <img src="../media/zh-TW/drops-order.avif" alt="挖取順序、優先分類和排除項目">
-  </details>
+  <img src="../media/en/drops-order.avif" alt="挖取順序、優先分類和排除項目">
 
 - **收藏庫與「全部領取」。** 「收藏庫」頁面把獎勵分成「待領取」「進行中」和「已領取」三類。可以逐一領取、一次全部領取，或開啟「自動領取掉寶」。按下「連結發行商帳號」後，回到應用程式時會立即重新讀取帳號，連結狀態馬上就會顯示。
 
-  <details open><summary>觀看示範</summary>
-  <img src="../media/zh-TW/drops-inventory.avif" alt="收藏庫和「全部領取」按鈕">
-  </details>
+  <img src="../media/en/drops-inventory.avif" alt="收藏庫和「全部領取」按鈕">
 
 - **「Drops 與徽章優先我的實況主」。** 對於目前的活動，如果你清單上某位實況主的直播可計入該活動，就會比其他頻道優先觀看。同一個頻道既能推進掉寶進度，又能幫你賺取它的頻道點數。預設為開啟。
 
-  <details open><summary>觀看示範</summary>
-  <img src="../media/zh-TW/drops-streamers-first.avif" alt="清單上的一位實況主，同時為了 Drops 和它的點數而觀看">
-  </details>
+  <img src="../media/en/drops-streamers-first.avif" alt="清單上的一位實況主，同時為了 Drops 和它的點數而觀看">
 
 - **獎勵優先順序。** 當兩個活動排序相同時，挖掘器會先選擇獎勵符合你偏好類型（徽章、表情、遊戲內物品）的那個。它絕不會改變你設定的挖取順序。
 
 - **徽章（測試版）。** 徽章頁面列出 Twitch 所有全域聊天徽章及取得方式。每個帳號都有自己的徽章頁面：進行中的徽章及其進度、仍可取得的徽章，以及已擁有的徽章。挖掘器會挖取 Drops 活動和 Twitch 任務中的徽章，並略過帳號已擁有的徽章。需要每天觀看的徽章會每天重新挖取，直到最後一天（「每天 20 分鐘，共 3 天」），活動任一分類中的頻道都算數。寶箱會給出「從 N 個中隨機 1 個徽章」。需要訂閱的徽章，要等你在活動期間於該分類的頻道自行訂閱或贈送訂閱且 Twitch 計入後才會挖取；已有的訂閱、Prime 訂閱或續訂都不算。活動開始之前不會挖取任何內容。在「挖取什麼，依順序」中，把優先分類、徽章和其他 Drops 活動拖曳成你想要的順序，或關閉其中一項。Twitch 任務只會在 Twitch 於其 Drops 面板中提供該任務的頻道上挖取。進化（Pichu → Pikachu）會在帳號擁有其進化前的徽章後挖取：挖掘器會在開始前自行配戴該徽章，且不會換回原本的徽章；在帳號的徽章設定中關閉「挖取徽章進化」即可停用。點擊徽章會開啟其詳細資訊：完整的條件、所有分類和頻道、系列、進化，以及每個帳號的進度。此功能為測試版。
 
-  <details open><summary>觀看示範</summary>
-  <img src="../media/zh-TW/badges.avif" alt="徽章頁面、一個帳號的徽章，接著是把徽章拖曳到最前面的「挖取什麼，依順序」">
-  </details>
+  <img src="../media/en/badges.avif" alt="徽章頁面、一個帳號的徽章，接著是把徽章拖曳到最前面的「挖取什麼，依順序」">
 
 ### 追蹤
 
 - **完整紀錄，連每個請求都看得到。** 「紀錄」頁面會保存每一個事件：掉寶、賺取和花費的點數、寶箱、下注、Raid、開台……可以依帳號、依分頁（Drops、徽章、點數、其他）和依類型篩選。**技術日誌 › 請求**會列出送往 Twitch 和其他服務的每個請求，以及結果和花費的時間。日誌和請求都不含任何權杖或密鑰：按「複製以回報錯誤」就能複製，直接貼到 [GitHub](https://github.com/SunkwiBOT/twitch-miner/issues) 或 [Discord](https://discord.gg/support-bots-891685895781113886) 上的錯誤回報中。
 
-  <details open><summary>觀看示範</summary>
-  <img src="../media/zh-TW/journal-requests.avif" alt="篩選後的紀錄，接著是技術日誌 › 請求">
-  </details>
+  <img src="../media/en/journal-requests.avif" alt="篩選後的紀錄，接著是技術日誌 › 請求">
 
 - **統計頁面。** 顯示 7 天、30 天或 90 天內賺取的點數、已領取的掉寶、觀看時長和贏得的下注，每個數字背後都標出排名最高的實況主或分類。依實況主劃分的點數曲線會呈現餘額隨時間的變化，並在連續觀看、Raid、精彩時刻和下注處標出標記，每個標記都附帶提示說明。
 
-  <details open><summary>觀看示範</summary>
-  <img src="../media/zh-TW/stats.avif" alt="統計頁面的 30 天磚塊，接著是帶標記的實況主點數曲線">
-  </details>
+  <img src="../media/en/stats.avif" alt="統計頁面的 30 天磚塊，接著是帶標記的實況主點數曲線">
 
 - **暫停和每日暫停。** 只有一個暫停按鈕，可用於單一帳號或所有帳號：暫停到你繼續為止，或暫停 30 分鐘、1 小時、4 小時、至明天 09:00，或自訂日期和時間；暫停期間，同一個按鈕會顯示「繼續」。徽章會顯示定時暫停結束的時間，側邊欄中的每個帳號會顯示自己的狀態：執行中、已暫停，或需要查看的問題。每日暫停會在你選擇的時區裡，每天在兩個時間點之間暫停所有帳號的挖取，結束後自動恢復，並在頂端列顯示自己的徽章。
 - **CSV 匯出與依分類統計。** 「紀錄」可以把已領取的掉寶匯出為 CSV 檔案（日期、帳號、分類、活動、掉寶、分鐘），並依帳號篩選，對話框會列出每個分類下已領取的數量。桌面應用程式透過儲存對話框儲存檔案，網頁儀表板則直接下載。
@@ -178,24 +148,18 @@
 
 - **工作階段受到保護。** 不需要 Twitch 密碼：你在自己的瀏覽器中透過 `twitch.tv/activate` 登入。工作階段會加密儲存在磁碟上，你可以在 [Twitch 設定](https://www.twitch.tv/settings/connections)中撤銷。在桌面版中，可選用的應用程式密碼會鎖定應用程式：輸入密碼之前什麼都不會挖取。在 Docker 版本中，儀表板有自己的密碼，閒置幾分鐘後會自動鎖定，並在代理伺服器後方透過 HTTPS 執行。連續輸錯 5 次密碼，該 IP 位址會被封鎖 30 秒。
 
-  <details open><summary>觀看示範</summary>
-  <img src="../media/zh-TW/security-lock.avif" alt="鎖頭：應用程式已鎖定，再用它的密碼解鎖">
-  </details>
+  <img src="../media/en/security-lock.avif" alt="鎖頭：應用程式已鎖定，再用它的密碼解鎖">
 
 - **簽章更新，絕不自動安裝。** 頂端列會出現附有版本號碼的「更新」徽章，桌面通知也會提醒你，預設開啟（**設定 › 通知**中的開關可以關閉它；在瀏覽器中，出現詢問時按「允許」即可）。按「安裝並重新啟動」會先請你確認，接著應用程式會安裝該版本並重新啟動。若設定了應用程式密碼，重新啟動後會處於鎖定狀態：再次輸入密碼即可繼續挖取。只有經過本專案簽章的版本才會安裝。Docker 儀表板和 systemd 二進位檔同樣會通知你，並附上需要執行的指令。
 
-  <details open><summary>觀看示範</summary>
-  <img src="../media/zh-TW/updates.avif" alt="「更新」徽章、確認，接著安裝">
-  </details>
+  <img src="../media/en/updates.avif" alt="「更新」徽章、確認，接著安裝">
 
 ### 此外
 
 - 與其他挖掘器一樣：獎勵寶箱、Raid、時刻、社群目標、預測（策略、下注時機、條件）、連續觀看紀錄和已訂閱頻道優先、聊天室在線（可關閉）、新實況主的預設選項、附圖片並為每個目標配有「測試」按鈕的 Discord、Telegram 和 Webhook 通知（在伺服器上，通知語言在**設定 › 通知**中選擇）、全域或個別帳號的代理伺服器。
 - 29 種語言、深色和淺色主題、桌面通知、系統匣圖示、隨系統啟動。
 
-  <details open><summary>觀看示範</summary>
-  <img src="../media/zh-TW/basics.avif" alt="多種語言、淺色和深色主題、一則桌面通知和系統匣圖示">
-  </details>
+  <img src="../media/en/basics.avif" alt="多種語言、淺色和深色主題、一則桌面通知和系統匣圖示">
 
 - **透過貼上權杖清單新增帳戶。** 已經在別處登入了嗎？貼上存取權杖清單，每行一個（最多 50 個）；每個權杖會即時檢查，並顯示「已檢查：n/N」計數，失敗的行可以重試，接著一個設定步驟會套用到整批帳戶。匯入在背景執行，即時顯示每個帳戶的進度，可中途取消；之後重試只會重新送出失敗的帳戶。移除以此方式匯入的帳戶時，也可以選擇同時在 Twitch 上撤銷其權杖。
 

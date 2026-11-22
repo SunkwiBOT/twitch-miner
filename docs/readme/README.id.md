@@ -63,7 +63,7 @@
 </p>
 
 <p align="center">
-  <img src="../media/id/presentation.avif" alt="Video pengenalan Twitch Miner">
+  <img src="../media/en/presentation.avif" alt="Video pengenalan Twitch Miner">
 </p>
 
 ## <a name="features"></a>Fitur
@@ -72,77 +72,53 @@
 
 - **Sebanyak apa pun akun yang Anda mau dalam satu aplikasi.** Setiap akun menambang sendiri-sendiri, dengan modenya masing-masing: **Drops dan poin** (satu channel untuk kampanye terbaik, satu lagi untuk streamer Anda), **Hanya Drops**, atau **Hanya poin**.
 
-  <details open><summary>Lihat langsung</summary>
-  <img src="../media/id/accounts-mining.avif" alt="Beberapa akun menambang bersamaan, di halaman Beranda">
-  </details>
+  <img src="../media/en/accounts-mining.avif" alt="Beberapa akun menambang bersamaan, di halaman Beranda">
 
 - **Panduan penyiapan untuk setiap akun baru.** Setelah masuk, mulailah dari pengaturan default atau dari pengaturan akun lain. Pilih mode, kampanye, dan streamer, lalu “Mulai menambang” atau “Simpan dan mulai nanti”.
 
-  <details open><summary>Lihat langsung</summary>
-  <img src="../media/id/account-setup.avif" alt="Panduan penyiapan akun baru, langkah demi langkah">
-  </details>
+  <img src="../media/en/account-setup.avif" alt="Panduan penyiapan akun baru, langkah demi langkah">
 
 - **Satu perubahan diterapkan ke akun lain dengan sekali klik.** Setelah Anda mengubah sesuatu di sebuah akun, pesan konfirmasi menawarkan “Terapkan ke akun lain”. Perubahan itu dilakukan lagi di akun yang Anda centang, dan pengaturan lain di akun-akun itu tetap seperti semula.
 
-  <details open><summary>Lihat langsung</summary>
-  <img src="../media/id/apply-to-accounts.avif" alt="Perubahan yang dilakukan lagi di akun lain dengan “Terapkan ke akun lain”">
-  </details>
+  <img src="../media/en/apply-to-accounts.avif" alt="Perubahan yang dilakukan lagi di akun lain dengan “Terapkan ke akun lain”">
 
 - **Tambah streamer.** Streamer langsung berjalan dengan opsi default: milik aplikasi, atau yang Anda pilih untuk akun ini. Sesuaikan saat itu juga jika perlu: peti bonus, raid, momen, streak tonton, chat, prediksi.
 
-  <details open><summary>Lihat langsung</summary>
-  <img src="../media/id/streamer-add.avif" alt="Menambahkan streamer lewat pencarian Twitch, lalu opsinya">
-  </details>
+  <img src="../media/en/streamer-add.avif" alt="Menambahkan streamer lewat pencarian Twitch, lalu opsinya">
 
 - **Edit streamer.** “Edit” membuka opsinya: peti bonus, raid, momen, streak tonton, chat, prediksi… Sebuah sakelar menyalakan atau mematikannya tanpa menghapusnya dari daftar.
 
-  <details open><summary>Lihat langsung</summary>
-  <img src="../media/id/streamer-edit.avif" alt="Opsi sebuah streamer, dibuka dari barisnya">
-  </details>
+  <img src="../media/en/streamer-edit.avif" alt="Opsi sebuah streamer, dibuka dari barisnya">
 
 - **Edit beberapa streamer sekaligus.** Centang mereka, lalu “Edit N streamer yang dipilih”. Hanya opsi yang Anda ubah yang diterapkan. Opsi yang berbeda di antara mereka tampil sebagai “Campuran”, dan sakelarnya berubah menjadi dua tombol, “Ya” dan “Tidak”. Setelah itu aplikasi menawarkan untuk menjadikannya opsi default bagi streamer baru.
 
-  <details open><summary>Lihat langsung</summary>
-  <img src="../media/id/streamers-group-edit.avif" alt="Mengedit beberapa streamer, dengan opsi “Campuran”">
-  </details>
+  <img src="../media/en/streamers-group-edit.avif" alt="Mengedit beberapa streamer, dengan opsi “Campuran”">
 
 - **Impor streamer.** Tempel daftar (hingga 500 nama), atau pakai lagi daftar akun lain atau channel yang diikuti akun tersebut. Daftar itu diperiksa agar hanya channel yang benar-benar ada yang ditambahkan. Pembaruan langsung mencakup 46 streamer per akun: streamer berikutnya dalam daftar tidak mendapat raid, momen, atau prediksi.
 
-  <details open><summary>Lihat langsung</summary>
-  <img src="../media/id/streamers-import.avif" alt="Mengimpor streamer: daftar yang ditempel, akun lain, channel yang diikuti">
-  </details>
+  <img src="../media/en/streamers-import.avif" alt="Mengimpor streamer: daftar yang ditempel, akun lain, channel yang diikuti">
 
 - **Spam Points.** Tukarkan hadiah kustom sebuah channel beberapa kali berturut-turut. Pilih channel dari daftar Poin Anda, atau channel mana pun yang ditemukan lewat pencarian Twitch: hadiahnya tampil beserta saldo akun, yang dibaca ulang secara langsung. Atur jumlahnya (hingga 25, sesuai saldo), lalu “Tukar”. Hasilnya tampil saat rentetan selesai, dan setiap rentetan punya barisnya sendiri di Jurnal.
 
-  <details open><summary>Lihat langsung</summary>
-  <img src="../media/id/spam-points.avif" alt="Spam Points: sebuah channel dipilih, 10 × sebuah hadiah dengan pesan ditukar, penukarannya muncul di obrolan Twitch channel, lalu barisnya di Jurnal">
-  </details>
+  <img src="../media/en/spam-points.avif" alt="Spam Points: sebuah channel dipilih, 10 × sebuah hadiah dengan pesan ditukar, penukarannya muncul di obrolan Twitch channel, lalu barisnya di Jurnal">
 
 ### Drops
 
 - **Semua kampanye Drops yang sedang berjalan.** Setiap kampanye punya detailnya sendiri: hadiah, penautan akun penerbit, “Tambang lebih dulu”. Daftarnya berasal dari proyek [Twitch Drops API](https://drops.sunkwi.com) dan diperbarui setiap 5 menit.
 
-  <details open><summary>Lihat langsung</summary>
-  <img src="../media/id/drops-catalogue.avif" alt="Katalog dalam tampilan kalender, pencarian, dan detail sebuah kampanye">
-  </details>
+  <img src="../media/en/drops-catalogue.avif" alt="Katalog dalam tampilan kalender, pencarian, dan detail sebuah kampanye">
 
 - **Urutan penambangan Anda.** Seret kampanye ke urutan yang Anda mau. Kampanye baru menemukan tempatnya sendiri: kategori prioritas Anda dulu, lalu yang paling cepat berakhir atau yang sisa menitnya paling sedikit. Kecualikan kategori, kata, satu kampanye, atau satu hadiah saja, dan lewati kampanye yang tidak bisa selesai tepat waktu. “Tambang lebih dulu”, di detail sebuah kampanye, menaruhnya di urutan teratas.
 
-  <details open><summary>Lihat langsung</summary>
-  <img src="../media/id/drops-order.avif" alt="Urutan penambangan, kategori prioritas, dan pengecualian">
-  </details>
+  <img src="../media/en/drops-order.avif" alt="Urutan penambangan, kategori prioritas, dan pengecualian">
 
 - **Inventaris dan “Klaim semua”.** Halaman Inventaris memilah hadiah menjadi “Siap diklaim”, “Sedang berjalan”, dan “Sudah diklaim”. Klaim satu per satu, semuanya sekaligus, atau nyalakan “Klaim drop otomatis”. Setelah “Tautkan akun penerbit”, akun dibaca ulang begitu Anda kembali ke aplikasi, jadi tautannya langsung terlihat.
 
-  <details open><summary>Lihat langsung</summary>
-  <img src="../media/id/drops-inventory.avif" alt="Inventaris dan tombol “Klaim semua”">
-  </details>
+  <img src="../media/en/drops-inventory.avif" alt="Inventaris dan tombol “Klaim semua”">
 
 - **“Streamer saya lebih dulu untuk Drops dan lencana”.** Untuk kampanye saat ini, streamer dari daftar Anda yang stream-nya dihitung untuk kampanye itu didahulukan dari channel lain. Channel yang sama memajukan drop sekaligus memberi Anda poin channel-nya. Aktif secara default.
 
-  <details open><summary>Lihat langsung</summary>
-  <img src="../media/id/drops-streamers-first.avif" alt="Streamer dari daftar, ditonton untuk Drops dan untuk poinnya">
-  </details>
+  <img src="../media/en/drops-streamers-first.avif" alt="Streamer dari daftar, ditonton untuk Drops dan untuk poinnya">
 
 - **Prioritas hadiah.** Jika dua kampanye berperingkat sama, penambang lebih dulu memilih
   yang hadiahnya cocok dengan jenis pilihan Anda (lencana, emote, item dalam game). Ia
@@ -150,26 +126,20 @@
 
 - **Lencana (beta).** Halaman Lencana mencantumkan semua lencana obrolan global Twitch dan cara mendapatkannya. Setiap akun punya halaman Lencana sendiri: lencana yang sedang berjalan beserta progresnya, yang masih bisa didapat, dan yang sudah dimiliki. Penambang mengejar lencana dari kampanye Drops dan quest Twitch, dan melewati lencana yang sudah dimiliki akun. Lencana yang harus ditonton setiap hari ditambang lagi setiap hari sampai hari terakhir (“20 mnt per hari, 3 hari”), dan channel di kategori mana pun dari kampanye itu ikut dihitung. Peti memberi “1 lencana acak dari N”. Lencana yang membutuhkan langganan ditambang setelah Anda berlangganan atau menghadiahkan langganan selama kampanye, di kanal dalam kategori tersebut, dan Twitch menghitungnya. Langganan yang sedang berjalan, langganan Prime, atau perpanjangan tidak dihitung. Tidak ada yang ditambang sebelum kampanyenya dimulai. Di “Apa yang ditambang, berurutan”, seret kategori prioritas, lencana, dan kampanye Drops lainnya ke urutan yang Anda inginkan, atau matikan salah satunya. Quest Twitch hanya ditambang di channel tempat Twitch menawarkannya di panel Drops-nya. Evolusi (Pichu → Pikachu) ditambang begitu akun memiliki lencana asal evolusinya: penambang memasang sendiri lencana itu tepat sebelumnya dan tidak memasang kembali lencana lama; “Tambang evolusi lencana”, di pengaturan lencana akun, mematikannya. Klik pada lencana membuka detailnya: syarat lengkap, semua kategori dan channel, koleksi, evolusi, dan progres setiap akun. Fitur ini masih beta.
 
-  <details open><summary>Lihat langsung</summary>
-  <img src="../media/id/badges.avif" alt="Halaman Lencana, lencana sebuah akun, lalu “Apa yang ditambang, berurutan” dengan Lencana diseret ke posisi pertama">
-  </details>
+  <img src="../media/en/badges.avif" alt="Halaman Lencana, lencana sebuah akun, lalu “Apa yang ditambang, berurutan” dengan Lencana diseret ke posisi pertama">
 
 ### Pemantauan
 
 - **Jurnal untuk semuanya, dan setiap permintaan.** Jurnal menyimpan setiap peristiwa: drop, poin yang didapat dan dibelanjakan, peti, taruhan, raid, stream yang mulai live… Saring berdasarkan akun, tab (Drops, Lencana, Poin, Lainnya), dan jenis. **Log teknis › Permintaan** mencantumkan setiap permintaan yang dikirim ke Twitch dan ke layanan lain, beserta hasil dan durasinya. Log dan permintaan tidak memuat token atau rahasia apa pun: “Salin untuk laporan bug” menyalinnya, siap ditempel ke laporan bug di [GitHub](https://github.com/SunkwiBOT/twitch-miner/issues) atau [Discord](https://discord.gg/support-bots-891685895781113886).
 
-  <details open><summary>Lihat langsung</summary>
-  <img src="../media/id/journal-requests.avif" alt="Jurnal yang disaring, lalu Log teknis › Permintaan">
-  </details>
+  <img src="../media/en/journal-requests.avif" alt="Jurnal yang disaring, lalu Log teknis › Permintaan">
 
 - **Halaman Statistik.** Poin yang didapat, drop yang diklaim, waktu tonton, dan prediksi
   yang menang selama 7, 30, atau 90 hari, dengan streamer atau kategori teratas di balik
   setiap angka. Kurva poin per streamer menunjukkan saldo dari waktu ke waktu, dengan
   penanda untuk streak, raid, momen, dan prediksi, serta tooltip pada masing-masing.
 
-  <details open><summary>Lihat langsung</summary>
-  <img src="../media/id/stats.avif" alt="Ubin halaman Statistik selama 30 hari, lalu kurva poin seorang streamer dengan penanda">
-  </details>
+  <img src="../media/en/stats.avif" alt="Ubin halaman Statistik selama 30 hari, lalu kurva poin seorang streamer dengan penanda">
 
 - **Jeda dan jeda harian.** Satu tombol jeda, untuk satu akun atau semua akun: jeda sampai
   Anda melanjutkan, atau selama 30 menit, 1 jam, 4 jam, hingga besok pukul 09.00, atau
@@ -194,24 +164,18 @@
 
 - **Sesi Anda terlindungi.** Tanpa kata sandi Twitch: Anda masuk di `twitch.tv/activate`, dari browser Anda. Sesi dienkripsi di disk, dan Anda bisa mencabutnya di [pengaturan Twitch](https://www.twitch.tv/settings/connections) Anda. Di desktop, kata sandi aplikasi opsional mengunci aplikasi: tidak ada yang ditambang sampai kata sandi diketik. Dengan Docker, dasbor punya kata sandinya sendiri, terkunci sendiri setelah beberapa menit tanpa aktivitas, dan berjalan lewat HTTPS di belakang proxy. Lima kata sandi salah berturut-turut memblokir alamat IP selama 30 detik.
 
-  <details open><summary>Lihat langsung</summary>
-  <img src="../media/id/security-lock.avif" alt="Gembok: aplikasi terkunci, lalu dibuka dengan kata sandinya">
-  </details>
+  <img src="../media/en/security-lock.avif" alt="Gembok: aplikasi terkunci, lalu dibuka dengan kata sandinya">
 
 - **Pembaruan bertanda tangan, tidak pernah otomatis.** Lencana “Pembaruan” beserta nomor versinya muncul di bilah atas, dan notifikasi desktop juga memberi tahu Anda, aktif secara default (sakelar di **Pengaturan › Notifikasi** mematikannya; di browser, klik “Izinkan” saat diminta). “Pasang dan mulai ulang” meminta konfirmasi dulu, lalu aplikasi memasang versi itu dan memulai ulang. Jika ada kata sandi aplikasi, aplikasi dimulai ulang dalam keadaan terkunci: ketik lagi kata sandinya untuk melanjutkan penambangan. Hanya versi yang ditandatangani proyek yang dipasang. Dasbor Docker dan biner systemd juga memberi tahu, lengkap dengan perintah yang perlu dijalankan.
 
-  <details open><summary>Lihat langsung</summary>
-  <img src="../media/id/updates.avif" alt="Lencana “Pembaruan”, konfirmasi, lalu pemasangan">
-  </details>
+  <img src="../media/en/updates.avif" alt="Lencana “Pembaruan”, konfirmasi, lalu pemasangan">
 
 ### Selain itu
 
 - Seperti penambang lain: peti bonus, raid, momen, target komunitas, prediksi (strategi, kapan bertaruh, syarat), streak tonton dan channel langganan lebih dulu, kehadiran di chat (bisa dimatikan), opsi default untuk streamer baru, notifikasi Discord, Telegram, dan webhook dengan gambar dan tombol “Uji” untuk masing-masing (di server, bahasanya dipilih di **Pengaturan › Notifikasi**), proxy global atau per akun.
 - 29 bahasa, tema gelap dan terang, notifikasi desktop, ikon tray, jalan saat sistem dimulai.
 
-  <details open><summary>Lihat langsung</summary>
-  <img src="../media/id/basics.avif" alt="Bahasa, tema terang dan gelap, notifikasi desktop, dan ikon tray">
-  </details>
+  <img src="../media/en/basics.avif" alt="Bahasa, tema terang dan gelap, notifikasi desktop, dan ikon tray">
 
 - **Menambahkan akun dengan menempel daftar token.** Sudah masuk di tempat lain? Tempel daftar token akses, satu per baris (maks. 50); setiap token diperiksa langsung dengan penghitung “Diperiksa: n/N” dan coba lagi untuk baris yang gagal, lalu satu langkah pengaturan berlaku untuk seluruh batch. Impor berjalan di latar belakang dengan progres per akun, bisa dibatalkan di tengah jalan, dan coba lagi hanya mengirim ulang akun yang gagal. Menghapus akun yang diimpor dengan cara ini juga menawarkan pencabutan token-nya di Twitch.
 
