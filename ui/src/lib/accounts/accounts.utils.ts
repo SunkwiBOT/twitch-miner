@@ -139,7 +139,7 @@ export const POINTS_REASON_ICONS: Record<PointsReason, IconName> = {
 export const POINTS_REASON_TONES: Record<PointsReason, BadgeTone> = {
   [PointsReason.STREAK_BONUS]: BadgeTone.NEUTRAL,
   [PointsReason.STREAK_AT_RISK]: BadgeTone.WARNING,
-  [PointsReason.SUBSCRIBED]: BadgeTone.NEUTRAL,
+  [PointsReason.SUBSCRIBED]: BadgeTone.SUBSCRIBED,
   [PointsReason.LIST_ORDER]: BadgeTone.NEUTRAL,
 };
 

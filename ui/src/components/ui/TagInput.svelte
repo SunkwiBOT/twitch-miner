@@ -18,7 +18,7 @@
   import SearchField from "./SearchField.svelte";
   import SearchNoResult from "./SearchNoResult.svelte";
   import TextButton from "./TextButton.svelte";
-  import { BADGE_VARIANTS, BadgeVariant } from "./badge.constants";
+  import { BADGE_CHIP_CLASSES, BADGE_VARIANTS, BadgeVariant } from "./badge.constants";
   import {
     BUTTON_SIZES,
     BUTTON_VARIANTS,
@@ -131,7 +131,7 @@
       {#each items as item (key(item))}
         <Badge
           variant={BADGE_VARIANTS[BadgeVariant.CHIP]}
-          class="h-6 gap-1 pr-0.5 text-hint font-medium"
+          class="{BADGE_CHIP_CLASSES} h-6 gap-1 pr-0.5 text-hint font-medium"
         >
           {label(item)}
           <ChipRemoveButton

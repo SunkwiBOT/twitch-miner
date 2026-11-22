@@ -7,7 +7,7 @@
   import ChannelAvatar from "../ui/ChannelAvatar.svelte";
   import ChipRemoveButton from "../ui/ChipRemoveButton.svelte";
   import { AvatarSize } from "../ui/picture.constants";
-  import { BADGE_VARIANTS, BadgeVariant } from "../ui/badge.constants";
+  import { BADGE_CHIP_CLASSES, BADGE_VARIANTS, BadgeVariant } from "../ui/badge.constants";
 
   type StreamerChipPropsType = {
     login: string;
@@ -23,7 +23,10 @@
 
 <BadgeRoot
   variant={BADGE_VARIANTS[BadgeVariant.CHIP]}
-  class="h-9 gap-1.5 overflow-visible pr-1.5 pl-1.5 text-hint font-semibold"
+  class={cn(
+    BADGE_CHIP_CLASSES,
+    "h-9 gap-1.5 overflow-visible pr-1.5 pl-1.5 text-hint font-semibold",
+  )}
 >
   <span class={cn("inline-flex", live && "-translate-y-0.5")}>
     <ChannelAvatar url={channel?.avatar_url} {name} size={AvatarSize.SM} {live} />

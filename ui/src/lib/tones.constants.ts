@@ -6,5 +6,6 @@ export enum BadgeTone {
   SUCCESS = "SUCCESS",
   WARNING = "WARNING",
   INFO = "INFO",
+  SUBSCRIBED = "SUBSCRIBED",
   DANGER = "DANGER",
 }

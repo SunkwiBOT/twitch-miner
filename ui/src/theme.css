@@ -76,6 +76,9 @@
   --info: #0e2338;
   --info-foreground: #8cc8ff;
   --info-emphasis: #2b9bff;
+  --subscribed: #2b2507;
+  --subscribed-foreground: #ffd84d;
+  --subscribed-emphasis: #f5c400;
   --live: #eb0400;
   --live-foreground: #ffffff;
   --live-emphasis: #ff2a26;
@@ -127,6 +130,9 @@
   --info: #e1effd;
   --info-foreground: #0a58a8;
   --info-emphasis: #1f86f0;
+  --subscribed: #fff4c2;
+  --subscribed-foreground: #6e5600;
+  --subscribed-emphasis: #c79a00;
   --live: #eb0400;
   --live-foreground: #ffffff;
   --live-emphasis: #eb0400;
@@ -154,8 +160,8 @@
   --text-nav-title: 0.92rem;
   --text-initial-xs: 0.625rem;
   --text-initial-sm: 0.6875rem;
-  --text-live-tag-sm: 0.5rem;
-  --text-live-tag: 0.5625rem;
+  --text-live-tag-sm: 0.625rem;
+  --text-live-tag: 0.6875rem;
 
   /* ! svelte-sonner's TOAST_WIDTH: our own card fills that slot exactly. */
   --container-toast: 356px;
@@ -204,6 +210,9 @@
   --color-info: var(--info);
   --color-info-foreground: var(--info-foreground);
   --color-info-emphasis: var(--info-emphasis);
+  --color-subscribed: var(--subscribed);
+  --color-subscribed-foreground: var(--subscribed-foreground);
+  --color-subscribed-emphasis: var(--subscribed-emphasis);
   --color-live: var(--live);
   --color-live-foreground: var(--live-foreground);
   --color-live-emphasis: var(--live-emphasis);
@@ -213,6 +222,7 @@
   --color-link: var(--link);
   --color-link-hover: var(--link-hover);
   --color-unsaved: color-mix(in oklab, var(--primary) 16%, var(--popover));
+  --color-primary-soft: color-mix(in oklab, var(--primary) 12%, var(--card));
   --color-sparkle: var(--sparkle);
   --color-sparkle-gold: var(--sparkle-gold);
 }

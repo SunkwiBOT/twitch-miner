@@ -46,6 +46,6 @@ export const LIVE_TAG = "LIVE";
 
 export const LIVE_TAG_CLASSES: Partial<Record<AvatarSize, string>> = {
   [AvatarSize.SM]: "px-0.5 text-live-tag-sm/3",
-  [AvatarSize.MD]: "px-1 text-live-tag/3.5",
+  [AvatarSize.MD]: "px-1 text-live-tag-sm/3",
   [AvatarSize.LG]: "px-1 text-live-tag/3.5",
 };

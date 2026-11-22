@@ -15,7 +15,7 @@
   import NameList from "./NameList.svelte";
   import SearchField from "./SearchField.svelte";
   import SearchNoResult from "./SearchNoResult.svelte";
-  import { BADGE_VARIANTS, BadgeVariant } from "./badge.constants";
+  import { BADGE_CHIP_CLASSES, BADGE_VARIANTS, BadgeVariant } from "./badge.constants";
   import { MENU_EDGE_GAP, SELECT_SEARCH_FROM } from "./menu.constants";
 
   type OverflowNamesPropsType = {
@@ -83,6 +83,7 @@
               type="button"
               class={cn(
                 badgeVariants({ variant: BADGE_VARIANTS[BadgeVariant.CHIP] }),
+                BADGE_CHIP_CLASSES,
                 "cursor-pointer font-semibold tabular-nums hover:bg-secondary/80",
               )}
             >
