@@ -1,5 +1,11 @@
 <script lang="ts">
   import { AccountBadgeState, type AccountBadgeType } from "../../../lib/badges/badges.utils";
+  import {
+    EVOLUTION_OFF_VIEW,
+    NOT_MINABLE_VIEW,
+    READY_VIEW,
+  } from "../../../lib/badge-views.constants";
+  import { badgeProps } from "../../../lib/badge-views.utils";
   import { periodsText, watchText } from "../../../lib/catalogue/campaign.utils";
   import { minutes } from "../../../lib/format.utils";
   import { t } from "../../../lib/i18n/i18n.svelte";
@@ -39,13 +45,9 @@
   />
 {/if}
 {#if item.state === AccountBadgeState.CLAIMABLE}
-  <Badge text={t.reward_state_ready()} tone={BadgeTone.PRIMARY} icon={IconName.GIFT} />
+  <Badge {...badgeProps(READY_VIEW)} />
 {:else if item.state === AccountBadgeState.NOT_MINABLE}
-  <Badge
-    text={t.quest_not_minable()}
-    tone={BadgeTone.MUTED}
-    hint={t.badge_hint_quest_not_minable()}
-  />
+  <Badge {...badgeProps(NOT_MINABLE_VIEW)} />
 {:else if item.state === AccountBadgeState.SUB_ONLY}
   <SubRequiredBadge />
 {:else if item.state === AccountBadgeState.EVOLUTION_UNKNOWN}
@@ -63,12 +65,7 @@
     hint={t.badge_hint_evolution_locked({ badge: strong(from) })}
   />
 {:else if item.state === AccountBadgeState.EVOLUTION_OFF}
-  <Badge
-    text={t.badge_evolution_off()}
-    tone={BadgeTone.NEUTRAL}
-    icon={IconName.SETTINGS}
-    hint={t.badge_hint_evolution_off()}
-  />
+  <Badge {...badgeProps(EVOLUTION_OFF_VIEW)} />
 {:else}
   {#if from}
     <Badge

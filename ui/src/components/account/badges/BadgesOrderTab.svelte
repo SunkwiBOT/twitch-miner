@@ -15,6 +15,8 @@
   import type { AccountSnapshotType } from "../../../lib/bindings/AccountSnapshotType";
   import type { CampaignType } from "../../../lib/bindings/CampaignType";
   import type { QueueItemType } from "../../../lib/bindings/QueueItemType";
+  import { NOT_SELECTED_VIEW } from "../../../lib/badge-views.constants";
+  import { badgeProps } from "../../../lib/badge-views.utils";
   import { campaignEnd } from "../../../lib/catalogue/campaign.utils";
   import { t } from "../../../lib/i18n/i18n.svelte";
   import { ticker } from "../../../lib/state/ticker.svelte";
@@ -29,7 +31,6 @@
   import ProgressLine from "../../ui/ProgressLine.svelte";
   import SortableList from "../../ui/SortableList.svelte";
   import Thumb from "../../ui/Thumb.svelte";
-  import { BadgeTone } from "../../../lib/tones.constants";
   import { ButtonSize, ButtonVariant } from "../../ui/button.constants";
   import { LinkMark, LinkSize } from "../../ui/link.constants";
   import { IconName } from "../../../lib/icons.constants";
@@ -107,9 +108,7 @@
             {#if state}<Badge
                 {...state}
               />{:else if account.settings.badges.selection_only && !chosen(row.campaignId)}<Badge
-                text={t.selection_not_selected()}
-                tone={BadgeTone.NEUTRAL}
-                icon={IconName.STAR}
+                {...badgeProps(NOT_SELECTED_VIEW)}
                 hint={t.badges_not_selected_hint()}
               />{/if}
             <BadgeStateBadges item={first} watch={row.current === 0} />

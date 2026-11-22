@@ -28,6 +28,8 @@
   import GameName from "../ui/GameName.svelte";
   import OverflowNames from "../ui/OverflowNames.svelte";
   import { CARD_NAMES_SHOWN } from "../ui/name-list.constants";
+  import { NEW_VIEW } from "../../lib/badge-views.constants";
+  import { badgeProps } from "../../lib/badge-views.utils";
   import Thumb from "../ui/Thumb.svelte";
   import { BadgeTone } from "../../lib/tones.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
@@ -112,7 +114,7 @@
           <Badge text={t.campaign_ended()} tone={BadgeTone.MUTED} />
         {/if}
         {#if badgeIsNew(badge, now)}
-          <Badge text={t.catalogue_new()} tone={BadgeTone.INFO} />
+          <Badge {...badgeProps(NEW_VIEW)} />
         {/if}
       </div>
       {#if badge.description}

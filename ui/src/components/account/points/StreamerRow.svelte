@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { POINTS_REASON_ICONS, POINTS_REASON_TONES } from "../../../lib/accounts/accounts.utils";
   import type { ChannelType } from "../../../lib/bindings/ChannelType";
   import { PointsReason } from "../../../lib/bindings/PointsReason";
   import type { StreamerSettingsType } from "../../../lib/bindings/StreamerSettingsType";
@@ -16,6 +15,7 @@
   import LinkPair from "../../ui/LinkPair.svelte";
   import LinkTwin from "../../ui/LinkTwin.svelte";
   import PointsBalance from "../../ui/PointsBalance.svelte";
+  import PointsReasonBadge from "../../ui/PointsReasonBadge.svelte";
   import RichText from "../../ui/RichText.svelte";
   import TextLink from "../../ui/TextLink.svelte";
   import LinkText from "../../ui/LinkText.svelte";
@@ -127,12 +127,7 @@
               icon={IconName.PLAY}
               hint={t.badge_hint_watching()}
             />{/if}
-          {#if view?.streak_at_risk}<Badge
-              text={t.points_reason_streak_at_risk()}
-              tone={POINTS_REASON_TONES[PointsReason.STREAK_AT_RISK]}
-              hint={t.badge_hint_streak_risk()}
-              icon={POINTS_REASON_ICONS[PointsReason.STREAK_AT_RISK]}
-            />{/if}
+          {#if view?.streak_at_risk}<PointsReasonBadge reason={PointsReason.STREAK_AT_RISK} />{/if}
         </span>
         <span
           class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-muted-foreground"

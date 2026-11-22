@@ -10,6 +10,8 @@
     subsMissing,
     watchText,
   } from "../../lib/catalogue/campaign.utils";
+  import { CLAIMED_VIEW, OWNED_VIEW, READY_VIEW } from "../../lib/badge-views.constants";
+  import { badgeProps } from "../../lib/badge-views.utils";
   import { shortDuration } from "../../lib/format.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { escapeEmphasis, strong } from "../../lib/text.utils";
@@ -161,21 +163,13 @@
           >
             {#if subsMissing(d)}<SubRequiredBadge class={TILE_BADGE_CLASS} />{/if}
             {#if state === RewardState.CLAIMED}<Badge
-                text={t.reward_state_claimed()}
-                tone={BadgeTone.SUCCESS}
-                icon={IconName.CHECK}
-                hint={t.badge_hint_claimed()}
+                {...badgeProps(CLAIMED_VIEW)}
                 class={TILE_BADGE_CLASS}
               />{:else if state === RewardState.OWNED}<Badge
-                text={t.reward_state_owned()}
-                tone={BadgeTone.SUCCESS}
-                icon={IconName.CHECK}
-                hint={t.badge_hint_owned()}
+                {...badgeProps(OWNED_VIEW)}
                 class={TILE_BADGE_CLASS}
               />{:else if state === RewardState.READY}<Badge
-                text={t.reward_state_ready()}
-                tone={BadgeTone.PRIMARY}
-                hint={t.badge_hint_ready()}
+                {...badgeProps(READY_VIEW)}
                 class={TILE_BADGE_CLASS}
               />{/if}
           </span>

@@ -304,7 +304,7 @@ export const eventText = (
           });
         }
 
-        return t.ev_paused();
+        return t.status_paused();
       case EventKind.RESUMED:
         return t.ev_resumed();
     }

@@ -2,19 +2,15 @@
   import { TableCell, TableRow } from "$lib/components/ui/table";
   import type { MinerEventType } from "../lib/bindings/MinerEventType";
   import { historyView } from "../lib/events/detail.utils";
-  import {
-    EVENT_ICONS,
-    EVENT_TONES,
-    MINER_ICONS,
-    MINER_TONES,
-  } from "../lib/events/events.constants";
+  import { EVENT_ICONS, EVENT_TONES } from "../lib/events/events.constants";
   import { eventIcon } from "../lib/events/events.utils";
-  import { EVENT_KIND_LABELS, MINER_LABELS } from "../lib/events/labels.utils";
+  import { EVENT_KIND_LABELS } from "../lib/events/labels.utils";
   import ChannelLink from "./ui/ChannelLink.svelte";
   import { app } from "../lib/state/app.svelte";
   import { formatShortDateTime } from "../lib/time/time.utils";
   import Avatar from "./ui/Avatar.svelte";
   import Badge from "./ui/Badge.svelte";
+  import MiningBadge from "./ui/MiningBadge.svelte";
   import RewardImage from "./ui/RewardImage.svelte";
   import RichText from "./ui/RichText.svelte";
   import Thumb from "./ui/Thumb.svelte";
@@ -66,11 +62,7 @@
 {/snippet}
 
 {#snippet minerBadge()}
-  {#if miner}<Badge
-      text={MINER_LABELS[miner]()}
-      tone={MINER_TONES[miner]}
-      icon={MINER_ICONS[miner]}
-    />{/if}
+  {#if miner}<MiningBadge kind={miner} />{/if}
 {/snippet}
 
 {#if wide}

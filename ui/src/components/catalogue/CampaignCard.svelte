@@ -10,6 +10,8 @@
   import { t } from "../../lib/i18n/i18n.svelte";
   import { ticker } from "../../lib/state/ticker.svelte";
   import { NEW_MS, URGENT_MS } from "./catalogue.constants";
+  import { NEW_VIEW } from "../../lib/badge-views.constants";
+  import { badgeProps } from "../../lib/badge-views.utils";
   import Badge from "../ui/Badge.svelte";
   import { BadgeTone } from "../../lib/tones.constants";
   import { CARD_LIFT_CLASSES } from "../ui/ui.constants";
@@ -53,7 +55,7 @@
         {#if ordered}
           <Badge {...queueReasonView(QueueReason.ORDERED)} />
         {:else}
-          <Badge text={t.catalogue_new()} tone={BadgeTone.INFO} />
+          <Badge {...badgeProps(NEW_VIEW)} />
         {/if}
       </span>
     {/if}

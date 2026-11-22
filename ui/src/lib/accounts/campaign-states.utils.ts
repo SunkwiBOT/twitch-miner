@@ -3,6 +3,17 @@ import { BenefitKind } from "../bindings/BenefitKind";
 import type { CampaignType } from "../bindings/CampaignType";
 import type { QueueItemType } from "../bindings/QueueItemType";
 import type { QueueReason } from "../bindings/QueueReason";
+import {
+  CLAIMED_VIEW,
+  EVOLUTION_OFF_VIEW,
+  IGNORED_VIEW,
+  MINING_VIEW,
+  NOT_LINKED_VIEW,
+  NOT_SELECTED_VIEW,
+  OWNED_VIEW,
+  SET_ASIDE_VIEW,
+  SUB_REQUIRED_VIEW,
+} from "../badge-views.constants";
 import { minesCampaign } from "../catalogue/campaign-progress.utils";
 import { shortDuration } from "../format.utils";
 import { t } from "../i18n/i18n.svelte";
@@ -59,12 +70,7 @@ const evolutionHint = (campaign: CampaignType): string => {
 };
 
 const STATE_VIEWS: Record<CampaignState, StateViewType> = {
-  [CampaignState.MINING]: {
-    text: () => t.queue_mining(),
-    tone: BadgeTone.SUCCESS,
-    icon: IconName.PLAY,
-    hint: () => t.badge_hint_queue_mining(),
-  },
+  [CampaignState.MINING]: MINING_VIEW,
   [CampaignState.QUEUED]: {
     text: () => t.dashboard_queue_blocked_one_campaign_at_a_time(),
     tone: BadgeTone.MUTED,
@@ -78,9 +84,7 @@ const STATE_VIEWS: Record<CampaignState, StateViewType> = {
     hint: () => t.badge_hint_blocked_no_live(),
   },
   [CampaignState.SET_ASIDE]: {
-    text: () => t.badge_progress_set_aside(),
-    tone: BadgeTone.WARNING,
-    icon: IconName.CLOCK,
+    ...SET_ASIDE_VIEW,
     hint: (entry, now) =>
       t.badge_hint_blocked_set_aside({
         retryTime: strong(relativeTime(entry.queued?.set_aside_until, now)),
@@ -92,12 +96,7 @@ const STATE_VIEWS: Record<CampaignState, StateViewType> = {
     icon: IconName.LINK,
     hint: () => t.badge_hint_claimed(),
   },
-  [CampaignState.CLAIMED]: {
-    text: () => t.reward_state_claimed(),
-    tone: BadgeTone.SUCCESS,
-    icon: IconName.CHECK,
-    hint: () => t.badge_hint_claimed(),
-  },
+  [CampaignState.CLAIMED]: CLAIMED_VIEW,
   [CampaignState.DONE]: {
     text: () => t.campaign_state_done(),
     tone: BadgeTone.PRIMARY,
@@ -116,16 +115,9 @@ const STATE_VIEWS: Record<CampaignState, StateViewType> = {
     icon: IconName.ALERT,
     hint: () => t.campaign_hint_claim_failed({ journal: strong(t.nav_history()) }),
   },
-  [CampaignState.OWNED]: {
-    text: () => t.reward_state_owned(),
-    tone: BadgeTone.SUCCESS,
-    icon: IconName.CHECK,
-    hint: () => t.badge_hint_owned(),
-  },
+  [CampaignState.OWNED]: OWNED_VIEW,
   [CampaignState.IGNORED]: {
-    text: () => t.reward_ignored(),
-    tone: BadgeTone.NEUTRAL,
-    icon: IconName.EYE_OFF,
+    ...IGNORED_VIEW,
     hint: () => t.campaign_hint_ignored({ tab: strong(t.drops_tab_exclusions()) }),
   },
   [CampaignState.FILTERED]: {
@@ -134,12 +126,7 @@ const STATE_VIEWS: Record<CampaignState, StateViewType> = {
     icon: IconName.EYE_OFF,
     hint: () => t.campaign_hint_filtered({ setting: strong(t.drops_exclusions_title()) }),
   },
-  [CampaignState.EVOLUTIONS_OFF]: {
-    text: () => t.badge_evolution_off(),
-    tone: BadgeTone.NEUTRAL,
-    icon: IconName.SETTINGS,
-    hint: () => t.badge_hint_evolution_off(),
-  },
+  [CampaignState.EVOLUTIONS_OFF]: EVOLUTION_OFF_VIEW,
   [CampaignState.POINTS_ONLY]: {
     text: () => t.campaign_state_points_only(),
     tone: BadgeTone.NEUTRAL,
@@ -150,12 +137,7 @@ const STATE_VIEWS: Record<CampaignState, StateViewType> = {
         settingValue: strong(t.mode_points_title()),
       }),
   },
-  [CampaignState.SUB_REQUIRED]: {
-    text: () => t.campaign_progress_sub_required(),
-    tone: BadgeTone.WARNING,
-    icon: IconName.ALERT,
-    hint: () => t.badge_hint_sub_only(),
-  },
+  [CampaignState.SUB_REQUIRED]: SUB_REQUIRED_VIEW,
   [CampaignState.DONE_SUB_REQUIRED]: {
     text: () => t.campaign_state_done_sub_required(),
     tone: BadgeTone.WARNING,
@@ -182,15 +164,11 @@ const STATE_VIEWS: Record<CampaignState, StateViewType> = {
       t.campaign_hint_unfinishable({ setting: strong(t.account_drops_skip_unfinishable()) }),
   },
   [CampaignState.NOT_SELECTED]: {
-    text: () => t.selection_not_selected(),
-    tone: BadgeTone.NEUTRAL,
-    icon: IconName.STAR,
+    ...NOT_SELECTED_VIEW,
     hint: () => t.campaign_hint_not_selected({ setting: strong(t.selection_only_title()) }),
   },
   [CampaignState.NOT_LINKED]: {
-    text: () => t.dashboard_not_linked(),
-    tone: BadgeTone.WARNING,
-    icon: IconName.ALERT,
+    ...NOT_LINKED_VIEW,
     hint: () =>
       t.campaign_hint_not_linked({
         setting: strong(t.drops_scope()),

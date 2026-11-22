@@ -5,15 +5,8 @@
     campaignSubtitle,
     periodsText,
   } from "../lib/catalogue/campaign.utils";
-  import Badge from "./ui/Badge.svelte";
   import { ACCOUNT_STATE_ICONS, AccountState } from "../lib/accounts/account-state.constants";
   import { userPaused } from "../lib/accounts/account-state.utils";
-  import {
-    POINTS_REASON_HINTS,
-    POINTS_REASON_ICONS,
-    POINTS_REASON_LABELS,
-    POINTS_REASON_TONES,
-  } from "../lib/accounts/accounts.utils";
   import { maxWatchedChannelsParams } from "../lib/accounts/slots.utils";
   import { coreLimits } from "../lib/state/limits";
   import type { PointsReason } from "../lib/bindings/PointsReason";
@@ -44,6 +37,7 @@
   import Icon from "./ui/Icon.svelte";
   import PointsBalance from "./ui/PointsBalance.svelte";
   import MiningBadge from "./ui/MiningBadge.svelte";
+  import PointsReasonBadge from "./ui/PointsReasonBadge.svelte";
   import ProgressLine from "./ui/ProgressLine.svelte";
   import Thumb from "./ui/Thumb.svelte";
   import ViewerCount from "./ui/ViewerCount.svelte";
@@ -86,12 +80,7 @@
 
 {#snippet points(reason: PointsReason | null)}
   <span class="flex flex-wrap gap-1.5">
-    <MiningBadge kind={MinerKind.POINTS} />{#if reason}<Badge
-        text={POINTS_REASON_LABELS[reason]()}
-        tone={POINTS_REASON_TONES[reason]}
-        icon={POINTS_REASON_ICONS[reason]}
-        hint={POINTS_REASON_HINTS[reason]()}
-      />{/if}
+    <MiningBadge kind={MinerKind.POINTS} />{#if reason}<PointsReasonBadge {reason} />{/if}
   </span>
 {/snippet}
 

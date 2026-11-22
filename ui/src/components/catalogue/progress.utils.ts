@@ -1,8 +1,17 @@
 import { relativeTime } from "../../lib/time/time.utils";
 import { t } from "../../lib/i18n/i18n.svelte";
 import { strong } from "../../lib/text.utils";
-import { IconName } from "../../lib/icons.constants";
+import type { IconName } from "../../lib/icons.constants";
 import { ProgressState, type AccountProgressType } from "../../lib/catalogue/progress.constants";
+import {
+  CLAIMED_VIEW,
+  IGNORED_VIEW,
+  MINING_VIEW,
+  NOT_MINABLE_VIEW,
+  OWNED_VIEW,
+  READY_VIEW,
+  SET_ASIDE_VIEW,
+} from "../../lib/badge-views.constants";
 import { BadgeTone } from "../../lib/tones.constants";
 
 type ProgressBadgeType = {
@@ -13,22 +22,10 @@ type ProgressBadgeType = {
 };
 
 export const PROGRESS_BADGES: Record<ProgressState, ProgressBadgeType> = {
-  [ProgressState.CLAIMABLE]: {
-    text: () => t.reward_state_ready(),
-    tone: BadgeTone.PRIMARY,
-    icon: IconName.GIFT,
-    hint: () => t.badge_hint_ready(),
-  },
-  [ProgressState.MINING]: {
-    text: () => t.queue_mining(),
-    tone: BadgeTone.SUCCESS,
-    icon: IconName.PLAY,
-    hint: () => t.badge_hint_queue_mining(),
-  },
+  [ProgressState.CLAIMABLE]: READY_VIEW,
+  [ProgressState.MINING]: MINING_VIEW,
   [ProgressState.SET_ASIDE]: {
-    text: () => t.badge_progress_set_aside(),
-    tone: BadgeTone.WARNING,
-    icon: IconName.CLOCK,
+    ...SET_ASIDE_VIEW,
     hint: (entry, now) =>
       entry.setAsideUntil
         ? t.badge_hint_blocked_set_aside({
@@ -45,28 +42,10 @@ export const PROGRESS_BADGES: Record<ProgressState, ProgressBadgeType> = {
     text: () => t.badge_progress_not_started(),
     tone: BadgeTone.MUTED,
   },
-  [ProgressState.NOT_MINABLE]: {
-    text: () => t.quest_not_minable(),
-    tone: BadgeTone.MUTED,
-    hint: () => t.badge_hint_quest_not_minable(),
-  },
-  [ProgressState.IGNORED]: {
-    text: () => t.reward_ignored(),
-    tone: BadgeTone.MUTED,
-    icon: IconName.EYE_OFF,
-  },
-  [ProgressState.CLAIMED]: {
-    text: () => t.reward_state_claimed(),
-    tone: BadgeTone.SUCCESS,
-    icon: IconName.CHECK,
-    hint: () => t.badge_hint_claimed(),
-  },
-  [ProgressState.OWNED]: {
-    text: () => t.reward_state_owned(),
-    tone: BadgeTone.SUCCESS,
-    icon: IconName.CHECK,
-    hint: () => t.badge_hint_owned(),
-  },
+  [ProgressState.NOT_MINABLE]: NOT_MINABLE_VIEW,
+  [ProgressState.IGNORED]: IGNORED_VIEW,
+  [ProgressState.CLAIMED]: CLAIMED_VIEW,
+  [ProgressState.OWNED]: OWNED_VIEW,
   [ProgressState.NOT_OFFERED]: {
     text: () => t.badge_progress_not_offered(),
     tone: BadgeTone.MUTED,

@@ -22,6 +22,8 @@
   import type { GlobalBadgeType } from "../../lib/bindings/GlobalBadgeType";
   import { categoryUrl, periodsText, watchText } from "../../lib/catalogue/campaign.utils";
   import { DROPS_WEB_HOST } from "../../lib/partners.constants";
+  import { NEW_VIEW } from "../../lib/badge-views.constants";
+  import { badgeProps } from "../../lib/badge-views.utils";
   import { ProgressState } from "../../lib/catalogue/progress.constants";
   import { gameArt } from "../../lib/catalogue/games.utils";
   import { ResolveKind } from "../ui/external-button.constants";
@@ -251,7 +253,7 @@
               <Badge text={t.campaign_ended()} tone={BadgeTone.MUTED} />
             {/if}
             {#if badgeIsNew(shown, ticker.now)}
-              <Badge text={t.catalogue_new()} tone={BadgeTone.INFO} />
+              <Badge {...badgeProps(NEW_VIEW)} />
             {/if}
           </div>
           {#if shown.description}

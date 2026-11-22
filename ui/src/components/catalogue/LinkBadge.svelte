@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { NOT_LINKED_VIEW } from "../../lib/badge-views.constants";
+  import { badgeProps } from "../../lib/badge-views.utils";
   import { t } from "../../lib/i18n/i18n.svelte";
   import Badge from "../ui/Badge.svelte";
   import { BadgeTone } from "../../lib/tones.constants";
@@ -18,12 +20,7 @@
     hint={t.badge_hint_linked()}
   />
 {:else if linked === false}
-  <Badge
-    text={t.dashboard_not_linked()}
-    tone={BadgeTone.WARNING}
-    icon={IconName.ALERT}
-    hint={t.badge_hint_not_linked()}
-  />
+  <Badge {...badgeProps(NOT_LINKED_VIEW)} />
 {:else if needed}
   <Badge
     text={t.catalogue_link_required()}

@@ -32,14 +32,8 @@ export const EVENT_KIND_LABELS: Record<EventKind, () => string> = {
   [EventKind.LOGIN_COMPLETED]: () => t.event_kind_login_completed(),
   [EventKind.UPDATE_AVAILABLE]: () => t.event_kind_update_available(),
   [EventKind.VERSION_UPDATED]: () => t.event_kind_version_updated(),
-  [EventKind.PAUSED]: () => t.event_kind_paused(),
+  [EventKind.PAUSED]: () => t.status_paused(),
   [EventKind.RESUMED]: () => t.event_kind_resumed(),
-};
-
-export const MINER_LABELS: Record<MinerKind, () => string> = {
-  [MinerKind.DROPS]: () => t.miner_drops(),
-  [MinerKind.BADGES]: () => t.miner_badges(),
-  [MinerKind.POINTS]: () => t.miner_points(),
 };
 
 export const MINING_BADGE_TEXTS: Record<MinerKind, () => string> = {
