@@ -383,6 +383,8 @@
   "time_in_days": "{daysCount} pv kuluttua",
   "nav_home": "Etusivu",
   "nav_main": "Päävalikko",
+  "nav_rail_collapse": "Pienennä valikko",
+  "nav_rail_expand": "Laajenna valikko",
   "common_beta": "Beta",
   "nav_open_menu": "Avaa valikko",
   "offline_title": "Ei yhteyttä",

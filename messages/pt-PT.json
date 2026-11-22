@@ -396,6 +396,8 @@
   "time_in_days": "em {daysCount} d",
   "nav_home": "Início",
   "nav_main": "Menu principal",
+  "nav_rail_collapse": "Recolher o menu",
+  "nav_rail_expand": "Expandir o menu",
   "common_beta": "Beta",
   "nav_open_menu": "Abrir o menu",
   "offline_title": "Sem ligação",

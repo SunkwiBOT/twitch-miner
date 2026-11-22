@@ -396,6 +396,8 @@
   "time_in_days": "σε {daysCount} ημ.",
   "nav_home": "Αρχική",
   "nav_main": "Κύριο μενού",
+  "nav_rail_collapse": "Σύμπτυξη μενού",
+  "nav_rail_expand": "Ανάπτυξη μενού",
   "common_beta": "Beta",
   "nav_open_menu": "Άνοιγμα μενού",
   "offline_title": "Χωρίς σύνδεση",

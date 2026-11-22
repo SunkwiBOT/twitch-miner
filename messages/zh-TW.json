@@ -343,6 +343,8 @@
   "time_in_days": "{daysCount} 天後",
   "nav_home": "首頁",
   "nav_main": "主選單",
+  "nav_rail_collapse": "收合選單",
+  "nav_rail_expand": "展開選單",
   "common_beta": "測試版",
   "nav_open_menu": "開啟選單",
   "offline_title": "沒有網路連線",

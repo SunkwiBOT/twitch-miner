@@ -83,7 +83,7 @@
   };
 </script>
 
-<div class="min-w-28 max-w-56 grow-[100] basis-0">
+<div class="min-w-0">
   <Select
     value={locale.preference}
     options={languages}

@@ -88,45 +88,53 @@
       {/snippet}
     </PageHeader>
     <UpdateNotificationsBanner />
-    <!-- ! Columns, not a grid: each card keeps its own height instead of the tallest of its row. -->
+    <!-- ! Columns, not a grid: each card keeps its own height instead of the tallest of its row.
+         The gap is the wrapper's padding, not a margin on the card: WebKitGTK carries a card's
+         margin and bottom edge into the next column despite break-inside: avoid. -->
     <div class="columns-[460px] gap-5">
       {#each snapshot.accounts as a (a.id)}
-        <Card class="mb-5 min-w-0 break-inside-avoid gap-0 py-0 last:mb-0">
-          <header class="border-b px-5 py-4">
-            <AccountHeading account={a} subtitle={MODE_LABELS[a.settings.mode]()}>
-              {#snippet actions()}
-                {#if a.status === AccountStatus.LOGIN_REQUIRED}
+        <div class="break-inside-avoid pb-5 last:pb-0">
+          <Card class="min-w-0 gap-0 py-0">
+            <header class="border-b px-5 py-4">
+              <AccountHeading account={a} subtitle={MODE_LABELS[a.settings.mode]()}>
+                {#snippet actions()}
+                  {#if a.status === AccountStatus.LOGIN_REQUIRED}
+                    <TextButton
+                      label={t.accounts_login_again()}
+                      icon={IconName.LOG_IN}
+                      variant={ButtonVariant.PRIMARY}
+                      size={ButtonSize.MD}
+                      type={ButtonType.BUTTON}
+                      disabled={false}
+                      onclick={() => (app.loginDialog = true)}
+                    />
+                  {:else}
+                    <PauseControl
+                      accounts={[a]}
+                      scope={PauseScope.ACCOUNT}
+                      align={MenuAlign.RIGHT}
+                    />
+                  {/if}
                   <TextButton
-                    label={t.accounts_login_again()}
-                    icon={IconName.LOG_IN}
-                    variant={ButtonVariant.PRIMARY}
+                    label={t.home_open()}
+                    icon={PAGE_ICONS[Page.ACCOUNT]}
+                    variant={ButtonVariant.OUTLINE}
                     size={ButtonSize.MD}
                     type={ButtonType.BUTTON}
                     disabled={false}
-                    onclick={() => (app.loginDialog = true)}
+                    onclick={() => navigate(Page.ACCOUNT, a.id)}
                   />
-                {:else}
-                  <PauseControl accounts={[a]} scope={PauseScope.ACCOUNT} align={MenuAlign.RIGHT} />
-                {/if}
-                <TextButton
-                  label={t.home_open()}
-                  icon={PAGE_ICONS[Page.ACCOUNT]}
-                  variant={ButtonVariant.OUTLINE}
-                  size={ButtonSize.MD}
-                  type={ButtonType.BUTTON}
-                  disabled={false}
-                  onclick={() => navigate(Page.ACCOUNT, a.id)}
-                />
-              {/snippet}
-            </AccountHeading>
-          </header>
-          <div class="flex flex-col"><AccountActivity account={a} /></div>
-          <footer
-            class="flex flex-wrap gap-x-4 gap-y-1 border-t bg-muted/60 px-5 py-3 text-hint text-muted-foreground tabular-nums"
-          >
-            {#each stats(a) as line (line)}<RichText text={line} />{/each}
-          </footer>
-        </Card>
+                {/snippet}
+              </AccountHeading>
+            </header>
+            <div class="flex flex-col"><AccountActivity account={a} /></div>
+            <footer
+              class="flex flex-wrap gap-x-4 gap-y-1 border-t bg-muted/60 px-5 py-3 text-hint text-muted-foreground tabular-nums"
+            >
+              {#each stats(a) as line (line)}<RichText text={line} />{/each}
+            </footer>
+          </Card>
+        </div>
       {/each}
     </div>
 

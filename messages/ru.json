@@ -424,6 +424,8 @@
   "time_in_days": "через {daysCount} дн",
   "nav_home": "Главная",
   "nav_main": "Главное меню",
+  "nav_rail_collapse": "Свернуть меню",
+  "nav_rail_expand": "Развернуть меню",
   "common_beta": "Бета",
   "nav_open_menu": "Открыть меню",
   "offline_title": "Нет соединения",

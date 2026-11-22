@@ -396,6 +396,8 @@
   "time_in_days": "om {daysCount} d",
   "nav_home": "Hjem",
   "nav_main": "Hovedmeny",
+  "nav_rail_collapse": "Skjul menyen",
+  "nav_rail_expand": "Vis hele menyen",
   "common_beta": "Beta",
   "nav_open_menu": "Åpne menyen",
   "offline_title": "Ingen tilkobling",

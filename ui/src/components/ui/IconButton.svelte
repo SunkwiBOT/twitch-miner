@@ -22,6 +22,7 @@
     disabled: boolean;
     variant: ButtonVariant;
     size: ButtonSize;
+    expanded?: boolean;
     class?: string;
     onclick: () => unknown;
   };
@@ -34,6 +35,7 @@
     disabled,
     variant,
     size,
+    expanded,
     class: className,
     onclick,
   }: IconButtonPropsType = $props();
@@ -52,6 +54,7 @@
       aria-label={label}
       disabled={disabled || busy}
       aria-busy={busy}
+      aria-expanded={expanded}
       {onclick}
     >
       {#if busy}<Spinner size={iconSize} />{:else}<Icon name={icon} size={iconSize} />{/if}

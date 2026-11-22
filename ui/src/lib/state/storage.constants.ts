@@ -4,3 +4,4 @@ export const KEY_STORAGE_LANGUAGE = "tm.language";
 export const KEY_STORAGE_TABS = "tm.tabs";
 export const KEY_STORAGE_UPDATE_BANNER = "tm.updateBannerDismissed";
 export const KEY_STORAGE_UPDATE_NOTIFIED = "tm.updateNotifiedVersion";
+export const KEY_STORAGE_SIDEBAR_RAIL = "tm.sidebarRail";

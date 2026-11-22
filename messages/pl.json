@@ -405,6 +405,8 @@
   "time_in_days": "za {daysCount} dni",
   "nav_home": "Start",
   "nav_main": "Menu główne",
+  "nav_rail_collapse": "Zwiń menu",
+  "nav_rail_expand": "Rozwiń menu",
   "common_beta": "Beta",
   "nav_open_menu": "Otwórz menu",
   "offline_title": "Brak połączenia",

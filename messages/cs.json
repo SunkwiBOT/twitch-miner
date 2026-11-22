@@ -405,6 +405,8 @@
   "time_in_days": "za {daysCount} d",
   "nav_home": "Domů",
   "nav_main": "Hlavní nabídka",
+  "nav_rail_collapse": "Sbalit nabídku",
+  "nav_rail_expand": "Rozbalit nabídku",
   "common_beta": "Beta",
   "nav_open_menu": "Otevřít nabídku",
   "offline_title": "Bez připojení",

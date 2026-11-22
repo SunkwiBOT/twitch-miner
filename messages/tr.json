@@ -343,6 +343,8 @@
   "time_in_days": "{daysCount} gün sonra",
   "nav_home": "Ana sayfa",
   "nav_main": "Ana menü",
+  "nav_rail_collapse": "Menüyü daralt",
+  "nav_rail_expand": "Menüyü genişlet",
   "common_beta": "Beta",
   "nav_open_menu": "Menüyü aç",
   "offline_title": "Bağlantı yok",

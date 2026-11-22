@@ -343,6 +343,8 @@
   "time_in_days": "{daysCount} 天后",
   "nav_home": "首页",
   "nav_main": "主菜单",
+  "nav_rail_collapse": "收起菜单",
+  "nav_rail_expand": "展开菜单",
   "common_beta": "测试版",
   "nav_open_menu": "打开菜单",
   "offline_title": "无网络连接",

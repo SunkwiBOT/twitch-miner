@@ -8,6 +8,7 @@
   import { closeBulk } from "../../lib/state/bulk.svelte";
   import { Page } from "../../lib/state/state.constants";
   import { account, app } from "../../lib/state/app.svelte";
+  import { sidebar } from "../../lib/state/sidebar.svelte";
   import { isAccountPage, navigate } from "../../lib/state/router";
   import { closeSheets } from "../../lib/state/sheets";
   import { isDashboardLocked, isVaultLocked } from "../../lib/state/session";
@@ -156,8 +157,13 @@
   {:else if vaultLocked}
     <LockScreen kind={LockKind.VAULT} />
   {:else}
-    <div class="grid h-full w-full grid-cols-[minmax(0,1fr)] md:grid-cols-[248px_minmax(0,1fr)]">
-      {#if wideLayout.current}<Sidebar />{:else}<NavDrawer />{/if}
+    <div
+      class={[
+        "grid h-full w-full grid-cols-[minmax(0,1fr)]",
+        sidebar.rail ? "md:grid-cols-[64px_minmax(0,1fr)]" : "md:grid-cols-[248px_minmax(0,1fr)]",
+      ]}
+    >
+      {#if wideLayout.current}<Sidebar collapsible={true} />{:else}<NavDrawer />{/if}
       <div class="flex h-full min-h-0 min-w-0 flex-col">
         <Topbar {title} {section} />
         {#if !app.snapshot}

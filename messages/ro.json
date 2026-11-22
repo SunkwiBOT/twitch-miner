@@ -406,6 +406,8 @@
   "time_in_days": "în {daysCount} z",
   "nav_home": "Acasă",
   "nav_main": "Meniu principal",
+  "nav_rail_collapse": "Restrânge meniul",
+  "nav_rail_expand": "Extinde meniul",
   "common_beta": "Beta",
   "nav_open_menu": "Deschide meniul",
   "offline_title": "Fără conexiune",

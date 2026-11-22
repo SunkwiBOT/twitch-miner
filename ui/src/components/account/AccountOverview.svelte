@@ -84,7 +84,7 @@
       {#snippet actions()}
         <TextButton
           label={t.overview_manage_queue()}
-          icon={PAGE_ICONS[Page.ACCOUNT_DROPS]}
+          icon={IconName.LIST_ORDERED}
           variant={ButtonVariant.OUTLINE}
           size={ButtonSize.SM}
           type={ButtonType.BUTTON}

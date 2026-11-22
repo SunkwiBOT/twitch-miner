@@ -343,6 +343,8 @@
   "time_in_days": "{daysCount} nap múlva",
   "nav_home": "Kezdőlap",
   "nav_main": "Főmenü",
+  "nav_rail_collapse": "Menü összecsukása",
+  "nav_rail_expand": "Menü kibontása",
   "common_beta": "Béta",
   "nav_open_menu": "Menü megnyitása",
   "offline_title": "Nincs kapcsolat",

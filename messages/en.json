@@ -401,6 +401,8 @@
   "time_in_days": "in {daysCount} d",
   "nav_home": "Home",
   "nav_main": "Main menu",
+  "nav_rail_collapse": "Collapse the menu",
+  "nav_rail_expand": "Expand the menu",
   "common_beta": "Beta",
   "nav_open_menu": "Open the menu",
   "offline_title": "No connection",

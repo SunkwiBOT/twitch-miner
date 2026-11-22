@@ -396,6 +396,8 @@
   "time_in_days": "over {daysCount} d",
   "nav_home": "Home",
   "nav_main": "Hoofdmenu",
+  "nav_rail_collapse": "Menu inklappen",
+  "nav_rail_expand": "Menu uitklappen",
   "common_beta": "Bèta",
   "nav_open_menu": "Menu openen",
   "offline_title": "Geen verbinding",
