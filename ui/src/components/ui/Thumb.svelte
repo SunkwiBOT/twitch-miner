@@ -10,7 +10,7 @@
     contain: boolean;
     size: ThumbSize;
     shape: ThumbShape;
-    fallback: IconName;
+    fallback: IconName | null;
   };
 
   let { src, round, contain, size, shape, fallback }: ThumbPropsType = $props();
@@ -40,7 +40,7 @@
     loading="lazy"
     onerror={() => (failed = true)}
   />
-{:else}
+{:else if fallback}
   <span
     class={cn(
       "flex shrink-0 items-center justify-center bg-muted text-muted-foreground",

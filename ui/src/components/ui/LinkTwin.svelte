@@ -19,11 +19,12 @@
   };
 </script>
 
-<!-- ! The name's own link is the one tabbed to and read: this one only widens the picture into the same target. -->
+<!-- ! The name's own link is the one tabbed to and read: this one only widens the picture into the same target,
+and leaves no gap when there is no picture. -->
 {#if "url" in target}
   <ExternalAnchor
     url={target.url}
-    class="inline-flex shrink-0"
+    class="inline-flex shrink-0 empty:hidden"
     tabindex={-1}
     ariaHidden={true}
     onpointerenter={() => hover(true)}
@@ -33,7 +34,7 @@
   </ExternalAnchor>
 {:else}
   <button
-    class="inline-flex shrink-0 rounded-md"
+    class="inline-flex shrink-0 rounded-md empty:hidden"
     type="button"
     tabindex="-1"
     aria-hidden="true"

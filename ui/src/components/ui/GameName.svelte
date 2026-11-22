@@ -5,7 +5,6 @@
   import LinkTwin from "./LinkTwin.svelte";
   import TextLink from "./TextLink.svelte";
   import Thumb from "./Thumb.svelte";
-  import { IconName } from "../../lib/icons.constants";
   import { LinkMark, LinkSize } from "./link.constants";
   import { ThumbShape, ThumbSize } from "./picture.constants";
 
@@ -29,7 +28,7 @@
     contain={false}
     {size}
     shape={ThumbShape.BOX_ART}
-    fallback={IconName.GIFT}
+    fallback={null}
   />
 {/snippet}
 
