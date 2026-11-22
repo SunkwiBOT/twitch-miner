@@ -15,7 +15,7 @@ use crate::error::{Error, ErrorCode, Result};
 use crate::feed::{FeedAnswer, FeedClient, MANUAL_REFRESH_GAP, REFRESH_INTERVAL};
 use crate::http::too_large;
 use crate::requests::{RequestKind, RequestLog};
-use crate::twitch::drops::{parse_category, parse_repeat};
+use crate::twitch::drops::{parse_category, parse_repeat, Award};
 use crate::twitch::quests::{Quest, QuestGroup};
 use crate::twitch::{count, note_left_out, parse_time, text, values};
 
@@ -536,6 +536,73 @@ pub fn mark_owned(campaign: &mut Campaign, owned: &OwnedBadges) {
                 (quest || benefit.kind == BenefitKind::Badge) && owned.owns(benefit)
             });
     }
+}
+
+// ! Twitch dates a reward id, never a badge: an owned badge takes the last award of
+// the reward that gives it alone (a chest with several owned badges leaves them
+// undated), or, its campaign gone, of the reward named as the badge.
+pub fn award_dates<'a>(
+    owned: &[BadgeRef],
+    campaigns: impl IntoIterator<Item = &'a Campaign>,
+    awards: &HashMap<String, Award>,
+    names: &HashMap<String, String>,
+) -> HashMap<String, DateTime<Utc>> {
+    let keys: HashSet<String> = owned.iter().map(BadgeRef::key).collect();
+    let by_title: HashMap<String, String> = owned
+        .iter()
+        .map(|badge| (normalized(&badge.title), badge.key()))
+        .filter(|(title, _)| !title.is_empty())
+        .collect();
+    let mut dates: HashMap<String, DateTime<Utc>> = HashMap::new();
+    let note = |dates: &mut HashMap<String, DateTime<Utc>>, key: &str, at: DateTime<Utc>| {
+        dates
+            .entry(key.to_owned())
+            .and_modify(|known| *known = (*known).max(at))
+            .or_insert(at);
+    };
+
+    for campaign in campaigns {
+        let quest = campaign.kind == CampaignKind::Quest;
+
+        for benefit in campaign.drops.iter().flat_map(|drop| &drop.benefits) {
+            let Some(award) = awards.get(&benefit.id) else {
+                continue;
+            };
+            let given: HashSet<&str> = if benefit.badges.is_empty() {
+                (quest || benefit.kind == BenefitKind::Badge)
+                    .then(|| by_title.get(&normalized(&benefit.name)))
+                    .flatten()
+                    .map(String::as_str)
+                    .into_iter()
+                    .collect()
+            } else {
+                benefit
+                    .badges
+                    .iter()
+                    .map(BadgeRef::key)
+                    .filter_map(|key| keys.get(&key).map(String::as_str))
+                    .collect()
+            };
+
+            if let (1, Some(key)) = (given.len(), given.iter().next()) {
+                note(&mut dates, key, award.at);
+            }
+        }
+    }
+
+    let mut named: HashMap<String, DateTime<Utc>> = HashMap::new();
+
+    for (id, name) in names {
+        if let (Some(key), Some(award)) = (by_title.get(&normalized(name)), awards.get(id)) {
+            note(&mut named, key, award.at);
+        }
+    }
+
+    for (key, at) in named {
+        dates.entry(key).or_insert(at);
+    }
+
+    dates
 }
 
 impl Quest {

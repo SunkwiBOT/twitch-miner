@@ -84,7 +84,7 @@
               class={cn(
                 badgeVariants({ variant: BADGE_VARIANTS[BadgeVariant.CHIP] }),
                 BADGE_CHIP_CLASSES,
-                "cursor-pointer font-semibold tabular-nums hover:bg-secondary/80",
+                "cursor-pointer font-semibold tabular-nums hover:bg-foreground/15",
               )}
             >
               +{number(hidden)}<span class="sr-only">

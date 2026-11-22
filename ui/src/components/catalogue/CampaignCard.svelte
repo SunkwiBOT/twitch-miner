@@ -15,6 +15,7 @@
   import Badge from "../ui/Badge.svelte";
   import { BadgeTone } from "../../lib/tones.constants";
   import { CARD_LIFT_CLASSES } from "../ui/ui.constants";
+  import { BADGE_BACKDROP_CLASSES } from "../ui/badge.constants";
   import LinkBadge from "./LinkBadge.svelte";
   import { linkFacet } from "../../lib/accounts/campaign-groups.utils";
   import TimeLeftTag from "./TimeLeftTag.svelte";
@@ -47,12 +48,12 @@
         <TimeLeftTag text={strong(shortDuration(left))} urgent={left < URGENT_MS} />
       </span>
     {:else}
-      <span class="absolute bottom-1.5 left-1.5 rounded-4xl bg-background">
+      <span class="absolute bottom-1.5 left-1.5 {BADGE_BACKDROP_CLASSES}">
         <Badge text={t.campaign_ended()} tone={BadgeTone.MUTED} />
       </span>
     {/if}
     {#if ordered || isNew}
-      <span class="absolute top-1.5 right-1.5 rounded-4xl bg-background">
+      <span class="absolute top-1.5 right-1.5 {BADGE_BACKDROP_CLASSES}">
         {#if ordered}
           <Badge {...queueReasonView(QueueReason.ORDERED)} />
         {:else}

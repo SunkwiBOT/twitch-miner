@@ -13,7 +13,6 @@ import type { UnsubscribeType } from "../api/tauri";
 import type { CommandType } from "../bindings/CommandType";
 import { ErrorApiMessage } from "../bindings/ErrorApiMessage";
 import { EventKind } from "../bindings/EventKind";
-import { forgetOwnedClaims, noteOwnedClaim } from "../badges/owned-claims.svelte";
 import { forgetChannelLookups } from "../channels/channels.svelte";
 import type { SnapshotType } from "../bindings/SnapshotType";
 import { describeError, toApiError } from "../errors/errors.utils";
@@ -116,7 +115,6 @@ export const sessionEnded = (): void => {
   unsubscribe = null;
   app.snapshot = null;
   forgetChannelLookups();
-  forgetOwnedClaims();
   app.liveEvents = [];
   app.logsAccount = null;
   app.statsCurveTarget = null;
@@ -228,7 +226,6 @@ export const connect = async (): Promise<void> => {
     onSnapshot: applySnapshot,
     onEvent: (event) => {
       app.liveEvents = [event, ...app.liveEvents].slice(0, LIVE_EVENTS_MAX);
-      noteOwnedClaim(event);
 
       if (event.kind === EventKind.UPDATE_AVAILABLE) {
         notifyUpdate(event.context.version);

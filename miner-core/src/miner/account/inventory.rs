@@ -14,11 +14,14 @@ pub(super) struct Held<'a> {
 pub(super) struct Merged {
     pub campaigns: HashMap<String, Campaign>,
     pub claimed_periods: HashMap<String, Award>,
+    pub drop_dates: HashMap<String, DateTime<Utc>>,
+    pub awards: HashMap<String, Award>,
 }
 
 impl<T: TwitchApi> AccountMiner<T> {
     pub(super) async fn refresh_inventory(&mut self) -> Result<()> {
-        let inventory = self.client.inventory().await?;
+        let mut inventory = self.client.inventory().await?;
+        let names = std::mem::take(&mut inventory.names);
         let mut quests_read = true;
 
         match self.client.quests().await {
@@ -71,7 +74,14 @@ impl<T: TwitchApi> AccountMiner<T> {
 
         let mut campaigns = merged.campaigns;
 
+        self.badge_dates = award_dates(
+            &self.owned_badges,
+            campaigns.values(),
+            &merged.awards,
+            &names,
+        );
         self.claims.periods = merged.claimed_periods;
+        self.drop_dates = merged.drop_dates;
         self.claims
             .settle_quest_windows(&self.quests, &mut campaigns);
 
@@ -278,6 +288,7 @@ pub(super) fn merge_inventory(
     }
 
     let mut claimed_periods: HashMap<String, Award> = HashMap::new();
+    let mut drop_dates: HashMap<String, DateTime<Utc>> = HashMap::new();
 
     // ! A reward id can serve several campaigns: an award counts only out of the inventory and inside the drop's window.
     for campaign in merged
@@ -292,6 +303,15 @@ pub(super) fn merge_inventory(
                 .filter(|award| drop.starts_at <= award.at && award.at < drop.ends_at)
                 .collect();
             let every_benefit = !drop.benefits.is_empty() && awarded.len() == drop.benefits.len();
+
+            if let Some(at) = awarded
+                .iter()
+                .map(|award| award.at)
+                .max()
+                .filter(|_| every_benefit)
+            {
+                drop_dates.insert(drop.id.clone(), at);
+            }
 
             if let Some(repeat) = drop.repeat {
                 let award = every_benefit
@@ -361,6 +381,8 @@ pub(super) fn merge_inventory(
     Merged {
         campaigns: merged,
         claimed_periods,
+        drop_dates,
+        awards: inventory.awards,
     }
 }
 

@@ -2242,6 +2242,8 @@ impl Manager {
                         other_campaigns: vec![],
                         quests: vec![],
                         owned_badges: vec![],
+                        owned_badge_dates: HashMap::new(),
+                        drop_dates: HashMap::new(),
                         refused_claims: vec![],
                         badges_read_at: None,
                         stats: Default::default(),

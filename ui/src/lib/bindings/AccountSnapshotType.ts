@@ -31,6 +31,8 @@ export type AccountSnapshotType = {
   other_campaigns: Array<CampaignType>;
   quests: Array<QuestType>;
   owned_badges: Array<BadgeRefType>;
+  owned_badge_dates: { [key in string]: string };
+  drop_dates: { [key in string]: string };
   refused_claims: Array<string>;
   badges_read_at?: string;
   stats: AccountStatsType;

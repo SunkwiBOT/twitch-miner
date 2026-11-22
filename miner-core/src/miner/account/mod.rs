@@ -27,7 +27,7 @@ use crate::api::{
     AccountSnapshot, AccountStats, AccountStatus, BeaconHost, CampaignProgress, DropProgressView,
     DropState, SlotView, StreamerView, FOLLOWS_MAX,
 };
-use crate::badges::{attach_badges, mark_owned, BadgeCatalog, OwnedBadges};
+use crate::badges::{attach_badges, award_dates, mark_owned, BadgeCatalog, OwnedBadges};
 use crate::catalog::Catalog;
 use crate::config::{AccountSettings, ChatPresence, Mode};
 use crate::domain::{
@@ -248,6 +248,8 @@ struct AccountMiner<T> {
     campaigns: HashMap<String, Campaign>,
     quests: Vec<Quest>,
     owned_badges: Vec<BadgeRef>,
+    badge_dates: HashMap<String, DateTime<Utc>>,
+    drop_dates: HashMap<String, DateTime<Utc>>,
     selected_badge: Option<BadgeRef>,
     equip_tried: HashMap<String, tokio::time::Instant>,
     badges_read_at: Option<DateTime<Utc>>,
@@ -354,6 +356,8 @@ impl<T: TwitchApi> AccountMiner<T> {
             other_campaigns: vec![],
             quests: vec![],
             owned_badges: vec![],
+            owned_badge_dates: HashMap::new(),
+            drop_dates: HashMap::new(),
             refused_claims: vec![],
             badges_read_at: None,
             stats: context.stats.clone(),
@@ -383,6 +387,8 @@ impl<T: TwitchApi> AccountMiner<T> {
             campaigns: HashMap::new(),
             quests: Vec::new(),
             owned_badges: Vec::new(),
+            badge_dates: HashMap::new(),
+            drop_dates: HashMap::new(),
             selected_badge: None,
             equip_tried: HashMap::new(),
             badges_read_at: None,

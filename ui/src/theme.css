@@ -269,6 +269,32 @@
   }
 }
 
+/* ! An overflowing badge label (`Badge.svelte` sets the shift and the lap) rests at each end, then scrolls back.
+   WCAG 2.2.2: it holds still while its badge, card or row is hovered or focused. */
+@keyframes badge-marquee {
+  0%,
+  20% {
+    transform: translateX(0);
+  }
+
+  80%,
+  100% {
+    transform: translateX(calc(-1 * var(--marquee-shift)));
+  }
+}
+
+[data-marquee] {
+  animation: badge-marquee var(--marquee-duration) ease-in-out infinite alternate;
+}
+
+:is([data-slot="badge"], [data-slot="tooltip-trigger"], [data-slot="card"], article, li):is(
+    :hover,
+    :focus-within
+  )
+  [data-marquee] {
+  animation-play-state: paused;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

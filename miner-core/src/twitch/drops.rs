@@ -20,6 +20,8 @@ pub struct Award {
 pub struct Inventory {
     pub campaigns: Vec<Campaign>,
     pub awards: HashMap<String, Award>,
+    // ! The reward's own name, by id: what dates a badge once its campaign is gone.
+    pub names: HashMap<String, String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -81,6 +83,9 @@ pub fn parse_inventory(inventory: &Value) -> Inventory {
             ))
         })
         .collect();
+    let names = values(&inventory["gameEventDrops"])
+        .filter_map(|v| Some((text(&v["id"])?, text(&v["name"])?)))
+        .collect();
     let records: Vec<&Value> = values(&inventory["dropCampaignsInProgress"]).collect();
     let campaigns: Vec<Campaign> = records
         .iter()
@@ -89,7 +94,11 @@ pub fn parse_inventory(inventory: &Value) -> Inventory {
 
     note_left_out("inventory campaigns", records.len(), campaigns.len());
 
-    Inventory { campaigns, awards }
+    Inventory {
+        campaigns,
+        awards,
+        names,
+    }
 }
 
 fn parse_status(value: &Value) -> CampaignStatus {

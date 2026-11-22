@@ -16,7 +16,8 @@
   type BadgeTilePropsType = {
     image: string | null | undefined;
     title: string;
-    detail?: string;
+    details?: string[];
+    fallback?: IconName;
     small?: boolean;
     tooltip?: boolean;
     onclick?: () => void;
@@ -25,7 +26,8 @@
   let {
     image,
     title,
-    detail,
+    details = [],
+    fallback = IconName.AWARD,
     small = false,
     tooltip = false,
     onclick,
@@ -39,7 +41,7 @@
     contain={true}
     size={ThumbSize.MD}
     shape={ThumbShape.SQUARE}
-    fallback={IconName.AWARD}
+    {fallback}
   />
   <span class="flex min-w-0 flex-col">
     {#if interactive}
@@ -54,9 +56,11 @@
         {title}
       </span>
     {/if}
-    {#if detail}<span class="min-w-0 truncate text-xs text-muted-foreground">
+    {#each details as detail, index (index)}<span
+        class="min-w-0 truncate text-xs text-muted-foreground"
+      >
         <RichText text={detail} />
-      </span>{/if}
+      </span>{/each}
   </span>
 {/snippet}
 

@@ -1,47 +1,53 @@
 <script lang="ts">
+  import type { AccountSnapshotType } from "../../../lib/bindings/AccountSnapshotType";
   import type { CampaignType } from "../../../lib/bindings/CampaignType";
-  import type { RewardType } from "../../../lib/catalogue/campaign.utils";
-  import { gameArt } from "../../../lib/catalogue/games.utils";
+  import { campaignSubtitle, type RewardType } from "../../../lib/catalogue/campaign.utils";
   import { t } from "../../../lib/i18n/i18n.svelte";
+  import { IconName } from "../../../lib/icons.constants";
+  import { strong } from "../../../lib/text.utils";
+  import { formatDate } from "../../../lib/time/time.utils";
+  import BadgeTile from "../../ui/BadgeTile.svelte";
   import EmptyState from "../../ui/EmptyState.svelte";
-  import GameName from "../../ui/GameName.svelte";
   import Panel from "../../ui/Panel.svelte";
-  import RewardThumb from "../../ui/RewardThumb.svelte";
-  import { ThumbSize } from "../../ui/picture.constants";
 
   type InventoryClaimedTabPropsType = {
+    account: AccountSnapshotType;
     claimed: RewardType[];
     onopen: (campaign: CampaignType) => void;
   };
 
-  let { claimed, onopen }: InventoryClaimedTabPropsType = $props();
+  let { account, claimed, onopen }: InventoryClaimedTabPropsType = $props();
+
+  // ! The same tile as an owned badge: the reward's category and campaign, then its claim date when Twitch gave one.
+  const details = (item: RewardType): string[] => {
+    const at = account.drop_dates[item.drop.id];
+    const campaign = campaignSubtitle(item.campaign);
+
+    return [
+      item.campaign.game.name,
+      ...(campaign ? [campaign] : []),
+      ...(at ? [t.owned_badge_unlocked({ date: strong(formatDate(at, false)) })] : []),
+    ];
+  };
 </script>
 
 <Panel title={t.inventory_claimed()} count={claimed.length}>
   {#if claimed.length === 0}
     <EmptyState text={t.inventory_empty_claimed()} />
   {:else}
-    <div class="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-2.5">
+    <ul class="grid grid-cols-[repeat(auto-fill,minmax(min(250px,100%),1fr))] gap-2.5">
       {#each claimed as item (item.drop.id)}
-        <button
-          class="flex items-center gap-2.5 rounded-lg border p-2 text-left transition-colors hover:bg-accent"
-          type="button"
-          onclick={() => onopen(item.campaign)}
-        >
-          <RewardThumb {item} size={ThumbSize.MD} />
-          <span class="flex min-w-0 flex-col">
-            <span class="truncate text-xs font-semibold">{item.drop.name}</span>
-            <span class="text-xs text-muted-foreground">
-              <GameName
-                name={item.campaign.game.name}
-                url={null}
-                art={gameArt(item.campaign.game.name, item.campaign.game.box_art_url)}
-                size={ThumbSize.XS}
-              />
-            </span>
-          </span>
-        </button>
+        <li class="grid">
+          <BadgeTile
+            image={item.drop.benefits.at(0)?.image_url}
+            title={item.drop.name}
+            details={details(item)}
+            fallback={IconName.GIFT}
+            tooltip={true}
+            onclick={() => onopen(item.campaign)}
+          />
+        </li>
       {/each}
-    </div>
+    </ul>
   {/if}
 </Panel>

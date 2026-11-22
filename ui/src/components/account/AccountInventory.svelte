@@ -175,7 +175,7 @@
   {:else if tab === InventoryTab.IN_PROGRESS}
     <InventoryInProgressTab {inProgress} onopen={openCampaign} />
   {:else}
-    <InventoryClaimedTab {claimed} onopen={openCampaign} />
+    <InventoryClaimedTab {account} {claimed} onopen={openCampaign} />
   {/if}
   <AccountSaveBar {account} />
 </PageBody>

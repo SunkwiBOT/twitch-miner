@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
@@ -113,6 +115,12 @@ pub struct AccountSnapshot {
     pub quests: Vec<Quest>,
     #[serde(default)]
     pub owned_badges: Vec<BadgeRef>,
+    // ! By badge key: when Twitch last awarded the reward that gives it, when known.
+    #[serde(default)]
+    pub owned_badge_dates: HashMap<String, DateTime<Utc>>,
+    // ! By drop id: when Twitch awarded a claimed drop's rewards, inside its window.
+    #[serde(default)]
+    pub drop_dates: HashMap<String, DateTime<Utc>>,
     // ! The drops whose claim Twitch refused, until their link state changes.
     #[serde(default)]
     pub refused_claims: Vec<String>,

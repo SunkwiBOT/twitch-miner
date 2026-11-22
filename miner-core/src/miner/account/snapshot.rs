@@ -107,6 +107,8 @@ impl<T: TwitchApi> AccountMiner<T> {
             other_campaigns,
             quests: self.quests.clone(),
             owned_badges: self.owned_badges.clone(),
+            owned_badge_dates: self.badge_dates.clone(),
+            drop_dates: self.drop_dates.clone(),
             refused_claims: self.claims.refused_drops(),
             badges_read_at: self.badges_read_at,
             stats: self.stats.clone(),
