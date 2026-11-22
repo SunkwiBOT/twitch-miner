@@ -330,7 +330,8 @@ docker compose up -d
 Docker を使わない Linux サーバーでは、リリースにはダッシュボードを内蔵した単一ファイルのサーバーも含まれています：`twitch-miner-server_<バージョン>_linux_x64` または `twitch-miner-server_<バージョン>_linux_arm64`。これは Docker イメージが実行しているのと同じプログラムで、静的リンクされていますが、HTTPS のために読み込むシステムの CA 証明書は別で、Docker イメージも同じ理由でそれらをコピーしています。使う変数も同じです。
 
 ```bash
-sudo install -m 755 twitch-miner-server_<バージョン>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<バージョン>_linux_arm64
+sudo install -m 755 twitch-miner-server_<バージョン>_linux_x64 /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -370,7 +371,8 @@ systemd がデータ用に `/var/lib/twitch-miner` を作成し、root として
 このファイルは自動更新されません。ダッシュボードに新しいバージョンが表示されたら、リリースから新しいファイルをダウンロードし、古いものと入れ替えて再起動します：
 
 ```bash
-sudo install -m 755 twitch-miner-server_<バージョン>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<バージョン>_linux_arm64
+sudo install -m 755 twitch-miner-server_<バージョン>_linux_x64 /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 

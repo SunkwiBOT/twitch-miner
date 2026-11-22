@@ -449,7 +449,8 @@ CA systemu, które odczytuje do HTTPS (obraz Dockera kopiuje je z tego samego po
 Przyjmuje te same zmienne.
 
 ```bash
-sudo install -m 755 twitch-miner-server_<wersja>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<wersja>_linux_arm64
+sudo install -m 755 twitch-miner-server_<wersja>_linux_x64 /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -493,7 +494,8 @@ Ten plik nie aktualizuje się sam. Gdy panel pokaże nową wersję, pobierz nowy
 wydania, zastąp nim stary i uruchom ponownie:
 
 ```bash
-sudo install -m 755 twitch-miner-server_<wersja>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<wersja>_linux_arm64
+sudo install -m 755 twitch-miner-server_<wersja>_linux_x64 /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 

@@ -351,7 +351,8 @@ sertifikat CA sistem yang dibacanya untuk HTTPS (image Docker juga menyalinnya u
 alasan yang sama). Server ini memakai variabel yang sama.
 
 ```bash
-sudo install -m 755 twitch-miner-server_<versi>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<versi>_linux_arm64
+sudo install -m 755 twitch-miner-server_<versi>_linux_x64 /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -395,7 +396,8 @@ File ini tidak memperbarui dirinya sendiri. Saat dasbor menampilkan versi baru, 
 baru dari rilis, lalu ganti yang lama dan mulai ulang:
 
 ```bash
-sudo install -m 755 twitch-miner-server_<versi>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<versi>_linux_arm64
+sudo install -m 755 twitch-miner-server_<versi>_linux_x64 /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 

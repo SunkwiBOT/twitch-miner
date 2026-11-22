@@ -336,7 +336,8 @@ başka hiçbir şey kurmanız gerekmez (Docker imajı da aynı nedenle bunları 
 değişkenleri kabul eder.
 
 ```bash
-sudo install -m 755 twitch-miner-server_<sürüm>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<sürüm>_linux_arm64
+sudo install -m 755 twitch-miner-server_<sürüm>_linux_x64 /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -380,7 +381,8 @@ Bu dosya kendini güncellemez. Panel yeni bir sürüm gösterdiğinde, yeni dosy
 indirin, ardından eskisinin yerine koyup yeniden başlatın:
 
 ```bash
-sudo install -m 755 twitch-miner-server_<sürüm>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<sürüm>_linux_arm64
+sudo install -m 755 twitch-miner-server_<sürüm>_linux_x64 /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 

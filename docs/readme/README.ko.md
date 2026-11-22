@@ -331,7 +331,8 @@ docker compose up -d
 Docker 없는 Linux 서버에서는, 릴리스에 대시보드가 들어 있는 단일 파일 서버도 포함돼 있어요: `twitch-miner-server_<버전>_linux_x64` 또는 `twitch-miner-server_<버전>_linux_arm64`예요. Docker 이미지가 실행하는 것과 같은 프로그램이고 정적으로 링크되어 있지만, HTTPS를 위해 읽는 시스템의 CA 인증서는 예외예요. Docker 이미지도 같은 이유로 이를 복사해 둬요. 같은 변수를 사용해요.
 
 ```bash
-sudo install -m 755 twitch-miner-server_<버전>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<버전>_linux_arm64
+sudo install -m 755 twitch-miner-server_<버전>_linux_x64 /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -371,7 +372,8 @@ systemd가 데이터용으로 `/var/lib/twitch-miner`를 만들고, root가 아�
 이 파일은 스스로 업데이트되지 않아요. 대시보드에 새 버전이 표시되면, 릴리스에서 새 파일을 내려받아 예전 파일을 바꾸고 다시 시작하세요:
 
 ```bash
-sudo install -m 755 twitch-miner-server_<버전>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<버전>_linux_arm64
+sudo install -m 755 twitch-miner-server_<버전>_linux_x64 /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 

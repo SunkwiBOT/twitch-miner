@@ -457,7 +457,8 @@ Docker, статично скомпонована: більше нічого в�
 самої причини). Вона приймає ті самі змінні.
 
 ```bash
-sudo install -m 755 twitch-miner-server_<версія>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<версія>_linux_arm64
+sudo install -m 755 twitch-miner-server_<версія>_linux_x64 /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -501,7 +502,8 @@ systemd створює `/var/lib/twitch-miner` для даних і запуск
 релізу, потім замініть старий і перезапустіть:
 
 ```bash
-sudo install -m 755 twitch-miner-server_<версія>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<версія>_linux_arm64
+sudo install -m 755 twitch-miner-server_<версія>_linux_x64 /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 

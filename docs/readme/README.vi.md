@@ -336,7 +336,8 @@ thống mà nó đọc để dùng HTTPS (image Docker cũng sao chép chúng v�
 dùng cùng các biến.
 
 ```bash
-sudo install -m 755 twitch-miner-server_<phiên bản>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<phiên
+sudo install -m 755 twitch-miner-server_<phiên bản>_linux_x64 /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -380,7 +381,8 @@ Tệp này không tự cập nhật. Khi bảng điều khiển hiển thị phi
 từ bản phát hành, rồi thay thế tệp cũ và khởi động lại:
 
 ```bash
-sudo install -m 755 twitch-miner-server_<phiên bản>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<phiên
+sudo install -m 755 twitch-miner-server_<phiên bản>_linux_x64 /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 

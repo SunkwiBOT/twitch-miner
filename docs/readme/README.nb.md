@@ -458,7 +458,8 @@ systemets CA-sertifikater, som den leser for HTTPS (Docker-avbildet kopierer dem
 samme grunn). Den tar de samme variablene.
 
 ```bash
-sudo install -m 755 twitch-miner-server_<versjon>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<versjon>_linux_arm64
+sudo install -m 755 twitch-miner-server_<versjon>_linux_x64 /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -501,7 +502,8 @@ Denne filen oppdaterer seg ikke selv. Når oversikten viser en ny versjon, laste
 den nye filen fra utgivelsen, erstatter den gamle og starter på nytt:
 
 ```bash
-sudo install -m 755 twitch-miner-server_<versjon>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<versjon>_linux_arm64
+sudo install -m 755 twitch-miner-server_<versjon>_linux_x64 /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 

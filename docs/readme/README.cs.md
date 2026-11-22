@@ -443,7 +443,8 @@ certifikátů CA, které čte pro HTTPS (Docker obraz je ze stejného důvodu ko
 Přijímá stejné proměnné.
 
 ```bash
-sudo install -m 755 twitch-miner-server_<verze>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<verze>_linux_arm64
+sudo install -m 755 twitch-miner-server_<verze>_linux_x64 /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -487,7 +488,8 @@ Tento soubor se sám neaktualizuje. Když panel zobrazí novou verzi, stáhněte
 vydání, pak nahraďte starý a restartujte:
 
 ```bash
-sudo install -m 755 twitch-miner-server_<verze>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<verze>_linux_arm64
+sudo install -m 755 twitch-miner-server_<verze>_linux_x64 /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 

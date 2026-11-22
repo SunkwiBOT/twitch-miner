@@ -458,7 +458,8 @@ CA-certificaten van het systeem die hij voor HTTPS leest (de Docker-image kopiee
 dezelfde reden). Hij gebruikt dezelfde variabelen.
 
 ```bash
-sudo install -m 755 twitch-miner-server_<versie>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<versie>_linux_arm64
+sudo install -m 755 twitch-miner-server_<versie>_linux_x64 /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -502,7 +503,8 @@ Dit bestand werkt zichzelf niet bij. Zodra het dashboard een nieuwe versie toont
 je het nieuwe bestand uit de release, vervang je het oude en start je opnieuw op:
 
 ```bash
-sudo install -m 755 twitch-miner-server_<versie>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<versie>_linux_arm64
+sudo install -m 755 twitch-miner-server_<versie>_linux_x64 /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 

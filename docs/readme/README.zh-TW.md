@@ -332,7 +332,8 @@ docker compose up -d
 這就是 Docker 映像檔所執行的那個程式，靜態連結，但它會讀取系統的 CA 憑證用於 HTTPS（Docker 映像檔基於相同原因也複製了這些憑證）。它接受相同的變數。
 
 ```bash
-sudo install -m 755 twitch-miner-server_<版本>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<版本>_linux_arm64
+sudo install -m 755 twitch-miner-server_<版本>_linux_x64 /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -373,7 +374,8 @@ root 身分執行。開啟 `http://<伺服器位址>:8080`；日誌在 `journalc
 這個檔案不會自動更新。當儀表板顯示有新版本時，從發行版本下載新檔案，取代舊檔案後重新啟動：
 
 ```bash
-sudo install -m 755 twitch-miner-server_<版本>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<版本>_linux_arm64
+sudo install -m 755 twitch-miner-server_<版本>_linux_x64 /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 

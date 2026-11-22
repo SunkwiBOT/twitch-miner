@@ -452,7 +452,8 @@ Docker образът, статично линкована: нищо друго 
 причина). Приема същите променливи.
 
 ```bash
-sudo install -m 755 twitch-miner-server_<версия>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<версия>_linux_arm64
+sudo install -m 755 twitch-miner-server_<версия>_linux_x64 /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -496,7 +497,8 @@ systemd създава `/var/lib/twitch-miner` за данните и изпъл
 изданието, после заменете стария и рестартирайте:
 
 ```bash
-sudo install -m 755 twitch-miner-server_<версия>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<версия>_linux_arm64
+sudo install -m 755 twitch-miner-server_<версия>_linux_x64 /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 

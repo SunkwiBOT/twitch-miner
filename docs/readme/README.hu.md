@@ -458,7 +458,8 @@ CA-tanúsítványait, amelyeket HTTPS-hez olvas (a Docker image is ezért másol
 Ugyanazokat a változókat fogadja.
 
 ```bash
-sudo install -m 755 twitch-miner-server_<verzió>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<verzió>_linux_arm64
+sudo install -m 755 twitch-miner-server_<verzió>_linux_x64 /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -502,7 +503,8 @@ Ez a fájl nem frissíti magát. Amikor az irányítópult új verziót mutat, t
 fájlt a kiadásból, cseréld le a régit, és indítsd újra:
 
 ```bash
-sudo install -m 755 twitch-miner-server_<verzió>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<verzió>_linux_arm64
+sudo install -m 755 twitch-miner-server_<verzió>_linux_x64 /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 

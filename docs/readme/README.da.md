@@ -456,7 +456,8 @@ som den læser til HTTPS (Docker-imaget kopierer dem af samme grund). Den tager 
 variabler.
 
 ```bash
-sudo install -m 755 twitch-miner-server_<version>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<version>_linux_arm64
+sudo install -m 755 twitch-miner-server_<version>_linux_x64 /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -500,7 +501,8 @@ Denne fil opdaterer ikke sig selv. Når oversigten viser en ny version, skal du 
 nye fil fra udgivelsen, erstatte den gamle og genstarte:
 
 ```bash
-sudo install -m 755 twitch-miner-server_<version>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<version>_linux_arm64
+sudo install -m 755 twitch-miner-server_<version>_linux_x64 /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 

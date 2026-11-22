@@ -335,7 +335,8 @@ docker compose up -d
 รับตัวแปรชุดเดียวกัน
 
 ```bash
-sudo install -m 755 twitch-miner-server_<เวอร์ชัน>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<เวอร์ชัน>_linux_arm64
+sudo install -m 755 twitch-miner-server_<เวอร์ชัน>_linux_x64 /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -377,7 +378,8 @@ systemd จะสร้าง `/var/lib/twitch-miner` สำหรับเก�
 แล้วแทนที่ไฟล์เดิมและรีสตาร์ต:
 
 ```bash
-sudo install -m 755 twitch-miner-server_<เวอร์ชัน>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<เวอร์ชัน>_linux_arm64
+sudo install -m 755 twitch-miner-server_<เวอร์ชัน>_linux_x64 /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 

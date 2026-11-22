@@ -454,7 +454,8 @@ certificatelor CA ale sistemului pe care le citește pentru HTTPS (imaginea Dock
 copiază din același motiv). Folosește aceleași variabile.
 
 ```bash
-sudo install -m 755 twitch-miner-server_<versiune>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<versiune>_linux_arm64
+sudo install -m 755 twitch-miner-server_<versiune>_linux_x64 /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -498,7 +499,8 @@ Acest fișier nu se actualizează singur. Când panoul arată o versiune nouă, 
 fișier din versiunea publicată, apoi înlocuiește-l pe cel vechi și repornește:
 
 ```bash
-sudo install -m 755 twitch-miner-server_<versiune>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<versiune>_linux_arm64
+sudo install -m 755 twitch-miner-server_<versiune>_linux_x64 /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 

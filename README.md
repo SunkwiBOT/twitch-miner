@@ -452,7 +452,8 @@ statically linked: nothing else to install, besides the system's CA certificates
 for HTTPS (the Docker image copies them in for the same reason). It takes the same variables.
 
 ```bash
-sudo install -m 755 twitch-miner-server_<version>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<version>_linux_arm64
+sudo install -m 755 twitch-miner-server_<version>_linux_x64 /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -496,7 +497,8 @@ This file does not update itself. When the dashboard shows a new version, downlo
 file from the release, then replace the old one and restart:
 
 ```bash
-sudo install -m 755 twitch-miner-server_<version>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<version>_linux_arm64
+sudo install -m 755 twitch-miner-server_<version>_linux_x64 /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 

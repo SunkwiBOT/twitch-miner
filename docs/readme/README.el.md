@@ -340,7 +340,8 @@ Docker, στατικά συνδεδεμένο: τίποτα άλλο δεν χρ
 τον ίδιο λόγο). Δέχεται τις ίδιες μεταβλητές.
 
 ```bash
-sudo install -m 755 twitch-miner-server_<έκδοση>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<έκδοση>_linux_arm64
+sudo install -m 755 twitch-miner-server_<έκδοση>_linux_x64 /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -384,7 +385,8 @@ sudo systemctl enable --now twitch-miner
 κατεβάστε το νέο αρχείο από την έκδοση, αντικαταστήστε το παλιό και κάντε επανεκκίνηση:
 
 ```bash
-sudo install -m 755 twitch-miner-server_<έκδοση>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<έκδοση>_linux_arm64
+sudo install -m 755 twitch-miner-server_<έκδοση>_linux_x64 /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 

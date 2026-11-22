@@ -458,7 +458,8 @@ i certificati CA di sistema che legge per l'HTTPS (anche l'immagine Docker li co
 stesso motivo). Prende le stesse variabili.
 
 ```bash
-sudo install -m 755 twitch-miner-server_<versione>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<versione>_linux_arm64
+sudo install -m 755 twitch-miner-server_<versione>_linux_x64 /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -502,7 +503,8 @@ Questo file non si aggiorna da solo. Quando la dashboard segnala una nuova versi
 scarica il nuovo file dalla release, poi sostituisci quello vecchio e riavvia:
 
 ```bash
-sudo install -m 755 twitch-miner-server_<versione>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<versione>_linux_arm64
+sudo install -m 755 twitch-miner-server_<versione>_linux_x64 /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 

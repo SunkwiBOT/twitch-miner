@@ -332,7 +332,8 @@ docker compose up -d
 它就是 Docker 镜像运行的那个程序，静态链接，但它读取系统的 CA 证书用于 HTTPS（Docker 镜像出于同样的原因也复制了这些证书）。它接受同样的变量。
 
 ```bash
-sudo install -m 755 twitch-miner-server_<版本号>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<版本号>_linux_arm64
+sudo install -m 755 twitch-miner-server_<版本号>_linux_x64 /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -373,7 +374,8 @@ systemd 会创建 `/var/lib/twitch-miner` 用来存放数据，并让服务器�
 这个文件不会自动更新。当仪表盘提示有新版本时，从发布版本下载新文件，替换旧文件后重启：
 
 ```bash
-sudo install -m 755 twitch-miner-server_<版本号>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<版本号>_linux_arm64
+sudo install -m 755 twitch-miner-server_<版本号>_linux_x64 /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 

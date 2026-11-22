@@ -471,7 +471,8 @@ System-CA-Zertifikaten, die es für HTTPS liest (das Docker-Image kopiert sie au
 Grund). Es verwendet dieselben Variablen.
 
 ```bash
-sudo install -m 755 twitch-miner-server_<Version>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<Version>_linux_arm64
+sudo install -m 755 twitch-miner-server_<Version>_linux_x64 /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -515,7 +516,8 @@ Diese Datei aktualisiert sich nicht selbst. Wenn das Dashboard eine neue Version
 laden Sie die neue Datei aus dem Release herunter, ersetzen die alte und starten neu:
 
 ```bash
-sudo install -m 755 twitch-miner-server_<Version>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<Version>_linux_arm64
+sudo install -m 755 twitch-miner-server_<Version>_linux_x64 /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 

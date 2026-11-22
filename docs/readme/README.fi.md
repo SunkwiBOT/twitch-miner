@@ -463,7 +463,8 @@ järjestelmän CA-varmenteita, joita se lukee HTTPS:ää varten (Docker-image ko
 syystä). Se käyttää samoja muuttujia.
 
 ```bash
-sudo install -m 755 twitch-miner-server_<versio>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<versio>_linux_arm64
+sudo install -m 755 twitch-miner-server_<versio>_linux_x64 /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -507,7 +508,8 @@ Tämä tiedosto ei päivitä itseään. Kun hallintapaneeli näyttää uuden ver
 tiedosto julkaisusta, korvaa sillä vanha ja käynnistä uudelleen:
 
 ```bash
-sudo install -m 755 twitch-miner-server_<versio>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<versio>_linux_arm64
+sudo install -m 755 twitch-miner-server_<versio>_linux_x64 /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 

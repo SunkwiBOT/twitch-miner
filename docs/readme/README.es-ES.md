@@ -460,7 +460,8 @@ CA del sistema que lee para HTTPS (la imagen de Docker los copia por el mismo mo
 Toma las mismas variables.
 
 ```bash
-sudo install -m 755 twitch-miner-server_<versión>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<versión>_linux_arm64
+sudo install -m 755 twitch-miner-server_<versión>_linux_x64 /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -504,7 +505,8 @@ Este archivo no se actualiza solo. Cuando el panel muestre una versión nueva, d
 archivo nuevo de la versión, sustituye el anterior y reinicia:
 
 ```bash
-sudo install -m 755 twitch-miner-server_<versión>_linux_* /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_<versión>_linux_arm64
+sudo install -m 755 twitch-miner-server_<versión>_linux_x64 /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 
