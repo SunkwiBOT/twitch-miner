@@ -47,6 +47,7 @@
   import ProgressLine from "./ui/ProgressLine.svelte";
   import Thumb from "./ui/Thumb.svelte";
   import ViewerCount from "./ui/ViewerCount.svelte";
+  import NameRun from "./ui/NameRun.svelte";
   import { AvatarSize, ThumbShape, ThumbSize } from "./ui/picture.constants";
   import { BalanceAlign } from "./ui/ui.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "./ui/button.constants";
@@ -237,27 +238,29 @@
             slot.purpose.kind === SlotPurposeKind.POINTS ? slot.purpose.reason : null,
           )}
           <!-- ! One line, name · category · viewers, wrapping between the parts only when the card has no room. -->
-          <span
-            class="flex min-w-0 flex-wrap items-center gap-x-1.5 gap-y-0.5 text-hint text-muted-foreground"
-            data-slot="streamer-meta"
-          >
-            <TextLink
-              text={slot.channel.display_name}
-              target={{ url: channelUrl(slot.channel.login), mark: LinkMark.END }}
-              size={LinkSize.MD}
-            />
-            {#if slot.channel.game}<span class="flex max-w-full min-w-0 items-center gap-1.5">
-                <span aria-hidden="true">·</span><GameName
-                  name={slot.channel.game.name}
-                  url={gameUrl(slot.channel.game.name, slot.channel.game.slug)}
-                  art={gameArt(slot.channel.game.name, slot.channel.game.box_art_url)}
-                  size={ThumbSize.XS}
-                />
-              </span>{/if}
-            {#if slot.channel.viewers !== undefined}<span class="flex items-center gap-1.5">
-                <span aria-hidden="true">·</span><ViewerCount count={slot.channel.viewers} />
-              </span>{/if}
-          </span>
+          <NameRun>
+            <span
+              class="flex min-w-0 flex-wrap items-center gap-x-1.5 gap-y-0.5 text-hint text-muted-foreground"
+              data-slot="streamer-meta"
+            >
+              <TextLink
+                text={slot.channel.display_name}
+                target={{ url: channelUrl(slot.channel.login), mark: LinkMark.END }}
+                size={LinkSize.MD}
+              />
+              {#if slot.channel.game}<span class="flex max-w-full min-w-0 items-center gap-1.5">
+                  <span aria-hidden="true">·</span><GameName
+                    name={slot.channel.game.name}
+                    url={gameUrl(slot.channel.game.name, slot.channel.game.slug)}
+                    art={gameArt(slot.channel.game.name, slot.channel.game.box_art_url)}
+                    size={ThumbSize.XS}
+                  />
+                </span>{/if}
+              {#if slot.channel.viewers !== undefined}<span class="flex items-center gap-1.5">
+                  <span aria-hidden="true">·</span><ViewerCount count={slot.channel.viewers} />
+                </span>{/if}
+            </span>
+          </NameRun>
         </div>
       </LinkPair>
       {#if slot.points}
