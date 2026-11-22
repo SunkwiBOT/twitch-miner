@@ -187,7 +187,7 @@
   que a conta já possui. Um emblema a assistir todo dia é minerado de novo a cada dia até
   o último (“20 min por dia, 3 dias”), e conta um canal de qualquer uma das categorias da
   campanha. Um baú dá “1 emblema aleatório entre N”. Um emblema que exige inscrição é
-  minerado depois que você mesmo se inscreve e a Twitch conta a inscrição. Nada é minerado
+  minerado depois que você se inscreve ou presenteia uma inscrição durante a campanha, em um canal da categoria, e a Twitch conta a inscrição. Uma inscrição já em andamento, uma inscrição Prime ou uma renovação não contam. Nada é minerado
   antes do início da campanha. Em “O que minerar, em ordem”, arraste as categorias
   prioritárias, os emblemas e as outras campanhas Drops para a ordem que quiser, ou
   desative um deles. Uma missão da Twitch só é minerada em um canal em que a Twitch a
@@ -562,8 +562,8 @@ trouxeram nenhum progresso do lado da Twitch: a campanha é colocada de lado e t
 novo automaticamente no tempo mostrado, ou antes, se o progresso reaparecer primeiro. Uma
 campanha que
 não aparece nessa lista foi deixada de fora: por “O que minerar, em ordem”, pela opção
-“Quais campanhas”, por uma regra da aba **Exclusões**, ou porque não dá tempo de
-concluí-la. Uma recompensa que exige inscrição espera você mesmo se inscrever, um emblema
+“Quais campanhas”, por uma regra da aba **Exclusões**, porque não dá tempo de
+concluí-la, ou porque todas as recompensas que restam exigem inscrição. Uma recompensa que exige inscrição espera você se inscrever ou presentear uma inscrição durante a campanha, em um canal da categoria (uma inscrição já em andamento, uma inscrição Prime ou uma renovação não contam), um emblema
 a assistir todo dia espera o dia seguinte, nada é minerado antes do início da campanha, e
 um drop que vem depois de outro espera o primeiro terminar. No modo **Só pontos**, o
 minerador não escolhe nenhuma campanha. “Minerar primeiro”, na ficha de uma campanha,

@@ -187,7 +187,7 @@
   Drops i zadań Twitcha i pomija te, które konto już ma. Odznaka do oglądania codziennie
   jest kopana od nowa każdego dnia aż do ostatniego („20 min dziennie, 3 dni”), a liczy
   się kanał z dowolnej kategorii kampanii. Skrzynka daje „1 losowa odznaka z N”. Odznaka
-  wymagająca subskrypcji jest kopana, gdy sam wykupisz subskrypcję i Twitch ją policzy.
+  wymagająca subskrypcji jest kopana, gdy w trakcie kampanii wykupisz lub podarujesz subskrypcję na kanale z tej kategorii i Twitch ją policzy. Trwająca już subskrypcja, subskrypcja Prime ani odnowienie się nie liczą.
   Przed startem kampanii nic nie jest kopane. W „Co kopać, w jakiej kolejności” ustaw
   przeciąganiem kategorie priorytetowe, odznaki i inne kampanie Drops w wybranej kolejności albo
   wyłącz którąś z nich. Zadanie Twitcha jest kopane tylko na kanale, na którym Twitch
@@ -555,9 +555,9 @@ kampania podaje powód: „Brak kanału na żywo” lub „Oczekiwanie (jedna ka
 przyniosło żadnego postępu po stronie Twitcha: kampania zostaje odłożona na bok i ponawiana
 automatycznie po wskazanym czasie, albo wcześniej, jeśli postęp pojawi się ponownie.
 Kampania, której nie ma na tej liście, została pominięta: przez „Co kopać, w jakiej
-kolejności”, przez ustawienie „Które kampanie”, przez regułę na karcie **Wykluczenia**
-albo dlatego, że nie da się jej ukończyć na czas. Nagroda wymagająca subskrypcji czeka,
-aż sam ją wykupisz, odznaka do oglądania codziennie czeka na kolejny dzień, przed startem
+kolejności”, przez ustawienie „Które kampanie”, przez regułę na karcie **Wykluczenia**,
+dlatego, że nie da się jej ukończyć na czas, albo dlatego, że wszystkie pozostałe nagrody wymagają subskrypcji. Nagroda wymagająca subskrypcji czeka,
+aż w trakcie kampanii wykupisz lub podarujesz subskrypcję na kanale z tej kategorii (trwająca już subskrypcja, subskrypcja Prime ani odnowienie się nie liczą), odznaka do oglądania codziennie czeka na kolejny dzień, przed startem
 kampanii nic nie jest kopane, a drop, który następuje po innym, czeka, aż pierwszy
 zostanie ukończony. W trybie **Tylko punkty** miner nie wybiera żadnej kampanii.
 „Kop najpierw” w szczegółach kampanii przenosi ją na górę; ignorowana kampania może

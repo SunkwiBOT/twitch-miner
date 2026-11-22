@@ -188,8 +188,8 @@
   contul le are deja. O insignă de urmărit în fiecare zi este minată din nou în fiecare
   zi, până la ultima („20 min. pe zi, 3 zile”), iar un canal din oricare dintre
   categoriile campaniei contează. Un cufăr dă „1 insignă la întâmplare din N”. O insignă
-  care cere un abonament este minată după ce te-ai abonat tu însuți și Twitch îl
-  numără. Nimic nu este minat înainte de începutul campaniei. În „Ce să se mineze, în
+  care cere un abonament este minată după ce te-ai abonat sau ai oferit un abonament cadou în timpul campaniei, pe un canal din categorie, și Twitch îl
+  numără. Un abonament deja activ, un abonament Prime sau o reînnoire nu contează. Nimic nu este minat înainte de începutul campaniei. În „Ce să se mineze, în
   ordine”, trage categoriile prioritare, insignele și celelalte campanii Drops în ordinea
   dorită sau dezactivează una dintre ele. O misiune Twitch este minată doar pe un canal
   unde Twitch o oferă în panoul său Drops. O evoluție (Pichu → Pikachu) este minată imediat
@@ -556,8 +556,8 @@ spune de ce: „Niciun canal live” sau „În așteptare (o campanie pe rând)
 progres din partea Twitch: campania este pusă deoparte și reîncercată automat după timpul
 afișat, sau mai devreme, dacă progresul reapare înainte. O campanie care
 nu apare în acea listă a fost lăsată deoparte: de „Ce să se mineze, în ordine”, de
-setarea „Ce campanii”, de o regulă din fila **Excluderi** sau pentru că nu se poate
-termina la timp. O recompensă care cere un abonament așteaptă să te abonezi tu însuți, o
+setarea „Ce campanii”, de o regulă din fila **Excluderi**, pentru că nu se poate
+termina la timp sau pentru că toate recompensele rămase cer un abonament. O recompensă care cere un abonament așteaptă să te abonezi sau să oferi un abonament cadou în timpul campaniei, pe un canal din categorie (un abonament deja activ, un abonament Prime sau o reînnoire nu contează), o
 insignă de urmărit în fiecare zi așteaptă ziua următoare, nimic nu este minat înainte de
 începutul campaniei, iar un drop care urmează după altul așteaptă ca primul să se
 termine. În modul **Doar puncte**, minerul nu alege nicio campanie. „Minează cu

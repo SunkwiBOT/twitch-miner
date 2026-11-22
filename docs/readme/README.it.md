@@ -189,7 +189,7 @@
   badge da guardare ogni giorno viene minato di nuovo ogni giorno fino all'ultimo («20 min
   al giorno, 3 giorni»), e conta un canale di una qualsiasi delle categorie della campagna.
   Un forziere dà «1 badge a caso su N». Un badge che richiede un abbonamento viene minato
-  una volta che ti sei abbonato tu e Twitch lo conta. Niente viene minato prima dell'inizio
+  una volta che ti sei abbonato o hai regalato un abbonamento durante la campagna, su un canale della categoria, e Twitch lo conta. Un abbonamento già attivo, un abbonamento Prime o un rinnovo non contano. Niente viene minato prima dell'inizio
   della sua campagna. In «Cosa minare, in ordine», trascina le categorie prioritarie, i badge e
   le altre campagne Drops nell'ordine che vuoi, oppure disattivane uno. Una missione
   Twitch viene minata solo su un canale in cui Twitch la offre nel suo pannello Drops.
@@ -565,8 +565,8 @@ ritentata automaticamente nel tempo indicato, o prima se nel frattempo riappare 
 progresso. Una
 campagna che non compare in quell'elenco è stata scartata: da «Cosa minare, in ordine»,
 dall'impostazione «Quali campagne», da una regola della scheda **Esclusioni**, oppure
-perché non può finire in tempo. Una ricompensa che richiede un abbonamento aspetta che tu
-ti sia abbonato, un badge da guardare ogni giorno aspetta il giorno dopo, niente viene
+perché non può finire in tempo o perché tutte le ricompense che le restano richiedono un abbonamento. Una ricompensa che richiede un abbonamento aspetta che tu
+ti abboni o regali un abbonamento durante la campagna, su un canale della categoria (un abbonamento già attivo, un abbonamento Prime o un rinnovo non contano), un badge da guardare ogni giorno aspetta il giorno dopo, niente viene
 minato prima dell'inizio della sua campagna, e un drop che ne segue un altro aspetta che
 il primo sia completato. In modalità **Solo punti**, il miner non sceglie alcuna
 campagna. «Mina per prima», nei dettagli di una campagna, la porta in cima; una campagna

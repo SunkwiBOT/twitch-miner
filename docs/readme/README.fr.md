@@ -190,7 +190,7 @@
   badge à regarder chaque jour est miné de nouveau chaque jour jusqu'au dernier (« 20 min
   par jour, 3 jours »), et une chaîne de n'importe laquelle des catégories de la campagne
   compte. Un coffre donne « 1 badge au hasard parmi N ». Un badge qui demande un abonnement
-  est miné une fois que vous vous êtes abonné vous-même et que Twitch le compte. Rien n'est
+  est miné une fois que vous vous êtes abonné ou avez offert un abonnement pendant la campagne, sur une chaîne de la catégorie, et que Twitch le compte. Un abonnement déjà en cours, un abonnement Prime ou un renouvellement ne comptent pas. Rien n'est
   miné avant le début de sa campagne. Dans « Quoi miner, dans l'ordre », glissez les catégories
   prioritaires, les badges et les autres campagnes Drops dans l'ordre voulu, ou
   désactivez-en un. Une quête Twitch n'est minée que sur une chaîne où Twitch la propose
@@ -570,8 +570,8 @@ apporté aucune progression côté Twitch : la campagne est mise de côté et r
 automatiquement, ou plus tôt si une progression réapparaît avant. Une campagne qui
 n'apparaît pas dans cette liste a été écartée :
 par « Quoi miner, dans l'ordre », par le réglage « Quelles campagnes », par une règle de
-l'onglet **Exclusions**, ou parce qu'elle ne peut pas finir à temps. Une récompense qui
-demande un abonnement attend que vous vous soyez abonné vous-même, un badge à regarder
+l'onglet **Exclusions**, parce qu'elle ne peut pas finir à temps, ou parce que toutes les récompenses qui lui restent demandent un abonnement. Une récompense qui
+demande un abonnement attend que vous vous abonniez ou offriez un abonnement pendant la campagne, sur une chaîne de la catégorie (un abonnement déjà en cours, un abonnement Prime ou un renouvellement ne comptent pas), un badge à regarder
 chaque jour attend le jour suivant, rien n'est miné avant le début de sa campagne, et un
 drop qui en suit un autre attend que le premier soit fini. En mode **Points uniquement**,
 le mineur ne choisit aucune campagne. « Miner en priorité », dans la fiche d'une campagne,

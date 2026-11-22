@@ -185,8 +185,8 @@
   z kampaní Drops a questů Twitche a vynechá ty, které účet už má. Odznak, který je třeba
   sledovat každý den, se těží znovu každý den až do posledního („20 min denně, počet dní:
   3“), a počítá se kanál z kterékoli kategorie kampaně. Truhla dává „1 náhodný odznak
-  z N“. Odznak, který vyžaduje předplatné, se těží, jakmile si ho sami předplatíte a Twitch
-  ho započítá. Před začátkem kampaně se nic netěží. V „Co těžit a v jakém pořadí“
+  z N“. Odznak, který vyžaduje předplatné, se těží, jakmile si během kampaně předplatíte nebo darujete předplatné na kanálu z dané kategorie a Twitch
+  ho započítá. Už běžící předplatné, předplatné Prime ani prodloužení se nepočítají. Před začátkem kampaně se nic netěží. V „Co těžit a v jakém pořadí“
   přetáhněte prioritní kategorie, odznaky a ostatní kampaně Drops do požadovaného pořadí, nebo
   některou z nich vypněte. Quest Twitche se těží jen na kanálu, kde ho Twitch nabízí ve
   svém panelu Drops. Vývoj (Pichu → Pikachu) se těží, jakmile účet vlastní odznak, ze
@@ -546,8 +546,8 @@ důvod: „Žádný kanál nevysílá“ nebo „Čeká (jedna kampaň najednou)
 žádný postup na straně Twitche: kampaň je odložena stranou a automaticky zkoušena
 znovu po uvedené době, nebo dříve, pokud se postup objeví znovu dřív. Kampaň, která se
 v tomto seznamu neobjevuje, byla vynechána: přes „Co těžit a v jakém pořadí“, nastavením
-„Které kampaně“, pravidlem na kartě **Vyloučení**, nebo proto, že ji nejde dokončit včas.
-Odměna, která vyžaduje předplatné, čeká, dokud si ho sami nepředplatíte, odznak, který je
+„Které kampaně“, pravidlem na kartě **Vyloučení**, proto, že ji nejde dokončit včas, nebo proto, že všechny zbývající odměny vyžadují předplatné.
+Odměna, která vyžaduje předplatné, čeká, dokud si během kampaně nepředplatíte nebo nedarujete předplatné na kanálu z dané kategorie (už běžící předplatné, předplatné Prime ani prodloužení se nepočítají), odznak, který je
 třeba sledovat každý den, čeká na další den, před začátkem kampaně se nic netěží, a drop,
 který navazuje na jiný, čeká, dokud není ten první hotový. V režimu **Jen body** miner
 nevybírá žádnou kampaň. „Těžit přednostně“ v podrobnostech kampaně ji přesune na začátek;

@@ -191,7 +191,7 @@
   las que la cuenta ya tiene. Una insignia que hay que mirar cada día se vuelve a minar
   cada día hasta el último (“20 min al día, 3 días”), y cuenta un canal de cualquiera de las
   categorías de la campaña. Un cofre da “1 insignia al azar entre N”. Una insignia que
-  requiere una suscripción se mina cuando ya te suscribiste tú mismo y Twitch la cuenta. No
+  requiere una suscripción se mina cuando te suscribiste o regalaste una suscripción durante la campaña, en un canal de la categoría, y Twitch la cuenta. Una suscripción ya en curso, una suscripción con Prime o una renovación no cuentan. No
   se mina nada antes de que empiece su campaña. En "Qué minar, en orden", arrastra las
   categorías prioritarias, las insignias y las otras campañas de Drops al orden que quieras, o
   desactiva alguno. Una misión de Twitch solo se mina en un canal donde Twitch la ofrece en
@@ -570,8 +570,8 @@ por qué: “Ningún canal en vivo” o “En espera (una campaña a la vez)”.
 progreso del lado de Twitch: la campaña se deja de lado y se reintenta automáticamente en el
 tiempo indicado, o antes si reaparece progreso. Una campaña que no aparece en esa lista
 quedó descartada: por “Qué minar, en orden”, por la opción “Qué campañas”, por una regla de
-la pestaña **Exclusiones** o porque no alcanza a terminar a tiempo. Una recompensa que
-requiere una suscripción espera a que te suscribas tú mismo, una insignia que hay que mirar
+la pestaña **Exclusiones**, porque no alcanza a terminar a tiempo o porque todas las recompensas que le quedan requieren una suscripción. Una recompensa que
+requiere una suscripción espera a que te suscribas o regales una suscripción durante la campaña, en un canal de la categoría (una suscripción ya en curso, una suscripción con Prime o una renovación no cuentan), una insignia que hay que mirar
 cada día espera al día siguiente, no se mina nada antes de que empiece su campaña, y un drop
 que va después de otro espera a que el primero termine. En el modo **Solo puntos**, el
 minero no elige ninguna campaña. “Minar primero”, en la ficha de una campaña, la pone al

@@ -188,7 +188,7 @@
   Um emblema a ver todos os dias é minerado de novo a cada dia até ao último («20 min por
   dia, 3 dias»), e conta um canal de qualquer uma das categorias da campanha. Um baú dá
   «1 emblema aleatório entre N». Um emblema que exige uma subscrição é minerado depois de
-  se ter subscrito e de a Twitch a contar. Nada é minerado antes do início da sua campanha.
+  se ter subscrito ou oferecido uma subscrição durante a campanha, num canal da categoria, e de a Twitch a contar. Uma subscrição já em curso, uma subscrição Prime ou uma renovação não contam. Nada é minerado antes do início da sua campanha.
   Em «O que minerar, por ordem», arraste as categorias prioritárias, os emblemas e as outras
   campanhas Drops para a ordem pretendida ou desative um deles. Uma missão da Twitch só é
   minerada num canal em que a Twitch a oferece no seu painel de Drops. Uma evolução (Pichu
@@ -564,9 +564,9 @@ trouxeram qualquer progresso do lado da Twitch: a campanha é posta de parte e t
 novo automaticamente no tempo indicado, ou antes, se o progresso reaparecer primeiro. Uma
 campanha
 que não aparece nessa lista foi posta de parte: por «O que minerar, por ordem», pela
-definição «Que campanhas», por uma regra do separador **Exclusões**, ou porque não
-consegue terminar a tempo. Uma recompensa que exige uma subscrição espera que se
-subscreva, um emblema a ver todos os dias espera pelo dia seguinte, nada é minerado antes
+definição «Que campanhas», por uma regra do separador **Exclusões**, porque não
+consegue terminar a tempo, ou porque todas as recompensas que lhe restam exigem uma subscrição. Uma recompensa que exige uma subscrição espera que se
+subscreva ou ofereça uma subscrição durante a campanha, num canal da categoria (uma subscrição já em curso, uma subscrição Prime ou uma renovação não contam), um emblema a ver todos os dias espera pelo dia seguinte, nada é minerado antes
 do início da sua campanha, e um drop que vem depois de outro espera que o primeiro
 termine. No modo **Só pontos**, o minerador não escolhe nenhuma campanha. «Minerar
 primeiro», na ficha de uma campanha, coloca-a no topo; uma campanha ignorada pode voltar

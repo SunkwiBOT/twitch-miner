@@ -191,8 +191,8 @@
   het account al heeft. Een badge die je elke dag moet kijken, wordt elke dag opnieuw
   gemined tot de laatste (“20 min per dag, 3 dagen”), en een kanaal in een van de
   categorieën van de campagne telt mee. Een kist geeft “1 willekeurige badge uit N”. Een
-  badge waarvoor een abonnement nodig is, wordt gemined zodra je zelf een abonnement hebt
-  genomen en Twitch het telt. Vóór de start van de campagne wordt niets gemined. Sleep in
+  badge waarvoor een abonnement nodig is, wordt gemined zodra je tijdens de campagne een abonnement hebt
+  genomen of cadeau hebt gedaan op een kanaal in de categorie en Twitch het telt. Een lopend abonnement, een Prime-abonnement of een verlenging telt niet. Vóór de start van de campagne wordt niets gemined. Sleep in
   “Wat te minen, op volgorde” prioriteitscategorieën, badges en andere Drops-campagnes in de
   volgorde die je wilt, of zet er een uit. Een Twitch-quest wordt alleen gemined op een
   kanaal waar Twitch hem in zijn Drops-paneel aanbiedt. Een evolutie (Pichu → Pikachu)
@@ -562,9 +562,9 @@ campagne waarom: “Geen kanaal live” of “Wacht (één campagne tegelijk)”
 de kant van Twitch: de campagne wordt opzijgezet en automatisch opnieuw geprobeerd
 binnen de getoonde tijd, of eerder als er intussen voortgang terugkomt. Een campagne die
 niet in die lijst staat, is buiten beschouwing gelaten: door “Wat te minen, op volgorde”,
-door de instelling “Welke campagnes”, door een regel op het tabblad **Uitsluitingen**, of
-omdat ze niet op tijd af kan. Een beloning waarvoor een abonnement nodig is, wacht tot je
-zelf een abonnement hebt genomen, een badge die je elke dag moet kijken, wacht op de
+door de instelling “Welke campagnes”, door een regel op het tabblad **Uitsluitingen**,
+omdat ze niet op tijd af kan, of omdat alle beloningen die ze nog heeft een abonnement vereisen. Een beloning waarvoor een abonnement nodig is, wacht tot je
+tijdens de campagne een abonnement neemt of cadeau doet op een kanaal in de categorie (een lopend abonnement, een Prime-abonnement of een verlenging telt niet), een badge die je elke dag moet kijken, wacht op de
 volgende dag, vóór de start van de campagne wordt niets gemined, en een drop die op een
 andere volgt, wacht tot de eerste klaar is. In de modus **Alleen punten** kiest de miner
 geen campagne. “Eerst minen”, in de details van een campagne, zet haar bovenaan; een

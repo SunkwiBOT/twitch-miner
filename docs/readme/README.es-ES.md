@@ -188,7 +188,7 @@
   salta las que la cuenta ya tiene. Una insignia que hay que ver cada día se vuelve a minar
   cada día hasta el último («20 min al día, 3 días»), y cuenta un canal de cualquiera de las
   categorías de la campaña. Un cofre da «1 insignia al azar entre N». Una insignia que
-  requiere una suscripción se mina cuando te has suscrito tú mismo y Twitch la cuenta. No se
+  requiere una suscripción se mina cuando te has suscrito o has regalado una suscripción durante la campaña, en un canal de la categoría, y Twitch la cuenta. Una suscripción ya en curso, una suscripción con Prime o una renovación no cuentan. No se
   mina nada antes de que empiece su campaña. En «Qué minar, en orden», arrastra las categorías
   prioritarias, las insignias y las demás campañas de Drops al orden que quieras, o
   desactiva alguno. Una misión de Twitch solo se mina en un canal donde Twitch la ofrece en
@@ -564,8 +564,8 @@ por qué: «Ningún canal en directo» o «En espera (una campaña a la vez)». 
 progreso por parte de Twitch: la campaña se deja de lado y se reintenta automáticamente en
 el tiempo indicado, o antes si la progresión reaparece primero. Una campaña que no aparece
 en esa lista se ha descartado: por «Qué minar, en orden», por el ajuste «Qué campañas», por
-una regla de la pestaña **Exclusiones** o porque no puede terminar a tiempo. Una recompensa
-que requiere una suscripción espera a que te suscribas tú mismo, una insignia que hay que
+una regla de la pestaña **Exclusiones**, porque no puede terminar a tiempo o porque todas las recompensas que le quedan requieren una suscripción. Una recompensa
+que requiere una suscripción espera a que te suscribas o regales una suscripción durante la campaña, en un canal de la categoría (una suscripción ya en curso, una suscripción con Prime o una renovación no cuentan), una insignia que hay que
 ver cada día espera al día siguiente, no se mina nada antes de que empiece su campaña, y un
 drop que va después de otro espera a que el primero termine. En el modo **Solo puntos**, el
 minero no elige ninguna campaña. «Minar primero», en la ficha de una campaña, la pone en

@@ -187,8 +187,8 @@
   Drops-kampanjer och Twitch-quests, och hoppar över dem som kontot redan har. Ett märke
   som ska tittas på varje dag minas igen varje dag fram till den sista (”20 min per dag, 3
   dagar”), och en kanal i någon av kampanjens kategorier räknas. En kista ger ”1
-  slumpmässigt märke av N”. Ett märke som kräver en prenumeration minas när du själv har
-  prenumererat och Twitch räknar den. Inget minas innan kampanjen har börjat. I ”Vad som
+  slumpmässigt märke av N”. Ett märke som kräver en prenumeration minas när du har
+  prenumererat eller gett bort en prenumeration under kampanjen, på en kanal i kategorin, och Twitch räknar den. En prenumeration som redan pågår, en Prime-prenumeration eller en förnyelse räknas inte. Inget minas innan kampanjen har börjat. I ”Vad som
   ska minas, i ordning” drar du prioriterade kategorier, märken och andra Drops-kampanjer i den
   ordning du vill, eller stänger av en av dem. En Twitch-quest minas bara på en kanal där
   Twitch erbjuder den i sin Drops-panel. En utveckling (Pichu → Pikachu) minas så snart
@@ -558,8 +558,8 @@ kampanjen och den andra för dina streamers. Inställningen ”En kanal”, i
 sida: kampanjen läggs åt sidan och försöks igen automatiskt inom den visade tiden, eller
 tidigare om framsteg dyker upp innan dess. En kampanj som inte syns i listan har sorterats
 bort: av ”Vad som ska minas, i ordning”, av inställningen ”Vilka kampanjer”, av en regel
-på fliken **Undantag**, eller för att den inte hinner bli klar i
-tid. En belöning som kräver en prenumeration väntar tills du själv har prenumererat, ett
+på fliken **Undantag**, för att den inte hinner bli klar i
+tid, eller för att alla dess återstående belöningar kräver en prenumeration. En belöning som kräver en prenumeration väntar tills du prenumererar eller ger bort en prenumeration under kampanjen, på en kanal i kategorin (en prenumeration som redan pågår, en Prime-prenumeration eller en förnyelse räknas inte), ett
 märke som ska tittas på varje dag väntar på nästa dag, inget minas innan kampanjen har
 börjat, och en drop som följer efter en annan väntar tills den första är klar. I läget
 **Endast poäng** väljer minern ingen kampanj. ”Mina först”, i en kampanjs detaljer,

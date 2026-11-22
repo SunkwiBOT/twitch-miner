@@ -186,8 +186,8 @@
   campaigns and Twitch quests, and skips those the account already owns. A badge watched
   every day is mined again each day until the last one (“20 min per day, 3 days”), and a
   channel in any of the campaign's categories counts. A chest gives “1 random badge out of
-  N”. A badge that needs a subscription is mined once you have subscribed yourself and
-  Twitch counts it. Nothing is mined before its campaign starts. In “What to mine, in
+  N”. A badge that needs a subscription is mined once you have subscribed or gifted a subscription during the campaign, on a channel in the category, and
+  Twitch counts it; a subscription already running, a Prime subscription or a renewal does not count. Nothing is mined before its campaign starts. In “What to mine, in
   order”, drag priority categories, badges and other Drops campaigns into the order you want,
   or switch one off. A Twitch quest is mined only on a channel where Twitch offers it in
   its Drops panel. An evolution (Pichu → Pikachu) is mined once the account owns the badge
@@ -558,8 +558,8 @@ campaign is set aside and tried again automatically in the time shown, or sooner
 progress reappears first. A campaign that does not appear in that list was left out —
 open the **Campaigns** tab's **Blocked** group to see why: by
 “What to mine, in order”, by the “Which campaigns”
-setting, by a rule in the **Exclusions** tab, or because it cannot finish in time. A
-reward that needs a subscription waits until you have subscribed yourself, a badge watched
+setting, by a rule in the **Exclusions** tab, because it cannot finish in time, or because all the rewards it has left need a subscription. A
+reward that needs a subscription waits until you subscribe or gift a subscription during the campaign, on a channel in the category (a subscription already running, a Prime subscription or a renewal does not count), a badge watched
 every day waits for its next day, nothing is mined before its campaign starts, and a drop
 that follows another one waits until the first is done. In **Points only** mode, the miner
 picks no campaign. “Mine first”, in a campaign's details, puts it at the top; an ignored

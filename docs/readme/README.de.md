@@ -192,7 +192,7 @@
   werden muss, wird jeden Tag erneut gemint, bis zum letzten („20 Min. pro Tag, 3 Tage“),
   und ein Kanal in einer beliebigen Kategorie der Kampagne zählt. Eine Truhe gibt
   „1 zufälliges Abzeichen aus N“. Ein Abzeichen, das ein Abo braucht, wird gemint, sobald
-  Sie selbst abonniert haben und Twitch es zählt. Vor dem Start seiner Kampagne wird nichts
+  Sie während der Kampagne auf einem Kanal der Kategorie ein Abo abgeschlossen oder verschenkt haben und Twitch es zählt. Ein laufendes Abo, ein Prime-Abo oder eine Verlängerung zählt nicht. Vor dem Start seiner Kampagne wird nichts
   gemint. Ziehen Sie in „Was gemint wird, der Reihe nach“ Prioritätskategorien, Abzeichen und
   andere Drops-Kampagnen in die gewünschte Reihenfolge, oder schalten Sie eine davon aus.
   Eine Twitch-Quest wird nur auf einem Kanal gemint, auf dem Twitch sie in seinem
@@ -583,8 +583,8 @@ zurückgestellt und automatisch nach der angezeigten Zeit erneut versucht, oder 
 falls zuerst wieder Fortschritt auftaucht. Eine
 Kampagne, die nicht in dieser Liste erscheint, wurde aussortiert: durch „Was gemint wird,
 der Reihe nach“, durch die Einstellung „Welche Kampagnen“, durch eine Regel im Tab
-**Ausschlüsse** oder weil sie nicht rechtzeitig fertig werden kann. Eine Belohnung, die ein
-Abo voraussetzt, wartet, bis Sie selbst abonniert haben, ein Abzeichen, das jeden Tag
+**Ausschlüsse**, weil sie nicht rechtzeitig fertig werden kann oder weil alle ihre restlichen Belohnungen ein Abo brauchen. Eine Belohnung, die ein
+Abo voraussetzt, wartet, bis Sie während der Kampagne auf einem Kanal der Kategorie ein Abo abschließen oder verschenken (ein laufendes Abo, ein Prime-Abo oder eine Verlängerung zählt nicht), ein Abzeichen, das jeden Tag
 geschaut werden muss, wartet auf den nächsten Tag, vor dem Start seiner Kampagne wird
 nichts gemint, und ein Drop, der auf einen anderen folgt, wartet, bis der erste fertig
 ist. Im Modus **Nur Punkte** wählt der Miner keine Kampagne. „Vorrangig minen“ in den

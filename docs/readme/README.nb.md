@@ -188,7 +188,7 @@
   Twitch-quests, og hopper over dem kontoen allerede har. Et merke som skal ses hver dag,
   mines på nytt hver dag til den siste («20 min per dag, 3 dager»), og en kanal i hvilken
   som helst av kampanjens kategorier teller. En kiste gir «1 tilfeldig merke av N». Et
-  merke som krever abonnement, mines når du selv har abonnert og Twitch teller det. Ingenting
+  merke som krever abonnement, mines når du har abonnert eller gitt bort et abonnement under kampanjen, på en kanal i kategorien, og Twitch teller det. Et pågående abonnement, et Prime-abonnement eller en fornyelse teller ikke. Ingenting
   mines før kampanjen starter. I «Hva som skal mines, i rekkefølge» drar du prioriterte
   kategorier, merker og andre Drops-kampanjer i den rekkefølgen du vil, eller slår av en av dem.
   En Twitch-quest mines bare på en kanal der Twitch tilbyr den i Drops-panelet sitt. En
@@ -563,9 +563,9 @@ kampanje hvorfor: «Ingen kanal direkte» eller «Venter (én kampanje om gangen
 noen fremgang på Twitchs side: kampanjen settes til side og prøves automatisk på nytt
 innen tiden som vises, eller tidligere hvis fremgang dukker opp igjen først. En
 kampanje som ikke vises i listen, er sortert bort: av «Hva som skal mines, i rekkefølge»,
-av innstillingen «Hvilke kampanjer», av en regel i fanen **Unntak**, eller fordi den ikke
-rekker å bli ferdig i tide. En belønning som krever abonnement, venter til du selv har
-abonnert, et merke som skal ses hver dag, venter på neste dag, ingenting mines før
+av innstillingen «Hvilke kampanjer», av en regel i fanen **Unntak**, fordi den ikke
+rekker å bli ferdig i tide, eller fordi alle de gjenstående belønningene krever abonnement. En belønning som krever abonnement, venter til du
+abonnerer eller gir bort et abonnement under kampanjen, på en kanal i kategorien (et pågående abonnement, et Prime-abonnement eller en fornyelse teller ikke), et merke som skal ses hver dag, venter på neste dag, ingenting mines før
 kampanjen starter, og en drop som følger etter en annen, venter til den første er ferdig.
 I modusen **Bare poeng** velger mineren ingen kampanje. «Sett først i
 mining-rekkefølgen», i detaljene til en kampanje, setter den øverst; en ignorert kampanje
