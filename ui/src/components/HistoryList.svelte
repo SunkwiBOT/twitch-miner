@@ -16,6 +16,7 @@
   import type { EventKind } from "../lib/bindings/EventKind";
   import type { HistoryQueryType } from "../lib/bindings/HistoryQueryType";
   import type { MinerEventType } from "../lib/bindings/MinerEventType";
+  import { gameArt, gameUrl } from "../lib/catalogue/games.utils";
   import { ensureChannels } from "../lib/channels/channels.svelte";
   import { describeError } from "../lib/errors/errors.utils";
   import { EVENT_ICONS, JOURNAL_ALL, JOURNAL_FILTER_SLUGS } from "../lib/events/events.constants";
@@ -42,6 +43,8 @@
   import HistoryEvent from "./HistoryEvent.svelte";
   import ActionButton from "./ui/ActionButton.svelte";
   import Dialog from "./ui/Dialog.svelte";
+  import GameName from "./ui/GameName.svelte";
+  import { ThumbSize } from "./ui/picture.constants";
   import LoadMoreSentinel from "./ui/LoadMoreSentinel.svelte";
   import MultiSelect from "./ui/MultiSelect.svelte";
   import Segmented from "./ui/Segmented.svelte";
@@ -329,9 +332,16 @@
     <ul class="flex flex-col divide-y text-sm">
       {#each counts as entry (entry.category)}
         <li class="flex items-center justify-between gap-3 py-2">
-          <span class="min-w-0 truncate">
-            {entry.category.trim() === "" ? t.journal_filter_other() : entry.category}
-          </span>
+          {#if entry.category.trim() === ""}
+            <span class="min-w-0 text-muted-foreground">{t.journal_filter_other()}</span>
+          {:else}
+            <GameName
+              name={entry.category}
+              url={gameUrl(entry.category, undefined)}
+              art={gameArt(entry.category, undefined)}
+              size={ThumbSize.XS}
+            />
+          {/if}
           <span class="shrink-0 font-medium tabular-nums text-muted-foreground">
             {(entry.count === 1 ? t.export_counts_count_one : t.export_counts_count)({
               claimCount: entry.count,

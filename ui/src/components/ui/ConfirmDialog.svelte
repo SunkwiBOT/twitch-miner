@@ -3,7 +3,7 @@
 
   import TextButton from "./TextButton.svelte";
   import { t } from "../../lib/i18n/i18n.svelte";
-  import type { TextPersonType } from "../../lib/text.utils";
+  import type { TextCategoryType, TextPersonType } from "../../lib/text.utils";
   import ActionButton from "./ActionButton.svelte";
   import Dialog from "./Dialog.svelte";
   import RichText from "./RichText.svelte";
@@ -15,6 +15,7 @@
     title: string;
     text: string;
     people?: TextPersonType[];
+    categories?: TextCategoryType[];
     confirmLabel: string;
     busyLabel: string;
     busy: boolean;
@@ -29,6 +30,7 @@
     title,
     text,
     people,
+    categories,
     confirmLabel,
     busyLabel,
     busy,
@@ -49,7 +51,7 @@
   onclose={oncancel}
   {lead}
 >
-  <p class="text-hint text-muted-foreground"><RichText {text} {people} /></p>
+  <p class="text-hint text-muted-foreground"><RichText {text} {people} {categories} /></p>
   {#if extra}{@render extra()}{/if}
   {#snippet footer()}
     <TextButton

@@ -19,6 +19,9 @@
   import LinkBadge from "./LinkBadge.svelte";
   import { linkFacet } from "../../lib/accounts/campaign-groups.utils";
   import TimeLeftTag from "./TimeLeftTag.svelte";
+  import GameName from "../ui/GameName.svelte";
+  import { ThumbSize } from "../ui/picture.constants";
+  import { gameArt } from "../../lib/catalogue/games.utils";
 
   type CampaignCardPropsType = {
     campaign: CampaignType;
@@ -68,7 +71,14 @@
   >
     {campaign.name}
   </span>
-  <span class="-mt-1 truncate text-xs text-muted-foreground">{campaign.game.name}</span>
+  <span class="-mt-1 flex min-w-0 text-xs text-muted-foreground">
+    <GameName
+      name={campaign.game.name}
+      url={null}
+      art={gameArt(campaign.game.name, campaign.game.box_art_url)}
+      size={ThumbSize.XS}
+    />
+  </span>
   <span class="flex flex-wrap gap-1">
     <Badge
       text={t.catalogue_rewards({

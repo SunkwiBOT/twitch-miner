@@ -5,7 +5,7 @@
   import { t } from "../../../lib/i18n/i18n.svelte";
   import { AccountField } from "../../../lib/state/state.constants";
   import { editsOf } from "../../../lib/state/edits.svelte";
-  import { escapeEmphasis } from "../../../lib/text.utils";
+  import { categoryLine, lineCategories } from "../../../lib/catalogue/games.utils";
   import ActionButton from "../../ui/ActionButton.svelte";
   import EmptyState from "../../ui/EmptyState.svelte";
   import List from "../../ui/List.svelte";
@@ -76,7 +76,8 @@
         {@const instanceId = item.drop.instance_id ?? ""}
         <ListRow
           title={item.drop.name}
-          subtitle={`${escapeEmphasis(item.campaign.game.name)} · ${escapeEmphasis(item.campaign.name)}`}
+          subtitle={categoryLine(item.campaign.game, [item.campaign.name])}
+          categories={lineCategories(item.campaign.game)}
           onopen={() => onopen(item.campaign)}
           muted={false}
         >

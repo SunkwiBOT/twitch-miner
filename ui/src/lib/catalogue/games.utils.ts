@@ -1,6 +1,7 @@
 import type { GameEntryType } from "../bindings/GameEntryType";
 import type { GameType } from "../bindings/GameType";
 import type { TagSuggestionType } from "../search/tag-suggestions.utils";
+import { categoryMarker, escapeEmphasis, type TextCategoryType } from "../text.utils";
 import { app } from "../state/app.svelte";
 import { categoryUrl } from "./campaign.utils";
 import { catalogue } from "./catalogue.svelte";
@@ -60,6 +61,20 @@ export const gameArt = (name: string, art: string | undefined): string | undefin
 
 export const gameUrl = (name: string, slug: string | undefined): string =>
   categoryUrl(name, slug ?? catalogueGame(name)?.slug);
+
+export const textCategory = (game: GameEntryType & { slug?: string }): TextCategoryType => ({
+  name: game.name,
+  art: gameArt(game.name, game.box_art_url),
+  url: gameUrl(game.name, game.slug),
+});
+
+// ! A detail line led by its category, which `textCategory(game)` fills as the line's only category.
+export const categoryLine = (game: GameEntryType | null, rest: string[]): string =>
+  [...(game ? [categoryMarker(0)] : []), ...rest.filter(Boolean).map(escapeEmphasis)].join(" · ");
+
+export const lineCategories = (
+  game: (GameEntryType & { slug?: string }) | null,
+): TextCategoryType[] => (game ? [textCategory(game)] : []);
 
 export const runningGames = (now: number): RunningGameType[] => {
   const byName = new Map<string, RunningGameType>();

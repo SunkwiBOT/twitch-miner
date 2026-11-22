@@ -7,7 +7,6 @@ import { percent } from "../format.utils";
 export type IgnoredType = {
   id: string;
   name: string;
-  detail: string;
   drop: boolean;
   campaign: CampaignType | null;
 };
@@ -26,7 +25,7 @@ export const queueProgress = (account: AccountSnapshotType, id: string): number 
 export const ignoredCampaign = (account: AccountSnapshotType, id: string): IgnoredType => {
   const c = campaignOf(account, id);
 
-  return { id, name: c?.name ?? id, detail: c?.game.name ?? "", drop: false, campaign: c ?? null };
+  return { id, name: c?.name ?? id, drop: false, campaign: c ?? null };
 };
 
 // ! Nothing purges the ids of campaigns gone from Twitch: they are left out rather than shown as raw ids.
@@ -42,7 +41,6 @@ export const ignoredItems = (account: AccountSnapshotType): IgnoredType[] => [
           {
             id,
             name: c.drops.find((d) => d.id === id)?.name ?? id,
-            detail: `${c.game.name} · ${c.name}`,
             drop: true,
             campaign: c,
           },

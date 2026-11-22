@@ -6,12 +6,14 @@
   import LinkText from "./LinkText.svelte";
   import { LinkMark, LinkSize } from "./link.constants";
   import RichText from "./RichText.svelte";
+  import type { TextCategoryType } from "../../lib/text.utils";
   import { RAISED_CLASSES, STRETCHED_BUTTON_CLASSES } from "./ui.constants";
 
   type ListRowPropsType = {
     title: string;
     subtitle?: string;
     details?: string[];
+    categories?: TextCategoryType[];
     lead?: Snippet;
     badges?: Snippet;
     below?: Snippet;
@@ -20,8 +22,18 @@
     muted: boolean;
   };
 
-  let { title, subtitle, details, lead, badges, below, trailing, onopen, muted }: ListRowPropsType =
-    $props();
+  let {
+    title,
+    subtitle,
+    details,
+    categories = [],
+    lead,
+    badges,
+    below,
+    trailing,
+    onopen,
+    muted,
+  }: ListRowPropsType = $props();
 </script>
 
 <div
@@ -58,9 +70,9 @@
           </span>{/if}
       </span>
       {#if subtitle}<span class="truncate text-xs text-muted-foreground">
-          <RichText text={subtitle} />
+          <RichText text={subtitle} {categories} />
         </span>{/if}
-      {#if details}<DetailLine parts={details} />{/if}
+      {#if details}<DetailLine parts={details} {categories} />{/if}
       {#if below}<span class="mt-1 block">{@render below()}</span>{/if}
     </span>
   </span>

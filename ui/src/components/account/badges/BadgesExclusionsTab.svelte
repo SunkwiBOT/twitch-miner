@@ -8,9 +8,15 @@
   import type { AccountBadgesType } from "../../../lib/badges/badges.utils";
   import type { AccountSnapshotType } from "../../../lib/bindings/AccountSnapshotType";
   import type { CampaignType } from "../../../lib/bindings/CampaignType";
-  import { catalogueGameTags, gameEntryKey } from "../../../lib/catalogue/games.utils";
+  import {
+    catalogueGameTags,
+    categoryLine,
+    gameEntryKey,
+    lineCategories,
+    textCategory,
+  } from "../../../lib/catalogue/games.utils";
   import { t } from "../../../lib/i18n/i18n.svelte";
-  import { escapeEmphasis, strong } from "../../../lib/text.utils";
+  import { categoryMarker, strong } from "../../../lib/text.utils";
   import EmptyState from "../../ui/EmptyState.svelte";
   import FormField from "../../ui/FormField.svelte";
   import List from "../../ui/List.svelte";
@@ -49,7 +55,8 @@
         {#each sections.ignored as item (item.key)}
           <ListRow
             title={item.title}
-            details={[escapeEmphasis(item.source)]}
+            details={[categoryLine(item.game, [item.source])]}
+            categories={lineCategories(item.game)}
             onopen={item.campaign ? () => item.campaign && onopen(item.campaign) : undefined}
             muted={true}
           >
@@ -86,6 +93,7 @@
         items={account.settings.badges.exclude_games}
         key={gameEntryKey}
         label={(game) => game.name}
+        category={textCategory}
         make={(suggestion) => ({
           id: suggestion.id,
           name: suggestion.label,
@@ -96,7 +104,7 @@
         addLabel={t.common_add()}
         removeLabel={t.common_remove()}
         confirmTitle={t.confirm_remove_excluded_game_title()}
-        confirmText={(game) => t.confirm_remove_excluded_game_text({ category: strong(game.name) })}
+        confirmText={() => t.confirm_remove_excluded_game_text({ category: categoryMarker(0) })}
         onchange={(list) => editBadgesExcludedGames(account, list)}
         remote={true}
       />
@@ -111,6 +119,7 @@
         items={account.settings.badges.exclude_names}
         key={(word) => word}
         label={(word) => word}
+        category={null}
         make={(suggestion) => suggestion.label}
         suggestions={[]}
         placeholder={t.drops_exclude_names_placeholder()}

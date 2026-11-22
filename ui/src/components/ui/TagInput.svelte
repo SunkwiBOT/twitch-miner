@@ -29,12 +29,17 @@
   import { IconName } from "../../lib/icons.constants";
   import { KeyboardKey } from "./field.constants";
   import { coreLimits } from "../../lib/state/limits";
+  import type { TextCategoryType } from "../../lib/text.utils";
+  import GameName from "./GameName.svelte";
+  import NameList from "./NameList.svelte";
+  import { ThumbSize } from "./picture.constants";
 
   type TagInputPropsType = {
     id: string;
     items: T[];
     key: (item: T) => string;
     label: (item: T) => string;
+    category: ((item: T) => TextCategoryType) | null;
     make: (suggestion: TagSuggestionType) => T;
     placeholder: string;
     suggestions: TagSuggestionType[];
@@ -51,6 +56,7 @@
     items,
     key,
     label,
+    category,
     make,
     placeholder,
     suggestions,
@@ -127,22 +133,29 @@
 
 <div class="flex flex-col gap-2">
   {#if items.length}
-    <div class="flex flex-wrap gap-1.5">
+    <NameList class="gap-1.5">
       {#each items as item (key(item))}
-        <Badge
-          variant={BADGE_VARIANTS[BadgeVariant.CHIP]}
-          class="{BADGE_CHIP_CLASSES} h-6 gap-1 pr-0.5 text-hint font-medium"
-        >
-          {label(item)}
-          <ChipRemoveButton
-            label={removeLabel}
-            name={label(item)}
-            iconSize={12}
-            onclick={() => (removing = item)}
-          />
-        </Badge>
+        {@const shown = category?.(item)}
+        <li class="flex">
+          <Badge
+            variant={BADGE_VARIANTS[BadgeVariant.CHIP]}
+            class="{BADGE_CHIP_CLASSES} h-6 gap-1 pr-0.5 text-hint font-medium"
+          >
+            {#if shown}
+              <GameName name={shown.name} url={shown.url} art={shown.art} size={ThumbSize.XS} />
+            {:else}
+              {label(item)}
+            {/if}
+            <ChipRemoveButton
+              label={removeLabel}
+              name={label(item)}
+              iconSize={12}
+              onclick={() => (removing = item)}
+            />
+          </Badge>
+        </li>
       {/each}
-    </div>
+    </NameList>
   {/if}
   <div class="flex gap-2">
     {#if remote}
@@ -199,6 +212,7 @@
   open={removing !== null}
   title={confirmTitle}
   text={removing ? confirmText(removing) : ""}
+  categories={removing && category ? [category(removing)] : []}
   confirmLabel={t.confirm_remove()}
   busyLabel={t.confirm_removing()}
   busy={false}

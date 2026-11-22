@@ -20,7 +20,7 @@
   import { campaignEnd } from "../../../lib/catalogue/campaign.utils";
   import { t } from "../../../lib/i18n/i18n.svelte";
   import { ticker } from "../../../lib/state/ticker.svelte";
-  import { escapeEmphasis } from "../../../lib/text.utils";
+  import { categoryLine, lineCategories } from "../../../lib/catalogue/games.utils";
   import Badge from "../../ui/Badge.svelte";
   import DetailLine from "../../ui/DetailLine.svelte";
   import IconButton from "../../ui/IconButton.svelte";
@@ -114,7 +114,10 @@
             <BadgeStateBadges item={first} watch={row.current === 0} />
           </span>
         </span>
-        <DetailLine parts={[escapeEmphasis(first.source), campaignEnd(first.endsAt, ticker.now)]} />
+        <DetailLine
+          parts={[categoryLine(first.game, [first.source]), campaignEnd(first.endsAt, ticker.now)]}
+          categories={lineCategories(first.game)}
+        />
         {#if row.current > 0}
           <span class="mt-1 block">
             <ProgressLine current={row.current} required={row.required} stacked={false} />
@@ -161,7 +164,8 @@
       {#each sections.notMined as item (item.key)}
         <ListRow
           title={item.title}
-          details={[escapeEmphasis(item.source), campaignEnd(item.endsAt, ticker.now)]}
+          details={[categoryLine(item.game, [item.source]), campaignEnd(item.endsAt, ticker.now)]}
+          categories={lineCategories(item.game)}
           onopen={item.campaign ? () => item.campaign && onopen(item.campaign) : undefined}
           muted={false}
         >

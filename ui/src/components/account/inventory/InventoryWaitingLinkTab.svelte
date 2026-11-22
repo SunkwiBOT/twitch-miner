@@ -4,7 +4,7 @@
   import type { RewardType } from "../../../lib/catalogue/campaign.utils";
   import { refreshWhenBack } from "../../../lib/accounts/refresh.utils";
   import { t } from "../../../lib/i18n/i18n.svelte";
-  import { escapeEmphasis } from "../../../lib/text.utils";
+  import { categoryLine, lineCategories } from "../../../lib/catalogue/games.utils";
   import LinkBadge from "../../catalogue/LinkBadge.svelte";
   import { LinkFacet } from "../../../lib/accounts/campaign-groups.constants";
   import EmptyState from "../../ui/EmptyState.svelte";
@@ -39,7 +39,8 @@
       {#each waitingLink as item (item.drop.id)}
         <ListRow
           title={item.drop.name}
-          subtitle={`${escapeEmphasis(item.campaign.game.name)} · ${escapeEmphasis(item.campaign.name)}`}
+          subtitle={categoryLine(item.campaign.game, [item.campaign.name])}
+          categories={lineCategories(item.campaign.game)}
           onopen={() => onopen(item.campaign)}
           muted={false}
         >

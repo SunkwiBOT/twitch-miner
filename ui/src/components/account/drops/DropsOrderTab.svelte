@@ -3,7 +3,12 @@
   import { DropsGameList } from "../../../lib/accounts/accounts.constants";
   import { queueReasonView, queueStateView } from "../../../lib/accounts/campaign-states.utils";
   import { miningOrder, reorderBy } from "../../../lib/accounts/changes.utils";
-  import { catalogueGame, gameEntryKey, runningGames } from "../../../lib/catalogue/games.utils";
+  import {
+    catalogueGame,
+    gameEntryKey,
+    runningGames,
+    textCategory,
+  } from "../../../lib/catalogue/games.utils";
   import {
     editDropsGames,
     movePriorityGame,
@@ -28,7 +33,7 @@
   import { boxArt, formatPercent } from "../../../lib/format.utils";
   import { t } from "../../../lib/i18n/i18n.svelte";
   import { ticker } from "../../../lib/state/ticker.svelte";
-  import { escapeEmphasis, strong } from "../../../lib/text.utils";
+  import { categoryMarker, escapeEmphasis, strong } from "../../../lib/text.utils";
   import TextButton from "../../ui/TextButton.svelte";
   import LinkBadge from "../../catalogue/LinkBadge.svelte";
   import { LinkFacet } from "../../../lib/accounts/campaign-groups.constants";
@@ -195,6 +200,7 @@
               t.dashboard_remaining({ minutes: strong(item.remaining_minutes) }),
               campaignEnd(item.ends_at, ticker.now),
             ]}
+            categories={[]}
           />
           <span class="mt-1 block">
             <ProgressLine
@@ -240,7 +246,8 @@
 <ConfirmDialog
   open={removing !== null}
   title={t.confirm_remove_game_title()}
-  text={t.confirm_remove_game_text({ category: strong(removing?.name ?? "") })}
+  text={t.confirm_remove_game_text({ category: categoryMarker(0) })}
+  categories={removing ? [textCategory(removing)] : []}
   confirmLabel={t.confirm_remove()}
   busyLabel={t.confirm_removing()}
   busy={false}

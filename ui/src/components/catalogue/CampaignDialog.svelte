@@ -39,7 +39,8 @@
   import OverflowNames from "../ui/OverflowNames.svelte";
   import RichText from "../ui/RichText.svelte";
   import { NAMES_SHOWN } from "../ui/name-list.constants";
-  import { ThumbSize } from "../ui/picture.constants";
+  import Thumb from "../ui/Thumb.svelte";
+  import { ThumbShape, ThumbSize } from "../ui/picture.constants";
   import { gameArt } from "../../lib/catalogue/games.utils";
   import { ensureChannels, knownChannels } from "../../lib/channels/channels.svelte";
   import { BadgeTone } from "../../lib/tones.constants";
@@ -125,6 +126,17 @@
   };
 </script>
 
+{#snippet titleArt()}
+  <Thumb
+    src={campaign && boxArt(gameArt(campaign.game.name, campaign.game.box_art_url), BoxArtSize.ROW)}
+    round={false}
+    contain={false}
+    size={ThumbSize.SM}
+    shape={ThumbShape.BOX_ART}
+    fallback={null}
+  />
+{/snippet}
+
 {#snippet actions()}
   {#if view && accounts.length}
     <CampaignActions
@@ -149,6 +161,7 @@
   closeLabel={t.common_close()}
   {onclose}
   footer={actionable ? actions : undefined}
+  lead={campaign && !sitewideQuest(campaign) ? titleArt : undefined}
 >
   {#if view}
     {@const art = boxArt(campaignArtUrl(view), BoxArtSize.CARD)}

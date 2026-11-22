@@ -4,6 +4,7 @@ import { BenefitKind } from "../bindings/BenefitKind";
 import type { CampaignType } from "../bindings/CampaignType";
 import { CampaignKind } from "../bindings/CampaignKind";
 import type { EvolutionType } from "../bindings/EvolutionType";
+import type { GameType } from "../bindings/GameType";
 import type { GlobalBadgeType } from "../bindings/GlobalBadgeType";
 import type { QuestGroupType } from "../bindings/QuestGroupType";
 import { QuestStatus } from "../bindings/QuestStatus";
@@ -166,6 +167,7 @@ export type AccountBadgeType = {
   campaignId: string;
   title: string;
   image: string | undefined;
+  game: GameType | null;
   source: string;
   current: number;
   required: number;
@@ -316,11 +318,11 @@ const ignoredOf = (
   const drops = account.settings.drops;
 
   if (drops.exclude_drop_ids.includes(dropId)) {
-    return { id: dropId, name, detail: "", drop: true, campaign };
+    return { id: dropId, name, drop: true, campaign };
   }
 
   if (drops.exclude_campaign_ids.includes(campaignId)) {
-    return { id: campaignId, name: campaign?.name ?? name, detail: "", drop: false, campaign };
+    return { id: campaignId, name: campaign?.name ?? name, drop: false, campaign };
   }
 
   return null;
@@ -348,7 +350,8 @@ export const accountBadges = (account: AccountSnapshotType, now: number): Accoun
         campaignId: campaign.id,
         title: drop.name,
         image: benefit?.image_url,
-        source: `${campaign.game.name} · ${campaign.name}`,
+        game: campaign.game,
+        source: campaign.name,
         current: drop.current_minutes,
         required: drop.required_minutes,
         repeat: drop.repeat,
@@ -388,6 +391,7 @@ export const accountBadges = (account: AccountSnapshotType, now: number): Accoun
         campaignId: quest.id,
         title,
         image: single?.image_url ?? reward?.image_url ?? quest.image_url,
+        game: null,
         source: quest.name,
         current: group.current_minutes,
         required: group.required_minutes,

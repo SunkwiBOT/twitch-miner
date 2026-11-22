@@ -1,28 +1,46 @@
 <script lang="ts">
   // ! Links come from code, never the text: every dynamic value goes through `strong`, `code` or `escapeEmphasis`.
+  import { BoxArtSize } from "../../lib/format.constants";
+  import { boxArt } from "../../lib/format.utils";
   import {
     parseRichText,
     RichTextPartKind,
+    type TextCategoryType,
     type TextLinkType,
     type TextPersonType,
   } from "../../lib/text.utils";
   import Avatar from "./Avatar.svelte";
+  import CategoryLink from "./CategoryLink.svelte";
   import ChannelLink from "./ChannelLink.svelte";
   import InlineCode from "./InlineCode.svelte";
   import TextLink from "./TextLink.svelte";
-  import { AvatarSize } from "./picture.constants";
+  import Thumb from "./Thumb.svelte";
+  import { AvatarSize, ThumbShape, ThumbSize } from "./picture.constants";
   import { LinkMark, LinkSize } from "./link.constants";
+  import { RAISED_CLASSES } from "./ui.constants";
 
   type RichTextPropsType = {
     text: string;
     links?: TextLinkType[];
     people?: TextPersonType[];
+    categories?: TextCategoryType[];
   };
 
-  let { text, links = [], people = [] }: RichTextPropsType = $props();
+  let { text, links = [], people = [], categories = [] }: RichTextPropsType = $props();
 
-  const parts = $derived(parseRichText(text, links, people));
+  const parts = $derived(parseRichText(text, links, people, categories));
 </script>
+
+{#snippet boxArtThumb(category: TextCategoryType)}
+  <Thumb
+    src={boxArt(category.art, BoxArtSize.ROW)}
+    round={false}
+    contain={false}
+    size={ThumbSize.XS}
+    shape={ThumbShape.BOX_ART}
+    fallback={null}
+  />
+{/snippet}
 
 <!-- ! One inline box: a flex parent (a tooltip, a row with an icon) keeps the sentence as one paragraph. -->
 <span>
@@ -40,6 +58,23 @@
           class="font-semibold in-[.text-muted-foreground]:text-foreground"
         >
           {part.person.name}
+        </strong>
+      </span>{:else if part.kind === RichTextPartKind.CATEGORY && part.category.url}<span
+        class={RAISED_CLASSES}
+      >
+        <CategoryLink
+          name={part.category.name}
+          art={part.category.art}
+          url={part.category.url}
+          mark={part.endsSentence ? LinkMark.OVERLAY : LinkMark.NONE}
+        />
+      </span>{:else if part.kind === RichTextPartKind.CATEGORY}<span
+        class="inline-flex items-center gap-1 align-[-0.3em]"
+      >
+        {@render boxArtThumb(part.category)}<strong
+          class="font-semibold in-[.text-muted-foreground]:text-foreground"
+        >
+          {part.category.name}
         </strong>
       </span>{:else if part.kind === RichTextPartKind.LINK}<TextLink
         text={part.link.label}
