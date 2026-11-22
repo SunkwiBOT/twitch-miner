@@ -270,17 +270,19 @@ export const campaignTimelineRows = (
   );
 
 export type LaneLayoutType = {
+  isStacked: boolean;
   laneHeight: number;
   padding: number;
   gap: number;
 };
 
 export const getLaneLayout = (campaignCount: number): LaneLayoutType => {
-  const isSingle = campaignCount <= 1;
+  const isStacked = campaignCount > 1;
 
   return {
-    laneHeight: isSingle ? SINGLE_LANE_HEIGHT : STACKED_LANE_HEIGHT,
-    padding: isSingle ? SINGLE_LANE_PADDING : STACKED_LANE_PADDING,
+    isStacked,
+    laneHeight: isStacked ? STACKED_LANE_HEIGHT : SINGLE_LANE_HEIGHT,
+    padding: isStacked ? STACKED_LANE_PADDING : SINGLE_LANE_PADDING,
     gap: LANE_GAP,
   };
 };

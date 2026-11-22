@@ -16,6 +16,7 @@
   } from "../../lib/catalogue/timeline.constants";
   import Badge from "../ui/Badge.svelte";
   import RichText from "../ui/RichText.svelte";
+  import { STRETCHED_BUTTON_CLASSES } from "../ui/ui.constants";
   import TimeLeftTag from "./TimeLeftTag.svelte";
 
   type TimelineBarPropsType = {
@@ -23,14 +24,24 @@
     rowName: string;
     range: TimelineRangeType;
     height: number;
+    stacked: boolean;
     laneWidth: number;
     now: number;
     todayEnd: number;
     onopen: (value: T) => void;
   };
 
-  let { item, rowName, range, height, laneWidth, now, todayEnd, onopen }: TimelineBarPropsType =
-    $props();
+  let {
+    item,
+    rowName,
+    range,
+    height,
+    stacked,
+    laneWidth,
+    now,
+    todayEnd,
+    onopen,
+  }: TimelineBarPropsType = $props();
 
   let brokenImage = $state<string | null>(null);
 
@@ -78,13 +89,13 @@
       return;
     }
 
-    const bars = Array.from(track.querySelectorAll<HTMLButtonElement>("[data-bar]"));
+    const buttons = Array.from(track.querySelectorAll<HTMLButtonElement>("[data-bar-button]"));
     const next = getNextBarIndex(
-      bars.findIndex((bar) => bar === event.currentTarget),
+      buttons.findIndex((button) => button === event.currentTarget),
       event.key,
-      bars.length,
+      buttons.length,
     );
-    const target = next === null ? undefined : bars.at(next);
+    const target = next === null ? undefined : buttons.at(next);
 
     if (target) {
       event.preventDefault();
@@ -115,14 +126,10 @@
 {/snippet}
 
 {#if geometry}
-  <div class="item" style:--bar-pad="{BAR_PADDING_PX}px">
-    <button
-      class="lane-hit"
-      type="button"
-      tabindex="-1"
-      aria-hidden="true"
-      onclick={() => onopen(item.value)}
-    ></button>
+  <div
+    class={["item", stacked && "band transition-colors hover:bg-accent"]}
+    style:--bar-pad="{BAR_PADDING_PX}px"
+  >
     <span
       class="measure text-hint font-semibold"
       aria-hidden="true"
@@ -131,21 +138,25 @@
     >
       {@render label()}
     </span>
-    <div class="line" style:height="{height}px">
-      <button
+    <button
+      class="hit block w-full cursor-pointer after:z-2 {STRETCHED_BUTTON_CLASSES}"
+      data-bar-button
+      type="button"
+      style:height="{height}px"
+      onclick={() => onopen(item.value)}
+      {onkeydown}
+    >
+      <span
         class="bar text-hint font-semibold text-foreground"
         class:cut-left={geometry.isCutLeft}
         class:cut-right={geometry.isCutRight}
         class:outside={placement !== BarLabelPlacement.INSIDE}
         class:muted={item.tag?.muted}
         data-bar
-        type="button"
         title={`${rowName} · ${item.name}`}
-        style:left="{geometry.left}%"
+        style:margin-left="{geometry.left}%"
         style:width="{geometry.width}%"
         style:--p="{geometry.progress}%"
-        onclick={() => onopen(item.value)}
-        {onkeydown}
       >
         {#if placement === BarLabelPlacement.INSIDE}
           {@render label()}
@@ -156,8 +167,8 @@
             {@render label()}
           </span>
         {/if}
-      </button>
-    </div>
+      </span>
+    </button>
     {#if placement === BarLabelPlacement.BELOW}
       <!-- ! A copy for the eye: the bar carries the label for the keyboard and screen readers. -->
       <div
@@ -175,10 +186,21 @@
 {/if}
 
 <style>
+  /* ! The bands share the lane's whole height, so a stacked row has no gap between two targets. */
   .item {
-    position: relative;
+    display: flex;
+    flex: 1 0 auto;
+    flex-direction: column;
+    justify-content: center;
+    padding: calc(var(--lane-gap) / 2) 0;
   }
-  .line {
+  .item:first-child {
+    padding-top: var(--lane-pad);
+  }
+  .item:last-child {
+    padding-bottom: var(--lane-pad);
+  }
+  .item.band {
     position: relative;
   }
   .measure {
@@ -193,31 +215,19 @@
     visibility: hidden;
     pointer-events: none;
   }
-  .lane-hit {
-    position: absolute;
-    inset: 0;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    cursor: pointer;
-  }
   .bar {
-    position: absolute;
-    top: 0;
-    bottom: 0;
+    position: relative;
     z-index: 3;
     display: flex;
     align-items: center;
     gap: 6px;
+    height: 100%;
     min-width: 6px;
     padding: 0 var(--bar-pad);
-    border: 0;
     border-radius: var(--radius);
     background: linear-gradient(to right, var(--muted) 0 var(--p), var(--input) var(--p));
     line-height: 1.2;
-    text-align: left;
     white-space: nowrap;
-    cursor: pointer;
   }
   /* ! Hatched, not plain grey: a plain grey bar reads as one watched to the end. */
   .bar.muted {
@@ -239,13 +249,8 @@
     transition: opacity 0.12s ease;
     pointer-events: none;
   }
-  .bar:hover::after,
-  .item:has(.lane-hit:hover) .bar::after {
+  .hit:hover .bar::after {
     opacity: 0.1;
-  }
-  .bar:focus-visible {
-    outline: 2px solid var(--ring);
-    outline-offset: -2px;
   }
   .bar.cut-left {
     border-top-left-radius: 0;
@@ -274,7 +279,7 @@
     left: auto;
     right: calc(100% + var(--bar-pad));
   }
-  /* ! Clicks fall through to the lane's own target. */
+  /* ! Clicks fall through to the button's stretched target. */
   .below {
     position: relative;
     z-index: 3;
