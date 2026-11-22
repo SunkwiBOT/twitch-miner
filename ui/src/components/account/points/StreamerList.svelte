@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { SvelteMap } from "svelte/reactivity";
   import { Checkbox } from "$lib/components/ui/checkbox";
   import type { AccountSnapshotType } from "../../../lib/bindings/AccountSnapshotType";
   import type { ChannelType } from "../../../lib/bindings/ChannelType";
@@ -46,6 +47,8 @@
   const streamers = $derived(account.settings.points.streamers);
   const chosen = $derived(new Set(selected));
   const all = $derived(streamers.length > 0 && streamers.every((s) => chosen.has(s.login)));
+  const fits = new SvelteMap<string, boolean>();
+  const beside = $derived([...fits.values()].every(Boolean));
 
   const selectLabel = $derived.by(() => {
     if (selected.length === 0) {
@@ -65,6 +68,14 @@
 
   const tick = (login: string, checked: boolean): void =>
     onselect(checked ? [...selected, login] : selected.filter((item) => item !== login));
+
+  const measure = (login: string, fit: boolean | null): void => {
+    if (fit === null) {
+      fits.delete(login);
+    } else {
+      fits.set(login, fit);
+    }
+  };
 </script>
 
 <SortableList
@@ -135,6 +146,8 @@
       streamer={s}
       channel={channelOf(s.login)}
       view={account.streamers.find((view) => view.login === s.login)}
+      {beside}
+      onmeasure={measure}
     />
   {/snippet}
   {#snippet actions(s)}

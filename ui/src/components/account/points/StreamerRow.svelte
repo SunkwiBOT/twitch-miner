@@ -18,29 +18,51 @@
   import PointsBalance from "../../ui/PointsBalance.svelte";
   import RichText from "../../ui/RichText.svelte";
   import TextLink from "../../ui/TextLink.svelte";
+  import LinkText from "../../ui/LinkText.svelte";
+  import Tip from "../../ui/Tip.svelte";
   import GameName from "../../ui/GameName.svelte";
   import ViewerCount from "../../ui/ViewerCount.svelte";
-  import { AvatarSize, ThumbSize } from "../../ui/picture.constants";
+  import { AVATAR_CLASSES, AvatarSize, ThumbSize } from "../../ui/picture.constants";
   import { BadgeTone } from "../../../lib/tones.constants";
   import { BalanceAlign } from "../../ui/ui.constants";
   import { IconName } from "../../../lib/icons.constants";
   import { LinkMark, LinkSize } from "../../ui/link.constants";
-  import { STREAMER_NAME_ROOM_PX } from "../../../lib/accounts/accounts.constants";
 
   type StreamerRowPropsType = {
     streamer: StreamerSettingsType;
     channel: ChannelType | undefined;
     view: StreamerViewType | undefined;
+    beside: boolean;
+    onmeasure: (login: string, fits: boolean | null) => void;
   };
 
-  let { streamer, channel, view }: StreamerRowPropsType = $props();
+  let { streamer, channel, view, beside, onmeasure }: StreamerRowPropsType = $props();
 
   let rowWidth = $state(0);
-  let balanceWidth = $state(0);
+  let besideWidth = $state(0);
+  let nameWidth = $state(0);
+  let nameRoom = $state(0);
 
-  // ! The balance sits on the right, beside the switch, while the name keeps its room next to it; only a row too narrow for both puts it under the name.
-  const beside = $derived(rowWidth - balanceWidth >= STREAMER_NAME_ROOM_PX);
+  const name = $derived(channel?.display_name ?? streamer.login);
+  const cut = $derived(nameWidth > nameRoom);
+
+  // ! The list picks one placement for every row: each row reports whether its whole name and its balance fit side by side.
+  $effect(() => {
+    const login = streamer.login;
+
+    onmeasure(login, besideWidth <= rowWidth);
+
+    return () => onmeasure(login, null);
+  });
 </script>
+
+{#snippet nameLink()}
+  <TextLink
+    text={name}
+    target={{ url: channelUrl(streamer.login), mark: LinkMark.END }}
+    size={LinkSize.MD}
+  />
+{/snippet}
 
 {#snippet balance(align: BalanceAlign)}
   {#if view && view.points.balance > 0}
@@ -60,7 +82,16 @@
 {/snippet}
 
 <div class="relative flex min-w-0 flex-1" bind:clientWidth={rowWidth}>
-  <div class="invisible absolute w-max" aria-hidden="true" inert bind:offsetWidth={balanceWidth}>
+  <div
+    class="invisible absolute flex w-max items-center gap-3"
+    aria-hidden="true"
+    inert
+    bind:offsetWidth={besideWidth}
+  >
+    <span class={["shrink-0", AVATAR_CLASSES[AvatarSize.MD]]}></span>
+    <span class="inline-flex items-center gap-1.5" bind:offsetWidth={nameWidth}>
+      <LinkText text={name} mark={LinkMark.END} size={LinkSize.MD} fit={false} />
+    </span>
     {@render balance(BalanceAlign.END)}
   </div>
   <div
@@ -71,19 +102,25 @@
         <LinkTwin target={{ url: channelUrl(streamer.login) }} live={isLive(streamer.login)}>
           <ChannelAvatar
             url={channel?.avatar_url}
-            name={channel?.display_name ?? streamer.login}
+            {name}
             size={AvatarSize.MD}
             live={isLive(streamer.login)}
           />
         </LinkTwin>
       </span>
       <div class="flex min-w-0 flex-1 flex-col gap-0.5">
-        <span class="flex min-w-0 flex-wrap items-center gap-1.5">
-          <TextLink
-            text={channel?.display_name ?? streamer.login}
-            target={{ url: channelUrl(streamer.login), mark: LinkMark.END }}
-            size={LinkSize.MD}
-          />
+        <span class="flex min-w-0 flex-wrap items-center gap-1.5" bind:clientWidth={nameRoom}>
+          {#if cut}
+            <Tip text={name}>
+              {#snippet children(props)}
+                <span {...props} tabindex="-1" class="inline-flex max-w-full min-w-0">
+                  {@render nameLink()}
+                </span>
+              {/snippet}
+            </Tip>
+          {:else}
+            {@render nameLink()}
+          {/if}
           {#if view?.watching}<Badge
               text={t.streamer_watching()}
               tone={BadgeTone.SUCCESS}
