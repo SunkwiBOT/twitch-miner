@@ -68,6 +68,7 @@
   title={drops ? t.copy_drops_title() : t.copy_points_title()}
   wide={false}
   closable={true}
+  closeOnOutside={true}
   closeLabel={t.common_close()}
   {onclose}
 >

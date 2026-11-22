@@ -87,6 +87,7 @@
   title={t.points_group_title({ selectedCount: group.length })}
   wide={true}
   closable={true}
+  closeOnOutside={true}
   closeLabel={t.common_close()}
   {onclose}
 >

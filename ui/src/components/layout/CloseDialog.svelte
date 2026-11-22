@@ -35,6 +35,7 @@
   title={t.close_title()}
   wide={false}
   closable={!closing}
+  closeOnOutside={true}
   closeLabel={t.common_cancel()}
   onclose={() => (app.closeDialog = false)}
 >

@@ -200,6 +200,7 @@
   title={t.pause_dialog_title()}
   wide={false}
   closable={!pausing}
+  closeOnOutside={true}
   closeLabel={t.common_close()}
   onclose={() => (customOpen = false)}
 >

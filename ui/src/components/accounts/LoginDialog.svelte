@@ -182,6 +182,7 @@
       : t.login_title()}
   wide={newAccount !== null || mode === LoginMode.TOKEN}
   closable={!finishing}
+  closeOnOutside={true}
   closeLabel={t.common_close()}
   onclose={close}
   footer={newAccount

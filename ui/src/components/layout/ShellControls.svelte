@@ -116,6 +116,7 @@
   title={t.lock_unsaved_title()}
   wide={false}
   closable={true}
+  closeOnOutside={true}
   closeLabel={t.common_close()}
   onclose={() => (confirmingLock = false)}
 >

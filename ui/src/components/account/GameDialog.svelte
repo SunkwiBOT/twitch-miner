@@ -93,6 +93,7 @@
   title={t.drops_add_game()}
   wide={false}
   closable={true}
+  closeOnOutside={true}
   closeLabel={t.common_close()}
   {onclose}
 >

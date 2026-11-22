@@ -64,6 +64,7 @@
   title={t.bulk_title()}
   wide={false}
   closable={!applying}
+  closeOnOutside={true}
   closeLabel={t.common_close()}
   onclose={closeBulk}
 >

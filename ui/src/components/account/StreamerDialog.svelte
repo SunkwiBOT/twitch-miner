@@ -193,6 +193,7 @@
   title={login ? t.streamer_edit_title() : t.points_add_title()}
   wide={draft !== null}
   closable={!searching}
+  closeOnOutside={true}
   closeLabel={t.common_close()}
   {onclose}
 >

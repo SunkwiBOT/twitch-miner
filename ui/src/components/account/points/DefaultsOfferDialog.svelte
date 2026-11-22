@@ -24,6 +24,7 @@
   title={t.points_defaults_offer_title({ count: names.length })}
   wide={true}
   closable={true}
+  closeOnOutside={true}
   closeLabel={t.common_close()}
   onclose={onno}
 >

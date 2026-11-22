@@ -19,6 +19,7 @@
     title: string;
     wide: boolean;
     closable: boolean;
+    closeOnOutside: boolean;
     closeLabel: string;
     onclose: () => void;
     children: Snippet;
@@ -31,6 +32,7 @@
     title,
     wide,
     closable,
+    closeOnOutside,
     closeLabel,
     onclose,
     children,
@@ -39,6 +41,7 @@
   }: DialogPropsType = $props();
 
   const behavior = $derived(closable ? "close" : "ignore");
+  const outsideBehavior = $derived(closable && closeOnOutside ? "close" : "ignore");
 
   let content = $state<HTMLElement | null>(null);
   let scrolled = $state(false);
@@ -109,7 +112,7 @@
       tabindex={-1}
       onOpenAutoFocus={focusFirst}
       showCloseButton={false}
-      interactOutsideBehavior={behavior}
+      interactOutsideBehavior={outsideBehavior}
       onInteractOutside={keepForToasts}
       escapeKeydownBehavior={behavior}
       class={cn(

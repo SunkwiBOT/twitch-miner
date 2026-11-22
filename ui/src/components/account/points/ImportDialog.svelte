@@ -73,6 +73,7 @@
   title={t.import_title()}
   wide={true}
   closable={true}
+  closeOnOutside={true}
   closeLabel={t.common_close()}
   onclose={close}
 >

@@ -44,6 +44,7 @@
   {title}
   wide={false}
   closable={!busy}
+  closeOnOutside={true}
   closeLabel={t.common_close()}
   onclose={oncancel}
   {lead}

@@ -14,6 +14,7 @@
   title={t.nav_feedback()}
   wide={false}
   closable={true}
+  closeOnOutside={true}
   closeLabel={t.common_close()}
   onclose={close}
 >

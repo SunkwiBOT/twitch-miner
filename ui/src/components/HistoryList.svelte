@@ -278,6 +278,7 @@
   title={t.export_counts_title()}
   wide={false}
   closable={true}
+  closeOnOutside={true}
   closeLabel={t.common_close()}
   onclose={() => (counts = null)}
 >

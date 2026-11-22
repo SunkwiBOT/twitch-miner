@@ -28,6 +28,7 @@
   title={t.star_prompt_title()}
   wide={false}
   closable={true}
+  closeOnOutside={false}
   closeLabel={t.common_close()}
   onclose={close}
 >

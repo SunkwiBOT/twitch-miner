@@ -137,6 +137,7 @@
     : ""}
   wide={true}
   closable={busy === null && claiming === null}
+  closeOnOutside={true}
   closeLabel={t.common_close()}
   {onclose}
   footer={actionable ? actions : undefined}

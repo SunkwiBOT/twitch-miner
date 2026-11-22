@@ -214,6 +214,7 @@
   title={shown?.title ?? ""}
   wide={true}
   closable={busy === null}
+  closeOnOutside={true}
   closeLabel={t.common_close()}
   {onclose}
   footer={accounts.length > 0 ? actions : undefined}

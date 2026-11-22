@@ -52,6 +52,7 @@
   title={t.updates_confirm_title({ version })}
   wide={false}
   closable={!busy}
+  closeOnOutside={true}
   closeLabel={t.common_close()}
   onclose={close}
 >
