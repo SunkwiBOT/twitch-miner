@@ -6,7 +6,8 @@ export enum LinkSize {
 
 // ! `truncate` clips on both axes and the underline sits below the line box (offset 3px, 2px on hover), so it
 // vanished with the subpixel position: clipping the width only keeps the ellipsis and the whole underline.
-const TRUNCATE_WITH_UNDERLINE = "overflow-x-clip text-ellipsis whitespace-nowrap";
+// `clip` makes no scroll container, so a flex item keeps its text's width as its minimum: `min-w-0` lets it shrink.
+const TRUNCATE_WITH_UNDERLINE = "min-w-0 overflow-x-clip text-ellipsis whitespace-nowrap";
 
 export const LINK_SIZES: Record<LinkSize, { text: string; icon: number; fit: string }> = {
   [LinkSize.SM]: { text: "text-xs", icon: 12, fit: TRUNCATE_WITH_UNDERLINE },
