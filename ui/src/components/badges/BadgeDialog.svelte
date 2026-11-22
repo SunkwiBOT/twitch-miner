@@ -39,6 +39,7 @@
   import Dialog from "../ui/Dialog.svelte";
   import ExternalButton from "../ui/ExternalButton.svelte";
   import GameName from "../ui/GameName.svelte";
+  import NameList from "../ui/NameList.svelte";
   import Icon from "../ui/Icon.svelte";
   import RichText from "../ui/RichText.svelte";
   import TextButton from "../ui/TextButton.svelte";
@@ -328,43 +329,6 @@
         </div>
       </div>
 
-      {#if categories.length > 0}
-        <section class="flex flex-col gap-2">
-          {@render section(t.badge_dialog_categories(), categories.length)}
-          <ul class="flex flex-wrap gap-x-4 gap-y-2 text-hint">
-            {#each categories as category (category.name)}
-              <li class="min-w-0">
-                <GameName
-                  name={category.name}
-                  url={categoryUrl(category.name, category.slug)}
-                  art={gameArt(category.name, category.box_art_url)}
-                  size={ThumbSize.XS}
-                  inSentence={false}
-                />
-              </li>
-            {/each}
-          </ul>
-        </section>
-      {/if}
-
-      {#if requirement && requirement.channels.length > 0}
-        <section class="flex flex-col gap-2">
-          {@render section(t.badge_dialog_channels(), requirement.channel_count)}
-          <ul class="flex flex-wrap gap-x-4 gap-y-2 text-hint">
-            {#each requirement.channels as login (login)}
-              {@const channel = knownChannels[login]}
-              <li class="min-w-0">
-                <ChannelLink
-                  {login}
-                  name={channel?.display_name ?? login}
-                  avatar={channel?.avatar_url}
-                />
-              </li>
-            {/each}
-          </ul>
-        </section>
-      {/if}
-
       {#if requirement?.collection || chest.length > 0}
         <section class="flex flex-col gap-2">
           {@render section(t.badge_dialog_collection(), null)}
@@ -387,6 +351,42 @@
               {/each}
             </ul>
           {/if}
+        </section>
+      {/if}
+
+      {#if categories.length > 0}
+        <section class="flex flex-col gap-2">
+          {@render section(t.badge_dialog_categories(), categories.length)}
+          <NameList class="gap-x-4 gap-y-2 text-hint">
+            {#each categories as category (category.name)}
+              <li class="min-w-0">
+                <GameName
+                  name={category.name}
+                  url={categoryUrl(category.name, category.slug)}
+                  art={gameArt(category.name, category.box_art_url)}
+                  size={ThumbSize.XS}
+                />
+              </li>
+            {/each}
+          </NameList>
+        </section>
+      {/if}
+
+      {#if requirement && requirement.channels.length > 0}
+        <section class="flex flex-col gap-2">
+          {@render section(t.badge_dialog_channels(), requirement.channel_count)}
+          <NameList class="gap-x-4 gap-y-2 text-hint">
+            {#each requirement.channels as login (login)}
+              {@const channel = knownChannels[login]}
+              <li class="min-w-0">
+                <ChannelLink
+                  {login}
+                  name={channel?.display_name ?? login}
+                  avatar={channel?.avatar_url}
+                />
+              </li>
+            {/each}
+          </NameList>
         </section>
       {/if}
 

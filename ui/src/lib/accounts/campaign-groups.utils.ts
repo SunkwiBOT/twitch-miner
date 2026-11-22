@@ -76,8 +76,9 @@ export const claimedState = (
       : CampaignState.DONE;
   }
 
+  // ! "100 %" only speaks of rewards the watch can give: with none, only the subscription is left.
   if (drops.some(subsMissing)) {
-    return CampaignState.DONE_SUB_REQUIRED;
+    return drops.every(subsMissing) ? CampaignState.SUB_REQUIRED : CampaignState.DONE_SUB_REQUIRED;
   }
 
   return linking && campaign.linked === true ? CampaignState.CLAIMED_LINKED : CampaignState.CLAIMED;

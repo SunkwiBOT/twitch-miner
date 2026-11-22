@@ -18,7 +18,6 @@
     url={gameUrl(topCategory.category, undefined)}
     art={gameArt(topCategory.category, undefined)}
     size={ThumbSize.XS}
-    inSentence={false}
   />
 {:else}
   <span class="text-muted-foreground">{t.stats_category_unknown()}</span>

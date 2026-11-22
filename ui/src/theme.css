@@ -85,6 +85,8 @@
   --switch-unchecked: #53535f;
   --link: #bf94ff;
   --link-hover: #d1b3ff;
+  --sparkle: #f7f7f8;
+  --sparkle-gold: #ffd24d;
 }
 
 :root[data-theme="LIGHT"] {
@@ -133,6 +135,8 @@
   --switch-unchecked: #b3b3bd;
   --link: #772ce8;
   --link-hover: #5c16c5;
+  --sparkle: #bf94ff;
+  --sparkle-gold: #e5a000;
 }
 
 @theme inline {
@@ -209,6 +213,50 @@
   --color-link: var(--link);
   --color-link-hover: var(--link-hover);
   --color-unsaved: color-mix(in oklab, var(--primary) 16%, var(--popover));
+  --color-sparkle: var(--sparkle);
+  --color-sparkle-gold: var(--sparkle-gold);
+}
+
+/* ! A sparkle grows, turns 150° and shrinks back in `--sparkle-lifetime` (set by `Sparkles.svelte`); a burst's sparkle is already half grown on its first frame.
+   `inline`: the lifetime is read on the sparkle, not on `:root` where it is unset. */
+@theme inline {
+  --animate-sparkle-life: sparkle-life var(--sparkle-lifetime) ease-in-out forwards;
+  --animate-sparkle-spin: sparkle-spin var(--sparkle-lifetime) linear forwards;
+  --animate-sparkle-pop: sparkle-pop var(--sparkle-lifetime) ease-out forwards;
+
+  @keyframes sparkle-pop {
+    0% {
+      transform: scale(0.5);
+    }
+
+    15% {
+      transform: scale(1);
+    }
+
+    100% {
+      transform: scale(0);
+    }
+  }
+
+  @keyframes sparkle-life {
+    0% {
+      transform: scale(0);
+    }
+
+    45% {
+      transform: scale(1);
+    }
+
+    100% {
+      transform: scale(0);
+    }
+  }
+
+  @keyframes sparkle-spin {
+    to {
+      transform: rotate(150deg);
+    }
+  }
 }
 
 @layer base {

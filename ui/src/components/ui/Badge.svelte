@@ -17,16 +17,14 @@
 
   let { text, tone, icon, hint, class: className }: BadgePropsType = $props();
 
-  // ! A badge narrower than its text wraps it rather than cutting it.
-  const classes = $derived(
-    cn(BADGE_TONE_CLASSES[tone], "h-auto min-h-5 max-w-full whitespace-normal", className),
-  );
+  // ! A label stays on one line, its column sizes to it: only a badge squeezed below its text ends it with an ellipsis.
+  const classes = $derived(cn(BADGE_TONE_CLASSES[tone], "max-w-full", className));
 </script>
 
 {#snippet content()}
   {#if icon}<Icon name={icon} size={12} class="shrink-0" />{/if}
   <!-- ! The padding leaves room for ink past the line box (Thai marks): only the badge clips it. -->
-  <span class="-m-0.5 min-w-0 p-0.5 leading-3.5 break-words">{text}</span>
+  <span class="-m-0.5 min-w-0 overflow-hidden p-0.5 leading-3.5 text-ellipsis">{text}</span>
 {/snippet}
 
 {#if hint}

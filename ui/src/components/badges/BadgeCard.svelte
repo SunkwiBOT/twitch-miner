@@ -23,6 +23,7 @@
   import TextLink from "../ui/TextLink.svelte";
   import ChannelLink from "../ui/ChannelLink.svelte";
   import GameName from "../ui/GameName.svelte";
+  import NameList from "../ui/NameList.svelte";
   import Thumb from "../ui/Thumb.svelte";
   import { BadgeTone } from "../../lib/tones.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
@@ -132,7 +133,6 @@
                   url={categoryUrl(requirement.game_name, game?.slug)}
                   art={gameArt(requirement.game_name, game?.box_art_url)}
                   size={ThumbSize.XS}
-                  inSentence={false}
                 />
               </span>
             {/if}
@@ -141,23 +141,26 @@
             {/if}
           </span>
           {#if requirement.source === BadgeSource.DROPS}
-            <span class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-muted-foreground">
+            <div class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-muted-foreground">
               {#if requirement.channel_count > 0}
                 <span>{t.campaign_channels_some({ channelCount: requirement.channel_count })}</span>
-                {#each requirement.channels as login (login)}{@const channel =
-                    knownChannels[login]}<span class={RAISED_CLASSES}>
-                    <ChannelLink
-                      {login}
-                      name={channel?.display_name ?? login}
-                      avatar={channel?.avatar_url}
-                    />
-                  </span>{/each}
+                <NameList class="contents">
+                  {#each requirement.channels as login (login)}{@const channel =
+                      knownChannels[login]}
+                    <li class={RAISED_CLASSES}>
+                      <ChannelLink
+                        {login}
+                        name={channel?.display_name ?? login}
+                        avatar={channel?.avatar_url}
+                      />
+                    </li>{/each}
+                </NameList>
               {:else if requirement.categories.length > 1}
                 {t.campaign_channels_categories({ categoryCount: requirement.categories.length })}
               {:else}
                 {t.campaign_channels_any()}
               {/if}
-            </span>
+            </div>
           {/if}
           {#if requirement.collection}
             <span class="text-muted-foreground">{collectionText(requirement)}</span>

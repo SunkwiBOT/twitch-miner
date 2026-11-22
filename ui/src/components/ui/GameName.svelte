@@ -13,10 +13,9 @@
     url: string | null;
     art: string | undefined;
     size: ThumbSize;
-    inSentence: boolean;
   };
 
-  let { name, url, art, size, inSentence }: GameNamePropsType = $props();
+  let { name, url, art, size }: GameNamePropsType = $props();
 
   const picture = $derived(boxArt(art, BoxArtSize.ROW));
 </script>
@@ -40,11 +39,7 @@
   {#if url}
     <LinkPair>
       <LinkTwin target={{ url }} live={false}>{@render thumb()}</LinkTwin>
-      <TextLink
-        text={name}
-        target={{ url, mark: inSentence ? LinkMark.NONE : LinkMark.END }}
-        size={LinkSize.MD}
-      />
+      <TextLink text={name} target={{ url, mark: LinkMark.END }} size={LinkSize.MD} />
     </LinkPair>
   {:else}
     {@render thumb()}

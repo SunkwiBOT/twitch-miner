@@ -4,9 +4,9 @@ export enum LinkSize {
   LG = "LG",
 }
 
-// ! `truncate` clips at the padding box and the underline sits below the line box (offset 3px, 2px on hover):
-// the padding keeps it visible, the negative margin keeps the line's height.
-const TRUNCATE_WITH_UNDERLINE = "truncate pb-1.5 -mb-1.5";
+// ! `truncate` clips on both axes and the underline sits below the line box (offset 3px, 2px on hover), so it
+// vanished with the subpixel position: clipping the width only keeps the ellipsis and the whole underline.
+const TRUNCATE_WITH_UNDERLINE = "overflow-x-clip text-ellipsis whitespace-nowrap";
 
 export const LINK_SIZES: Record<LinkSize, { text: string; icon: number; fit: string }> = {
   [LinkSize.SM]: { text: "text-xs", icon: 12, fit: TRUNCATE_WITH_UNDERLINE },
@@ -15,14 +15,29 @@ export const LINK_SIZES: Record<LinkSize, { text: string; icon: number; fit: str
 };
 
 // ! MUTED is the quiet link of a meta line (the version under the sidebar): it keeps its row's muted tone.
+// BRAND is the app's name at the top of the sidebar, as heavy as a title.
 export enum LinkTone {
   STRONG = "STRONG",
   MUTED = "MUTED",
+  BRAND = "BRAND",
 }
 
 export const LINK_TONES: Record<LinkTone, string> = {
   [LinkTone.STRONG]: "font-semibold text-foreground",
   [LinkTone.MUTED]: "font-medium text-muted-foreground",
+  [LinkTone.BRAND]: "font-bold text-foreground",
+};
+
+// ! A link is underlined at rest; PLAIN is the one exception, for the app's own marks (its name and version in
+// the sidebar): no underline at rest, the same reaction as any link on hover.
+export enum LinkRest {
+  UNDERLINED = "UNDERLINED",
+  PLAIN = "PLAIN",
+}
+
+export const LINK_RESTS: Record<LinkRest, string> = {
+  [LinkRest.UNDERLINED]: "",
+  [LinkRest.PLAIN]: "decoration-transparent link-active:decoration-link",
 };
 
 // ! Where an external link shows its icon on hover. START and END keep the icon's room at rest,

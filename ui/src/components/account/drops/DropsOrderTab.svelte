@@ -104,7 +104,6 @@
             url={categoryUrl(game.name, known?.slug)}
             art={known?.box_art_url ?? game.box_art_url}
             size={ThumbSize.SM}
-            inSentence={false}
           />
         </span>
       {/snippet}

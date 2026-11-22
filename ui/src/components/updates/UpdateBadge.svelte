@@ -1,18 +1,26 @@
 <script lang="ts">
+  import { Button } from "$lib/components/ui/button";
   import { Popover, PopoverContent, PopoverTrigger } from "$lib/components/ui/popover";
+  import { cn } from "$lib/utils";
   import { isTauri } from "../../lib/api/tauri";
   import { t } from "../../lib/i18n/i18n.svelte";
   import { overlay } from "../../lib/state/overlay.svelte";
   import { strong } from "../../lib/text.utils";
-  import { BadgeTone } from "../../lib/tones.constants";
+  import { UPDATE_BADGE_CLASSES } from "../../lib/updates/updates.constants";
   import { availableVersion, showUpdate } from "../../lib/updates/updates.svelte";
-  import Badge from "../ui/Badge.svelte";
+  import Icon from "../ui/Icon.svelte";
   import RichText from "../ui/RichText.svelte";
-  import { ButtonType } from "../ui/button.constants";
+  import Sparkles from "../ui/Sparkles.svelte";
+  import {
+    BUTTON_SIZES,
+    BUTTON_VARIANTS,
+    ButtonSize,
+    ButtonType,
+    ButtonVariant,
+  } from "../ui/button.constants";
   import { IconName } from "../../lib/icons.constants";
   import { MENU_EDGE_GAP } from "../ui/menu.constants";
   import ServerUpdateCommands from "./ServerUpdateCommands.svelte";
-  import { UPDATE_TRIGGER_CLASSES } from "./updates.constants";
 
   const version = $derived(availableVersion());
 
@@ -26,32 +34,37 @@
   };
 </script>
 
-{#snippet pill(text: string)}
-  <Badge
-    {text}
-    tone={BadgeTone.INFO}
-    icon={IconName.IMPORT}
-    class="cursor-pointer group-hover:bg-info/80"
-  />
+{#snippet label(text: string)}
+  <Icon name={IconName.IMPORT} size={14} />
+  {text}
+  <Sparkles />
 {/snippet}
 
 {#if version}
   {#if isTauri()}
-    <button class={UPDATE_TRIGGER_CLASSES} type={ButtonType.BUTTON} onclick={showUpdate}>
-      {@render pill(t.updates_badge({ version }))}
-    </button>
+    <Button
+      variant={BUTTON_VARIANTS[ButtonVariant.OUTLINE]}
+      size={BUTTON_SIZES[ButtonSize.MD]}
+      class={cn("shrink-0", UPDATE_BADGE_CLASSES)}
+      type={ButtonType.BUTTON}
+      onclick={showUpdate}
+    >
+      {@render label(t.updates_badge({ version }))}
+    </Button>
   {:else}
     <Popover bind:open>
       <PopoverTrigger>
         {#snippet child({ props })}
-          <button
+          <Button
             {...props}
-            class={UPDATE_TRIGGER_CLASSES}
+            variant={BUTTON_VARIANTS[ButtonVariant.OUTLINE]}
+            size={BUTTON_SIZES[ButtonSize.MD]}
+            class={cn("shrink-0", UPDATE_BADGE_CLASSES)}
             type={ButtonType.BUTTON}
             aria-expanded={open}
           >
-            {@render pill(t.updates_badge({ version }))}
-          </button>
+            {@render label(t.updates_badge({ version }))}
+          </Button>
         {/snippet}
       </PopoverTrigger>
       <PopoverContent

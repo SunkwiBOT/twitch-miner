@@ -34,7 +34,7 @@
     <p class="m-0 flex flex-col leading-snug break-words">
       <span class="font-semibold"><RichText text={title} /></span>
       {#if account}<span class="font-semibold">{account.name}</span>{/if}
-      {#if description}<span><RichText text={description} /></span>{/if}
+      {#if description}<RichText text={description} />{/if}
     </p>
     {#if action}
       <TextButton

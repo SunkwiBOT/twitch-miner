@@ -195,7 +195,6 @@
               url={gameUrl(progress.game, undefined)}
               art={gameArt(progress.game, undefined)}
               size={ThumbSize.XS}
-              inSentence={false}
             />
             {@render subtitle()}
           </span>
@@ -248,7 +247,6 @@
                 url={gameUrl(slot.channel.game.name, slot.channel.game.slug)}
                 art={gameArt(slot.channel.game.name, slot.channel.game.box_art_url)}
                 size={ThumbSize.XS}
-                inSentence={false}
               />{/if}
             {#if slot.channel.viewers !== undefined}<ViewerCount
                 count={slot.channel.viewers}

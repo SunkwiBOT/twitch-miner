@@ -43,13 +43,11 @@
       streak={view.points.streak?.count}
       {align}
     >
-      {#if view.points.last_bonus_at}<span>
-          <RichText
-            text={t.streamer_last_bonus({
-              lastBonusTime: strong(relativeTime(view.points.last_bonus_at, ticker.now)),
-            })}
-          />
-        </span>{/if}
+      {#if view.points.last_bonus_at}<RichText
+          text={t.streamer_last_bonus({
+            lastBonusTime: strong(relativeTime(view.points.last_bonus_at, ticker.now)),
+          })}
+        />{/if}
     </PointsBalance>
   {/if}
 {/snippet}
@@ -98,7 +96,6 @@
                 url={gameUrl(channel.game.name, channel.game.slug)}
                 art={gameArt(channel.game.name, channel.game.box_art_url)}
                 size={ThumbSize.XS}
-                inSentence={false}
               />{/if}
             {#if channel.viewers !== undefined}<ViewerCount count={channel.viewers} />{/if}
           {:else if !channel}

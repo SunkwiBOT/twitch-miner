@@ -110,12 +110,6 @@ const STATE_VIEWS: Record<CampaignState, StateViewType> = {
     icon: IconName.ALERT,
     hint: () => t.badge_hint_not_linked(),
   },
-  [CampaignState.DONE_SUB_REQUIRED]: {
-    text: () => t.campaign_state_done_sub_required(),
-    tone: BadgeTone.WARNING,
-    icon: IconName.ALERT,
-    hint: () => t.campaign_hint_done_sub_required(),
-  },
   [CampaignState.CLAIM_FAILED]: {
     text: () => t.campaign_state_claim_failed(),
     tone: BadgeTone.DANGER,
@@ -161,6 +155,12 @@ const STATE_VIEWS: Record<CampaignState, StateViewType> = {
     tone: BadgeTone.WARNING,
     icon: IconName.ALERT,
     hint: () => t.badge_hint_sub_only(),
+  },
+  [CampaignState.DONE_SUB_REQUIRED]: {
+    text: () => t.campaign_state_done_sub_required(),
+    tone: BadgeTone.WARNING,
+    icon: IconName.ALERT,
+    hint: () => t.campaign_hint_done_sub_required(),
   },
   [CampaignState.EVOLUTION_LOCKED]: {
     text: () => t.campaign_state_evolution_locked(),

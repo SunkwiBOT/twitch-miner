@@ -101,16 +101,16 @@ export enum BadgesList {
 
 export enum RewardsPageTab {
   ORDER = "ORDER",
+  CAMPAIGNS = "CAMPAIGNS",
   SETTINGS = "SETTINGS",
   EXCLUSIONS = "EXCLUSIONS",
-  CAMPAIGNS = "CAMPAIGNS",
 }
 
 export const REWARDS_PAGE_TAB_SLUGS: Record<RewardsPageTab, string> = {
   [RewardsPageTab.ORDER]: "order",
+  [RewardsPageTab.CAMPAIGNS]: "campaigns",
   [RewardsPageTab.SETTINGS]: "settings",
   [RewardsPageTab.EXCLUSIONS]: "exclusions",
-  [RewardsPageTab.CAMPAIGNS]: "campaigns",
 };
 
 export enum BadgesGroup {

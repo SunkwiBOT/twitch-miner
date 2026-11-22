@@ -12,6 +12,7 @@
   import { REPO_URL } from "../../lib/partners.constants";
   import { BETA_PAGES, PAGE_ICONS, Page } from "../../lib/state/state.constants";
   import ExternalAnchor from "../ui/ExternalAnchor.svelte";
+  import LinkText from "../ui/LinkText.svelte";
   import { app } from "../../lib/state/app.svelte";
   import { isAccountPage, navigate } from "../../lib/state/router";
   import { run } from "../../lib/state/session";
@@ -27,7 +28,7 @@
   import { BadgeTone } from "../../lib/tones.constants";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import { IconName } from "../../lib/icons.constants";
-  import { LinkMark, LinkSize, LinkTone } from "../ui/link.constants";
+  import { LinkMark, LinkRest, LinkSize, LinkTone } from "../ui/link.constants";
   import { KeyboardKey } from "../ui/field.constants";
   import { APP_TITLE, REORDER_HINT_ID } from "./layout.constants";
   import PoweredBy from "./PoweredBy.svelte";
@@ -107,10 +108,17 @@
   <div class="flex min-h-0 flex-1 flex-col gap-0.5 overflow-y-auto px-2.5 py-3">
     <ExternalAnchor
       url={REPO_URL}
-      class="mb-2 flex items-center gap-2.5 rounded-md border border-transparent px-2 py-1.5 text-nav-title leading-tight font-bold text-foreground no-underline hover:border-border hover:bg-sidebar-accent"
+      class="group/link mb-2 flex items-center gap-2.5 rounded-md border border-transparent px-2 py-1.5 text-nav-title leading-tight no-underline hover:border-border hover:bg-sidebar-accent"
     >
       <img class="size-8 shrink-0 [image-rendering:pixelated]" src="/app-icon.svg" alt="" />
-      <span>{APP_TITLE}</span>
+      <LinkText
+        text={APP_TITLE}
+        mark={LinkMark.END}
+        size={LinkSize.MD}
+        tone={LinkTone.BRAND}
+        rest={LinkRest.PLAIN}
+        fit={false}
+      />
     </ExternalAnchor>
     {#each main as item (item.page)}
       <button
@@ -233,6 +241,7 @@
       target={{ url: REPO_URL, mark: LinkMark.OVERLAY }}
       size={LinkSize.SM}
       tone={LinkTone.MUTED}
+      rest={LinkRest.PLAIN}
     />
     {#if !app.connected}<span class="text-destructive">· {t.topbar_disconnected()}</span>{/if}
     <span class="h-px flex-1 bg-border"></span>

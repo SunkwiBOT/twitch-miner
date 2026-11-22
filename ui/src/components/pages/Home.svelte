@@ -124,7 +124,7 @@
           <footer
             class="flex flex-wrap gap-x-4 gap-y-1 border-t bg-muted/60 px-5 py-3 text-hint text-muted-foreground tabular-nums"
           >
-            {#each stats(a) as line (line)}<span><RichText text={line} /></span>{/each}
+            {#each stats(a) as line (line)}<RichText text={line} />{/each}
           </footer>
         </Card>
       {/each}

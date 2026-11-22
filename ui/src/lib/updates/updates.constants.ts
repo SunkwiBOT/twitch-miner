@@ -40,5 +40,9 @@ export const IMAGE_UPDATE_COMMANDS: readonly string[] = [
 export const BINARY_PATH = "/usr/local/bin/twitch-miner";
 export const BINARY_SERVICE = "twitch-miner";
 
+// ! `relative`: the sparkles are placed on the button and spill out of it.
+export const UPDATE_BADGE_CLASSES =
+  "relative border-info-emphasis/40 bg-info text-info-foreground hover:bg-info/80 hover:text-info-foreground";
+
 export const MEGABYTE_UNIT = "megabyte";
 export const BYTES_PER_MEGABYTE = 1_000_000;

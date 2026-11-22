@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { FILLED_ICONS, ICONS } from "./icon-registry.constants";
+  import { cn } from "$lib/utils";
+  import { FILLED_ICONS, ICONS, SPINNING_ICONS } from "./icon-registry.constants";
   import type { IconName } from "../../lib/icons.constants";
 
   type IconPropsType = { name: IconName; size: number; class?: string };
@@ -7,11 +8,12 @@
   let { name, size, class: className }: IconPropsType = $props();
 
   const icon = $derived(ICONS[name]);
+  const classes = $derived(cn(className, SPINNING_ICONS.has(name) && "animate-spin"));
 </script>
 
 {#if "path" in icon}
   <svg
-    class={className}
+    class={classes}
     width={size}
     height={size}
     viewBox={icon.viewBox}
@@ -23,7 +25,7 @@
 {:else}
   {@const Lucide = icon}
   <Lucide
-    class={className}
+    class={classes}
     {size}
     fill={FILLED_ICONS.has(name) ? "currentColor" : "none"}
     aria-hidden="true"

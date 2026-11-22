@@ -239,7 +239,6 @@
                 url={gameUrl(channel.game.name, channel.game.slug)}
                 art={gameArt(channel.game.name, channel.game.box_art_url)}
                 size={ThumbSize.XS}
-                inSentence={false}
               />{/if}
             {#if channel.viewers !== undefined}<ViewerCount count={channel.viewers} />{/if}
           {:else}

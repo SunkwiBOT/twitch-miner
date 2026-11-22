@@ -173,3 +173,5 @@ export const ICONS: Record<IconName, LucideIconType | IconDrawingType> = {
 };
 
 export const FILLED_ICONS: ReadonlySet<IconName> = new Set([IconName.STAR_FILLED]);
+
+export const SPINNING_ICONS: ReadonlySet<IconName> = new Set([IconName.LOADER]);

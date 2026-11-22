@@ -37,7 +37,6 @@
                 url={null}
                 art={gameArt(item.campaign.game.name, item.campaign.game.box_art_url)}
                 size={ThumbSize.XS}
-                inSentence={false}
               />
             </span>
           </span>
