@@ -82,6 +82,9 @@ jobs:
           git push origin "refs/tags/$version"
           echo "tagged=true" >> "$GITHUB_OUTPUT"
 
+  # ! No job restores a cache: a release builds from its source alone, and nothing another
+  # run wrote can reach the signing key. The checks run beside the builds; `finalize` waits
+  # for them before anything is made public.
   # ! The same checks `npm run verify` and `cargo clippy` run during
   # development (AGENTS.md), plus `cargo audit` and `npm audit`, on every
   # system the release builds for: a Rust warning or a known vulnerability
@@ -120,12 +123,10 @@ jobs:
           components: rustfmt, clippy
           # ! A universal macOS binary is linked from both architectures.
           targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
-      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
 
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
-          cache: npm
 
       - name: Install the interface dependencies
         run: npm ci
@@ -153,7 +154,7 @@ jobs:
 
   publish:
     name: ${{ matrix.name }}
-    needs: [version, checks]
+    needs: version
     strategy:
       fail-fast: false
       matrix:
@@ -206,12 +207,10 @@ jobs:
         with:
           toolchain: stable
           targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
-      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
 
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
-          cache: npm
 
       - name: Install the interface dependencies
         run: npm ci
@@ -284,11 +283,13 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-  # ! Only the versioned image here: `latest` moves in `finalize`, once the
-  # release is out, so a withdrawn run never moves it. A dry run pushes nothing.
+  # ! The image is pushed by digest only: `finalize` tags it once the checks pass, so a
+  # withdrawn run never tags anything. A dry run pushes nothing.
   docker:
-    needs: [version, checks]
+    needs: version
     runs-on: ubuntu-latest
+    outputs:
+      digest: ${{ steps.build.outputs.digest }}
     permissions:
       contents: read
       packages: write
@@ -308,15 +309,13 @@ jobs:
       # the release, one folder per platform (`linux_amd64`, `linux_arm64`). The Dockerfile
       # links it statically against musl, so it runs on any Linux of that architecture.
       - uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        id: build
         with:
           context: .
           platforms: linux/amd64,linux/arm64
           outputs: |
-            ${{ !inputs.dry_run && 'type=registry' || '' }}
+            ${{ !inputs.dry_run && format('type=image,name={0},push-by-digest=true,name-canonical=true,push=true', needs.version.outputs.image) || '' }}
             type=local,dest=server
-          tags: ${{ needs.version.outputs.image }}:${{ needs.version.outputs.version }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
 
       - name: Name the server binaries like the release assets
         env:
@@ -339,7 +338,7 @@ jobs:
           retention-days: 7
 
   dry-run:
-    needs: [version, publish, docker]
+    needs: [version, checks, publish, docker]
     if: ${{ inputs.dry_run }}
     runs-on: ubuntu-latest
     permissions:
@@ -363,7 +362,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
   finalize:
-    needs: [version, publish, docker]
+    needs: [version, checks, publish, docker]
     if: ${{ !inputs.dry_run }}
     runs-on: ubuntu-latest
     permissions:
@@ -462,13 +461,6 @@ jobs:
             gh release delete-asset "$tag" "$signature" --yes
           done
 
-      - name: Publish the complete release
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_REPO: ${{ github.repository }}
-          RELEASE_VERSION: ${{ needs.version.outputs.version }}
-        run: gh release edit "v$RELEASE_VERSION" --draft=false
-
       - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
       - uses: docker/login-action@8aa5831fb8d48d8f76594c7ddde61ae58019f550 # v4.8.0
         with:
@@ -476,11 +468,26 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # ! The release text names the versioned image: it exists before the release goes public.
+      - name: Tag the image with its version
+        env:
+          IMAGE: ${{ needs.version.outputs.image }}
+          DIGEST: ${{ needs.docker.outputs.digest }}
+          RELEASE_VERSION: ${{ needs.version.outputs.version }}
+        run: docker buildx imagetools create --tag "$IMAGE:$RELEASE_VERSION" "$IMAGE@${DIGEST:?docker pushed no digest}"
+
+      - name: Publish the complete release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_VERSION: ${{ needs.version.outputs.version }}
+        run: gh release edit "v$RELEASE_VERSION" --draft=false
+
       - name: Tag the image as latest
         env:
           IMAGE: ${{ needs.version.outputs.image }}
-          RELEASE_VERSION: ${{ needs.version.outputs.version }}
-        run: docker buildx imagetools create --tag "$IMAGE:latest" "$IMAGE:$RELEASE_VERSION"
+          DIGEST: ${{ needs.docker.outputs.digest }}
+        run: docker buildx imagetools create --tag "$IMAGE:latest" "$IMAGE@$DIGEST"
 
   # ! After a failed run start a NEW run: "Re-run failed jobs" would check out
   # the withdrawn tag and fail.
