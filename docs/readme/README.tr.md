@@ -222,39 +222,39 @@
 | | Bu proje | Channel Points Miner v2 | TwitchDropsMiner |
 |---|:---:|:---:|:---:|
 | Drops kampanyaları: bulur, kazar ve alır | ✅ | ❌ ¹ | ✅ |
+| Twitch rozetleri: tüm rozetlerin listesi, her hesabın rozetleri, rozet Drops'ları ve Twitch görevleri sizin sıranızla kazılır (beta) | ✅ | ❌ | kısmen ² |
 | Kanal puanları: sandıklar, baskınlar, anlar, tahminler | ✅ | ✅ | ❌ |
 | Spam Points: bir kanalın özel ödülü art arda birkaç kez kullanılır | ✅ | ❌ | ❌ |
 | Tek hesapta aynı anda Drops ve kanal puanları | ✅ | kısmen ¹ | ❌ |
-| Tek uygulamada istediğiniz kadar hesap | ✅ | ❌ ² | ❌ |
+| Tek uygulamada istediğiniz kadar hesap | ✅ | ❌ ³ | ❌ |
 | Birden fazla hesabın ayarlarını aynı anda değiştirme | ✅ | ❌ | ❌ |
-| Grafik arayüz | ✅ masaüstü ve web ³ | ❌ ⁴ | ✅ masaüstü |
-| Ev sunucusu için web paneli (Docker), şifreli ve HTTPS üzerinden erişilebilir | ✅ | ❌ ⁴ | ❌ |
+| Grafik arayüz | ✅ masaüstü ve web ⁴ | ❌ ⁵ | ✅ masaüstü |
+| Ev sunucusu için web paneli (Docker), şifreli ve HTTPS üzerinden erişilebilir | ✅ | ❌ ⁵ | ❌ |
 | Diskte şifrelenmiş oturumlar, isteğe bağlı uygulama şifresi | ✅ | ❌ | ❌ |
-| 29 dilde arayüz | ✅ | ❌ | kısmen ⁵ |
+| 29 dilde arayüz | ✅ | ❌ | kısmen ⁶ |
 | Uygulama içinden imzalı güncellemeler (masaüstü) | ✅ | ❌ | ❌ |
-| Her yeni hesap için kurulum sihirbazı | ✅ | ❌ ⁴ | ❌ |
-| Arayüzden tek tek veya toplu olarak eklenen ve düzenlenen yayıncılar | ✅ | ❌ ⁴ | — |
-| Aramayla, bir listeden, başka bir hesaptan veya takip edilen kanallardan içe aktarılan yayıncılar | ✅ | kısmen ⁶ | — |
-| Resimli Discord, Telegram ve webhook bildirimleri | ✅ | kısmen ⁷ | ❌ |
-| Tüm Drops kampanyalarının aranabilir takvimi | ✅ | ❌ | kısmen ⁸ |
-| Kampanya bazında kazma sırası, hariç tutulan kelimeler, yok sayılan kampanya veya ödül | ✅ | ❌ | ❌ ⁹ |
-| Bir kampanyanın Drops'ları için önce listenizdeki yayıncılar izlenir | ✅ | kısmen ¹⁰ | ❌ |
-| Twitch rozetleri: tüm rozetlerin listesi, her hesabın rozetleri, rozet Drops'ları ve Twitch görevleri sizin sıranızla kazılır (beta) | ✅ | ❌ | kısmen ¹² |
-| Arayüzde filtrelenebilir olay günlüğü ve her isteğin listesi | ✅ | ❌ ⁴ | ❌ |
-| Hesap başına yaklaşık 3 MB bellek (Docker sunucusu) | ✅ | — ¹¹ | — ¹¹ |
+| Her yeni hesap için kurulum sihirbazı | ✅ | ❌ ⁵ | ❌ |
+| Arayüzden tek tek veya toplu olarak eklenen ve düzenlenen yayıncılar | ✅ | ❌ ⁵ | — |
+| Aramayla, bir listeden, başka bir hesaptan veya takip edilen kanallardan içe aktarılan yayıncılar | ✅ | kısmen ⁷ | — |
+| Resimli Discord, Telegram ve webhook bildirimleri | ✅ | kısmen ⁸ | ❌ |
+| Tüm Drops kampanyalarının aranabilir takvimi | ✅ | ❌ | kısmen ⁹ |
+| Kampanya bazında kazma sırası, hariç tutulan kelimeler, yok sayılan kampanya veya ödül | ✅ | ❌ | ❌ ¹⁰ |
+| Bir kampanyanın Drops'ları için önce listenizdeki yayıncılar izlenir | ✅ | kısmen ¹¹ | ❌ |
+| Arayüzde filtrelenebilir olay günlüğü ve her isteğin listesi | ✅ | ❌ ⁵ | ❌ |
+| Hesap başına yaklaşık 3 MB bellek (Docker sunucusu) | ✅ | — ¹² | — ¹² |
 
 ¹ Yalnızca listesindeki yayıncıları izler: kampanya seçmeden, onların yayınlarındaki Drops'ları ilerletir ve alır.\
-² Hesap başına bir süreç.\
-³ Bilgisayarınızda masaüstü uygulaması olarak ve/veya Docker ile bir sunucuda (VPS, NAS, Raspberry Pi); o makinede grafik ortam ve tarayıcı gerekmez: panel herhangi bir tarayıcıda açılır.\
-⁴ Bir Python dosyasında yapılandırılır; web sayfası puan grafiklerini ve kayıt dosyasını gösterir.\
-⁵ 21 dil.\
-⁶ Hesabın takip ettiği kanalları takip edebilir.\
-⁷ Yalnızca metin, resim yok. Ayrıca Matrix, Pushover ve Gotify desteği var; bunlar bu projede yok.\
-⁸ Filtreli bir kampanya listesi; takvim veya arama yok.\
-⁹ Kategori adına göre seçilen öncelikli kategorileri ve hariç tutulan kategorileri vardır.\
-¹⁰ Varsayılan olarak önce listesindeki yayıncılardan yayınında Drops olanları izler (`DROPS` önceliği), ama hiçbir zaman başka bir kanalı izlemez.\
-¹¹ Ölçülmedi.\
-¹² Ödülleri rozet veya ifade olan Drops kampanyalarını kazmak ya da dışarıda bırakmak için bir ayar; Twitch görevleri ve rozet listesi yok.
+² Ödülleri rozet veya ifade olan Drops kampanyalarını kazmak ya da dışarıda bırakmak için bir ayar; Twitch görevleri ve rozet listesi yok.\
+³ Hesap başına bir süreç.\
+⁴ Bilgisayarınızda masaüstü uygulaması olarak ve/veya Docker ile bir sunucuda (VPS, NAS, Raspberry Pi); o makinede grafik ortam ve tarayıcı gerekmez: panel herhangi bir tarayıcıda açılır.\
+⁵ Bir Python dosyasında yapılandırılır; web sayfası puan grafiklerini ve kayıt dosyasını gösterir.\
+⁶ 21 dil.\
+⁷ Hesabın takip ettiği kanalları takip edebilir.\
+⁸ Yalnızca metin, resim yok. Ayrıca Matrix, Pushover ve Gotify desteği var; bunlar bu projede yok.\
+⁹ Filtreli bir kampanya listesi; takvim veya arama yok.\
+¹⁰ Kategori adına göre seçilen öncelikli kategorileri ve hariç tutulan kategorileri vardır.\
+¹¹ Varsayılan olarak önce listesindeki yayıncılardan yayınında Drops olanları izler (`DROPS` önceliği), ama hiçbir zaman başka bir kanalı izlemez.\
+¹² Ölçülmedi.
 
 ## <a name="download"></a>İndirme
 

@@ -222,39 +222,39 @@ So sánh [Twitch Miner](https://github.com/SunkwiBOT/twitch-miner) với [Twitch
 | | Dự án này | Channel Points Miner v2 | TwitchDropsMiner |
 |---|:---:|:---:|:---:|
 | Chiến dịch Drops: tìm, đào và nhận | ✅ | ❌ ¹ | ✅ |
+| Huy hiệu Twitch: danh sách mọi huy hiệu, huy hiệu của từng tài khoản, Drops huy hiệu và nhiệm vụ Twitch được đào theo thứ tự của bạn (beta) | ✅ | ❌ | một phần ² |
 | Điểm kênh: rương, raid, khoảnh khắc, dự đoán | ✅ | ✅ | ❌ |
 | Spam Points: đổi một phần thưởng tùy chỉnh của kênh nhiều lần liên tiếp | ✅ | ❌ | ❌ |
 | Drops và điểm kênh cùng lúc trên một tài khoản | ✅ | một phần ¹ | ❌ |
-| Bao nhiêu tài khoản tùy bạn trong một ứng dụng | ✅ | ❌ ² | ❌ |
+| Bao nhiêu tài khoản tùy bạn trong một ứng dụng | ✅ | ❌ ³ | ❌ |
 | Đổi cài đặt của nhiều tài khoản cùng lúc | ✅ | ❌ | ❌ |
-| Giao diện đồ họa | ✅ máy tính và web ³ | ❌ ⁴ | ✅ máy tính |
-| Bảng điều khiển web cho máy chủ tại nhà (Docker), có mật khẩu, truy cập được qua HTTPS | ✅ | ❌ ⁴ | ❌ |
+| Giao diện đồ họa | ✅ máy tính và web ⁴ | ❌ ⁵ | ✅ máy tính |
+| Bảng điều khiển web cho máy chủ tại nhà (Docker), có mật khẩu, truy cập được qua HTTPS | ✅ | ❌ ⁵ | ❌ |
 | Phiên được mã hóa trên ổ đĩa, mật khẩu ứng dụng tùy chọn | ✅ | ❌ | ❌ |
-| Giao diện 29 ngôn ngữ | ✅ | ❌ | một phần ⁵ |
+| Giao diện 29 ngôn ngữ | ✅ | ❌ | một phần ⁶ |
 | Cập nhật có chữ ký ngay trong ứng dụng (máy tính) | ✅ | ❌ | ❌ |
-| Trình hướng dẫn thiết lập cho mỗi tài khoản mới | ✅ | ❌ ⁴ | ❌ |
-| Thêm và sửa streamer trong giao diện, từng người hoặc nhiều người cùng lúc | ✅ | ❌ ⁴ | — |
-| Nhập streamer bằng tìm kiếm, danh sách, tài khoản khác hoặc kênh đang theo dõi | ✅ | một phần ⁶ | — |
-| Thông báo Discord, Telegram và webhook kèm hình ảnh | ✅ | một phần ⁷ | ❌ |
-| Lịch của mọi chiến dịch Drops, có tìm kiếm | ✅ | ❌ | một phần ⁸ |
-| Thứ tự đào theo chiến dịch, từ khóa loại trừ, bỏ qua chiến dịch hoặc phần thưởng | ✅ | ❌ | ❌ ⁹ |
-| Ưu tiên xem các streamer trong danh sách của bạn để lấy Drops của một chiến dịch | ✅ | một phần ¹⁰ | ❌ |
-| Huy hiệu Twitch: danh sách mọi huy hiệu, huy hiệu của từng tài khoản, Drops huy hiệu và nhiệm vụ Twitch được đào theo thứ tự của bạn (beta) | ✅ | ❌ | một phần ¹² |
-| Nhật ký sự kiện có bộ lọc và danh sách mọi yêu cầu, ngay trong giao diện | ✅ | ❌ ⁴ | ❌ |
-| Khoảng 3 MB bộ nhớ mỗi tài khoản (máy chủ Docker) | ✅ | — ¹¹ | — ¹¹ |
+| Trình hướng dẫn thiết lập cho mỗi tài khoản mới | ✅ | ❌ ⁵ | ❌ |
+| Thêm và sửa streamer trong giao diện, từng người hoặc nhiều người cùng lúc | ✅ | ❌ ⁵ | — |
+| Nhập streamer bằng tìm kiếm, danh sách, tài khoản khác hoặc kênh đang theo dõi | ✅ | một phần ⁷ | — |
+| Thông báo Discord, Telegram và webhook kèm hình ảnh | ✅ | một phần ⁸ | ❌ |
+| Lịch của mọi chiến dịch Drops, có tìm kiếm | ✅ | ❌ | một phần ⁹ |
+| Thứ tự đào theo chiến dịch, từ khóa loại trừ, bỏ qua chiến dịch hoặc phần thưởng | ✅ | ❌ | ❌ ¹⁰ |
+| Ưu tiên xem các streamer trong danh sách của bạn để lấy Drops của một chiến dịch | ✅ | một phần ¹¹ | ❌ |
+| Nhật ký sự kiện có bộ lọc và danh sách mọi yêu cầu, ngay trong giao diện | ✅ | ❌ ⁵ | ❌ |
+| Khoảng 3 MB bộ nhớ mỗi tài khoản (máy chủ Docker) | ✅ | — ¹² | — ¹² |
 
 ¹ Nó chỉ xem các streamer trong danh sách của mình: nó đẩy tiến độ và nhận Drops từ các buổi phát của họ, nhưng không chọn chiến dịch.\
-² Mỗi tài khoản một tiến trình.\
-³ Trên PC của bạn dưới dạng ứng dụng máy tính, và/hoặc trên một máy chủ (VPS, NAS, Raspberry Pi) bằng Docker, máy đó không cần môi trường đồ họa hay trình duyệt: bảng điều khiển mở được trong bất kỳ trình duyệt nào.\
-⁴ Cấu hình trong một tệp Python; trang web của nó hiện biểu đồ điểm và tệp log.\
-⁵ 21 ngôn ngữ.\
-⁶ Nó có thể theo dõi các kênh mà tài khoản đang theo dõi.\
-⁷ Chỉ có văn bản, không có hình ảnh. Nó còn có Matrix, Pushover và Gotify, những thứ dự án này không có.\
-⁸ Một danh sách chiến dịch có bộ lọc, không có lịch hay tìm kiếm.\
-⁹ Nó có danh mục ưu tiên và danh mục bị loại trừ, chọn theo tên danh mục.\
-¹⁰ Theo mặc định, nó xem trước các streamer trong danh sách có buổi phát mang Drops (mức ưu tiên `DROPS` của nó), nhưng không bao giờ xem kênh khác.\
-¹¹ Chưa đo.\
-¹² Một tùy chọn để đào hoặc bỏ qua các chiến dịch Drops có phần thưởng là huy hiệu hoặc biểu tượng cảm xúc; không có nhiệm vụ Twitch và không có danh sách huy hiệu.
+² Một tùy chọn để đào hoặc bỏ qua các chiến dịch Drops có phần thưởng là huy hiệu hoặc biểu tượng cảm xúc; không có nhiệm vụ Twitch và không có danh sách huy hiệu.\
+³ Mỗi tài khoản một tiến trình.\
+⁴ Trên PC của bạn dưới dạng ứng dụng máy tính, và/hoặc trên một máy chủ (VPS, NAS, Raspberry Pi) bằng Docker, máy đó không cần môi trường đồ họa hay trình duyệt: bảng điều khiển mở được trong bất kỳ trình duyệt nào.\
+⁵ Cấu hình trong một tệp Python; trang web của nó hiện biểu đồ điểm và tệp log.\
+⁶ 21 ngôn ngữ.\
+⁷ Nó có thể theo dõi các kênh mà tài khoản đang theo dõi.\
+⁸ Chỉ có văn bản, không có hình ảnh. Nó còn có Matrix, Pushover và Gotify, những thứ dự án này không có.\
+⁹ Một danh sách chiến dịch có bộ lọc, không có lịch hay tìm kiếm.\
+¹⁰ Nó có danh mục ưu tiên và danh mục bị loại trừ, chọn theo tên danh mục.\
+¹¹ Theo mặc định, nó xem trước các streamer trong danh sách có buổi phát mang Drops (mức ưu tiên `DROPS` của nó), nhưng không bao giờ xem kênh khác.\
+¹² Chưa đo.
 
 ## <a name="download"></a>Tải xuống
 

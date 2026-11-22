@@ -323,45 +323,45 @@ Gecontroleerd aan de hand van hun code en README's in november 2026.
 | | Dit project | Channel Points Miner v2 | TwitchDropsMiner |
 |---|:---:|:---:|:---:|
 | Drops-campagnes: vindt, mint en claimt ze | ✅ | ❌ ¹ | ✅ |
+| Twitch-badges: de lijst van alle badges, de badges van elk account, badge-Drops en Twitch-quests gemined in jouw volgorde (bèta) | ✅ | ❌ | deels ² |
 | Kanaalpunten: kisten, raids, momenten, voorspellingen | ✅ | ✅ | ❌ |
 | Spam Points: een aangepaste beloning van een kanaal meerdere keren achter elkaar ingewisseld | ✅ | ❌ | ❌ |
 | Drops en kanaalpunten tegelijk op één account | ✅ | deels ¹ | ❌ |
-| Zoveel accounts als je wilt in één app | ✅ | ❌ ² | ❌ |
+| Zoveel accounts als je wilt in één app | ✅ | ❌ ³ | ❌ |
 | Instellingen van meerdere accounts tegelijk wijzigen | ✅ | ❌ | ❌ |
-| Grafische interface | ✅ desktop en web ³ | ❌ ⁴ | ✅ desktop |
-| Webdashboard voor een thuisserver (Docker), met wachtwoord, bereikbaar via HTTPS | ✅ | ❌ ⁴ | ❌ |
+| Grafische interface | ✅ desktop en web ⁴ | ❌ ⁵ | ✅ desktop |
+| Webdashboard voor een thuisserver (Docker), met wachtwoord, bereikbaar via HTTPS | ✅ | ❌ ⁵ | ❌ |
 | Sessies versleuteld op schijf, optioneel app-wachtwoord | ✅ | ❌ | ❌ |
-| Interface in 29 talen | ✅ | ❌ | deels ⁵ |
+| Interface in 29 talen | ✅ | ❌ | deels ⁶ |
 | Ondertekende updates vanuit de app (desktop) | ✅ | ❌ | ❌ |
-| Instelwizard voor elk nieuw account | ✅ | ❌ ⁴ | ❌ |
-| Streamers toevoegen en bewerken in de interface, één voor één of meerdere tegelijk | ✅ | ❌ ⁴ | — |
-| Streamers importeren via zoeken, een lijst, een ander account of gevolgde kanalen | ✅ | deels ⁶ | — |
-| Meldingen via Discord, Telegram en webhook, met afbeeldingen | ✅ | deels ⁷ | ❌ |
-| Kalender van alle Drops-campagnes, met zoekfunctie | ✅ | ❌ | deels ⁸ |
-| Minevolgorde per campagne, uitgesloten woorden, genegeerde campagne of beloning | ✅ | ❌ | ❌ ⁹ |
-| Streamers uit je lijst eerst bekeken voor de Drops van een campagne | ✅ | deels ¹⁰ | ❌ |
-| Twitch-badges: de lijst van alle badges, de badges van elk account, badge-Drops en Twitch-quests gemined in jouw volgorde (bèta) | ✅ | ❌ | deels ¹² |
-| Filterbaar gebeurtenissenjournaal en een lijst van elk verzoek, in de interface | ✅ | ❌ ⁴ | ❌ |
-| Ongeveer 3 MB geheugen per account (Docker-server) | ✅ | — ¹¹ | — ¹¹ |
+| Instelwizard voor elk nieuw account | ✅ | ❌ ⁵ | ❌ |
+| Streamers toevoegen en bewerken in de interface, één voor één of meerdere tegelijk | ✅ | ❌ ⁵ | — |
+| Streamers importeren via zoeken, een lijst, een ander account of gevolgde kanalen | ✅ | deels ⁷ | — |
+| Meldingen via Discord, Telegram en webhook, met afbeeldingen | ✅ | deels ⁸ | ❌ |
+| Kalender van alle Drops-campagnes, met zoekfunctie | ✅ | ❌ | deels ⁹ |
+| Minevolgorde per campagne, uitgesloten woorden, genegeerde campagne of beloning | ✅ | ❌ | ❌ ¹⁰ |
+| Streamers uit je lijst eerst bekeken voor de Drops van een campagne | ✅ | deels ¹¹ | ❌ |
+| Filterbaar gebeurtenissenjournaal en een lijst van elk verzoek, in de interface | ✅ | ❌ ⁵ | ❌ |
+| Ongeveer 3 MB geheugen per account (Docker-server) | ✅ | — ¹² | — ¹² |
 
 ¹ Het kijkt alleen naar de streamers op zijn lijst: het brengt de Drops van hun streams
 verder en claimt ze, zonder een campagne te kiezen.\
-² Eén proces per account.\
-³ Op je pc als desktop-app, en/of op een server (VPS, NAS, Raspberry Pi) met Docker,
+² Een instelling om de Drops-campagnes waarvan de beloningen badges of emotes zijn te
+minen of over te slaan; geen Twitch-quests en geen lijst van badges.\
+³ Eén proces per account.\
+⁴ Op je pc als desktop-app, en/of op een server (VPS, NAS, Raspberry Pi) met Docker,
 zonder grafische omgeving en zonder browser op die machine: het dashboard opent in elke
 browser.\
-⁴ Ingesteld in een Python-bestand; de webpagina toont puntengrafieken en het logbestand.\
-⁵ 21 talen.\
-⁶ Het kan de kanalen volgen die het account volgt.\
-⁷ Alleen tekst, zonder afbeeldingen. Het heeft ook Matrix, Pushover en Gotify, die dit
+⁵ Ingesteld in een Python-bestand; de webpagina toont puntengrafieken en het logbestand.\
+⁶ 21 talen.\
+⁷ Het kan de kanalen volgen die het account volgt.\
+⁸ Alleen tekst, zonder afbeeldingen. Het heeft ook Matrix, Pushover en Gotify, die dit
 project niet heeft.\
-⁸ Een lijst van campagnes met filters, zonder kalender of zoekfunctie.\
-⁹ Het heeft prioriteitscategorieën en uitgesloten categorieën, gekozen op naam van de categorie.\
-¹⁰ Standaard kijkt het eerst naar de streamers op zijn lijst wier stream Drops heeft (zijn
+⁹ Een lijst van campagnes met filters, zonder kalender of zoekfunctie.\
+¹⁰ Het heeft prioriteitscategorieën en uitgesloten categorieën, gekozen op naam van de categorie.\
+¹¹ Standaard kijkt het eerst naar de streamers op zijn lijst wier stream Drops heeft (zijn
 prioriteit `DROPS`), maar nooit naar een ander kanaal.\
-¹¹ Niet gemeten.\
-¹² Een instelling om de Drops-campagnes waarvan de beloningen badges of emotes zijn te
-minen of over te slaan; geen Twitch-quests en geen lijst van badges.
+¹² Niet gemeten.
 
 ## <a name="download"></a>Downloaden
 

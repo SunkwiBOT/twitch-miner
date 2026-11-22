@@ -318,46 +318,46 @@ Verificat în codul și în README-urile lor în noiembrie 2026.
 | | Acest proiect | Channel Points Miner v2 | TwitchDropsMiner |
 |---|:---:|:---:|:---:|
 | Campanii Drops: le găsește, le minează și le revendică | ✅ | ❌ ¹ | ✅ |
+| Insigne Twitch: lista tuturor insignelor, insignele fiecărui cont, Drops cu insigne și misiuni Twitch minate în ordinea ta (beta) | ✅ | ❌ | parțial ² |
 | Puncte de canal: cufere, raiduri, momente, predicții | ✅ | ✅ | ❌ |
 | Spam Points: o recompensă personalizată a unui canal revendicată de mai multe ori la rând | ✅ | ❌ | ❌ |
 | Drops și puncte de canal simultan pe același cont | ✅ | parțial ¹ | ❌ |
-| Oricâte conturi într-o singură aplicație | ✅ | ❌ ² | ❌ |
+| Oricâte conturi într-o singură aplicație | ✅ | ❌ ³ | ❌ |
 | Modificarea setărilor mai multor conturi deodată | ✅ | ❌ | ❌ |
-| Interfață grafică | ✅ desktop și web ³ | ❌ ⁴ | ✅ desktop |
-| Panou web pentru un server de acasă (Docker), cu parolă și accesibil prin HTTPS | ✅ | ❌ ⁴ | ❌ |
+| Interfață grafică | ✅ desktop și web ⁴ | ❌ ⁵ | ✅ desktop |
+| Panou web pentru un server de acasă (Docker), cu parolă și accesibil prin HTTPS | ✅ | ❌ ⁵ | ❌ |
 | Sesiuni criptate pe disc, parolă opțională a aplicației | ✅ | ❌ | ❌ |
-| Interfață în 29 de limbi | ✅ | ❌ | parțial ⁵ |
+| Interfață în 29 de limbi | ✅ | ❌ | parțial ⁶ |
 | Actualizări semnate direct din aplicație (desktop) | ✅ | ❌ | ❌ |
-| Asistent de configurare pentru fiecare cont nou | ✅ | ❌ ⁴ | ❌ |
-| Streameri adăugați și editați din interfață, unul câte unul sau mai mulți deodată | ✅ | ❌ ⁴ | — |
-| Streameri importați prin căutare, dintr-o listă, de la alt cont sau din canalele urmărite | ✅ | parțial ⁶ | — |
-| Notificări Discord, Telegram și webhook, cu imagini | ✅ | parțial ⁷ | ❌ |
-| Calendarul tuturor campaniilor Drops, cu căutare | ✅ | ❌ | parțial ⁸ |
-| Ordine de minare pe campanie, cuvinte excluse, campanie sau recompensă ignorată | ✅ | ❌ | ❌ ⁹ |
-| Streamerii din lista ta, urmăriți primii pentru Drops-urile unei campanii | ✅ | parțial ¹⁰ | ❌ |
-| Insigne Twitch: lista tuturor insignelor, insignele fiecărui cont, Drops cu insigne și misiuni Twitch minate în ordinea ta (beta) | ✅ | ❌ | parțial ¹² |
-| Jurnal de evenimente filtrabil și lista fiecărei cereri, în interfață | ✅ | ❌ ⁴ | ❌ |
-| În jur de 3 MB de memorie pe cont (server Docker) | ✅ | — ¹¹ | — ¹¹ |
+| Asistent de configurare pentru fiecare cont nou | ✅ | ❌ ⁵ | ❌ |
+| Streameri adăugați și editați din interfață, unul câte unul sau mai mulți deodată | ✅ | ❌ ⁵ | — |
+| Streameri importați prin căutare, dintr-o listă, de la alt cont sau din canalele urmărite | ✅ | parțial ⁷ | — |
+| Notificări Discord, Telegram și webhook, cu imagini | ✅ | parțial ⁸ | ❌ |
+| Calendarul tuturor campaniilor Drops, cu căutare | ✅ | ❌ | parțial ⁹ |
+| Ordine de minare pe campanie, cuvinte excluse, campanie sau recompensă ignorată | ✅ | ❌ | ❌ ¹⁰ |
+| Streamerii din lista ta, urmăriți primii pentru Drops-urile unei campanii | ✅ | parțial ¹¹ | ❌ |
+| Jurnal de evenimente filtrabil și lista fiecărei cereri, în interfață | ✅ | ❌ ⁵ | ❌ |
+| În jur de 3 MB de memorie pe cont (server Docker) | ✅ | — ¹² | — ¹² |
 
 ¹ Urmărește doar streamerii din lista lui: avansează Drops-urile din streamurile lor și le
 revendică, fără să aleagă o campanie.\
-² Un proces per cont.\
-³ Pe PC-ul tău ca aplicație desktop și/sau pe un server (VPS, NAS, Raspberry Pi) cu
+² O setare pentru a mina sau a omite campaniile Drops ale căror recompense sunt insigne
+sau emote-uri; fără misiuni Twitch și fără lista insignelor.\
+³ Un proces per cont.\
+⁴ Pe PC-ul tău ca aplicație desktop și/sau pe un server (VPS, NAS, Raspberry Pi) cu
 Docker, fără mediu grafic și fără browser pe acea mașină: panoul se deschide în orice
 browser.\
-⁴ Configurat într-un fișier Python; pagina sa web arată grafice cu puncte și fișierul de
+⁵ Configurat într-un fișier Python; pagina sa web arată grafice cu puncte și fișierul de
 log.\
-⁵ 21 de limbi.\
-⁶ Poate urmări canalele pe care le urmărește contul.\
-⁷ Doar text, fără imagini. Are și Matrix, Pushover și Gotify, pe care acest proiect nu le
+⁶ 21 de limbi.\
+⁷ Poate urmări canalele pe care le urmărește contul.\
+⁸ Doar text, fără imagini. Are și Matrix, Pushover și Gotify, pe care acest proiect nu le
 are.\
-⁸ O listă de campanii cu filtre, fără calendar și fără căutare.\
-⁹ Are categorii prioritare și categorii excluse, alese după numele categoriei.\
-¹⁰ Implicit, urmărește întâi streamerii din lista lui al căror stream are Drops
+⁹ O listă de campanii cu filtre, fără calendar și fără căutare.\
+¹⁰ Are categorii prioritare și categorii excluse, alese după numele categoriei.\
+¹¹ Implicit, urmărește întâi streamerii din lista lui al căror stream are Drops
 (prioritatea lui `DROPS`), dar niciodată alt canal.\
-¹¹ Nemăsurat.\
-¹² O setare pentru a mina sau a omite campaniile Drops ale căror recompense sunt insigne
-sau emote-uri; fără misiuni Twitch și fără lista insignelor.
+¹² Nemăsurat.
 
 ## <a name="download"></a>Descărcare
 

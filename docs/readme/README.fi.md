@@ -327,46 +327,46 @@ Tarkistettu niiden koodista ja README-tiedostoista marraskuussa 2026.
 | | Tämä projekti | Channel Points Miner v2 | TwitchDropsMiner |
 |---|:---:|:---:|:---:|
 | Drops-kampanjat: löytää, louhii ja lunastaa ne | ✅ | ❌ ¹ | ✅ |
+| Twitch-merkit: kaikkien merkkien lista, kunkin tilin merkit, merkki-Dropsit ja Twitchin questit louhitaan haluamassasi järjestyksessä (beta) | ✅ | ❌ | osittain ² |
 | Kanavapisteet: arkut, raidit, hetket, ennustukset | ✅ | ✅ | ❌ |
 | Spam Points: kanavan oma palkinto lunastettuna useita kertoja peräkkäin | ✅ | ❌ | ❌ |
 | Drops ja kanavapisteet samanaikaisesti yhdellä tilillä | ✅ | osittain ¹ | ❌ |
-| Niin monta tiliä kuin haluat yhdessä sovelluksessa | ✅ | ❌ ² | ❌ |
+| Niin monta tiliä kuin haluat yhdessä sovelluksessa | ✅ | ❌ ³ | ❌ |
 | Usean tilin asetusten muuttaminen kerralla | ✅ | ❌ | ❌ |
-| Graafinen käyttöliittymä | ✅ työpöytä ja verkko ³ | ❌ ⁴ | ✅ työpöytä |
-| Verkkohallintapaneeli kotipalvelimelle (Docker), salasanalla suojattu, käytettävissä HTTPS:n kautta | ✅ | ❌ ⁴ | ❌ |
+| Graafinen käyttöliittymä | ✅ työpöytä ja verkko ⁴ | ❌ ⁵ | ✅ työpöytä |
+| Verkkohallintapaneeli kotipalvelimelle (Docker), salasanalla suojattu, käytettävissä HTTPS:n kautta | ✅ | ❌ ⁵ | ❌ |
 | Levyllä salatut istunnot, valinnainen sovelluksen salasana | ✅ | ❌ | ❌ |
-| Käyttöliittymä 29 kielellä | ✅ | ❌ | osittain ⁵ |
+| Käyttöliittymä 29 kielellä | ✅ | ❌ | osittain ⁶ |
 | Allekirjoitetut päivitykset suoraan sovelluksesta (työpöytä) | ✅ | ❌ | ❌ |
-| Ohjattu käyttöönotto jokaiselle uudelle tilille | ✅ | ❌ ⁴ | ❌ |
-| Streamaajien lisäys ja muokkaus käyttöliittymässä, yksi kerrallaan tai useita kerralla | ✅ | ❌ ⁴ | — |
-| Streamaajien tuonti haulla, listasta, toiselta tililtä tai seuratuista kanavista | ✅ | osittain ⁶ | — |
-| Discord-, Telegram- ja webhook-ilmoitukset kuvineen | ✅ | osittain ⁷ | ❌ |
-| Kalenteri kaikista Drops-kampanjoista, haulla | ✅ | ❌ | osittain ⁸ |
-| Louhintajärjestys kampanjoittain, poissuljetut sanat, ohitettu kampanja tai palkinto | ✅ | ❌ | ❌ ⁹ |
-| Listasi streamaajia katsotaan ensin kampanjan Dropseja varten | ✅ | osittain ¹⁰ | ❌ |
-| Twitch-merkit: kaikkien merkkien lista, kunkin tilin merkit, merkki-Dropsit ja Twitchin questit louhitaan haluamassasi järjestyksessä (beta) | ✅ | ❌ | osittain ¹² |
-| Suodatettava tapahtumapäiväkirja ja lista jokaisesta pyynnöstä käyttöliittymässä | ✅ | ❌ ⁴ | ❌ |
-| Noin 3 Mt muistia per tili (Docker-palvelin) | ✅ | — ¹¹ | — ¹¹ |
+| Ohjattu käyttöönotto jokaiselle uudelle tilille | ✅ | ❌ ⁵ | ❌ |
+| Streamaajien lisäys ja muokkaus käyttöliittymässä, yksi kerrallaan tai useita kerralla | ✅ | ❌ ⁵ | — |
+| Streamaajien tuonti haulla, listasta, toiselta tililtä tai seuratuista kanavista | ✅ | osittain ⁷ | — |
+| Discord-, Telegram- ja webhook-ilmoitukset kuvineen | ✅ | osittain ⁸ | ❌ |
+| Kalenteri kaikista Drops-kampanjoista, haulla | ✅ | ❌ | osittain ⁹ |
+| Louhintajärjestys kampanjoittain, poissuljetut sanat, ohitettu kampanja tai palkinto | ✅ | ❌ | ❌ ¹⁰ |
+| Listasi streamaajia katsotaan ensin kampanjan Dropseja varten | ✅ | osittain ¹¹ | ❌ |
+| Suodatettava tapahtumapäiväkirja ja lista jokaisesta pyynnöstä käyttöliittymässä | ✅ | ❌ ⁵ | ❌ |
+| Noin 3 Mt muistia per tili (Docker-palvelin) | ✅ | — ¹² | — ¹² |
 
 ¹ Se katsoo vain listansa streamaajia: se edistää heidän lähetystensä Dropseja ja
 lunastaa ne valitsematta kampanjaa.\
-² Yksi prosessi tiliä kohden.\
-³ Tietokoneellasi työpöytäsovelluksena ja/tai palvelimella (VPS, NAS, Raspberry Pi)
+² Asetus, jolla louhitaan tai jätetään pois Drops-kampanjat, joiden palkintoina on
+merkkejä tai hymiöitä; ei Twitchin questeja eikä merkkilistaa.\
+³ Yksi prosessi tiliä kohden.\
+⁴ Tietokoneellasi työpöytäsovelluksena ja/tai palvelimella (VPS, NAS, Raspberry Pi)
 Dockerilla, ilman graafista ympäristöä ja ilman selainta kyseisellä koneella:
 hallintapaneeli avautuu missä tahansa selaimessa.\
-⁴ Määritetään Python-tiedostossa; sen verkkosivu näyttää pistekaavioita ja
+⁵ Määritetään Python-tiedostossa; sen verkkosivu näyttää pistekaavioita ja
 lokitiedoston.\
-⁵ 21 kieltä.\
-⁶ Se voi seurata kanavia, joita tili seuraa.\
-⁷ Pelkkää tekstiä ilman kuvia. Siinä on myös Matrix, Pushover ja Gotify, joita tässä
+⁶ 21 kieltä.\
+⁷ Se voi seurata kanavia, joita tili seuraa.\
+⁸ Pelkkää tekstiä ilman kuvia. Siinä on myös Matrix, Pushover ja Gotify, joita tässä
 projektissa ei ole.\
-⁸ Kampanjalista suodattimilla, ilman kalenteria ja hakua.\
-⁹ Siinä on prioriteettikategoriat ja ohitetut kategoriat, jotka valitaan kategorian nimen mukaan.\
-¹⁰ Oletuksena se katsoo ensin niitä listansa streamaajia, joiden lähetyksessä on Dropseja
+⁹ Kampanjalista suodattimilla, ilman kalenteria ja hakua.\
+¹⁰ Siinä on prioriteettikategoriat ja ohitetut kategoriat, jotka valitaan kategorian nimen mukaan.\
+¹¹ Oletuksena se katsoo ensin niitä listansa streamaajia, joiden lähetyksessä on Dropseja
 (sen prioriteetti `DROPS`), mutta ei koskaan muuta kanavaa.\
-¹¹ Ei mitattu.\
-¹² Asetus, jolla louhitaan tai jätetään pois Drops-kampanjat, joiden palkintoina on
-merkkejä tai hymiöitä; ei Twitchin questeja eikä merkkilistaa.
+¹² Ei mitattu.
 
 ## <a name="download"></a>Lataus
 

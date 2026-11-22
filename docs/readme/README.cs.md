@@ -310,45 +310,45 @@ Ověřeno v jejich kódu a souborech README v listopadu 2026.
 | | Tento projekt | Channel Points Miner v2 | TwitchDropsMiner |
 |---|:---:|:---:|:---:|
 | Kampaně Drops: najde je, těží a vyzvedává | ✅ | ❌ ¹ | ✅ |
+| Odznaky Twitche: seznam všech odznaků, odznaky každého účtu, Drops s odznaky a questy Twitche těžené ve vašem pořadí (beta) | ✅ | ❌ | částečně ² |
 | Body kanálu: truhly, raidy, momenty, předpovědi | ✅ | ✅ | ❌ |
 | Spam Points: vlastní odměna kanálu uplatněná několikrát za sebou | ✅ | ❌ | ❌ |
 | Drops a body kanálu současně na jednom účtu | ✅ | částečně ¹ | ❌ |
-| Libovolný počet účtů v jedné aplikaci | ✅ | ❌ ² | ❌ |
+| Libovolný počet účtů v jedné aplikaci | ✅ | ❌ ³ | ❌ |
 | Změna nastavení více účtů najednou | ✅ | ❌ | ❌ |
-| Grafické rozhraní | ✅ desktopové i webové ³ | ❌ ⁴ | ✅ desktopové |
-| Webový panel pro domácí server (Docker), chráněný heslem, dostupný přes HTTPS | ✅ | ❌ ⁴ | ❌ |
+| Grafické rozhraní | ✅ desktopové i webové ⁴ | ❌ ⁵ | ✅ desktopové |
+| Webový panel pro domácí server (Docker), chráněný heslem, dostupný přes HTTPS | ✅ | ❌ ⁵ | ❌ |
 | Relace šifrované na disku, volitelné heslo aplikace | ✅ | ❌ | ❌ |
-| Rozhraní ve 29 jazycích | ✅ | ❌ | částečně ⁵ |
+| Rozhraní ve 29 jazycích | ✅ | ❌ | částečně ⁶ |
 | Podepsané aktualizace přímo z aplikace (desktop) | ✅ | ❌ | ❌ |
-| Průvodce nastavením pro každý nový účet | ✅ | ❌ ⁴ | ❌ |
-| Streameři přidávaní a upravovaní v rozhraní, po jednom nebo několik najednou | ✅ | ❌ ⁴ | — |
-| Import streamerů vyhledáním, seznamem, z jiného účtu nebo ze sledovaných kanálů | ✅ | částečně ⁶ | — |
-| Oznámení přes Discord, Telegram a webhook s obrázky | ✅ | částečně ⁷ | ❌ |
-| Kalendář všech kampaní Drops s vyhledáváním | ✅ | ❌ | částečně ⁸ |
-| Pořadí těžby podle kampaní, vyloučená slova, ignorovaná kampaň nebo odměna | ✅ | ❌ | ❌ ⁹ |
-| Streameři z vašeho seznamu sledovaní přednostně pro Drops kampaně | ✅ | částečně ¹⁰ | ❌ |
-| Odznaky Twitche: seznam všech odznaků, odznaky každého účtu, Drops s odznaky a questy Twitche těžené ve vašem pořadí (beta) | ✅ | ❌ | částečně ¹² |
-| Filtrovatelný deník událostí a seznam všech požadavků v rozhraní | ✅ | ❌ ⁴ | ❌ |
-| Asi 3 MB paměti na účet (server Docker) | ✅ | — ¹¹ | — ¹¹ |
+| Průvodce nastavením pro každý nový účet | ✅ | ❌ ⁵ | ❌ |
+| Streameři přidávaní a upravovaní v rozhraní, po jednom nebo několik najednou | ✅ | ❌ ⁵ | — |
+| Import streamerů vyhledáním, seznamem, z jiného účtu nebo ze sledovaných kanálů | ✅ | částečně ⁷ | — |
+| Oznámení přes Discord, Telegram a webhook s obrázky | ✅ | částečně ⁸ | ❌ |
+| Kalendář všech kampaní Drops s vyhledáváním | ✅ | ❌ | částečně ⁹ |
+| Pořadí těžby podle kampaní, vyloučená slova, ignorovaná kampaň nebo odměna | ✅ | ❌ | ❌ ¹⁰ |
+| Streameři z vašeho seznamu sledovaní přednostně pro Drops kampaně | ✅ | částečně ¹¹ | ❌ |
+| Filtrovatelný deník událostí a seznam všech požadavků v rozhraní | ✅ | ❌ ⁵ | ❌ |
+| Asi 3 MB paměti na účet (server Docker) | ✅ | — ¹² | — ¹² |
 
 ¹ Sleduje jen streamery ze svého seznamu: posouvá a vyzvedává Drops z jejich streamů, ale
 kampaň nevybírá.\
-² Jeden proces na účet.\
-³ Na vašem PC jako desktopová aplikace a/nebo na serveru (VPS, NAS, Raspberry Pi)
+² Nastavení, zda těžit, nebo vynechat kampaně Drops, jejichž odměnami jsou odznaky nebo
+emoty; žádné questy Twitche ani seznam odznaků.\
+³ Jeden proces na účet.\
+⁴ Na vašem PC jako desktopová aplikace a/nebo na serveru (VPS, NAS, Raspberry Pi)
 s Dockerem, bez grafického prostředí a bez prohlížeče na tomto stroji: panel se otevře
 v jakémkoli prohlížeči.\
-⁴ Nastavuje se v souboru Pythonu; jeho webová stránka ukazuje grafy bodů a soubor
+⁵ Nastavuje se v souboru Pythonu; jeho webová stránka ukazuje grafy bodů a soubor
 s protokolem.\
-⁵ 21 jazyků.\
-⁶ Umí sledovat kanály, které sleduje účet.\
-⁷ Jen text, bez obrázků. Má také Matrix, Pushover a Gotify, které tento projekt nemá.\
-⁸ Seznam kampaní s filtry, bez kalendáře a vyhledávání.\
-⁹ Má prioritní a vyloučené kategorie, vybírané podle názvu kategorie.\
-¹⁰ Ve výchozím stavu nejdřív sleduje streamery ze svého seznamu, jejichž stream nese Drops
+⁶ 21 jazyků.\
+⁷ Umí sledovat kanály, které sleduje účet.\
+⁸ Jen text, bez obrázků. Má také Matrix, Pushover a Gotify, které tento projekt nemá.\
+⁹ Seznam kampaní s filtry, bez kalendáře a vyhledávání.\
+¹⁰ Má prioritní a vyloučené kategorie, vybírané podle názvu kategorie.\
+¹¹ Ve výchozím stavu nejdřív sleduje streamery ze svého seznamu, jejichž stream nese Drops
 (jeho priorita `DROPS`), ale nikdy jiný kanál.\
-¹¹ Neměřeno.\
-¹² Nastavení, zda těžit, nebo vynechat kampaně Drops, jejichž odměnami jsou odznaky nebo
-emoty; žádné questy Twitche ani seznam odznaků.
+¹² Neměřeno.
 
 ## <a name="download"></a>Stažení
 

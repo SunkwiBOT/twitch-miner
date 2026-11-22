@@ -319,45 +319,45 @@ Verificado no código e nos READMEs deles em novembro de 2026.
 | | Este projeto | Channel Points Miner v2 | TwitchDropsMiner |
 |---|:---:|:---:|:---:|
 | Campanhas de Drops: encontra, minera e resgata | ✅ | ❌ ¹ | ✅ |
+| Emblemas da Twitch: a lista de todos os emblemas, os emblemas de cada conta, Drops de emblemas e missões da Twitch minerados na sua ordem (beta) | ✅ | ❌ | em parte ² |
 | Pontos do canal: baús, raids, momentos, previsões | ✅ | ✅ | ❌ |
 | Spam Points: uma recompensa personalizada de um canal resgatada várias vezes seguidas | ✅ | ❌ | ❌ |
 | Drops e pontos do canal ao mesmo tempo em uma conta | ✅ | em parte ¹ | ❌ |
-| Quantas contas você quiser em um só app | ✅ | ❌ ² | ❌ |
+| Quantas contas você quiser em um só app | ✅ | ❌ ³ | ❌ |
 | Alterar as configurações de várias contas de uma vez | ✅ | ❌ | ❌ |
-| Interface gráfica | ✅ desktop e web ³ | ❌ ⁴ | ✅ desktop |
-| Painel web para um servidor caseiro (Docker), com senha e acessível por HTTPS | ✅ | ❌ ⁴ | ❌ |
+| Interface gráfica | ✅ desktop e web ⁴ | ❌ ⁵ | ✅ desktop |
+| Painel web para um servidor caseiro (Docker), com senha e acessível por HTTPS | ✅ | ❌ ⁵ | ❌ |
 | Sessões criptografadas no disco, senha do app opcional | ✅ | ❌ | ❌ |
-| Interface em 29 idiomas | ✅ | ❌ | em parte ⁵ |
+| Interface em 29 idiomas | ✅ | ❌ | em parte ⁶ |
 | Atualizações assinadas direto no app (desktop) | ✅ | ❌ | ❌ |
-| Assistente de configuração para cada conta nova | ✅ | ❌ ⁴ | ❌ |
-| Streamers adicionados e editados na interface, um por um ou vários de uma vez | ✅ | ❌ ⁴ | — |
-| Streamers importados por busca, lista, outra conta ou canais seguidos | ✅ | em parte ⁶ | — |
-| Notificações por Discord, Telegram e webhook com imagens | ✅ | em parte ⁷ | ❌ |
-| Calendário de todas as campanhas de Drops, com busca | ✅ | ❌ | em parte ⁸ |
-| Ordem de mineração por campanha, palavras excluídas, campanha ou recompensa ignorada | ✅ | ❌ | ❌ ⁹ |
-| Os streamers da sua lista assistidos primeiro para os Drops de uma campanha | ✅ | em parte ¹⁰ | ❌ |
-| Emblemas da Twitch: a lista de todos os emblemas, os emblemas de cada conta, Drops de emblemas e missões da Twitch minerados na sua ordem (beta) | ✅ | ❌ | em parte ¹² |
-| Diário de eventos filtrável e lista de cada requisição, na interface | ✅ | ❌ ⁴ | ❌ |
-| Cerca de 3 MB de memória por conta (servidor Docker) | ✅ | — ¹¹ | — ¹¹ |
+| Assistente de configuração para cada conta nova | ✅ | ❌ ⁵ | ❌ |
+| Streamers adicionados e editados na interface, um por um ou vários de uma vez | ✅ | ❌ ⁵ | — |
+| Streamers importados por busca, lista, outra conta ou canais seguidos | ✅ | em parte ⁷ | — |
+| Notificações por Discord, Telegram e webhook com imagens | ✅ | em parte ⁸ | ❌ |
+| Calendário de todas as campanhas de Drops, com busca | ✅ | ❌ | em parte ⁹ |
+| Ordem de mineração por campanha, palavras excluídas, campanha ou recompensa ignorada | ✅ | ❌ | ❌ ¹⁰ |
+| Os streamers da sua lista assistidos primeiro para os Drops de uma campanha | ✅ | em parte ¹¹ | ❌ |
+| Diário de eventos filtrável e lista de cada requisição, na interface | ✅ | ❌ ⁵ | ❌ |
+| Cerca de 3 MB de memória por conta (servidor Docker) | ✅ | — ¹² | — ¹² |
 
 ¹ Ele só assiste aos streamers da lista dele: faz avançar os Drops das lives deles e os
 resgata, sem escolher campanha.\
-² Um processo por conta.\
-³ No seu PC como app para desktop, e/ou em um servidor (VPS, NAS, Raspberry Pi) com
+² Uma configuração para minerar ou deixar de fora as campanhas Drops cujas recompensas
+são emblemas ou emotes; sem missões da Twitch e sem lista de emblemas.\
+³ Um processo por conta.\
+⁴ No seu PC como app para desktop, e/ou em um servidor (VPS, NAS, Raspberry Pi) com
 Docker, sem ambiente gráfico nem navegador nessa máquina: o painel abre em qualquer
 navegador.\
-⁴ Configurado em um arquivo Python; a página web dele mostra gráficos de pontos e o
+⁵ Configurado em um arquivo Python; a página web dele mostra gráficos de pontos e o
 arquivo de log.\
-⁵ 21 idiomas.\
-⁶ Pode seguir os canais que a conta segue.\
-⁷ Só texto, sem imagens. Também tem Matrix, Pushover e Gotify, que este projeto não tem.\
-⁸ Uma lista de campanhas com filtros, sem calendário nem busca.\
-⁹ Tem categorias prioritárias e categorias excluídas, escolhidas pelo nome da categoria.\
-¹⁰ Por padrão, assiste primeiro aos streamers da lista dele cuja live tem Drops (a
+⁶ 21 idiomas.\
+⁷ Pode seguir os canais que a conta segue.\
+⁸ Só texto, sem imagens. Também tem Matrix, Pushover e Gotify, que este projeto não tem.\
+⁹ Uma lista de campanhas com filtros, sem calendário nem busca.\
+¹⁰ Tem categorias prioritárias e categorias excluídas, escolhidas pelo nome da categoria.\
+¹¹ Por padrão, assiste primeiro aos streamers da lista dele cuja live tem Drops (a
 prioridade `DROPS` dele), mas nunca a outro canal.\
-¹¹ Não medido.\
-¹² Uma configuração para minerar ou deixar de fora as campanhas Drops cujas recompensas
-são emblemas ou emotes; sem missões da Twitch e sem lista de emblemas.
+¹² Não medido.
 
 ## <a name="download"></a>Download
 

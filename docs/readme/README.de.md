@@ -332,46 +332,46 @@ im Vergleich zu
 | | Dieses Projekt | Channel Points Miner v2 | TwitchDropsMiner |
 |---|:---:|:---:|:---:|
 | Drops-Kampagnen: findet, mint und holt sie ab | ✅ | ❌ ¹ | ✅ |
+| Twitch-Abzeichen: die Liste aller Abzeichen, die Abzeichen jedes Kontos, Abzeichen-Drops und Twitch-Quests, gemint in Ihrer Reihenfolge (Beta) | ✅ | ❌ | teilweise ² |
 | Kanalpunkte: Truhen, Raids, Momente, Vorhersagen | ✅ | ✅ | ❌ |
 | Spam Points: eine benutzerdefinierte Belohnung eines Kanals mehrmals hintereinander eingelöst | ✅ | ❌ | ❌ |
 | Drops und Kanalpunkte gleichzeitig auf einem Konto | ✅ | teilweise ¹ | ❌ |
-| So viele Konten, wie Sie möchten, in einer App | ✅ | ❌ ² | ❌ |
+| So viele Konten, wie Sie möchten, in einer App | ✅ | ❌ ³ | ❌ |
 | Einstellungen mehrerer Konten auf einmal ändern | ✅ | ❌ | ❌ |
-| Grafische Oberfläche | ✅ Desktop und Web ³ | ❌ ⁴ | ✅ Desktop |
-| Web-Dashboard für einen Heimserver (Docker), mit Passwort, über HTTPS erreichbar | ✅ | ❌ ⁴ | ❌ |
+| Grafische Oberfläche | ✅ Desktop und Web ⁴ | ❌ ⁵ | ✅ Desktop |
+| Web-Dashboard für einen Heimserver (Docker), mit Passwort, über HTTPS erreichbar | ✅ | ❌ ⁵ | ❌ |
 | Sitzungen verschlüsselt auf der Festplatte, optionales App-Passwort | ✅ | ❌ | ❌ |
-| Oberfläche in 29 Sprachen | ✅ | ❌ | teilweise ⁵ |
+| Oberfläche in 29 Sprachen | ✅ | ❌ | teilweise ⁶ |
 | Signierte Updates direkt in der App (Desktop) | ✅ | ❌ | ❌ |
-| Einrichtungsassistent für jedes neue Konto | ✅ | ❌ ⁴ | ❌ |
-| Streamer in der Oberfläche hinzufügen und bearbeiten, einzeln oder mehrere auf einmal | ✅ | ❌ ⁴ | — |
-| Streamer-Import per Suche, Liste, anderem Konto oder gefolgten Kanälen | ✅ | teilweise ⁶ | — |
-| Benachrichtigungen über Discord, Telegram und Webhook mit Bildern | ✅ | teilweise ⁷ | ❌ |
-| Kalender aller Drops-Kampagnen, mit Suche | ✅ | ❌ | teilweise ⁸ |
-| Mining-Reihenfolge nach Kampagne, ausgeschlossene Wörter, ignorierte Kampagne oder Belohnung | ✅ | ❌ | ❌ ⁹ |
-| Ihre gelisteten Streamer werden für die Drops einer Kampagne zuerst geschaut | ✅ | teilweise ¹⁰ | ❌ |
-| Twitch-Abzeichen: die Liste aller Abzeichen, die Abzeichen jedes Kontos, Abzeichen-Drops und Twitch-Quests, gemint in Ihrer Reihenfolge (Beta) | ✅ | ❌ | teilweise ¹² |
-| Filterbares Ereignisjournal und eine Liste aller Anfragen, in der Oberfläche | ✅ | ❌ ⁴ | ❌ |
-| Etwa 3 MB Arbeitsspeicher pro Konto (Docker-Server) | ✅ | — ¹¹ | — ¹¹ |
+| Einrichtungsassistent für jedes neue Konto | ✅ | ❌ ⁵ | ❌ |
+| Streamer in der Oberfläche hinzufügen und bearbeiten, einzeln oder mehrere auf einmal | ✅ | ❌ ⁵ | — |
+| Streamer-Import per Suche, Liste, anderem Konto oder gefolgten Kanälen | ✅ | teilweise ⁷ | — |
+| Benachrichtigungen über Discord, Telegram und Webhook mit Bildern | ✅ | teilweise ⁸ | ❌ |
+| Kalender aller Drops-Kampagnen, mit Suche | ✅ | ❌ | teilweise ⁹ |
+| Mining-Reihenfolge nach Kampagne, ausgeschlossene Wörter, ignorierte Kampagne oder Belohnung | ✅ | ❌ | ❌ ¹⁰ |
+| Ihre gelisteten Streamer werden für die Drops einer Kampagne zuerst geschaut | ✅ | teilweise ¹¹ | ❌ |
+| Filterbares Ereignisjournal und eine Liste aller Anfragen, in der Oberfläche | ✅ | ❌ ⁵ | ❌ |
+| Etwa 3 MB Arbeitsspeicher pro Konto (Docker-Server) | ✅ | — ¹² | — ¹² |
 
 ¹ Es schaut nur die Streamer auf seiner Liste: Es bringt die Drops ihrer Streams voran und
 holt sie ab, ohne eine Kampagne auszuwählen.\
-² Ein Prozess pro Konto.\
-³ Auf Ihrem PC als Desktop-App und/oder auf einem Server (VPS, NAS, Raspberry Pi) mit
+² Eine Einstellung, um die Drops-Kampagnen, deren Belohnungen Abzeichen oder Emotes
+sind, zu minen oder auszulassen; keine Twitch-Quests und keine Abzeichenliste.\
+³ Ein Prozess pro Konto.\
+⁴ Auf Ihrem PC als Desktop-App und/oder auf einem Server (VPS, NAS, Raspberry Pi) mit
 Docker, ohne grafische Oberfläche und ohne Browser auf diesem Rechner: Das Dashboard
 öffnet sich in jedem beliebigen Browser.\
-⁴ Konfiguration in einer Python-Datei; seine Webseite zeigt Punktediagramme und die
+⁵ Konfiguration in einer Python-Datei; seine Webseite zeigt Punktediagramme und die
 Logdatei.\
-⁵ 21 Sprachen.\
-⁶ Es kann den Kanälen folgen, denen das Konto folgt.\
-⁷ Nur Text, ohne Bilder. Dafür gibt es dort Matrix, Pushover und Gotify, die dieses Projekt
+⁶ 21 Sprachen.\
+⁷ Es kann den Kanälen folgen, denen das Konto folgt.\
+⁸ Nur Text, ohne Bilder. Dafür gibt es dort Matrix, Pushover und Gotify, die dieses Projekt
 nicht hat.\
-⁸ Eine Kampagnenliste mit Filtern, ohne Kalender und ohne Suche.\
-⁹ Es hat Prioritätskategorien und ausgeschlossene Kategorien, ausgewählt nach Kategoriename.\
-¹⁰ Standardmäßig schaut es zuerst die Streamer auf seiner Liste, deren Stream Drops trägt
+⁹ Eine Kampagnenliste mit Filtern, ohne Kalender und ohne Suche.\
+¹⁰ Es hat Prioritätskategorien und ausgeschlossene Kategorien, ausgewählt nach Kategoriename.\
+¹¹ Standardmäßig schaut es zuerst die Streamer auf seiner Liste, deren Stream Drops trägt
 (seine Priorität `DROPS`), aber nie einen anderen Kanal.\
-¹¹ Nicht gemessen.\
-¹² Eine Einstellung, um die Drops-Kampagnen, deren Belohnungen Abzeichen oder Emotes
-sind, zu minen oder auszulassen; keine Twitch-Quests und keine Abzeichenliste.
+¹² Nicht gemessen.
 
 ## <a name="download"></a>Download
 

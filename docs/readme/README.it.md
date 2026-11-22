@@ -321,45 +321,45 @@ Verificato sul loro codice e sui loro README a novembre 2026.
 | | Questo progetto | Channel Points Miner v2 | TwitchDropsMiner |
 |---|:---:|:---:|:---:|
 | Campagne Drops: le trova, le mina e le riscatta | ✅ | ❌ ¹ | ✅ |
+| Badge di Twitch: l'elenco di tutti i badge, i badge di ogni account, Drops di badge e missioni Twitch minati nel tuo ordine (beta) | ✅ | ❌ | in parte ² |
 | Punti canale: forzieri, raid, momenti, previsioni | ✅ | ✅ | ❌ |
 | Spam Points: un premio personalizzato di un canale riscattato più volte di fila | ✅ | ❌ | ❌ |
 | Drops e punti canale contemporaneamente su un solo account | ✅ | in parte ¹ | ❌ |
-| Tutti gli account che vuoi in un'unica app | ✅ | ❌ ² | ❌ |
+| Tutti gli account che vuoi in un'unica app | ✅ | ❌ ³ | ❌ |
 | Modificare le impostazioni di più account in una volta | ✅ | ❌ | ❌ |
-| Interfaccia grafica | ✅ desktop e web ³ | ❌ ⁴ | ✅ desktop |
-| Dashboard web per un server domestico (Docker), con password e raggiungibile in HTTPS | ✅ | ❌ ⁴ | ❌ |
+| Interfaccia grafica | ✅ desktop e web ⁴ | ❌ ⁵ | ✅ desktop |
+| Dashboard web per un server domestico (Docker), con password e raggiungibile in HTTPS | ✅ | ❌ ⁵ | ❌ |
 | Sessioni cifrate su disco, password dell'app facoltativa | ✅ | ❌ | ❌ |
-| Interfaccia in 29 lingue | ✅ | ❌ | in parte ⁵ |
+| Interfaccia in 29 lingue | ✅ | ❌ | in parte ⁶ |
 | Aggiornamenti firmati direttamente dall'app (desktop) | ✅ | ❌ | ❌ |
-| Procedura guidata di configurazione per ogni nuovo account | ✅ | ❌ ⁴ | ❌ |
-| Streamer aggiunti e modificati nell'interfaccia, uno alla volta o più insieme | ✅ | ❌ ⁴ | — |
-| Streamer importati tramite ricerca, lista, altro account o canali seguiti | ✅ | in parte ⁶ | — |
-| Notifiche Discord, Telegram e webhook con immagini | ✅ | in parte ⁷ | ❌ |
-| Calendario di tutte le campagne Drops, con ricerca | ✅ | ❌ | in parte ⁸ |
-| Ordine di mining per campagna, parole escluse, campagna o ricompensa ignorata | ✅ | ❌ | ❌ ⁹ |
-| Gli streamer della tua lista guardati per primi per i Drops di una campagna | ✅ | in parte ¹⁰ | ❌ |
-| Badge di Twitch: l'elenco di tutti i badge, i badge di ogni account, Drops di badge e missioni Twitch minati nel tuo ordine (beta) | ✅ | ❌ | in parte ¹² |
-| Registro degli eventi filtrabile ed elenco di ogni richiesta, nell'interfaccia | ✅ | ❌ ⁴ | ❌ |
-| Circa 3 MB di memoria per account (server Docker) | ✅ | — ¹¹ | — ¹¹ |
+| Procedura guidata di configurazione per ogni nuovo account | ✅ | ❌ ⁵ | ❌ |
+| Streamer aggiunti e modificati nell'interfaccia, uno alla volta o più insieme | ✅ | ❌ ⁵ | — |
+| Streamer importati tramite ricerca, lista, altro account o canali seguiti | ✅ | in parte ⁷ | — |
+| Notifiche Discord, Telegram e webhook con immagini | ✅ | in parte ⁸ | ❌ |
+| Calendario di tutte le campagne Drops, con ricerca | ✅ | ❌ | in parte ⁹ |
+| Ordine di mining per campagna, parole escluse, campagna o ricompensa ignorata | ✅ | ❌ | ❌ ¹⁰ |
+| Gli streamer della tua lista guardati per primi per i Drops di una campagna | ✅ | in parte ¹¹ | ❌ |
+| Registro degli eventi filtrabile ed elenco di ogni richiesta, nell'interfaccia | ✅ | ❌ ⁵ | ❌ |
+| Circa 3 MB di memoria per account (server Docker) | ✅ | — ¹² | — ¹² |
 
 ¹ Guarda solo gli streamer della sua lista: fa avanzare i Drops dei loro stream e li
 riscatta, senza scegliere una campagna.\
-² Un processo per account.\
-³ Sul tuo PC come app desktop, e/o su un server (VPS, NAS, Raspberry Pi) con Docker, senza
+² Un'impostazione per minare o escludere le campagne Drops le cui ricompense sono badge
+o emote; niente missioni Twitch né elenco dei badge.\
+³ Un processo per account.\
+⁴ Sul tuo PC come app desktop, e/o su un server (VPS, NAS, Raspberry Pi) con Docker, senza
 ambiente grafico né browser su quella macchina: la dashboard si apre in qualsiasi browser.\
-⁴ Si configura in un file Python; la sua pagina web mostra grafici dei punti e il file di
+⁵ Si configura in un file Python; la sua pagina web mostra grafici dei punti e il file di
 log.\
-⁵ 21 lingue.\
-⁶ Può seguire i canali che l'account segue.\
-⁷ Solo testo, senza immagini. Ha anche Matrix, Pushover e Gotify, che questo progetto non
+⁶ 21 lingue.\
+⁷ Può seguire i canali che l'account segue.\
+⁸ Solo testo, senza immagini. Ha anche Matrix, Pushover e Gotify, che questo progetto non
 ha.\
-⁸ Un elenco di campagne con filtri, senza calendario né ricerca.\
-⁹ Ha categorie prioritarie e categorie escluse, scelte per nome della categoria.\
-¹⁰ Per impostazione predefinita, guarda prima gli streamer della sua lista la cui live ha
+⁹ Un elenco di campagne con filtri, senza calendario né ricerca.\
+¹⁰ Ha categorie prioritarie e categorie escluse, scelte per nome della categoria.\
+¹¹ Per impostazione predefinita, guarda prima gli streamer della sua lista la cui live ha
 i Drops (la sua priorità `DROPS`), ma mai un altro canale.\
-¹¹ Non misurato.\
-¹² Un'impostazione per minare o escludere le campagne Drops le cui ricompense sono badge
-o emote; niente missioni Twitch né elenco dei badge.
+¹² Non misurato.
 
 ## <a name="download"></a>Download
 

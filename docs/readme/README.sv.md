@@ -320,45 +320,45 @@ Kontrollerat mot deras kod och README-filer i november 2026.
 | | Det här projektet | Channel Points Miner v2 | TwitchDropsMiner |
 |---|:---:|:---:|:---:|
 | Drops-kampanjer: hittar, minar och hämtar dem | ✅ | ❌ ¹ | ✅ |
+| Twitch-märken: listan över alla märken, varje kontos märken, märkes-Drops och Twitch-quests minade i din ordning (beta) | ✅ | ❌ | delvis ² |
 | Kanalpoäng: kistor, raids, moments, förutsägelser | ✅ | ✅ | ❌ |
 | Spam Points: en kanals anpassade belöning inlöst flera gånger i rad | ✅ | ❌ | ❌ |
 | Drops och kanalpoäng samtidigt på ett konto | ✅ | delvis ¹ | ❌ |
-| Så många konton du vill i en app | ✅ | ❌ ² | ❌ |
+| Så många konton du vill i en app | ✅ | ❌ ³ | ❌ |
 | Ändra inställningar på flera konton samtidigt | ✅ | ❌ | ❌ |
-| Grafiskt gränssnitt | ✅ skrivbord och webb ³ | ❌ ⁴ | ✅ skrivbord |
-| Webböversikt för en hemserver (Docker), med lösenord, nåbar över HTTPS | ✅ | ❌ ⁴ | ❌ |
+| Grafiskt gränssnitt | ✅ skrivbord och webb ⁴ | ❌ ⁵ | ✅ skrivbord |
+| Webböversikt för en hemserver (Docker), med lösenord, nåbar över HTTPS | ✅ | ❌ ⁵ | ❌ |
 | Sessioner krypterade på disk, valfritt applösenord | ✅ | ❌ | ❌ |
-| Gränssnitt på 29 språk | ✅ | ❌ | delvis ⁵ |
+| Gränssnitt på 29 språk | ✅ | ❌ | delvis ⁶ |
 | Signerade uppdateringar inifrån appen (skrivbord) | ✅ | ❌ | ❌ |
-| Inställningsguide för varje nytt konto | ✅ | ❌ ⁴ | ❌ |
-| Streamers läggs till och redigeras i gränssnittet, en i taget eller flera samtidigt | ✅ | ❌ ⁴ | — |
-| Streamers importerade via sökning, en lista, ett annat konto eller följda kanaler | ✅ | delvis ⁶ | — |
-| Aviseringar via Discord, Telegram och webhook med bilder | ✅ | delvis ⁷ | ❌ |
-| Kalender över alla Drops-kampanjer, med sökning | ✅ | ❌ | delvis ⁸ |
-| Miningordning per kampanj, uteslutna ord, ignorerad kampanj eller belöning | ✅ | ❌ | ❌ ⁹ |
-| Streamers från din lista tittas på först för en kampanjs Drops | ✅ | delvis ¹⁰ | ❌ |
-| Twitch-märken: listan över alla märken, varje kontos märken, märkes-Drops och Twitch-quests minade i din ordning (beta) | ✅ | ❌ | delvis ¹² |
-| Filtrerbar händelsejournal och en lista över varje förfrågan, i gränssnittet | ✅ | ❌ ⁴ | ❌ |
-| Cirka 3 MB minne per konto (Docker-server) | ✅ | — ¹¹ | — ¹¹ |
+| Inställningsguide för varje nytt konto | ✅ | ❌ ⁵ | ❌ |
+| Streamers läggs till och redigeras i gränssnittet, en i taget eller flera samtidigt | ✅ | ❌ ⁵ | — |
+| Streamers importerade via sökning, en lista, ett annat konto eller följda kanaler | ✅ | delvis ⁷ | — |
+| Aviseringar via Discord, Telegram och webhook med bilder | ✅ | delvis ⁸ | ❌ |
+| Kalender över alla Drops-kampanjer, med sökning | ✅ | ❌ | delvis ⁹ |
+| Miningordning per kampanj, uteslutna ord, ignorerad kampanj eller belöning | ✅ | ❌ | ❌ ¹⁰ |
+| Streamers från din lista tittas på först för en kampanjs Drops | ✅ | delvis ¹¹ | ❌ |
+| Filtrerbar händelsejournal och en lista över varje förfrågan, i gränssnittet | ✅ | ❌ ⁵ | ❌ |
+| Cirka 3 MB minne per konto (Docker-server) | ✅ | — ¹² | — ¹² |
 
 ¹ Den tittar bara på streamers på sin lista: den ger framsteg på Drops i deras sändningar
 och hämtar dem, utan att välja kampanj.\
-² En process per konto.\
-³ På din dator som skrivbordsapp, och/eller på en server (VPS, NAS, Raspberry Pi) med
+² En inställning för att mina eller utelämna de Drops-kampanjer vars belöningar är
+märken eller emotes; inga Twitch-quests och ingen lista över märken.\
+³ En process per konto.\
+⁴ På din dator som skrivbordsapp, och/eller på en server (VPS, NAS, Raspberry Pi) med
 Docker, utan grafisk miljö och utan webbläsare på den maskinen: översikten öppnas i valfri
 webbläsare.\
-⁴ Konfigureras i en Python-fil; dess webbsida visar poängdiagram och loggfilen.\
-⁵ 21 språk.\
-⁶ Den kan följa kanalerna som kontot följer.\
-⁷ Bara text, utan bilder. Den har också Matrix, Pushover och Gotify, som det här projektet
+⁵ Konfigureras i en Python-fil; dess webbsida visar poängdiagram och loggfilen.\
+⁶ 21 språk.\
+⁷ Den kan följa kanalerna som kontot följer.\
+⁸ Bara text, utan bilder. Den har också Matrix, Pushover och Gotify, som det här projektet
 saknar.\
-⁸ En lista över kampanjer med filter, utan kalender eller sökning.\
-⁹ Den har prioriterade kategorier och uteslutna kategorier, valda efter kategorinamn.\
-¹⁰ Som standard tittar den först på streamers på sin lista vars sändning har Drops (dess
+⁹ En lista över kampanjer med filter, utan kalender eller sökning.\
+¹⁰ Den har prioriterade kategorier och uteslutna kategorier, valda efter kategorinamn.\
+¹¹ Som standard tittar den först på streamers på sin lista vars sändning har Drops (dess
 prioritet `DROPS`), men aldrig på en annan kanal.\
-¹¹ Inte uppmätt.\
-¹² En inställning för att mina eller utelämna de Drops-kampanjer vars belöningar är
-märken eller emotes; inga Twitch-quests och ingen lista över märken.
+¹² Inte uppmätt.
 
 ## <a name="download"></a>Ladda ner
 

@@ -319,45 +319,45 @@ Checked against their code and READMEs in November 2026.
 | | This project | Channel Points Miner v2 | TwitchDropsMiner |
 |---|:---:|:---:|:---:|
 | Drops campaigns: finds, mines and claims them | ✅ | ❌ ¹ | ✅ |
+| Twitch badges: the list of every badge, each account's badges, badge Drops and Twitch quests mined in your order (beta) | ✅ | ❌ | partly ² |
 | Channel points: chests, raids, moments, predictions | ✅ | ✅ | ❌ |
 | Spam Points: a channel's custom reward redeemed several times in a row | ✅ | ❌ | ❌ |
 | Drops and channel points at the same time on one account | ✅ | partly ¹ | ❌ |
-| As many accounts as you want in one app | ✅ | ❌ ² | ❌ |
+| As many accounts as you want in one app | ✅ | ❌ ³ | ❌ |
 | Change the settings of several accounts at once | ✅ | ❌ | ❌ |
-| Graphical interface | ✅ desktop and web ³ | ❌ ⁴ | ✅ desktop |
-| Web dashboard for a home server (Docker), with a password, reachable over HTTPS | ✅ | ❌ ⁴ | ❌ |
+| Graphical interface | ✅ desktop and web ⁴ | ❌ ⁵ | ✅ desktop |
+| Web dashboard for a home server (Docker), with a password, reachable over HTTPS | ✅ | ❌ ⁵ | ❌ |
 | Sessions encrypted on disk, optional app password | ✅ | ❌ | ❌ |
-| Interface in 29 languages | ✅ | ❌ | partly ⁵ |
+| Interface in 29 languages | ✅ | ❌ | partly ⁶ |
 | Signed updates from inside the app (desktop) | ✅ | ❌ | ❌ |
-| Setup wizard for each new account | ✅ | ❌ ⁴ | ❌ |
-| Streamers added and edited in the interface, one at a time or several at once | ✅ | ❌ ⁴ | — |
-| Streamers imported by search, a list, another account or followed channels | ✅ | partly ⁶ | — |
-| Discord, Telegram and webhook notifications with images | ✅ | partly ⁷ | ❌ |
-| Calendar of every Drops campaign, with search | ✅ | ❌ | partly ⁸ |
-| Mining order by campaign, excluded words, ignored campaign or reward | ✅ | ❌ | ❌ ⁹ |
-| Your listed streamers watched first for a campaign's Drops | ✅ | partly ¹⁰ | ❌ |
-| Twitch badges: the list of every badge, each account's badges, badge Drops and Twitch quests mined in your order (beta) | ✅ | ❌ | partly ¹² |
-| Filterable event journal and a list of every request, in the interface | ✅ | ❌ ⁴ | ❌ |
-| About 3 MB of memory per account (Docker server) | ✅ | — ¹¹ | — ¹¹ |
+| Setup wizard for each new account | ✅ | ❌ ⁵ | ❌ |
+| Streamers added and edited in the interface, one at a time or several at once | ✅ | ❌ ⁵ | — |
+| Streamers imported by search, a list, another account or followed channels | ✅ | partly ⁷ | — |
+| Discord, Telegram and webhook notifications with images | ✅ | partly ⁸ | ❌ |
+| Calendar of every Drops campaign, with search | ✅ | ❌ | partly ⁹ |
+| Mining order by campaign, excluded words, ignored campaign or reward | ✅ | ❌ | ❌ ¹⁰ |
+| Your listed streamers watched first for a campaign's Drops | ✅ | partly ¹¹ | ❌ |
+| Filterable event journal and a list of every request, in the interface | ✅ | ❌ ⁵ | ❌ |
+| About 3 MB of memory per account (Docker server) | ✅ | — ¹² | — ¹² |
 
 ¹ It only watches the streamers on its list: it makes progress on the Drops of their
 streams and claims them, without choosing a campaign.\
-² One process per account.\
-³ On your PC as a desktop app, and/or on a server (VPS, NAS, Raspberry Pi) with Docker,
+² A setting to mine or leave out the Drops campaigns whose rewards are badges or emotes;
+no Twitch quests and no list of badges.\
+³ One process per account.\
+⁴ On your PC as a desktop app, and/or on a server (VPS, NAS, Raspberry Pi) with Docker,
 with no graphical environment and no browser on that machine: the dashboard opens in any
 browser.\
-⁴ Configured in a Python file; its web page shows points charts and the log file.\
-⁵ 21 languages.\
-⁶ It can follow the channels the account follows.\
-⁷ Text only, without images. It also has Matrix, Pushover and Gotify, which this project
+⁵ Configured in a Python file; its web page shows points charts and the log file.\
+⁶ 21 languages.\
+⁷ It can follow the channels the account follows.\
+⁸ Text only, without images. It also has Matrix, Pushover and Gotify, which this project
 does not.\
-⁸ A list of campaigns with filters, without a calendar or search.\
-⁹ It has priority categories and excluded categories, chosen by category name.\
-¹⁰ By default, it first watches the streamers on its list whose stream carries Drops (its
+⁹ A list of campaigns with filters, without a calendar or search.\
+¹⁰ It has priority categories and excluded categories, chosen by category name.\
+¹¹ By default, it first watches the streamers on its list whose stream carries Drops (its
 `DROPS` priority), but never another channel.\
-¹¹ Not measured.\
-¹² A setting to mine or leave out the Drops campaigns whose rewards are badges or emotes;
-no Twitch quests and no list of badges.
+¹² Not measured.
 
 ## <a name="download"></a>Download
 

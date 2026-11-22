@@ -316,44 +316,44 @@ Sprawdzone w ich kodzie i plikach README w listopadzie 2026 r.
 | | Ten projekt | Channel Points Miner v2 | TwitchDropsMiner |
 |---|:---:|:---:|:---:|
 | Kampanie Drops: znajduje je, kopie i odbiera | ✅ | ❌ ¹ | ✅ |
+| Odznaki Twitcha: lista wszystkich odznak, odznaki każdego konta, Drops z odznakami i zadania Twitcha kopane w Twojej kolejności (beta) | ✅ | ❌ | częściowo ² |
 | Punkty kanału: skrzynki, rajdy, momenty, prognozy | ✅ | ✅ | ❌ |
 | Spam Points: niestandardowa nagroda kanału odebrana kilka razy z rzędu | ✅ | ❌ | ❌ |
 | Drops i punkty kanału jednocześnie na jednym koncie | ✅ | częściowo ¹ | ❌ |
-| Tyle kont, ile chcesz, w jednej aplikacji | ✅ | ❌ ² | ❌ |
+| Tyle kont, ile chcesz, w jednej aplikacji | ✅ | ❌ ³ | ❌ |
 | Zmiana ustawień wielu kont naraz | ✅ | ❌ | ❌ |
-| Interfejs graficzny | ✅ desktopowy i webowy ³ | ❌ ⁴ | ✅ desktopowy |
-| Panel WWW dla domowego serwera (Docker), chroniony hasłem, dostępny przez HTTPS | ✅ | ❌ ⁴ | ❌ |
+| Interfejs graficzny | ✅ desktopowy i webowy ⁴ | ❌ ⁵ | ✅ desktopowy |
+| Panel WWW dla domowego serwera (Docker), chroniony hasłem, dostępny przez HTTPS | ✅ | ❌ ⁵ | ❌ |
 | Sesje zaszyfrowane na dysku, opcjonalne hasło aplikacji | ✅ | ❌ | ❌ |
-| Interfejs w 29 językach | ✅ | ❌ | częściowo ⁵ |
+| Interfejs w 29 językach | ✅ | ❌ | częściowo ⁶ |
 | Podpisane aktualizacje z poziomu aplikacji (desktop) | ✅ | ❌ | ❌ |
-| Kreator konfiguracji dla każdego nowego konta | ✅ | ❌ ⁴ | ❌ |
-| Streamerzy dodawani i edytowani w interfejsie, pojedynczo lub po kilku naraz | ✅ | ❌ ⁴ | — |
-| Import streamerów przez wyszukiwanie, listę, inne konto lub obserwowane kanały | ✅ | częściowo ⁶ | — |
-| Powiadomienia Discord, Telegram i webhook z obrazkami | ✅ | częściowo ⁷ | ❌ |
-| Kalendarz wszystkich kampanii Drops, z wyszukiwarką | ✅ | ❌ | częściowo ⁸ |
-| Kolejność kopania według kampanii, wykluczone słowa, ignorowana kampania lub nagroda | ✅ | ❌ | ❌ ⁹ |
-| Streamerzy z Twojej listy oglądani w pierwszej kolejności dla Drops z kampanii | ✅ | częściowo ¹⁰ | ❌ |
-| Odznaki Twitcha: lista wszystkich odznak, odznaki każdego konta, Drops z odznakami i zadania Twitcha kopane w Twojej kolejności (beta) | ✅ | ❌ | częściowo ¹² |
-| Filtrowany dziennik zdarzeń i lista wszystkich żądań, w interfejsie | ✅ | ❌ ⁴ | ❌ |
-| Około 3 MB pamięci na konto (serwer Docker) | ✅ | — ¹¹ | — ¹¹ |
+| Kreator konfiguracji dla każdego nowego konta | ✅ | ❌ ⁵ | ❌ |
+| Streamerzy dodawani i edytowani w interfejsie, pojedynczo lub po kilku naraz | ✅ | ❌ ⁵ | — |
+| Import streamerów przez wyszukiwanie, listę, inne konto lub obserwowane kanały | ✅ | częściowo ⁷ | — |
+| Powiadomienia Discord, Telegram i webhook z obrazkami | ✅ | częściowo ⁸ | ❌ |
+| Kalendarz wszystkich kampanii Drops, z wyszukiwarką | ✅ | ❌ | częściowo ⁹ |
+| Kolejność kopania według kampanii, wykluczone słowa, ignorowana kampania lub nagroda | ✅ | ❌ | ❌ ¹⁰ |
+| Streamerzy z Twojej listy oglądani w pierwszej kolejności dla Drops z kampanii | ✅ | częściowo ¹¹ | ❌ |
+| Filtrowany dziennik zdarzeń i lista wszystkich żądań, w interfejsie | ✅ | ❌ ⁵ | ❌ |
+| Około 3 MB pamięci na konto (serwer Docker) | ✅ | — ¹² | — ¹² |
 
 ¹ Ogląda tylko streamerów ze swojej listy: posuwa naprzód i odbiera Drops z ich transmisji,
 nie wybierając kampanii.\
-² Jeden proces na konto.\
-³ Na Twoim komputerze jako aplikacja desktopowa i/lub na serwerze (VPS, NAS, Raspberry Pi)
+² Ustawienie, by kopać lub pomijać kampanie Drops, których nagrodami są odznaki lub
+emotki; bez zadań Twitcha i bez listy odznak.\
+³ Jeden proces na konto.\
+⁴ Na Twoim komputerze jako aplikacja desktopowa i/lub na serwerze (VPS, NAS, Raspberry Pi)
 z Dockerem, bez środowiska graficznego i bez przeglądarki na tej maszynie: panel otwiera
 się w dowolnej przeglądarce.\
-⁴ Konfiguracja w pliku Pythona; jego strona WWW pokazuje wykresy punktów i plik logu.\
-⁵ 21 języków.\
-⁶ Potrafi obserwować kanały, które obserwuje konto.\
-⁷ Sam tekst, bez obrazków. Ma też Matrix, Pushover i Gotify, których ten projekt nie ma.\
-⁸ Lista kampanii z filtrami, bez kalendarza i wyszukiwarki.\
-⁹ Ma kategorie priorytetowe i wykluczone, wybierane po nazwie kategorii.\
-¹⁰ Domyślnie najpierw ogląda streamerów ze swojej listy, których transmisja ma Drops (jego
+⁵ Konfiguracja w pliku Pythona; jego strona WWW pokazuje wykresy punktów i plik logu.\
+⁶ 21 języków.\
+⁷ Potrafi obserwować kanały, które obserwuje konto.\
+⁸ Sam tekst, bez obrazków. Ma też Matrix, Pushover i Gotify, których ten projekt nie ma.\
+⁹ Lista kampanii z filtrami, bez kalendarza i wyszukiwarki.\
+¹⁰ Ma kategorie priorytetowe i wykluczone, wybierane po nazwie kategorii.\
+¹¹ Domyślnie najpierw ogląda streamerów ze swojej listy, których transmisja ma Drops (jego
 priorytet `DROPS`), ale nigdy innego kanału.\
-¹¹ Nie mierzono.\
-¹² Ustawienie, by kopać lub pomijać kampanie Drops, których nagrodami są odznaki lub
-emotki; bez zadań Twitcha i bez listy odznak.
+¹² Nie mierzono.
 
 ## <a name="download"></a>Pobieranie
 

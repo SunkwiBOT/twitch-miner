@@ -322,45 +322,45 @@ mellett. A kódjuk és a README-jük alapján ellenőrizve, 2026 novemberében.
 | | Ez a projekt | Channel Points Miner v2 | TwitchDropsMiner |
 |---|:---:|:---:|:---:|
 | Drops-kampányok: megtalálja, bányássza és begyűjti őket | ✅ | ❌ ¹ | ✅ |
+| Twitch-jelvények: az összes jelvény listája, minden fiók jelvényei, jelvényes Drops és Twitch-küldetések bányászata a te sorrendedben (béta) | ✅ | ❌ | részben ² |
 | Csatornapontok: ládák, raidek, pillanatok, előrejelzések | ✅ | ✅ | ❌ |
 | Spam Points: egy csatorna egyedi jutalma többször egymás után beváltva | ✅ | ❌ | ❌ |
 | Drops és csatornapontok egyszerre egy fiókon | ✅ | részben ¹ | ❌ |
-| Annyi fiók egy alkalmazásban, amennyit csak akarsz | ✅ | ❌ ² | ❌ |
+| Annyi fiók egy alkalmazásban, amennyit csak akarsz | ✅ | ❌ ³ | ❌ |
 | Több fiók beállításainak módosítása egyszerre | ✅ | ❌ | ❌ |
-| Grafikus felület | ✅ asztali és webes ³ | ❌ ⁴ | ✅ asztali |
-| Webes irányítópult otthoni szerverre (Docker), jelszóval védve, HTTPS-en elérhető | ✅ | ❌ ⁴ | ❌ |
+| Grafikus felület | ✅ asztali és webes ⁴ | ❌ ⁵ | ✅ asztali |
+| Webes irányítópult otthoni szerverre (Docker), jelszóval védve, HTTPS-en elérhető | ✅ | ❌ ⁵ | ❌ |
 | Lemezen titkosított munkamenetek, opcionális alkalmazásjelszó | ✅ | ❌ | ❌ |
-| Felület 29 nyelven | ✅ | ❌ | részben ⁵ |
+| Felület 29 nyelven | ✅ | ❌ | részben ⁶ |
 | Aláírt frissítések közvetlenül az alkalmazásból (asztali) | ✅ | ❌ | ❌ |
-| Beállítási varázsló minden új fiókhoz | ✅ | ❌ ⁴ | ❌ |
-| Streamerek hozzáadása és szerkesztése a felületen, egyenként vagy többet egyszerre | ✅ | ❌ ⁴ | — |
-| Streamerek importálása kereséssel, listából, másik fiókból vagy követett csatornákból | ✅ | részben ⁶ | — |
-| Discord-, Telegram- és webhook-értesítések képekkel | ✅ | részben ⁷ | ❌ |
-| Az összes Drops-kampány naptára, kereséssel | ✅ | ❌ | részben ⁸ |
-| Bányászási sorrend kampányonként, kizárt szavak, mellőzött kampány vagy jutalom | ✅ | ❌ | ❌ ⁹ |
-| A listádon szereplő streamerek elsőként nézve egy kampány Dropsaiért | ✅ | részben ¹⁰ | ❌ |
-| Twitch-jelvények: az összes jelvény listája, minden fiók jelvényei, jelvényes Drops és Twitch-küldetések bányászata a te sorrendedben (béta) | ✅ | ❌ | részben ¹² |
-| Szűrhető eseménynapló és az összes kérés listája a felületen | ✅ | ❌ ⁴ | ❌ |
-| Fiókonként nagyjából 3 MB memória (Docker-szerver) | ✅ | — ¹¹ | — ¹¹ |
+| Beállítási varázsló minden új fiókhoz | ✅ | ❌ ⁵ | ❌ |
+| Streamerek hozzáadása és szerkesztése a felületen, egyenként vagy többet egyszerre | ✅ | ❌ ⁵ | — |
+| Streamerek importálása kereséssel, listából, másik fiókból vagy követett csatornákból | ✅ | részben ⁷ | — |
+| Discord-, Telegram- és webhook-értesítések képekkel | ✅ | részben ⁸ | ❌ |
+| Az összes Drops-kampány naptára, kereséssel | ✅ | ❌ | részben ⁹ |
+| Bányászási sorrend kampányonként, kizárt szavak, mellőzött kampány vagy jutalom | ✅ | ❌ | ❌ ¹⁰ |
+| A listádon szereplő streamerek elsőként nézve egy kampány Dropsaiért | ✅ | részben ¹¹ | ❌ |
+| Szűrhető eseménynapló és az összes kérés listája a felületen | ✅ | ❌ ⁵ | ❌ |
+| Fiókonként nagyjából 3 MB memória (Docker-szerver) | ✅ | — ¹² | — ¹² |
 
 ¹ Csak a listáján szereplő streamereket nézi: az ő adásaik Dropsait viszi előre és gyűjti
 be, kampányt nem választ.\
-² Fiókonként egy folyamat.\
-³ A gépeden asztali alkalmazásként, és/vagy egy szerveren (VPS, NAS, Raspberry Pi)
+² Egy beállítás azoknak a Drops-kampányoknak a bányászására vagy kihagyására, amelyek
+jutalmai jelvények vagy hangulatjelek; Twitch-küldetések és jelvénylista nélkül.\
+³ Fiókonként egy folyamat.\
+⁴ A gépeden asztali alkalmazásként, és/vagy egy szerveren (VPS, NAS, Raspberry Pi)
 Dockerrel, grafikus környezet és böngésző nélkül azon a gépen: az irányítópult bármely
 böngészőben megnyílik.\
-⁴ Egy Python-fájlban konfigurálható; a weboldala pontgrafikonokat és a logfájlt mutatja.\
-⁵ 21 nyelv.\
-⁶ Követni tudja azokat a csatornákat, amelyeket a fiók követ.\
-⁷ Csak szöveg, képek nélkül. Van benne Matrix, Pushover és Gotify is, amelyek ebben
+⁵ Egy Python-fájlban konfigurálható; a weboldala pontgrafikonokat és a logfájlt mutatja.\
+⁶ 21 nyelv.\
+⁷ Követni tudja azokat a csatornákat, amelyeket a fiók követ.\
+⁸ Csak szöveg, képek nélkül. Van benne Matrix, Pushover és Gotify is, amelyek ebben
 a projektben nincsenek.\
-⁸ Kampánylista szűrőkkel, naptár és keresés nélkül.\
-⁹ Vannak prioritás és kizárt kategóriái, kategórianév alapján kiválasztva.\
-¹⁰ Alapértelmezés szerint először a listáján szereplő azon streamereket nézi, akiknek az
+⁹ Kampánylista szűrőkkel, naptár és keresés nélkül.\
+¹⁰ Vannak prioritás és kizárt kategóriái, kategórianév alapján kiválasztva.\
+¹¹ Alapértelmezés szerint először a listáján szereplő azon streamereket nézi, akiknek az
 adásában van Drops (a `DROPS` prioritása), de más csatornát soha.\
-¹¹ Nem mértük.\
-¹² Egy beállítás azoknak a Drops-kampányoknak a bányászására vagy kihagyására, amelyek
-jutalmai jelvények vagy hangulatjelek; Twitch-küldetések és jelvénylista nélkül.
+¹² Nem mértük.
 
 ## <a name="download"></a>Letöltés
 

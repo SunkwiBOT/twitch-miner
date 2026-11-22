@@ -237,39 +237,39 @@ Posisi [Twitch Miner](https://github.com/SunkwiBOT/twitch-miner) dibandingkan de
 | | Proyek ini | Channel Points Miner v2 | TwitchDropsMiner |
 |---|:---:|:---:|:---:|
 | Kampanye Drops: menemukan, menambang, dan mengklaimnya | ✅ | ❌ ¹ | ✅ |
+| Lencana Twitch: daftar semua lencana, lencana tiap akun, Drops lencana dan quest Twitch ditambang sesuai urutan Anda (beta) | ✅ | ❌ | sebagian ² |
 | Poin channel: peti, raid, momen, prediksi | ✅ | ✅ | ❌ |
 | Spam Points: hadiah kustom sebuah channel ditukarkan beberapa kali berturut-turut | ✅ | ❌ | ❌ |
 | Drops dan poin channel sekaligus di satu akun | ✅ | sebagian ¹ | ❌ |
-| Sebanyak apa pun akun yang Anda mau dalam satu aplikasi | ✅ | ❌ ² | ❌ |
+| Sebanyak apa pun akun yang Anda mau dalam satu aplikasi | ✅ | ❌ ³ | ❌ |
 | Ubah pengaturan beberapa akun sekaligus | ✅ | ❌ | ❌ |
-| Antarmuka grafis | ✅ desktop dan web ³ | ❌ ⁴ | ✅ desktop |
-| Dasbor web untuk server rumahan (Docker), dengan kata sandi, bisa diakses lewat HTTPS | ✅ | ❌ ⁴ | ❌ |
+| Antarmuka grafis | ✅ desktop dan web ⁴ | ❌ ⁵ | ✅ desktop |
+| Dasbor web untuk server rumahan (Docker), dengan kata sandi, bisa diakses lewat HTTPS | ✅ | ❌ ⁵ | ❌ |
 | Sesi dienkripsi di disk, kata sandi aplikasi opsional | ✅ | ❌ | ❌ |
-| Antarmuka dalam 29 bahasa | ✅ | ❌ | sebagian ⁵ |
+| Antarmuka dalam 29 bahasa | ✅ | ❌ | sebagian ⁶ |
 | Pembaruan bertanda tangan dari dalam aplikasi (desktop) | ✅ | ❌ | ❌ |
-| Panduan penyiapan untuk setiap akun baru | ✅ | ❌ ⁴ | ❌ |
-| Streamer ditambahkan dan diedit di antarmuka, satu per satu atau beberapa sekaligus | ✅ | ❌ ⁴ | — |
-| Streamer diimpor lewat pencarian, daftar, akun lain, atau channel yang diikuti | ✅ | sebagian ⁶ | — |
-| Notifikasi Discord, Telegram, dan webhook dengan gambar | ✅ | sebagian ⁷ | ❌ |
-| Kalender semua kampanye Drops, dengan pencarian | ✅ | ❌ | sebagian ⁸ |
-| Urutan penambangan per kampanye, kata yang dikecualikan, kampanye atau hadiah yang diabaikan | ✅ | ❌ | ❌ ⁹ |
-| Streamer di daftar Anda ditonton lebih dulu untuk Drops sebuah kampanye | ✅ | sebagian ¹⁰ | ❌ |
-| Lencana Twitch: daftar semua lencana, lencana tiap akun, Drops lencana dan quest Twitch ditambang sesuai urutan Anda (beta) | ✅ | ❌ | sebagian ¹² |
-| Jurnal peristiwa yang bisa disaring dan daftar setiap permintaan, di antarmuka | ✅ | ❌ ⁴ | ❌ |
-| Sekitar 3 MB memori per akun (server Docker) | ✅ | — ¹¹ | — ¹¹ |
+| Panduan penyiapan untuk setiap akun baru | ✅ | ❌ ⁵ | ❌ |
+| Streamer ditambahkan dan diedit di antarmuka, satu per satu atau beberapa sekaligus | ✅ | ❌ ⁵ | — |
+| Streamer diimpor lewat pencarian, daftar, akun lain, atau channel yang diikuti | ✅ | sebagian ⁷ | — |
+| Notifikasi Discord, Telegram, dan webhook dengan gambar | ✅ | sebagian ⁸ | ❌ |
+| Kalender semua kampanye Drops, dengan pencarian | ✅ | ❌ | sebagian ⁹ |
+| Urutan penambangan per kampanye, kata yang dikecualikan, kampanye atau hadiah yang diabaikan | ✅ | ❌ | ❌ ¹⁰ |
+| Streamer di daftar Anda ditonton lebih dulu untuk Drops sebuah kampanye | ✅ | sebagian ¹¹ | ❌ |
+| Jurnal peristiwa yang bisa disaring dan daftar setiap permintaan, di antarmuka | ✅ | ❌ ⁵ | ❌ |
+| Sekitar 3 MB memori per akun (server Docker) | ✅ | — ¹² | — ¹² |
 
 ¹ Ia hanya menonton streamer di daftarnya: ia memajukan dan mengklaim Drops dari stream mereka, tanpa memilih kampanye.\
-² Satu proses per akun.\
-³ Di PC Anda sebagai aplikasi desktop, dan/atau di server (VPS, NAS, Raspberry Pi) dengan Docker, tanpa lingkungan grafis dan tanpa browser di mesin itu: dasbor bisa dibuka di browser mana pun.\
-⁴ Dikonfigurasi lewat file Python; halaman webnya menampilkan grafik poin dan file log.\
-⁵ 21 bahasa.\
-⁶ Ia bisa mengikuti channel yang diikuti akun tersebut.\
-⁷ Hanya teks, tanpa gambar. Ia juga punya Matrix, Pushover, dan Gotify, yang tidak dimiliki proyek ini.\
-⁸ Daftar kampanye dengan filter, tanpa kalender atau pencarian.\
-⁹ Ia punya kategori prioritas dan kategori yang dikecualikan, dipilih berdasarkan nama kategori.\
-¹⁰ Secara default, ia lebih dulu menonton streamer di daftarnya yang stream-nya membawa Drops (prioritas `DROPS`-nya), tetapi tidak pernah channel lain.\
-¹¹ Tidak diukur.\
-¹² Pengaturan untuk menambang atau melewati kampanye Drops yang hadiahnya berupa lencana atau emote; tanpa quest Twitch dan tanpa daftar lencana.
+² Pengaturan untuk menambang atau melewati kampanye Drops yang hadiahnya berupa lencana atau emote; tanpa quest Twitch dan tanpa daftar lencana.\
+³ Satu proses per akun.\
+⁴ Di PC Anda sebagai aplikasi desktop, dan/atau di server (VPS, NAS, Raspberry Pi) dengan Docker, tanpa lingkungan grafis dan tanpa browser di mesin itu: dasbor bisa dibuka di browser mana pun.\
+⁵ Dikonfigurasi lewat file Python; halaman webnya menampilkan grafik poin dan file log.\
+⁶ 21 bahasa.\
+⁷ Ia bisa mengikuti channel yang diikuti akun tersebut.\
+⁸ Hanya teks, tanpa gambar. Ia juga punya Matrix, Pushover, dan Gotify, yang tidak dimiliki proyek ini.\
+⁹ Daftar kampanye dengan filter, tanpa kalender atau pencarian.\
+¹⁰ Ia punya kategori prioritas dan kategori yang dikecualikan, dipilih berdasarkan nama kategori.\
+¹¹ Secara default, ia lebih dulu menonton streamer di daftarnya yang stream-nya membawa Drops (prioritas `DROPS`-nya), tetapi tidak pernah channel lain.\
+¹² Tidak diukur.
 
 ## <a name="download"></a>Unduh
 
