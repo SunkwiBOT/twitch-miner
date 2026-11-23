@@ -8,7 +8,8 @@ import {
   takeFailedUpdate,
 } from "../api/client";
 import { isTauri } from "../api/tauri";
-import type { UnsubscribeType, UpdateInfoType, UpdateProgressType } from "../api/tauri";
+import type { UnsubscribeType, UpdateProgressType } from "../api/tauri";
+import type { AvailableUpdateType } from "../bindings/AvailableUpdateType";
 import { ErrorApiMessage } from "../bindings/ErrorApiMessage";
 import { describeCode, toApiError } from "../errors/errors.utils";
 import { percent } from "../format.utils";
@@ -24,7 +25,7 @@ import { UPDATE_TOAST_KEY, UpdateCheck, UpdateStage } from "./updates.constants"
 
 type UpdatesStateType = {
   check: UpdateCheck;
-  available: string | null;
+  available: AvailableUpdateType | null;
   stage: UpdateStage;
   progress: UpdateProgressType | null;
   confirming: boolean;
@@ -42,8 +43,10 @@ export const updates = $state<UpdatesStateType>({
 
 let offered: string | null = null;
 
-export const availableVersion = (): string | null =>
+export const availableUpdate = (): AvailableUpdateType | null =>
   updates.available ?? app.snapshot?.update_available ?? null;
+
+export const availableVersion = (): string | null => availableUpdate()?.version ?? null;
 
 export const installStatus = (version: string): string | null => {
   const bold = strong(version);
@@ -76,7 +79,7 @@ export const checkUpdates = async (): Promise<void> => {
   try {
     updates.available = await checkForUpdate();
     updates.check = updates.available ? UpdateCheck.AVAILABLE : UpdateCheck.CURRENT;
-    offered = updates.available ?? offered;
+    offered = updates.available?.version ?? offered;
   } catch (e: any) {
     console.warn("the update check failed", e);
     updates.check = UpdateCheck.FAILED;
@@ -126,18 +129,18 @@ export const installUpdate = async (): Promise<void> => {
       updates.progress = progress;
     });
 
-    const version = await downloadUpdate();
+    const downloaded = await downloadUpdate();
 
     // ! A newer version found since the confirmation is confirmed first, never installed unseen.
-    if (version !== confirmed) {
-      updates.available = version;
+    if (downloaded.version !== confirmed) {
+      updates.available = downloaded;
       updates.stage = UpdateStage.IDLE;
 
       return;
     }
 
     updates.stage = UpdateStage.INSTALLING;
-    await applyUpdate(version);
+    await applyUpdate(downloaded.version);
   } catch (e: any) {
     console.warn("the update could not be installed", e);
     updates.stage = UpdateStage.IDLE;
@@ -156,12 +159,12 @@ export const showUpdate = (): void => {
   navigate(Page.SETTINGS);
 };
 
-const offer = (found: UpdateInfoType): void => {
+const offer = (found: AvailableUpdateType): void => {
   if (updates.stage !== UpdateStage.IDLE) {
     return;
   }
 
-  updates.available = found.version;
+  updates.available = found;
   updates.check = UpdateCheck.AVAILABLE;
 
   if (offered === found.version) {

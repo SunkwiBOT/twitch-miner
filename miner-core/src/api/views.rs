@@ -219,6 +219,27 @@ pub struct BinaryAsset {
     pub arch: String,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[ts(rename = "AvailableUpdateType")]
+pub struct AvailableUpdate {
+    pub version: String,
+    // ! Markdown, from the `notes` of the release's `latest.json`.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub notes: Option<String>,
+}
+
+impl AvailableUpdate {
+    pub fn new(version: String, notes: Option<&str>) -> Self {
+        let notes = notes
+            .map(str::trim)
+            .filter(|notes| !notes.is_empty())
+            .map(str::to_owned);
+
+        Self { version, notes }
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, TS)]
 #[ts(rename = "SnapshotType")]
 pub struct Snapshot {
@@ -233,7 +254,7 @@ pub struct Snapshot {
     pub build: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
-    pub update_available: Option<String>,
+    pub update_available: Option<AvailableUpdate>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
     pub update_checked_at: Option<DateTime<Utc>>,

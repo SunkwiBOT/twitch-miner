@@ -1002,6 +1002,7 @@
   "updates_checking": "Перевірка…",
   "updates_current": "У вас найновіша версія.",
   "updates_available": "Доступна версія {version}.",
+  "updates_notes_title": "Що нового у версії {version}",
   "updates_available_title": "Доступне оновлення",
   "updates_available_locked": "Доступна версія {version}. Розблокуйте застосунок, щоб її встановити.",
   "updates_badge": "Оновлення {version}",

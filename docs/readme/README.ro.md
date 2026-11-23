@@ -589,7 +589,8 @@ Aplicația desktop verifică la pornire dacă există o versiune nouă, apoi la 
 pe insigna „Actualizare”, apoi pe „Instalează și repornește”. Cu Docker, panoul te
 anunță: rulează `docker compose pull`, apoi `docker compose up -d`. Fără Docker, panoul
 te anunță la fel: vezi [Fără Docker](#systemd) ca să înlocuiești fișierul și să repornești
-serviciul.
+serviciul. Fiecare versiune nouă își arată schimbările în aplicație și în pagina ei de pe
+GitHub.
 
 **Am uitat parola aplicației.**\
 Nu poate fi recuperată: ea criptează sesiunile tale Twitch. Închide aplicația, șterge

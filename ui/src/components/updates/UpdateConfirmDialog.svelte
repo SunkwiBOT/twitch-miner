@@ -17,6 +17,7 @@
   import TextButton from "../ui/TextButton.svelte";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import { IconName } from "../../lib/icons.constants";
+  import ReleaseNotes from "./ReleaseNotes.svelte";
 
   const version = $derived(availableVersion() ?? "");
   const busy = $derived(updates.stage !== UpdateStage.IDLE);
@@ -67,6 +68,7 @@
         })}
       />
     </p>
+    <ReleaseNotes class="mt-3" />
     <p class="sr-only" aria-live="polite"><RichText text={spoken} /></p>
     <div>
       {#if status}

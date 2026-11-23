@@ -977,6 +977,7 @@
   "updates_checking": "Tarkistetaan…",
   "updates_current": "Sinulla on uusin versio.",
   "updates_available": "Versio {version} on saatavilla.",
+  "updates_notes_title": "Uutta versiossa {version}",
   "updates_available_title": "Päivitys saatavilla",
   "updates_available_locked": "Versio {version} on saatavilla. Avaa sovelluksen lukitus asentaaksesi sen.",
   "updates_badge": "Päivitys {version}",

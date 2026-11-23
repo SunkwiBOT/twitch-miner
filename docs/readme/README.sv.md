@@ -592,7 +592,7 @@ Skrivbordsappen söker efter en ny version när den startar och sedan varje timm
 ”Uppdatering” och sedan på ”Installera och starta om”. Med Docker säger översikten till:
 kör `docker compose pull` och sedan `docker compose up -d`. Utan Docker säger översikten
 till på samma sätt: se [Utan Docker](#systemd) för att byta ut filen och starta om
-tjänsten.
+tjänsten. Varje ny version visar sina ändringar i appen och i sin utgåva på GitHub.
 
 **Jag har glömt applösenordet.**\
 Det går inte att återställa: det är det som krypterar dina Twitch-sessioner. Avsluta

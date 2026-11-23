@@ -2,7 +2,7 @@ use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-use super::{ImportTokensFlowView, LoginFlowView, Snapshot, TokenCheck};
+use super::{AvailableUpdate, ImportTokensFlowView, LoginFlowView, Snapshot, TokenCheck};
 use crate::badges::GlobalBadge;
 use crate::domain::{Campaign, Channel};
 use crate::error::ErrorCode;
@@ -157,7 +157,7 @@ pub struct RefreshResponse {
 pub struct UpdateCheck {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
-    pub available: Option<String>,
+    pub available: Option<AvailableUpdate>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]

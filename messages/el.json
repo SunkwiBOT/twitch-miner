@@ -1029,6 +1029,7 @@
   "updates_checking": "Έλεγχος…",
   "updates_current": "Έχετε την πιο πρόσφατη έκδοση.",
   "updates_available": "Η έκδοση {version} είναι διαθέσιμη.",
+  "updates_notes_title": "Τι νέο φέρνει η έκδοση {version}",
   "updates_available_title": "Διαθέσιμη ενημέρωση",
   "updates_available_locked": "Η έκδοση {version} είναι διαθέσιμη. Ξεκλειδώστε την εφαρμογή για να την εγκαταστήσετε.",
   "updates_badge": "Ενημέρωση {version}",

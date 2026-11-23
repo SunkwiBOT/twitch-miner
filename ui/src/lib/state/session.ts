@@ -97,7 +97,7 @@ const applySnapshot = (snapshot: SnapshotType): void => {
   app.snapshot = snapshot;
   showPreferences(snapshot.settings);
   followSnapshotAccounts(snapshot);
-  notifyUpdate(snapshot.update_available);
+  notifyUpdate(snapshot.update_available?.version);
 };
 
 export const refresh = async (): Promise<void> => {

@@ -18,6 +18,7 @@
   import RichText from "../ui/RichText.svelte";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import { IconName } from "../../lib/icons.constants";
+  import ReleaseNotes from "./ReleaseNotes.svelte";
   import ServerUpdateCommands from "./ServerUpdateCommands.svelte";
 
   type UpdatesPanelPropsType = { checkedAt: string | null; actions: Snippet };
@@ -55,6 +56,7 @@
   </div>
   <p class="text-hint text-muted-foreground"><RichText text={lastChecked} /></p>
 </div>
+<ReleaseNotes />
 {#if !isTauri() && version}
   <ServerUpdateCommands />
 {/if}

@@ -597,7 +597,8 @@ endres i **Innstillinger › Om**), og kan varsle deg når den finner en. Klikk 
 «Oppdatering», deretter på «Installer og start på nytt». Med Docker sier oversikten fra:
 kjør `docker compose pull` og deretter `docker compose up -d`. Uten Docker sier
 oversikten fra på samme måte: se [Uten Docker](#systemd) for å bytte ut filen og starte
-tjenesten på nytt.
+tjenesten på nytt. Hver nye versjon viser endringene sine i appen og i utgivelsen sin på
+GitHub.
 
 **Jeg har glemt app-passordet.**\
 Det kan ikke gjenopprettes: det er det som krypterer Twitch-øktene dine. Avslutt appen,

@@ -24,8 +24,8 @@ pub use responses::{
     StreamerPredictions, UpdateCheck, UpdateCheckResponse,
 };
 pub use views::{
-    AccountSnapshot, AccountStats, AccountStatus, BadgeCatalogView, BinaryAsset, CampaignProgress,
-    CatalogView, CoreLimits, DropProgressView, DropState, ImportTokenOutcome,
+    AccountSnapshot, AccountStats, AccountStatus, AvailableUpdate, BadgeCatalogView, BinaryAsset,
+    CampaignProgress, CatalogView, CoreLimits, DropProgressView, DropState, ImportTokenOutcome,
     ImportTokensFlowStatus, ImportTokensFlowView, LoginFlowStatus, LoginFlowView, SlotView,
     Snapshot, StreamerView, TokenCheck,
 };

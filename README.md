@@ -589,7 +589,7 @@ this in **Settings › About**), and can notify you when it finds one. Click the
 badge, then “Install and restart”. With Docker, the dashboard tells you too: run
 `docker compose pull`, then `docker compose up -d`. Without Docker, the dashboard tells
 you the same way: see [Without Docker](#systemd) to replace the file and restart the
-service.
+service. Each new version lists what changed, in the app and on its GitHub release.
 
 **I forgot the app password.**\
 It cannot be recovered: it is what encrypts your Twitch sessions. Quit the app, delete the

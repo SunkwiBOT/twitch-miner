@@ -599,7 +599,8 @@ cambiarlo en **Ajustes › Acerca de**), y puede avisarte cuando encuentre una. 
 la insignia «Actualización» y después en «Instalar y reiniciar». Con Docker, el panel te
 avisa: ejecuta `docker compose pull` y luego `docker compose up -d`. Sin Docker, el panel
 te avisa igual: consulta [Sin Docker](#systemd) para reemplazar el archivo y reiniciar el
-servicio.
+servicio. Cada versión nueva muestra sus cambios en la aplicación y en su publicación de
+GitHub.
 
 **He olvidado la contraseña de la app.**\
 No se puede recuperar: es lo que cifra tus sesiones de Twitch. Cierra la app, borra la

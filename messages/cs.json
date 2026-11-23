@@ -1071,6 +1071,7 @@
   "updates_checking": "Probíhá kontrola…",
   "updates_current": "Máte nejnovější verzi.",
   "updates_available": "Je k dispozici verze {version}.",
+  "updates_notes_title": "Novinky ve verzi {version}",
   "updates_available_title": "Dostupná aktualizace",
   "updates_available_locked": "Je k dispozici verze {version}. Odemkněte aplikaci a nainstalujte ji.",
   "updates_badge": "Aktualizace {version}",

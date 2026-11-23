@@ -409,7 +409,7 @@ Twitch 對每個帳號同一時間只會計入**一個 Drops 活動**和**兩個
 在資料目錄中：Linux 上是 `~/.local/share/twitch-miner`，Windows 上是 `%APPDATA%\twitch-miner`，macOS 上是 `~/Library/Application Support/twitch-miner`，Docker 則是 `/data` 磁碟區。在桌面版中，**設定 › 桌面**可以一鍵開啟它。裡面有 `miner.db`（帳號、設定、紀錄）、`master.key`（未設定應用程式密碼時的工作階段金鑰）和日誌。
 
 **要怎麼更新？**\
-桌面應用程式啟動時會檢查是否有新版本，之後每小時檢查一次（可在**設定 › 關於**中變更，找到新版本時也會通知你）。按「更新」徽章，再按「安裝並重新啟動」。使用 Docker 時，儀表板會通知你：執行 `docker compose pull`，再執行 `docker compose up -d`。不使用 Docker 時，儀表板也會以相同方式通知你：替換檔案並重新啟動服務的方法請見[不使用 Docker](#systemd)。
+桌面應用程式啟動時會檢查是否有新版本，之後每小時檢查一次（可在**設定 › 關於**中變更，找到新版本時也會通知你）。按「更新」徽章，再按「安裝並重新啟動」。使用 Docker 時，儀表板會通知你：執行 `docker compose pull`，再執行 `docker compose up -d`。不使用 Docker 時，儀表板也會以相同方式通知你：替換檔案並重新啟動服務的方法請見[不使用 Docker](#systemd)。每個新版本都會在應用程式內和 GitHub 發布頁列出更新內容。
 
 **我忘了應用程式密碼。**\
 密碼無法找回：你的 Twitch 工作階段正是用它加密的。請結束應用程式、刪除資料目錄，然後重新新增帳號；這些帳號的設定必須重新設定。使用 Docker 時，儀表板密碼要在 `MINER_PASSWORD` 中變更，再執行 `docker compose up -d`。

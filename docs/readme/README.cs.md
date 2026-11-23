@@ -577,7 +577,7 @@ v **Nastavení › O aplikaci**) a umí vás na novou verzi upozornit. Klikněte
 „Aktualizace“ a pak na „Nainstalovat a restartovat“. U Dockeru vám to oznámí panel:
 spusťte `docker compose pull` a pak `docker compose up -d`. Bez Dockeru vám to panel
 oznámí stejně: podívejte se na [Bez Dockeru](#systemd), jak nahradit soubor a restartovat
-službu.
+službu. Každá nová verze uvádí své změny v aplikaci i ve svém vydání na GitHubu.
 
 **Nepamatuji si heslo aplikace.**\
 Nelze ho obnovit: právě ono šifruje vaše relace Twitch. Ukončete aplikaci, smažte složku

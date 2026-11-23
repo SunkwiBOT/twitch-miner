@@ -1031,6 +1031,7 @@
   "updates_checking": "Se caută…",
   "updates_current": "Ai cea mai nouă versiune.",
   "updates_available": "Versiunea {version} este disponibilă.",
+  "updates_notes_title": "Noutăți în versiunea {version}",
   "updates_available_title": "Actualizare disponibilă",
   "updates_available_locked": "Versiunea {version} este disponibilă. Deblochează aplicația ca s-o instalezi.",
   "updates_badge": "Actualizare {version}",

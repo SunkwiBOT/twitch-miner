@@ -8,6 +8,7 @@ use std::process::Command;
 use std::sync::{Arc, Mutex};
 use std::time::{Duration, Instant};
 
+use miner_core::api::AvailableUpdate;
 use miner_core::error::{ApiError, ErrorCode};
 use miner_core::requests::{address_target, url_target, Pending, RequestKind};
 use miner_core::Manager;
@@ -43,21 +44,8 @@ const SELFTEST_TIMEOUT: Duration = Duration::from_secs(15);
 
 type Answer<T> = Result<T, ApiError>;
 
-#[derive(Clone, Serialize)]
-pub struct UpdateInfoDto {
-    pub version: String,
-    pub current_version: String,
-    pub notes: Option<String>,
-}
-
-impl UpdateInfoDto {
-    fn of(update: &Update) -> Self {
-        Self {
-            version: update.version.clone(),
-            current_version: update.current_version.clone(),
-            notes: update.body.clone(),
-        }
-    }
+fn available(update: &Update) -> AvailableUpdate {
+    AvailableUpdate::new(update.version.clone(), update.body.as_deref())
 }
 
 #[derive(Default)]
@@ -192,7 +180,7 @@ async fn find_update(app: &AppHandle) -> Answer<Option<Update>> {
     })
 }
 
-fn record(app: &AppHandle, update: Option<Update>) -> Option<UpdateInfoDto> {
+fn record(app: &AppHandle, update: Option<Update>) -> Option<AvailableUpdate> {
     let manager = app
         .try_state::<crate::AppState>()
         .map(|state| state.manager.clone());
@@ -214,41 +202,39 @@ fn record(app: &AppHandle, update: Option<Update>) -> Option<UpdateInfoDto> {
         return None;
     };
 
+    let info = available(&update);
     let announced = manager.is_some_and(|manager| {
         manager
-            .announce_update(&update.version)
+            .announce_update(&info)
             .inspect_err(|error| tracing::warn!(%error, "the new version was not announced"))
             .unwrap_or(false)
     });
     let known_first = found
         .as_ref()
         .is_some_and(|known| known.first && known.update.version == update.version);
-    let info = UpdateInfoDto::of(&update);
+
+    if announced {
+        tracing::info!(
+            "version {} is available (installed: {})",
+            update.version,
+            update.current_version
+        );
+    }
 
     *found = Some(Found {
         update,
         first: announced || known_first,
     });
 
-    if !announced {
-        return None;
-    }
-
-    tracing::info!(
-        "version {} is available (installed: {})",
-        info.version,
-        info.current_version
-    );
-
-    Some(info)
+    announced.then_some(info)
 }
 
 #[tauri::command]
-pub async fn check_for_update(app: AppHandle) -> Answer<Option<UpdateInfoDto>> {
+pub async fn check_for_update(app: AppHandle) -> Answer<Option<AvailableUpdate>> {
     unlocked(&app).await?;
 
     let update = find_update(&app).await?;
-    let info = update.as_ref().map(UpdateInfoDto::of);
+    let info = update.as_ref().map(available);
 
     record(&app, update);
 
@@ -259,11 +245,11 @@ pub async fn check_for_update(app: AppHandle) -> Answer<Option<UpdateInfoDto>> {
 // to `UPDATE_AVAILABLE_EVENT`. Allowed while locked: the lock screen only says a
 // version exists, with nothing to install.
 #[tauri::command]
-pub fn found_update(found: State<'_, FoundUpdate>) -> Option<UpdateInfoDto> {
+pub fn found_update(found: State<'_, FoundUpdate>) -> Option<AvailableUpdate> {
     miner_core::util::locked(&found.0)
         .as_ref()
         .filter(|found| found.first)
-        .map(|found| UpdateInfoDto::of(&found.update))
+        .map(|found| available(&found.update))
 }
 
 #[tauri::command]
@@ -313,7 +299,7 @@ pub async fn download_update(
     app: AppHandle,
     found: State<'_, FoundUpdate>,
     pending: State<'_, PendingUpdate>,
-) -> Answer<String> {
+) -> Answer<AvailableUpdate> {
     unlocked(&app).await?;
 
     let update = miner_core::util::locked(&found.0)
@@ -369,9 +355,11 @@ pub async fn download_update(
         ApiError::new(ErrorCode::NetworkError)
     })?;
 
+    let downloaded = available(&update);
+
     *miner_core::util::locked(&pending.0) = Some(DownloadedUpdate { update, bytes });
 
-    Ok(version)
+    Ok(downloaded)
 }
 
 #[tauri::command]

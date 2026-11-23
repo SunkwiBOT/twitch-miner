@@ -588,7 +588,8 @@ Aplikacja desktopowa sprawdza dostępność nowej wersji przy uruchomieniu, a po
 plakietkę „Aktualizacja”, a potem „Zainstaluj i uruchom ponownie”. W Dockerze panel o tym
 informuje: uruchom `docker compose pull`, a potem `docker compose up -d`. Bez Dockera
 panel informuje tak samo: zobacz [Bez Dockera](#systemd), jak podmienić plik i ponownie
-uruchomić usługę.
+uruchomić usługę. Każda nowa wersja wymienia swoje zmiany w aplikacji i w swoim wydaniu na
+GitHubie.
 
 **Nie pamiętam hasła aplikacji.**\
 Nie da się go odzyskać: to ono szyfruje Twoje sesje Twitch. Zamknij aplikację, usuń folder

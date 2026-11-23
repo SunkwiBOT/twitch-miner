@@ -757,6 +757,7 @@
   "updates_checking": "กำลังตรวจหา…",
   "updates_current": "คุณใช้เวอร์ชันล่าสุดแล้ว",
   "updates_available": "มีเวอร์ชัน {version} แล้ว",
+  "updates_notes_title": "มีอะไรใหม่ในเวอร์ชัน {version}",
   "updates_available_title": "มีอัปเดตใหม่",
   "updates_available_locked": "มีเวอร์ชัน {version} แล้ว ปลดล็อกแอปเพื่อติดตั้ง",
   "updates_badge": "อัปเดต {version}",

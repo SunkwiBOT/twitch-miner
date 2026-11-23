@@ -930,6 +930,7 @@
   "updates_checking": "Søger…",
   "updates_current": "Du har den nyeste version.",
   "updates_available": "Version {version} er tilgængelig.",
+  "updates_notes_title": "Nyt i version {version}",
   "updates_available_title": "Opdatering tilgængelig",
   "updates_available_locked": "Version {version} er tilgængelig. Lås appen op for at installere den.",
   "updates_badge": "Opdatering {version}",

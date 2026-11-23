@@ -760,6 +760,7 @@
   "updates_checking": "Denetleniyor…",
   "updates_current": "En son sürümü kullanıyorsunuz.",
   "updates_available": "{version} sürümü kullanılabilir.",
+  "updates_notes_title": "{version} sürümündeki yenilikler",
   "updates_available_title": "Güncelleme mevcut",
   "updates_available_locked": "{version} sürümü kullanılabilir. Yüklemek için uygulamanın kilidini açın.",
   "updates_badge": "Güncelleme {version}",

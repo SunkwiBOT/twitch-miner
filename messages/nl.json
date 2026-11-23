@@ -1029,6 +1029,7 @@
   "updates_checking": "Controleren…",
   "updates_current": "Je hebt de nieuwste versie.",
   "updates_available": "Versie {version} is beschikbaar.",
+  "updates_notes_title": "Nieuw in versie {version}",
   "updates_available_title": "Update beschikbaar",
   "updates_available_locked": "Versie {version} is beschikbaar. Ontgrendel de app om hem te installeren.",
   "updates_badge": "Update {version}",

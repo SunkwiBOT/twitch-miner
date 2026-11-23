@@ -1029,6 +1029,7 @@
   "updates_checking": "Vérification…",
   "updates_current": "Vous avez la dernière version.",
   "updates_available": "La version {version} est disponible.",
+  "updates_notes_title": "Nouveautés de la {version}",
   "updates_available_title": "Mise à jour disponible",
   "updates_available_locked": "La version {version} est disponible. Déverrouillez l'application pour l'installer.",
   "updates_badge": "Mise à jour {version}",

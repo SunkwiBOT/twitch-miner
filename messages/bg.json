@@ -1029,6 +1029,7 @@
   "updates_checking": "Проверка…",
   "updates_current": "Имате най-новата версия.",
   "updates_available": "Налична е версия {version}.",
+  "updates_notes_title": "Новото във версия {version}",
   "updates_available_title": "Налична актуализация",
   "updates_available_locked": "Налична е версия {version}. Отключете приложението, за да я инсталирате.",
   "updates_badge": "Обновление {version}",

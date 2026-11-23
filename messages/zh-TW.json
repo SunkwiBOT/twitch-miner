@@ -760,6 +760,7 @@
   "updates_checking": "正在檢查…",
   "updates_current": "已是最新版本。",
   "updates_available": "版本 {version} 已推出。",
+  "updates_notes_title": "版本 {version} 更新內容",
   "updates_available_title": "有可用更新",
   "updates_available_locked": "版本 {version} 已推出。請解鎖應用程式後再安裝。",
   "updates_badge": "更新 {version}",

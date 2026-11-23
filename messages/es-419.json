@@ -1029,6 +1029,7 @@
   "updates_checking": "Buscando…",
   "updates_current": "Tienes la versión más reciente.",
   "updates_available": "La versión {version} está disponible.",
+  "updates_notes_title": "Novedades de la versión {version}",
   "updates_available_title": "Actualización disponible",
   "updates_available_locked": "La versión {version} está disponible. Desbloquea la app para instalarla.",
   "updates_badge": "Actualización {version}",

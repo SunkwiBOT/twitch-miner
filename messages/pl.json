@@ -963,6 +963,7 @@
   "updates_checking": "Sprawdzanie…",
   "updates_current": "Masz najnowszą wersję.",
   "updates_available": "Dostępna jest wersja {version}.",
+  "updates_notes_title": "Nowości w wersji {version}",
   "updates_available_title": "Dostępna aktualizacja",
   "updates_available_locked": "Dostępna jest wersja {version}. Odblokuj aplikację, aby ją zainstalować.",
   "updates_badge": "Aktualizacja {version}",

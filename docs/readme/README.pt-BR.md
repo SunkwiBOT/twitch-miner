@@ -594,7 +594,7 @@ para mudar isso em **Configurações › Sobre**), e pode avisar você quando en
 Clique no selo “Atualização” e depois em “Instalar e reiniciar”. No Docker, o painel
 avisa: rode `docker compose pull` e depois `docker compose up -d`. Sem Docker, o painel
 avisa do mesmo jeito: veja [Sem Docker](#systemd) para substituir o arquivo e reiniciar
-o serviço.
+o serviço. Cada nova versão lista as mudanças no app e na página da versão no GitHub.
 
 **Esqueci a senha do app.**\
 Ela não pode ser recuperada: é ela que criptografa as suas sessões da Twitch. Feche o app,

@@ -409,7 +409,7 @@ Twitch 对每个账号同时只计入**一个 Drops 活动**和**两个频道的
 在数据文件夹中：Linux 上是 `~/.local/share/twitch-miner`，Windows 上是 `%APPDATA%\twitch-miner`，macOS 上是 `~/Library/Application Support/twitch-miner`，Docker 中则是 `/data` 卷。在桌面版中，**设置 › 桌面**可以一键打开它。其中包含 `miner.db`（账号、设置、记录）、`master.key`（未设置应用密码时的会话密钥）和日志。
 
 **如何更新？**\
-桌面应用启动时会检查新版本，之后每小时检查一次（可在**设置 › 关于**中更改，找到新版本时也会提示你）。点击“更新”徽章，然后点击“安装并重启”。使用 Docker 时，仪表盘会提示你：运行 `docker compose pull`，然后运行 `docker compose up -d`。不使用 Docker 时，仪表盘也会同样提示你：替换文件并重启服务的方法见[不使用 Docker](#systemd)。
+桌面应用启动时会检查新版本，之后每小时检查一次（可在**设置 › 关于**中更改，找到新版本时也会提示你）。点击“更新”徽章，然后点击“安装并重启”。使用 Docker 时，仪表盘会提示你：运行 `docker compose pull`，然后运行 `docker compose up -d`。不使用 Docker 时，仪表盘也会同样提示你：替换文件并重启服务的方法见[不使用 Docker](#systemd)。每个新版本都会在应用内和 GitHub 发布页列出更新内容。
 
 **我忘记了应用密码。**\
 密码无法找回：你的 Twitch 会话正是用它加密的。退出应用，删除数据文件夹，然后重新添加账号；它们的设置需要重新配置。使用 Docker 时，仪表盘密码在 `MINER_PASSWORD` 中修改，然后运行 `docker compose up -d`。

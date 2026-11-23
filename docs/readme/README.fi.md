@@ -600,6 +600,7 @@ Napsauta ”Päivitys”-merkkiä ja sitten ”Asenna ja käynnistä uudelleen�
 hallintapaneeli ilmoittaa asiasta: suorita `docker compose pull` ja sitten
 `docker compose up -d`. Ilman Dockeria hallintapaneeli ilmoittaa samalla tavalla: katso
 [Ilman Dockeria](#systemd), miten tiedosto vaihdetaan ja palvelu käynnistetään uudelleen.
+Jokainen uusi versio kertoo muutoksensa sovelluksessa ja GitHub-julkaisussaan.
 
 **Unohdin sovelluksen salasanan.**\
 Sitä ei voi palauttaa: juuri se salaa Twitch-istuntosi. Sulje sovellus, poista datakansio

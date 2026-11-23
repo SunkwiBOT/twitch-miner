@@ -757,6 +757,7 @@
   "updates_checking": "Đang kiểm tra…",
   "updates_current": "Bạn đang dùng phiên bản mới nhất.",
   "updates_available": "Đã có phiên bản {version}.",
+  "updates_notes_title": "Có gì mới trong phiên bản {version}",
   "updates_available_title": "Có bản cập nhật",
   "updates_available_locked": "Đã có phiên bản {version}. Hãy mở khóa ứng dụng để cài đặt.",
   "updates_badge": "Cập nhật {version}",

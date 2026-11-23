@@ -757,6 +757,7 @@
   "updates_checking": "確認中…",
   "updates_current": "最新バージョンを使用しています。",
   "updates_available": "バージョン {version} が利用可能です。",
+  "updates_notes_title": "バージョン {version} の新機能",
   "updates_available_title": "更新があります",
   "updates_available_locked": "バージョン {version} が利用可能です。インストールするにはアプリのロックを解除してください。",
   "updates_badge": "アップデート {version}",

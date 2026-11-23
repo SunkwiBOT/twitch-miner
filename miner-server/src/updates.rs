@@ -4,7 +4,7 @@
 use std::time::{Duration, Instant};
 
 use anyhow::{anyhow, bail};
-use miner_core::api::InstallKind;
+use miner_core::api::{AvailableUpdate, InstallKind};
 use miner_core::error::ErrorCode;
 use miner_core::requests::{address_target, RequestKind, RequestLog};
 use miner_core::Manager;
@@ -28,11 +28,13 @@ const GITHUB_FILES_HOST_SUFFIX: &str = ".githubusercontent.com";
 #[derive(Deserialize)]
 struct LatestRelease {
     version: String,
+    #[serde(default)]
+    notes: Option<String>,
 }
 
 struct Answer {
     asked_at: Instant,
-    newer: Result<Option<String>, ErrorCode>,
+    newer: Result<Option<AvailableUpdate>, ErrorCode>,
 }
 
 pub struct Releases {
@@ -68,7 +70,7 @@ impl Releases {
         })
     }
 
-    pub async fn check(&self, manager: &Manager) -> Result<Option<String>, ErrorCode> {
+    pub async fn check(&self, manager: &Manager) -> Result<Option<AvailableUpdate>, ErrorCode> {
         self.check_at(manager, Instant::now()).await
     }
 
@@ -76,7 +78,7 @@ impl Releases {
         &self,
         manager: &Manager,
         now: Instant,
-    ) -> Result<Option<String>, ErrorCode> {
+    ) -> Result<Option<AvailableUpdate>, ErrorCode> {
         let mut last_answer = self.last_answer.lock().await;
 
         if let Some(answer) = last_answer
@@ -87,14 +89,15 @@ impl Releases {
         }
 
         let newer = match self.latest(&manager.requests).await {
-            Ok(latest) => {
+            Ok((latest, notes)) => {
                 manager.update_checked();
 
-                let newer = is_newer(&latest).then(|| latest.to_string());
+                let newer = is_newer(&latest)
+                    .then(|| AvailableUpdate::new(latest.to_string(), notes.as_deref()));
 
                 match &newer {
-                    Some(version) => {
-                        if let Err(error) = manager.announce_update(version) {
+                    Some(update) => {
+                        if let Err(error) = manager.announce_update(update) {
                             tracing::warn!(%error, "the new version was not announced");
                         }
                     }
@@ -126,7 +129,7 @@ impl Releases {
         .await;
     }
 
-    async fn latest(&self, requests: &RequestLog) -> anyhow::Result<Version> {
+    async fn latest(&self, requests: &RequestLog) -> anyhow::Result<(Version, Option<String>)> {
         let pending = requests.start(RequestKind::UpdateCheck, address_target(&self.url));
         let sent = self
             .client
@@ -168,9 +171,10 @@ impl Releases {
 
         let release: LatestRelease = serde_json::from_slice(&body)?;
         let version = release.version.trim();
+        let parsed = Version::parse(version.strip_prefix('v').unwrap_or(version))
+            .map_err(|error| anyhow!("the release version {version:?} is not one: {error}"))?;
 
-        Version::parse(version.strip_prefix('v').unwrap_or(version))
-            .map_err(|error| anyhow!("the release version {version:?} is not one: {error}"))
+        Ok((parsed, release.notes))
     }
 }
 

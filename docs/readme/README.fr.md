@@ -604,7 +604,8 @@ L'application de bureau cherche une nouvelle version au démarrage, puis toutes 
 Cliquez sur le badge « Mise à jour », puis sur « Installer et redémarrer ». Avec Docker, le
 tableau de bord prévient : lancez `docker compose pull`, puis `docker compose up -d`. Sans
 Docker, le tableau de bord prévient de la même façon : voyez [Sans Docker](#systemd) pour
-remplacer le fichier et redémarrer le service.
+remplacer le fichier et redémarrer le service. Chaque nouvelle version liste ses
+changements, dans l'application et sur sa page GitHub.
 
 **J'ai oublié le mot de passe de l'application.**\
 Il ne peut pas être récupéré : c'est lui qui chiffre vos sessions Twitch. Quittez

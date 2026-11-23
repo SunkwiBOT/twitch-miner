@@ -13,14 +13,15 @@ use super::banners::Banners;
 use super::record_event;
 use super::spam_points::{spam_channels, SpamAccess, SpamPoints};
 use crate::api::{
-    AccountSnapshot, AccountStats, AccountStatus, BadgeCatalogView, BadgesResponse, BinaryAsset,
-    CatalogResponse, CatalogView, CategoryCount, ChannelsLookupResponse, Command, CoreLimits,
-    DropsByCategory, HistoryCurveQuery, HistoryCurveResponse, HistoryExportQuery,
-    HistoryExportResponse, HistoryQuery, HistoryResponse, HistoryStatsQuery, HistoryStatsResponse,
-    ImportTokenOutcome, ImportTokensFlowStatus, ImportTokensFlowView, InstallKind, LoginFlowStatus,
-    LoginFlowView, LogsQuery, LogsReportResponse, LogsResponse, NotificationTarget,
-    NotificationTest, NotificationTestRequest, PointsByDay, ProxyTestResponse, RedeemRequest,
-    RefreshCount, RequestsQuery, RequestsResponse, Snapshot, StreamerMinutes, StreamerPoints,
+    AccountSnapshot, AccountStats, AccountStatus, AvailableUpdate, BadgeCatalogView,
+    BadgesResponse, BinaryAsset, CatalogResponse, CatalogView, CategoryCount,
+    ChannelsLookupResponse, Command, CoreLimits, DropsByCategory, HistoryCurveQuery,
+    HistoryCurveResponse, HistoryExportQuery, HistoryExportResponse, HistoryQuery, HistoryResponse,
+    HistoryStatsQuery, HistoryStatsResponse, ImportTokenOutcome, ImportTokensFlowStatus,
+    ImportTokensFlowView, InstallKind, LoginFlowStatus, LoginFlowView, LogsQuery,
+    LogsReportResponse, LogsResponse, NotificationTarget, NotificationTest,
+    NotificationTestRequest, PointsByDay, ProxyTestResponse, RedeemRequest, RefreshCount,
+    RequestsQuery, RequestsResponse, Snapshot, StreamerMinutes, StreamerPoints,
     StreamerPredictions, TokenCheck, BINARY_ASSET_PREFIX, CHANNELS_LOOKUP_MAX, FOLLOWS_MAX,
     HISTORY_EXPORT_MAX, HISTORY_LIMIT_DEFAULT, HISTORY_LIMIT_MAX, HISTORY_STATS_MAX_SPAN_DAYS,
     HISTORY_STATS_TOP_MAX, LOGS_LIMIT_DEFAULT, LOGS_LIMIT_MAX, REQUESTS_LIMIT_DEFAULT,
@@ -309,7 +310,7 @@ pub struct Manager {
     recent: std::sync::Mutex<VecDeque<MinerEvent>>,
     start_failures: std::sync::Mutex<HashMap<String, Error>>,
     announcing: std::sync::Mutex<()>,
-    update_available: std::sync::Mutex<Option<String>>,
+    update_available: std::sync::Mutex<Option<AvailableUpdate>>,
     update_checked_at: std::sync::Mutex<Option<chrono::DateTime<Utc>>>,
     // ! When the "star the repository" window may show; None once it was closed.
     star_prompt_at: std::sync::Mutex<Option<chrono::DateTime<Utc>>>,
@@ -2073,11 +2074,12 @@ impl Manager {
         Ok(version)
     }
 
-    pub fn announce_update(&self, version: &str) -> Result<bool> {
+    pub fn announce_update(&self, update: &AvailableUpdate) -> Result<bool> {
         let _one_at_a_time = locked(&self.announcing);
-        let shown = locked(&self.update_available).replace(version.to_owned());
+        let version = update.version.as_str();
+        let shown = locked(&self.update_available).replace(update.clone());
 
-        if shown.as_deref() != Some(version) {
+        if shown.as_ref() != Some(update) {
             self.changed.notify_waiters();
         }
 

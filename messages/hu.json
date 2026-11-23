@@ -760,6 +760,7 @@
   "updates_checking": "Keresés…",
   "updates_current": "A legújabb verziót használod.",
   "updates_available": "Új verzió érhető el: {version}.",
+  "updates_notes_title": "A(z) {version} verzió újdonságai",
   "updates_available_title": "Elérhető frissítés",
   "updates_available_locked": "Új verzió érhető el: {version}. Oldd fel az alkalmazást a telepítéshez.",
   "updates_badge": "Frissítés: {version}",

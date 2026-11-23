@@ -1,6 +1,7 @@
 import { ServerMessageKind } from "../bindings/ServerMessageKind";
 
 import type { AppInfoType } from "../bindings/AppInfoType";
+import type { AvailableUpdateType } from "../bindings/AvailableUpdateType";
 import type { AuthResponseType } from "../bindings/AuthResponseType";
 import type { CategoryCountType } from "../bindings/CategoryCountType";
 import type { AuthStatusType } from "../bindings/AuthStatusType";
@@ -66,7 +67,6 @@ import type {
   TauriCommandsType,
   FailedUpdateType,
   UnsubscribeType,
-  UpdateInfoType,
   UpdateProgressType,
 } from "./tauri";
 
@@ -453,9 +453,9 @@ export const exportCsvToFile = async (
   return { counts: response.counts, truncated: response.truncated };
 };
 
-export const checkForUpdate = async (): Promise<string | null> => {
+export const checkForUpdate = async (): Promise<AvailableUpdateType | null> => {
   if (isTauri()) {
-    return (await invoke(TauriCommand.CHECK_FOR_UPDATE))?.version ?? null;
+    return invoke(TauriCommand.CHECK_FOR_UPDATE);
   }
 
   const response = await http<UpdateCheckResponseType>(RoutesApi.UPDATES_CHECK, {
@@ -465,17 +465,18 @@ export const checkForUpdate = async (): Promise<string | null> => {
   return response.data.check.available ?? null;
 };
 
-export const fetchFoundUpdate = async (): Promise<UpdateInfoType | null> =>
+export const fetchFoundUpdate = async (): Promise<AvailableUpdateType | null> =>
   invoke(TauriCommand.FOUND_UPDATE);
 
 export const takeFailedUpdate = async (): Promise<FailedUpdateType | null> =>
   invoke(TauriCommand.TAKE_FAILED_UPDATE);
 
 export const onUpdateAvailable = (
-  callback: (found: UpdateInfoType) => void,
+  callback: (found: AvailableUpdateType) => void,
 ): Promise<UnsubscribeType> => listenUpdate(UpdateEvent.AVAILABLE, callback);
 
-export const downloadUpdate = async (): Promise<string> => invoke(TauriCommand.DOWNLOAD_UPDATE);
+export const downloadUpdate = async (): Promise<AvailableUpdateType> =>
+  invoke(TauriCommand.DOWNLOAD_UPDATE);
 
 export const applyUpdate = async (version: string): Promise<void> => {
   await invoke(TauriCommand.APPLY_UPDATE, { version });

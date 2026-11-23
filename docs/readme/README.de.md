@@ -617,7 +617,8 @@ unter **Einstellungen › Über**), und kann Sie benachrichtigen, sobald sie ein
 Klicken Sie auf das Badge „Update“, dann auf „Installieren und neu starten“. Bei Docker
 meldet es das Dashboard: Führen Sie `docker compose pull` und dann `docker compose up -d`
 aus. Ohne Docker meldet es das Dashboard genauso: siehe [Ohne Docker](#systemd), um die
-Datei zu ersetzen und den Dienst neu zu starten.
+Datei zu ersetzen und den Dienst neu zu starten. Jede neue Version listet ihre Änderungen
+in der App und in ihrem GitHub-Release auf.
 
 **Ich habe das App-Passwort vergessen.**\
 Es lässt sich nicht wiederherstellen: Mit ihm werden Ihre Twitch-Sitzungen verschlüsselt.

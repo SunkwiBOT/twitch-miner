@@ -3,6 +3,7 @@
 import { invoke as tauriInvoke } from "@tauri-apps/api/core";
 import { listen as tauriListen } from "@tauri-apps/api/event";
 
+import type { AvailableUpdateType } from "../bindings/AvailableUpdateType";
 import type { CategoryCountType } from "../bindings/CategoryCountType";
 import type { SearchResponseType } from "../bindings/SearchResponseType";
 import type { DesktopEvent } from "../bindings/DesktopEvent";
@@ -51,13 +52,7 @@ import type { TauriCommand, UpdateEvent } from "./api.constants";
 
 export type UnsubscribeType = () => void;
 
-// ! Hand mirrors of `UpdateInfoDto`, `FailedUpdateDto`, `UpdateProgressDto` (src-tauri/src/updates.rs): no bindings there.
-export type UpdateInfoType = {
-  version: string;
-  current_version: string;
-  notes: string | null;
-};
-
+// ! Hand mirrors of `FailedUpdateDto`, `UpdateProgressDto` (src-tauri/src/updates.rs): no bindings there.
 export type FailedUpdateType = { version: string };
 
 export type UpdateProgressType = {
@@ -144,10 +139,10 @@ export type TauriCommandsType = {
     args: { query: HistoryExportQueryType };
     result: ExportCsvResultType | null;
   };
-  [TauriCommand.CHECK_FOR_UPDATE]: { args: undefined; result: UpdateInfoType | null };
-  [TauriCommand.FOUND_UPDATE]: { args: undefined; result: UpdateInfoType | null };
+  [TauriCommand.CHECK_FOR_UPDATE]: { args: undefined; result: AvailableUpdateType | null };
+  [TauriCommand.FOUND_UPDATE]: { args: undefined; result: AvailableUpdateType | null };
   [TauriCommand.TAKE_FAILED_UPDATE]: { args: undefined; result: FailedUpdateType | null };
-  [TauriCommand.DOWNLOAD_UPDATE]: { args: undefined; result: string };
+  [TauriCommand.DOWNLOAD_UPDATE]: { args: undefined; result: AvailableUpdateType };
   [TauriCommand.APPLY_UPDATE]: { args: { version: string }; result: null };
   [TauriCommand.OPEN_URL]: { args: { url: string }; result: null };
   [TauriCommand.OPEN_CAMPAIGN_LINK]: {
@@ -170,7 +165,7 @@ type DesktopEventsType = {
 
 type UpdateEventsType = {
   [UpdateEvent.PROGRESS]: UpdateProgressType;
-  [UpdateEvent.AVAILABLE]: UpdateInfoType;
+  [UpdateEvent.AVAILABLE]: AvailableUpdateType;
 };
 
 export const isTauri = (): boolean => "__TAURI_INTERNALS__" in window;

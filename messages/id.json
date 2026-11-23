@@ -757,6 +757,7 @@
   "updates_checking": "Memeriksa…",
   "updates_current": "Anda memakai versi terbaru.",
   "updates_available": "Versi {version} tersedia.",
+  "updates_notes_title": "Yang baru di versi {version}",
   "updates_available_title": "Pembaruan tersedia",
   "updates_available_locked": "Versi {version} tersedia. Buka kunci aplikasi untuk memasangnya.",
   "updates_badge": "Pembaruan {version}",

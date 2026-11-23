@@ -598,6 +598,7 @@ Az asztali alkalmazás induláskor, majd óránként keres új verziót (ez a
 irányítópult szól: futtasd a `docker compose pull`, majd a `docker compose up -d`
 parancsot. Docker nélkül az irányítópult ugyanígy szól: lásd a
 [Docker nélkül](#systemd) részt a fájl cseréjéhez és a szolgáltatás újraindításához.
+Minden új verzió felsorolja a változásait az alkalmazásban és a GitHub-kiadásában.
 
 **Elfelejtettem az alkalmazásjelszót.**\
 Nem állítható vissza: épp ez titkosítja a Twitch-munkameneteidet. Lépj ki az

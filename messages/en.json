@@ -1073,6 +1073,7 @@
   "updates_checking": "Checking…",
   "updates_current": "You have the latest version.",
   "updates_available": "Version {version} is available.",
+  "updates_notes_title": "What's new in {version}",
   "updates_available_title": "Update available",
   "updates_available_locked": "Version {version} is available. Unlock the app to install it.",
   "updates_badge": "Update {version}",

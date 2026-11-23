@@ -595,7 +595,8 @@ Skrivebordsappen søger efter en ny version, når den starter, og derefter hver 
 mærket »Opdatering« og derefter på »Installer og genstart«. Med Docker giver oversigten
 besked: kør `docker compose pull` og derefter `docker compose up -d`. Uden Docker giver
 oversigten besked på samme måde: se [Uden Docker](#systemd) for at udskifte filen og
-genstarte tjenesten.
+genstarte tjenesten. Hver ny version viser sine ændringer i appen og i sin udgivelse på
+GitHub.
 
 **Jeg har glemt appadgangskoden.**\
 Den kan ikke gendannes: det er den, der krypterer dine Twitch-sessioner. Luk appen, slet
