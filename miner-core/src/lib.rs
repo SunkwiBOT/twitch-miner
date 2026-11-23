@@ -33,6 +33,24 @@ pub const REPOSITORY_URL: &str = env!("CARGO_PKG_REPOSITORY");
 // real one into the release tag only.
 pub const UNRELEASED_VERSION: &str = "0.1.0";
 
+const DEV_FOLDER_SUFFIX: &str = "-dev";
+
+// ! The one rule for the default data folder: only a release build (release
+// mode and the version of a release tag) opens the real one. A debug build or
+// a build of `main` opens its own, so it never rewrites the installed app's
+// data in a format that app cannot read. `DATA_DIR` still overrides both.
+pub fn release_build() -> bool {
+    !cfg!(debug_assertions) && VERSION != UNRELEASED_VERSION
+}
+
+pub fn data_folder_name(name: &str, release: bool) -> String {
+    if release {
+        name.to_owned()
+    } else {
+        format!("{name}{DEV_FOLDER_SUFFIX}")
+    }
+}
+
 // ! What the app tells the services it calls besides Twitch (to Twitch it
 // stays the TV client): the kind of install, the system and the processor.
 pub fn user_agent(install_kind: api::InstallKind) -> String {

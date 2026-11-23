@@ -18,6 +18,7 @@ impl DesktopEnv {
             Some(dir) => PathBuf::from(dir),
             None => data_dir_in(
                 &dirs::data_dir().context("the platform has no data directory; set DATA_DIR")?,
+                miner_core::release_build(),
             ),
         };
 
@@ -27,11 +28,11 @@ impl DesktopEnv {
 
 // ! The old folder moves once, as it is; if it cannot, it is used where it
 // is: the accounts and the vault are never left behind.
-fn data_dir_in(base: &Path) -> PathBuf {
-    let dir = base.join(APP_DIR);
+fn data_dir_in(base: &Path, release: bool) -> PathBuf {
+    let dir = base.join(miner_core::data_folder_name(APP_DIR, release));
     let old = base.join(OLD_APP_DIR);
 
-    if dir.exists() || !old.is_dir() {
+    if !release || dir.exists() || !old.is_dir() {
         return dir;
     }
 

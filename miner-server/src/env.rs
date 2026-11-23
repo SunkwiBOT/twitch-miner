@@ -50,7 +50,12 @@ impl ServerEnv {
     ) -> anyhow::Result<Self> {
         let set = |name: &str| lookup(name).filter(|value| !value.is_empty());
         let secret = |name: &str| read_secret(name, &set, &read);
-        let data_dir = PathBuf::from(set("DATA_DIR").unwrap_or_else(|| DEFAULT_DATA_DIR.into()));
+        let data_dir = set("DATA_DIR").map(PathBuf::from).unwrap_or_else(|| {
+            PathBuf::from(miner_core::data_folder_name(
+                DEFAULT_DATA_DIR,
+                miner_core::release_build(),
+            ))
+        });
         let log_dir = set("LOG_DIR")
             .map(PathBuf::from)
             .unwrap_or_else(|| data_dir.join("logs"));
