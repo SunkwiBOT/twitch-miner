@@ -379,6 +379,8 @@
   "startup_title": "Aplikaci se nepodařilo spustit",
   "startup_text": "Složku s daty se nepodařilo otevřít. Opravte níže popsaný problém a poté aplikaci spusťte znovu.",
   "startup_quit": "Ukončit",
+  "startup_download_latest": "Stáhnout nejnovější verzi",
+  "error_newer_data": "Složku s daty zapsala novější verze aplikace. Nainstalujte nejnovější verzi a poté aplikaci spusťte znovu: vaše účty zůstanou zachovány.",
   "auth_title": "Heslo přehledu",
   "auth_text": "Tento přehled je chráněn. Zadejte heslo serveru.",
   "auth_password": "Heslo",

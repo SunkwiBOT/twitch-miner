@@ -370,6 +370,8 @@
   "startup_title": "De app kon niet starten",
   "startup_text": "De gegevensmap kon niet worden geopend. Los het hieronder beschreven probleem op en start de app daarna opnieuw.",
   "startup_quit": "Afsluiten",
+  "startup_download_latest": "Nieuwste versie downloaden",
+  "error_newer_data": "De gegevensmap is geschreven door een nieuwere versie van de app. Installeer de nieuwste versie en start de app daarna opnieuw: je accounts blijven behouden.",
   "auth_title": "Dashboardwachtwoord",
   "auth_text": "Dit dashboard is beveiligd. Voer het serverwachtwoord in.",
   "auth_password": "Wachtwoord",

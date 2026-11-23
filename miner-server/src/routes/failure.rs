@@ -36,6 +36,7 @@ pub(super) fn status_of(code: ErrorCode) -> StatusCode {
         | ErrorCode::ActionRateLimited => StatusCode::TOO_MANY_REQUESTS,
         ErrorCode::NotSupported => StatusCode::NOT_IMPLEMENTED,
         ErrorCode::StorageError
+        | ErrorCode::NewerData
         | ErrorCode::InvalidVault
         | ErrorCode::UpdateInstallFailed
         | ErrorCode::ServerUnreachable

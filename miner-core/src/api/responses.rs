@@ -304,6 +304,7 @@ pub struct AutostartResponse {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
 #[ts(rename = "StartupProblemType")]
 pub struct StartupProblem {
+    pub code: ErrorCode,
     pub detail: String,
     pub data_dir: String,
 }

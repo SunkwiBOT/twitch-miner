@@ -317,6 +317,8 @@
   "startup_title": "Az alkalmazás nem tudott elindulni",
   "startup_text": "Az adatmappát nem sikerült megnyitni. Javítsd ki az alább leírt hibát, majd indítsd újra az alkalmazást.",
   "startup_quit": "Kilépés",
+  "startup_download_latest": "A legújabb verzió letöltése",
+  "error_newer_data": "Az adatmappát az alkalmazás egy újabb verziója írta. Telepítsd a legújabb verziót, majd indítsd újra az alkalmazást: a fiókjaid megmaradnak.",
   "auth_title": "Áttekintés jelszava",
   "auth_text": "Ez az áttekintés védett. Írd be a szerver jelszavát.",
   "auth_password": "Jelszó",

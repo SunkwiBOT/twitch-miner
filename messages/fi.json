@@ -357,6 +357,8 @@
   "startup_title": "Sovellusta ei voitu käynnistää",
   "startup_text": "Datakansiota ei voitu avata. Korjaa alla kuvattu ongelma ja käynnistä sovellus sitten uudelleen.",
   "startup_quit": "Lopeta",
+  "startup_download_latest": "Lataa uusin versio",
+  "error_newer_data": "Datakansion on kirjoittanut sovelluksen uudempi versio. Asenna uusin versio ja käynnistä sovellus sitten uudelleen: tilisi säilyvät.",
   "auth_title": "Hallintapaneelin salasana",
   "auth_text": "Tämä hallintapaneeli on suojattu. Syötä palvelimen salasana.",
   "auth_password": "Salasana",

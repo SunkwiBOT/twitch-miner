@@ -315,6 +315,8 @@
   "startup_title": "Không thể khởi động ứng dụng",
   "startup_text": "Không thể mở thư mục dữ liệu. Hãy khắc phục sự cố được mô tả bên dưới, rồi khởi động lại ứng dụng.",
   "startup_quit": "Thoát",
+  "startup_download_latest": "Tải phiên bản mới nhất",
+  "error_newer_data": "Thư mục dữ liệu đã được ghi bởi một phiên bản mới hơn của ứng dụng. Hãy cài đặt phiên bản mới nhất, rồi khởi động lại ứng dụng: các tài khoản của bạn vẫn được giữ nguyên.",
   "auth_title": "Mật khẩu bảng điều khiển",
   "auth_text": "Bảng điều khiển này được bảo vệ. Nhập mật khẩu máy chủ.",
   "auth_password": "Mật khẩu",

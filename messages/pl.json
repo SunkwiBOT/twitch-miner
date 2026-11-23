@@ -379,6 +379,8 @@
   "startup_title": "Nie udało się uruchomić aplikacji",
   "startup_text": "Nie udało się otworzyć folderu danych. Usuń opisany poniżej problem, a następnie uruchom aplikację ponownie.",
   "startup_quit": "Zakończ",
+  "startup_download_latest": "Pobierz najnowszą wersję",
+  "error_newer_data": "Folder danych został zapisany przez nowszą wersję aplikacji. Zainstaluj najnowszą wersję, a następnie uruchom aplikację ponownie: Twoje konta zostaną zachowane.",
   "auth_title": "Hasło pulpitu",
   "auth_text": "Ten pulpit jest zabezpieczony. Wpisz hasło serwera.",
   "auth_password": "Hasło",

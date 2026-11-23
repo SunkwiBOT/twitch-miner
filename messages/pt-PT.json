@@ -370,6 +370,8 @@
   "startup_title": "Não foi possível iniciar a app",
   "startup_text": "Não foi possível abrir a pasta de dados. Corrija o problema descrito abaixo e depois volte a abrir a app.",
   "startup_quit": "Sair",
+  "startup_download_latest": "Transferir a versão mais recente",
+  "error_newer_data": "A pasta de dados foi escrita por uma versão mais recente da app. Instale a versão mais recente e depois volte a abrir a app: as suas contas são mantidas.",
   "auth_title": "Palavra-passe do painel",
   "auth_text": "Este painel está protegido. Introduza a palavra-passe do servidor.",
   "auth_password": "Palavra-passe",

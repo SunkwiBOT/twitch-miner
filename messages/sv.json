@@ -370,6 +370,8 @@
   "startup_title": "Appen kunde inte starta",
   "startup_text": "Datamappen kunde inte öppnas. Åtgärda problemet som beskrivs nedan och starta sedan appen igen.",
   "startup_quit": "Avsluta",
+  "startup_download_latest": "Ladda ned den senaste versionen",
+  "error_newer_data": "Datamappen skrevs av en nyare version av appen. Installera den senaste versionen och starta sedan appen igen: dina konton behålls.",
   "auth_title": "Lösenord för översikten",
   "auth_text": "Den här översikten är skyddad. Ange serverns lösenord.",
   "auth_password": "Lösenord",

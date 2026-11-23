@@ -317,6 +317,8 @@
   "startup_title": "Uygulama başlatılamadı",
   "startup_text": "Veri klasörü açılamadı. Aşağıda açıklanan sorunu giderin, ardından uygulamayı yeniden başlatın.",
   "startup_quit": "Çık",
+  "startup_download_latest": "En son sürümü indir",
+  "error_newer_data": "Veri klasörü uygulamanın daha yeni bir sürümü tarafından yazıldı. En son sürümü yükleyin, ardından uygulamayı yeniden başlatın: hesaplarınız korunur.",
   "auth_title": "Panel şifresi",
   "auth_text": "Bu panel korumalı. Sunucu şifresini girin.",
   "auth_password": "Şifre",

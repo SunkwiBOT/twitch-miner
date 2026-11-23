@@ -31,6 +31,7 @@ export const REPO_URL = "https://github.com/SunkwiBOT/twitch-miner";
 export const APP_ICON_URL = "/app-icon.png";
 export const APP_LOGO_URL = "/app-mark.svg";
 export const ISSUES_URL = `${REPO_URL}/issues/new/choose`;
+export const LATEST_RELEASE_URL = `${REPO_URL}/releases/latest`;
 export const DISCORD_URL = "https://discord.gg/support-bots-891685895781113886";
 export const DISCORD_NAME = "Discord";
 export const GITHUB_NAME = "GitHub";

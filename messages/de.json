@@ -370,6 +370,8 @@
   "startup_title": "Die App konnte nicht gestartet werden",
   "startup_text": "Der Datenordner konnte nicht geöffnet werden. Beheben Sie das unten beschriebene Problem und starten Sie die App dann erneut.",
   "startup_quit": "Beenden",
+  "startup_download_latest": "Neueste Version herunterladen",
+  "error_newer_data": "Der Datenordner wurde von einer neueren Version der App geschrieben. Installieren Sie die neueste Version und starten Sie die App dann erneut: Ihre Konten bleiben erhalten.",
   "auth_title": "Dashboard-Passwort",
   "auth_text": "Dieses Dashboard ist geschützt. Geben Sie das Server-Passwort ein.",
   "auth_password": "Passwort",

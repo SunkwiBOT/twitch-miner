@@ -370,6 +370,8 @@
   "startup_title": "La app no ha podido iniciarse",
   "startup_text": "No se ha podido abrir la carpeta de datos. Corrige el problema que se describe abajo y vuelve a iniciar la app.",
   "startup_quit": "Salir",
+  "startup_download_latest": "Descargar la última versión",
+  "error_newer_data": "La carpeta de datos la ha escrito una versión más reciente de la app. Instala la última versión y vuelve a iniciar la app: tus cuentas se conservan.",
   "auth_title": "Contraseña del panel",
   "auth_text": "Este panel está protegido. Introduce la contraseña del servidor.",
   "auth_password": "Contraseña",

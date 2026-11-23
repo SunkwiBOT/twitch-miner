@@ -380,6 +380,8 @@
   "startup_title": "Aplicația nu a putut porni",
   "startup_text": "Dosarul de date nu a putut fi deschis. Remediază problema descrisă mai jos, apoi pornește din nou aplicația.",
   "startup_quit": "Ieșire",
+  "startup_download_latest": "Descarcă cea mai recentă versiune",
+  "error_newer_data": "Dosarul de date a fost scris de o versiune mai nouă a aplicației. Instalează cea mai recentă versiune, apoi pornește din nou aplicația: conturile tale sunt păstrate.",
   "auth_title": "Parola panoului",
   "auth_text": "Acest panou este protejat. Introdu parola serverului.",
   "auth_password": "Parolă",

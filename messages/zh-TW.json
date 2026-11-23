@@ -317,6 +317,8 @@
   "startup_title": "應用程式無法啟動",
   "startup_text": "無法開啟資料目錄。請解決下方所述的問題，然後重新啟動應用程式。",
   "startup_quit": "結束",
+  "startup_download_latest": "下載最新版本",
+  "error_newer_data": "資料目錄是由較新版本的應用程式寫入的。請安裝最新版本，然後重新啟動應用程式：你的帳號會保留。",
   "auth_title": "儀表板密碼",
   "auth_text": "此儀表板受保護。請輸入伺服器密碼。",
   "auth_password": "密碼",

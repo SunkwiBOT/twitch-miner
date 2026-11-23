@@ -315,6 +315,8 @@
   "startup_title": "앱을 시작할 수 없어요",
   "startup_text": "데이터 폴더를 열 수 없어요. 아래에 설명된 문제를 해결한 다음 앱을 다시 시작하세요.",
   "startup_quit": "종료",
+  "startup_download_latest": "최신 버전 다운로드",
+  "error_newer_data": "데이터 폴더가 더 새로운 버전의 앱으로 저장되었어요. 최신 버전을 설치한 다음 앱을 다시 시작하세요. 계정은 그대로 유지돼요.",
   "auth_title": "대시보드 비밀번호",
   "auth_text": "이 대시보드는 보호되어 있어요. 서버 비밀번호를 입력하세요.",
   "auth_password": "비밀번호",

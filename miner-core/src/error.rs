@@ -52,6 +52,11 @@ pub enum Error {
     DeviceCodeExpired,
     #[error("storage error: {0}")]
     Storage(String),
+    #[error(
+        "the data folder was written by version {0} of the app, newer than this one: install the latest version from {page}",
+        page = crate::updates::LATEST_RELEASE_PAGE
+    )]
+    NewerData(String),
     #[error("the vault is locked")]
     VaultLocked,
     #[error("wrong passphrase")]
@@ -101,6 +106,7 @@ pub enum ErrorCode {
     TwitchRejected,
     DeviceCodeExpired,
     StorageError,
+    NewerData,
     VaultLocked,
     WrongPassphrase,
     InvalidVault,
@@ -157,6 +163,7 @@ impl Error {
             Error::Gql { .. } | Error::ClaimRefused(_) => ErrorCode::TwitchRejected,
             Error::DeviceCodeExpired => ErrorCode::DeviceCodeExpired,
             Error::Storage(_) => ErrorCode::StorageError,
+            Error::NewerData(_) => ErrorCode::NewerData,
             Error::VaultLocked => ErrorCode::VaultLocked,
             Error::WrongPassphrase => ErrorCode::WrongPassphrase,
             Error::InvalidVault => ErrorCode::InvalidVault,

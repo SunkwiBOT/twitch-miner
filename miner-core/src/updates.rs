@@ -11,6 +11,8 @@ pub fn latest_release_url() -> String {
     format!("{}{LATEST_RELEASE_PATH}", crate::REPOSITORY_URL)
 }
 
+pub const LATEST_RELEASE_PAGE: &str = concat!(env!("CARGO_PKG_REPOSITORY"), "/releases/latest");
+
 // ! A sleeping computer stops the monotonic clock: the wait is cut in slices
 // that also look at the wall clock, so a check due during the sleep runs soon
 // after the wake.

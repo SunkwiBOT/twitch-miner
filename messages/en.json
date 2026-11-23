@@ -375,6 +375,8 @@
   "startup_title": "The app could not start",
   "startup_text": "The data folder could not be opened. Fix the problem described below, then start the app again.",
   "startup_quit": "Quit",
+  "startup_download_latest": "Download the latest version",
+  "error_newer_data": "The data folder was written by a newer version of the app. Install the latest version, then start the app again: your accounts are kept.",
   "auth_title": "Dashboard password",
   "auth_text": "This dashboard is protected. Enter the server password.",
   "auth_password": "Password",

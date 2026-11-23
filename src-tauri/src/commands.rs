@@ -388,8 +388,9 @@ pub(super) fn app_info(folder: tauri::State<'_, DataFolder>) -> AppInfoResponse 
 #[tauri::command]
 pub(super) fn startup_problem(folder: tauri::State<'_, DataFolder>) -> StartupProblemResponse {
     StartupProblemResponse {
-        problem: folder.problem.as_ref().map(|detail| StartupProblem {
-            detail: detail.clone(),
+        problem: folder.problem.as_ref().map(|error| StartupProblem {
+            code: error.code(),
+            detail: miner_core::logs::redact(&error.to_string()).into_owned(),
             data_dir: folder.path.to_string_lossy().into_owned(),
         }),
     }

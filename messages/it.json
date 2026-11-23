@@ -370,6 +370,8 @@
   "startup_title": "Impossibile avviare l'app",
   "startup_text": "Impossibile aprire la cartella dei dati. Risolvi il problema descritto qui sotto, poi riavvia l'app.",
   "startup_quit": "Esci",
+  "startup_download_latest": "Scarica l'ultima versione",
+  "error_newer_data": "La cartella dei dati è stata scritta da una versione più recente dell'app. Installa l'ultima versione, poi riavvia l'app: i tuoi account vengono mantenuti.",
   "auth_title": "Password della dashboard",
   "auth_text": "Questa dashboard è protetta. Inserisci la password del server.",
   "auth_password": "Password",

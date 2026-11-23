@@ -317,6 +317,8 @@
   "startup_title": "应用无法启动",
   "startup_text": "无法打开数据文件夹。请解决下方所述的问题，然后重新启动应用。",
   "startup_quit": "退出",
+  "startup_download_latest": "下载最新版本",
+  "error_newer_data": "数据文件夹由更新版本的应用写入。请安装最新版本，然后重新启动应用：你的账号会保留。",
   "auth_title": "仪表盘密码",
   "auth_text": "此仪表盘受保护。请输入服务器密码。",
   "auth_password": "密码",

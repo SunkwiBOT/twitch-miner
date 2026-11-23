@@ -48,7 +48,7 @@ pub struct AppState {
 
 pub struct DataFolder {
     pub path: PathBuf,
-    pub problem: Option<String>,
+    pub problem: Option<miner_core::Error>,
 }
 
 pub struct WindowShown(pub tokio::sync::watch::Sender<bool>);
@@ -185,10 +185,7 @@ fn main() {
 
             app.manage(DataFolder {
                 path: dir.clone(),
-                problem: opened
-                    .as_ref()
-                    .err()
-                    .map(|error| miner_core::logs::redact(&error.to_string()).into_owned()),
+                problem: opened.as_ref().err().cloned(),
             });
 
             // ! An error out of `setup` would end the app before any window

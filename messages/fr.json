@@ -370,6 +370,8 @@
   "startup_title": "L'application n'a pas pu démarrer",
   "startup_text": "Le dossier des données n'a pas pu être ouvert. Corrigez le problème décrit ci-dessous, puis relancez l'application.",
   "startup_quit": "Quitter",
+  "startup_download_latest": "Télécharger la dernière version",
+  "error_newer_data": "Le dossier des données a été écrit par une version plus récente de l'application. Installez la dernière version, puis relancez l'application : vos comptes sont conservés.",
   "auth_title": "Mot de passe du tableau de bord",
   "auth_text": "Ce tableau de bord est protégé. Saisissez le mot de passe du serveur.",
   "auth_password": "Mot de passe",

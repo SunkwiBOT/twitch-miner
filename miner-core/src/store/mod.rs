@@ -30,10 +30,13 @@ const VAULT_CHECK_KEY: &str = "vault_check";
 const PRUNE_BATCH: usize = 5000;
 const PRUNE_PAUSE: Duration = Duration::from_millis(5);
 
+// ! The newest app version that opened the folder: an older one refuses it
+// rather than misread a format it does not know.
+const APP_VERSION_KEY: &str = "app_version";
+
 // ! There is no migration: data this build cannot read is never replaced by
 // defaults, the user is told to start from an empty folder.
-const FOREIGN_DATA: &str =
-    "the data folder was written by another version of the app: delete it, then sign in again";
+const FOREIGN_DATA: &str = "the data folder is damaged or was written by an older version of the app: copy it somewhere safe, then delete it and sign in again";
 
 // ! `secure_delete`: a deleted row (an old sealed credential) is
 // overwritten, not left in a free page. `temp_store = MEMORY`: the Docker
@@ -153,6 +156,13 @@ fn json_error(error: &serde_json::Error) -> String {
     )
 }
 
+// ! A build of `main` carries code newer than any release.
+fn version_rank(version: &str) -> Option<(bool, semver::Version)> {
+    semver::Version::parse(version)
+        .ok()
+        .map(|parsed| (version == crate::UNRELEASED_VERSION, parsed))
+}
+
 fn put_setting(connection: &Connection, key: &str, value: &str) -> Result<()> {
     connection.execute(
         "INSERT INTO setting(key, value) VALUES(?1, ?2) ON CONFLICT(key) DO UPDATE SET value = excluded.value",
@@ -185,10 +195,10 @@ impl Store {
 
         let connection = Connection::open(&path)?;
 
-        Self::finish_open(dir, connection)
+        Self::finish_open(dir, connection, crate::VERSION)
     }
 
-    fn finish_open(dir: &Path, connection: Connection) -> Result<Self> {
+    fn finish_open(dir: &Path, connection: Connection, app_version: &str) -> Result<Self> {
         connection.execute_batch(SETUP_PRAGMAS)?;
         connection.execute_batch(SCHEMA)?;
 
@@ -197,10 +207,26 @@ impl Store {
             dir: dir.to_owned(),
         };
 
+        store.check_version(app_version)?;
         store.verify()?;
         store.clear_stale_miner_field()?;
+        store.set_setting(APP_VERSION_KEY, app_version)?;
 
         Ok(store)
+    }
+
+    fn check_version(&self, app_version: &str) -> Result<()> {
+        let Some(stored) = self.get_setting(APP_VERSION_KEY)? else {
+            return Ok(());
+        };
+
+        match (version_rank(&stored), version_rank(app_version)) {
+            (None, _) => Err(foreign_data("the app version", "not a version")),
+            (Some(stored_rank), Some(current)) if stored_rank > current => {
+                Err(Error::NewerData(stored))
+            }
+            _ => Ok(()),
+        }
     }
 
     fn verify(&self) -> Result<()> {

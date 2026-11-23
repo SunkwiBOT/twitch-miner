@@ -370,6 +370,8 @@
   "startup_title": "Appen kunne ikke starte",
   "startup_text": "Datamappen kunne ikke åpnes. Rett problemet som er beskrevet nedenfor, og start deretter appen på nytt.",
   "startup_quit": "Avslutt",
+  "startup_download_latest": "Last ned den nyeste versjonen",
+  "error_newer_data": "Datamappen ble skrevet av en nyere versjon av appen. Installer den nyeste versjonen, og start deretter appen på nytt: kontoene dine beholdes.",
   "auth_title": "Passord for oversikten",
   "auth_text": "Denne oversikten er beskyttet. Skriv inn serverpassordet.",
   "auth_password": "Passord",

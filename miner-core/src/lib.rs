@@ -29,6 +29,10 @@ pub const APP_NAME: &str = "Twitch Miner";
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 pub const REPOSITORY_URL: &str = env!("CARGO_PKG_REPOSITORY");
 
+// ! The version `main` always declares: `.github/bump-version.py` writes the
+// real one into the release tag only.
+pub const UNRELEASED_VERSION: &str = "0.1.0";
+
 // ! What the app tells the services it calls besides Twitch (to Twitch it
 // stays the TV client): the kind of install, the system and the processor.
 pub fn user_agent(install_kind: api::InstallKind) -> String {

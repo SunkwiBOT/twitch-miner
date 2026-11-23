@@ -315,6 +315,8 @@
   "startup_title": "Aplikasi tidak dapat dimulai",
   "startup_text": "Folder data tidak dapat dibuka. Perbaiki masalah yang dijelaskan di bawah, lalu mulai ulang aplikasi.",
   "startup_quit": "Keluar",
+  "startup_download_latest": "Unduh versi terbaru",
+  "error_newer_data": "Folder data ditulis oleh versi aplikasi yang lebih baru. Instal versi terbaru, lalu mulai ulang aplikasi: akun Anda tetap tersimpan.",
   "auth_title": "Kata sandi dasbor",
   "auth_text": "Dasbor ini dilindungi. Masukkan kata sandi server.",
   "auth_password": "Kata sandi",
