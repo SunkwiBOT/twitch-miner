@@ -80,6 +80,34 @@ Pobierz plik dla swojego systemu z
 | **Linux** · ARM64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.AppImage), [`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.deb) (Debian, Ubuntu, Raspberry Pi OS) lub [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.rpm) (Fedora, openSUSE) |
 | **Serwer Linux** · x86-64 lub ARM64 | Sam serwer, bez Dockera ([x86-64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_x64) lub [ARM64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_arm64)): zobacz [Bez Dockera](#systemd) |
 
+W Linuksie możesz też zainstalować aplikację z terminala. Na ARM64 zamień w poleceniach
+`x64` na `arm64`.
+
+Debian, Ubuntu, Raspberry Pi OS:
+
+```bash
+curl -LO https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.deb
+sudo apt install ./twitch-miner_linux_x64.deb
+```
+
+Fedora, openSUSE:
+
+```bash
+curl -LO https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.rpm
+sudo dnf install ./twitch-miner_linux_x64.rpm
+# openSUSE: sudo zypper install ./twitch-miner_linux_x64.rpm
+```
+
+AppImage, w dowolnej dystrybucji:
+
+```bash
+curl -LO https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.AppImage
+chmod +x twitch-miner_linux_x64.AppImage
+./twitch-miner_linux_x64.AppImage
+```
+
+Te same polecenia aktualizują istniejącą instalację: nazwy plików się nie zmieniają.
+
 Wersja na macOS nie jest notaryzowana. Za pierwszym razem otwórz aplikację: macOS ją
 zablokuje. Następnie przejdź do **Ustawienia systemowe › Prywatność i ochrona** i kliknij
 **Otwórz mimo to**.

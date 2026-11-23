@@ -79,6 +79,33 @@
 | **Linux** · ARM64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.AppImage)、[`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.deb)（Debian、Ubuntu、Raspberry Pi OS）或 [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.rpm)（Fedora、openSUSE） |
 | **Linux 伺服器** · x86-64 或 ARM64 | 只有伺服器本體，不需要 Docker（[x86-64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_x64) 或 [ARM64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_arm64)）：參見[不使用 Docker](#systemd) |
 
+在 Linux 上，也可以從終端機安裝。ARM64 請把指令中的 `x64` 換成 `arm64`。
+
+Debian、Ubuntu、Raspberry Pi OS：
+
+```bash
+curl -LO https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.deb
+sudo apt install ./twitch-miner_linux_x64.deb
+```
+
+Fedora、openSUSE：
+
+```bash
+curl -LO https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.rpm
+sudo dnf install ./twitch-miner_linux_x64.rpm
+# openSUSE: sudo zypper install ./twitch-miner_linux_x64.rpm
+```
+
+AppImage，適用於任何發行版：
+
+```bash
+curl -LO https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.AppImage
+chmod +x twitch-miner_linux_x64.AppImage
+./twitch-miner_linux_x64.AppImage
+```
+
+檔名不會改變，所以同樣的指令也能更新已安裝的版本。
+
 macOS 版本未經 Apple 公證。第一次執行時，先開啟應用程式：macOS 會阻擋它。接著前往**系統設定 › 隱私權與安全性**，按一下**強制打開**。
 
 更新都經過簽章。應用程式啟動時會檢查是否有新版本，之後每小時檢查一次（可在**設定 › 關於**中變更檢查頻率）。它絕不會自行安裝更新：你可以從跳出的訊息或從**設定 › 關於**一鍵安裝。

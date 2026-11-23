@@ -79,6 +79,33 @@ Tải tệp cho hệ thống của bạn từ [bản phát hành mới nhất](h
 | **Linux** · ARM64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.AppImage), [`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.deb) (Debian, Ubuntu, Raspberry Pi OS) hoặc [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.rpm) (Fedora, openSUSE) |
 | **Máy chủ Linux** · x86-64 hoặc ARM64 | Chỉ riêng máy chủ, không cần Docker ([x86-64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_x64) hoặc [ARM64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_arm64)): xem [Không cần Docker](#systemd) |
 
+Trên Linux, bạn cũng có thể cài đặt từ terminal. Trên ARM64, hãy thay `x64` bằng `arm64` trong các lệnh.
+
+Debian, Ubuntu, Raspberry Pi OS:
+
+```bash
+curl -LO https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.deb
+sudo apt install ./twitch-miner_linux_x64.deb
+```
+
+Fedora, openSUSE:
+
+```bash
+curl -LO https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.rpm
+sudo dnf install ./twitch-miner_linux_x64.rpm
+# openSUSE: sudo zypper install ./twitch-miner_linux_x64.rpm
+```
+
+AppImage, trên mọi bản phân phối:
+
+```bash
+curl -LO https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.AppImage
+chmod +x twitch-miner_linux_x64.AppImage
+./twitch-miner_linux_x64.AppImage
+```
+
+Các lệnh này cũng cập nhật bản đã cài: tên tệp không thay đổi.
+
 Bản macOS chưa được công chứng (notarize). Lần đầu tiên, hãy mở ứng dụng: macOS sẽ chặn nó. Sau đó vào **Cài đặt hệ thống › Quyền riêng tư & bảo mật** và bấm **Vẫn mở**.
 
 Các bản cập nhật đều có chữ ký. Ứng dụng kiểm tra phiên bản mới khi khởi động, rồi mỗi giờ một lần (bạn có thể đổi tần suất trong **Cài đặt › Giới thiệu**). Ứng dụng không bao giờ tự cài: bạn cài chỉ với một cú nhấp, từ thông báo hiện ra hoặc từ **Cài đặt › Giới thiệu**.

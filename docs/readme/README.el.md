@@ -79,6 +79,33 @@
 | **Linux** · ARM64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.AppImage), [`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.deb) (Debian, Ubuntu, Raspberry Pi OS) ή [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.rpm) (Fedora, openSUSE) |
 | **Linux server** · x86-64 ή ARM64 | Μόνο ο server, χωρίς Docker ([x86-64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_x64) ή [ARM64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_arm64)): δείτε [Χωρίς Docker](#systemd) |
 
+Σε Linux μπορείτε επίσης να κάνετε εγκατάσταση από τερματικό. Σε ARM64, αντικαταστήστε το `x64` με `arm64` στις εντολές.
+
+Debian, Ubuntu, Raspberry Pi OS:
+
+```bash
+curl -LO https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.deb
+sudo apt install ./twitch-miner_linux_x64.deb
+```
+
+Fedora, openSUSE:
+
+```bash
+curl -LO https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.rpm
+sudo dnf install ./twitch-miner_linux_x64.rpm
+# openSUSE: sudo zypper install ./twitch-miner_linux_x64.rpm
+```
+
+AppImage, σε οποιαδήποτε διανομή:
+
+```bash
+curl -LO https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.AppImage
+chmod +x twitch-miner_linux_x64.AppImage
+./twitch-miner_linux_x64.AppImage
+```
+
+Οι ίδιες εντολές ενημερώνουν μια υπάρχουσα εγκατάσταση: τα ονόματα των αρχείων δεν αλλάζουν.
+
 Η έκδοση για macOS δεν έχει περάσει notarization. Την πρώτη φορά, ανοίξτε την εφαρμογή: το macOS τη μπλοκάρει. Μετά πηγαίνετε στις **Ρυθμίσεις συστήματος › Απόρρητο και ασφάλεια** και κάντε κλικ στο **Άνοιγμα οπωσδήποτε**.
 
 Οι ενημερώσεις είναι υπογεγραμμένες. Η εφαρμογή ελέγχει για νέα έκδοση κατά την εκκίνηση και μετά κάθε ώρα (τη συχνότητα την αλλάζετε από τις **Ρυθμίσεις › Σχετικά**). Δεν εγκαθιστά ποτέ μόνη της μια έκδοση: την εγκαθιστάτε εσείς με ένα κλικ, από το μήνυμα που εμφανίζεται ή από τις **Ρυθμίσεις › Σχετικά**.

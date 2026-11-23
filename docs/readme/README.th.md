@@ -79,6 +79,33 @@
 | **Linux** · ARM64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.AppImage), [`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.deb) (Debian, Ubuntu, Raspberry Pi OS) หรือ [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.rpm) (Fedora, openSUSE) |
 | **เซิร์ฟเวอร์ Linux** · x86-64 หรือ ARM64 | ตัวเซิร์ฟเวอร์เพียงอย่างเดียว ไม่ต้องใช้ Docker ([x86-64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_x64) หรือ [ARM64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_arm64)): ดู[ไม่ใช้ Docker](#systemd) |
 
+บน Linux ติดตั้งจากเทอร์มินัลได้เช่นกัน บน ARM64 ให้เปลี่ยน `x64` เป็น `arm64` ในคำสั่ง
+
+Debian, Ubuntu, Raspberry Pi OS:
+
+```bash
+curl -LO https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.deb
+sudo apt install ./twitch-miner_linux_x64.deb
+```
+
+Fedora, openSUSE:
+
+```bash
+curl -LO https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.rpm
+sudo dnf install ./twitch-miner_linux_x64.rpm
+# openSUSE: sudo zypper install ./twitch-miner_linux_x64.rpm
+```
+
+AppImage ใช้ได้กับทุกดิสทริบิวชัน:
+
+```bash
+curl -LO https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.AppImage
+chmod +x twitch-miner_linux_x64.AppImage
+./twitch-miner_linux_x64.AppImage
+```
+
+คำสั่งเดียวกันนี้ใช้อัปเดตแอปที่ติดตั้งไว้แล้วได้ด้วย เพราะชื่อไฟล์ไม่เปลี่ยน
+
 บิลด์ macOS ไม่ได้ผ่านการ notarize ครั้งแรกให้เปิดแอปก่อน: macOS จะบล็อกไว้ จากนั้นไปที่ **การตั้งค่าระบบ › ความเป็นส่วนตัวและความปลอดภัย** แล้วคลิก **ยืนยันจะเปิด**
 
 อัปเดตมีลายเซ็นกำกับ แอปจะตรวจหาเวอร์ชันใหม่เมื่อเริ่มทำงาน จากนั้นทุกชั่วโมง (เปลี่ยนความถี่ได้ใน **การตั้งค่า › เกี่ยวกับ**) แอปจะไม่ติดตั้งอัปเดตเอง: คุณติดตั้งได้ในคลิกเดียว จากข้อความที่ปรากฏขึ้น หรือจาก **การตั้งค่า › เกี่ยวกับ**

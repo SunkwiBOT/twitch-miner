@@ -80,6 +80,34 @@ Töltsd le a rendszerednek megfelelő fájlt a
 | **Linux** · ARM64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.AppImage), [`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.deb) (Debian, Ubuntu, Raspberry Pi OS) vagy [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.rpm) (Fedora, openSUSE) |
 | **Linux szerver** · x86-64 vagy ARM64 | Csak a szerver, Docker nélkül ([x86-64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_x64) vagy [ARM64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_arm64)): lásd [Docker nélkül](#systemd) |
 
+Linuxon terminálból is telepíthetsz. ARM64-en cseréld a parancsokban az `x64`-et
+`arm64`-re.
+
+Debian, Ubuntu, Raspberry Pi OS:
+
+```bash
+curl -LO https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.deb
+sudo apt install ./twitch-miner_linux_x64.deb
+```
+
+Fedora, openSUSE:
+
+```bash
+curl -LO https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.rpm
+sudo dnf install ./twitch-miner_linux_x64.rpm
+# openSUSE: sudo zypper install ./twitch-miner_linux_x64.rpm
+```
+
+AppImage, bármelyik disztribúción:
+
+```bash
+curl -LO https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.AppImage
+chmod +x twitch-miner_linux_x64.AppImage
+./twitch-miner_linux_x64.AppImage
+```
+
+Ugyanezek a parancsok egy meglévő telepítést is frissítenek: a fájlnevek nem változnak.
+
 A macOS-es build nincs hitelesítve (notarization). Első alkalommal nyisd meg az
 alkalmazást: a macOS letiltja. Ezután menj a **Rendszerbeállítások › Adatvédelem és
 biztonság** részhez, és kattints a **Megnyitás mindenképp** gombra.

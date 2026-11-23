@@ -79,6 +79,33 @@ Sisteminize uygun dosyayı [son sürümden](https://github.com/SunkwiBOT/twitch-
 | **Linux** · ARM64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.AppImage), [`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.deb) (Debian, Ubuntu, Raspberry Pi OS) veya [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.rpm) (Fedora, openSUSE) |
 | **Linux sunucusu** · x86-64 veya ARM64 | Yalnızca sunucu, Docker'sız ([x86-64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_x64) veya [ARM64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_arm64)): bkz. [Docker olmadan](#systemd) |
 
+Linux'ta bir terminalden de kurabilirsiniz. ARM64'te komutlardaki `x64` yerine `arm64` yazın.
+
+Debian, Ubuntu, Raspberry Pi OS:
+
+```bash
+curl -LO https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.deb
+sudo apt install ./twitch-miner_linux_x64.deb
+```
+
+Fedora, openSUSE:
+
+```bash
+curl -LO https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.rpm
+sudo dnf install ./twitch-miner_linux_x64.rpm
+# openSUSE: sudo zypper install ./twitch-miner_linux_x64.rpm
+```
+
+AppImage, her dağıtımda:
+
+```bash
+curl -LO https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.AppImage
+chmod +x twitch-miner_linux_x64.AppImage
+./twitch-miner_linux_x64.AppImage
+```
+
+Aynı komutlar mevcut bir kurulumu da günceller: dosya adları değişmez.
+
 macOS derlemesi notarize edilmemiştir. İlk seferde uygulamayı açın: macOS onu engeller. Ardından **Sistem Ayarları › Gizlilik ve Güvenlik** bölümüne gidip **Yine de Aç** düğmesine tıklayın.
 
 Güncellemeler imzalıdır. Uygulama açılırken, ardından saatte bir yeni bir sürüm olup olmadığını denetler (sıklığı **Ayarlar › Hakkında** bölümünden değiştirebilirsiniz). Hiçbir sürümü kendiliğinden yüklemez: güncellemeyi, beliren mesajdan ya da **Ayarlar › Hakkında** bölümünden tek tıkla siz yüklersiniz.

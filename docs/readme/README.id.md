@@ -79,6 +79,33 @@ Unduh file untuk sistem Anda dari [rilis terbaru](https://github.com/SunkwiBOT/t
 | **Linux** · ARM64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.AppImage), [`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.deb) (Debian, Ubuntu, Raspberry Pi OS), atau [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.rpm) (Fedora, openSUSE) |
 | **Server Linux** · x86-64 atau ARM64 | Server saja, tanpa Docker ([x86-64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_x64) atau [ARM64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_arm64)): lihat [Tanpa Docker](#systemd) |
 
+Di Linux, Anda juga bisa memasang dari terminal. Di ARM64, ganti `x64` dengan `arm64` pada perintahnya.
+
+Debian, Ubuntu, Raspberry Pi OS:
+
+```bash
+curl -LO https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.deb
+sudo apt install ./twitch-miner_linux_x64.deb
+```
+
+Fedora, openSUSE:
+
+```bash
+curl -LO https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.rpm
+sudo dnf install ./twitch-miner_linux_x64.rpm
+# openSUSE: sudo zypper install ./twitch-miner_linux_x64.rpm
+```
+
+AppImage, di distribusi apa pun:
+
+```bash
+curl -LO https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.AppImage
+chmod +x twitch-miner_linux_x64.AppImage
+./twitch-miner_linux_x64.AppImage
+```
+
+Perintah yang sama juga memperbarui instalasi yang sudah ada: nama file-nya tidak berubah.
+
 Build macOS tidak dinotarisasi. Saat pertama kali, buka aplikasinya: macOS akan memblokirnya. Lalu buka **Pengaturan Sistem › Privasi & Keamanan** dan klik **Tetap Buka**.
 
 Pembaruan ditandatangani. Aplikasi memeriksa versi baru saat dimulai, lalu setiap jam (Anda bisa mengubah frekuensinya di **Pengaturan › Tentang**). Aplikasi tidak pernah memasangnya sendiri: Anda memasangnya dengan sekali klik, dari pesan yang muncul atau dari **Pengaturan › Tentang**.
