@@ -27,7 +27,7 @@
   <a href="https://drops.sunkwi.com">Twitch Drops API</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
-  <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new/choose">버그 신고</a>
+  <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">버그 신고</a>
 </p>
 
 <p align="center">
