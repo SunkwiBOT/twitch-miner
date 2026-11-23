@@ -63,7 +63,7 @@
 </p>
 
 <p align="center">
-  <img src="../media/en/presentation.avif" alt="Video giới thiệu Twitch Miner">
+  <img src="../media/vi/presentation.avif" alt="Video giới thiệu Twitch Miner">
 </p>
 
 ## <a name="features"></a>Tính năng
@@ -72,69 +72,69 @@
 
 - **Bao nhiêu tài khoản tùy bạn trong một ứng dụng.** Mỗi tài khoản đào độc lập, theo chế độ riêng: **Drops và điểm** (một kênh cho chiến dịch tốt nhất, kênh còn lại cho các streamer của bạn), **Chỉ Drops** hoặc **Chỉ điểm**.
 
-  <img src="../media/en/accounts-mining.avif" alt="Nhiều tài khoản cùng đào một lúc, trên Trang chủ">
+  <img src="../media/vi/accounts-mining.avif" alt="Nhiều tài khoản cùng đào một lúc, trên Trang chủ">
 
 - **Trình hướng dẫn cho mỗi tài khoản mới.** Sau khi đăng nhập, bắt đầu từ cài đặt mặc định hoặc từ cài đặt của một tài khoản khác. Chọn chế độ, chiến dịch và streamer, rồi chọn “Bắt đầu đào” hoặc “Lưu và bắt đầu sau”.
 
-  <img src="../media/en/account-setup.avif" alt="Trình hướng dẫn thiết lập tài khoản mới, từng bước một">
+  <img src="../media/vi/account-setup.avif" alt="Trình hướng dẫn thiết lập tài khoản mới, từng bước một">
 
 - **Một thay đổi áp dụng cho các tài khoản khác chỉ với một cú nhấp.** Sau khi bạn thay đổi điều gì đó trên một tài khoản, thông báo xác nhận sẽ đề xuất “Áp dụng cho tài khoản khác”. Thay đổi được thực hiện lại trên các tài khoản bạn đánh dấu, còn phần cài đặt khác của chúng vẫn giữ nguyên.
 
-  <img src="../media/en/apply-to-accounts.avif" alt="Một thay đổi được thực hiện lại trên các tài khoản khác bằng “Áp dụng cho tài khoản khác”">
+  <img src="../media/vi/apply-to-accounts.avif" alt="Một thay đổi được thực hiện lại trên các tài khoản khác bằng “Áp dụng cho tài khoản khác”">
 
 - **Thêm streamer.** Streamer bắt đầu ngay với các tùy chọn mặc định: của ứng dụng, hoặc những tùy chọn bạn đã chọn cho tài khoản này. Điều chỉnh ngay tại chỗ nếu cần: rương thưởng, raid, khoảnh khắc, chuỗi xem, chat, dự đoán.
 
-  <img src="../media/en/streamer-add.avif" alt="Thêm streamer qua ô tìm kiếm Twitch, rồi các tùy chọn của streamer">
+  <img src="../media/vi/streamer-add.avif" alt="Thêm streamer qua ô tìm kiếm Twitch, rồi các tùy chọn của streamer">
 
 - **Sửa streamer.** “Sửa” mở các tùy chọn của streamer: rương thưởng, raid, khoảnh khắc, chuỗi xem, chat, dự đoán… Một công tắc bật hoặc tắt streamer mà không xóa khỏi danh sách.
 
-  <img src="../media/en/streamer-edit.avif" alt="Tùy chọn của một streamer, mở từ dòng của streamer đó">
+  <img src="../media/vi/streamer-edit.avif" alt="Tùy chọn của một streamer, mở từ dòng của streamer đó">
 
 - **Sửa nhiều streamer cùng lúc.** Đánh dấu các streamer, rồi chọn “Sửa N streamer đã chọn”. Chỉ những tùy chọn bạn thay đổi mới được áp dụng. Tùy chọn nào khác nhau giữa các streamer sẽ hiện “Hỗn hợp”, và công tắc của nó biến thành hai nút “Có” và “Không”. Sau đó ứng dụng đề xuất đặt chúng làm tùy chọn mặc định cho streamer mới.
 
-  <img src="../media/en/streamers-group-edit.avif" alt="Sửa nhiều streamer, với các tùy chọn “Hỗn hợp”">
+  <img src="../media/vi/streamers-group-edit.avif" alt="Sửa nhiều streamer, với các tùy chọn “Hỗn hợp”">
 
 - **Nhập streamer.** Dán một danh sách (tối đa 500 tên), hoặc dùng lại danh sách của tài khoản khác hay các kênh mà tài khoản đang theo dõi. Danh sách được kiểm tra để chỉ thêm những kênh có thật. Cập nhật trực tiếp bao gồm 46 streamer mỗi tài khoản: những streamer tiếp theo trong danh sách không nhận raid, khoảnh khắc hay dự đoán.
 
-  <img src="../media/en/streamers-import.avif" alt="Nhập streamer: danh sách đã dán, tài khoản khác, kênh đang theo dõi">
+  <img src="../media/vi/streamers-import.avif" alt="Nhập streamer: danh sách đã dán, tài khoản khác, kênh đang theo dõi">
 
 - **Spam Points.** Đổi một phần thưởng tùy chỉnh của kênh nhiều lần liên tiếp. Chọn một kênh trong danh sách Điểm của bạn, hoặc bất kỳ kênh nào tìm được qua tìm kiếm Twitch: các phần thưởng của kênh hiện cùng số dư của tài khoản, được đọc lại trực tiếp. Đặt số lượng (tối đa 25, trong giới hạn số dư), rồi “Đổi”. Kết quả hiện khi loạt kết thúc, và mỗi loạt có một dòng riêng trong Nhật ký.
 
-  <img src="../media/en/spam-points.avif" alt="Spam Points: một kênh được chọn, 10 × một phần thưởng kèm tin nhắn được đổi, các lượt đổi hiện trong khung chat Twitch của kênh, rồi dòng trong Nhật ký">
+  <img src="../media/vi/spam-points.avif" alt="Spam Points: một kênh được chọn, 10 × một phần thưởng kèm tin nhắn được đổi, các lượt đổi hiện trong khung chat Twitch của kênh, rồi dòng trong Nhật ký">
 
 ### Drops
 
 - **Mọi chiến dịch Drops đang diễn ra.** Mỗi chiến dịch có phần chi tiết riêng: phần thưởng, liên kết tài khoản nhà phát hành, “Đào trước”. Danh sách lấy từ dự án [Twitch Drops API](https://drops.sunkwi.com) và được làm mới mỗi 5 phút.
 
-  <img src="../media/en/drops-catalogue.avif" alt="Danh mục dạng lịch, ô tìm kiếm và chi tiết một chiến dịch">
+  <img src="../media/vi/drops-catalogue.avif" alt="Danh mục dạng lịch, ô tìm kiếm và chi tiết một chiến dịch">
 
 - **Thứ tự đào của riêng bạn.** Kéo các chiến dịch theo thứ tự bạn muốn. Chiến dịch mới tự tìm chỗ của mình: danh mục ưu tiên của bạn trước, rồi đến chiến dịch kết thúc sớm nhất hoặc còn ít phút nhất. Loại trừ danh mục, từ khóa, một chiến dịch hoặc chỉ một phần thưởng, và bỏ qua những chiến dịch không thể hoàn thành kịp. “Đào trước”, trong chi tiết của một chiến dịch, đưa chiến dịch đó lên đầu.
 
-  <img src="../media/en/drops-order.avif" alt="Thứ tự đào, danh mục ưu tiên và các quy tắc loại trừ">
+  <img src="../media/vi/drops-order.avif" alt="Thứ tự đào, danh mục ưu tiên và các quy tắc loại trừ">
 
 - **Kho đồ và “Nhận tất cả”.** Trang Kho đồ chia phần thưởng thành “Có thể nhận”, “Đang tiến hành” và “Đã nhận”. Nhận từng cái, nhận tất cả một lần, hoặc bật “Tự động nhận drop”. Sau khi bấm “Liên kết tài khoản nhà phát hành”, tài khoản được đọc lại ngay khi bạn quay lại ứng dụng, nên liên kết hiện ra ngay.
 
-  <img src="../media/en/drops-inventory.avif" alt="Kho đồ và nút “Nhận tất cả”">
+  <img src="../media/vi/drops-inventory.avif" alt="Kho đồ và nút “Nhận tất cả”">
 
 - **“Ưu tiên streamer của tôi cho Drops và huy hiệu”.** Với chiến dịch hiện tại, một streamer trong danh sách của bạn có buổi phát được tính cho chiến dịch đó sẽ được ưu tiên hơn các kênh khác. Cùng một kênh vừa đẩy tiến độ drop vừa mang về cho bạn điểm kênh của nó. Bật theo mặc định.
 
-  <img src="../media/en/drops-streamers-first.avif" alt="Một streamer trong danh sách, được xem để lấy Drops và điểm kênh">
+  <img src="../media/vi/drops-streamers-first.avif" alt="Một streamer trong danh sách, được xem để lấy Drops và điểm kênh">
 
 - **Thứ tự ưu tiên phần thưởng.** Khi hai chiến dịch xếp ngang hạng, trình đào chọn trước chiến dịch có phần thưởng đúng loại bạn ưa thích (huy hiệu, emote, vật phẩm trong game). Nó không bao giờ ghi đè thứ tự đào của bạn.
 
 - **Huy hiệu (beta).** Trang Huy hiệu liệt kê mọi huy hiệu chat toàn cầu của Twitch và cách nhận chúng. Mỗi tài khoản có trang Huy hiệu riêng: các huy hiệu đang tiến hành kèm tiến độ, những huy hiệu còn có thể nhận và những huy hiệu đã có. Trình đào nhắm đến huy hiệu của các chiến dịch Drops và nhiệm vụ Twitch, và bỏ qua những huy hiệu tài khoản đã có. Một huy hiệu cần xem mỗi ngày sẽ được đào lại mỗi ngày cho đến ngày cuối (“20 phút mỗi ngày, 3 ngày”), và kênh thuộc bất kỳ danh mục nào của chiến dịch đều được tính. Một rương cho “1 huy hiệu ngẫu nhiên trong N”. Huy hiệu yêu cầu đăng ký kênh sẽ được đào sau khi bạn đăng ký hoặc tặng một lượt đăng ký trong thời gian chiến dịch, trên một kênh thuộc danh mục, và Twitch đã ghi nhận. Lượt đăng ký đang có, đăng ký Prime hay gia hạn đều không tính. Không có gì được đào trước khi chiến dịch bắt đầu. Trong “Đào gì, theo thứ tự”, kéo danh mục ưu tiên, huy hiệu và các chiến dịch Drops khác vào thứ tự bạn muốn, hoặc tắt một mục. Một nhiệm vụ Twitch chỉ được đào trên kênh mà Twitch đề xuất nó trong bảng Drops của kênh. Một tiến hóa (Pichu → Pikachu) được đào ngay khi tài khoản có huy hiệu mà nó tiến hóa từ đó: trình đào tự gắn huy hiệu đó ngay trước và không gắn lại huy hiệu cũ; “Đào các tiến hóa huy hiệu”, trong cài đặt huy hiệu của tài khoản, tắt điều này. Bấm vào một huy hiệu sẽ mở chi tiết của nó: toàn bộ yêu cầu, mọi danh mục và kênh, bộ sưu tập, tiến hóa và tiến độ của từng tài khoản. Tính năng này đang ở giai đoạn beta.
 
-  <img src="../media/en/badges.avif" alt="Trang Huy hiệu, huy hiệu của một tài khoản, rồi “Đào gì, theo thứ tự” với Huy hiệu được kéo lên đầu">
+  <img src="../media/vi/badges.avif" alt="Trang Huy hiệu, huy hiệu của một tài khoản, rồi “Đào gì, theo thứ tự” với Huy hiệu được kéo lên đầu">
 
 ### Giám sát
 
 - **Nhật ký của mọi thứ, và mọi yêu cầu.** Nhật ký lưu mọi sự kiện: drop, điểm nhận được và đã tiêu, rương, cược, raid, kênh bắt đầu phát… Lọc theo tài khoản, theo tab (Drops, Huy hiệu, Điểm, Khác) và theo loại. **Log kỹ thuật › Yêu cầu** liệt kê mọi yêu cầu gửi tới Twitch và các dịch vụ khác, kèm kết quả và thời gian xử lý. Log và yêu cầu không chứa token hay thông tin bí mật nào: “Sao chép để báo lỗi” sao chép chúng, sẵn sàng để dán vào báo cáo lỗi trên [GitHub](https://github.com/SunkwiBOT/twitch-miner/issues) hoặc [Discord](https://discord.gg/support-bots-891685895781113886).
 
-  <img src="../media/en/journal-requests.avif" alt="Nhật ký đã lọc, rồi Log kỹ thuật › Yêu cầu">
+  <img src="../media/vi/journal-requests.avif" alt="Nhật ký đã lọc, rồi Log kỹ thuật › Yêu cầu">
 
 - **Một trang Thống kê.** Điểm kiếm được, drop đã nhận, thời gian xem và cược đã thắng trong 7, 30 hoặc 90 ngày, kèm streamer hoặc danh mục đứng đầu phía sau mỗi con số. Một đường biểu diễn điểm theo streamer cho thấy số dư theo thời gian, với các mốc đánh dấu cho streak, raid, moment và cược, cùng chú thích khi di chuột vào từng mốc.
 
-  <img src="../media/en/stats.avif" alt="Các ô Thống kê trong 30 ngày, rồi đường biểu diễn điểm của một streamer kèm mốc đánh dấu">
+  <img src="../media/vi/stats.avif" alt="Các ô Thống kê trong 30 ngày, rồi đường biểu diễn điểm của một streamer kèm mốc đánh dấu">
 
 - **Tạm dừng và tạm dừng hằng ngày.** Một nút tạm dừng, cho một tài khoản hoặc tất cả: tạm dừng cho đến khi bạn tiếp tục, hoặc trong 30 phút, 1 giờ, 4 giờ, đến 09:00 ngày mai, hoặc một ngày và giờ tùy chỉnh; khi đang tạm dừng, chính nút đó hiển thị “Tiếp tục”. Một huy hiệu cho biết giờ kết thúc của tạm dừng có thời hạn, và mỗi tài khoản trong thanh bên hiển thị trạng thái: đang chạy, tạm dừng, hoặc có vấn đề cần xem. Tạm dừng hằng ngày dừng việc đào của mọi tài khoản giữa hai mốc giờ mỗi ngày, theo múi giờ bạn chọn, và tiếp tục khi kết thúc, với huy hiệu riêng trên thanh trên cùng.
 - **Xuất CSV và số lượng theo danh mục.** Nhật ký xuất các drop đã nhận thành tệp CSV (ngày, tài khoản, danh mục, chiến dịch, drop, phút), lọc theo tài khoản, và một hộp thoại liệt kê số drop đã nhận trong mỗi danh mục. Ứng dụng máy tính lưu tệp qua hộp thoại lưu; bảng điều khiển web tải tệp xuống.
@@ -149,18 +149,18 @@
 
 - **Phiên của bạn được bảo vệ.** Không cần mật khẩu Twitch: bạn đăng nhập trên `twitch.tv/activate`, từ trình duyệt của mình. Phiên được mã hóa trên ổ đĩa, và bạn có thể thu hồi chúng trong [cài đặt Twitch](https://www.twitch.tv/settings/connections) của mình. Trên máy tính, một mật khẩu ứng dụng tùy chọn sẽ khóa ứng dụng: không gì được đào cho đến khi nhập mật khẩu. Với Docker, bảng điều khiển có mật khẩu riêng, tự khóa sau vài phút không hoạt động và chạy qua HTTPS phía sau một proxy. Nhập sai mật khẩu năm lần liên tiếp sẽ chặn địa chỉ IP trong 30 giây.
 
-  <img src="../media/en/security-lock.avif" alt="Ổ khóa: ứng dụng bị khóa, rồi được mở bằng mật khẩu">
+  <img src="../media/vi/security-lock.avif" alt="Ổ khóa: ứng dụng bị khóa, rồi được mở bằng mật khẩu">
 
 - **Cập nhật có chữ ký, không bao giờ tự động.** Huy hiệu “Cập nhật” kèm số phiên bản xuất hiện trên thanh trên cùng, và thông báo trên máy tính cũng báo cho bạn, bật sẵn theo mặc định (công tắc trong **Cài đặt › Thông báo** có thể tắt nó; trên trình duyệt, nhấp “Cho phép” khi được hỏi). “Cài đặt và khởi động lại” trước tiên hỏi xác nhận, rồi ứng dụng cài phiên bản đó và khởi động lại. Nếu có mật khẩu ứng dụng, ứng dụng khởi động lại ở trạng thái khóa: nhập lại mật khẩu để tiếp tục đào. Chỉ phiên bản do dự án ký mới được cài. Bảng điều khiển Docker và tệp nhị phân systemd cũng báo cho bạn, kèm các lệnh cần chạy.
 
-  <img src="../media/en/updates.avif" alt="Huy hiệu “Cập nhật”, bước xác nhận, rồi quá trình cài đặt">
+  <img src="../media/vi/updates.avif" alt="Huy hiệu “Cập nhật”, bước xác nhận, rồi quá trình cài đặt">
 
 ### Và còn nữa
 
 - Như các trình đào khác: rương thưởng, raid, khoảnh khắc, mục tiêu cộng đồng, dự đoán (chiến lược, thời điểm cược, điều kiện), ưu tiên chuỗi xem và kênh đã đăng ký, hiện diện trong chat (có thể tắt), tùy chọn mặc định cho streamer mới, thông báo Discord, Telegram và webhook kèm hình ảnh và một nút “Kiểm tra” cho mỗi kênh (trên máy chủ, ngôn ngữ thông báo được chọn trong **Cài đặt › Thông báo**), proxy chung hoặc theo từng tài khoản.
 - 29 ngôn ngữ, giao diện tối và sáng, thông báo trên máy tính, biểu tượng trong khay hệ thống, khởi động cùng hệ thống.
 
-  <img src="../media/en/basics.avif" alt="Ngôn ngữ, giao diện sáng và tối, một thông báo trên máy tính và biểu tượng trong khay hệ thống">
+  <img src="../media/vi/basics.avif" alt="Ngôn ngữ, giao diện sáng và tối, một thông báo trên máy tính và biểu tượng trong khay hệ thống">
 
 - **Thêm tài khoản bằng cách dán danh sách mã thông báo.** Đã đăng nhập ở nơi khác? Hãy dán danh sách mã thông báo truy cập, mỗi dòng một mã (tối đa 50); mỗi mã được kiểm tra trực tiếp, với bộ đếm “Đã kiểm tra: n/N” và nút thử lại cho mọi dòng bị lỗi, sau đó một bước cài đặt duy nhất áp dụng cho cả lô. Việc nhập chạy nền với tiến trình theo từng tài khoản, có thể hủy giữa chừng, và lần thử lại chỉ gửi lại các tài khoản bị lỗi. Khi xóa một tài khoản được nhập theo cách này, ứng dụng cũng hỏi có thu hồi mã thông báo của nó trên Twitch không.
 

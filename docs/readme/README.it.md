@@ -63,7 +63,7 @@
 </p>
 
 <p align="center">
-  <img src="../media/en/presentation.avif" alt="Presentazione video di Twitch Miner">
+  <img src="../media/it/presentation.avif" alt="Presentazione video di Twitch Miner">
 </p>
 
 ## <a name="features"></a>Funzionalità
@@ -74,38 +74,38 @@
   **Drops e punti** (un canale per la campagna migliore, l'altro per i tuoi streamer),
   **Solo Drops** o **Solo punti**.
 
-  <img src="../media/en/accounts-mining.avif" alt="Più account che minano contemporaneamente, nella pagina Home">
+  <img src="../media/it/accounts-mining.avif" alt="Più account che minano contemporaneamente, nella pagina Home">
 
 - **Una procedura guidata per ogni nuovo account.** Dopo l'accesso, parti dalle
   impostazioni predefinite o da quelle di un altro account. Scegli la modalità, le
   campagne e gli streamer, poi «Inizia il mining» o «Salva e avvia più tardi».
 
-  <img src="../media/en/account-setup.avif" alt="La procedura guidata di configurazione di un nuovo account, passo dopo passo">
+  <img src="../media/it/account-setup.avif" alt="La procedura guidata di configurazione di un nuovo account, passo dopo passo">
 
 - **Una modifica applicata ad altri account con un clic.** Dopo aver cambiato qualcosa su
   un account, il messaggio di conferma propone «Applica ad altri account». La modifica
   viene ripetuta sugli account che spunti, che mantengono il resto delle loro impostazioni.
 
-  <img src="../media/en/apply-to-accounts.avif" alt="Una modifica ripetuta su altri account con «Applica ad altri account»">
+  <img src="../media/it/apply-to-accounts.avif" alt="Una modifica ripetuta su altri account con «Applica ad altri account»">
 
 - **Aggiungere uno streamer.** Parte subito con le opzioni predefinite: quelle dell'app o
   quelle che hai scelto per questo account. Regolale al momento, se serve: forzieri bonus,
   raid, momenti, serie di visione, chat, previsioni.
 
-  <img src="../media/en/streamer-add.avif" alt="Uno streamer aggiunto con la ricerca di Twitch, poi le sue opzioni">
+  <img src="../media/it/streamer-add.avif" alt="Uno streamer aggiunto con la ricerca di Twitch, poi le sue opzioni">
 
 - **Modificare uno streamer.** «Modifica» apre le sue opzioni: forzieri bonus, raid,
   momenti, serie di visione, chat, previsioni… Un interruttore lo attiva o lo disattiva
   senza toglierlo dalla lista.
 
-  <img src="../media/en/streamer-edit.avif" alt="Le opzioni di uno streamer, aperte dalla sua riga">
+  <img src="../media/it/streamer-edit.avif" alt="Le opzioni di uno streamer, aperte dalla sua riga">
 
 - **Modificare più streamer insieme.** Spuntali, poi «Modifica i N streamer selezionati».
   Si applicano solo le opzioni che cambi. Un'opzione che differisce tra loro appare come
   «Misto», e il suo interruttore diventa due pulsanti, «Sì» e «No». L'app propone poi di
   farne le opzioni predefinite per i nuovi streamer.
 
-  <img src="../media/en/streamers-group-edit.avif" alt="Modifica di più streamer, con opzioni «Misto»">
+  <img src="../media/it/streamers-group-edit.avif" alt="Modifica di più streamer, con opzioni «Misto»">
 
 - **Importare streamer.** Incolla una lista (fino a 500 nomi), oppure riprendi quella di un
   altro account o i canali che l'account segue. La lista viene verificata per aggiungere
@@ -113,7 +113,7 @@
   Gli aggiornamenti in diretta coprono 46 streamer per account: i successivi della lista
   non ricevono raid, momenti né previsioni.
 
-  <img src="../media/en/streamers-import.avif" alt="Importazione di streamer: una lista incollata, un altro account, i canali seguiti">
+  <img src="../media/it/streamers-import.avif" alt="Importazione di streamer: una lista incollata, un altro account, i canali seguiti">
 
 - **Spam Points.** Riscatta più volte di fila un premio personalizzato di un canale.
   Scegli un canale dalla tua lista Punti, o qualsiasi canale trovato con la ricerca di
@@ -121,7 +121,7 @@
   la quantità (fino a 25, nei limiti del saldo), poi «Riscatta». Il risultato compare alla
   fine della raffica, e ogni raffica ha la sua riga nel Registro.
 
-  <img src="../media/en/spam-points.avif" alt="Spam Points: un canale scelto, 10 × un premio con messaggio riscattato, i riscatti arrivano nella chat Twitch del canale, poi la riga del Registro">
+  <img src="../media/it/spam-points.avif" alt="Spam Points: un canale scelto, 10 × un premio con messaggio riscattato, i riscatti arrivano nella chat Twitch del canale, poi la riga del Registro">
 
 ### Drops
 
@@ -129,7 +129,7 @@
   collegamento dell'account editore, «Mina per prima». L'elenco arriva dal progetto
   [Twitch Drops API](https://drops.sunkwi.com) e si aggiorna ogni 5 minuti.
 
-  <img src="../media/en/drops-catalogue.avif" alt="Il Catalogo in vista calendario, la ricerca e i dettagli di una campagna">
+  <img src="../media/it/drops-catalogue.avif" alt="Il Catalogo in vista calendario, la ricerca e i dettagli di una campagna">
 
 - **Il tuo ordine di mining.** Trascina le campagne nell'ordine che preferisci. Le nuove
   trovano posto da sole: prima le tue categorie prioritarie, poi quelle che finiscono prima o
@@ -137,7 +137,7 @@
   ricompensa, e salta le campagne che non possono finire in tempo. «Mina per prima», nei
   dettagli di una campagna, la porta in cima.
 
-  <img src="../media/en/drops-order.avif" alt="L'ordine di mining, le categorie prioritarie e le esclusioni">
+  <img src="../media/it/drops-order.avif" alt="L'ordine di mining, le categorie prioritarie e le esclusioni">
 
 - **Inventario e «Riscatta tutto».** La pagina Inventario divide le ricompense in
   «Da riscattare», «In corso» e «Riscattate». Riscattale una alla volta, tutte insieme,
@@ -145,14 +145,14 @@
   Dopo «Collega l'account editore», l'account viene riletto appena torni nell'app, così il
   collegamento compare subito.
 
-  <img src="../media/en/drops-inventory.avif" alt="L'inventario e il pulsante «Riscatta tutto»">
+  <img src="../media/it/drops-inventory.avif" alt="L'inventario e il pulsante «Riscatta tutto»">
 
 - **«Prima i miei streamer per i Drops e i badge».** Per la campagna in corso, uno streamer della
   tua lista la cui live vale per quella campagna passa davanti agli altri canali. Lo
   stesso canale fa avanzare il drop e ti fa guadagnare i suoi punti canale. Attivo per
   impostazione predefinita.
 
-  <img src="../media/en/drops-streamers-first.avif" alt="Uno streamer della lista, guardato per i Drops e per i suoi punti">
+  <img src="../media/it/drops-streamers-first.avif" alt="Uno streamer della lista, guardato per i Drops e per i suoi punti">
 
 - **Priorità delle ricompense.** Quando due campagne hanno la stessa posizione, il miner
   sceglie prima quella con ricompense del tipo che preferisci (badge, emote, oggetto di
@@ -178,7 +178,7 @@
   categorie e i canali, la collezione, l'evoluzione e i progressi di ogni account. Questa
   funzione è in beta.
 
-  <img src="../media/en/badges.avif" alt="La pagina Badge, i badge di un account, poi «Cosa minare, in ordine» con Badge trascinato in cima">
+  <img src="../media/it/badges.avif" alt="La pagina Badge, i badge di un account, poi «Cosa minare, in ordine» con Badge trascinato in cima">
 
 ### Monitoraggio
 
@@ -191,14 +191,14 @@
   [GitHub](https://github.com/SunkwiBOT/twitch-miner/issues) o
   [Discord](https://discord.gg/support-bots-891685895781113886).
 
-  <img src="../media/en/journal-requests.avif" alt="Il Registro filtrato, poi Log tecnici › Richieste">
+  <img src="../media/it/journal-requests.avif" alt="Il Registro filtrato, poi Log tecnici › Richieste">
 
 - **Una pagina Statistiche.** Punti guadagnati, drop riscattati, tempo di visione e
   previsioni vinte su 7, 30 o 90 giorni, con lo streamer o la categoria in testa dietro
   ogni numero. Una curva dei punti per streamer mostra il saldo nel tempo, con indicatori
   per serie, raid, momenti e previsioni e un suggerimento su ciascuno.
 
-  <img src="../media/en/stats.avif" alt="I riquadri della pagina Statistiche su 30 giorni, poi la curva dei punti di uno streamer con un indicatore">
+  <img src="../media/it/stats.avif" alt="I riquadri della pagina Statistiche su 30 giorni, poi la curva dei punti di uno streamer con un indicatore">
 
 - **Pausa e finestra silenziosa.** Un solo pulsante di pausa, per un account o per tutti:
   pausa finché non riprendi, oppure per 30 minuti, 1 ora, 4 ore, fino a domani alle 09:00,
@@ -233,7 +233,7 @@
   qualche minuto di inattività e passa in HTTPS dietro un proxy. Cinque password errate di
   fila bloccano l'indirizzo IP per 30 secondi.
 
-  <img src="../media/en/security-lock.avif" alt="Il lucchetto: l'app bloccata, poi sbloccata con la sua password">
+  <img src="../media/it/security-lock.avif" alt="Il lucchetto: l'app bloccata, poi sbloccata con la sua password">
 
 - **Aggiornamenti firmati, mai automatici.** Nella barra in alto compare un badge
   «Aggiornamento» con il numero di versione, e anche una notifica desktop avvisa,
@@ -244,7 +244,7 @@
   per riprendere il mining. Viene installata solo una versione firmata dal progetto. Anche
   la dashboard Docker e il binario systemd avvisano, con i comandi da eseguire.
 
-  <img src="../media/en/updates.avif" alt="Il badge «Aggiornamento», la conferma, poi l'installazione">
+  <img src="../media/it/updates.avif" alt="Il badge «Aggiornamento», la conferma, poi l'installazione">
 
 ### E inoltre
 
@@ -257,7 +257,7 @@
 - 29 lingue, temi scuro e chiaro, notifiche desktop, icona nell'area di notifica, avvio con
   il sistema.
 
-  <img src="../media/en/basics.avif" alt="Lingue, tema chiaro e scuro, una notifica desktop e l'icona nell'area di notifica">
+  <img src="../media/it/basics.avif" alt="Lingue, tema chiaro e scuro, una notifica desktop e l'icona nell'area di notifica">
 
 - **Aggiungere account incollando un elenco di token.** Hai già effettuato l'accesso altrove? Incolla un elenco di token di accesso, uno per riga (massimo 50); ciascuno viene verificato in tempo reale, con un contatore «Verificati: n/N» e un nuovo tentativo per ogni riga non riuscita, poi un unico passaggio di impostazioni si applica a tutto il lotto. L'importazione avviene in background, con avanzamento in tempo reale per ogni account, può essere annullata a metà, e un nuovo tentativo successivo reinvia solo gli account non riusciti. Rimuovendo un account importato in questo modo, viene proposto anche di revocarne il token su Twitch.
 

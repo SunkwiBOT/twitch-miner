@@ -63,7 +63,7 @@
 </p>
 
 <p align="center">
-  <img src="../media/en/presentation.avif" alt="Prezentacja wideo Twitch Miner">
+  <img src="../media/pl/presentation.avif" alt="Prezentacja wideo Twitch Miner">
 </p>
 
 ## <a name="features"></a>Funkcje
@@ -74,30 +74,30 @@
   **Drops i punkty** (jeden kanał dla najlepszej kampanii, drugi dla Twoich streamerów),
   **Tylko Drops** lub **Tylko punkty**.
 
-  <img src="../media/en/accounts-mining.avif" alt="Kilka kont kopiących jednocześnie na stronie Start">
+  <img src="../media/pl/accounts-mining.avif" alt="Kilka kont kopiących jednocześnie na stronie Start">
 
 - **Kreator dla każdego nowego konta.** Po zalogowaniu zacznij od ustawień domyślnych albo
   od ustawień innego konta. Wybierz tryb, kampanie i streamerów, a potem „Zacznij kopać”
   lub „Zapisz i uruchom później”.
 
-  <img src="../media/en/account-setup.avif" alt="Kreator konfiguracji nowego konta, krok po kroku">
+  <img src="../media/pl/account-setup.avif" alt="Kreator konfiguracji nowego konta, krok po kroku">
 
 - **Jedna zmiana przeniesiona na inne konta jednym kliknięciem.** Gdy zmienisz coś na
   koncie, komunikat potwierdzenia proponuje „Zastosuj do innych kont”. Ta sama zmiana trafia
   na zaznaczone konta, a reszta ich ustawień pozostaje bez zmian.
 
-  <img src="../media/en/apply-to-accounts.avif" alt="Zmiana powtórzona na innych kontach przez „Zastosuj do innych kont”">
+  <img src="../media/pl/apply-to-accounts.avif" alt="Zmiana powtórzona na innych kontach przez „Zastosuj do innych kont”">
 
 - **Dodawanie streamera.** Od razu rusza z opcjami domyślnymi: aplikacji albo tymi
   wybranymi przez Ciebie dla tego konta. W razie potrzeby zmień je na miejscu: skrzynki
   bonusowe, rajdy, momenty, seria oglądania, czat, prognozy.
 
-  <img src="../media/en/streamer-add.avif" alt="Dodawanie streamera przez wyszukiwarkę Twitcha, a potem jego opcje">
+  <img src="../media/pl/streamer-add.avif" alt="Dodawanie streamera przez wyszukiwarkę Twitcha, a potem jego opcje">
 
 - **Edycja streamera.** „Edytuj” otwiera jego opcje: skrzynki bonusowe, rajdy, momenty,
   seria oglądania, czat, prognozy… Przełącznik włącza go lub wyłącza bez usuwania z listy.
 
-  <img src="../media/en/streamer-edit.avif" alt="Opcje streamera otwarte z jego wiersza">
+  <img src="../media/pl/streamer-edit.avif" alt="Opcje streamera otwarte z jego wiersza">
 
 - **Edycja wielu streamerów naraz.** Zaznacz ich, a potem
   „Edytuj N zaznaczonych streamerów”. Stosowane są tylko opcje, które zmienisz. Opcja,
@@ -105,14 +105,14 @@
   przyciski: „Tak” i „Nie”. Potem aplikacja proponuje, by uczynić je opcjami domyślnymi
   dla nowych streamerów.
 
-  <img src="../media/en/streamers-group-edit.avif" alt="Edycja kilku streamerów z opcjami „Mieszane”">
+  <img src="../media/pl/streamers-group-edit.avif" alt="Edycja kilku streamerów z opcjami „Mieszane”">
 
 - **Import streamerów.** Wklej listę (do 500 nazw) albo weź listę innego konta lub kanały,
   które obserwuje konto. Lista jest sprawdzana, więc dodawane są tylko istniejące kanały.
   Aktualizacje na żywo obejmują 46 streamerów na konto: kolejni z listy nie dostają rajdów,
   momentów ani prognoz.
 
-  <img src="../media/en/streamers-import.avif" alt="Import streamerów: wklejona lista, inne konto, obserwowane kanały">
+  <img src="../media/pl/streamers-import.avif" alt="Import streamerów: wklejona lista, inne konto, obserwowane kanały">
 
 - **Spam Points.** Odbierz niestandardową nagrodę kanału kilka razy z rzędu. Wybierz kanał
   ze swojej listy Punktów albo dowolny kanał znaleziony wyszukiwarką Twitcha: jego nagrody
@@ -120,7 +120,7 @@
   w granicach salda), a potem „Odbierz”. Wynik pojawia się po zakończeniu serii, a każda
   seria ma swój wiersz w Dzienniku.
 
-  <img src="../media/en/spam-points.avif" alt="Spam Points: wybrany kanał, 10 × odebrana nagroda z wiadomością, odbiory pojawiają się na czacie kanału na Twitchu, a potem wiersz w Dzienniku">
+  <img src="../media/pl/spam-points.avif" alt="Spam Points: wybrany kanał, 10 × odebrana nagroda z wiadomością, odbiory pojawiają się na czacie kanału na Twitchu, a potem wiersz w Dzienniku">
 
 ### Drops
 
@@ -128,7 +128,7 @@
   połączenie konta wydawcy, „Kop najpierw”. Lista pochodzi z projektu
   [Twitch Drops API](https://drops.sunkwi.com) i odświeża się co 5 minut.
 
-  <img src="../media/en/drops-catalogue.avif" alt="Katalog w widoku kalendarza, wyszukiwarka i szczegóły kampanii">
+  <img src="../media/pl/drops-catalogue.avif" alt="Katalog w widoku kalendarza, wyszukiwarka i szczegóły kampanii">
 
 - **Twoja kolejność kopania.** Przeciągnij kampanie w wybranej kolejności. Nowe same
   znajdują swoje miejsce: najpierw Twoje kategorie priorytetowe, potem najbliższy koniec albo
@@ -136,7 +136,7 @@
   i pomijaj kampanie, których nie da się ukończyć na czas. „Kop najpierw” w szczegółach
   kampanii przenosi ją na samą górę.
 
-  <img src="../media/en/drops-order.avif" alt="Kolejność kopania, kategorie priorytetowe i wykluczenia">
+  <img src="../media/pl/drops-order.avif" alt="Kolejność kopania, kategorie priorytetowe i wykluczenia">
 
 - **Ekwipunek i „Odbierz wszystkie”.** Strona Ekwipunek dzieli nagrody na „Do odebrania”,
   „W toku” i „Odebrane”. Odbieraj je pojedynczo, wszystkie naraz albo włącz
@@ -144,14 +144,14 @@
   Po „Połącz konto wydawcy” konto jest odczytywane ponownie, gdy tylko wrócisz do aplikacji,
   więc połączenie widać od razu.
 
-  <img src="../media/en/drops-inventory.avif" alt="Ekwipunek i przycisk „Odbierz wszystkie”">
+  <img src="../media/pl/drops-inventory.avif" alt="Ekwipunek i przycisk „Odbierz wszystkie”">
 
 - **„Najpierw moi streamerzy dla Drops i odznak”.** W bieżącej kampanii streamer z Twojej listy,
   którego transmisja liczy się do tej kampanii, ma pierwszeństwo przed innymi kanałami.
   Jeden i ten sam kanał posuwa drop naprzód i przynosi Ci swoje punkty kanału. Domyślnie
   włączone.
 
-  <img src="../media/en/drops-streamers-first.avif" alt="Streamer z listy oglądany dla Drops i dla swoich punktów">
+  <img src="../media/pl/drops-streamers-first.avif" alt="Streamer z listy oglądany dla Drops i dla swoich punktów">
 
 - **Priorytet nagród.** Gdy dwie kampanie mają to samo miejsce w kolejności, miner wybiera
   najpierw tę, której nagrody pasują do preferowanego przez Ciebie rodzaju (odznaka,
@@ -175,7 +175,7 @@
   szczegóły: pełny wymóg, wszystkie kategorie i kanały, kolekcję, ewolucję i postęp
   każdego konta. Ta funkcja jest w wersji beta.
 
-  <img src="../media/en/badges.avif" alt="Strona Odznaki, odznaki jednego konta, a potem „Co kopać, w jakiej kolejności” z Odznakami przeciągniętymi na początek">
+  <img src="../media/pl/badges.avif" alt="Strona Odznaki, odznaki jednego konta, a potem „Co kopać, w jakiej kolejności” z Odznakami przeciągniętymi na początek">
 
 ### Monitorowanie
 
@@ -188,14 +188,14 @@
   [GitHubie](https://github.com/SunkwiBOT/twitch-miner/issues) lub
   [Discordzie](https://discord.gg/support-bots-891685895781113886).
 
-  <img src="../media/en/journal-requests.avif" alt="Przefiltrowany Dziennik, a potem Logi techniczne › Żądania">
+  <img src="../media/pl/journal-requests.avif" alt="Przefiltrowany Dziennik, a potem Logi techniczne › Żądania">
 
 - **Strona Statystyki.** Zdobyte punkty, odebrane dropy, czas oglądania i wygrane prognozy
   w ciągu 7, 30 lub 90 dni, z najlepszym streamerem lub kategorią za każdą liczbą. Krzywa
   punktów dla streamera pokazuje saldo w czasie, z oznaczeniami serii, rajdów, momentów i
   prognoz oraz podpowiedzią przy każdym z nich.
 
-  <img src="../media/en/stats.avif" alt="Kafelki Statystyki za 30 dni, a potem krzywa punktów streamera ze znacznikiem">
+  <img src="../media/pl/stats.avif" alt="Kafelki Statystyki za 30 dni, a potem krzywa punktów streamera ze znacznikiem">
 
 - **Pauza i codzienna pauza.** Jeden przycisk pauzy, dla jednego konta albo wszystkich
   kont: pauza, dopóki jej nie wznowisz, albo na 30 minut, 1 godzinę, 4 godziny, do jutra
@@ -228,7 +228,7 @@
   W Dockerze panel ma własne hasło, sam się blokuje po kilku minutach bezczynności i działa
   przez HTTPS za proxy. Pięć błędnych haseł z rzędu blokuje adres IP na 30 sekund.
 
-  <img src="../media/en/security-lock.avif" alt="Kłódka: aplikacja zablokowana, a potem odblokowana hasłem">
+  <img src="../media/pl/security-lock.avif" alt="Kłódka: aplikacja zablokowana, a potem odblokowana hasłem">
 
 - **Podpisane aktualizacje, nigdy automatyczne.** Na górnym pasku pojawia się plakietka
   „Aktualizacja” z numerem wersji, a o tym samym informuje też powiadomienie na pulpicie,
@@ -239,7 +239,7 @@
   kopanie. Instalowana jest tylko wersja podpisana przez projekt. Panel Dockera i binarka
   systemd też o tym informują i podają polecenia do uruchomienia.
 
-  <img src="../media/en/updates.avif" alt="Plakietka „Aktualizacja”, potwierdzenie, a potem instalacja">
+  <img src="../media/pl/updates.avif" alt="Plakietka „Aktualizacja”, potwierdzenie, a potem instalacja">
 
 ### A także
 
@@ -252,7 +252,7 @@
 - 29 języków, ciemny i jasny motyw, powiadomienia na pulpicie, ikona w zasobniku,
   uruchamianie razem z systemem.
 
-  <img src="../media/en/basics.avif" alt="Języki, jasny i ciemny motyw, powiadomienie na pulpicie i ikona w zasobniku">
+  <img src="../media/pl/basics.avif" alt="Języki, jasny i ciemny motyw, powiadomienie na pulpicie i ikona w zasobniku">
 
 - **Dodanie kont przez wklejenie tokenów.** Jesteś już zalogowany gdzie indziej? Wklej listę tokenów dostępu, jeden na linię (maksymalnie 50); każdy jest sprawdzany na bieżąco, z licznikiem „Sprawdzono: n/N” i ponowieniem dla każdej linii, która się nie powiodła; potem jeden krok ustawień stosuje się do całej partii. Import działa w tle, z postępem na żywo dla każdego konta, można go anulować w trakcie, a późniejsze ponowienie wysyła ponownie tylko konta, które się nie powiodły. Przy usuwaniu konta zaimportowanego w ten sposób zaproponujemy też unieważnienie jego tokenu na Twitchu.
 

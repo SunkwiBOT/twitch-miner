@@ -63,7 +63,7 @@
 </p>
 
 <p align="center">
-  <img src="../media/en/presentation.avif" alt="Video-Überblick über Twitch Miner">
+  <img src="../media/de/presentation.avif" alt="Video-Überblick über Twitch Miner">
 </p>
 
 ## <a name="features"></a>Funktionen
@@ -74,32 +74,32 @@
   **Drops und Punkte** (ein Kanal für die beste Kampagne, der andere für Ihre Streamer),
   **Nur Drops** oder **Nur Punkte**.
 
-  <img src="../media/en/accounts-mining.avif" alt="Mehrere Konten, die gleichzeitig minen, auf der Startseite">
+  <img src="../media/de/accounts-mining.avif" alt="Mehrere Konten, die gleichzeitig minen, auf der Startseite">
 
 - **Ein Assistent für jedes neue Konto.** Starten Sie nach der Anmeldung mit den
   Standardeinstellungen oder mit denen eines anderen Kontos. Wählen Sie den Modus, die
   Kampagnen und die Streamer, dann „Mining starten“ oder „Speichern und später starten“.
 
-  <img src="../media/en/account-setup.avif" alt="Der Einrichtungsassistent eines neuen Kontos, Schritt für Schritt">
+  <img src="../media/de/account-setup.avif" alt="Der Einrichtungsassistent eines neuen Kontos, Schritt für Schritt">
 
 - **Eine Änderung mit einem Klick auf andere Konten übertragen.** Nachdem Sie etwas an
   einem Konto geändert haben, bietet die Bestätigungsmeldung „Auf andere Konten anwenden“
   an. Die Änderung wird auf den angehakten Konten wiederholt, die ihre übrigen
   Einstellungen behalten.
 
-  <img src="../media/en/apply-to-accounts.avif" alt="Eine Änderung, mit „Auf andere Konten anwenden“ auf weiteren Konten wiederholt">
+  <img src="../media/de/apply-to-accounts.avif" alt="Eine Änderung, mit „Auf andere Konten anwenden“ auf weiteren Konten wiederholt">
 
 - **Einen Streamer hinzufügen.** Er startet sofort mit den Standardoptionen: denen der App
   oder denen, die Sie für dieses Konto gewählt haben. Passen Sie sie bei Bedarf gleich an:
   Bonus-Truhen, Raids, Momente, Zuschauerserie, Chat, Vorhersagen.
 
-  <img src="../media/en/streamer-add.avif" alt="Ein Streamer wird über die Twitch-Suche hinzugefügt, dann seine Optionen">
+  <img src="../media/de/streamer-add.avif" alt="Ein Streamer wird über die Twitch-Suche hinzugefügt, dann seine Optionen">
 
 - **Einen Streamer bearbeiten.** „Bearbeiten“ öffnet seine Optionen: Bonus-Truhen, Raids,
   Momente, Zuschauerserie, Chat, Vorhersagen … Ein Schalter aktiviert oder deaktiviert ihn,
   ohne ihn aus der Liste zu entfernen.
 
-  <img src="../media/en/streamer-edit.avif" alt="Die Optionen eines Streamers, geöffnet über seine Zeile">
+  <img src="../media/de/streamer-edit.avif" alt="Die Optionen eines Streamers, geöffnet über seine Zeile">
 
 - **Mehrere Streamer auf einmal bearbeiten.** Haken Sie sie an, dann „N ausgewählte
   Streamer bearbeiten“. Übernommen werden nur die Optionen, die Sie ändern. Eine Option, die
@@ -107,7 +107,7 @@
   Schaltflächen, „Ja“ und „Nein“. Danach bietet die App an, daraus die Standardoptionen für
   neue Streamer zu machen.
 
-  <img src="../media/en/streamers-group-edit.avif" alt="Mehrere Streamer werden bearbeitet, mit Optionen auf „Gemischt“">
+  <img src="../media/de/streamers-group-edit.avif" alt="Mehrere Streamer werden bearbeitet, mit Optionen auf „Gemischt“">
 
 - **Streamer importieren.** Fügen Sie eine Liste ein (bis zu 500 Namen) oder übernehmen Sie
   die Liste eines anderen Kontos oder die Kanäle, denen das Konto folgt. Die Liste wird
@@ -115,7 +115,7 @@
   Live-Updates gibt es für 46 Streamer pro Konto: Die weiteren der Liste bekommen keine
   Raids, Momente oder Vorhersagen.
 
-  <img src="../media/en/streamers-import.avif" alt="Streamer importieren: eingefügte Liste, anderes Konto, gefolgte Kanäle">
+  <img src="../media/de/streamers-import.avif" alt="Streamer importieren: eingefügte Liste, anderes Konto, gefolgte Kanäle">
 
 - **Spam Points.** Lösen Sie eine benutzerdefinierte Belohnung eines Kanals mehrmals
   hintereinander ein. Wählen Sie einen Kanal aus Ihrer Punkte-Liste oder einen beliebigen
@@ -124,7 +124,7 @@
   des Guthabens), dann „Einlösen“. Das Ergebnis erscheint am Ende der Serie, und jede
   Serie hat ihre eigene Zeile im Journal.
 
-  <img src="../media/en/spam-points.avif" alt="Spam Points: ein Kanal gewählt, 10 × eine Belohnung mit Nachricht eingelöst, die Einlösungen erscheinen im Twitch-Chat des Kanals, dann die Zeile im Journal">
+  <img src="../media/de/spam-points.avif" alt="Spam Points: ein Kanal gewählt, 10 × eine Belohnung mit Nachricht eingelöst, die Einlösungen erscheinen im Twitch-Chat des Kanals, dann die Zeile im Journal">
 
 ### Drops
 
@@ -132,7 +132,7 @@
   Verknüpfung des Herausgeberkontos, „Vorrangig minen“. Die Liste stammt aus dem Projekt
   [Twitch Drops API](https://drops.sunkwi.com) und wird alle 5 Minuten aktualisiert.
 
-  <img src="../media/en/drops-catalogue.avif" alt="Der Katalog als Kalender, die Suche und die Details einer Kampagne">
+  <img src="../media/de/drops-catalogue.avif" alt="Der Katalog als Kalender, die Suche und die Details einer Kampagne">
 
 - **Ihre Mining-Reihenfolge.** Ziehen Sie die Kampagnen in die gewünschte Reihenfolge. Neue
   finden ihren Platz von selbst: zuerst Ihre Prioritätskategorien, dann das nächste Ende oder
@@ -140,7 +140,7 @@
   eine einzelne Belohnung aus, und überspringen Sie Kampagnen, die nicht rechtzeitig fertig
   werden können. „Vorrangig minen“ in den Details einer Kampagne setzt sie an die Spitze.
 
-  <img src="../media/en/drops-order.avif" alt="Die Mining-Reihenfolge, die Prioritätskategorien und die Ausschlüsse">
+  <img src="../media/de/drops-order.avif" alt="Die Mining-Reihenfolge, die Prioritätskategorien und die Ausschlüsse">
 
 - **Inventar und „Alle abholen“.** Die Seite Inventar sortiert die Belohnungen in
   „Abzuholen“, „Laufend“ und „Abgeholt“. Holen Sie sie einzeln oder alle auf einmal ab,
@@ -148,13 +148,13 @@
   Nach „Herausgeberkonto verknüpfen“ wird das Konto erneut gelesen, sobald Sie zur App
   zurückkehren, sodass die Verknüpfung sofort erscheint.
 
-  <img src="../media/en/drops-inventory.avif" alt="Das Inventar und die Schaltfläche „Alle abholen“">
+  <img src="../media/de/drops-inventory.avif" alt="Das Inventar und die Schaltfläche „Alle abholen“">
 
 - **„Meine Streamer zuerst für Drops und Abzeichen“.** Für die aktuelle Kampagne hat ein Streamer aus
   Ihrer Liste, dessen Stream für diese Kampagne zählt, Vorrang vor anderen Kanälen. Derselbe
   Kanal bringt den Drop voran und bringt Ihnen seine Kanalpunkte ein. Standardmäßig aktiv.
 
-  <img src="../media/en/drops-streamers-first.avif" alt="Ein Streamer aus der Liste, geschaut für die Drops und für seine Punkte">
+  <img src="../media/de/drops-streamers-first.avif" alt="Ein Streamer aus der Liste, geschaut für die Drops und für seine Punkte">
 
 - **Belohnungspriorität.** Stehen zwei Kampagnen gleichauf, wählt der Miner zuerst die,
   deren Belohnungen zu Ihrer bevorzugten Art passen (Abzeichen, Emote, Spielgegenstand).
@@ -181,7 +181,7 @@
   Voraussetzung, alle Kategorien und Kanäle, die Sammlung, die Entwicklung und den
   Fortschritt jedes Kontos. Diese Funktion ist in der Beta.
 
-  <img src="../media/en/badges.avif" alt="Die Seite Abzeichen, die Abzeichen eines Kontos, dann „Was gemint wird, der Reihe nach“ mit Abzeichen an die Spitze gezogen">
+  <img src="../media/de/badges.avif" alt="Die Seite Abzeichen, die Abzeichen eines Kontos, dann „Was gemint wird, der Reihe nach“ mit Abzeichen an die Spitze gezogen">
 
 ### Nachverfolgung
 
@@ -195,7 +195,7 @@
   [GitHub](https://github.com/SunkwiBOT/twitch-miner/issues) oder
   [Discord](https://discord.gg/support-bots-891685895781113886).
 
-  <img src="../media/en/journal-requests.avif" alt="Das gefilterte Journal, dann Technische Protokolle › Anfragen">
+  <img src="../media/de/journal-requests.avif" alt="Das gefilterte Journal, dann Technische Protokolle › Anfragen">
 
 - **Eine Statistik-Seite.** Verdiente Punkte, abgeholte Drops, angesehene Zeit und
   gewonnene Vorhersagen über 7, 30 oder 90 Tage, mit dem führenden Streamer oder der
@@ -203,7 +203,7 @@
   Punktestand im Zeitverlauf, mit Markierungen für Zuschauerserien, Raids, Momente und
   Vorhersagen sowie einem Tooltip zu jeder davon.
 
-  <img src="../media/en/stats.avif" alt="Die Statistik-Kacheln über 30 Tage, dann die Punktekurve eines Streamers mit einer Markierung">
+  <img src="../media/de/stats.avif" alt="Die Statistik-Kacheln über 30 Tage, dann die Punktekurve eines Streamers mit einer Markierung">
 
 - **Pause und eine tägliche Pause.** Eine Pause-Schaltfläche, für ein Konto oder für alle:
   pausieren, bis Sie fortsetzen, oder für 30 Minuten, 1 Stunde, 4 Stunden, bis morgen
@@ -241,7 +241,7 @@
   ohne Aktivität und läuft hinter einem Proxy über HTTPS. Fünf falsche Passwörter in Folge
   sperren die IP-Adresse für 30 Sekunden.
 
-  <img src="../media/en/security-lock.avif" alt="Das Schloss: die App gesperrt, dann mit ihrem Passwort entsperrt">
+  <img src="../media/de/security-lock.avif" alt="Das Schloss: die App gesperrt, dann mit ihrem Passwort entsperrt">
 
 - **Signierte Updates, nie automatisch.** In der oberen Leiste erscheint ein Badge
   „Update“ mit der Versionsnummer, und eine Desktop-Benachrichtigung meldet es ebenfalls,
@@ -253,7 +253,7 @@
   Version. Das Docker-Dashboard und die systemd-Binärdatei melden sich ebenfalls, mit den
   passenden Befehlen.
 
-  <img src="../media/en/updates.avif" alt="Das Badge „Update“, die Bestätigung, dann die Installation">
+  <img src="../media/de/updates.avif" alt="Das Badge „Update“, die Bestätigung, dann die Installation">
 
 ### Außerdem
 
@@ -266,7 +266,7 @@
 - 29 Sprachen, dunkles und helles Design, Desktop-Benachrichtigungen, Symbol im
   Infobereich, Start mit dem System.
 
-  <img src="../media/en/basics.avif" alt="Sprachen, helles und dunkles Design, eine Desktop-Benachrichtigung und das Symbol im Infobereich">
+  <img src="../media/de/basics.avif" alt="Sprachen, helles und dunkles Design, eine Desktop-Benachrichtigung und das Symbol im Infobereich">
 
 - **Konten durch Einfügen von Token hinzufügen.** Bereits anderswo angemeldet? Fügen Sie eine Liste von Zugriffstoken ein, einen pro Zeile (bis zu 50); jeder wird live geprüft, mit einem Zähler „Geprüft: n/N“ und einer erneuten Prüfung für jede fehlgeschlagene Zeile, danach gilt ein einziger Einstellungsschritt für den gesamten Stapel. Der Import selbst läuft im Hintergrund mit Live-Fortschritt pro Konto, kann mitten drin abgebrochen werden, und ein späterer Versuch sendet nur die fehlgeschlagenen Konten erneut. Beim Entfernen eines so importierten Kontos wird angeboten, auch dessen Token bei Twitch zu widerrufen.
 

@@ -63,7 +63,7 @@
 </p>
 
 <p align="center">
-  <img src="../media/en/presentation.avif" alt="Présentation en vidéo de Twitch Miner">
+  <img src="../media/fr/presentation.avif" alt="Présentation en vidéo de Twitch Miner">
 </p>
 
 ## <a name="features"></a>Fonctionnalités
@@ -74,31 +74,31 @@
   son mode : **Drops et points** (une chaîne pour la meilleure campagne, l'autre pour vos
   streamers), **Drops uniquement** ou **Points uniquement**.
 
-  <img src="../media/en/accounts-mining.avif" alt="Plusieurs comptes qui minent en même temps, sur l'accueil">
+  <img src="../media/fr/accounts-mining.avif" alt="Plusieurs comptes qui minent en même temps, sur l'accueil">
 
 - **Un assistant pour chaque nouveau compte.** Après la connexion, partez des réglages par
   défaut ou de ceux d'un autre compte. Choisissez le mode, les campagnes et les streamers,
   puis « Commencer le minage » ou « Enregistrer et démarrer plus tard ».
 
-  <img src="../media/en/account-setup.avif" alt="L'assistant de configuration d'un nouveau compte, étape par étape">
+  <img src="../media/fr/account-setup.avif" alt="L'assistant de configuration d'un nouveau compte, étape par étape">
 
 - **Une modification appliquée à d'autres comptes en un clic.** Après un changement sur un
   compte, le message de confirmation propose « Appliquer à d'autres comptes ». Le
   changement est refait sur les comptes cochés, qui gardent le reste de leurs réglages.
 
-  <img src="../media/en/apply-to-accounts.avif" alt="Un changement refait sur d'autres comptes avec « Appliquer à d'autres comptes »">
+  <img src="../media/fr/apply-to-accounts.avif" alt="Un changement refait sur d'autres comptes avec « Appliquer à d'autres comptes »">
 
 - **Ajouter un streamer.** Il démarre automatiquement avec les options par défaut : celles
   de l'application, ou celles que vous avez choisies pour ce compte. Ajustez-les tout de
   suite si besoin : coffres bonus, raids, moments, série de visionnage, chat, prédictions.
 
-  <img src="../media/en/streamer-add.avif" alt="Ajout d'un streamer par la recherche Twitch, puis ses options">
+  <img src="../media/fr/streamer-add.avif" alt="Ajout d'un streamer par la recherche Twitch, puis ses options">
 
 - **Modifier un streamer.** « Modifier » ouvre ses options : coffres bonus, raids, moments,
   série de visionnage, chat, prédictions… Un interrupteur l'active ou le désactive sans le
   retirer de la liste.
 
-  <img src="../media/en/streamer-edit.avif" alt="Les options d'un streamer, ouvertes depuis sa ligne">
+  <img src="../media/fr/streamer-edit.avif" alt="Les options d'un streamer, ouvertes depuis sa ligne">
 
 - **Modifier plusieurs streamers d'un coup.** Cochez-les, puis « Modifier les N streamers
   sélectionnés ». Seules les options que vous changez s'appliquent. Une option qui diffère
@@ -106,7 +106,7 @@
   « Non ». L'application propose ensuite d'en faire les options par défaut des nouveaux
   streamers.
 
-  <img src="../media/en/streamers-group-edit.avif" alt="Modification de plusieurs streamers, avec des options « Mixte »">
+  <img src="../media/fr/streamers-group-edit.avif" alt="Modification de plusieurs streamers, avec des options « Mixte »">
 
 - **Importer des streamers.** Collez une liste (jusqu'à 500 noms), reprenez celle d'un autre
   compte ou les chaînes suivies par le compte. La liste est vérifiée pour n'ajouter que des
@@ -114,7 +114,7 @@
   Les mises à jour en direct couvrent 46 streamers par compte : les suivants de la liste
   n'ont ni raids, ni moments, ni prédictions.
 
-  <img src="../media/en/streamers-import.avif" alt="Import de streamers : liste collée, autre compte, chaînes suivies">
+  <img src="../media/fr/streamers-import.avif" alt="Import de streamers : liste collée, autre compte, chaînes suivies">
 
 - **Spam Points.** Échangez une récompense personnalisée d'une chaîne plusieurs fois
   d'affilée. Choisissez une chaîne de votre liste Points, ou n'importe quelle chaîne
@@ -123,7 +123,7 @@
   « Échanger ». Le résultat s'affiche à la fin de la rafale, et chaque rafale a sa
   ligne dans le Journal.
 
-  <img src="../media/en/spam-points.avif" alt="Spam Points : une chaîne choisie, 10 × une récompense avec message échangée, les échanges arrivent dans le chat Twitch de la chaîne, puis la ligne du Journal">
+  <img src="../media/fr/spam-points.avif" alt="Spam Points : une chaîne choisie, 10 × une récompense avec message échangée, les échanges arrivent dans le chat Twitch de la chaîne, puis la ligne du Journal">
 
 ### Drops
 
@@ -131,7 +131,7 @@
   liaison du compte de l'éditeur, « Miner en priorité ». La liste vient du projet
   [Twitch Drops API](https://drops.sunkwi.com) et se rafraîchit toutes les 5 minutes.
 
-  <img src="../media/en/drops-catalogue.avif" alt="Le Catalogue en calendrier, la recherche et la fiche d'une campagne">
+  <img src="../media/fr/drops-catalogue.avif" alt="Le Catalogue en calendrier, la recherche et la fiche d'une campagne">
 
 - **Votre ordre de minage.** Glissez les campagnes dans l'ordre voulu. Les nouvelles se
   placent seules : vos catégories prioritaires d'abord, puis la fin la plus proche ou le moins de
@@ -139,7 +139,7 @@
   passez les campagnes qui ne peuvent pas finir à temps. « Miner en priorité », dans la
   fiche d'une campagne, la met en tête.
 
-  <img src="../media/en/drops-order.avif" alt="L'ordre de minage, les catégories prioritaires et les exclusions">
+  <img src="../media/fr/drops-order.avif" alt="L'ordre de minage, les catégories prioritaires et les exclusions">
 
 - **Inventaire et « Tout réclamer ».** La page Inventaire range les récompenses en
   « À réclamer », « En cours » et « Réclamés ». Réclamez-les une par une, toutes d'un coup,
@@ -147,14 +147,14 @@
   Après « Lier le compte de l'éditeur », le compte est relu dès votre retour dans l'application :
   la liaison apparaît tout de suite.
 
-  <img src="../media/en/drops-inventory.avif" alt="L'inventaire et le bouton « Tout réclamer »">
+  <img src="../media/fr/drops-inventory.avif" alt="L'inventaire et le bouton « Tout réclamer »">
 
 - **« Mes streamers d'abord pour les Drops et les badges ».** Pour la campagne en cours, un streamer de
   votre liste dont le live compte pour cette campagne passe avant les autres chaînes. La
   même chaîne fait progresser le drop et vous rapporte ses points de chaîne. Activé par
   défaut.
 
-  <img src="../media/en/drops-streamers-first.avif" alt="Un streamer de la liste regardé pour les Drops et pour ses points">
+  <img src="../media/fr/drops-streamers-first.avif" alt="Un streamer de la liste regardé pour les Drops et pour ses points">
 
 - **Priorité des récompenses.** Quand deux campagnes sont classées à égalité, le mineur
   choisit d'abord celle dont les récompenses correspondent au type que vous préférez
@@ -179,7 +179,7 @@
   toutes les catégories et les chaînes, la collection, l'évolution et la progression de
   chaque compte. Cette fonction est en bêta.
 
-  <img src="../media/en/badges.avif" alt="La page Badges, les badges d'un compte, puis « Quoi miner, dans l'ordre » avec les badges glissés en tête">
+  <img src="../media/fr/badges.avif" alt="La page Badges, les badges d'un compte, puis « Quoi miner, dans l'ordre » avec les badges glissés en tête">
 
 ### Suivi
 
@@ -192,14 +192,14 @@
   [GitHub](https://github.com/SunkwiBOT/twitch-miner/issues) ou
   [Discord](https://discord.gg/support-bots-891685895781113886).
 
-  <img src="../media/en/journal-requests.avif" alt="Le Journal filtré, puis Logs techniques › Requêtes">
+  <img src="../media/fr/journal-requests.avif" alt="Le Journal filtré, puis Logs techniques › Requêtes">
 
 - **Une page Statistiques.** Points gagnés, drops réclamés, temps regardé et paris gagnés
   sur 7, 30 ou 90 jours, avec le streamer ou la catégorie en tête derrière chaque chiffre.
   Une courbe de points par streamer montre le solde dans le temps, avec des repères pour les
   streaks, raids, moments et paris, et une infobulle sur chacun.
 
-  <img src="../media/en/stats.avif" alt="Les tuiles de la page Statistiques sur 30 jours, puis la courbe de points d'un streamer avec un repère">
+  <img src="../media/fr/stats.avif" alt="Les tuiles de la page Statistiques sur 30 jours, puis la courbe de points d'un streamer avec un repère">
 
 - **Pause et pause quotidienne.** Un seul bouton de pause, pour un compte ou pour tous :
   pause jusqu'à ce que vous repreniez, ou pour 30 minutes, 1 heure, 4 heures, jusqu'à
@@ -235,7 +235,7 @@
   après quelques minutes sans activité et passe en HTTPS derrière un proxy. Cinq mauvais
   mots de passe de suite bloquent l'adresse IP pendant 30 secondes.
 
-  <img src="../media/en/security-lock.avif" alt="Le cadenas : l'application verrouillée, puis déverrouillée avec son mot de passe">
+  <img src="../media/fr/security-lock.avif" alt="Le cadenas : l'application verrouillée, puis déverrouillée avec son mot de passe">
 
 - **Des mises à jour signées, jamais automatiques.** Un badge « Mise à jour » et son numéro
   de version apparaissent dans la barre du haut, et une notification de bureau prévient
@@ -247,7 +247,7 @@
   est installée. Le tableau de bord Docker et le binaire systemd préviennent aussi, avec
   les commandes à lancer.
 
-  <img src="../media/en/updates.avif" alt="Le badge « Mise à jour », la confirmation, puis l'installation">
+  <img src="../media/fr/updates.avif" alt="Le badge « Mise à jour », la confirmation, puis l'installation">
 
 ### Et aussi
 
@@ -260,7 +260,7 @@
 - 29 langues, thèmes sombre et clair, notifications de bureau, icône dans la zone de
   notification, lancement au démarrage du système.
 
-  <img src="../media/en/basics.avif" alt="Langues, thème clair et sombre, notification de bureau et icône de la zone de notification">
+  <img src="../media/fr/basics.avif" alt="Langues, thème clair et sombre, notification de bureau et icône de la zone de notification">
 
 - **Importer une liste de tokens.** Déjà connecté ailleurs ? Collez une liste de tokens d'accès, un par ligne (jusqu'à 50) ; chacun est vérifié en direct, avec un compteur « Vérifiés : n/N » et une relance pour toute ligne en échec, puis une seule étape de paramètres s'applique à tout le lot. L'import lui-même tourne en arrière-plan avec une progression en direct par compte, peut être annulé en cours de route, et une relance ultérieure ne renvoie que les comptes en échec. Supprimer un compte importé ainsi propose de révoquer aussi son token sur Twitch.
 

@@ -63,7 +63,7 @@
 </p>
 
 <p align="center">
-  <img src="../media/en/presentation.avif" alt="Videoukázka aplikace Twitch Miner">
+  <img src="../media/cs/presentation.avif" alt="Videoukázka aplikace Twitch Miner">
 </p>
 
 ## <a name="features"></a>Funkce
@@ -74,45 +74,45 @@
   **Drops a body** (jeden kanál pro nejlepší kampaň, druhý pro vaše streamery),
   **Jen Drops** nebo **Jen body**.
 
-  <img src="../media/en/accounts-mining.avif" alt="Několik účtů těží současně, na stránce Domů">
+  <img src="../media/cs/accounts-mining.avif" alt="Několik účtů těží současně, na stránce Domů">
 
 - **Průvodce pro každý nový účet.** Po přihlášení začněte z výchozího nastavení, nebo
   z nastavení jiného účtu. Zvolte režim, kampaně a streamery a pak „Začít těžit“ nebo
   „Uložit a spustit později“.
 
-  <img src="../media/en/account-setup.avif" alt="Průvodce nastavením nového účtu, krok za krokem">
+  <img src="../media/cs/account-setup.avif" alt="Průvodce nastavením nového účtu, krok za krokem">
 
 - **Jedna změna přenesená na další účty jedním kliknutím.** Když na účtu něco změníte,
   potvrzovací zpráva nabídne „Použít na další účty“. Stejná změna se provede na zaškrtnutých
   účtech a zbytek jejich nastavení zůstane beze změny.
 
-  <img src="../media/en/apply-to-accounts.avif" alt="Změna zopakovaná na dalších účtech přes „Použít na další účty“">
+  <img src="../media/cs/apply-to-accounts.avif" alt="Změna zopakovaná na dalších účtech přes „Použít na další účty“">
 
 - **Přidání streamera.** Hned se rozběhne s výchozími možnostmi: s těmi z aplikace, nebo
   s těmi, které jste zvolili pro tento účet. V případě potřeby je rovnou upravte: bonusové
   truhly, raidy, momenty, série sledování, chat, předpovědi.
 
-  <img src="../media/en/streamer-add.avif" alt="Přidání streamera přes vyhledávání na Twitchi a pak jeho možnosti">
+  <img src="../media/cs/streamer-add.avif" alt="Přidání streamera přes vyhledávání na Twitchi a pak jeho možnosti">
 
 - **Úprava streamera.** „Upravit“ otevře jeho možnosti: bonusové truhly, raidy, momenty,
   série sledování, chat, předpovědi… Přepínač ho zapne nebo vypne, aniž by ho odebral ze
   seznamu.
 
-  <img src="../media/en/streamer-edit.avif" alt="Možnosti streamera otevřené z jeho řádku">
+  <img src="../media/cs/streamer-edit.avif" alt="Možnosti streamera otevřené z jeho řádku">
 
 - **Úprava více streamerů najednou.** Zaškrtněte je a pak „Upravit N vybraných streamerů“.
   Použijí se jen možnosti, které změníte. Možnost, která se mezi nimi liší, ukazuje
   „Smíšené“ a její přepínač se změní na dvě tlačítka, „Ano“ a „Ne“. Aplikace pak nabídne,
   že z nich udělá výchozí možnosti pro nové streamery.
 
-  <img src="../media/en/streamers-group-edit.avif" alt="Úprava několika streamerů s možnostmi „Smíšené“">
+  <img src="../media/cs/streamers-group-edit.avif" alt="Úprava několika streamerů s možnostmi „Smíšené“">
 
 - **Import streamerů.** Vložte seznam (až 500 jmen), nebo převezměte seznam jiného účtu či
   kanály, které účet sleduje. Seznam se zkontroluje, takže se přidají jen existující kanály.
   Živé aktualizace pokrývají 46 streamerů na účet: další v seznamu nedostávají raidy,
   momenty ani předpovědi.
 
-  <img src="../media/en/streamers-import.avif" alt="Import streamerů: vložený seznam, jiný účet, sledované kanály">
+  <img src="../media/cs/streamers-import.avif" alt="Import streamerů: vložený seznam, jiný účet, sledované kanály">
 
 - **Spam Points.** Uplatněte vlastní odměnu kanálu několikrát za sebou. Vyberte kanál ze
   svého seznamu Bodů, nebo jakýkoli kanál nalezený vyhledáváním na Twitchi: jeho odměny se
@@ -120,7 +120,7 @@
   zůstatku) a pak „Uplatnit“. Výsledek se zobrazí na konci série a každá série má v Deníku
   svůj řádek.
 
-  <img src="../media/en/spam-points.avif" alt="Spam Points: vybraný kanál, 10 × uplatněná odměna se zprávou, uplatnění se objevují v chatu kanálu na Twitchi, pak řádek v Deníku">
+  <img src="../media/cs/spam-points.avif" alt="Spam Points: vybraný kanál, 10 × uplatněná odměna se zprávou, uplatnění se objevují v chatu kanálu na Twitchi, pak řádek v Deníku">
 
 ### Drops
 
@@ -128,14 +128,14 @@
   odměny, propojení účtu vydavatele, „Těžit přednostně“. Seznam pochází z projektu
   [Twitch Drops API](https://drops.sunkwi.com) a obnovuje se každých 5 minut.
 
-  <img src="../media/en/drops-catalogue.avif" alt="Katalog jako kalendář, vyhledávání a podrobnosti kampaně">
+  <img src="../media/cs/drops-catalogue.avif" alt="Katalog jako kalendář, vyhledávání a podrobnosti kampaně">
 
 - **Vaše pořadí těžby.** Přetáhněte kampaně v požadovaném pořadí. Nové si své místo najdou
   samy: nejdřív vaše prioritní kategorie, pak nejbližší konec nebo nejméně zbývajících minut.
   Vylučte kategorie, slova, kampaň nebo jedinou odměnu a přeskakujte kampaně, které nejde
   dokončit včas. „Těžit přednostně“ v podrobnostech kampaně ji přesune na začátek.
 
-  <img src="../media/en/drops-order.avif" alt="Pořadí těžby, prioritní kategorie a vyloučení">
+  <img src="../media/cs/drops-order.avif" alt="Pořadí těžby, prioritní kategorie a vyloučení">
 
 - **Inventář a „Vyzvednout vše“.** Stránka Inventář řadí odměny do skupin „K vyzvednutí“,
   „Probíhá“ a „Vyzvednuto“. Vyzvedávejte je jednu po druhé, všechny najednou, nebo zapněte
@@ -143,13 +143,13 @@
   Po „Propojit účet vydavatele“ se účet znovu načte, jakmile se vrátíte do aplikace, takže se
   propojení ukáže hned.
 
-  <img src="../media/en/drops-inventory.avif" alt="Inventář a tlačítko „Vyzvednout vše“">
+  <img src="../media/cs/drops-inventory.avif" alt="Inventář a tlačítko „Vyzvednout vše“">
 
 - **„Moji streameři první pro Drops a odznaky“.** Pro aktuální kampaň má streamer z vašeho seznamu,
   jehož vysílání se do této kampaně počítá, přednost před ostatními kanály. Tentýž kanál
   posouvá drop dopředu a přináší vám své body kanálu. Ve výchozím stavu zapnuto.
 
-  <img src="../media/en/drops-streamers-first.avif" alt="Streamer ze seznamu sledovaný kvůli Drops i kvůli svým bodům">
+  <img src="../media/cs/drops-streamers-first.avif" alt="Streamer ze seznamu sledovaný kvůli Drops i kvůli svým bodům">
 
 - **Priorita odměn.** Když jsou dvě kampaně na stejné pozici, miner nejprve vybere tu,
   jejíž odměny odpovídají vašemu oblíbenému typu (odznak, emote, herní předmět). Vaše
@@ -172,7 +172,7 @@
   Kliknutím na odznak se otevřou jeho podrobnosti: celý požadavek, všechny kategorie a
   kanály, sbírka, vývoj a postup každého účtu. Tato funkce je v betaverzi.
 
-  <img src="../media/en/badges.avif" alt="Stránka Odznaky, odznaky jednoho účtu a pak „Co těžit a v jakém pořadí“ s odznaky přetaženými na začátek">
+  <img src="../media/cs/badges.avif" alt="Stránka Odznaky, odznaky jednoho účtu a pak „Co těžit a v jakém pořadí“ s odznaky přetaženými na začátek">
 
 ### Záznamy
 
@@ -185,14 +185,14 @@
   [GitHubu](https://github.com/SunkwiBOT/twitch-miner/issues) nebo
   [Discordu](https://discord.gg/support-bots-891685895781113886).
 
-  <img src="../media/en/journal-requests.avif" alt="Filtrovaný Deník, pak Technické protokoly › Požadavky">
+  <img src="../media/cs/journal-requests.avif" alt="Filtrovaný Deník, pak Technické protokoly › Požadavky">
 
 - **Stránka Statistiky.** Získané body, vyzvednuté dropy, odsledovaný čas a vyhrané
   předpovědi za 7, 30 nebo 90 dní, s nejlepším streamerem nebo kategorií za každým
   číslem. Graf bodů za streamera ukazuje zůstatek v čase, se značkami pro série
   sledování, raidy, momenty a předpovědi a popiskem u každé z nich.
 
-  <img src="../media/en/stats.avif" alt="Dlaždice Statistik za 30 dní, poté křivka bodů streamera se značkou">
+  <img src="../media/cs/stats.avif" alt="Dlaždice Statistik za 30 dní, poté křivka bodů streamera se značkou">
 
 - **Pauza a denní pauza.** Jedno tlačítko pauzy, pro jeden účet nebo pro všechny: pauza,
   dokud nepokračujete, nebo na 30 minut, 1 hodinu, 4 hodiny, do zítřka do 9:00 nebo do
@@ -224,7 +224,7 @@
   vlastní heslo, po několika minutách nečinnosti se sám zamkne a za proxy běží přes HTTPS.
   Pět špatných hesel po sobě zablokuje IP adresu na 30 sekund.
 
-  <img src="../media/en/security-lock.avif" alt="Zámek: aplikace zamčená a pak odemčená heslem">
+  <img src="../media/cs/security-lock.avif" alt="Zámek: aplikace zamčená a pak odemčená heslem">
 
 - **Podepsané aktualizace, nikdy automatické.** V horní liště se objeví odznak
   „Aktualizace“ s číslem verze, a totéž vám oznámí i desktopové oznámení, ve výchozím
@@ -234,7 +234,7 @@
   zadejte ho znovu a těžba bude pokračovat. Nainstaluje se jen verze podepsaná projektem.
   Panel Dockeru i binárka pro systemd vám to také oznámí, i s příkazy, které je třeba spustit.
 
-  <img src="../media/en/updates.avif" alt="Odznak „Aktualizace“, potvrzení a pak instalace">
+  <img src="../media/cs/updates.avif" alt="Odznak „Aktualizace“, potvrzení a pak instalace">
 
 ### A také
 
@@ -245,7 +245,7 @@
   se jejich jazyk volí v **Nastavení › Oznámení**), globální proxy nebo proxy pro každý účet.
 - 29 jazyků, tmavý a světlý motiv, oznámení na ploše, ikona v liště, spouštění se systémem.
 
-  <img src="../media/en/basics.avif" alt="Jazyky, světlý a tmavý motiv, oznámení na ploše a ikona v liště">
+  <img src="../media/cs/basics.avif" alt="Jazyky, světlý a tmavý motiv, oznámení na ploše a ikona v liště">
 
 - **Přidání účtů vložením tokenů.** Už jste přihlášeni jinde? Vložte seznam přístupových tokenů, jeden na řádek (nejvýše 50); každý se ověřuje průběžně, s počítadlem „Zkontrolováno: n/N“ a možností znovu zkusit každý řádek, který selhal; poté se na celou dávku použije jeden krok nastavení. Import běží na pozadí s průběžným postupem pro každý účet, lze ho uprostřed zrušit a pozdější opakování odešle znovu jen účty, které selhaly. Při odebírání účtu importovaného tímto způsobem nabídneme také zrušení jeho tokenu na Twitchi.
 

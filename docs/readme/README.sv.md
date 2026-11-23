@@ -63,7 +63,7 @@
 </p>
 
 <p align="center">
-  <img src="../media/en/presentation.avif" alt="Videopresentation av Twitch Miner">
+  <img src="../media/sv/presentation.avif" alt="Videopresentation av Twitch Miner">
 </p>
 
 ## <a name="features"></a>Funktioner
@@ -74,38 +74,38 @@
   **Drops och poäng** (en kanal för den bästa kampanjen, den andra för dina streamers),
   **Endast Drops** eller **Endast poäng**.
 
-  <img src="../media/en/accounts-mining.avif" alt="Flera konton som minar samtidigt, på sidan Hem">
+  <img src="../media/sv/accounts-mining.avif" alt="Flera konton som minar samtidigt, på sidan Hem">
 
 - **En guide för varje nytt konto.** Efter inloggningen utgår du från
   standardinställningarna eller från ett annat kontos. Välj läge, kampanjer och streamers,
   och sedan ”Börja mina” eller ”Spara och starta senare”.
 
-  <img src="../media/en/account-setup.avif" alt="Inställningsguiden för ett nytt konto, steg för steg">
+  <img src="../media/sv/account-setup.avif" alt="Inställningsguiden för ett nytt konto, steg för steg">
 
 - **En ändring tillämpad på andra konton med ett klick.** När du har ändrat något på ett
   konto erbjuder bekräftelsemeddelandet ”Tillämpa på andra konton”. Ändringen görs om på de
   konton du kryssar i, och de behåller resten av sina inställningar.
 
-  <img src="../media/en/apply-to-accounts.avif" alt="En ändring som görs om på andra konton med ”Tillämpa på andra konton”">
+  <img src="../media/sv/apply-to-accounts.avif" alt="En ändring som görs om på andra konton med ”Tillämpa på andra konton”">
 
 - **Lägg till en streamer.** Den startar direkt med standardalternativen: appens, eller de
   som du har valt för det här kontot. Justera dem direkt vid behov: bonuskistor, raids,
   moments, tittarsvit, chatt, förutsägelser.
 
-  <img src="../media/en/streamer-add.avif" alt="En streamer läggs till via Twitch-sökningen, sedan dess alternativ">
+  <img src="../media/sv/streamer-add.avif" alt="En streamer läggs till via Twitch-sökningen, sedan dess alternativ">
 
 - **Redigera en streamer.** ”Redigera” öppnar dess alternativ: bonuskistor, raids,
   moments, tittarsvit, chatt, förutsägelser… Ett reglage slår på eller av den utan att ta
   bort den från listan.
 
-  <img src="../media/en/streamer-edit.avif" alt="En streamers alternativ, öppnade från dess rad">
+  <img src="../media/sv/streamer-edit.avif" alt="En streamers alternativ, öppnade från dess rad">
 
 - **Redigera flera streamers samtidigt.** Kryssa i dem och välj sedan ”Redigera N valda
   streamers”. Bara de alternativ du ändrar tillämpas. Ett alternativ som skiljer sig mellan
   dem visar ”Blandat”, och dess reglage blir två knappar, ”Ja” och ”Nej”. Appen erbjuder
   sedan att göra dem till standardalternativ för nya streamers.
 
-  <img src="../media/en/streamers-group-edit.avif" alt="Redigering av flera streamers, med alternativ som visar ”Blandat”">
+  <img src="../media/sv/streamers-group-edit.avif" alt="Redigering av flera streamers, med alternativ som visar ”Blandat”">
 
 - **Importera streamers.** Klistra in en lista (upp till 500 namn), eller återanvänd ett
   annat kontos lista eller kanalerna som kontot följer. Listan kontrolleras så att bara
@@ -113,7 +113,7 @@
   Liveuppdateringar täcker 46 streamers per konto: nästa i listan får inga raids, moments
   eller förutsägelser.
 
-  <img src="../media/en/streamers-import.avif" alt="Import av streamers: inklistrad lista, annat konto, följda kanaler">
+  <img src="../media/sv/streamers-import.avif" alt="Import av streamers: inklistrad lista, annat konto, följda kanaler">
 
 - **Spam Points.** Lös in en kanals anpassade belöning flera gånger i rad. Välj en kanal
   från din Poänglista, eller vilken kanal som helst som du hittar med Twitch-sökningen:
@@ -121,7 +121,7 @@
   inom saldot) och sedan ”Lös in”. Resultatet visas när serien är klar, och varje serie
   får en egen rad i Journalen.
 
-  <img src="../media/en/spam-points.avif" alt="Spam Points: en kanal vald, 10 × en belöning med meddelande inlöst, inlösningarna dyker upp i kanalens Twitch-chatt, sedan raden i Journalen">
+  <img src="../media/sv/spam-points.avif" alt="Spam Points: en kanal vald, 10 × en belöning med meddelande inlöst, inlösningarna dyker upp i kanalens Twitch-chatt, sedan raden i Journalen">
 
 ### Drops
 
@@ -129,7 +129,7 @@
   länkning av utgivarkontot, ”Mina först”. Listan kommer från projektet
   [Twitch Drops API](https://drops.sunkwi.com) och uppdateras var 5:e minut.
 
-  <img src="../media/en/drops-catalogue.avif" alt="Katalogen som kalender, sökningen och en kampanjs detaljer">
+  <img src="../media/sv/drops-catalogue.avif" alt="Katalogen som kalender, sökningen och en kampanjs detaljer">
 
 - **Din miningordning.** Dra kampanjerna i den ordning du vill. Nya hittar sin plats
   själva: dina prioriterade kategorier först, sedan det närmaste slutet eller minst återstående
@@ -137,7 +137,7 @@
   kampanjer som inte hinner bli klara i tid. ”Mina först”, i en kampanjs detaljer, sätter
   den överst.
 
-  <img src="../media/en/drops-order.avif" alt="Miningordningen, de prioriterade kategorierna och undantagen">
+  <img src="../media/sv/drops-order.avif" alt="Miningordningen, de prioriterade kategorierna och undantagen">
 
 - **Inventarie och ”Hämta alla”.** Sidan Inventarie sorterar belöningarna i ”Att hämta”,
   ”Pågår” och ”Hämtade”. Hämta dem en i taget eller alla på en gång, eller slå på
@@ -145,13 +145,13 @@
   Efter ”Länka utgivarkontot” läses kontot in igen så snart du kommer tillbaka till appen, så
   länken syns direkt.
 
-  <img src="../media/en/drops-inventory.avif" alt="Inventariet och knappen ”Hämta alla”">
+  <img src="../media/sv/drops-inventory.avif" alt="Inventariet och knappen ”Hämta alla”">
 
 - **”Mina streamers först för Drops och märken”.** För den aktuella kampanjen går en streamer från
   din lista, vars sändning räknas för kampanjen, före andra kanaler. Samma kanal ger
   framsteg på din drop och ger dig sina kanalpoäng. På som standard.
 
-  <img src="../media/en/drops-streamers-first.avif" alt="En streamer från listan som tittas på för Drops och för sina poäng">
+  <img src="../media/sv/drops-streamers-first.avif" alt="En streamer från listan som tittas på för Drops och för sina poäng">
 
 - **Belöningsprioritet.** När två kampanjer rankas lika väljer minern först den vars
   belöningar matchar din föredragna typ (märke, emote, föremål i spelet). Den åsidosätter
@@ -176,7 +176,7 @@
   kategorier och kanaler, samlingen, utvecklingen och varje kontos framsteg. Funktionen är
   i beta.
 
-  <img src="../media/en/badges.avif" alt="Sidan Märken, ett kontos märken och sedan ”Vad som ska minas, i ordning” med Märken dragna överst">
+  <img src="../media/sv/badges.avif" alt="Sidan Märken, ett kontos märken och sedan ”Vad som ska minas, i ordning” med Märken dragna överst">
 
 ### Uppföljning
 
@@ -190,14 +190,14 @@
   [GitHub](https://github.com/SunkwiBOT/twitch-miner/issues) eller
   [Discord](https://discord.gg/support-bots-891685895781113886).
 
-  <img src="../media/en/journal-requests.avif" alt="Den filtrerade journalen, sedan Tekniska loggar › Förfrågningar">
+  <img src="../media/sv/journal-requests.avif" alt="Den filtrerade journalen, sedan Tekniska loggar › Förfrågningar">
 
 - **En statistiksida.** Intjänade poäng, inlösta drops, tittartid och vunna vadslagningar
   över 7, 30 eller 90 dagar, med den bästa streamern eller kategorin bakom varje siffra.
   En poängkurva per streamer visar saldot över tid, med markörer för streaks, raids,
   moment och vadslagningar samt ett verktygstips på varje.
 
-  <img src="../media/en/stats.avif" alt="Statistiksidans rutor över 30 dagar, sedan en streamers poängkurva med en markering">
+  <img src="../media/sv/stats.avif" alt="Statistiksidans rutor över 30 dagar, sedan en streamers poängkurva med en markering">
 
 - **Paus och en daglig paus.** En pausknapp, för ett konto eller alla: pausa tills du
   återupptar, eller i 30 minuter, 1 timme, 4 timmar, till imorgon 09:00 eller ett anpassat
@@ -230,7 +230,7 @@
   minuter utan aktivitet och körs över HTTPS bakom en proxy. Fem felaktiga lösenord i rad
   spärrar IP-adressen i 30 sekunder.
 
-  <img src="../media/en/security-lock.avif" alt="Hänglåset: appen låst och sedan upplåst med sitt lösenord">
+  <img src="../media/sv/security-lock.avif" alt="Hänglåset: appen låst och sedan upplåst med sitt lösenord">
 
 - **Signerade uppdateringar, aldrig automatiska.** Märket ”Uppdatering” visas med
   versionsnumret i det övre fältet, och en skrivbordsavisering säger också till, påslagen
@@ -241,7 +241,7 @@
   projektet installeras. Docker-översikten och systemd-binären säger också till, med
   kommandona som ska köras.
 
-  <img src="../media/en/updates.avif" alt="Märket ”Uppdatering”, bekräftelsen och sedan installationen">
+  <img src="../media/sv/updates.avif" alt="Märket ”Uppdatering”, bekräftelsen och sedan installationen">
 
 ### Och dessutom
 
@@ -254,7 +254,7 @@
 - 29 språk, mörkt och ljust tema, skrivbordsaviseringar, en ikon i systemfältet, start med
   systemet.
 
-  <img src="../media/en/basics.avif" alt="Språk, ljust och mörkt tema, en skrivbordsavisering och ikonen i systemfältet">
+  <img src="../media/sv/basics.avif" alt="Språk, ljust och mörkt tema, en skrivbordsavisering och ikonen i systemfältet">
 
 - **Lägga till konton genom att klistra in tokens.** Redan inloggad någon annanstans? Klistra in en lista med åtkomsttokens, en per rad (högst 50); varje token kontrolleras direkt, med en räknare “Kontrollerade: n/N” och ett nytt försök för varje rad som misslyckades, och därefter gäller ett enda inställningssteg för hela batchen. Själva importen körs i bakgrunden med löpande förlopp per konto, kan avbrytas mitt i och ett senare nytt försök skickar bara om de konton som misslyckades. Vid borttagning av ett konto som importerats på detta sätt erbjuds även att återkalla dess token på Twitch.
 

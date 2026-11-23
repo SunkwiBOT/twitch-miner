@@ -63,7 +63,7 @@
 </p>
 
 <p align="center">
-  <img src="../media/en/presentation.avif" alt="Twitch Miner'ın video tanıtımı">
+  <img src="../media/tr/presentation.avif" alt="Twitch Miner'ın video tanıtımı">
 </p>
 
 ## <a name="features"></a>Özellikler
@@ -72,69 +72,69 @@
 
 - **Tek uygulamada istediğiniz kadar hesap.** Her hesap kendi başına, kendi modunda kazar: **Drops ve puan** (bir kanal en iyi kampanya için, diğeri yayıncılarınız için), **Yalnızca Drops** veya **Yalnızca puan**.
 
-  <img src="../media/en/accounts-mining.avif" alt="Ana sayfada aynı anda madencilik yapan birkaç hesap">
+  <img src="../media/tr/accounts-mining.avif" alt="Ana sayfada aynı anda madencilik yapan birkaç hesap">
 
 - **Her yeni hesap için bir sihirbaz.** Giriş yaptıktan sonra varsayılan ayarlardan ya da başka bir hesabın ayarlarından başlayın. Modu, kampanyaları ve yayıncıları seçin, ardından “Kazmaya başla” veya “Kaydet ve sonra başlat” düğmesine basın.
 
-  <img src="../media/en/account-setup.avif" alt="Yeni bir hesabın kurulum sihirbazı, adım adım">
+  <img src="../media/tr/account-setup.avif" alt="Yeni bir hesabın kurulum sihirbazı, adım adım">
 
 - **Tek tıkla başka hesaplara da uygulanan bir değişiklik.** Bir hesapta bir şeyi değiştirdiğinizde onay mesajı “Diğer hesaplara uygula” seçeneğini sunar. Değişiklik, işaretlediğiniz hesaplarda da yapılır; bu hesapların diğer ayarları olduğu gibi kalır.
 
-  <img src="../media/en/apply-to-accounts.avif" alt="“Diğer hesaplara uygula” ile başka hesaplarda da yapılan bir değişiklik">
+  <img src="../media/tr/apply-to-accounts.avif" alt="“Diğer hesaplara uygula” ile başka hesaplarda da yapılan bir değişiklik">
 
 - **Yayıncı ekleme.** Yayıncı varsayılan seçeneklerle hemen başlar: uygulamanın seçenekleriyle ya da bu hesap için seçtiklerinizle. Gerekirse onları hemen orada ayarlayın: bonus sandıkları, baskınlar, anlar, izleme serisi, sohbet, tahminler.
 
-  <img src="../media/en/streamer-add.avif" alt="Twitch aramasıyla bir yayıncı ekleme, ardından seçenekleri">
+  <img src="../media/tr/streamer-add.avif" alt="Twitch aramasıyla bir yayıncı ekleme, ardından seçenekleri">
 
 - **Yayıncı düzenleme.** “Düzenle” yayıncının seçeneklerini açar: bonus sandıkları, baskınlar, anlar, izleme serisi, sohbet, tahminler… Bir anahtar, yayıncıyı listeden çıkarmadan açar veya kapatır.
 
-  <img src="../media/en/streamer-edit.avif" alt="Bir yayıncının kendi satırından açılan seçenekleri">
+  <img src="../media/tr/streamer-edit.avif" alt="Bir yayıncının kendi satırından açılan seçenekleri">
 
 - **Birkaç yayıncıyı aynı anda düzenleme.** Yayıncıları işaretleyin, ardından “Seçili N yayıncıyı düzenle” düğmesine basın. Yalnızca değiştirdiğiniz seçenekler uygulanır. Aralarında farklı olan bir seçenek “Karışık” olarak görünür ve anahtarı “Evet” ve “Hayır” adlı iki düğmeye dönüşür. Uygulama ardından bunları yeni yayıncılar için varsayılan seçenekler yapmayı önerir.
 
-  <img src="../media/en/streamers-group-edit.avif" alt="“Karışık” seçeneklerle birkaç yayıncıyı düzenleme">
+  <img src="../media/tr/streamers-group-edit.avif" alt="“Karışık” seçeneklerle birkaç yayıncıyı düzenleme">
 
 - **Yayıncıları içe aktarma.** Bir liste yapıştırın (en fazla 500 ad) ya da başka bir hesabın listesini veya hesabın takip ettiği kanalları kullanın. Liste denetlenir, böylece yalnızca gerçekten var olan kanallar eklenir. Canlı güncellemeler hesap başına 46 yayıncıyı kapsar: listedeki sonraki yayıncılar baskın, an ve tahmin almaz.
 
-  <img src="../media/en/streamers-import.avif" alt="Yayıncıları içe aktarma: yapıştırılan liste, başka bir hesap, takip edilen kanallar">
+  <img src="../media/tr/streamers-import.avif" alt="Yayıncıları içe aktarma: yapıştırılan liste, başka bir hesap, takip edilen kanallar">
 
 - **Spam Points.** Bir kanalın özel ödülünü art arda birkaç kez kullanın. Puan listenizden bir kanal ya da Twitch aramasıyla bulunan herhangi bir kanal seçin: ödülleri, canlı olarak yeniden okunan hesap bakiyesiyle birlikte görünür. Adedi ayarlayın (bakiyenin yettiği kadar, en fazla 25), ardından “Kullan”. Sonuç seri bittiğinde görünür ve her serinin Günlük'te kendi satırı olur.
 
-  <img src="../media/en/spam-points.avif" alt="Spam Points: seçilen bir kanal, 10 × kullanılan mesajlı bir ödül, kullanımlar kanalın Twitch sohbetine düşüyor, ardından Günlük satırı">
+  <img src="../media/tr/spam-points.avif" alt="Spam Points: seçilen bir kanal, 10 × kullanılan mesajlı bir ödül, kullanımlar kanalın Twitch sohbetine düşüyor, ardından Günlük satırı">
 
 ### Drops
 
 - **Süren tüm Drops kampanyaları.** Her kampanyanın kendi ayrıntıları vardır: ödüller, yayıncı hesabı bağlama, “Önce kaz”. Liste [Twitch Drops API](https://drops.sunkwi.com) projesinden gelir ve 5 dakikada bir yenilenir.
 
-  <img src="../media/en/drops-catalogue.avif" alt="Takvim görünümündeki Katalog, arama ve bir kampanyanın ayrıntıları">
+  <img src="../media/tr/drops-catalogue.avif" alt="Takvim görünümündeki Katalog, arama ve bir kampanyanın ayrıntıları">
 
 - **Kendi kazma sıranız.** Kampanyaları istediğiniz sıraya sürükleyin. Yeni kampanyalar yerlerini kendileri bulur: önce öncelikli kategorileriniz, ardından en erken bitenler ya da en az dakikası kalanlar. Kategorileri, kelimeleri, bir kampanyayı veya tek bir ödülü hariç tutun ve zamanında bitemeyecek kampanyaları atlayın. Bir kampanyanın ayrıntılarındaki “Önce kaz”, onu en başa taşır.
 
-  <img src="../media/en/drops-order.avif" alt="Kazma sırası, öncelikli kategoriler ve hariç tutmalar">
+  <img src="../media/tr/drops-order.avif" alt="Kazma sırası, öncelikli kategoriler ve hariç tutmalar">
 
 - **Envanter ve “Tümünü al”.** Envanter sayfası ödülleri “Alınacaklar”, “Devam edenler” ve “Alınanlar” olarak ayırır. Ödülleri tek tek ya da hepsini birden alın veya “Drops'u otomatik al” seçeneğini açın. “Yayıncı hesabını bağla”dan sonra uygulamaya döner dönmez hesap yeniden okunur, böylece bağlantı hemen görünür.
 
-  <img src="../media/en/drops-inventory.avif" alt="Envanter ve “Tümünü al” düğmesi">
+  <img src="../media/tr/drops-inventory.avif" alt="Envanter ve “Tümünü al” düğmesi">
 
 - **“Drops ve rozetler için önce benim yayıncılarım”.** Geçerli kampanyada, listenizdeki yayıncılardan yayını o kampanyaya sayılan biri diğer kanallardan önce gelir. Aynı kanal hem drop'u ilerletir hem de size kanal puanlarını kazandırır. Varsayılan olarak açıktır.
 
-  <img src="../media/en/drops-streamers-first.avif" alt="Listeden bir yayıncı, hem Drops hem de puanları için izleniyor">
+  <img src="../media/tr/drops-streamers-first.avif" alt="Listeden bir yayıncı, hem Drops hem de puanları için izleniyor">
 
 - **Ödül önceliği.** İki kampanya eşit sıradaysa madenci önce ödülleri tercih ettiğiniz türe (rozet, emote, oyun içi eşya) uyan kampanyayı seçer. Madencilik sıranızı asla geçersiz kılmaz.
 
 - **Rozetler (beta).** Rozetler sayfası, Twitch'in tüm genel sohbet rozetlerini ve nasıl alınacaklarını listeler. Her hesabın kendi Rozetler sayfası vardır: ilerlemeleriyle birlikte devam eden rozetler, hâlâ alınabilecekler ve hesabın sahip olduğu rozetler. Madenci, Drops kampanyalarının ve Twitch görevlerinin rozetlerinin peşine düşer ve hesabın zaten sahip olduğu rozetleri atlar. Her gün izlenmesi gereken bir rozet, sonuncusuna kadar her gün yeniden kazılır (“Günde 20 dk., 3 gün”) ve kampanyanın kategorilerinden herhangi birindeki bir kanal sayılır. Bir sandık “N rozetten rastgele 1 tanesi” verir. Abonelik gerektiren bir rozet, kampanya sırasında kategorideki bir kanala abone olduktan ya da abonelik hediye ettikten ve Twitch bunu saydıktan sonra kazılır. Devam eden bir abonelik, Prime aboneliği ya da yenileme sayılmaz. Kampanyası başlamadan hiçbir şey kazılmaz. “Ne kazılacak, sırayla” bölümünde öncelikli kategorileri, rozetleri ve diğer Drops kampanyalarını istediğiniz sıraya sürükleyin ya da birini kapatın. Bir Twitch görevi yalnızca Twitch'in onu Drops panelinde sunduğu bir kanalda kazılır. Bir evrim (Pichu → Pikachu), hesap evrimleştiği rozete sahip olur olmaz kazılır: madenci o rozeti hemen önce kendisi takar ve eskisini geri takmaz; hesabın rozet ayarlarındaki “Rozet evrimlerini kaz” bunu kapatır. Bir rozete tıklamak ayrıntılarını açar: tüm gereksinim, bütün kategoriler ve kanallar, koleksiyon, evrim ve her hesabın ilerlemesi. Bu özellik beta aşamasındadır.
 
-  <img src="../media/en/badges.avif" alt="Rozetler sayfası, bir hesabın rozetleri, ardından Rozetler'in en başa sürüklendiği “Ne kazılacak, sırayla”">
+  <img src="../media/tr/badges.avif" alt="Rozetler sayfası, bir hesabın rozetleri, ardından Rozetler'in en başa sürüklendiği “Ne kazılacak, sırayla”">
 
 ### Takip
 
 - **Her şeyin günlüğü ve her istek.** Günlük her olayı tutar: drop'lar, kazanılan ve harcanan puanlar, sandıklar, bahisler, baskınlar, başlayan yayınlar… Onu hesaba, sekmeye (Drops, Rozetler, Puan, Diğer) ve türe göre filtreleyin. **Teknik kayıtlar › İstekler**, Twitch'e ve diğer hizmetlere gönderilen her isteği sonucu ve süresiyle birlikte listeler. Kayıtlar ve istekler hiçbir token veya gizli bilgi içermez: “Hata raporu için kopyala” onları kopyalar; [GitHub](https://github.com/SunkwiBOT/twitch-miner/issues) veya [Discord](https://discord.gg/support-bots-891685895781113886) üzerinde bir hata raporuna yapıştırmaya hazırdır.
 
-  <img src="../media/en/journal-requests.avif" alt="Filtrelenmiş Günlük, ardından Teknik kayıtlar › İstekler">
+  <img src="../media/tr/journal-requests.avif" alt="Filtrelenmiş Günlük, ardından Teknik kayıtlar › İstekler">
 
 - **Bir İstatistikler sayfası.** 7, 30 veya 90 gün boyunca kazanılan puanlar, alınan drop'lar, izlenen süre ve kazanılan bahisler, her sayının arkasındaki en iyi yayıncı veya kategoriyle birlikte. Yayıncı başına bir puan eğrisi, bakiyeyi zaman içinde gösterir; seri, baskın, an ve bahisler için işaretleyicilerle ve her birinde bir araç ipucuyla birlikte.
 
-  <img src="../media/en/stats.avif" alt="30 günlük İstatistikler kutucukları, ardından bir işaretleyiciyle yayıncının puan eğrisi">
+  <img src="../media/tr/stats.avif" alt="30 günlük İstatistikler kutucukları, ardından bir işaretleyiciyle yayıncının puan eğrisi">
 
 - **Duraklatma ve günlük duraklatma.** Tek bir duraklatma düğmesi, bir hesap veya tüm hesaplar için: siz devam ettirene kadar duraklatın, ya da 30 dakika, 1 saat, 4 saat, yarın 09:00'a kadar veya özel bir tarih ve saate kadar; duraklatılmışken aynı düğme “Devam et” yazar. Bir rozet süreli duraklatmanın ne zaman biteceğini gösterir ve kenar çubuğundaki her hesap durumunu gösterir: çalışıyor, duraklatıldı veya bakılması gereken bir sorun. Günlük duraklatma, her gün iki saat arasında, seçtiğiniz saat diliminde tüm hesapların madenciliğini durdurur ve süre bitince üst çubuktaki kendi rozetiyle birlikte devam ettirir.
 - **CSV dışa aktarma ve kategoriye göre sayılar.** Günlük, alınan drop'ları bir CSV dosyası olarak dışa aktarır (tarih, hesap, kategori, kampanya, drop, dakika); hesaba göre filtrelenir ve bir iletişim kutusu her kategoride kaç drop alındığını listeler. Masaüstü uygulaması dosyayı bir kaydetme iletişim kutusuyla kaydeder; web paneli indirir.
@@ -149,18 +149,18 @@
 
 - **Oturumlarınız korunur.** Twitch şifresi yok: tarayıcınızdan `twitch.tv/activate` adresinde giriş yaparsınız. Oturumlar diskte şifrelenir ve onları [Twitch ayarlarınızdan](https://www.twitch.tv/settings/connections) iptal edebilirsiniz. Masaüstünde isteğe bağlı bir uygulama şifresi uygulamayı kilitler: şifre yazılana kadar hiçbir şey kazılmaz. Docker'da panelin kendi şifresi vardır; panel birkaç dakika işlem yapılmayınca kendini kilitler ve bir proxy arkasında HTTPS üzerinden çalışır. Art arda beş yanlış şifre, IP adresini 30 saniyeliğine engeller.
 
-  <img src="../media/en/security-lock.avif" alt="Asma kilit: kilitli uygulama, ardından şifresiyle açılması">
+  <img src="../media/tr/security-lock.avif" alt="Asma kilit: kilitli uygulama, ardından şifresiyle açılması">
 
 - **İmzalı güncellemeler, asla otomatik değil.** Üst çubukta sürüm numarasıyla birlikte bir “Güncelleme” rozeti belirir, ayrıca bir masaüstü bildirimi de aynısını haber verir; bu varsayılan olarak açıktır (**Ayarlar › Bildirimler** içindeki bir anahtar onu kapatır; tarayıcıda sorduğunda “İzin ver”e tıklayın). “Yükle ve yeniden başlat” önce onay ister, ardından uygulama sürümü yükler ve yeniden başlar. Uygulama şifresi varsa uygulama kilitli olarak yeniden başlar: kazmaya devam etmek için şifreyi yeniden yazın. Yalnızca proje tarafından imzalanmış bir sürüm yüklenir. Docker paneli ve systemd ikili dosyası da çalıştırılacak komutlarla birlikte haber verir.
 
-  <img src="../media/en/updates.avif" alt="“Güncelleme” rozeti, onay, ardından yükleme">
+  <img src="../media/tr/updates.avif" alt="“Güncelleme” rozeti, onay, ardından yükleme">
 
 ### Ve ayrıca
 
 - Diğer madencilerde olduğu gibi: bonus sandıkları, baskınlar, anlar, topluluk hedefleri, tahminler (stratejiler, bahis zamanı, koşullar), önce izleme serileri ve abone olunan kanallar, sohbette bulunma (kapatılabilir), yeni yayıncılar için varsayılan seçenekler, resimli ve her biri için bir “Test et” düğmesine sahip Discord, Telegram ve webhook bildirimleri (sunucuda dilleri **Ayarlar › Bildirimler** bölümünden seçilir), genel veya hesap başına proxy.
 - 29 dil, koyu ve açık tema, masaüstü bildirimleri, sistem tepsisi simgesi, sistemle birlikte başlatma.
 
-  <img src="../media/en/basics.avif" alt="Diller, açık ve koyu tema, bir masaüstü bildirimi ve sistem tepsisi simgesi">
+  <img src="../media/tr/basics.avif" alt="Diller, açık ve koyu tema, bir masaüstü bildirimi ve sistem tepsisi simgesi">
 
 - **Token listesi yapıştırarak hesap ekleme.** Başka bir yerde zaten oturum açtınız mı? Erişim tokenları listesini, satır başına bir tane olacak şekilde (en fazla 50) yapıştırın; her biri canlı olarak kontrol edilir, “Kontrol edildi: n/N” sayacı ve başarısız olan her satır için yeniden deneme vardır, ardından tek bir ayar adımı tüm gruba uygulanır. İçe aktarma kendisi arka planda, hesap başına canlı ilerlemeyle çalışır, yarıda iptal edilebilir ve daha sonraki yeniden deneme yalnızca başarısız olan hesapları yeniden gönderir. Bu şekilde içe aktarılan bir hesap kaldırılırken tokenı Twitch üzerinde de iptal etme seçeneği sunulur.
 

@@ -63,7 +63,7 @@
 </p>
 
 <p align="center">
-  <img src="../media/en/presentation.avif" alt="A Twitch Miner videós bemutatója">
+  <img src="../media/hu/presentation.avif" alt="A Twitch Miner videós bemutatója">
 </p>
 
 ## <a name="features"></a>Funkciók
@@ -74,32 +74,32 @@
   **Drops és pontok** (egy csatorna a legjobb kampányért, a másik a streamereidért),
   **Csak Drops** vagy **Csak pontok**.
 
-  <img src="../media/en/accounts-mining.avif" alt="Több fiók bányászik egyszerre a Kezdőlapon">
+  <img src="../media/hu/accounts-mining.avif" alt="Több fiók bányászik egyszerre a Kezdőlapon">
 
 - **Varázsló minden új fiókhoz.** Bejelentkezés után indulj ki az alapértelmezett
   beállításokból vagy egy másik fiók beállításaiból. Válaszd ki a módot, a kampányokat és
   a streamereket, majd „Bányászás indítása” vagy „Mentés és indítás később”.
 
-  <img src="../media/en/account-setup.avif" alt="Egy új fiók beállítási varázslója, lépésről lépésre">
+  <img src="../media/hu/account-setup.avif" alt="Egy új fiók beállítási varázslója, lépésről lépésre">
 
 - **Egy módosítás más fiókokra is, egyetlen kattintással.** Ha egy fiókon módosítasz
   valamit, a megerősítő üzenet felajánlja az „Alkalmazás más fiókokra” lehetőséget.
   A módosítás a bejelölt fiókokon is megtörténik, a többi beállításuk pedig változatlan
   marad.
 
-  <img src="../media/en/apply-to-accounts.avif" alt="Más fiókokon is elvégzett módosítás az „Alkalmazás más fiókokra” gombbal">
+  <img src="../media/hu/apply-to-accounts.avif" alt="Más fiókokon is elvégzett módosítás az „Alkalmazás más fiókokra” gombbal">
 
 - **Streamer hozzáadása.** Azonnal elindul az alapértelmezett beállításokkal: az
   alkalmazáséval, vagy azokkal, amelyeket ehhez a fiókhoz választottál. Ha kell, rögtön
   módosíthatod őket: bónuszládák, raidek, pillanatok, nézési sorozat, chat, előrejelzések.
 
-  <img src="../media/en/streamer-add.avif" alt="Streamer hozzáadása a Twitch-keresővel, majd a beállításai">
+  <img src="../media/hu/streamer-add.avif" alt="Streamer hozzáadása a Twitch-keresővel, majd a beállításai">
 
 - **Streamer szerkesztése.** A „Szerkesztés” megnyitja a beállításait: bónuszládák, raidek,
   pillanatok, nézési sorozat, chat, előrejelzések… Egy kapcsolóval be- vagy kikapcsolhatod
   anélkül, hogy eltávolítanád a listáról.
 
-  <img src="../media/en/streamer-edit.avif" alt="Egy streamer beállításai, a sorából megnyitva">
+  <img src="../media/hu/streamer-edit.avif" alt="Egy streamer beállításai, a sorából megnyitva">
 
 - **Több streamer szerkesztése egyszerre.** Jelöld be őket, majd
   „N kiválasztott streamer szerkesztése”. Csak a módosított beállítások érvényesülnek. Az
@@ -107,7 +107,7 @@
   válik: „Igen” és „Nem”. Ezután az alkalmazás felajánlja, hogy ezek legyenek az új
   streamerek alapértelmezett beállításai.
 
-  <img src="../media/en/streamers-group-edit.avif" alt="Több streamer szerkesztése „Vegyes” beállításokkal">
+  <img src="../media/hu/streamers-group-edit.avif" alt="Több streamer szerkesztése „Vegyes” beállításokkal">
 
 - **Streamerek importálása.** Illessz be egy listát (legfeljebb 500 névvel), vagy vedd át
   egy másik fiók listáját, illetve a fiók által követett csatornákat. A listát ellenőrzi,
@@ -115,7 +115,7 @@
   Az élő frissítések fiókonként 46 streamerre terjednek ki: a lista további tagjai nem
   kapnak raideket, pillanatokat és előrejelzéseket.
 
-  <img src="../media/en/streamers-import.avif" alt="Streamerek importálása: beillesztett lista, másik fiók, követett csatornák">
+  <img src="../media/hu/streamers-import.avif" alt="Streamerek importálása: beillesztett lista, másik fiók, követett csatornák">
 
 - **Spam Points.** Válts be egy csatorna egyedi jutalmát többször egymás után. Válassz
   egy csatornát a Pontok listádról, vagy bármelyik csatornát, amelyet a Twitch-keresővel
@@ -123,7 +123,7 @@
   a mennyiséget (legfeljebb 25-öt, az egyenleg erejéig), majd „Beváltás”. Az eredmény
   a sorozat végén jelenik meg, és minden sorozatnak saját sora van a Naplóban.
 
-  <img src="../media/en/spam-points.avif" alt="Spam Points: egy kiválasztott csatorna, 10 × beváltott üzenetes jutalom, a beváltások megjelennek a csatorna Twitch-csevegőjében, majd a Napló sora">
+  <img src="../media/hu/spam-points.avif" alt="Spam Points: egy kiválasztott csatorna, 10 × beváltott üzenetes jutalom, a beváltások megjelennek a csatorna Twitch-csevegőjében, majd a Napló sora">
 
 ### Drops
 
@@ -132,7 +132,7 @@
   [Twitch Drops API](https://drops.sunkwi.com) projektből származik, és 5 percenként
   frissül.
 
-  <img src="../media/en/drops-catalogue.avif" alt="A Katalógus naptárnézetben, a keresés és egy kampány adatlapja">
+  <img src="../media/hu/drops-catalogue.avif" alt="A Katalógus naptárnézetben, a keresés és egy kampány adatlapja">
 
 - **A saját bányászási sorrended.** Húzd a kampányokat a kívánt sorrendbe. Az újak maguktól
   a helyükre kerülnek: előbb a prioritást élvező kategóriáid, aztán a leghamarabb záruló vagy
@@ -140,7 +140,7 @@
   vagy egyetlen jutalmat, és hagyd ki azokat a kampányokat, amelyek nem fejezhetők be
   időben. A kampány adatlapján a „Bányászás elsőként” a lista élére teszi.
 
-  <img src="../media/en/drops-order.avif" alt="A bányászási sorrend, a prioritás kategóriák és a kizárások">
+  <img src="../media/hu/drops-order.avif" alt="A bányászási sorrend, a prioritás kategóriák és a kizárások">
 
 - **Leltár és „Összes begyűjtése”.** A Leltár oldal a jutalmakat a „Begyűjthető”,
   a „Folyamatban” és a „Begyűjtve” csoportba sorolja. Gyűjtsd be őket egyenként, egyszerre
@@ -148,14 +148,14 @@
   A „Kiadói fiók összekapcsolása” után a fiókot újra beolvassa, amint visszatérsz az
   alkalmazásba, így az összekapcsolás azonnal látszik.
 
-  <img src="../media/en/drops-inventory.avif" alt="A leltár és az „Összes begyűjtése” gomb">
+  <img src="../media/hu/drops-inventory.avif" alt="A leltár és az „Összes begyűjtése” gomb">
 
 - **„Saját streamereim előre a Dropsnál és a jelvényeknél”.** Az aktuális kampánynál a listádon szereplő
   streamer, akinek az adása beleszámít ebbe a kampányba, megelőzi a többi csatornát.
   Ugyanaz a csatorna viszi előre a dropot, és hozza neked a csatornapontjait. Alapértelmezés
   szerint be van kapcsolva.
 
-  <img src="../media/en/drops-streamers-first.avif" alt="A listán szereplő streamer, akit a Dropsért és a pontjaiért is néz">
+  <img src="../media/hu/drops-streamers-first.avif" alt="A listán szereplő streamer, akit a Dropsért és a pontjaiért is néz">
 
 - **Jutalom-prioritás.** Ha két kampány azonos helyen áll, a bányász először azt
   választja, amelynek jutalmai a kedvelt típusodhoz illenek (jelvény, emote, játékon
@@ -180,7 +180,7 @@
   részletei: a teljes feltétel, az összes kategória és csatorna, a gyűjtemény, a fejlődés
   és minden fiók haladása. Ez a funkció béta állapotú.
 
-  <img src="../media/en/badges.avif" alt="A Jelvények oldal, egy fiók jelvényei, majd a „Mit bányásszon, sorrendben” a Jelvények elejére húzva">
+  <img src="../media/hu/badges.avif" alt="A Jelvények oldal, egy fiók jelvényei, majd a „Mit bányásszon, sorrendben” a Jelvények elejére húzva">
 
 ### Nyomon követés
 
@@ -193,7 +193,7 @@
   a [GitHubon](https://github.com/SunkwiBOT/twitch-miner/issues) vagy
   a [Discordon](https://discord.gg/support-bots-891685895781113886).
 
-  <img src="../media/en/journal-requests.avif" alt="A szűrt Napló, majd a Technikai logok › Kérések">
+  <img src="../media/hu/journal-requests.avif" alt="A szűrt Napló, majd a Technikai logok › Kérések">
 
 - **Statisztika oldal.** Szerzett pontok, begyűjtött dropok, nézett idő és megnyert
   előrejelzések 7, 30 vagy 90 napra visszamenőleg, minden szám mögött a vezető
@@ -201,7 +201,7 @@
   idő múlásával, jelölőkkel a nézési sorozatokhoz, raidekhez, pillanatokhoz és
   előrejelzésekhez, és egy tooltippel mindegyiken.
 
-  <img src="../media/en/stats.avif" alt="A Statisztika oldal csempéi 30 napra, majd egy streamer pontgörbéje egy jelölővel">
+  <img src="../media/hu/stats.avif" alt="A Statisztika oldal csempéi 30 napra, majd egy streamer pontgörbéje egy jelölővel">
 
 - **Szünet és napi szünet.** Egyetlen szünet gomb, egy fiókhoz vagy az összeshez: szünet,
   amíg nem folytatod, vagy 30 percre, 1 órára, 4 órára, holnap 9:00-ig vagy egyéni
@@ -235,7 +235,7 @@
   tétlenség után magától zárolódik, és proxy mögött HTTPS-en fut. Öt egymást követő hibás
   jelszó 30 másodpercre letiltja az IP-címet.
 
-  <img src="../media/en/security-lock.avif" alt="A lakat: a zárolt alkalmazás, majd feloldása a jelszavával">
+  <img src="../media/hu/security-lock.avif" alt="A lakat: a zárolt alkalmazás, majd feloldása a jelszavával">
 
 - **Aláírt frissítések, sosem automatikusan.** A felső sávban megjelenik egy „Frissítés”
   jelvény a verziószámmal, és egy asztali értesítés is szól róla, alapértelmezetten
@@ -246,7 +246,7 @@
   Csak a projekt által aláírt verzió települ. A Docker-irányítópult és a systemd
   bináris is szól, a futtatandó parancsokkal együtt.
 
-  <img src="../media/en/updates.avif" alt="A „Frissítés” jelvény, a megerősítés, majd a telepítés">
+  <img src="../media/hu/updates.avif" alt="A „Frissítés” jelvény, a megerősítés, majd a telepítés">
 
 ### És még
 
@@ -258,7 +258,7 @@
   alatt választod ki), globális vagy fiókonkénti proxy.
 - 29 nyelv, sötét és világos téma, asztali értesítések, tálcaikon, indítás a rendszerrel.
 
-  <img src="../media/en/basics.avif" alt="Nyelvek, világos és sötét téma, egy asztali értesítés és a tálcaikon">
+  <img src="../media/hu/basics.avif" alt="Nyelvek, világos és sötét téma, egy asztali értesítés és a tálcaikon">
 
 - **Fiókok hozzáadása tokenek beillesztésével.** Már bejelentkeztél máshol? Illessz be egy listát hozzáférési tokenekből, soronként egyet (legfeljebb 50); mindegyiket élőben ellenőrizzük, „Ellenőrizve: n/N” számlálóval, a sikertelen sorokhoz pedig újrapróbálási lehetőséggel, majd egyetlen beállítási lépés vonatkozik az egész listára. Az importálás a háttérben fut, fiókonként élő előrehaladással, félúton megszakítható, a későbbi újrapróbálás pedig csak a sikertelen fiókokat küldi újra. Az így importált fiók eltávolításakor felajánljuk a token visszavonását a Twitchen is.
 
