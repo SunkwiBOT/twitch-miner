@@ -66,6 +66,29 @@
   <img src="../media/zh-CN/presentation.avif" alt="Twitch Miner 视频介绍">
 </p>
 
+## <a name="download"></a>下载
+
+从[最新版本](https://github.com/SunkwiBOT/twitch-miner/releases/latest)下载适合你系统的文件。
+
+| 系统 | 安装包 |
+|---|---|
+| **Windows** · x64 | 安装程序（`x64-setup.exe`）或[便携版可执行文件](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | 安装程序（`arm64-setup.exe`）或[便携版可执行文件](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 或更高版本 · 通用版：Intel 和 Apple Silicon | 磁盘映像（`.dmg`） |
+| **Linux** · x86-64 | `.AppImage`、`.deb`（Debian、Ubuntu）或 `.rpm`（Fedora、openSUSE） |
+| **Linux** · ARM64 | `.AppImage`、`.deb`（Debian、Ubuntu、Raspberry Pi OS）或 `.rpm`（Fedora、openSUSE） |
+| **Linux 服务器** · x86-64 或 ARM64 | 仅服务器本体，不需要 Docker（`twitch-miner-server_…_linux_x64` 或 `_linux_arm64`）：见[不使用 Docker](#systemd) |
+
+macOS 版本未经公证。首次运行时，先打开应用：macOS 会阻止它。然后前往**系统设置 › 隐私与安全性**，点按**仍要打开**。
+
+更新均经过签名。应用启动时会检查新版本，之后每小时检查一次（可在**设置 › 关于**中更改检查频率）。它从不自行安装更新：你可以在弹出的提示中或在**设置 › 关于**中一键安装。
+
+数据保存在用户数据文件夹中：
+
+- Linux：`~/.local/share/twitch-miner`
+- Windows：`%APPDATA%\twitch-miner`
+- macOS：`~/Library/Application Support/twitch-miner`
+
 ## <a name="features"></a>功能
 
 ### 账号与主播
@@ -169,7 +192,6 @@
 ## 目录
 
 - [对比](#comparison)
-- [下载](#download)
 - [Docker](#docker)
 - [工作原理](#how-it-works)
 - [常见问题](#faq)
@@ -218,29 +240,6 @@
 ¹⁰ 它有优先分类和排除分类，按分类名称选择。\
 ¹¹ 默认情况下，它会先观看列表中直播带有 Drops 的主播（它的 `DROPS` 优先级），但从不观看其他频道。\
 ¹² 未测量。
-
-## <a name="download"></a>下载
-
-从[最新版本](https://github.com/SunkwiBOT/twitch-miner/releases/latest)下载适合你系统的文件。
-
-| 系统 | 安装包 |
-|---|---|
-| **Windows** · x64 | 安装程序（`x64-setup.exe`）或[便携版可执行文件](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **Windows** · ARM64 | 安装程序（`arm64-setup.exe`）或[便携版可执行文件](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
-| **macOS** 13 或更高版本 · 通用版：Intel 和 Apple Silicon | 磁盘映像（`.dmg`） |
-| **Linux** · x86-64 | `.AppImage`、`.deb`（Debian、Ubuntu）或 `.rpm`（Fedora、openSUSE） |
-| **Linux** · ARM64 | `.AppImage`、`.deb`（Debian、Ubuntu、Raspberry Pi OS）或 `.rpm`（Fedora、openSUSE） |
-| **Linux 服务器** · x86-64 或 ARM64 | 仅服务器本体，不需要 Docker（`twitch-miner-server_…_linux_x64` 或 `_linux_arm64`）：见[不使用 Docker](#systemd) |
-
-macOS 版本未经公证。首次运行时，先打开应用：macOS 会阻止它。然后前往**系统设置 › 隐私与安全性**，点按**仍要打开**。
-
-更新均经过签名。应用启动时会检查新版本，之后每小时检查一次（可在**设置 › 关于**中更改检查频率）。它从不自行安装更新：你可以在弹出的提示中或在**设置 › 关于**中一键安装。
-
-数据保存在用户数据文件夹中：
-
-- Linux：`~/.local/share/twitch-miner`
-- Windows：`%APPDATA%\twitch-miner`
-- macOS：`~/Library/Application Support/twitch-miner`
 
 ## <a name="docker"></a>Docker
 

@@ -66,6 +66,35 @@
   <img src="../media/da/presentation.avif" alt="Videopræsentation af Twitch Miner">
 </p>
 
+## <a name="download"></a>Download
+
+Hent filen til dit system fra den
+[seneste udgivelse](https://github.com/SunkwiBOT/twitch-miner/releases/latest).
+
+| System | Pakke |
+|---|---|
+| **Windows** · x64 | Installationsprogram (`x64-setup.exe`) eller [portabel eksekverbar fil](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | Installationsprogram (`arm64-setup.exe`) eller [portabel eksekverbar fil](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 eller nyere · universel: Intel og Apple Silicon | Diskbillede (`.dmg`) |
+| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) eller `.rpm` (Fedora, openSUSE) |
+| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) eller `.rpm` (Fedora, openSUSE) |
+| **Linux-server** · x86-64 eller ARM64 | Serveren alene, uden Docker (`twitch-miner-server_…_linux_x64` eller `_linux_arm64`): se [Uden Docker](#systemd) |
+
+macOS-versionen er ikke notariseret. Første gang skal du åbne appen: macOS blokerer den.
+Gå derefter til **Systemindstillinger › Anonymitet og sikkerhed**, og klik på
+**Åbn alligevel**.
+
+Opdateringer er signerede. Appen søger efter en ny version, når den starter, og derefter
+hver time (hvor ofte, ændrer du i **Indstillinger › Om**). Den installerer aldrig en
+version af sig selv: du installerer den med ét klik, fra den besked, der vises, eller fra
+**Indstillinger › Om**.
+
+Data ligger i brugerens datamappe:
+
+- Linux: `~/.local/share/twitch-miner`
+- Windows: `%APPDATA%\twitch-miner`
+- macOS: `~/Library/Application Support/twitch-miner`
+
 ## <a name="features"></a>Funktioner
 
 ### Konti og streamere
@@ -267,7 +296,6 @@
 ## Indhold
 
 - [Sammenligning](#comparison)
-- [Download](#download)
 - [Docker](#docker)
 - [Sådan virker det](#how-it-works)
 - [Ofte stillede spørgsmål](#faq)
@@ -326,35 +354,6 @@ har.\
 ¹¹ Som standard ser den først de streamere på sin liste, hvis stream har Drops (dens
 prioritet `DROPS`), men aldrig en anden kanal.\
 ¹² Ikke målt.
-
-## <a name="download"></a>Download
-
-Hent filen til dit system fra den
-[seneste udgivelse](https://github.com/SunkwiBOT/twitch-miner/releases/latest).
-
-| System | Pakke |
-|---|---|
-| **Windows** · x64 | Installationsprogram (`x64-setup.exe`) eller [portabel eksekverbar fil](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **Windows** · ARM64 | Installationsprogram (`arm64-setup.exe`) eller [portabel eksekverbar fil](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
-| **macOS** 13 eller nyere · universel: Intel og Apple Silicon | Diskbillede (`.dmg`) |
-| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) eller `.rpm` (Fedora, openSUSE) |
-| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) eller `.rpm` (Fedora, openSUSE) |
-| **Linux-server** · x86-64 eller ARM64 | Serveren alene, uden Docker (`twitch-miner-server_…_linux_x64` eller `_linux_arm64`): se [Uden Docker](#systemd) |
-
-macOS-versionen er ikke notariseret. Første gang skal du åbne appen: macOS blokerer den.
-Gå derefter til **Systemindstillinger › Anonymitet og sikkerhed**, og klik på
-**Åbn alligevel**.
-
-Opdateringer er signerede. Appen søger efter en ny version, når den starter, og derefter
-hver time (hvor ofte, ændrer du i **Indstillinger › Om**). Den installerer aldrig en
-version af sig selv: du installerer den med ét klik, fra den besked, der vises, eller fra
-**Indstillinger › Om**.
-
-Data ligger i brugerens datamappe:
-
-- Linux: `~/.local/share/twitch-miner`
-- Windows: `%APPDATA%\twitch-miner`
-- macOS: `~/Library/Application Support/twitch-miner`
 
 ## <a name="docker"></a>Docker
 

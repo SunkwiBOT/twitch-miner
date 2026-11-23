@@ -66,6 +66,29 @@
   <img src="../media/tr/presentation.avif" alt="Twitch Miner'ın video tanıtımı">
 </p>
 
+## <a name="download"></a>İndirme
+
+Sisteminize uygun dosyayı [son sürümden](https://github.com/SunkwiBOT/twitch-miner/releases/latest) indirin.
+
+| Sistem | Paket |
+|---|---|
+| **Windows** · x64 | Yükleyici (`x64-setup.exe`) veya [taşınabilir çalıştırılabilir dosya](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | Yükleyici (`arm64-setup.exe`) veya [taşınabilir çalıştırılabilir dosya](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 veya üstü · evrensel: Intel ve Apple Silicon | Disk görüntüsü (`.dmg`) |
+| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) veya `.rpm` (Fedora, openSUSE) |
+| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) veya `.rpm` (Fedora, openSUSE) |
+| **Linux sunucusu** · x86-64 veya ARM64 | Yalnızca sunucu, Docker'sız (`twitch-miner-server_…_linux_x64` veya `_linux_arm64`): bkz. [Docker olmadan](#systemd) |
+
+macOS derlemesi notarize edilmemiştir. İlk seferde uygulamayı açın: macOS onu engeller. Ardından **Sistem Ayarları › Gizlilik ve Güvenlik** bölümüne gidip **Yine de Aç** düğmesine tıklayın.
+
+Güncellemeler imzalıdır. Uygulama açılırken, ardından saatte bir yeni bir sürüm olup olmadığını denetler (sıklığı **Ayarlar › Hakkında** bölümünden değiştirebilirsiniz). Hiçbir sürümü kendiliğinden yüklemez: güncellemeyi, beliren mesajdan ya da **Ayarlar › Hakkında** bölümünden tek tıkla siz yüklersiniz.
+
+Veriler kullanıcı veri klasöründe bulunur:
+
+- Linux: `~/.local/share/twitch-miner`
+- Windows: `%APPDATA%\twitch-miner`
+- macOS: `~/Library/Application Support/twitch-miner`
+
 ## <a name="features"></a>Özellikler
 
 ### Hesaplar ve yayıncılar
@@ -170,7 +193,6 @@
 ## İçindekiler
 
 - [Karşılaştırma](#comparison)
-- [İndirme](#download)
 - [Docker](#docker)
 - [Nasıl çalışır](#how-it-works)
 - [Sık sorulan sorular](#faq)
@@ -219,29 +241,6 @@
 ¹⁰ Kategori adına göre seçilen öncelikli kategorileri ve hariç tutulan kategorileri vardır.\
 ¹¹ Varsayılan olarak önce listesindeki yayıncılardan yayınında Drops olanları izler (`DROPS` önceliği), ama hiçbir zaman başka bir kanalı izlemez.\
 ¹² Ölçülmedi.
-
-## <a name="download"></a>İndirme
-
-Sisteminize uygun dosyayı [son sürümden](https://github.com/SunkwiBOT/twitch-miner/releases/latest) indirin.
-
-| Sistem | Paket |
-|---|---|
-| **Windows** · x64 | Yükleyici (`x64-setup.exe`) veya [taşınabilir çalıştırılabilir dosya](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **Windows** · ARM64 | Yükleyici (`arm64-setup.exe`) veya [taşınabilir çalıştırılabilir dosya](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
-| **macOS** 13 veya üstü · evrensel: Intel ve Apple Silicon | Disk görüntüsü (`.dmg`) |
-| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) veya `.rpm` (Fedora, openSUSE) |
-| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) veya `.rpm` (Fedora, openSUSE) |
-| **Linux sunucusu** · x86-64 veya ARM64 | Yalnızca sunucu, Docker'sız (`twitch-miner-server_…_linux_x64` veya `_linux_arm64`): bkz. [Docker olmadan](#systemd) |
-
-macOS derlemesi notarize edilmemiştir. İlk seferde uygulamayı açın: macOS onu engeller. Ardından **Sistem Ayarları › Gizlilik ve Güvenlik** bölümüne gidip **Yine de Aç** düğmesine tıklayın.
-
-Güncellemeler imzalıdır. Uygulama açılırken, ardından saatte bir yeni bir sürüm olup olmadığını denetler (sıklığı **Ayarlar › Hakkında** bölümünden değiştirebilirsiniz). Hiçbir sürümü kendiliğinden yüklemez: güncellemeyi, beliren mesajdan ya da **Ayarlar › Hakkında** bölümünden tek tıkla siz yüklersiniz.
-
-Veriler kullanıcı veri klasöründe bulunur:
-
-- Linux: `~/.local/share/twitch-miner`
-- Windows: `%APPDATA%\twitch-miner`
-- macOS: `~/Library/Application Support/twitch-miner`
 
 ## <a name="docker"></a>Docker
 

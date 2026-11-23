@@ -66,6 +66,34 @@
   <img src="../media/cs/presentation.avif" alt="Videoukázka aplikace Twitch Miner">
 </p>
 
+## <a name="download"></a>Stažení
+
+Stáhněte si soubor pro svůj systém z
+[nejnovějšího vydání](https://github.com/SunkwiBOT/twitch-miner/releases/latest).
+
+| Systém | Balíček |
+|---|---|
+| **Windows** · x64 | Instalátor (`x64-setup.exe`) nebo [přenosná verze](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | Instalátor (`arm64-setup.exe`) nebo [přenosná verze](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 nebo novější · univerzální: Intel a Apple Silicon | Obraz disku (`.dmg`) |
+| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) nebo `.rpm` (Fedora, openSUSE) |
+| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) nebo `.rpm` (Fedora, openSUSE) |
+| **Linux server** · x86-64 nebo ARM64 | Samotný server, bez Dockeru (`twitch-miner-server_…_linux_x64` nebo `_linux_arm64`): viz [Bez Dockeru](#systemd) |
+
+Sestavení pro macOS není notarizované. Poprvé aplikaci otevřete: macOS ji zablokuje. Pak
+přejděte do **Nastavení systému › Soukromí a zabezpečení** a klikněte na
+**Přesto otevřít**.
+
+Aktualizace jsou podepsané. Aplikace zkontroluje novou verzi při spuštění a pak každou
+hodinu (jak často, změníte v **Nastavení › O aplikaci**). Sama ji nikdy nenainstaluje:
+nainstalujete ji jedním kliknutím, ze zobrazené zprávy nebo z **Nastavení › O aplikaci**.
+
+Data jsou uložena ve složce s uživatelskými daty:
+
+- Linux: `~/.local/share/twitch-miner`
+- Windows: `%APPDATA%\twitch-miner`
+- macOS: `~/Library/Application Support/twitch-miner`
+
 ## <a name="features"></a>Funkce
 
 ### Účty a streameři
@@ -256,7 +284,6 @@
 ## Obsah
 
 - [Srovnání](#comparison)
-- [Stažení](#download)
 - [Docker](#docker)
 - [Jak to funguje](#how-it-works)
 - [Časté otázky](#faq)
@@ -314,34 +341,6 @@ s protokolem.\
 ¹¹ Ve výchozím stavu nejdřív sleduje streamery ze svého seznamu, jejichž stream nese Drops
 (jeho priorita `DROPS`), ale nikdy jiný kanál.\
 ¹² Neměřeno.
-
-## <a name="download"></a>Stažení
-
-Stáhněte si soubor pro svůj systém z
-[nejnovějšího vydání](https://github.com/SunkwiBOT/twitch-miner/releases/latest).
-
-| Systém | Balíček |
-|---|---|
-| **Windows** · x64 | Instalátor (`x64-setup.exe`) nebo [přenosná verze](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **Windows** · ARM64 | Instalátor (`arm64-setup.exe`) nebo [přenosná verze](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
-| **macOS** 13 nebo novější · univerzální: Intel a Apple Silicon | Obraz disku (`.dmg`) |
-| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) nebo `.rpm` (Fedora, openSUSE) |
-| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) nebo `.rpm` (Fedora, openSUSE) |
-| **Linux server** · x86-64 nebo ARM64 | Samotný server, bez Dockeru (`twitch-miner-server_…_linux_x64` nebo `_linux_arm64`): viz [Bez Dockeru](#systemd) |
-
-Sestavení pro macOS není notarizované. Poprvé aplikaci otevřete: macOS ji zablokuje. Pak
-přejděte do **Nastavení systému › Soukromí a zabezpečení** a klikněte na
-**Přesto otevřít**.
-
-Aktualizace jsou podepsané. Aplikace zkontroluje novou verzi při spuštění a pak každou
-hodinu (jak často, změníte v **Nastavení › O aplikaci**). Sama ji nikdy nenainstaluje:
-nainstalujete ji jedním kliknutím, ze zobrazené zprávy nebo z **Nastavení › O aplikaci**.
-
-Data jsou uložena ve složce s uživatelskými daty:
-
-- Linux: `~/.local/share/twitch-miner`
-- Windows: `%APPDATA%\twitch-miner`
-- macOS: `~/Library/Application Support/twitch-miner`
 
 ## <a name="docker"></a>Docker
 

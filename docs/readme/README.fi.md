@@ -66,6 +66,35 @@
   <img src="../media/fi/presentation.avif" alt="Videoesittely Twitch Minerista">
 </p>
 
+## <a name="download"></a>Lataus
+
+Lataa järjestelmällesi sopiva tiedosto
+[uusimmasta julkaisusta](https://github.com/SunkwiBOT/twitch-miner/releases/latest).
+
+| Järjestelmä | Paketti |
+|---|---|
+| **Windows** · x64 | Asennusohjelma (`x64-setup.exe`) tai [siirrettävä suoritettava tiedosto](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | Asennusohjelma (`arm64-setup.exe`) tai [siirrettävä suoritettava tiedosto](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 tai uudempi · universaali: Intel ja Apple Silicon | Levykuva (`.dmg`) |
+| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) tai `.rpm` (Fedora, openSUSE) |
+| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) tai `.rpm` (Fedora, openSUSE) |
+| **Linux-palvelin** · x86-64 tai ARM64 | Pelkkä palvelin, ilman Dockeria (`twitch-miner-server_…_linux_x64` tai `_linux_arm64`): katso [Ilman Dockeria](#systemd) |
+
+macOS-versiota ei ole notarisoitu. Avaa sovellus ensimmäisellä kerralla: macOS estää sen.
+Siirry sitten kohtaan **Järjestelmäasetukset › Tietosuoja ja suojaus** ja napsauta
+**Avaa kuitenkin**.
+
+Päivitykset on allekirjoitettu. Sovellus tarkistaa käynnistyessään ja sen jälkeen tunnin
+välein, onko uutta versiota (tiheyttä voi muuttaa kohdassa **Asetukset › Tietoja**). Se ei
+koskaan asenna versiota itse: asennat sen yhdellä napsautuksella näkyviin tulevasta
+ilmoituksesta tai kohdasta **Asetukset › Tietoja**.
+
+Tiedot sijaitsevat käyttäjän datakansiossa:
+
+- Linux: `~/.local/share/twitch-miner`
+- Windows: `%APPDATA%\twitch-miner`
+- macOS: `~/Library/Application Support/twitch-miner`
+
 ## <a name="features"></a>Ominaisuudet
 
 ### Tilit ja streamaajat
@@ -270,7 +299,6 @@
 ## Sisältö
 
 - [Vertailu](#comparison)
-- [Lataus](#download)
 - [Docker](#docker)
 - [Näin se toimii](#how-it-works)
 - [Usein kysytyt kysymykset](#faq)
@@ -332,35 +360,6 @@ projektissa ei ole.\
 ¹¹ Oletuksena se katsoo ensin niitä listansa streamaajia, joiden lähetyksessä on Dropseja
 (sen prioriteetti `DROPS`), mutta ei koskaan muuta kanavaa.\
 ¹² Ei mitattu.
-
-## <a name="download"></a>Lataus
-
-Lataa järjestelmällesi sopiva tiedosto
-[uusimmasta julkaisusta](https://github.com/SunkwiBOT/twitch-miner/releases/latest).
-
-| Järjestelmä | Paketti |
-|---|---|
-| **Windows** · x64 | Asennusohjelma (`x64-setup.exe`) tai [siirrettävä suoritettava tiedosto](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **Windows** · ARM64 | Asennusohjelma (`arm64-setup.exe`) tai [siirrettävä suoritettava tiedosto](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
-| **macOS** 13 tai uudempi · universaali: Intel ja Apple Silicon | Levykuva (`.dmg`) |
-| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) tai `.rpm` (Fedora, openSUSE) |
-| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) tai `.rpm` (Fedora, openSUSE) |
-| **Linux-palvelin** · x86-64 tai ARM64 | Pelkkä palvelin, ilman Dockeria (`twitch-miner-server_…_linux_x64` tai `_linux_arm64`): katso [Ilman Dockeria](#systemd) |
-
-macOS-versiota ei ole notarisoitu. Avaa sovellus ensimmäisellä kerralla: macOS estää sen.
-Siirry sitten kohtaan **Järjestelmäasetukset › Tietosuoja ja suojaus** ja napsauta
-**Avaa kuitenkin**.
-
-Päivitykset on allekirjoitettu. Sovellus tarkistaa käynnistyessään ja sen jälkeen tunnin
-välein, onko uutta versiota (tiheyttä voi muuttaa kohdassa **Asetukset › Tietoja**). Se ei
-koskaan asenna versiota itse: asennat sen yhdellä napsautuksella näkyviin tulevasta
-ilmoituksesta tai kohdasta **Asetukset › Tietoja**.
-
-Tiedot sijaitsevat käyttäjän datakansiossa:
-
-- Linux: `~/.local/share/twitch-miner`
-- Windows: `%APPDATA%\twitch-miner`
-- macOS: `~/Library/Application Support/twitch-miner`
 
 ## <a name="docker"></a>Docker
 

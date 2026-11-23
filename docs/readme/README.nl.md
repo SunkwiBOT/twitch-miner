@@ -66,6 +66,34 @@
   <img src="../media/nl/presentation.avif" alt="Video-overzicht van Twitch Miner">
 </p>
 
+## <a name="download"></a>Downloaden
+
+Download het bestand voor je systeem uit de
+[nieuwste release](https://github.com/SunkwiBOT/twitch-miner/releases/latest).
+
+| Systeem | Pakket |
+|---|---|
+| **Windows** · x64 | Installatieprogramma (`x64-setup.exe`) of [portable versie](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | Installatieprogramma (`arm64-setup.exe`) of [portable versie](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 of nieuwer · universal: Intel en Apple Silicon | Schijfkopie (`.dmg`) |
+| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) of `.rpm` (Fedora, openSUSE) |
+| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) of `.rpm` (Fedora, openSUSE) |
+| **Linux-server** · x86-64 of ARM64 | Alleen de server, zonder Docker (`twitch-miner-server_…_linux_x64` of `_linux_arm64`): zie [Zonder Docker](#systemd) |
+
+De macOS-build is niet genotariseerd. Open de app de eerste keer: macOS blokkeert hem. Ga
+dan naar **Systeeminstellingen › Privacy en beveiliging** en klik op **Open toch**.
+
+Updates zijn ondertekend. De app zoekt bij het starten naar een nieuwe versie, en daarna
+elk uur (hoe vaak stel je in onder **Instellingen › Over**). Hij installeert er nooit zelf
+een: je installeert die met één klik, via de melding die verschijnt of via
+**Instellingen › Over**.
+
+De gegevens staan in de map met gebruikersgegevens:
+
+- Linux: `~/.local/share/twitch-miner`
+- Windows: `%APPDATA%\twitch-miner`
+- macOS: `~/Library/Application Support/twitch-miner`
+
 ## <a name="features"></a>Functies
 
 ### Accounts en streamers
@@ -270,7 +298,6 @@
 ## Inhoud
 
 - [Vergelijking](#comparison)
-- [Downloaden](#download)
 - [Docker](#docker)
 - [Hoe het werkt](#how-it-works)
 - [Veelgestelde vragen](#faq)
@@ -328,34 +355,6 @@ project niet heeft.\
 ¹¹ Standaard kijkt het eerst naar de streamers op zijn lijst wier stream Drops heeft (zijn
 prioriteit `DROPS`), maar nooit naar een ander kanaal.\
 ¹² Niet gemeten.
-
-## <a name="download"></a>Downloaden
-
-Download het bestand voor je systeem uit de
-[nieuwste release](https://github.com/SunkwiBOT/twitch-miner/releases/latest).
-
-| Systeem | Pakket |
-|---|---|
-| **Windows** · x64 | Installatieprogramma (`x64-setup.exe`) of [portable versie](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **Windows** · ARM64 | Installatieprogramma (`arm64-setup.exe`) of [portable versie](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
-| **macOS** 13 of nieuwer · universal: Intel en Apple Silicon | Schijfkopie (`.dmg`) |
-| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) of `.rpm` (Fedora, openSUSE) |
-| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) of `.rpm` (Fedora, openSUSE) |
-| **Linux-server** · x86-64 of ARM64 | Alleen de server, zonder Docker (`twitch-miner-server_…_linux_x64` of `_linux_arm64`): zie [Zonder Docker](#systemd) |
-
-De macOS-build is niet genotariseerd. Open de app de eerste keer: macOS blokkeert hem. Ga
-dan naar **Systeeminstellingen › Privacy en beveiliging** en klik op **Open toch**.
-
-Updates zijn ondertekend. De app zoekt bij het starten naar een nieuwe versie, en daarna
-elk uur (hoe vaak stel je in onder **Instellingen › Over**). Hij installeert er nooit zelf
-een: je installeert die met één klik, via de melding die verschijnt of via
-**Instellingen › Over**.
-
-De gegevens staan in de map met gebruikersgegevens:
-
-- Linux: `~/.local/share/twitch-miner`
-- Windows: `%APPDATA%\twitch-miner`
-- macOS: `~/Library/Application Support/twitch-miner`
 
 ## <a name="docker"></a>Docker
 

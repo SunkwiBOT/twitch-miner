@@ -66,6 +66,29 @@
   <img src="../media/el/presentation.avif" alt="Παρουσίαση του Twitch Miner σε βίντεο">
 </p>
 
+## <a name="download"></a>Λήψη
+
+Κατεβάστε το αρχείο για το σύστημά σας από την [τελευταία έκδοση](https://github.com/SunkwiBOT/twitch-miner/releases/latest).
+
+| Σύστημα | Πακέτο |
+|---|---|
+| **Windows** · x64 | Πρόγραμμα εγκατάστασης (`x64-setup.exe`) ή [φορητό εκτελέσιμο](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | Πρόγραμμα εγκατάστασης (`arm64-setup.exe`) ή [φορητό εκτελέσιμο](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 ή νεότερο · universal: Intel και Apple Silicon | Εικόνα δίσκου (`.dmg`) |
+| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) ή `.rpm` (Fedora, openSUSE) |
+| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) ή `.rpm` (Fedora, openSUSE) |
+| **Linux server** · x86-64 ή ARM64 | Μόνο ο server, χωρίς Docker (`twitch-miner-server_…_linux_x64` ή `_linux_arm64`): δείτε [Χωρίς Docker](#systemd) |
+
+Η έκδοση για macOS δεν έχει περάσει notarization. Την πρώτη φορά, ανοίξτε την εφαρμογή: το macOS τη μπλοκάρει. Μετά πηγαίνετε στις **Ρυθμίσεις συστήματος › Απόρρητο και ασφάλεια** και κάντε κλικ στο **Άνοιγμα οπωσδήποτε**.
+
+Οι ενημερώσεις είναι υπογεγραμμένες. Η εφαρμογή ελέγχει για νέα έκδοση κατά την εκκίνηση και μετά κάθε ώρα (τη συχνότητα την αλλάζετε από τις **Ρυθμίσεις › Σχετικά**). Δεν εγκαθιστά ποτέ μόνη της μια έκδοση: την εγκαθιστάτε εσείς με ένα κλικ, από το μήνυμα που εμφανίζεται ή από τις **Ρυθμίσεις › Σχετικά**.
+
+Τα δεδομένα βρίσκονται στον φάκελο δεδομένων του χρήστη:
+
+- Linux: `~/.local/share/twitch-miner`
+- Windows: `%APPDATA%\twitch-miner`
+- macOS: `~/Library/Application Support/twitch-miner`
+
 ## <a name="features"></a>Λειτουργίες
 
 ### Λογαριασμοί και streamers
@@ -174,7 +197,6 @@
 ## Περιεχόμενα
 
 - [Σύγκριση](#comparison)
-- [Λήψη](#download)
 - [Docker](#docker)
 - [Πώς λειτουργεί](#how-it-works)
 - [Συχνές ερωτήσεις](#faq)
@@ -223,29 +245,6 @@
 ¹⁰ Έχει κατηγορίες προτεραιότητας και εξαιρούμενες κατηγορίες, που επιλέγονται με το όνομα της κατηγορίας.\
 ¹¹ Από προεπιλογή, παρακολουθεί πρώτα τους streamers της λίστας του των οποίων το stream έχει Drops (η προτεραιότητά του `DROPS`), αλλά ποτέ άλλο κανάλι.\
 ¹² Δεν έχει μετρηθεί.
-
-## <a name="download"></a>Λήψη
-
-Κατεβάστε το αρχείο για το σύστημά σας από την [τελευταία έκδοση](https://github.com/SunkwiBOT/twitch-miner/releases/latest).
-
-| Σύστημα | Πακέτο |
-|---|---|
-| **Windows** · x64 | Πρόγραμμα εγκατάστασης (`x64-setup.exe`) ή [φορητό εκτελέσιμο](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **Windows** · ARM64 | Πρόγραμμα εγκατάστασης (`arm64-setup.exe`) ή [φορητό εκτελέσιμο](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
-| **macOS** 13 ή νεότερο · universal: Intel και Apple Silicon | Εικόνα δίσκου (`.dmg`) |
-| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) ή `.rpm` (Fedora, openSUSE) |
-| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) ή `.rpm` (Fedora, openSUSE) |
-| **Linux server** · x86-64 ή ARM64 | Μόνο ο server, χωρίς Docker (`twitch-miner-server_…_linux_x64` ή `_linux_arm64`): δείτε [Χωρίς Docker](#systemd) |
-
-Η έκδοση για macOS δεν έχει περάσει notarization. Την πρώτη φορά, ανοίξτε την εφαρμογή: το macOS τη μπλοκάρει. Μετά πηγαίνετε στις **Ρυθμίσεις συστήματος › Απόρρητο και ασφάλεια** και κάντε κλικ στο **Άνοιγμα οπωσδήποτε**.
-
-Οι ενημερώσεις είναι υπογεγραμμένες. Η εφαρμογή ελέγχει για νέα έκδοση κατά την εκκίνηση και μετά κάθε ώρα (τη συχνότητα την αλλάζετε από τις **Ρυθμίσεις › Σχετικά**). Δεν εγκαθιστά ποτέ μόνη της μια έκδοση: την εγκαθιστάτε εσείς με ένα κλικ, από το μήνυμα που εμφανίζεται ή από τις **Ρυθμίσεις › Σχετικά**.
-
-Τα δεδομένα βρίσκονται στον φάκελο δεδομένων του χρήστη:
-
-- Linux: `~/.local/share/twitch-miner`
-- Windows: `%APPDATA%\twitch-miner`
-- macOS: `~/Library/Application Support/twitch-miner`
 
 ## <a name="docker"></a>Docker
 

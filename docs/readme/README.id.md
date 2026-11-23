@@ -66,6 +66,29 @@
   <img src="../media/id/presentation.avif" alt="Video pengenalan Twitch Miner">
 </p>
 
+## <a name="download"></a>Unduh
+
+Unduh file untuk sistem Anda dari [rilis terbaru](https://github.com/SunkwiBOT/twitch-miner/releases/latest).
+
+| Sistem | Paket |
+|---|---|
+| **Windows** · x64 | Penginstal (`x64-setup.exe`) atau [executable portabel](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | Penginstal (`arm64-setup.exe`) atau [executable portabel](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 atau lebih baru · universal: Intel dan Apple Silicon | Image disk (`.dmg`) |
+| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu), atau `.rpm` (Fedora, openSUSE) |
+| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS), atau `.rpm` (Fedora, openSUSE) |
+| **Server Linux** · x86-64 atau ARM64 | Server saja, tanpa Docker (`twitch-miner-server_…_linux_x64` atau `_linux_arm64`): lihat [Tanpa Docker](#systemd) |
+
+Build macOS tidak dinotarisasi. Saat pertama kali, buka aplikasinya: macOS akan memblokirnya. Lalu buka **Pengaturan Sistem › Privasi & Keamanan** dan klik **Tetap Buka**.
+
+Pembaruan ditandatangani. Aplikasi memeriksa versi baru saat dimulai, lalu setiap jam (Anda bisa mengubah frekuensinya di **Pengaturan › Tentang**). Aplikasi tidak pernah memasangnya sendiri: Anda memasangnya dengan sekali klik, dari pesan yang muncul atau dari **Pengaturan › Tentang**.
+
+Data disimpan di folder data pengguna:
+
+- Linux: `~/.local/share/twitch-miner`
+- Windows: `%APPDATA%\twitch-miner`
+- macOS: `~/Library/Application Support/twitch-miner`
+
 ## <a name="features"></a>Fitur
 
 ### Akun dan streamer
@@ -185,7 +208,6 @@
 ## Daftar isi
 
 - [Perbandingan](#comparison)
-- [Unduh](#download)
 - [Docker](#docker)
 - [Cara kerja](#how-it-works)
 - [Pertanyaan umum](#faq)
@@ -234,29 +256,6 @@ Posisi [Twitch Miner](https://github.com/SunkwiBOT/twitch-miner) dibandingkan de
 ¹⁰ Ia punya kategori prioritas dan kategori yang dikecualikan, dipilih berdasarkan nama kategori.\
 ¹¹ Secara default, ia lebih dulu menonton streamer di daftarnya yang stream-nya membawa Drops (prioritas `DROPS`-nya), tetapi tidak pernah channel lain.\
 ¹² Tidak diukur.
-
-## <a name="download"></a>Unduh
-
-Unduh file untuk sistem Anda dari [rilis terbaru](https://github.com/SunkwiBOT/twitch-miner/releases/latest).
-
-| Sistem | Paket |
-|---|---|
-| **Windows** · x64 | Penginstal (`x64-setup.exe`) atau [executable portabel](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **Windows** · ARM64 | Penginstal (`arm64-setup.exe`) atau [executable portabel](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
-| **macOS** 13 atau lebih baru · universal: Intel dan Apple Silicon | Image disk (`.dmg`) |
-| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu), atau `.rpm` (Fedora, openSUSE) |
-| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS), atau `.rpm` (Fedora, openSUSE) |
-| **Server Linux** · x86-64 atau ARM64 | Server saja, tanpa Docker (`twitch-miner-server_…_linux_x64` atau `_linux_arm64`): lihat [Tanpa Docker](#systemd) |
-
-Build macOS tidak dinotarisasi. Saat pertama kali, buka aplikasinya: macOS akan memblokirnya. Lalu buka **Pengaturan Sistem › Privasi & Keamanan** dan klik **Tetap Buka**.
-
-Pembaruan ditandatangani. Aplikasi memeriksa versi baru saat dimulai, lalu setiap jam (Anda bisa mengubah frekuensinya di **Pengaturan › Tentang**). Aplikasi tidak pernah memasangnya sendiri: Anda memasangnya dengan sekali klik, dari pesan yang muncul atau dari **Pengaturan › Tentang**.
-
-Data disimpan di folder data pengguna:
-
-- Linux: `~/.local/share/twitch-miner`
-- Windows: `%APPDATA%\twitch-miner`
-- macOS: `~/Library/Application Support/twitch-miner`
 
 ## <a name="docker"></a>Docker
 

@@ -66,6 +66,35 @@
   <img src="../media/hu/presentation.avif" alt="A Twitch Miner videós bemutatója">
 </p>
 
+## <a name="download"></a>Letöltés
+
+Töltsd le a rendszerednek megfelelő fájlt a
+[legújabb kiadásból](https://github.com/SunkwiBOT/twitch-miner/releases/latest).
+
+| Rendszer | Csomag |
+|---|---|
+| **Windows** · x64 | Telepítő (`x64-setup.exe`) vagy [hordozható futtatható fájl](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | Telepítő (`arm64-setup.exe`) vagy [hordozható futtatható fájl](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 vagy újabb · univerzális: Intel és Apple Silicon | Lemezkép (`.dmg`) |
+| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) vagy `.rpm` (Fedora, openSUSE) |
+| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) vagy `.rpm` (Fedora, openSUSE) |
+| **Linux szerver** · x86-64 vagy ARM64 | Csak a szerver, Docker nélkül (`twitch-miner-server_…_linux_x64` vagy `_linux_arm64`): lásd [Docker nélkül](#systemd) |
+
+A macOS-es build nincs hitelesítve (notarization). Első alkalommal nyisd meg az
+alkalmazást: a macOS letiltja. Ezután menj a **Rendszerbeállítások › Adatvédelem és
+biztonság** részhez, és kattints a **Megnyitás mindenképp** gombra.
+
+A frissítések alá vannak írva. Az alkalmazás induláskor, majd óránként ellenőrzi, van-e új
+verzió (a gyakoriságot a **Beállítások › Névjegy** helyen módosíthatod). Magától soha nem
+telepít: egy kattintással telepítheted a megjelenő üzenetből vagy a **Beállítások › Névjegy**
+helyen.
+
+Az adatok a felhasználói adatmappában vannak:
+
+- Linux: `~/.local/share/twitch-miner`
+- Windows: `%APPDATA%\twitch-miner`
+- macOS: `~/Library/Application Support/twitch-miner`
+
 ## <a name="features"></a>Funkciók
 
 ### Fiókok és streamerek
@@ -269,7 +298,6 @@
 ## Tartalom
 
 - [Összehasonlítás](#comparison)
-- [Letöltés](#download)
 - [Docker](#docker)
 - [Hogyan működik](#how-it-works)
 - [Gyakori kérdések](#faq)
@@ -327,35 +355,6 @@ a projektben nincsenek.\
 ¹¹ Alapértelmezés szerint először a listáján szereplő azon streamereket nézi, akiknek az
 adásában van Drops (a `DROPS` prioritása), de más csatornát soha.\
 ¹² Nem mértük.
-
-## <a name="download"></a>Letöltés
-
-Töltsd le a rendszerednek megfelelő fájlt a
-[legújabb kiadásból](https://github.com/SunkwiBOT/twitch-miner/releases/latest).
-
-| Rendszer | Csomag |
-|---|---|
-| **Windows** · x64 | Telepítő (`x64-setup.exe`) vagy [hordozható futtatható fájl](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **Windows** · ARM64 | Telepítő (`arm64-setup.exe`) vagy [hordozható futtatható fájl](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
-| **macOS** 13 vagy újabb · univerzális: Intel és Apple Silicon | Lemezkép (`.dmg`) |
-| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) vagy `.rpm` (Fedora, openSUSE) |
-| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) vagy `.rpm` (Fedora, openSUSE) |
-| **Linux szerver** · x86-64 vagy ARM64 | Csak a szerver, Docker nélkül (`twitch-miner-server_…_linux_x64` vagy `_linux_arm64`): lásd [Docker nélkül](#systemd) |
-
-A macOS-es build nincs hitelesítve (notarization). Első alkalommal nyisd meg az
-alkalmazást: a macOS letiltja. Ezután menj a **Rendszerbeállítások › Adatvédelem és
-biztonság** részhez, és kattints a **Megnyitás mindenképp** gombra.
-
-A frissítések alá vannak írva. Az alkalmazás induláskor, majd óránként ellenőrzi, van-e új
-verzió (a gyakoriságot a **Beállítások › Névjegy** helyen módosíthatod). Magától soha nem
-telepít: egy kattintással telepítheted a megjelenő üzenetből vagy a **Beállítások › Névjegy**
-helyen.
-
-Az adatok a felhasználói adatmappában vannak:
-
-- Linux: `~/.local/share/twitch-miner`
-- Windows: `%APPDATA%\twitch-miner`
-- macOS: `~/Library/Application Support/twitch-miner`
 
 ## <a name="docker"></a>Docker
 

@@ -66,6 +66,29 @@
   <img src="../media/vi/presentation.avif" alt="Video giới thiệu Twitch Miner">
 </p>
 
+## <a name="download"></a>Tải xuống
+
+Tải tệp cho hệ thống của bạn từ [bản phát hành mới nhất](https://github.com/SunkwiBOT/twitch-miner/releases/latest).
+
+| Hệ thống | Gói |
+|---|---|
+| **Windows** · x64 | Trình cài đặt (`x64-setup.exe`) hoặc [tệp thực thi portable](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | Trình cài đặt (`arm64-setup.exe`) hoặc [tệp thực thi portable](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 trở lên · universal: Intel và Apple Silicon | Ảnh đĩa (`.dmg`) |
+| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) hoặc `.rpm` (Fedora, openSUSE) |
+| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) hoặc `.rpm` (Fedora, openSUSE) |
+| **Máy chủ Linux** · x86-64 hoặc ARM64 | Chỉ riêng máy chủ, không cần Docker (`twitch-miner-server_…_linux_x64` hoặc `_linux_arm64`): xem [Không cần Docker](#systemd) |
+
+Bản macOS chưa được công chứng (notarize). Lần đầu tiên, hãy mở ứng dụng: macOS sẽ chặn nó. Sau đó vào **Cài đặt hệ thống › Quyền riêng tư & bảo mật** và bấm **Vẫn mở**.
+
+Các bản cập nhật đều có chữ ký. Ứng dụng kiểm tra phiên bản mới khi khởi động, rồi mỗi giờ một lần (bạn có thể đổi tần suất trong **Cài đặt › Giới thiệu**). Ứng dụng không bao giờ tự cài: bạn cài chỉ với một cú nhấp, từ thông báo hiện ra hoặc từ **Cài đặt › Giới thiệu**.
+
+Dữ liệu nằm trong thư mục dữ liệu người dùng:
+
+- Linux: `~/.local/share/twitch-miner`
+- Windows: `%APPDATA%\twitch-miner`
+- macOS: `~/Library/Application Support/twitch-miner`
+
 ## <a name="features"></a>Tính năng
 
 ### Tài khoản và streamer
@@ -170,7 +193,6 @@
 ## Mục lục
 
 - [So sánh](#comparison)
-- [Tải xuống](#download)
 - [Docker](#docker)
 - [Cách hoạt động](#how-it-works)
 - [Câu hỏi thường gặp](#faq)
@@ -219,29 +241,6 @@ So sánh [Twitch Miner](https://github.com/SunkwiBOT/twitch-miner) với [Twitch
 ¹⁰ Nó có danh mục ưu tiên và danh mục bị loại trừ, chọn theo tên danh mục.\
 ¹¹ Theo mặc định, nó xem trước các streamer trong danh sách có buổi phát mang Drops (mức ưu tiên `DROPS` của nó), nhưng không bao giờ xem kênh khác.\
 ¹² Chưa đo.
-
-## <a name="download"></a>Tải xuống
-
-Tải tệp cho hệ thống của bạn từ [bản phát hành mới nhất](https://github.com/SunkwiBOT/twitch-miner/releases/latest).
-
-| Hệ thống | Gói |
-|---|---|
-| **Windows** · x64 | Trình cài đặt (`x64-setup.exe`) hoặc [tệp thực thi portable](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **Windows** · ARM64 | Trình cài đặt (`arm64-setup.exe`) hoặc [tệp thực thi portable](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
-| **macOS** 13 trở lên · universal: Intel và Apple Silicon | Ảnh đĩa (`.dmg`) |
-| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) hoặc `.rpm` (Fedora, openSUSE) |
-| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) hoặc `.rpm` (Fedora, openSUSE) |
-| **Máy chủ Linux** · x86-64 hoặc ARM64 | Chỉ riêng máy chủ, không cần Docker (`twitch-miner-server_…_linux_x64` hoặc `_linux_arm64`): xem [Không cần Docker](#systemd) |
-
-Bản macOS chưa được công chứng (notarize). Lần đầu tiên, hãy mở ứng dụng: macOS sẽ chặn nó. Sau đó vào **Cài đặt hệ thống › Quyền riêng tư & bảo mật** và bấm **Vẫn mở**.
-
-Các bản cập nhật đều có chữ ký. Ứng dụng kiểm tra phiên bản mới khi khởi động, rồi mỗi giờ một lần (bạn có thể đổi tần suất trong **Cài đặt › Giới thiệu**). Ứng dụng không bao giờ tự cài: bạn cài chỉ với một cú nhấp, từ thông báo hiện ra hoặc từ **Cài đặt › Giới thiệu**.
-
-Dữ liệu nằm trong thư mục dữ liệu người dùng:
-
-- Linux: `~/.local/share/twitch-miner`
-- Windows: `%APPDATA%\twitch-miner`
-- macOS: `~/Library/Application Support/twitch-miner`
 
 ## <a name="docker"></a>Docker
 

@@ -66,6 +66,35 @@
   <img src="../media/ro/presentation.avif" alt="Prezentare video a Twitch Miner">
 </p>
 
+## <a name="download"></a>Descărcare
+
+Descarcă fișierul pentru sistemul tău din
+[cea mai recentă versiune](https://github.com/SunkwiBOT/twitch-miner/releases/latest).
+
+| Sistem | Pachet |
+|---|---|
+| **Windows** · x64 | Program de instalare (`x64-setup.exe`) sau [executabil portabil](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | Program de instalare (`arm64-setup.exe`) sau [executabil portabil](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 sau mai nou · universal: Intel și Apple Silicon | Imagine de disc (`.dmg`) |
+| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) sau `.rpm` (Fedora, openSUSE) |
+| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) sau `.rpm` (Fedora, openSUSE) |
+| **Server Linux** · x86-64 sau ARM64 | Doar serverul, fără Docker (`twitch-miner-server_…_linux_x64` sau `_linux_arm64`): vezi [Fără Docker](#systemd) |
+
+Versiunea pentru macOS nu este notarizată. Prima dată, deschide aplicația: macOS o
+blochează. Apoi mergi la **Configurări sistem › Intimitate și securitate** și fă clic pe
+**Deschide oricum**.
+
+Actualizările sunt semnate. Aplicația verifică la pornire dacă există o versiune nouă, apoi
+la fiecare oră (frecvența o poți schimba în **Setări › Despre**). Nu instalează niciodată
+singură o versiune: o instalezi tu cu un singur clic, din mesajul care apare sau din
+**Setări › Despre**.
+
+Datele se află în dosarul de date al utilizatorului:
+
+- Linux: `~/.local/share/twitch-miner`
+- Windows: `%APPDATA%\twitch-miner`
+- macOS: `~/Library/Application Support/twitch-miner`
+
 ## <a name="features"></a>Funcționalități
 
 ### Conturi și streameri
@@ -264,7 +293,6 @@
 ## Cuprins
 
 - [Comparație](#comparison)
-- [Descărcare](#download)
 - [Docker](#docker)
 - [Cum funcționează](#how-it-works)
 - [Întrebări frecvente](#faq)
@@ -323,35 +351,6 @@ are.\
 ¹¹ Implicit, urmărește întâi streamerii din lista lui al căror stream are Drops
 (prioritatea lui `DROPS`), dar niciodată alt canal.\
 ¹² Nemăsurat.
-
-## <a name="download"></a>Descărcare
-
-Descarcă fișierul pentru sistemul tău din
-[cea mai recentă versiune](https://github.com/SunkwiBOT/twitch-miner/releases/latest).
-
-| Sistem | Pachet |
-|---|---|
-| **Windows** · x64 | Program de instalare (`x64-setup.exe`) sau [executabil portabil](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **Windows** · ARM64 | Program de instalare (`arm64-setup.exe`) sau [executabil portabil](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
-| **macOS** 13 sau mai nou · universal: Intel și Apple Silicon | Imagine de disc (`.dmg`) |
-| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) sau `.rpm` (Fedora, openSUSE) |
-| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) sau `.rpm` (Fedora, openSUSE) |
-| **Server Linux** · x86-64 sau ARM64 | Doar serverul, fără Docker (`twitch-miner-server_…_linux_x64` sau `_linux_arm64`): vezi [Fără Docker](#systemd) |
-
-Versiunea pentru macOS nu este notarizată. Prima dată, deschide aplicația: macOS o
-blochează. Apoi mergi la **Configurări sistem › Intimitate și securitate** și fă clic pe
-**Deschide oricum**.
-
-Actualizările sunt semnate. Aplicația verifică la pornire dacă există o versiune nouă, apoi
-la fiecare oră (frecvența o poți schimba în **Setări › Despre**). Nu instalează niciodată
-singură o versiune: o instalezi tu cu un singur clic, din mesajul care apare sau din
-**Setări › Despre**.
-
-Datele se află în dosarul de date al utilizatorului:
-
-- Linux: `~/.local/share/twitch-miner`
-- Windows: `%APPDATA%\twitch-miner`
-- macOS: `~/Library/Application Support/twitch-miner`
 
 ## <a name="docker"></a>Docker
 

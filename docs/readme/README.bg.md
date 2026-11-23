@@ -66,6 +66,34 @@
   <img src="../media/bg/presentation.avif" alt="Видеопредставяне на Twitch Miner">
 </p>
 
+## <a name="download"></a>Изтегляне
+
+Изтеглете файла за вашата система от
+[последната версия](https://github.com/SunkwiBOT/twitch-miner/releases/latest).
+
+| Система | Пакет |
+|---|---|
+| **Windows** · x64 | Инсталатор (`x64-setup.exe`) или [преносим изпълним файл](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | Инсталатор (`arm64-setup.exe`) или [преносим изпълним файл](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 или по-нова · универсална: Intel и Apple Silicon | Образ на диск (`.dmg`) |
+| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) или `.rpm` (Fedora, openSUSE) |
+| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) или `.rpm` (Fedora, openSUSE) |
+| **Linux сървър** · x86-64 или ARM64 | Самият сървър, без Docker (`twitch-miner-server_…_linux_x64` или `_linux_arm64`): вижте [Без Docker](#systemd) |
+
+Версията за macOS не е нотаризирана. Първия път отворете приложението: macOS го блокира.
+След това отидете в **System Settings › Privacy & Security** и щракнете **Open Anyway**.
+
+Обновленията са подписани. Приложението проверява за нова версия при стартиране, а след
+това на всеки час (честотата се променя в **Настройки › Относно**). То никога не инсталира
+версия само: инсталирате я с едно щракване – от съобщението, което се появява, или от
+**Настройки › Относно**.
+
+Данните се намират в папката с потребителски данни:
+
+- Linux: `~/.local/share/twitch-miner`
+- Windows: `%APPDATA%\twitch-miner`
+- macOS: `~/Library/Application Support/twitch-miner`
+
 ## <a name="features"></a>Функции
 
 ### Акаунти и стриймъри
@@ -265,7 +293,6 @@
 ## Съдържание
 
 - [Сравнение](#comparison)
-- [Изтегляне](#download)
 - [Docker](#docker)
 - [Как работи](#how-it-works)
 - [Често задавани въпроси](#faq)
@@ -323,34 +350,6 @@
 ¹¹ По подразбиране първо гледа стриймърите от списъка си, чийто стрийм носи Drops (неговия
 приоритет `DROPS`), но никога друг канал.\
 ¹² Не е измервано.
-
-## <a name="download"></a>Изтегляне
-
-Изтеглете файла за вашата система от
-[последната версия](https://github.com/SunkwiBOT/twitch-miner/releases/latest).
-
-| Система | Пакет |
-|---|---|
-| **Windows** · x64 | Инсталатор (`x64-setup.exe`) или [преносим изпълним файл](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **Windows** · ARM64 | Инсталатор (`arm64-setup.exe`) или [преносим изпълним файл](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
-| **macOS** 13 или по-нова · универсална: Intel и Apple Silicon | Образ на диск (`.dmg`) |
-| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) или `.rpm` (Fedora, openSUSE) |
-| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) или `.rpm` (Fedora, openSUSE) |
-| **Linux сървър** · x86-64 или ARM64 | Самият сървър, без Docker (`twitch-miner-server_…_linux_x64` или `_linux_arm64`): вижте [Без Docker](#systemd) |
-
-Версията за macOS не е нотаризирана. Първия път отворете приложението: macOS го блокира.
-След това отидете в **System Settings › Privacy & Security** и щракнете **Open Anyway**.
-
-Обновленията са подписани. Приложението проверява за нова версия при стартиране, а след
-това на всеки час (честотата се променя в **Настройки › Относно**). То никога не инсталира
-версия само: инсталирате я с едно щракване – от съобщението, което се появява, или от
-**Настройки › Относно**.
-
-Данните се намират в папката с потребителски данни:
-
-- Linux: `~/.local/share/twitch-miner`
-- Windows: `%APPDATA%\twitch-miner`
-- macOS: `~/Library/Application Support/twitch-miner`
 
 ## <a name="docker"></a>Docker
 

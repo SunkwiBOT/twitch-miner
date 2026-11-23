@@ -66,6 +66,29 @@
   <img src="../media/th/presentation.avif" alt="วิดีโอแนะนำ Twitch Miner">
 </p>
 
+## <a name="download"></a>ดาวน์โหลด
+
+ดาวน์โหลดไฟล์สำหรับระบบของคุณจาก[รุ่นล่าสุด](https://github.com/SunkwiBOT/twitch-miner/releases/latest)
+
+| ระบบ | แพ็กเกจ |
+|---|---|
+| **Windows** · x64 | ตัวติดตั้ง (`x64-setup.exe`) หรือ[ไฟล์ปฏิบัติการแบบพกพา](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | ตัวติดตั้ง (`arm64-setup.exe`) หรือ[ไฟล์ปฏิบัติการแบบพกพา](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 ขึ้นไป · universal: Intel และ Apple Silicon | ดิสก์อิมเมจ (`.dmg`) |
+| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) หรือ `.rpm` (Fedora, openSUSE) |
+| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) หรือ `.rpm` (Fedora, openSUSE) |
+| **เซิร์ฟเวอร์ Linux** · x86-64 หรือ ARM64 | ตัวเซิร์ฟเวอร์เพียงอย่างเดียว ไม่ต้องใช้ Docker (`twitch-miner-server_…_linux_x64` หรือ `_linux_arm64`): ดู[ไม่ใช้ Docker](#systemd) |
+
+บิลด์ macOS ไม่ได้ผ่านการ notarize ครั้งแรกให้เปิดแอปก่อน: macOS จะบล็อกไว้ จากนั้นไปที่ **การตั้งค่าระบบ › ความเป็นส่วนตัวและความปลอดภัย** แล้วคลิก **ยืนยันจะเปิด**
+
+อัปเดตมีลายเซ็นกำกับ แอปจะตรวจหาเวอร์ชันใหม่เมื่อเริ่มทำงาน จากนั้นทุกชั่วโมง (เปลี่ยนความถี่ได้ใน **การตั้งค่า › เกี่ยวกับ**) แอปจะไม่ติดตั้งอัปเดตเอง: คุณติดตั้งได้ในคลิกเดียว จากข้อความที่ปรากฏขึ้น หรือจาก **การตั้งค่า › เกี่ยวกับ**
+
+ข้อมูลอยู่ในโฟลเดอร์ข้อมูลผู้ใช้:
+
+- Linux: `~/.local/share/twitch-miner`
+- Windows: `%APPDATA%\twitch-miner`
+- macOS: `~/Library/Application Support/twitch-miner`
+
 ## <a name="features"></a>ฟีเจอร์
 
 ### บัญชีและสตรีมเมอร์
@@ -170,7 +193,6 @@
 ## สารบัญ
 
 - [การเปรียบเทียบ](#comparison)
-- [ดาวน์โหลด](#download)
 - [Docker](#docker)
 - [วิธีการทำงาน](#how-it-works)
 - [คำถามที่พบบ่อย](#faq)
@@ -219,29 +241,6 @@
 ¹⁰ มีหมวดหมู่ที่ให้ความสำคัญและหมวดหมู่ที่ยกเว้น โดยเลือกจากชื่อหมวดหมู่\
 ¹¹ โดยค่าเริ่มต้น จะดูสตรีมเมอร์ในรายการที่สตรีมมี Drops ก่อน (ลำดับความสำคัญ `DROPS`) แต่จะไม่ดูช่องอื่นเลย\
 ¹² ไม่ได้วัด
-
-## <a name="download"></a>ดาวน์โหลด
-
-ดาวน์โหลดไฟล์สำหรับระบบของคุณจาก[รุ่นล่าสุด](https://github.com/SunkwiBOT/twitch-miner/releases/latest)
-
-| ระบบ | แพ็กเกจ |
-|---|---|
-| **Windows** · x64 | ตัวติดตั้ง (`x64-setup.exe`) หรือ[ไฟล์ปฏิบัติการแบบพกพา](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **Windows** · ARM64 | ตัวติดตั้ง (`arm64-setup.exe`) หรือ[ไฟล์ปฏิบัติการแบบพกพา](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
-| **macOS** 13 ขึ้นไป · universal: Intel และ Apple Silicon | ดิสก์อิมเมจ (`.dmg`) |
-| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) หรือ `.rpm` (Fedora, openSUSE) |
-| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) หรือ `.rpm` (Fedora, openSUSE) |
-| **เซิร์ฟเวอร์ Linux** · x86-64 หรือ ARM64 | ตัวเซิร์ฟเวอร์เพียงอย่างเดียว ไม่ต้องใช้ Docker (`twitch-miner-server_…_linux_x64` หรือ `_linux_arm64`): ดู[ไม่ใช้ Docker](#systemd) |
-
-บิลด์ macOS ไม่ได้ผ่านการ notarize ครั้งแรกให้เปิดแอปก่อน: macOS จะบล็อกไว้ จากนั้นไปที่ **การตั้งค่าระบบ › ความเป็นส่วนตัวและความปลอดภัย** แล้วคลิก **ยืนยันจะเปิด**
-
-อัปเดตมีลายเซ็นกำกับ แอปจะตรวจหาเวอร์ชันใหม่เมื่อเริ่มทำงาน จากนั้นทุกชั่วโมง (เปลี่ยนความถี่ได้ใน **การตั้งค่า › เกี่ยวกับ**) แอปจะไม่ติดตั้งอัปเดตเอง: คุณติดตั้งได้ในคลิกเดียว จากข้อความที่ปรากฏขึ้น หรือจาก **การตั้งค่า › เกี่ยวกับ**
-
-ข้อมูลอยู่ในโฟลเดอร์ข้อมูลผู้ใช้:
-
-- Linux: `~/.local/share/twitch-miner`
-- Windows: `%APPDATA%\twitch-miner`
-- macOS: `~/Library/Application Support/twitch-miner`
 
 ## <a name="docker"></a>Docker
 

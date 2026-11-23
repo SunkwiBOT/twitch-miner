@@ -66,6 +66,29 @@
   <img src="../media/ko/presentation.avif" alt="Twitch Miner 소개 영상">
 </p>
 
+## <a name="download"></a>다운로드
+
+[최신 릴리스](https://github.com/SunkwiBOT/twitch-miner/releases/latest)에서 내 시스템에 맞는 파일을 내려받으세요.
+
+| 시스템 | 패키지 |
+|---|---|
+| **Windows** · x64 | 설치 프로그램(`x64-setup.exe`) 또는 [포터블 실행 파일](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | 설치 프로그램(`arm64-setup.exe`) 또는 [포터블 실행 파일](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 이상 · universal: Intel 및 Apple Silicon | 디스크 이미지(`.dmg`) |
+| **Linux** · x86-64 | `.AppImage`, `.deb`(Debian, Ubuntu) 또는 `.rpm`(Fedora, openSUSE) |
+| **Linux** · ARM64 | `.AppImage`, `.deb`(Debian, Ubuntu, Raspberry Pi OS) 또는 `.rpm`(Fedora, openSUSE) |
+| **Linux 서버** · x86-64 또는 ARM64 | 서버만, Docker 없이(`twitch-miner-server_…_linux_x64` 또는 `_linux_arm64`): [Docker 없이](#systemd) 참고 |
+
+macOS 빌드는 공증을 받지 않았어요. 처음에는 앱을 먼저 여세요. macOS가 막으면 **시스템 설정 › 개인정보 보호 및 보안**으로 가서 **그래도 열기**를 클릭하세요.
+
+업데이트는 서명되어 있어요. 앱은 시작할 때 새 버전이 있는지 확인하고, 그 뒤로는 한 시간마다 확인해요(확인 주기는 **설정 › 정보**에서 바꿀 수 있어요). 업데이트를 스스로 설치하지는 않아요. 화면에 뜨는 메시지나 **설정 › 정보**에서 클릭 한 번으로 설치하면 돼요.
+
+데이터는 사용자 데이터 폴더에 저장돼요:
+
+- Linux: `~/.local/share/twitch-miner`
+- Windows: `%APPDATA%\twitch-miner`
+- macOS: `~/Library/Application Support/twitch-miner`
+
 ## <a name="features"></a>기능
 
 ### 계정과 스트리머
@@ -170,7 +193,6 @@
 ## 목차
 
 - [비교](#comparison)
-- [다운로드](#download)
 - [Docker](#docker)
 - [작동 방식](#how-it-works)
 - [자주 묻는 질문](#faq)
@@ -219,29 +241,6 @@
 ¹⁰ 우선 카테고리와 제외 카테고리가 있고, 카테고리 이름으로 골라요.\
 ¹¹ 기본적으로 목록의 스트리머 중 방송에 Drops가 걸린 스트리머를 먼저 시청하지만(`DROPS` 우선순위), 다른 채널은 절대 시청하지 않아요.\
 ¹² 측정하지 않았어요.
-
-## <a name="download"></a>다운로드
-
-[최신 릴리스](https://github.com/SunkwiBOT/twitch-miner/releases/latest)에서 내 시스템에 맞는 파일을 내려받으세요.
-
-| 시스템 | 패키지 |
-|---|---|
-| **Windows** · x64 | 설치 프로그램(`x64-setup.exe`) 또는 [포터블 실행 파일](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **Windows** · ARM64 | 설치 프로그램(`arm64-setup.exe`) 또는 [포터블 실행 파일](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
-| **macOS** 13 이상 · universal: Intel 및 Apple Silicon | 디스크 이미지(`.dmg`) |
-| **Linux** · x86-64 | `.AppImage`, `.deb`(Debian, Ubuntu) 또는 `.rpm`(Fedora, openSUSE) |
-| **Linux** · ARM64 | `.AppImage`, `.deb`(Debian, Ubuntu, Raspberry Pi OS) 또는 `.rpm`(Fedora, openSUSE) |
-| **Linux 서버** · x86-64 또는 ARM64 | 서버만, Docker 없이(`twitch-miner-server_…_linux_x64` 또는 `_linux_arm64`): [Docker 없이](#systemd) 참고 |
-
-macOS 빌드는 공증을 받지 않았어요. 처음에는 앱을 먼저 여세요. macOS가 막으면 **시스템 설정 › 개인정보 보호 및 보안**으로 가서 **그래도 열기**를 클릭하세요.
-
-업데이트는 서명되어 있어요. 앱은 시작할 때 새 버전이 있는지 확인하고, 그 뒤로는 한 시간마다 확인해요(확인 주기는 **설정 › 정보**에서 바꿀 수 있어요). 업데이트를 스스로 설치하지는 않아요. 화면에 뜨는 메시지나 **설정 › 정보**에서 클릭 한 번으로 설치하면 돼요.
-
-데이터는 사용자 데이터 폴더에 저장돼요:
-
-- Linux: `~/.local/share/twitch-miner`
-- Windows: `%APPDATA%\twitch-miner`
-- macOS: `~/Library/Application Support/twitch-miner`
 
 ## <a name="docker"></a>Docker
 

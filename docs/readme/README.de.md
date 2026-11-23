@@ -66,6 +66,36 @@
   <img src="../media/de/presentation.avif" alt="Video-Überblick über Twitch Miner">
 </p>
 
+## <a name="download"></a>Download
+
+Laden Sie die Datei für Ihr System aus dem
+[neuesten Release](https://github.com/SunkwiBOT/twitch-miner/releases/latest)
+herunter.
+
+| System | Paket |
+|---|---|
+| **Windows** · x64 | Installationsprogramm (`x64-setup.exe`) oder [portable ausführbare Datei](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | Installationsprogramm (`arm64-setup.exe`) oder [portable ausführbare Datei](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 oder neuer · universell: Intel und Apple Silicon | Disk-Image (`.dmg`) |
+| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) oder `.rpm` (Fedora, openSUSE) |
+| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) oder `.rpm` (Fedora, openSUSE) |
+| **Linux-Server** · x86-64 oder ARM64 | Der Server allein, ohne Docker (`twitch-miner-server_…_linux_x64` oder `_linux_arm64`): siehe [Ohne Docker](#systemd) |
+
+Der macOS-Build ist nicht notarisiert. Öffnen Sie die App beim ersten Mal: macOS blockiert
+sie. Gehen Sie dann zu **Systemeinstellungen › Datenschutz und Sicherheit** und klicken Sie
+auf **Dennoch öffnen**.
+
+Updates sind signiert. Die App sucht beim Start nach einer neuen Version, danach jede
+Stunde (wie oft, können Sie unter **Einstellungen › Über** ändern). Sie installiert nie
+selbst eine neue Version: Das tun Sie mit einem Klick, über die angezeigte Meldung oder
+über **Einstellungen › Über**.
+
+Die Daten liegen im Benutzerdatenordner:
+
+- Linux: `~/.local/share/twitch-miner`
+- Windows: `%APPDATA%\twitch-miner`
+- macOS: `~/Library/Application Support/twitch-miner`
+
 ## <a name="features"></a>Funktionen
 
 ### Konten und Streamer
@@ -277,7 +307,6 @@
 ## Inhalt
 
 - [Vergleich](#comparison)
-- [Download](#download)
 - [Docker](#docker)
 - [Funktionsweise](#how-it-works)
 - [Häufige Fragen](#faq)
@@ -338,36 +367,6 @@ nicht hat.\
 ¹¹ Standardmäßig schaut es zuerst die Streamer auf seiner Liste, deren Stream Drops trägt
 (seine Priorität `DROPS`), aber nie einen anderen Kanal.\
 ¹² Nicht gemessen.
-
-## <a name="download"></a>Download
-
-Laden Sie die Datei für Ihr System aus dem
-[neuesten Release](https://github.com/SunkwiBOT/twitch-miner/releases/latest)
-herunter.
-
-| System | Paket |
-|---|---|
-| **Windows** · x64 | Installationsprogramm (`x64-setup.exe`) oder [portable ausführbare Datei](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **Windows** · ARM64 | Installationsprogramm (`arm64-setup.exe`) oder [portable ausführbare Datei](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
-| **macOS** 13 oder neuer · universell: Intel und Apple Silicon | Disk-Image (`.dmg`) |
-| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) oder `.rpm` (Fedora, openSUSE) |
-| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) oder `.rpm` (Fedora, openSUSE) |
-| **Linux-Server** · x86-64 oder ARM64 | Der Server allein, ohne Docker (`twitch-miner-server_…_linux_x64` oder `_linux_arm64`): siehe [Ohne Docker](#systemd) |
-
-Der macOS-Build ist nicht notarisiert. Öffnen Sie die App beim ersten Mal: macOS blockiert
-sie. Gehen Sie dann zu **Systemeinstellungen › Datenschutz und Sicherheit** und klicken Sie
-auf **Dennoch öffnen**.
-
-Updates sind signiert. Die App sucht beim Start nach einer neuen Version, danach jede
-Stunde (wie oft, können Sie unter **Einstellungen › Über** ändern). Sie installiert nie
-selbst eine neue Version: Das tun Sie mit einem Klick, über die angezeigte Meldung oder
-über **Einstellungen › Über**.
-
-Die Daten liegen im Benutzerdatenordner:
-
-- Linux: `~/.local/share/twitch-miner`
-- Windows: `%APPDATA%\twitch-miner`
-- macOS: `~/Library/Application Support/twitch-miner`
 
 ## <a name="docker"></a>Docker
 
