@@ -72,12 +72,12 @@ Tải tệp cho hệ thống của bạn từ [bản phát hành mới nhất](h
 
 | Hệ thống | Gói |
 |---|---|
-| **Windows** · x64 | Trình cài đặt (`x64-setup.exe`) hoặc [tệp thực thi portable](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **Windows** · ARM64 | Trình cài đặt (`arm64-setup.exe`) hoặc [tệp thực thi portable](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
-| **macOS** 13 trở lên · universal: Intel và Apple Silicon | Ảnh đĩa (`.dmg`) |
-| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) hoặc `.rpm` (Fedora, openSUSE) |
-| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) hoặc `.rpm` (Fedora, openSUSE) |
-| **Máy chủ Linux** · x86-64 hoặc ARM64 | Chỉ riêng máy chủ, không cần Docker (`twitch-miner-server_…_linux_x64` hoặc `_linux_arm64`): xem [Không cần Docker](#systemd) |
+| **Windows** · x64 | [Trình cài đặt](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64-setup.exe) hoặc [tệp thực thi portable](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | [Trình cài đặt](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64-setup.exe) hoặc [tệp thực thi portable](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 trở lên · universal: Intel và Apple Silicon | [Ảnh đĩa](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_macos_universal.dmg) (`.dmg`) |
+| **Linux** · x86-64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.AppImage), [`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.deb) (Debian, Ubuntu) hoặc [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.rpm) (Fedora, openSUSE) |
+| **Linux** · ARM64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.AppImage), [`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.deb) (Debian, Ubuntu, Raspberry Pi OS) hoặc [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.rpm) (Fedora, openSUSE) |
+| **Máy chủ Linux** · x86-64 hoặc ARM64 | Chỉ riêng máy chủ, không cần Docker ([x86-64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_x64) hoặc [ARM64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_arm64)): xem [Không cần Docker](#systemd) |
 
 Bản macOS chưa được công chứng (notarize). Lần đầu tiên, hãy mở ứng dụng: macOS sẽ chặn nó. Sau đó vào **Cài đặt hệ thống › Quyền riêng tư & bảo mật** và bấm **Vẫn mở**.
 

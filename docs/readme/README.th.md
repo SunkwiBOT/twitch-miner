@@ -72,12 +72,12 @@
 
 | ระบบ | แพ็กเกจ |
 |---|---|
-| **Windows** · x64 | ตัวติดตั้ง (`x64-setup.exe`) หรือ[ไฟล์ปฏิบัติการแบบพกพา](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **Windows** · ARM64 | ตัวติดตั้ง (`arm64-setup.exe`) หรือ[ไฟล์ปฏิบัติการแบบพกพา](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
-| **macOS** 13 ขึ้นไป · universal: Intel และ Apple Silicon | ดิสก์อิมเมจ (`.dmg`) |
-| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) หรือ `.rpm` (Fedora, openSUSE) |
-| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) หรือ `.rpm` (Fedora, openSUSE) |
-| **เซิร์ฟเวอร์ Linux** · x86-64 หรือ ARM64 | ตัวเซิร์ฟเวอร์เพียงอย่างเดียว ไม่ต้องใช้ Docker (`twitch-miner-server_…_linux_x64` หรือ `_linux_arm64`): ดู[ไม่ใช้ Docker](#systemd) |
+| **Windows** · x64 | [ตัวติดตั้ง](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64-setup.exe) หรือ[ไฟล์ปฏิบัติการแบบพกพา](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | [ตัวติดตั้ง](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64-setup.exe) หรือ[ไฟล์ปฏิบัติการแบบพกพา](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 ขึ้นไป · universal: Intel และ Apple Silicon | [ดิสก์อิมเมจ](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_macos_universal.dmg) (`.dmg`) |
+| **Linux** · x86-64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.AppImage), [`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.deb) (Debian, Ubuntu) หรือ [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.rpm) (Fedora, openSUSE) |
+| **Linux** · ARM64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.AppImage), [`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.deb) (Debian, Ubuntu, Raspberry Pi OS) หรือ [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.rpm) (Fedora, openSUSE) |
+| **เซิร์ฟเวอร์ Linux** · x86-64 หรือ ARM64 | ตัวเซิร์ฟเวอร์เพียงอย่างเดียว ไม่ต้องใช้ Docker ([x86-64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_x64) หรือ [ARM64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_arm64)): ดู[ไม่ใช้ Docker](#systemd) |
 
 บิลด์ macOS ไม่ได้ผ่านการ notarize ครั้งแรกให้เปิดแอปก่อน: macOS จะบล็อกไว้ จากนั้นไปที่ **การตั้งค่าระบบ › ความเป็นส่วนตัวและความปลอดภัย** แล้วคลิก **ยืนยันจะเปิด**
 

@@ -72,12 +72,12 @@ Sisteminize uygun dosyayı [son sürümden](https://github.com/SunkwiBOT/twitch-
 
 | Sistem | Paket |
 |---|---|
-| **Windows** · x64 | Yükleyici (`x64-setup.exe`) veya [taşınabilir çalıştırılabilir dosya](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **Windows** · ARM64 | Yükleyici (`arm64-setup.exe`) veya [taşınabilir çalıştırılabilir dosya](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
-| **macOS** 13 veya üstü · evrensel: Intel ve Apple Silicon | Disk görüntüsü (`.dmg`) |
-| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) veya `.rpm` (Fedora, openSUSE) |
-| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) veya `.rpm` (Fedora, openSUSE) |
-| **Linux sunucusu** · x86-64 veya ARM64 | Yalnızca sunucu, Docker'sız (`twitch-miner-server_…_linux_x64` veya `_linux_arm64`): bkz. [Docker olmadan](#systemd) |
+| **Windows** · x64 | [Yükleyici](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64-setup.exe) veya [taşınabilir çalıştırılabilir dosya](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | [Yükleyici](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64-setup.exe) veya [taşınabilir çalıştırılabilir dosya](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 veya üstü · evrensel: Intel ve Apple Silicon | [Disk görüntüsü](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_macos_universal.dmg) (`.dmg`) |
+| **Linux** · x86-64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.AppImage), [`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.deb) (Debian, Ubuntu) veya [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.rpm) (Fedora, openSUSE) |
+| **Linux** · ARM64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.AppImage), [`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.deb) (Debian, Ubuntu, Raspberry Pi OS) veya [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.rpm) (Fedora, openSUSE) |
+| **Linux sunucusu** · x86-64 veya ARM64 | Yalnızca sunucu, Docker'sız ([x86-64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_x64) veya [ARM64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_arm64)): bkz. [Docker olmadan](#systemd) |
 
 macOS derlemesi notarize edilmemiştir. İlk seferde uygulamayı açın: macOS onu engeller. Ardından **Sistem Ayarları › Gizlilik ve Güvenlik** bölümüne gidip **Yine de Aç** düğmesine tıklayın.
 

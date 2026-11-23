@@ -73,12 +73,12 @@ Pobierz plik dla swojego systemu z
 
 | System | Pakiet |
 |---|---|
-| **Windows** · x64 | Instalator (`x64-setup.exe`) lub [wersja przenośna](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **Windows** · ARM64 | Instalator (`arm64-setup.exe`) lub [wersja przenośna](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
-| **macOS** 13 lub nowszy · universal: Intel i Apple Silicon | Obraz dysku (`.dmg`) |
-| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) lub `.rpm` (Fedora, openSUSE) |
-| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) lub `.rpm` (Fedora, openSUSE) |
-| **Serwer Linux** · x86-64 lub ARM64 | Sam serwer, bez Dockera (`twitch-miner-server_…_linux_x64` lub `_linux_arm64`): zobacz [Bez Dockera](#systemd) |
+| **Windows** · x64 | [Instalator](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64-setup.exe) lub [wersja przenośna](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | [Instalator](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64-setup.exe) lub [wersja przenośna](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 lub nowszy · universal: Intel i Apple Silicon | [Obraz dysku](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_macos_universal.dmg) (`.dmg`) |
+| **Linux** · x86-64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.AppImage), [`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.deb) (Debian, Ubuntu) lub [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.rpm) (Fedora, openSUSE) |
+| **Linux** · ARM64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.AppImage), [`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.deb) (Debian, Ubuntu, Raspberry Pi OS) lub [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.rpm) (Fedora, openSUSE) |
+| **Serwer Linux** · x86-64 lub ARM64 | Sam serwer, bez Dockera ([x86-64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_x64) lub [ARM64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_arm64)): zobacz [Bez Dockera](#systemd) |
 
 Wersja na macOS nie jest notaryzowana. Za pierwszym razem otwórz aplikację: macOS ją
 zablokuje. Następnie przejdź do **Ustawienia systemowe › Prywatność i ochrona** i kliknij

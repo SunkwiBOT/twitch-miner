@@ -32,7 +32,7 @@ export const megabytes = (bytes: number): string =>
   }).format(bytes / BYTES_PER_MEGABYTE);
 
 // ! The exact file for this server's own processor, from `binary_asset` in the snapshot.
-export const binaryUpdateCommands = (version: string, asset: BinaryAssetType): string[] => [
-  `sudo install -m 755 ${asset.prefix}${version}_${asset.arch} ${BINARY_PATH}`,
+export const binaryUpdateCommands = (asset: BinaryAssetType): string[] => [
+  `sudo install -m 755 ${asset.prefix}${asset.arch} ${BINARY_PATH}`,
   `sudo systemctl restart ${BINARY_SERVICE}`,
 ];

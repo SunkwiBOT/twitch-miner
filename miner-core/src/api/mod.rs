@@ -51,7 +51,7 @@ impl InstallKind {
 }
 
 // ! Matches the release workflow's Linux server asset names
-// (`twitch-miner-server_<version>_linux_x64`/`_linux_arm64`, `.github/workflows/release.yml`):
+// (`twitch-miner-server_linux_x64`/`_linux_arm64`, `.github/workflows/release.yml`):
 // the only other place this name is built.
 pub const BINARY_ASSET_PREFIX: &str = "twitch-miner-server_";
 

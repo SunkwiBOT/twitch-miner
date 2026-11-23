@@ -73,12 +73,12 @@ Hent filen til dit system fra den
 
 | System | Pakke |
 |---|---|
-| **Windows** · x64 | Installationsprogram (`x64-setup.exe`) eller [portabel eksekverbar fil](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **Windows** · ARM64 | Installationsprogram (`arm64-setup.exe`) eller [portabel eksekverbar fil](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
-| **macOS** 13 eller nyere · universel: Intel og Apple Silicon | Diskbillede (`.dmg`) |
-| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) eller `.rpm` (Fedora, openSUSE) |
-| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) eller `.rpm` (Fedora, openSUSE) |
-| **Linux-server** · x86-64 eller ARM64 | Serveren alene, uden Docker (`twitch-miner-server_…_linux_x64` eller `_linux_arm64`): se [Uden Docker](#systemd) |
+| **Windows** · x64 | [Installationsprogram](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64-setup.exe) eller [portabel eksekverbar fil](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | [Installationsprogram](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64-setup.exe) eller [portabel eksekverbar fil](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 eller nyere · universel: Intel og Apple Silicon | [Diskbillede](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_macos_universal.dmg) (`.dmg`) |
+| **Linux** · x86-64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.AppImage), [`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.deb) (Debian, Ubuntu) eller [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.rpm) (Fedora, openSUSE) |
+| **Linux** · ARM64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.AppImage), [`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.deb) (Debian, Ubuntu, Raspberry Pi OS) eller [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.rpm) (Fedora, openSUSE) |
+| **Linux-server** · x86-64 eller ARM64 | Serveren alene, uden Docker ([x86-64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_x64) eller [ARM64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_arm64)): se [Uden Docker](#systemd) |
 
 macOS-versionen er ikke notariseret. Første gang skal du åbne appen: macOS blokerer den.
 Gå derefter til **Systemindstillinger › Anonymitet og sikkerhed**, og klik på
@@ -414,15 +414,15 @@ der ikke sker noget. Når Twitch eller netværket svigter, svarer serveren `424`
 ### <a name="systemd"></a>Uden Docker (systemd)
 
 På en Linux-server uden Docker har udgivelsen også serveren som en enkelt fil, med
-oversigten indbygget: `twitch-miner-server_<version>_linux_x64` eller
-`twitch-miner-server_<version>_linux_arm64`. Det er det samme program, Docker-imaget
+oversigten indbygget: `twitch-miner-server_linux_x64` eller
+`twitch-miner-server_linux_arm64`. Det er det samme program, Docker-imaget
 kører, statisk linket: intet andet at installere, bortset fra systemets CA-certifikater,
 som den læser til HTTPS (Docker-imaget kopierer dem af samme grund). Den tager de samme
 variabler.
 
 ```bash
-# ARM64: twitch-miner-server_<version>_linux_arm64
-sudo install -m 755 twitch-miner-server_<version>_linux_x64 /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_linux_arm64
+sudo install -m 755 twitch-miner-server_linux_x64 /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -466,8 +466,8 @@ Denne fil opdaterer ikke sig selv. Når oversigten viser en ny version, skal du 
 nye fil fra udgivelsen, erstatte den gamle og genstarte:
 
 ```bash
-# ARM64: twitch-miner-server_<version>_linux_arm64
-sudo install -m 755 twitch-miner-server_<version>_linux_x64 /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_linux_arm64
+sudo install -m 755 twitch-miner-server_linux_x64 /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 

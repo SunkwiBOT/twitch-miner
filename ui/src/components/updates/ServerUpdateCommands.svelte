@@ -8,10 +8,6 @@
   import { ButtonSize } from "../ui/button.constants";
   import { CopyLayout } from "../ui/ui.constants";
 
-  type ServerUpdateCommandsPropsType = { version: string };
-
-  let { version }: ServerUpdateCommandsPropsType = $props();
-
   type UpdateStepsType = { hint: string; commands: string } | null;
 
   const steps = $derived.by((): UpdateStepsType => {
@@ -33,7 +29,7 @@
         return asset
           ? {
               hint: t.updates_replace_binary(),
-              commands: binaryUpdateCommands(version, asset).join("\n"),
+              commands: binaryUpdateCommands(asset).join("\n"),
             }
           : null;
       },

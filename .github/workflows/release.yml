@@ -162,31 +162,29 @@ jobs:
           - name: "Linux x64 (AppImage, deb, rpm)"
             platform: ubuntu-22.04
             args: --bundles appimage,rpm,deb -- --locked
-            # ! No "linux" in the name: every AppImage is for Linux, and AppImage tools
-            # warn about a name that says so.
-            assets: "twitch-miner_[version]_[arch][setup][ext]"
+            assets: "twitch-miner_[arch][setup][ext]"
           # ! The same Ubuntu as x64, so both need the same glibc (2.35): Raspberry Pi OS
           # Bookworm and Debian 12 run them.
           - name: "Linux ARM64 (AppImage, deb, rpm)"
             platform: ubuntu-22.04-arm
             args: --bundles appimage,rpm,deb -- --locked
-            assets: "twitch-miner_[version]_[arch][setup][ext]"
+            assets: "twitch-miner_[arch][setup][ext]"
           - name: "Windows x64 (installer, portable)"
             platform: windows-latest
             args: --bundles nsis -- --locked
-            assets: "twitch-miner_[version]_[platform]_[arch][setup][ext]"
+            assets: "twitch-miner_[platform]_[arch][setup][ext]"
             portable: twitch-miner_windows_x64_portable.exe
           - name: "Windows ARM64 (installer, portable)"
             platform: windows-11-arm
             args: --bundles nsis -- --locked
-            assets: "twitch-miner_[version]_[platform]_[arch][setup][ext]"
+            assets: "twitch-miner_[platform]_[arch][setup][ext]"
             portable: twitch-miner_windows_arm64_portable.exe
           - name: "macOS (dmg, app)"
             platform: macos-latest
             # ! The macOS updater installs the signed `.app.tar.gz` that only the `app`
             # bundle produces.
             args: --bundles app,dmg --target universal-apple-darwin -- --locked
-            assets: "twitch-miner_[version]_macos_[arch][setup][ext]"
+            assets: "twitch-miner_macos_[arch][setup][ext]"
     runs-on: ${{ matrix.platform }}
     permissions:
       contents: write
@@ -227,7 +225,7 @@ jobs:
         with:
           tagName: ${{ !inputs.dry_run && format('v{0}', needs.version.outputs.version) || '' }}
           releaseName: "v${{ needs.version.outputs.version }} - Twitch Miner"
-          releaseBody: "Download the installer for your system, or run the Docker image ${{ needs.version.outputs.image }}:${{ needs.version.outputs.version }} (also tagged latest) on a home server. macOS builds are not notarized: the first time, open the app, then allow it in System Settings › Privacy & Security › Open Anyway. twitch-miner_windows_x64_portable.exe and twitch-miner_windows_arm64_portable.exe run on Windows without installing; they update themselves like the other builds. twitch-miner-server_${{ needs.version.outputs.version }}_linux_x64 and _linux_arm64 are the Docker image's server as a single file, for a Linux server without Docker: to update, replace the file and restart it."
+          releaseBody: "Download the installer for your system, or run the Docker image ${{ needs.version.outputs.image }}:${{ needs.version.outputs.version }} (also tagged latest) on a home server. macOS builds are not notarized: the first time, open the app, then allow it in System Settings › Privacy & Security › Open Anyway. twitch-miner_windows_x64_portable.exe and twitch-miner_windows_arm64_portable.exe run on Windows without installing; they update themselves like the other builds. twitch-miner-server_linux_x64 and twitch-miner-server_linux_arm64 are the Docker image's server as a single file, for a Linux server without Docker: to update, replace the file and restart it."
           releaseDraft: true
           prerelease: false
           # ! The builds would each rewrite the shared latest.json and could drop each other's
@@ -235,28 +233,37 @@ jobs:
           uploadUpdaterJson: false
           uploadUpdaterSignatures: true
           # ! A fixed file name without the product name's "&": GitHub drops it from
-          # asset names but tauri-action does not.
+          # asset names but tauri-action does not. No version either, so the README links
+          # to `releases/latest/download/<name>` always find the file.
           releaseAssetNamePattern: ${{ matrix.assets }}
           uploadWorkflowArtifacts: ${{ inputs.dry_run }}
           workflowArtifactNamePattern: ${{ matrix.assets }}
           args: ${{ matrix.args }}
 
-      # ! Tauri names the ARM64 AppImage after `aarch64`: the release names it `arm64` like the
-      # deb, its signature too so `finalize` finds it beside it.
-      - name: Name the ARM64 AppImage like the deb
-        if: ${{ !inputs.dry_run && runner.os == 'Linux' && runner.arch == 'ARM64' }}
+      # ! Tauri names each Linux package after its own architecture name (`amd64`, `x86_64`,
+      # `aarch64`, `arm64`): the release names them all `linux_x64`/`linux_arm64`, their
+      # signatures too so `finalize` finds them beside them.
+      - name: Name the Linux packages after their system
+        if: ${{ !inputs.dry_run && runner.os == 'Linux' }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
           RELEASE_VERSION: ${{ needs.version.outputs.version }}
         run: |
-          for suffix in "" .sig; do
-            from="twitch-miner_${RELEASE_VERSION}_aarch64.AppImage$suffix"
-            url="$(gh release view "v$RELEASE_VERSION" --json assets \
-              --jq ".assets[] | select(.name == \"$from\") | .apiUrl")"
-            : "${url:?the draft has no $from}"
-            gh api --method PATCH "repos/$GH_REPO/releases/assets/${url##*/}" \
-              -f name="twitch-miner_${RELEASE_VERSION}_arm64.AppImage$suffix" > /dev/null
+          case "$RUNNER_ARCH" in
+            X64) arch=x64 froms="amd64.AppImage amd64.deb x86_64.rpm" ;;
+            ARM64) arch=arm64 froms="aarch64.AppImage arm64.deb aarch64.rpm" ;;
+            *) echo "::error::no Linux package name for $RUNNER_ARCH"; exit 1 ;;
+          esac
+          for from in $froms; do
+            for suffix in "" .sig; do
+              name="twitch-miner_$from$suffix"
+              url="$(gh release view "v$RELEASE_VERSION" --json assets \
+                --jq ".assets[] | select(.name == \"$name\") | .apiUrl")"
+              : "${url:?the draft has no $name}"
+              gh api --method PATCH "repos/$GH_REPO/releases/assets/${url##*/}" \
+                -f name="twitch-miner_linux_$arch.${from#*.}$suffix" > /dev/null
+            done
           done
 
       - name: Name the portable Windows executable
@@ -321,22 +328,20 @@ jobs:
             type=local,dest=server
 
       - name: Name the server binaries like the release assets
-        env:
-          RELEASE_VERSION: ${{ needs.version.outputs.version }}
         run: |
           mkdir release
-          install -m 755 server/linux_amd64/twitch-miner "release/twitch-miner-server_${RELEASE_VERSION}_linux_x64"
-          install -m 755 server/linux_arm64/twitch-miner "release/twitch-miner-server_${RELEASE_VERSION}_linux_arm64"
+          install -m 755 server/linux_amd64/twitch-miner release/twitch-miner-server_linux_x64
+          install -m 755 server/linux_arm64/twitch-miner release/twitch-miner-server_linux_arm64
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: twitch-miner-server_${{ needs.version.outputs.version }}_linux_x64
-          path: release/twitch-miner-server_${{ needs.version.outputs.version }}_linux_x64
+          name: twitch-miner-server_linux_x64
+          path: release/twitch-miner-server_linux_x64
           if-no-files-found: error
           retention-days: 7
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: twitch-miner-server_${{ needs.version.outputs.version }}_linux_arm64
-          path: release/twitch-miner-server_${{ needs.version.outputs.version }}_linux_arm64
+          name: twitch-miner-server_linux_arm64
+          path: release/twitch-miner-server_linux_arm64
           if-no-files-found: error
           retention-days: 7
 
@@ -353,10 +358,11 @@ jobs:
           GH_REPO: ${{ github.repository }}
           RUN_ID: ${{ github.run_id }}
         run: |
-          # ! The rename of the ARM64 AppImage only patches a real release's assets: normalize
-          # the name here too, so a dry run lists the same files a release would get.
+          # ! The Linux packages are only renamed on a real release's assets: normalize the
+          # names here too, so a dry run lists the same files a release would get.
           names="$(gh api --paginate "repos/$GH_REPO/actions/runs/$RUN_ID/artifacts" --jq '.artifacts[].name' \
-            | sed 's/_aarch64\.AppImage/_arm64.AppImage/' | sort)"
+            | sed -E 's/^twitch-miner_(amd64|x86_64)\./twitch-miner_linux_x64./; s/^twitch-miner_(aarch64|arm64)\./twitch-miner_linux_arm64./' \
+            | sort)"
           echo "$names"
           {
             echo "### Files a release would get"
@@ -401,24 +407,23 @@ jobs:
         run: |
           tag="v$RELEASE_VERSION"
           base="https://github.com/$GH_REPO/releases/download/$tag"
-          v="$RELEASE_VERSION"
-          macos="twitch-miner_${v}_macos_universal.app.tar.gz"
+          macos="twitch-miner_macos_universal.app.tar.gz"
           # ! Each updater key and the asset it installs. The portable keys are the ones
           # `updates.rs` builds from its architecture.
           entries="
-            linux-x86_64=twitch-miner_${v}_amd64.AppImage
-            linux-x86_64-appimage=twitch-miner_${v}_amd64.AppImage
-            linux-x86_64-deb=twitch-miner_${v}_amd64.deb
-            linux-x86_64-rpm=twitch-miner_${v}_x86_64.rpm
-            linux-aarch64=twitch-miner_${v}_arm64.AppImage
-            linux-aarch64-appimage=twitch-miner_${v}_arm64.AppImage
-            linux-aarch64-deb=twitch-miner_${v}_arm64.deb
-            linux-aarch64-rpm=twitch-miner_${v}_aarch64.rpm
-            windows-x86_64=twitch-miner_${v}_windows_x64-setup.exe
-            windows-x86_64-nsis=twitch-miner_${v}_windows_x64-setup.exe
+            linux-x86_64=twitch-miner_linux_x64.AppImage
+            linux-x86_64-appimage=twitch-miner_linux_x64.AppImage
+            linux-x86_64-deb=twitch-miner_linux_x64.deb
+            linux-x86_64-rpm=twitch-miner_linux_x64.rpm
+            linux-aarch64=twitch-miner_linux_arm64.AppImage
+            linux-aarch64-appimage=twitch-miner_linux_arm64.AppImage
+            linux-aarch64-deb=twitch-miner_linux_arm64.deb
+            linux-aarch64-rpm=twitch-miner_linux_arm64.rpm
+            windows-x86_64=twitch-miner_windows_x64-setup.exe
+            windows-x86_64-nsis=twitch-miner_windows_x64-setup.exe
             windows-x86_64-portable=twitch-miner_windows_x64_portable.exe
-            windows-aarch64=twitch-miner_${v}_windows_arm64-setup.exe
-            windows-aarch64-nsis=twitch-miner_${v}_windows_arm64-setup.exe
+            windows-aarch64=twitch-miner_windows_arm64-setup.exe
+            windows-aarch64-nsis=twitch-miner_windows_arm64-setup.exe
             windows-aarch64-portable=twitch-miner_windows_arm64_portable.exe
             darwin-aarch64=$macos
             darwin-aarch64-app=$macos

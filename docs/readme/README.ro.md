@@ -73,12 +73,12 @@ Descarcă fișierul pentru sistemul tău din
 
 | Sistem | Pachet |
 |---|---|
-| **Windows** · x64 | Program de instalare (`x64-setup.exe`) sau [executabil portabil](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **Windows** · ARM64 | Program de instalare (`arm64-setup.exe`) sau [executabil portabil](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
-| **macOS** 13 sau mai nou · universal: Intel și Apple Silicon | Imagine de disc (`.dmg`) |
-| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) sau `.rpm` (Fedora, openSUSE) |
-| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) sau `.rpm` (Fedora, openSUSE) |
-| **Server Linux** · x86-64 sau ARM64 | Doar serverul, fără Docker (`twitch-miner-server_…_linux_x64` sau `_linux_arm64`): vezi [Fără Docker](#systemd) |
+| **Windows** · x64 | [Program de instalare](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64-setup.exe) sau [executabil portabil](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | [Program de instalare](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64-setup.exe) sau [executabil portabil](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 sau mai nou · universal: Intel și Apple Silicon | [Imagine de disc](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_macos_universal.dmg) (`.dmg`) |
+| **Linux** · x86-64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.AppImage), [`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.deb) (Debian, Ubuntu) sau [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.rpm) (Fedora, openSUSE) |
+| **Linux** · ARM64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.AppImage), [`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.deb) (Debian, Ubuntu, Raspberry Pi OS) sau [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.rpm) (Fedora, openSUSE) |
+| **Server Linux** · x86-64 sau ARM64 | Doar serverul, fără Docker ([x86-64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_x64) sau [ARM64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_arm64)): vezi [Fără Docker](#systemd) |
 
 Versiunea pentru macOS nu este notarizată. Prima dată, deschide aplicația: macOS o
 blochează. Apoi mergi la **Configurări sistem › Intimitate și securitate** și fă clic pe

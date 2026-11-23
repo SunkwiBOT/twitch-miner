@@ -73,12 +73,12 @@ Download the file for your system from the
 
 | System | Package |
 |---|---|
-| **Windows** · x64 | Installer (`x64-setup.exe`) or [portable executable](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **Windows** · ARM64 | Installer (`arm64-setup.exe`) or [portable executable](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
-| **macOS** 13 or later · universal: Intel and Apple Silicon | Disk image (`.dmg`) |
-| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) or `.rpm` (Fedora, openSUSE) |
-| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) or `.rpm` (Fedora, openSUSE) |
-| **Linux server** · x86-64 or ARM64 | The server alone, without Docker (`twitch-miner-server_…_linux_x64` or `_linux_arm64`): see [Without Docker](#systemd) |
+| **Windows** · x64 | [Installer](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64-setup.exe) or [portable executable](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | [Installer](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64-setup.exe) or [portable executable](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 or later · universal: Intel and Apple Silicon | [Disk image](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_macos_universal.dmg) (`.dmg`) |
+| **Linux** · x86-64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.AppImage), [`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.deb) (Debian, Ubuntu) or [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.rpm) (Fedora, openSUSE) |
+| **Linux** · ARM64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.AppImage), [`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.deb) (Debian, Ubuntu, Raspberry Pi OS) or [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.rpm) (Fedora, openSUSE) |
+| **Linux server** · x86-64 or ARM64 | The server alone, without Docker ([x86-64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_x64) or [ARM64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_arm64)): see [Without Docker](#systemd) |
 
 The macOS build is not notarized. The first time, open the app: macOS blocks it. Then go
 to **System Settings › Privacy & Security** and click **Open Anyway**.
@@ -411,14 +411,14 @@ happens. When Twitch or the network fails, the server answers `424`, never `502`
 ### <a name="systemd"></a>Without Docker (systemd)
 
 On a Linux server without Docker, the release also has the server as a single file, with
-the dashboard inside: `twitch-miner-server_<version>_linux_x64` or
-`twitch-miner-server_<version>_linux_arm64`. It is the program the Docker image runs,
+the dashboard inside: `twitch-miner-server_linux_x64` or
+`twitch-miner-server_linux_arm64`. It is the program the Docker image runs,
 statically linked: nothing else to install, besides the system's CA certificates it reads
 for HTTPS (the Docker image copies them in for the same reason). It takes the same variables.
 
 ```bash
-# ARM64: twitch-miner-server_<version>_linux_arm64
-sudo install -m 755 twitch-miner-server_<version>_linux_x64 /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_linux_arm64
+sudo install -m 755 twitch-miner-server_linux_x64 /usr/local/bin/twitch-miner
 sudo install -m 600 /dev/null /etc/twitch-miner.env
 ```
 
@@ -462,8 +462,8 @@ This file does not update itself. When the dashboard shows a new version, downlo
 file from the release, then replace the old one and restart:
 
 ```bash
-# ARM64: twitch-miner-server_<version>_linux_arm64
-sudo install -m 755 twitch-miner-server_<version>_linux_x64 /usr/local/bin/twitch-miner
+# ARM64: twitch-miner-server_linux_arm64
+sudo install -m 755 twitch-miner-server_linux_x64 /usr/local/bin/twitch-miner
 sudo systemctl restart twitch-miner
 ```
 

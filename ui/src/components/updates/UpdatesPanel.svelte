@@ -56,7 +56,7 @@
   <p class="text-hint text-muted-foreground"><RichText text={lastChecked} /></p>
 </div>
 {#if !isTauri() && version}
-  <ServerUpdateCommands {version} />
+  <ServerUpdateCommands />
 {/if}
 <div class="flex flex-wrap gap-2">
   <ActionButton

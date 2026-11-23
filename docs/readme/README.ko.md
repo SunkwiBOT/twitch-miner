@@ -72,12 +72,12 @@
 
 | 시스템 | 패키지 |
 |---|---|
-| **Windows** · x64 | 설치 프로그램(`x64-setup.exe`) 또는 [포터블 실행 파일](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **Windows** · ARM64 | 설치 프로그램(`arm64-setup.exe`) 또는 [포터블 실행 파일](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
-| **macOS** 13 이상 · universal: Intel 및 Apple Silicon | 디스크 이미지(`.dmg`) |
-| **Linux** · x86-64 | `.AppImage`, `.deb`(Debian, Ubuntu) 또는 `.rpm`(Fedora, openSUSE) |
-| **Linux** · ARM64 | `.AppImage`, `.deb`(Debian, Ubuntu, Raspberry Pi OS) 또는 `.rpm`(Fedora, openSUSE) |
-| **Linux 서버** · x86-64 또는 ARM64 | 서버만, Docker 없이(`twitch-miner-server_…_linux_x64` 또는 `_linux_arm64`): [Docker 없이](#systemd) 참고 |
+| **Windows** · x64 | [설치 프로그램](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64-setup.exe) 또는 [포터블 실행 파일](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | [설치 프로그램](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64-setup.exe) 또는 [포터블 실행 파일](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 이상 · universal: Intel 및 Apple Silicon | [디스크 이미지](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_macos_universal.dmg)(`.dmg`) |
+| **Linux** · x86-64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.AppImage), [`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.deb)(Debian, Ubuntu) 또는 [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.rpm)(Fedora, openSUSE) |
+| **Linux** · ARM64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.AppImage), [`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.deb)(Debian, Ubuntu, Raspberry Pi OS) 또는 [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.rpm)(Fedora, openSUSE) |
+| **Linux 서버** · x86-64 또는 ARM64 | 서버만, Docker 없이([x86-64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_x64) 또는 [ARM64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_arm64)): [Docker 없이](#systemd) 참고 |
 
 macOS 빌드는 공증을 받지 않았어요. 처음에는 앱을 먼저 여세요. macOS가 막으면 **시스템 설정 › 개인정보 보호 및 보안**으로 가서 **그래도 열기**를 클릭하세요.
 

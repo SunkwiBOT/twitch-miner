@@ -72,12 +72,12 @@
 
 | 系統 | 套件 |
 |---|---|
-| **Windows** · x64 | 安裝程式（`x64-setup.exe`）或[免安裝執行檔](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **Windows** · ARM64 | 安裝程式（`arm64-setup.exe`）或[免安裝執行檔](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
-| **macOS** 13 或以上版本 · 通用版：Intel 和 Apple Silicon | 磁碟映像檔（`.dmg`） |
-| **Linux** · x86-64 | `.AppImage`、`.deb`（Debian、Ubuntu）或 `.rpm`（Fedora、openSUSE） |
-| **Linux** · ARM64 | `.AppImage`、`.deb`（Debian、Ubuntu、Raspberry Pi OS）或 `.rpm`（Fedora、openSUSE） |
-| **Linux 伺服器** · x86-64 或 ARM64 | 只有伺服器本體，不需要 Docker（`twitch-miner-server_…_linux_x64` 或 `_linux_arm64`）：參見[不使用 Docker](#systemd) |
+| **Windows** · x64 | [安裝程式](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64-setup.exe)或[免安裝執行檔](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | [安裝程式](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64-setup.exe)或[免安裝執行檔](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 或以上版本 · 通用版：Intel 和 Apple Silicon | [磁碟映像檔](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_macos_universal.dmg)（`.dmg`） |
+| **Linux** · x86-64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.AppImage)、[`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.deb)（Debian、Ubuntu）或 [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.rpm)（Fedora、openSUSE） |
+| **Linux** · ARM64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.AppImage)、[`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.deb)（Debian、Ubuntu、Raspberry Pi OS）或 [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.rpm)（Fedora、openSUSE） |
+| **Linux 伺服器** · x86-64 或 ARM64 | 只有伺服器本體，不需要 Docker（[x86-64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_x64) 或 [ARM64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_arm64)）：參見[不使用 Docker](#systemd) |
 
 macOS 版本未經 Apple 公證。第一次執行時，先開啟應用程式：macOS 會阻擋它。接著前往**系統設定 › 隱私權與安全性**，按一下**強制打開**。
 

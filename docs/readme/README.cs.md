@@ -73,12 +73,12 @@ Stáhněte si soubor pro svůj systém z
 
 | Systém | Balíček |
 |---|---|
-| **Windows** · x64 | Instalátor (`x64-setup.exe`) nebo [přenosná verze](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **Windows** · ARM64 | Instalátor (`arm64-setup.exe`) nebo [přenosná verze](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
-| **macOS** 13 nebo novější · univerzální: Intel a Apple Silicon | Obraz disku (`.dmg`) |
-| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) nebo `.rpm` (Fedora, openSUSE) |
-| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) nebo `.rpm` (Fedora, openSUSE) |
-| **Linux server** · x86-64 nebo ARM64 | Samotný server, bez Dockeru (`twitch-miner-server_…_linux_x64` nebo `_linux_arm64`): viz [Bez Dockeru](#systemd) |
+| **Windows** · x64 | [Instalátor](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64-setup.exe) nebo [přenosná verze](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | [Instalátor](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64-setup.exe) nebo [přenosná verze](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 nebo novější · univerzální: Intel a Apple Silicon | [Obraz disku](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_macos_universal.dmg) (`.dmg`) |
+| **Linux** · x86-64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.AppImage), [`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.deb) (Debian, Ubuntu) nebo [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.rpm) (Fedora, openSUSE) |
+| **Linux** · ARM64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.AppImage), [`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.deb) (Debian, Ubuntu, Raspberry Pi OS) nebo [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.rpm) (Fedora, openSUSE) |
+| **Linux server** · x86-64 nebo ARM64 | Samotný server, bez Dockeru ([x86-64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_x64) nebo [ARM64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_arm64)): viz [Bez Dockeru](#systemd) |
 
 Sestavení pro macOS není notarizované. Poprvé aplikaci otevřete: macOS ji zablokuje. Pak
 přejděte do **Nastavení systému › Soukromí a zabezpečení** a klikněte na

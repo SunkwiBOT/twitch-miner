@@ -82,7 +82,7 @@
         <p class="text-hint font-medium">
           <RichText text={t.updates_available({ version: strong(version) })} />
         </p>
-        <ServerUpdateCommands {version} />
+        <ServerUpdateCommands />
       </PopoverContent>
     </Popover>
   {/if}

@@ -73,12 +73,12 @@ Töltsd le a rendszerednek megfelelő fájlt a
 
 | Rendszer | Csomag |
 |---|---|
-| **Windows** · x64 | Telepítő (`x64-setup.exe`) vagy [hordozható futtatható fájl](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **Windows** · ARM64 | Telepítő (`arm64-setup.exe`) vagy [hordozható futtatható fájl](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
-| **macOS** 13 vagy újabb · univerzális: Intel és Apple Silicon | Lemezkép (`.dmg`) |
-| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) vagy `.rpm` (Fedora, openSUSE) |
-| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) vagy `.rpm` (Fedora, openSUSE) |
-| **Linux szerver** · x86-64 vagy ARM64 | Csak a szerver, Docker nélkül (`twitch-miner-server_…_linux_x64` vagy `_linux_arm64`): lásd [Docker nélkül](#systemd) |
+| **Windows** · x64 | [Telepítő](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64-setup.exe) vagy [hordozható futtatható fájl](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | [Telepítő](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64-setup.exe) vagy [hordozható futtatható fájl](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 vagy újabb · univerzális: Intel és Apple Silicon | [Lemezkép](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_macos_universal.dmg) (`.dmg`) |
+| **Linux** · x86-64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.AppImage), [`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.deb) (Debian, Ubuntu) vagy [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.rpm) (Fedora, openSUSE) |
+| **Linux** · ARM64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.AppImage), [`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.deb) (Debian, Ubuntu, Raspberry Pi OS) vagy [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.rpm) (Fedora, openSUSE) |
+| **Linux szerver** · x86-64 vagy ARM64 | Csak a szerver, Docker nélkül ([x86-64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_x64) vagy [ARM64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_arm64)): lásd [Docker nélkül](#systemd) |
 
 A macOS-es build nincs hitelesítve (notarization). Első alkalommal nyisd meg az
 alkalmazást: a macOS letiltja. Ezután menj a **Rendszerbeállítások › Adatvédelem és

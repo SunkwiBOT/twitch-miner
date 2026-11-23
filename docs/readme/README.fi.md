@@ -73,12 +73,12 @@ Lataa järjestelmällesi sopiva tiedosto
 
 | Järjestelmä | Paketti |
 |---|---|
-| **Windows** · x64 | Asennusohjelma (`x64-setup.exe`) tai [siirrettävä suoritettava tiedosto](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
-| **Windows** · ARM64 | Asennusohjelma (`arm64-setup.exe`) tai [siirrettävä suoritettava tiedosto](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
-| **macOS** 13 tai uudempi · universaali: Intel ja Apple Silicon | Levykuva (`.dmg`) |
-| **Linux** · x86-64 | `.AppImage`, `.deb` (Debian, Ubuntu) tai `.rpm` (Fedora, openSUSE) |
-| **Linux** · ARM64 | `.AppImage`, `.deb` (Debian, Ubuntu, Raspberry Pi OS) tai `.rpm` (Fedora, openSUSE) |
-| **Linux-palvelin** · x86-64 tai ARM64 | Pelkkä palvelin, ilman Dockeria (`twitch-miner-server_…_linux_x64` tai `_linux_arm64`): katso [Ilman Dockeria](#systemd) |
+| **Windows** · x64 | [Asennusohjelma](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64-setup.exe) tai [siirrettävä suoritettava tiedosto](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_x64_portable.exe) |
+| **Windows** · ARM64 | [Asennusohjelma](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64-setup.exe) tai [siirrettävä suoritettava tiedosto](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_windows_arm64_portable.exe) |
+| **macOS** 13 tai uudempi · universaali: Intel ja Apple Silicon | [Levykuva](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_macos_universal.dmg) (`.dmg`) |
+| **Linux** · x86-64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.AppImage), [`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.deb) (Debian, Ubuntu) tai [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_x64.rpm) (Fedora, openSUSE) |
+| **Linux** · ARM64 | [`.AppImage`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.AppImage), [`.deb`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.deb) (Debian, Ubuntu, Raspberry Pi OS) tai [`.rpm`](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner_linux_arm64.rpm) (Fedora, openSUSE) |
+| **Linux-palvelin** · x86-64 tai ARM64 | Pelkkä palvelin, ilman Dockeria ([x86-64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_x64) tai [ARM64](https://github.com/SunkwiBOT/twitch-miner/releases/latest/download/twitch-miner-server_linux_arm64)): katso [Ilman Dockeria](#systemd) |
 
 macOS-versiota ei ole notarisoitu. Avaa sovellus ensimmäisellä kerralla: macOS estää sen.
 Siirry sitten kohtaan **Järjestelmäasetukset › Tietosuoja ja suojaus** ja napsauta
