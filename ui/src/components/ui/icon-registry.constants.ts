@@ -1,5 +1,6 @@
 import ArrowDownIcon from "@lucide/svelte/icons/arrow-down";
 import ArrowLeftIcon from "@lucide/svelte/icons/arrow-left";
+import ArrowRightIcon from "@lucide/svelte/icons/arrow-right";
 import ArrowUpIcon from "@lucide/svelte/icons/arrow-up";
 import AtSignIcon from "@lucide/svelte/icons/at-sign";
 import AwardIcon from "@lucide/svelte/icons/award";
@@ -122,6 +123,7 @@ export const ICONS: Record<IconName, LucideIconType | IconDrawingType> = {
   [IconName.ARROW_UP]: ArrowUpIcon,
   [IconName.ARROW_DOWN]: ArrowDownIcon,
   [IconName.ARROW_LEFT]: ArrowLeftIcon,
+  [IconName.ARROW_RIGHT]: ArrowRightIcon,
   [IconName.GRIP]: GripVerticalIcon,
   [IconName.LOADER]: LoaderCircleIcon,
   [IconName.AT]: AtSignIcon,

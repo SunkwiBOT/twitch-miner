@@ -54,6 +54,8 @@ const OFFICIAL: Endpoints = Endpoints {
 pub(crate) struct Notice {
     pub event: MinerEvent,
     pub language: &'static str,
+    // ! Shown first in the body, bold where the channel can: the test's event, under its fixed title.
+    pub lead: Option<String>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
@@ -249,6 +251,7 @@ impl Notifier {
         let notice = Notice {
             event: redacted(localized(event, language)),
             language,
+            lead: None,
         };
         let queues = self.queues();
 
@@ -280,11 +283,7 @@ impl Notifier {
     // round-trip with the values typed in the form, never persisted or
     // logged, so the button works before the section is even saved.
     pub async fn test_adhoc(&self, request: NotificationTestRequest) -> NotificationTest {
-        let language = self.language();
-        let notice = Notice {
-            event: sample_in(language),
-            language,
-        };
+        let notice = sample_in(self.language());
         let target = request.target();
         let outcome = tokio::time::timeout(TEST_WAIT, self.send_adhoc(&request, &notice)).await;
 
@@ -377,30 +376,34 @@ impl Notifier {
     }
 }
 
-pub fn sample_in(language: &str) -> MinerEvent {
+pub(crate) fn sample_in(language: &'static str) -> Notice {
     let name = |key: &str| i18n::text(language, key, &[]);
     let logo = format!("{TEST_SCHEME}{}", TEST_PICTURE.0);
-    let event = MinerEvent::new("", "miner", EventKind::DropClaimed, "")
-        .detail(i18n::text(language, "notify_test_detail", &[]))
-        .context(EventContext {
-            account_name: Some(name("notify_test_account")),
-            account_avatar: Some(logo.clone()),
-            channel_name: Some(name("notify_test_streamer")),
-            avatar: Some(logo.clone()),
-            campaign_name: Some(name("notify_test_campaign")),
-            game: Some(name("notify_test_game")),
-            art: Some(logo.clone()),
-            drop_name: Some(name("notify_test_drop")),
-            reward: Some(logo),
-            ..EventContext::default()
-        });
-    let title = i18n::text(
-        language,
-        "notify_test_title",
-        &[("eventText", &i18n::event_text(language, &event))],
-    );
+    let event = MinerEvent::new(
+        "",
+        "miner",
+        EventKind::DropClaimed,
+        i18n::text(language, "notify_test_title", &[]),
+    )
+    .detail(i18n::text(language, "notify_test_detail", &[]))
+    .context(EventContext {
+        account_name: Some(name("notify_test_account")),
+        account_avatar: Some(logo.clone()),
+        channel_name: Some(name("notify_test_streamer")),
+        avatar: Some(logo.clone()),
+        campaign_name: Some(name("notify_test_campaign")),
+        game: Some(name("notify_test_game")),
+        art: Some(logo.clone()),
+        drop_name: Some(name("notify_test_drop")),
+        reward: Some(logo),
+        ..EventContext::default()
+    });
 
-    MinerEvent { title, ..event }
+    Notice {
+        lead: Some(i18n::event_text(language, &event)),
+        event,
+        language,
+    }
 }
 
 pub fn localized(mut event: MinerEvent, language: &str) -> MinerEvent {

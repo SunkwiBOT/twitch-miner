@@ -52,7 +52,7 @@
 
 <Dialog
   open={updates.confirming && version !== ""}
-  title={t.updates_confirm_title({ version: strong(version) })}
+  title={t.updates_confirm_title()}
   wide={false}
   closable={!busy}
   closeOnOutside={true}

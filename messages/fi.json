@@ -614,19 +614,7 @@
   "security_access_public": "HTTPS-käänteisvälityspalvelimen takana osoitteessa {host}.",
   "settings_close_action": "Sulkemispainike",
   "settings_unsaved": "Sinulla on tallentamattomia muutoksia.",
-  "slots_max_title": [
-    {
-      "declarations": [
-        "input maxWatchedChannels",
-        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
-      ],
-      "selectors": ["maxWatchedChannelsPlural"],
-      "match": {
-        "maxWatchedChannelsPlural=one": "{maxWatchedChannels} kanava",
-        "maxWatchedChannelsPlural=*": "{maxWatchedChannels} kanavaa"
-      }
-    }
-  ],
+  "slots_max_title": "Niin monta kuin sallitaan",
   "slots_max_hint": [
     {
       "declarations": [
@@ -977,7 +965,8 @@
   "updates_checking": "Tarkistetaan…",
   "updates_current": "Sinulla on uusin versio.",
   "updates_available": "Versio {version} on saatavilla.",
-  "updates_notes_title": "Uutta versiossa {version}",
+  "updates_notes_title": "Uutta",
+  "updates_version_change": "Päivitys versiosta {currentVersion} versioon {newVersion}",
   "updates_available_title": "Päivitys saatavilla",
   "updates_available_locked": "Versio {version} on saatavilla. Avaa sovelluksen lukitus asentaaksesi sen.",
   "updates_badge": "Päivitys {version}",
@@ -988,7 +977,7 @@
   "updates_never_checked": "Viimeksi tarkistettu: ei vielä vastausta käynnistyksen jälkeen",
   "updates_install": "Asenna ja käynnistä uudelleen",
   "settings_notifications_language": "Ilmoitusten kieli",
-  "updates_confirm_title": "Asennetaanko versio {version}?",
+  "updates_confirm_title": "Asennetaanko uusi versio?",
   "updates_confirm_text": "Sinulla on versio {current}. Sovellus lataa version {version}, pysäyttää louhinnan kaikilla tileillä, asentaa sen ja käynnistyy uudelleen itsestään. Sen jälkeen louhinta jatkuu itsestään.",
   "updates_later": "Myöhemmin",
   "updates_installing": "Asennetaan…",
@@ -1153,7 +1142,7 @@
   "reward_state_ready": "Lunastettavissa",
   "reward_state_owned": "Omistettu",
   "reward_claim": "Lunasta",
-  "notify_test_title": "Testi: {eventText}",
+  "notify_test_title": "Testi-ilmoitus",
   "notify_test_detail": "Twitch Miner tavoittaa tämän kohteen. Lunastettu drop näyttää tältä. Kaikki tämän viestin nimet ja kuvat ovat testiä.",
   "notify_streamer": "Striimaaja",
   "notify_streamer_line": "Striimaaja: {channel}",
@@ -1313,7 +1302,7 @@
   "points_reason_list_order_hint": "Katsotaan streamaajalistan järjestyksessä",
   "points_streamer_defaults_hint": "Lisätty streamaaja (käsin, tuomalla tai käyttöönotossa) aloittaa näillä valinnoilla.",
   "points_edit_selected": "Muokkaa ({selectedCount})",
-  "points_group_title": "Muokkaa {formattedSelectedCount} streamaajaa",
+  "points_group_title": "Muokkaa valintaa",
   "points_group_hint": "Vain muuttamasi valinnat koskevat näitä streamaajia; valinta, jossa lukee ”Vaihtelee”, säilyttää kunkin oman arvon, kunnes muutat sitä.",
   "streamer_option_mixed": "Vaihtelee",
   "setting_with_mark": "{option} ({optionNote})",

@@ -666,19 +666,7 @@
   "security_access_public": "Derrière un reverse proxy HTTPS, à l'adresse {host}.",
   "settings_close_action": "Bouton de fermeture",
   "settings_unsaved": "Vous avez des modifications non enregistrées.",
-  "slots_max_title": [
-    {
-      "declarations": [
-        "input maxWatchedChannels",
-        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
-      ],
-      "selectors": ["maxWatchedChannelsPlural"],
-      "match": {
-        "maxWatchedChannelsPlural=one": "{maxWatchedChannels} chaîne",
-        "maxWatchedChannelsPlural=*": "{maxWatchedChannels} chaînes"
-      }
-    }
-  ],
+  "slots_max_title": "Autant que permis",
   "slots_max_hint": [
     {
       "declarations": [
@@ -1029,7 +1017,8 @@
   "updates_checking": "Vérification…",
   "updates_current": "Vous avez la dernière version.",
   "updates_available": "La version {version} est disponible.",
-  "updates_notes_title": "Nouveautés de la {version}",
+  "updates_notes_title": "Nouveautés",
+  "updates_version_change": "Mise à jour de {currentVersion} vers {newVersion}",
   "updates_available_title": "Mise à jour disponible",
   "updates_available_locked": "La version {version} est disponible. Déverrouillez l'application pour l'installer.",
   "updates_badge": "Mise à jour {version}",
@@ -1040,7 +1029,7 @@
   "updates_never_checked": "Dernière vérification : pas encore de réponse depuis le démarrage",
   "updates_install": "Installer et redémarrer",
   "settings_notifications_language": "Langue des notifications",
-  "updates_confirm_title": "Installer la version {version} ?",
+  "updates_confirm_title": "Installer la nouvelle version ?",
   "updates_confirm_text": "Vous avez la version {current}. L'application télécharge la version {version}, arrête le minage sur tous les comptes, l'installe et redémarre d'elle-même. Le minage reprend ensuite tout seul.",
   "updates_later": "Plus tard",
   "updates_installing": "Installation…",
@@ -1205,7 +1194,7 @@
   "reward_state_ready": "À réclamer",
   "reward_state_owned": "Obtenu",
   "reward_claim": "Réclamer",
-  "notify_test_title": "Test : {eventText}",
+  "notify_test_title": "Notification de test",
   "notify_test_detail": "Twitch Miner peut joindre cette cible. Un drop réclamé ressemble à ceci. Tous les noms et images de ce message sont des tests.",
   "notify_streamer": "Streamer",
   "notify_streamer_line": "Streamer : {channel}",
@@ -1365,20 +1354,7 @@
   "points_reason_list_order_hint": "Regardée dans l'ordre de la liste des streamers",
   "points_streamer_defaults_hint": "Un streamer ajouté (à la main, par import ou pendant la configuration) démarre avec ces options.",
   "points_edit_selected": "Modifier ({selectedCount})",
-  "points_group_title": [
-    {
-      "declarations": [
-        "input selectedCount",
-        "input formattedSelectedCount",
-        "local selectedCountPlural = selectedCount: plural"
-      ],
-      "selectors": ["selectedCountPlural"],
-      "match": {
-        "selectedCountPlural=one": "Modifier {formattedSelectedCount} streamer",
-        "selectedCountPlural=*": "Modifier {formattedSelectedCount} streamers"
-      }
-    }
-  ],
+  "points_group_title": "Modifier la sélection",
   "points_group_hint": "Seules les options que vous changez s'appliquent à ces streamers ; une option « Mixte » garde la valeur de chacun tant que vous n'y touchez pas.",
   "streamer_option_mixed": "Mixte",
   "setting_with_mark": "{option} ({optionNote})",

@@ -56,7 +56,7 @@
       </div>
     {/each}
     <div
-      class="now-tab rounded-r-md bg-primary text-xs font-medium text-primary-foreground [&_strong]:font-bold"
+      class="now-tab rounded-r-md bg-primary text-xs font-medium text-primary-foreground"
       style:left="{nowPercent}%"
     >
       <RichText text={t.timeline_now({ nowTime: strong(formatClock(now)) })} />

@@ -20,7 +20,11 @@ pub(super) async fn send(
     let url = target(&settings.url)?;
     let authorization = authorization(&settings.authorization)?;
     let event = &notice.event;
-    let mut request = shared.client.post(url).json(&body(event, notice.language));
+    let mut request =
+        shared
+            .client
+            .post(url)
+            .json(&body(event, notice.lead.as_deref(), notice.language));
 
     if let Some(authorization) = authorization {
         request = request.header(AUTHORIZATION, authorization);
@@ -69,7 +73,7 @@ pub(super) fn target(address: &str) -> Result<Url> {
         .ok_or_else(|| Error::Notification("webhook URL is not a valid http(s) address".into()))
 }
 
-fn body(event: &MinerEvent, language: &str) -> Value {
+fn body(event: &MinerEvent, lead: Option<&str>, language: &str) -> Value {
     json!({
         "app": {
             "name": crate::APP_NAME,
@@ -78,6 +82,7 @@ fn body(event: &MinerEvent, language: &str) -> Value {
         },
         "event": event,
         "label": label_for(language, event.kind),
+        "lead": lead,
         "context": event.context,
         "image_url": cdn(picture(&event.context)),
         "category_url": category_url(&event.context),

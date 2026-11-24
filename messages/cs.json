@@ -681,20 +681,7 @@
   "security_access_public": "Za reverzní proxy HTTPS, na adrese {host}.",
   "settings_close_action": "Tlačítko zavření",
   "settings_unsaved": "Máte neuložené změny.",
-  "slots_max_title": [
-    {
-      "declarations": [
-        "input maxWatchedChannels",
-        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
-      ],
-      "selectors": ["maxWatchedChannelsPlural"],
-      "match": {
-        "maxWatchedChannelsPlural=one": "{maxWatchedChannels} kanál",
-        "maxWatchedChannelsPlural=few": "{maxWatchedChannels} kanály",
-        "maxWatchedChannelsPlural=*": "{maxWatchedChannels} kanálů"
-      }
-    }
-  ],
+  "slots_max_title": "Kolik je povoleno",
   "slots_max_hint": [
     {
       "declarations": [
@@ -1071,7 +1058,8 @@
   "updates_checking": "Probíhá kontrola…",
   "updates_current": "Máte nejnovější verzi.",
   "updates_available": "Je k dispozici verze {version}.",
-  "updates_notes_title": "Novinky ve verzi {version}",
+  "updates_notes_title": "Novinky",
+  "updates_version_change": "Aktualizace z {currentVersion} na {newVersion}",
   "updates_available_title": "Dostupná aktualizace",
   "updates_available_locked": "Je k dispozici verze {version}. Odemkněte aplikaci a nainstalujte ji.",
   "updates_badge": "Aktualizace {version}",
@@ -1082,7 +1070,7 @@
   "updates_never_checked": "Poslední kontrola: od spuštění zatím bez odpovědi",
   "updates_install": "Nainstalovat a restartovat",
   "settings_notifications_language": "Jazyk oznámení",
-  "updates_confirm_title": "Nainstalovat verzi {version}?",
+  "updates_confirm_title": "Nainstalovat novou verzi?",
   "updates_confirm_text": "Máte verzi {current}. Aplikace stáhne verzi {version}, zastaví těžbu na všech účtech, nainstaluje ji a sama se restartuje. Těžba pak sama pokračuje.",
   "updates_later": "Později",
   "updates_installing": "Instaluje se…",
@@ -1253,7 +1241,7 @@
   "reward_state_ready": "K vyzvednutí",
   "reward_state_owned": "Získán",
   "reward_claim": "Vyzvednout",
-  "notify_test_title": "Test: {eventText}",
+  "notify_test_title": "Testovací oznámení",
   "notify_test_detail": "Twitch Miner dosáhne na tento cíl. Takto vypadá vyzvednutý drop. Všechna jména a obrázky v této zprávě jsou testovací.",
   "notify_streamer": "Streamer",
   "notify_streamer_line": "Streamer: {channel}",
@@ -1414,21 +1402,7 @@
   "points_reason_list_order_hint": "Sledován v pořadí seznamu streamerů",
   "points_streamer_defaults_hint": "Přidaný streamer (ručně, importem nebo při nastavení) začne s těmito možnostmi.",
   "points_edit_selected": "Upravit ({selectedCount})",
-  "points_group_title": [
-    {
-      "declarations": [
-        "input selectedCount",
-        "input formattedSelectedCount",
-        "local selectedCountPlural = selectedCount: plural"
-      ],
-      "selectors": ["selectedCountPlural"],
-      "match": {
-        "selectedCountPlural=one": "Upravit {formattedSelectedCount} streamera",
-        "selectedCountPlural=few": "Upravit {formattedSelectedCount} streamery",
-        "selectedCountPlural=*": "Upravit {formattedSelectedCount} streamerů"
-      }
-    }
-  ],
+  "points_group_title": "Upravit výběr",
   "points_group_hint": "Použijí se jen možnosti, které změníte; možnost označená jako „Smíšené“ si u každého streamera ponechá jeho hodnotu, dokud ji nezměníte.",
   "streamer_option_mixed": "Smíšené",
   "setting_with_mark": "{option} ({optionNote})",

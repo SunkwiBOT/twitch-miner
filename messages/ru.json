@@ -711,20 +711,7 @@
   "security_access_public": "За обратным HTTPS-прокси, по адресу {host}.",
   "settings_close_action": "Кнопка закрытия",
   "settings_unsaved": "Есть несохранённые изменения.",
-  "slots_max_title": [
-    {
-      "declarations": [
-        "input maxWatchedChannels",
-        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
-      ],
-      "selectors": ["maxWatchedChannelsPlural"],
-      "match": {
-        "maxWatchedChannelsPlural=one": "{maxWatchedChannels} канал",
-        "maxWatchedChannelsPlural=few": "{maxWatchedChannels} канала",
-        "maxWatchedChannelsPlural=*": "{maxWatchedChannels} каналов"
-      }
-    }
-  ],
+  "slots_max_title": "Сколько разрешено",
   "slots_max_hint": [
     {
       "declarations": [
@@ -1002,7 +989,8 @@
   "updates_checking": "Проверка…",
   "updates_current": "У вас последняя версия.",
   "updates_available": "Доступна версия {version}.",
-  "updates_notes_title": "Что нового в версии {version}",
+  "updates_notes_title": "Что нового",
+  "updates_version_change": "Обновление с {currentVersion} до {newVersion}",
   "updates_available_title": "Доступно обновление",
   "updates_available_locked": "Доступна версия {version}. Разблокируйте приложение, чтобы её установить.",
   "updates_badge": "Обновление {version}",
@@ -1013,7 +1001,7 @@
   "updates_never_checked": "Последняя проверка: с момента запуска ответа ещё не было",
   "updates_install": "Установить и перезапустить",
   "settings_notifications_language": "Язык уведомлений",
-  "updates_confirm_title": "Установить версию {version}?",
+  "updates_confirm_title": "Установить новую версию?",
   "updates_confirm_text": "У вас версия {current}. Приложение скачает версию {version}, остановит майнинг на всех аккаунтах, установит её и само перезапустится. Затем майнинг возобновится сам.",
   "updates_later": "Позже",
   "updates_installing": "Установка…",
@@ -1161,7 +1149,7 @@
   "reward_state_ready": "Можно получить",
   "reward_state_owned": "Получен",
   "reward_claim": "Получить",
-  "notify_test_title": "Тест: {eventText}",
+  "notify_test_title": "Тестовое уведомление",
   "notify_test_detail": "Twitch Miner может связаться с этой целью. Так выглядит полученный дроп. Все имена и картинки в этом сообщении тестовые.",
   "notify_streamer": "Стример",
   "notify_streamer_line": "Стример: {channel}",
@@ -1322,20 +1310,7 @@
   "points_reason_list_order_hint": "Смотрится в порядке списка стримеров",
   "points_streamer_defaults_hint": "Добавленный стример (вручную, импортом или при настройке) начинает с этими параметрами.",
   "points_edit_selected": "Изменить ({selectedCount})",
-  "points_group_title": [
-    {
-      "declarations": [
-        "input selectedCount",
-        "input formattedSelectedCount",
-        "local selectedCountPlural = selectedCount: plural"
-      ],
-      "selectors": ["selectedCountPlural"],
-      "match": {
-        "selectedCountPlural=one": "Изменение {formattedSelectedCount} стримера",
-        "selectedCountPlural=*": "Изменение {formattedSelectedCount} стримеров"
-      }
-    }
-  ],
+  "points_group_title": "Изменение выбранных",
   "points_group_hint": "Применяются только параметры, которые вы измените; параметр с пометкой «Разные» сохраняет у каждого стримера своё значение, пока вы его не измените.",
   "streamer_option_mixed": "Разные",
   "setting_with_mark": "{option} ({optionNote})",

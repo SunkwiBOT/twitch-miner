@@ -666,19 +666,7 @@
   "security_access_public": "Bakom en omvänd HTTPS-proxy, på {host}.",
   "settings_close_action": "Stängknapp",
   "settings_unsaved": "Du har osparade ändringar.",
-  "slots_max_title": [
-    {
-      "declarations": [
-        "input maxWatchedChannels",
-        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
-      ],
-      "selectors": ["maxWatchedChannelsPlural"],
-      "match": {
-        "maxWatchedChannelsPlural=one": "{maxWatchedChannels} kanal",
-        "maxWatchedChannelsPlural=*": "{maxWatchedChannels} kanaler"
-      }
-    }
-  ],
+  "slots_max_title": "Så många som tillåts",
   "slots_max_hint": [
     {
       "declarations": [
@@ -930,7 +918,8 @@
   "updates_checking": "Söker…",
   "updates_current": "Du har den senaste versionen.",
   "updates_available": "Version {version} är tillgänglig.",
-  "updates_notes_title": "Nytt i version {version}",
+  "updates_notes_title": "Nyheter",
+  "updates_version_change": "Uppdatering från {currentVersion} till {newVersion}",
   "updates_available_title": "Uppdatering tillgänglig",
   "updates_available_locked": "Version {version} är tillgänglig. Lås upp appen för att installera den.",
   "updates_badge": "Uppdatering {version}",
@@ -941,7 +930,7 @@
   "updates_never_checked": "Senast kontrollerad: inget svar ännu sedan starten",
   "updates_install": "Installera och starta om",
   "settings_notifications_language": "Språk för aviseringar",
-  "updates_confirm_title": "Installera version {version}?",
+  "updates_confirm_title": "Installera den nya versionen?",
   "updates_confirm_text": "Du har version {current}. Appen laddar ned version {version}, stoppar mining på alla konton, installerar den och startar om av sig själv. Sedan fortsätter mining av sig själv.",
   "updates_later": "Senare",
   "updates_installing": "Installerar…",
@@ -1106,7 +1095,7 @@
   "reward_state_ready": "Att hämta",
   "reward_state_owned": "Ägt",
   "reward_claim": "Hämta",
-  "notify_test_title": "Test: {eventText}",
+  "notify_test_title": "Testavisering",
   "notify_test_detail": "Twitch Miner når det här målet. Så här ser en hämtad drop ut. Alla namn och bilder i det här meddelandet är testdata.",
   "notify_streamer": "Streamer",
   "notify_streamer_line": "Streamer: {channel}",
@@ -1266,20 +1255,7 @@
   "points_reason_list_order_hint": "Ses i streamerlistans ordning",
   "points_streamer_defaults_hint": "En tillagd streamer (manuellt, via import eller under konfigurationen) börjar med de här alternativen.",
   "points_edit_selected": "Redigera ({selectedCount})",
-  "points_group_title": [
-    {
-      "declarations": [
-        "input selectedCount",
-        "input formattedSelectedCount",
-        "local selectedCountPlural = selectedCount: plural"
-      ],
-      "selectors": ["selectedCountPlural"],
-      "match": {
-        "selectedCountPlural=one": "Redigera {formattedSelectedCount} streamer",
-        "selectedCountPlural=*": "Redigera {formattedSelectedCount} streamers"
-      }
-    }
-  ],
+  "points_group_title": "Redigera urvalet",
   "points_group_hint": "Bara alternativen du ändrar gäller för de här streamersen; ett alternativ märkt ”Blandat” behåller var och ens eget värde tills du ändrar det.",
   "streamer_option_mixed": "Blandat",
   "setting_with_mark": "{option} ({optionNote})",

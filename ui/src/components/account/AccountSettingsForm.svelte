@@ -69,7 +69,7 @@
     choices={[
       {
         value: watchedChannels.maxWatchedChannels,
-        title: t.slots_max_title(watchedChannels),
+        title: t.slots_max_title(),
         description: t.slots_max_hint(watchedChannels),
       },
       ...(watchedChannels.maxWatchedChannels > 1

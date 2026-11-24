@@ -666,19 +666,7 @@
   "security_access_public": "Hinter einem HTTPS-Reverse-Proxy, unter {host}.",
   "settings_close_action": "Schließen-Schaltfläche",
   "settings_unsaved": "Sie haben ungespeicherte Änderungen.",
-  "slots_max_title": [
-    {
-      "declarations": [
-        "input maxWatchedChannels",
-        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
-      ],
-      "selectors": ["maxWatchedChannelsPlural"],
-      "match": {
-        "maxWatchedChannelsPlural=one": "{maxWatchedChannels} Kanal",
-        "maxWatchedChannelsPlural=*": "{maxWatchedChannels} Kanäle"
-      }
-    }
-  ],
+  "slots_max_title": "So viele wie erlaubt",
   "slots_max_hint": [
     {
       "declarations": [
@@ -1029,7 +1017,8 @@
   "updates_checking": "Wird geprüft…",
   "updates_current": "Sie haben die neueste Version.",
   "updates_available": "Version {version} ist verfügbar.",
-  "updates_notes_title": "Neu in Version {version}",
+  "updates_notes_title": "Neuigkeiten",
+  "updates_version_change": "Update von {currentVersion} auf {newVersion}",
   "updates_available_title": "Update verfügbar",
   "updates_available_locked": "Version {version} ist verfügbar. Entsperren Sie die App, um sie zu installieren.",
   "updates_badge": "Update {version}",
@@ -1040,7 +1029,7 @@
   "updates_never_checked": "Zuletzt geprüft: seit dem Start noch keine Antwort",
   "updates_install": "Installieren und neu starten",
   "settings_notifications_language": "Sprache der Benachrichtigungen",
-  "updates_confirm_title": "Version {version} installieren?",
+  "updates_confirm_title": "Neue Version installieren?",
   "updates_confirm_text": "Sie haben Version {current}. Die App lädt Version {version} herunter, stoppt das Mining auf allen Konten, installiert sie und startet von selbst neu. Danach läuft das Mining von allein wieder an.",
   "updates_later": "Später",
   "updates_installing": "Wird installiert…",
@@ -1205,7 +1194,7 @@
   "reward_state_ready": "Einlösbar",
   "reward_state_owned": "Erhalten",
   "reward_claim": "Einlösen",
-  "notify_test_title": "Test: {eventText}",
+  "notify_test_title": "Testbenachrichtigung",
   "notify_test_detail": "Twitch Miner erreicht dieses Ziel. So sieht ein eingelöster Drop aus. Alle Namen und Bilder dieser Nachricht sind Testdaten.",
   "notify_streamer": "Streamer",
   "notify_streamer_line": "Streamer: {channel}",
@@ -1365,7 +1354,7 @@
   "points_reason_list_order_hint": "In der Reihenfolge der Streamer-Liste geschaut",
   "points_streamer_defaults_hint": "Ein hinzugefügter Streamer (von Hand, per Import oder bei der Einrichtung) startet mit diesen Optionen.",
   "points_edit_selected": "Bearbeiten ({selectedCount})",
-  "points_group_title": "{formattedSelectedCount} Streamer bearbeiten",
+  "points_group_title": "Auswahl bearbeiten",
   "points_group_hint": "Nur die Optionen, die Sie ändern, gelten für diese Streamer; eine als „Gemischt“ markierte Option behält bei jedem seinen eigenen Wert, bis Sie sie ändern.",
   "streamer_option_mixed": "Gemischt",
   "setting_with_mark": "{option} ({optionNote})",

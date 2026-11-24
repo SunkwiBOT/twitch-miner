@@ -666,19 +666,7 @@
   "security_access_public": "Achter een HTTPS-reverse proxy, op {host}.",
   "settings_close_action": "Sluitknop",
   "settings_unsaved": "Je hebt niet-opgeslagen wijzigingen.",
-  "slots_max_title": [
-    {
-      "declarations": [
-        "input maxWatchedChannels",
-        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
-      ],
-      "selectors": ["maxWatchedChannelsPlural"],
-      "match": {
-        "maxWatchedChannelsPlural=one": "{maxWatchedChannels} kanaal",
-        "maxWatchedChannelsPlural=*": "{maxWatchedChannels} kanalen"
-      }
-    }
-  ],
+  "slots_max_title": "Zoveel als toegestaan",
   "slots_max_hint": [
     {
       "declarations": [
@@ -1029,7 +1017,8 @@
   "updates_checking": "Controleren…",
   "updates_current": "Je hebt de nieuwste versie.",
   "updates_available": "Versie {version} is beschikbaar.",
-  "updates_notes_title": "Nieuw in versie {version}",
+  "updates_notes_title": "Wat is er nieuw",
+  "updates_version_change": "Update van {currentVersion} naar {newVersion}",
   "updates_available_title": "Update beschikbaar",
   "updates_available_locked": "Versie {version} is beschikbaar. Ontgrendel de app om hem te installeren.",
   "updates_badge": "Update {version}",
@@ -1040,7 +1029,7 @@
   "updates_never_checked": "Laatst gecontroleerd: nog geen antwoord sinds de start",
   "updates_install": "Installeren en herstarten",
   "settings_notifications_language": "Taal van de meldingen",
-  "updates_confirm_title": "Versie {version} installeren?",
+  "updates_confirm_title": "Nieuwe versie installeren?",
   "updates_confirm_text": "Je hebt versie {current}. De app downloadt versie {version}, stopt het minen op alle accounts, installeert hem en herstart vanzelf. Daarna gaat het minen vanzelf weer verder.",
   "updates_later": "Later",
   "updates_installing": "Installeren…",
@@ -1205,7 +1194,7 @@
   "reward_state_ready": "Te claimen",
   "reward_state_owned": "Behaald",
   "reward_claim": "Claimen",
-  "notify_test_title": "Test: {eventText}",
+  "notify_test_title": "Testmelding",
   "notify_test_detail": "Twitch Miner kan dit doel bereiken. Zo ziet een geclaimde drop eruit. Alle namen en afbeeldingen in dit bericht zijn testgegevens.",
   "notify_streamer": "Streamer",
   "notify_streamer_line": "Streamer: {channel}",
@@ -1365,20 +1354,7 @@
   "points_reason_list_order_hint": "Bekeken in de volgorde van de streamerlijst",
   "points_streamer_defaults_hint": "Een toegevoegde streamer (handmatig, via import of tijdens het instellen) begint met deze opties.",
   "points_edit_selected": "Bewerken ({selectedCount})",
-  "points_group_title": [
-    {
-      "declarations": [
-        "input selectedCount",
-        "input formattedSelectedCount",
-        "local selectedCountPlural = selectedCount: plural"
-      ],
-      "selectors": ["selectedCountPlural"],
-      "match": {
-        "selectedCountPlural=one": "{formattedSelectedCount} streamer bewerken",
-        "selectedCountPlural=*": "{formattedSelectedCount} streamers bewerken"
-      }
-    }
-  ],
+  "points_group_title": "Selectie bewerken",
   "points_group_hint": "Alleen de opties die je wijzigt gelden voor deze streamers; een optie met „Gemengd” houdt per streamer de eigen waarde tot je die wijzigt.",
   "streamer_option_mixed": "Gemengd",
   "setting_with_mark": "{option} ({optionNote})",

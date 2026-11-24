@@ -46,7 +46,7 @@ pub(super) async fn send(
     let chat_id = settings.chat_id.trim();
 
     if let Some(photo) = picture(&event.context) {
-        let caption = text(event, language, CAPTION_MAX);
+        let caption = text(event, notice.lead.as_deref(), language, CAPTION_MAX);
         let request = shared
             .client
             .post(method(shared.endpoints.telegram, token, SEND_PHOTO));
@@ -91,7 +91,7 @@ pub(super) async fn send(
 
     let body = json!({
         "chat_id": chat_id,
-        "text": text(event, language, MESSAGE_MAX),
+        "text": text(event, notice.lead.as_deref(), language, MESSAGE_MAX),
         "parse_mode": "HTML",
         "link_preview_options": {"is_disabled": true},
     });
@@ -149,7 +149,7 @@ async fn answer(response: Response) -> Answer {
     }
 }
 
-fn text(event: &MinerEvent, language: &str, max: usize) -> String {
+fn text(event: &MinerEvent, lead: Option<&str>, language: &str, max: usize) -> String {
     let mut head = format!(
         "<b>{}</b>\n{}",
         escape_within(&event.title, 256),
@@ -158,6 +158,10 @@ fn text(event: &MinerEvent, language: &str, max: usize) -> String {
 
     if let Some(name) = account_name(event) {
         head.push_str(&format!(" · {}", escape_within(name, 64)));
+    }
+
+    if let Some(lead) = lead {
+        head.push_str(&format!("\n<b>{}</b>", escape_within(lead, 256)));
     }
 
     let place = place(&event.context, language);

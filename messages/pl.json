@@ -680,20 +680,7 @@
   "security_access_public": "Za odwrotnym proxy HTTPS, pod adresem {host}.",
   "settings_close_action": "Przycisk zamykania",
   "settings_unsaved": "Masz niezapisane zmiany.",
-  "slots_max_title": [
-    {
-      "declarations": [
-        "input maxWatchedChannels",
-        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
-      ],
-      "selectors": ["maxWatchedChannelsPlural"],
-      "match": {
-        "maxWatchedChannelsPlural=one": "{maxWatchedChannels} kanał",
-        "maxWatchedChannelsPlural=few": "{maxWatchedChannels} kanały",
-        "maxWatchedChannelsPlural=*": "{maxWatchedChannels} kanałów"
-      }
-    }
-  ],
+  "slots_max_title": "Tyle, ile wolno",
   "slots_max_hint": [
     {
       "declarations": [
@@ -963,7 +950,8 @@
   "updates_checking": "Sprawdzanie…",
   "updates_current": "Masz najnowszą wersję.",
   "updates_available": "Dostępna jest wersja {version}.",
-  "updates_notes_title": "Nowości w wersji {version}",
+  "updates_notes_title": "Nowości",
+  "updates_version_change": "Aktualizacja z {currentVersion} do {newVersion}",
   "updates_available_title": "Dostępna aktualizacja",
   "updates_available_locked": "Dostępna jest wersja {version}. Odblokuj aplikację, aby ją zainstalować.",
   "updates_badge": "Aktualizacja {version}",
@@ -974,7 +962,7 @@
   "updates_never_checked": "Ostatnie sprawdzenie: brak odpowiedzi od uruchomienia",
   "updates_install": "Zainstaluj i uruchom ponownie",
   "settings_notifications_language": "Język powiadomień",
-  "updates_confirm_title": "Zainstalować wersję {version}?",
+  "updates_confirm_title": "Zainstalować nową wersję?",
   "updates_confirm_text": "Masz wersję {current}. Aplikacja pobierze wersję {version}, zatrzyma kopanie na wszystkich kontach, zainstaluje ją i sama uruchomi się ponownie. Potem kopanie wznowi się samo.",
   "updates_later": "Później",
   "updates_installing": "Instalowanie…",
@@ -1114,7 +1102,7 @@
   "reward_state_ready": "Do odebrania",
   "reward_state_owned": "Zdobyta",
   "reward_claim": "Odbierz",
-  "notify_test_title": "Test: {eventText}",
+  "notify_test_title": "Powiadomienie testowe",
   "notify_test_detail": "Twitch Miner może dotrzeć do tego celu. Tak wygląda odebrany drop. Wszystkie nazwy i obrazy w tej wiadomości są testowe.",
   "notify_streamer": "Streamer",
   "notify_streamer_line": "Streamer: {channel}",
@@ -1275,20 +1263,7 @@
   "points_reason_list_order_hint": "Oglądany w kolejności listy streamerów",
   "points_streamer_defaults_hint": "Dodany streamer (ręcznie, przez import lub podczas konfiguracji) zaczyna z tymi opcjami.",
   "points_edit_selected": "Edytuj ({selectedCount})",
-  "points_group_title": [
-    {
-      "declarations": [
-        "input selectedCount",
-        "input formattedSelectedCount",
-        "local selectedCountPlural = selectedCount: plural"
-      ],
-      "selectors": ["selectedCountPlural"],
-      "match": {
-        "selectedCountPlural=one": "Edycja {formattedSelectedCount} streamera",
-        "selectedCountPlural=*": "Edycja {formattedSelectedCount} streamerów"
-      }
-    }
-  ],
+  "points_group_title": "Edycja zaznaczenia",
   "points_group_hint": "Stosowane są tylko opcje, które zmienisz; opcja oznaczona jako „Mieszane” zachowuje wartość każdego streamera, dopóki jej nie zmienisz.",
   "streamer_option_mixed": "Mieszane",
   "setting_with_mark": "{option} ({optionNote})",

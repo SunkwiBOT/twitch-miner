@@ -295,6 +295,21 @@
   animation-play-state: paused;
 }
 
+/* ! A value in a sentence (`VALUE_CLASSES`) stands two weight steps above the nearest weight set
+   around it: semibold in plain text, bold in a medium label, extra-bold in a semibold title. */
+:root,
+.font-normal {
+  --value-weight: var(--font-weight-semibold);
+}
+
+.font-medium {
+  --value-weight: var(--font-weight-bold);
+}
+
+.font-semibold {
+  --value-weight: var(--font-weight-extrabold);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

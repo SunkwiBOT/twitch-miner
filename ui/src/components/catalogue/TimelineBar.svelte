@@ -115,7 +115,7 @@
       onerror={() => (brokenImage = image)}
     />{/if}
   <span class="name min-w-0 truncate">{item.name}</span>
-  <span class="shrink-0 font-medium text-muted-foreground"><RichText text={endLabel} /></span>
+  <span class="shrink-0 font-normal text-muted-foreground"><RichText text={endLabel} /></span>
   {#if pill}<TimeLeftTag text={pill} urgent={true} />{/if}
   {#if item.tag}<Badge
       text={item.tag.text}

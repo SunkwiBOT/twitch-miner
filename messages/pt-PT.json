@@ -666,19 +666,7 @@
   "security_access_public": "Atrás de um proxy inverso HTTPS, em {host}.",
   "settings_close_action": "Botão de fechar",
   "settings_unsaved": "Tem alterações por guardar.",
-  "slots_max_title": [
-    {
-      "declarations": [
-        "input maxWatchedChannels",
-        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
-      ],
-      "selectors": ["maxWatchedChannelsPlural"],
-      "match": {
-        "maxWatchedChannelsPlural=one": "{maxWatchedChannels} canal",
-        "maxWatchedChannelsPlural=*": "{maxWatchedChannels} canais"
-      }
-    }
-  ],
+  "slots_max_title": "Todos os permitidos",
   "slots_max_hint": [
     {
       "declarations": [
@@ -1029,7 +1017,8 @@
   "updates_checking": "A procurar…",
   "updates_current": "Tem a versão mais recente.",
   "updates_available": "A versão {version} está disponível.",
-  "updates_notes_title": "Novidades da versão {version}",
+  "updates_notes_title": "Novidades",
+  "updates_version_change": "Atualização de {currentVersion} para {newVersion}",
   "updates_available_title": "Atualização disponível",
   "updates_available_locked": "A versão {version} está disponível. Desbloqueie a app para a instalar.",
   "updates_badge": "Atualização {version}",
@@ -1040,7 +1029,7 @@
   "updates_never_checked": "Última verificação: ainda sem resposta desde o início",
   "updates_install": "Instalar e reiniciar",
   "settings_notifications_language": "Idioma das notificações",
-  "updates_confirm_title": "Instalar a versão {version}?",
+  "updates_confirm_title": "Instalar a nova versão?",
   "updates_confirm_text": "Tem a versão {current}. A app transfere a versão {version}, para a mineração em todas as contas, instala-a e reinicia-se sozinha. Depois, a mineração recomeça sozinha.",
   "updates_later": "Mais tarde",
   "updates_installing": "A instalar…",
@@ -1205,7 +1194,7 @@
   "reward_state_ready": "Por resgatar",
   "reward_state_owned": "Obtido",
   "reward_claim": "Resgatar",
-  "notify_test_title": "Teste: {eventText}",
+  "notify_test_title": "Notificação de teste",
   "notify_test_detail": "O Twitch Miner consegue chegar a este destino. Um drop resgatado fica assim. Todos os nomes e imagens desta mensagem são de teste.",
   "notify_streamer": "Streamer",
   "notify_streamer_line": "Streamer: {channel}",
@@ -1365,20 +1354,7 @@
   "points_reason_list_order_hint": "Visto na ordem da lista de streamers",
   "points_streamer_defaults_hint": "Um streamer adicionado (manualmente, por importação ou durante a configuração) começa com estas opções.",
   "points_edit_selected": "Editar ({selectedCount})",
-  "points_group_title": [
-    {
-      "declarations": [
-        "input selectedCount",
-        "input formattedSelectedCount",
-        "local selectedCountPlural = selectedCount: plural"
-      ],
-      "selectors": ["selectedCountPlural"],
-      "match": {
-        "selectedCountPlural=one": "Editar {formattedSelectedCount} streamer",
-        "selectedCountPlural=*": "Editar {formattedSelectedCount} streamers"
-      }
-    }
-  ],
+  "points_group_title": "Editar a seleção",
   "points_group_hint": "Só as opções que alterar se aplicam a estes streamers; uma opção marcada como «Misto» mantém o valor de cada um até a alterar.",
   "streamer_option_mixed": "Misto",
   "setting_with_mark": "{option} ({optionNote})",

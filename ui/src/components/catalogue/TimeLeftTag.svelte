@@ -9,7 +9,7 @@
 
 <span
   class={cn(
-    "inline-flex h-4.5 shrink-0 items-center rounded-md px-1.5 text-xs font-medium [&_strong]:font-bold",
+    "inline-flex h-4.5 shrink-0 items-center rounded-md px-1.5 text-xs font-medium",
     urgent ? "bg-live text-live-foreground" : "bg-background/85 text-foreground",
   )}
 >

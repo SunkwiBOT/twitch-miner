@@ -22,6 +22,7 @@ type AttachmentType = (&'static str, &'static [u8]);
 pub const EMBEDS_MAX: usize = 10;
 const MESSAGE_TEXT_MAX: usize = 6000;
 const TITLE_MAX: usize = 256;
+const DESCRIPTION_MAX: usize = 4096;
 const WEBHOOKS_PATH: &str = "/api/webhooks";
 const RATE_LIMIT_REMAINING: &str = "x-ratelimit-remaining";
 const RATE_LIMIT_RESET_AFTER: &str = "x-ratelimit-reset-after";
@@ -145,7 +146,14 @@ async fn answer(response: Response) -> Answer {
 pub(super) fn payload(notices: &[Notice], attachment: &mut Option<AttachmentType>) -> Value {
     let mut embeds: Vec<Value> = notices
         .iter()
-        .map(|notice| embed(&notice.event, notice.language, attachment))
+        .map(|notice| {
+            embed(
+                &notice.event,
+                notice.lead.as_deref(),
+                notice.language,
+                attachment,
+            )
+        })
         .collect();
 
     if notices.len() > 1 {
@@ -280,7 +288,12 @@ fn markdown(text: &str, max: usize) -> String {
     escaped
 }
 
-fn embed(event: &MinerEvent, language: &str, attachment: &mut Option<AttachmentType>) -> Value {
+fn embed(
+    event: &MinerEvent,
+    lead: Option<&str>,
+    language: &str,
+    attachment: &mut Option<AttachmentType>,
+) -> Value {
     let context = &event.context;
     let mut embed = json!({
         "title": markdown(&event.title, TITLE_MAX),
@@ -328,8 +341,18 @@ fn embed(event: &MinerEvent, language: &str, attachment: &mut Option<AttachmentT
         embed["url"] = json!(url);
     }
 
-    if let Some(detail) = &event.detail {
-        embed["description"] = json!(markdown(detail, 4096));
+    let lead = lead.map(|lead| format!("**{}**", markdown(lead, TITLE_MAX)));
+    let room = DESCRIPTION_MAX
+        - lead
+            .as_ref()
+            .map_or(0, |lead| lead.encode_utf16().count() + 1);
+    let description: Vec<String> = lead
+        .into_iter()
+        .chain(event.detail.as_deref().map(|detail| markdown(detail, room)))
+        .collect();
+
+    if !description.is_empty() {
+        embed["description"] = json!(description.join("\n"));
     }
 
     if let Some(game) = context.game.as_deref().filter(|game| !game.is_empty()) {

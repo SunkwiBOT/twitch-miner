@@ -80,7 +80,7 @@
           bottom: overlay.bottom + MENU_EDGE_GAP,
         }}
       >
-        <p class="text-hint font-medium">
+        <p class="text-hint">
           <RichText text={t.updates_available({ version: strong(version) })} />
         </p>
         <ReleaseNotes />

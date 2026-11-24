@@ -9,12 +9,11 @@
   import { REPO_URL } from "../../lib/partners.constants";
   import { updates } from "../../lib/updates/updates.svelte";
   import UpdatesPanel from "../updates/UpdatesPanel.svelte";
-  import Badge from "../ui/Badge.svelte";
+  import VersionBadge from "../updates/VersionBadge.svelte";
   import ExternalButton from "../ui/ExternalButton.svelte";
   import FormField from "../ui/FormField.svelte";
   import Panel from "../ui/Panel.svelte";
   import Select from "../ui/Select.svelte";
-  import { BadgeTone } from "../../lib/tones.constants";
   import { ButtonSize, ButtonVariant } from "../ui/button.constants";
   import { IconName } from "../../lib/icons.constants";
   import { MenuAlign } from "../ui/menu.constants";
@@ -63,7 +62,7 @@
 <div bind:this={about} tabindex="-1" class="flex min-w-0 flex-col outline-none *:flex-1">
   <Panel title={t.settings_about()} description={t.settings_about_text()}>
     {#snippet actions()}
-      <Badge text={`v${snapshot.version}`} tone={BadgeTone.NEUTRAL} />
+      <VersionBadge current={snapshot.version} />
     {/snippet}
     <FormField
       id="set-update-interval"

@@ -666,19 +666,7 @@
   "security_access_public": "Зад обратно HTTPS прокси, на адрес {host}.",
   "settings_close_action": "Бутон за затваряне",
   "settings_unsaved": "Имате незапазени промени.",
-  "slots_max_title": [
-    {
-      "declarations": [
-        "input maxWatchedChannels",
-        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
-      ],
-      "selectors": ["maxWatchedChannelsPlural"],
-      "match": {
-        "maxWatchedChannelsPlural=one": "{maxWatchedChannels} канал",
-        "maxWatchedChannelsPlural=*": "{maxWatchedChannels} канала"
-      }
-    }
-  ],
+  "slots_max_title": "Колкото е позволено",
   "slots_max_hint": [
     {
       "declarations": [
@@ -1029,7 +1017,8 @@
   "updates_checking": "Проверка…",
   "updates_current": "Имате най-новата версия.",
   "updates_available": "Налична е версия {version}.",
-  "updates_notes_title": "Новото във версия {version}",
+  "updates_notes_title": "Какво ново",
+  "updates_version_change": "Актуализация от {currentVersion} до {newVersion}",
   "updates_available_title": "Налична актуализация",
   "updates_available_locked": "Налична е версия {version}. Отключете приложението, за да я инсталирате.",
   "updates_badge": "Обновление {version}",
@@ -1040,7 +1029,7 @@
   "updates_never_checked": "Последна проверка: все още няма отговор от стартирането",
   "updates_install": "Инсталирай и рестартирай",
   "settings_notifications_language": "Език на известията",
-  "updates_confirm_title": "Да се инсталира ли версия {version}?",
+  "updates_confirm_title": "Да се инсталира ли новата версия?",
   "updates_confirm_text": "Имате версия {current}. Приложението изтегля версия {version}, спира копаенето във всички акаунти, инсталира я и се рестартира само. След това копаенето продължава само.",
   "updates_later": "По-късно",
   "updates_installing": "Инсталиране…",
@@ -1205,7 +1194,7 @@
   "reward_state_ready": "За получаване",
   "reward_state_owned": "Получена",
   "reward_claim": "Получи",
-  "notify_test_title": "Тест: {eventText}",
+  "notify_test_title": "Тестово известие",
   "notify_test_detail": "Twitch Miner може да достигне тази цел. Така изглежда получен drop. Всички имена и снимки в това съобщение са тестови.",
   "notify_streamer": "Стриймър",
   "notify_streamer_line": "Стриймър: {channel}",
@@ -1365,20 +1354,7 @@
   "points_reason_list_order_hint": "Гледан по реда в списъка със стриймъри",
   "points_streamer_defaults_hint": "Добавен стриймър (ръчно, чрез импортиране или при настройката) започва с тези опции.",
   "points_edit_selected": "Редактирай ({selectedCount})",
-  "points_group_title": [
-    {
-      "declarations": [
-        "input selectedCount",
-        "input formattedSelectedCount",
-        "local selectedCountPlural = selectedCount: plural"
-      ],
-      "selectors": ["selectedCountPlural"],
-      "match": {
-        "selectedCountPlural=one": "Редактиране на {formattedSelectedCount} стриймър",
-        "selectedCountPlural=*": "Редактиране на {formattedSelectedCount} стриймъри"
-      }
-    }
-  ],
+  "points_group_title": "Редактиране на избраните",
   "points_group_hint": "Прилагат се само опциите, които промените; опция, отбелязана като „Смесено“, запазва стойността на всеки стриймър, докато не я промените.",
   "streamer_option_mixed": "Смесено",
   "setting_with_mark": "{option} ({optionNote})",

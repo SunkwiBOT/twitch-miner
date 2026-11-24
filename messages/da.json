@@ -666,19 +666,7 @@
   "security_access_public": "Bag en omvendt HTTPS-proxy, på {host}.",
   "settings_close_action": "Lukkeknap",
   "settings_unsaved": "Du har ændringer, der ikke er gemt.",
-  "slots_max_title": [
-    {
-      "declarations": [
-        "input maxWatchedChannels",
-        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
-      ],
-      "selectors": ["maxWatchedChannelsPlural"],
-      "match": {
-        "maxWatchedChannelsPlural=one": "{maxWatchedChannels} kanal",
-        "maxWatchedChannelsPlural=*": "{maxWatchedChannels} kanaler"
-      }
-    }
-  ],
+  "slots_max_title": "Så mange som tilladt",
   "slots_max_hint": [
     {
       "declarations": [
@@ -930,7 +918,8 @@
   "updates_checking": "Søger…",
   "updates_current": "Du har den nyeste version.",
   "updates_available": "Version {version} er tilgængelig.",
-  "updates_notes_title": "Nyt i version {version}",
+  "updates_notes_title": "Nyheder",
+  "updates_version_change": "Opdatering fra {currentVersion} til {newVersion}",
   "updates_available_title": "Opdatering tilgængelig",
   "updates_available_locked": "Version {version} er tilgængelig. Lås appen op for at installere den.",
   "updates_badge": "Opdatering {version}",
@@ -941,7 +930,7 @@
   "updates_never_checked": "Sidst tjekket: intet svar endnu siden starten",
   "updates_install": "Installer og genstart",
   "settings_notifications_language": "Sprog for notifikationer",
-  "updates_confirm_title": "Installer version {version}?",
+  "updates_confirm_title": "Installer den nye version?",
   "updates_confirm_text": "Du har version {current}. Appen downloader version {version}, stopper mining på alle konti, installerer den og genstarter af sig selv. Derefter fortsætter mining af sig selv.",
   "updates_later": "Senere",
   "updates_installing": "Installerer…",
@@ -1077,7 +1066,7 @@
   "reward_state_ready": "Klar til indløsning",
   "reward_state_owned": "Ejet",
   "reward_claim": "Indløs",
-  "notify_test_title": "Test: {eventText}",
+  "notify_test_title": "Testnotifikation",
   "notify_test_detail": "Twitch Miner kan nå dette mål. Sådan ser et indløst drop ud. Alle navne og billeder i denne besked er testdata.",
   "notify_streamer": "Streamer",
   "notify_streamer_line": "Streamer: {channel}",
@@ -1237,20 +1226,7 @@
   "points_reason_list_order_hint": "Ses i streamerlistens rækkefølge",
   "points_streamer_defaults_hint": "En tilføjet streamer (manuelt, ved import eller under opsætningen) starter med disse indstillinger.",
   "points_edit_selected": "Redigér ({selectedCount})",
-  "points_group_title": [
-    {
-      "declarations": [
-        "input selectedCount",
-        "input formattedSelectedCount",
-        "local selectedCountPlural = selectedCount: plural"
-      ],
-      "selectors": ["selectedCountPlural"],
-      "match": {
-        "selectedCountPlural=one": "Redigér {formattedSelectedCount} streamer",
-        "selectedCountPlural=*": "Redigér {formattedSelectedCount} streamere"
-      }
-    }
-  ],
+  "points_group_title": "Redigér udvalget",
   "points_group_hint": "Kun de indstillinger, du ændrer, gælder for disse streamere; en indstilling markeret »Blandet« beholder hver streamers egen værdi, indtil du ændrer den.",
   "streamer_option_mixed": "Blandet",
   "setting_with_mark": "{option} ({optionNote})",

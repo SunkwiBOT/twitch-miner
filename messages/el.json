@@ -666,19 +666,7 @@
   "security_access_public": "Πίσω από HTTPS reverse proxy, στη διεύθυνση {host}.",
   "settings_close_action": "Κουμπί κλεισίματος",
   "settings_unsaved": "Έχετε μη αποθηκευμένες αλλαγές.",
-  "slots_max_title": [
-    {
-      "declarations": [
-        "input maxWatchedChannels",
-        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
-      ],
-      "selectors": ["maxWatchedChannelsPlural"],
-      "match": {
-        "maxWatchedChannelsPlural=one": "{maxWatchedChannels} κανάλι",
-        "maxWatchedChannelsPlural=*": "{maxWatchedChannels} κανάλια"
-      }
-    }
-  ],
+  "slots_max_title": "Όσα επιτρέπονται",
   "slots_max_hint": [
     {
       "declarations": [
@@ -1029,7 +1017,8 @@
   "updates_checking": "Έλεγχος…",
   "updates_current": "Έχετε την πιο πρόσφατη έκδοση.",
   "updates_available": "Η έκδοση {version} είναι διαθέσιμη.",
-  "updates_notes_title": "Τι νέο φέρνει η έκδοση {version}",
+  "updates_notes_title": "Τι νέο υπάρχει",
+  "updates_version_change": "Ενημέρωση από {currentVersion} σε {newVersion}",
   "updates_available_title": "Διαθέσιμη ενημέρωση",
   "updates_available_locked": "Η έκδοση {version} είναι διαθέσιμη. Ξεκλειδώστε την εφαρμογή για να την εγκαταστήσετε.",
   "updates_badge": "Ενημέρωση {version}",
@@ -1040,7 +1029,7 @@
   "updates_never_checked": "Τελευταίος έλεγχος: καμία απάντηση ακόμη από την εκκίνηση",
   "updates_install": "Εγκατάσταση και επανεκκίνηση",
   "settings_notifications_language": "Γλώσσα ειδοποιήσεων",
-  "updates_confirm_title": "Εγκατάσταση της έκδοσης {version};",
+  "updates_confirm_title": "Εγκατάσταση της νέας έκδοσης;",
   "updates_confirm_text": "Έχετε την έκδοση {current}. Η εφαρμογή κατεβάζει την έκδοση {version}, σταματά την εξόρυξη σε όλους τους λογαριασμούς, την εγκαθιστά και επανεκκινείται μόνη της. Μετά η εξόρυξη συνεχίζεται μόνη της.",
   "updates_later": "Αργότερα",
   "updates_installing": "Εγκατάσταση…",
@@ -1205,7 +1194,7 @@
   "reward_state_ready": "Για εξαργύρωση",
   "reward_state_owned": "Αποκτήθηκε",
   "reward_claim": "Εξαργύρωση",
-  "notify_test_title": "Δοκιμή: {eventText}",
+  "notify_test_title": "Δοκιμαστική ειδοποίηση",
   "notify_test_detail": "Το Twitch Miner φτάνει σε αυτόν τον προορισμό. Έτσι φαίνεται ένα εξαργυρωμένο drop. Όλα τα ονόματα και οι εικόνες αυτού του μηνύματος είναι δοκιμαστικά.",
   "notify_streamer": "Streamer",
   "notify_streamer_line": "Streamer: {channel}",
@@ -1365,20 +1354,7 @@
   "points_reason_list_order_hint": "Παρακολουθείται με τη σειρά της λίστας streamers",
   "points_streamer_defaults_hint": "Ένας streamer που προστίθεται (χειροκίνητα, με εισαγωγή ή κατά τη ρύθμιση) ξεκινά με αυτές τις επιλογές.",
   "points_edit_selected": "Επεξεργασία ({selectedCount})",
-  "points_group_title": [
-    {
-      "declarations": [
-        "input selectedCount",
-        "input formattedSelectedCount",
-        "local selectedCountPlural = selectedCount: plural"
-      ],
-      "selectors": ["selectedCountPlural"],
-      "match": {
-        "selectedCountPlural=one": "Επεξεργασία {formattedSelectedCount} streamer",
-        "selectedCountPlural=*": "Επεξεργασία {formattedSelectedCount} streamers"
-      }
-    }
-  ],
+  "points_group_title": "Επεξεργασία επιλογής",
   "points_group_hint": "Εφαρμόζονται μόνο οι επιλογές που αλλάζετε· μια επιλογή με την ένδειξη «Μικτό» κρατά την τιμή κάθε streamer μέχρι να την αλλάξετε.",
   "streamer_option_mixed": "Μικτό",
   "setting_with_mark": "{option} ({optionNote})",

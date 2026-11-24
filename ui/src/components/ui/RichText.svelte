@@ -17,7 +17,7 @@
   import Thumb from "./Thumb.svelte";
   import { AvatarSize, ThumbShape, ThumbSize } from "./picture.constants";
   import { LinkMark, LinkSize } from "./link.constants";
-  import { INLINE_PICTURE_CLASSES, RAISED_CLASSES } from "./ui.constants";
+  import { INLINE_PICTURE_CLASSES, RAISED_CLASSES, VALUE_CLASSES } from "./ui.constants";
   import { provideRunningText } from "./running-text.svelte";
 
   type RichTextPropsType = {
@@ -59,7 +59,7 @@
       >
         <span class={INLINE_PICTURE_CLASSES}>
           <Avatar url={part.person.avatar} name={part.person.name} size={AvatarSize.XS} />
-        </span><strong class="font-semibold in-[.text-muted-foreground]:text-foreground">
+        </span><strong class={VALUE_CLASSES}>
           {part.person.name}
         </strong>
       </span>{:else if part.kind === RichTextPartKind.CATEGORY && part.category.url}<span
@@ -75,7 +75,7 @@
         class="inline-flex items-baseline gap-1 align-baseline"
       >
         <span class={INLINE_PICTURE_CLASSES}>{@render boxArtThumb(part.category)}</span><strong
-          class="font-semibold in-[.text-muted-foreground]:text-foreground"
+          class={VALUE_CLASSES}
         >
           {part.category.name}
         </strong>
@@ -90,9 +90,7 @@
         size={LinkSize.MD}
       />{:else if part.kind === RichTextPartKind.CODE}<InlineCode
         text={part.text}
-      />{:else if part.kind === RichTextPartKind.STRONG}<strong
-        class="font-semibold in-[.text-muted-foreground]:text-foreground"
-      >
+      />{:else if part.kind === RichTextPartKind.STRONG}<strong class={VALUE_CLASSES}>
         {part.text}
       </strong>{:else}{part.text}{/if}{/each}
 </span>

@@ -666,19 +666,7 @@
   "security_access_public": "Dietro un reverse proxy HTTPS, all'indirizzo {host}.",
   "settings_close_action": "Pulsante di chiusura",
   "settings_unsaved": "Hai modifiche non salvate.",
-  "slots_max_title": [
-    {
-      "declarations": [
-        "input maxWatchedChannels",
-        "local maxWatchedChannelsPlural = maxWatchedChannels: plural"
-      ],
-      "selectors": ["maxWatchedChannelsPlural"],
-      "match": {
-        "maxWatchedChannelsPlural=one": "{maxWatchedChannels} canale",
-        "maxWatchedChannelsPlural=*": "{maxWatchedChannels} canali"
-      }
-    }
-  ],
+  "slots_max_title": "Quanti consentiti",
   "slots_max_hint": [
     {
       "declarations": [
@@ -1029,7 +1017,8 @@
   "updates_checking": "Controllo in corso…",
   "updates_current": "Hai l'ultima versione.",
   "updates_available": "La versione {version} è disponibile.",
-  "updates_notes_title": "Novità della versione {version}",
+  "updates_notes_title": "Novità",
+  "updates_version_change": "Aggiornamento da {currentVersion} a {newVersion}",
   "updates_available_title": "Aggiornamento disponibile",
   "updates_available_locked": "La versione {version} è disponibile. Sblocca l'app per installarla.",
   "updates_badge": "Aggiornamento {version}",
@@ -1040,7 +1029,7 @@
   "updates_never_checked": "Ultimo controllo: ancora nessuna risposta dall'avvio",
   "updates_install": "Installa e riavvia",
   "settings_notifications_language": "Lingua delle notifiche",
-  "updates_confirm_title": "Installare la versione {version}?",
+  "updates_confirm_title": "Installare la nuova versione?",
   "updates_confirm_text": "Hai la versione {current}. L'app scarica la versione {version}, ferma il mining su tutti gli account, la installa e si riavvia da sola. Poi il mining riprende da solo.",
   "updates_later": "Più tardi",
   "updates_installing": "Installazione…",
@@ -1205,7 +1194,7 @@
   "reward_state_ready": "Da riscattare",
   "reward_state_owned": "Ottenuto",
   "reward_claim": "Riscatta",
-  "notify_test_title": "Test: {eventText}",
+  "notify_test_title": "Notifica di prova",
   "notify_test_detail": "Twitch Miner raggiunge questa destinazione. Ecco come appare un drop riscattato. Tutti i nomi e le immagini di questo messaggio sono di prova.",
   "notify_streamer": "Streamer",
   "notify_streamer_line": "Streamer: {channel}",
@@ -1365,7 +1354,7 @@
   "points_reason_list_order_hint": "Guardato nell'ordine della lista degli streamer",
   "points_streamer_defaults_hint": "Uno streamer aggiunto (a mano, con l'importazione o durante la configurazione) parte con queste opzioni.",
   "points_edit_selected": "Modifica ({selectedCount})",
-  "points_group_title": "Modifica {formattedSelectedCount} streamer",
+  "points_group_title": "Modifica la selezione",
   "points_group_hint": "Solo le opzioni che cambi si applicano a questi streamer; un'opzione segnata «Misto» mantiene il valore di ciascuno finché non la cambi.",
   "streamer_option_mixed": "Misto",
   "setting_with_mark": "{option} ({optionNote})",

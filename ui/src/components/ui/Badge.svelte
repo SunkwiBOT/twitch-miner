@@ -60,10 +60,7 @@
 {#snippet content()}
   {#if icon}<Icon name={icon} size={12} class="shrink-0" />{/if}
   <!-- ! The padding keeps ink past the line box (Thai marks) inside the clip. -->
-  <span
-    class="-m-0.5 min-w-0 overflow-hidden p-0.5 leading-3.5 [&_strong]:font-bold"
-    {@attach measure}
-  >
+  <span class="-m-0.5 min-w-0 overflow-hidden p-0.5 leading-3.5" {@attach measure}>
     <span
       class="inline-block"
       data-marquee={overflow > 0 ? "" : undefined}
