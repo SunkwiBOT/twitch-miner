@@ -37,7 +37,6 @@ jobs:
       ref: ${{ steps.check.outputs.ref }}
       tagged: ${{ steps.tag.outputs.tagged }}
       image: ${{ steps.check.outputs.image }}
-      body: ${{ steps.body.outputs.body }}
     steps:
       - name: Check the notes
         if: ${{ !inputs.dry_run }}
@@ -69,21 +68,6 @@ jobs:
             echo "ref=v$RELEASE_VERSION" >> "$GITHUB_OUTPUT"
           fi
           echo "image=ghcr.io/${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
-
-      # ! A random delimiter: no line of the notes can end the output early.
-      - name: Write the release text
-        id: body
-        env:
-          RELEASE_NOTES: ${{ inputs.notes }}
-          RELEASE_VERSION: ${{ steps.check.outputs.version }}
-          IMAGE: ${{ steps.check.outputs.image }}
-        run: |
-          delimiter="body_$(openssl rand -hex 16)"
-          {
-            echo "body<<$delimiter"
-            python3 .github/release-notes.py --body "$RELEASE_VERSION" "$IMAGE" <<< "$RELEASE_NOTES"
-            echo "$delimiter"
-          } >> "$GITHUB_OUTPUT"
 
       - name: Write it into the project
         if: ${{ !inputs.dry_run }}
@@ -255,7 +239,7 @@ jobs:
         with:
           tagName: ${{ !inputs.dry_run && format('v{0}', needs.version.outputs.version) || '' }}
           releaseName: "v${{ needs.version.outputs.version }} - Twitch Miner"
-          releaseBody: ${{ needs.version.outputs.body }}
+          releaseBody: ${{ inputs.notes }}
           releaseDraft: true
           prerelease: false
           # ! The builds would each rewrite the shared latest.json and could drop each other's
@@ -488,7 +472,7 @@ jobs:
           done
 
           jq -n --arg version "$RELEASE_VERSION" \
-            --arg notes "$(gh release view "$tag" --json body --jq .body | python3 .github/release-notes.py --notes)" \
+            --arg notes "$(gh release view "$tag" --json body --jq .body)" \
             --arg pub_date "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
             --argjson platforms "$platforms" \
             '{version: $version, notes: $notes, pub_date: $pub_date, platforms: $platforms}' > latest.json
