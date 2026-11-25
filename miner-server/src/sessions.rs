@@ -24,8 +24,16 @@ pub const SESSION_MAX_AGE: Duration = Duration::from_secs(30 * 24 * 60 * 60);
 
 type ActiveAt = Arc<Mutex<Instant>>;
 
+// ! A bearer password brings no cookie: every script holding it shares one
+// session, renewed by each request since each one gives the password again.
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum Holder {
+    Cookie([u8; 32]),
+    Bearer,
+}
+
 struct Session {
-    hash: [u8; 32],
+    holder: Holder,
     created_at: Instant,
     active_at: ActiveAt,
     revoked: CancellationToken,
@@ -36,6 +44,15 @@ fn read(active_at: &ActiveAt) -> Instant {
 }
 
 impl Session {
+    fn new(holder: Holder, now: Instant) -> Self {
+        Self {
+            holder,
+            created_at: now,
+            active_at: Arc::new(Mutex::new(now)),
+            revoked: CancellationToken::new(),
+        }
+    }
+
     fn expires_at(&self) -> Instant {
         self.created_at + SESSION_MAX_AGE
     }
@@ -46,6 +63,14 @@ impl Session {
 
     fn alive_at(&self, now: Instant, idle_limit: Option<Duration>) -> bool {
         now < self.expires_at() && self.idle_at(idle_limit).is_none_or(|idle_at| now < idle_at)
+    }
+
+    fn lease(&self) -> SessionLease {
+        SessionLease {
+            revoked: self.revoked.clone(),
+            expires_at: self.expires_at(),
+            active_at: self.active_at.clone(),
+        }
     }
 }
 
@@ -81,40 +106,64 @@ fn hash(session: &str) -> [u8; 32] {
     Sha256::digest(session.as_bytes()).into()
 }
 
+fn add(entries: &mut Vec<Session>, holder: Holder, now: Instant) -> SessionLease {
+    entries.retain(|entry| {
+        let alive = now < entry.expires_at();
+
+        if !alive {
+            entry.revoked.cancel();
+        }
+
+        alive
+    });
+
+    let session = Session::new(holder, now);
+    let lease = session.lease();
+
+    entries.push(session);
+
+    if entries.len() > MAX_SESSIONS {
+        entries.remove(0).revoked.cancel();
+    }
+
+    lease
+}
+
 impl Sessions {
     pub async fn create(&self) -> String {
         let mut raw = [0u8; SESSION_BYTES];
         rand::fill(&mut raw);
         let session = base64::engine::general_purpose::URL_SAFE_NO_PAD.encode(raw);
+
+        add(
+            &mut *self.entries.write().await,
+            Holder::Cookie(hash(&session)),
+            Instant::now(),
+        );
+        self.created.notify_waiters();
+
+        session
+    }
+
+    pub async fn bearer(&self, idle_limit: Option<Duration>) -> SessionLease {
         let now = Instant::now();
-
         let mut entries = self.entries.write().await;
+        let alive = entries
+            .iter()
+            .find(|entry| entry.holder == Holder::Bearer && entry.alive_at(now, idle_limit));
 
-        entries.retain(|entry| {
-            let alive = now < entry.expires_at();
+        if let Some(entry) = alive {
+            *miner_core::util::locked(&entry.active_at) = now;
 
-            if !alive {
-                entry.revoked.cancel();
-            }
-
-            alive
-        });
-
-        entries.push(Session {
-            hash: hash(&session),
-            created_at: now,
-            active_at: Arc::new(Mutex::new(now)),
-            revoked: CancellationToken::new(),
-        });
-
-        if entries.len() > MAX_SESSIONS {
-            entries.remove(0).revoked.cancel();
+            return entry.lease();
         }
+
+        let lease = add(&mut entries, Holder::Bearer, now);
 
         drop(entries);
         self.created.notify_waiters();
 
-        session
+        lease
     }
 
     pub async fn find(&self, session: &str, idle_limit: Option<Duration>) -> Option<SessionLease> {
@@ -133,13 +182,12 @@ impl Sessions {
             .read()
             .await
             .iter()
-            .find(|entry| bool::from(entry.hash.ct_eq(&wanted)))
-            .filter(|entry| entry.alive_at(now, idle_limit))
-            .map(|entry| SessionLease {
-                revoked: entry.revoked.clone(),
-                expires_at: entry.expires_at(),
-                active_at: entry.active_at.clone(),
+            .find(|entry| match entry.holder {
+                Holder::Cookie(stored) => bool::from(stored.ct_eq(&wanted)),
+                Holder::Bearer => false,
             })
+            .filter(|entry| entry.alive_at(now, idle_limit))
+            .map(Session::lease)
     }
 
     async fn end_idle_at(&self, now: Instant, idle_limit: Option<Duration>) -> Option<Instant> {
@@ -203,8 +251,20 @@ impl Sessions {
     pub async fn revoke(&self, session: &str) {
         let wanted = hash(session);
 
+        self.end(|holder| match holder {
+            Holder::Cookie(stored) => bool::from(stored.ct_eq(&wanted)),
+            Holder::Bearer => false,
+        })
+        .await;
+    }
+
+    pub async fn revoke_bearer(&self) {
+        self.end(|holder| holder == Holder::Bearer).await;
+    }
+
+    async fn end(&self, ended: impl Fn(Holder) -> bool) {
         self.entries.write().await.retain(|entry| {
-            let kept = !bool::from(entry.hash.ct_eq(&wanted));
+            let kept = !ended(entry.holder);
 
             if !kept {
                 entry.revoked.cancel();

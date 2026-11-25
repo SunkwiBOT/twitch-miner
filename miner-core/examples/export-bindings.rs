@@ -11,7 +11,7 @@ use miner_core::api::{
     LogsReportResponse, LogsResponse, NotificationTest, NotificationTestRequest, ProxyTestRequest,
     ProxyTestResponse, RedeemRequest, RedeemResponse, RefreshResponse, RequestsQuery,
     RequestsResponse, SearchQuery, SearchResponse, ServerMessage, ServerMessageKind,
-    SnapshotResponse, SpamBalanceResponse, SpamChannelQuery, SpamChannelResponse,
+    SnapshotResponse, SocketClose, SpamBalanceResponse, SpamChannelQuery, SpamChannelResponse,
     StartupProblemResponse, TwitchPage, UpdateCheckResponse,
 };
 use miner_core::error::{ApiError, ErrorCode};
@@ -35,7 +35,7 @@ fn member_name(value: &str) -> String {
 }
 
 fn rename_enum_members(source: &str) -> String {
-    let member = Regex::new(r#""([^"]+)" = ("[^"]+")"#).expect("valid pattern");
+    let member = Regex::new(r#""([^"]+)" = ("[^"]+"|\d+)"#).expect("valid pattern");
 
     source
         .lines()
@@ -127,6 +127,7 @@ fn main() {
     export::<RedeemResponse>(&cfg);
     export::<ServerMessage>(&cfg);
     export::<ServerMessageKind>(&cfg);
+    export::<SocketClose>(&cfg);
     export::<CommandName>(&cfg);
     export::<SlotPurposeKind>(&cfg);
     export::<DesktopEvent>(&cfg);

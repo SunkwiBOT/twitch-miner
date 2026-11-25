@@ -253,6 +253,7 @@ export const connect = async (): Promise<void> => {
       });
     },
     onBurst: noteBurstProgress,
+    onSessionEnded: sessionEnded,
     onConnection: (connected) => {
       app.connected = connected;
 

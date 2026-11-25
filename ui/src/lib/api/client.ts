@@ -1,4 +1,5 @@
 import { ServerMessageKind } from "../bindings/ServerMessageKind";
+import { SocketClose } from "../bindings/SocketClose";
 
 import type { AppInfoType } from "../bindings/AppInfoType";
 import type { AvailableUpdateType } from "../bindings/AvailableUpdateType";
@@ -75,6 +76,7 @@ type ListenersType = {
   onEvent: (event: MinerEventType) => void;
   onBurst: (progress: BurstProgressType) => void;
   onConnection: (connected: boolean) => void;
+  onSessionEnded: () => void;
 };
 
 type HttpRouteType = { route: RoutesApi; method: HttpMethod };
@@ -354,7 +356,12 @@ const subscribeDashboard = (listeners: ListenersType): UnsubscribeType => {
         listeners.onBurst(message.progress);
       }
     };
-    current.onclose = () => {
+    current.onclose = (event) => {
+      if (event.code === SocketClose.SESSION_ENDED) {
+        closed = true;
+        listeners.onSessionEnded();
+      }
+
       listeners.onConnection(false);
 
       if (closed) {

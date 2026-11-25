@@ -1,6 +1,5 @@
 use super::*;
 
-const SESSION_ENDED_REASON: &str = "session ended";
 // ! A client that stops reading would otherwise hold its push channel, and
 // the end of its session, open.
 const SEND_TIMEOUT: Duration = Duration::from_secs(10);
@@ -14,15 +13,13 @@ const INCOMING_MESSAGE_MAX_BYTES: usize = 4 * 1024;
 // URLs, proxies) through it.
 pub(super) async fn events(
     State(state): State<Shared>,
-    lease: Option<Extension<SessionLease>>,
+    Extension(lease): Extension<SessionLease>,
     headers: HeaderMap,
     upgrade: WebSocketUpgrade,
 ) -> Response {
     if !state.access.allows_origin(&headers) {
         return Failure::from(ErrorCode::Unauthorized).into_response();
     }
-
-    let lease = lease.map(|Extension(lease)| lease);
 
     upgrade
         .max_message_size(INCOMING_MESSAGE_MAX_BYTES)
@@ -52,7 +49,7 @@ async fn send_snapshot(socket: &mut WebSocket, text: Option<Utf8Bytes>) -> bool 
     }
 }
 
-async fn stream_events(state: Shared, mut socket: WebSocket, lease: Option<SessionLease>) {
+async fn stream_events(state: Shared, mut socket: WebSocket, lease: SessionLease) {
     let mut receiver = state.manager.subscribe();
     let mut bursts = state.manager.subscribe_bursts();
     let mut snapshots = state.snapshots.subscribe();
@@ -65,12 +62,7 @@ async fn stream_events(state: Shared, mut socket: WebSocket, lease: Option<Sessi
         return;
     }
 
-    let session_ended = async {
-        match &lease {
-            Some(lease) => lease.ended().await,
-            None => std::future::pending().await,
-        }
-    };
+    let session_ended = lease.ended();
     tokio::pin!(session_ended);
 
     let mut ping =
@@ -86,8 +78,8 @@ async fn stream_events(state: Shared, mut socket: WebSocket, lease: Option<Sessi
 
             _ = &mut session_ended => {
                 let close = CloseFrame {
-                    code: close_code::POLICY,
-                    reason: SESSION_ENDED_REASON.into(),
+                    code: SocketClose::SessionEnded.code(),
+                    reason: SocketClose::SessionEnded.reason().into(),
                 };
                 send_message(&mut socket, Message::Close(Some(close))).await;
 

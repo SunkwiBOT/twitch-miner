@@ -42,9 +42,13 @@ pub(super) fn password_matches(expected: &str, given: &str) -> bool {
 }
 
 enum Verdict {
-    Allowed(Option<SessionLease>),
+    Allowed(SessionLease),
     Refused,
     LockedOut(Duration),
+}
+
+async fn idle_limit(state: &AppState) -> Option<Duration> {
+    state.manager.global_settings().await.auto_lock.idle_limit()
 }
 
 async fn authorize(state: &AppState, headers: &HeaderMap, client: ClientAddress) -> Verdict {
@@ -58,7 +62,9 @@ async fn authorize(state: &AppState, headers: &HeaderMap, client: ClientAddress)
             .attempt(client.visitor, client.connection, matches)
             .await
         {
-            SignIn::Accepted => Verdict::Allowed(None),
+            SignIn::Accepted => {
+                Verdict::Allowed(state.sessions.bearer(idle_limit(state).await).await)
+            }
             SignIn::Refused => {
                 tokio::time::sleep(WRONG_PASSWORD_DELAY).await;
 
@@ -72,10 +78,8 @@ async fn authorize(state: &AppState, headers: &HeaderMap, client: ClientAddress)
         return Verdict::Refused;
     };
 
-    let idle_limit = state.manager.global_settings().await.auto_lock.idle_limit();
-
-    match state.sessions.find(&session, idle_limit).await {
-        Some(lease) => Verdict::Allowed(Some(lease)),
+    match state.sessions.find(&session, idle_limit(state).await).await {
+        Some(lease) => Verdict::Allowed(lease),
         None => Verdict::Refused,
     }
 }
@@ -163,9 +167,7 @@ pub(super) async fn require_session(
 ) -> Response {
     match authorize(&state, request.headers(), client).await {
         Verdict::Allowed(lease) => {
-            if let Some(lease) = lease {
-                request.extensions_mut().insert(lease);
-            }
+            request.extensions_mut().insert(lease);
 
             next.run(request).await
         }
@@ -221,7 +223,21 @@ pub(super) async fn login(
     Ok((StatusCode::NO_CONTENT, [(header::SET_COOKIE, cookie)]).into_response())
 }
 
-pub(super) async fn logout(State(state): State<Shared>, headers: HeaderMap) -> Response {
+pub(super) async fn logout(
+    State(state): State<Shared>,
+    Extension(client): Extension<ClientAddress>,
+    headers: HeaderMap,
+) -> Response {
+    // ! Checked first: anyone could otherwise cut the connections of a
+    // script that holds the password.
+    if bearer(&headers).is_some() {
+        match authorize(&state, &headers, client).await {
+            Verdict::Allowed(_) => state.sessions.revoke_bearer().await,
+            Verdict::Refused => return Failure::from(ErrorCode::Unauthorized).into_response(),
+            Verdict::LockedOut(retry_after) => return locked_out(retry_after),
+        }
+    }
+
     if let Some(session) = cookie_session(&headers, state.access.cookie_name()) {
         state.sessions.revoke(&session).await;
     }
@@ -231,10 +247,8 @@ pub(super) async fn logout(State(state): State<Shared>, headers: HeaderMap) -> R
     (StatusCode::NO_CONTENT, [(header::SET_COOKIE, cleared)]).into_response()
 }
 
-pub(super) async fn activity(lease: Option<Extension<SessionLease>>) -> StatusCode {
-    if let Some(Extension(lease)) = lease {
-        lease.touch();
-    }
+pub(super) async fn activity(Extension(lease): Extension<SessionLease>) -> StatusCode {
+    lease.touch();
 
     StatusCode::NO_CONTENT
 }

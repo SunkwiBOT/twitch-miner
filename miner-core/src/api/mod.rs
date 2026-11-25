@@ -5,7 +5,7 @@ mod responses;
 mod views;
 
 pub use command::{Command, CommandName};
-pub use push::{DesktopEvent, ServerMessage, ServerMessageKind};
+pub use push::{DesktopEvent, ServerMessage, ServerMessageKind, SocketClose};
 pub use queries::{
     ChannelBannersRequest, ChannelQuery, ChannelsLookupRequest, CheckPastedTokenRequest,
     DashboardLoginRequest, FollowsQuery, HistoryCurveQuery, HistoryExportQuery, HistoryQuery,

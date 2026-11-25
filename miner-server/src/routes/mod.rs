@@ -8,7 +8,7 @@ use std::sync::{Arc, LazyLock, Once};
 use std::time::Duration;
 
 use axum::extract::rejection::{JsonRejection, QueryRejection};
-use axum::extract::ws::{close_code, CloseFrame, Message, Utf8Bytes, WebSocket, WebSocketUpgrade};
+use axum::extract::ws::{CloseFrame, Message, Utf8Bytes, WebSocket, WebSocketUpgrade};
 use axum::extract::{ConnectInfo, FromRequest, FromRequestParts, Request, State};
 use axum::http::request::Parts;
 use axum::http::{header, HeaderMap, HeaderName, HeaderValue, StatusCode, Uri};
@@ -25,7 +25,7 @@ use miner_core::api::{
     HistoryStatsResponse, ImportTokensRequest, ImportTokensResponse, LoginFlowResponse, LogsQuery,
     LogsReportResponse, LogsResponse, NotificationTest, NotificationTestRequest, ProxyTestRequest,
     ProxyTestResponse, RedeemRequest, RedeemResponse, RefreshResponse, RequestsQuery,
-    RequestsResponse, SearchQuery, SearchResponse, ServerMessage, SnapshotResponse,
+    RequestsResponse, SearchQuery, SearchResponse, ServerMessage, SnapshotResponse, SocketClose,
     SpamBalanceResponse, SpamChannelQuery, SpamChannelResponse, UpdateCheck, UpdateCheckResponse,
 };
 use miner_core::error::{ApiError, ErrorCode};

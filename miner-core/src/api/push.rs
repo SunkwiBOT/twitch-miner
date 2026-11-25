@@ -33,6 +33,25 @@ impl ServerMessage {
     }
 }
 
+// ! On `SessionEnded` the page shows the sign-in instead of reconnecting.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, TS)]
+#[ts(repr(enum), rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum SocketClose {
+    SessionEnded = 1008,
+}
+
+impl SocketClose {
+    pub const fn code(self) -> u16 {
+        self as u16
+    }
+
+    pub const fn reason(self) -> &'static str {
+        match self {
+            Self::SessionEnded => "session ended",
+        }
+    }
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, TS)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 #[ts(repr(enum = name))]
