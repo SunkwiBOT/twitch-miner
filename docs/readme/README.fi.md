@@ -600,7 +600,8 @@ Napsauta ”Päivitys”-merkkiä ja sitten ”Asenna ja käynnistä uudelleen�
 hallintapaneeli ilmoittaa asiasta: suorita `docker compose pull` ja sitten
 `docker compose up -d`. Ilman Dockeria hallintapaneeli ilmoittaa samalla tavalla: katso
 [Ilman Dockeria](#systemd), miten tiedosto vaihdetaan ja palvelu käynnistetään uudelleen.
-Jokainen uusi versio kertoo muutoksensa sovelluksessa ja GitHub-julkaisussaan.
+Sovellus näyttää jokaisen versiosi jälkeisen version muutokset uusimmasta alkaen; kunkin
+version muutokset löytyvät myös sen GitHub-julkaisusta.
 
 **Unohdin sovelluksen salasanan.**\
 Sitä ei voi palauttaa: juuri se salaa Twitch-istuntosi. Sulje sovellus, poista datakansio
@@ -667,7 +668,8 @@ Saman tekijän muita projekteja:
   `MINER_PUBLIC_URL` (katso [Docker](#docker)).
 - Louhija on yhteydessä vain kohteisiin `twitch.tv`, `ttvnw.net`, `jtvnw.net`,
   `twitchcdn.net`, `drops.sunkwi.com` sekä määrittämiisi ilmoituskohteisiin.
-  Sovellus (työpöytä ja Docker) tarkistaa uudet versiot `github.com`-palvelusta, ja
+  Sovellus (työpöytä ja Docker) tarkistaa uudet versiot ja niiden muutokset
+  `github.com`- ja `api.github.com`-palveluista, ja
   työpöytäsovellus lataa ne projektin GitHub-julkaisuista. Ne on allekirjoitettu: vain
   näytetty versio asennetaan.
 

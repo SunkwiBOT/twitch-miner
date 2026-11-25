@@ -596,8 +596,9 @@ A app para computador verifica se há uma nova versão ao arrancar e, depois, a 
 Clique no emblema «Atualização» e depois em «Instalar e reiniciar». Com o Docker, o
 painel avisa: execute `docker compose pull` e depois `docker compose up -d`. Sem Docker,
 o painel avisa da mesma forma: veja [Sem Docker](#systemd) para substituir o ficheiro e
-reiniciar o serviço. Cada nova versão lista as alterações na aplicação e na página da
-versão no GitHub.
+reiniciar o serviço. A app lista as alterações de cada versão desde a sua, da mais
+recente para a mais antiga; as notas de cada versão também estão na página da versão no
+GitHub.
 
 **Esqueci-me da palavra-passe da app.**\
 Não pode ser recuperada: é ela que cifra as suas sessões da Twitch. Feche a app, apague a
@@ -665,7 +666,8 @@ Outros projetos do mesmo autor:
   `MINER_PUBLIC_URL` (consulte [Docker](#docker)).
 - O minerador só comunica com `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`,
   `drops.sunkwi.com` e com os destinos de notificação que configurar. A app
-  (computador e Docker) procura novas versões em `github.com`, e a app para computador
+  (computador e Docker) procura novas versões e as suas notas em `github.com` e
+  `api.github.com`, e a app para computador
   transfere-as das releases do projeto no GitHub. São assinadas: só é instalada a versão
   mostrada.
 

@@ -588,8 +588,8 @@ Aplikacja desktopowa sprawdza dostępność nowej wersji przy uruchomieniu, a po
 plakietkę „Aktualizacja”, a potem „Zainstaluj i uruchom ponownie”. W Dockerze panel o tym
 informuje: uruchom `docker compose pull`, a potem `docker compose up -d`. Bez Dockera
 panel informuje tak samo: zobacz [Bez Dockera](#systemd), jak podmienić plik i ponownie
-uruchomić usługę. Każda nowa wersja wymienia swoje zmiany w aplikacji i w swoim wydaniu na
-GitHubie.
+uruchomić usługę. Aplikacja wymienia zmiany każdej wersji wydanej po Twojej, od
+najnowszej; notatki każdej wersji są też w jej wydaniu na GitHubie.
 
 **Nie pamiętam hasła aplikacji.**\
 Nie da się go odzyskać: to ono szyfruje Twoje sesje Twitch. Zamknij aplikację, usuń folder
@@ -654,7 +654,8 @@ Inne projekty tego samego autora:
   (zob. [Docker](#docker)).
 - Miner łączy się tylko z `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`,
   `drops.sunkwi.com` oraz z ustawionymi przez Ciebie celami powiadomień.
-  Aplikacja (desktopowa i Docker) sprawdza nowe wersje na `github.com`, a aplikacja
+  Aplikacja (desktopowa i Docker) sprawdza nowe wersje i ich notatki na `github.com`
+  i `api.github.com`, a aplikacja
   desktopowa pobiera je z wydań projektu na GitHubie. Są podpisane: instalowana jest tylko
   wyświetlona wersja.
 

@@ -406,7 +406,7 @@ Twitch의 한도라서 그래요. Twitch는 계정마다 동시에 시청하는 
 데이터 폴더에 있어요. Linux는 `~/.local/share/twitch-miner`, Windows는 `%APPDATA%\twitch-miner`, macOS는 `~/Library/Application Support/twitch-miner`, Docker는 `/data` 볼륨이에요. 데스크톱에서는 **설정 › 데스크톱**에서 클릭 한 번으로 열 수 있어요. 안에는 `miner.db`(계정, 설정, 일지), `master.key`(앱 비밀번호를 설정하지 않았을 때의 세션 키), 로그가 있어요.
 
 **업데이트는 어떻게 하나요?**\
-데스크톱 앱은 시작할 때 새 버전이 있는지 확인하고, 그 뒤로는 한 시간마다 확인해요(**설정 › 정보**에서 바꿀 수 있고, 찾으면 알려 줘요). ‘업데이트’ 배지를 누른 다음 ‘설치 후 다시 시작’을 누르세요. Docker에서는 대시보드가 알려 줘요. `docker compose pull`을 실행한 다음 `docker compose up -d`를 실행하세요. Docker 없이도 대시보드가 똑같이 알려 줘요. 파일 교체와 서비스 재시작은 [Docker 없이](#systemd)를 참고하세요. 새 버전마다 바뀐 점을 앱과 GitHub 릴리스 페이지에서 볼 수 있어요.
+데스크톱 앱은 시작할 때 새 버전이 있는지 확인하고, 그 뒤로는 한 시간마다 확인해요(**설정 › 정보**에서 바꿀 수 있고, 찾으면 알려 줘요). ‘업데이트’ 배지를 누른 다음 ‘설치 후 다시 시작’을 누르세요. Docker에서는 대시보드가 알려 줘요. `docker compose pull`을 실행한 다음 `docker compose up -d`를 실행하세요. Docker 없이도 대시보드가 똑같이 알려 줘요. 파일 교체와 서비스 재시작은 [Docker 없이](#systemd)를 참고하세요. 앱은 지금 버전 이후의 모든 버전에서 바뀐 점을 최신순으로 보여 줘요. 각 버전의 노트는 GitHub 릴리스 페이지에서도 볼 수 있어요.
 
 **앱 비밀번호를 잊어버렸어요.**\
 복구할 수 없어요. Twitch 세션을 암호화하는 것이 바로 이 비밀번호이기 때문이에요. 앱을 종료하고 데이터 폴더를 삭제한 뒤 계정을 다시 추가하세요. 계정 설정도 다시 해야 해요. Docker에서는 대시보드 비밀번호를 `MINER_PASSWORD`에서 바꾼 다음 `docker compose up -d`를 실행하세요.
@@ -437,7 +437,7 @@ Twitch와 채널마다 달라요. 마이닝 도구는 Twitch가 시청자에게 
 - HTTP 대시보드는 상수 시간 비밀번호 비교와 HttpOnly, SameSite=Strict 쿠키(HTTPS 뒤에서는 `Secure`, `__Host-` 접두사 포함)를 사용해요. 서버는 각 세션의 SHA-256만 저장해요. 세션은 30일이 지나거나 로그아웃하면 끝나요. 서버는 요청 본문을 읽기 전에 세션을 확인하고, 본문 크기를 256 KiB로 제한해요.
 - 한 IP 주소에서 비밀번호를 연속 5번 틀리면(로그인 폼 또는 bearer) 그 주소는 30초 동안 기다려야 해요. 서버는 비밀번호를 확인하지 않고 `Retry-After`와 함께 `429`를 응답해요. 비밀번호가 틀릴 때마다 응답에 0.5초가 걸리기도 해요. 같은 연결 주소(공유 프록시 포함)에서 1분에 30번 넘게 비밀번호가 틀리면, 그 주소는 2초에 한 번만 시도할 수 있어요. 추측은 느려지고, 아무도 잠기지 않아요.
 - 내 네트워크 밖에서는 `MINER_PUBLIC_URL`을 설정하고 대시보드를 HTTPS 리버스 프록시 뒤에 두세요([Docker](#docker) 참고).
-- 마이닝 도구는 `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`, `drops.sunkwi.com`, 그리고 직접 설정한 알림 대상하고만 통신해요. 앱(데스크톱과 Docker)은 `github.com`에서 새 버전을 확인하고, 데스크톱 앱은 프로젝트의 GitHub releases에서 새 버전을 내려받아요. 새 버전은 서명되어 있어서, 화면에 표시된 버전만 설치돼요.
+- 마이닝 도구는 `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`, `drops.sunkwi.com`, 그리고 직접 설정한 알림 대상하고만 통신해요. 앱(데스크톱과 Docker)은 `github.com`과 `api.github.com`에서 새 버전과 그 노트를 확인하고, 데스크톱 앱은 프로젝트의 GitHub releases에서 새 버전을 내려받아요. 새 버전은 서명되어 있어서, 화면에 표시된 버전만 설치돼요.
 
 ## <a name="build"></a>소스에서 빌드
 

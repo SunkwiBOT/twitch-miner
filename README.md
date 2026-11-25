@@ -589,7 +589,8 @@ this in **Settings › About**), and can notify you when it finds one. Click the
 badge, then “Install and restart”. With Docker, the dashboard tells you too: run
 `docker compose pull`, then `docker compose up -d`. Without Docker, the dashboard tells
 you the same way: see [Without Docker](#systemd) to replace the file and restart the
-service. Each new version lists what changed, in the app and on its GitHub release.
+service. The app lists what changed in every version since yours, newest first; each
+version's notes are also on its GitHub release.
 
 **I forgot the app password.**\
 It cannot be recovered: it is what encrypts your Twitch sessions. Quit the app, delete the
@@ -654,9 +655,9 @@ Other projects by the same author:
   `MINER_PUBLIC_URL` (see [Docker](#docker)).
 - The miner only talks to `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`,
   `drops.sunkwi.com` and the notification targets you configure. The app
-  (desktop and Docker) checks for new versions on `github.com`, and the desktop app
-  downloads them from the project's GitHub releases. They are signed: only the version
-  shown is installed.
+  (desktop and Docker) checks for new versions and their notes on `github.com` and
+  `api.github.com`, and the desktop app downloads them from the project's GitHub
+  releases. They are signed: only the version shown is installed.
 
 ## <a name="build"></a>Build from source
 

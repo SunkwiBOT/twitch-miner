@@ -604,8 +604,9 @@ L'application de bureau cherche une nouvelle version au démarrage, puis toutes 
 Cliquez sur le badge « Mise à jour », puis sur « Installer et redémarrer ». Avec Docker, le
 tableau de bord prévient : lancez `docker compose pull`, puis `docker compose up -d`. Sans
 Docker, le tableau de bord prévient de la même façon : voyez [Sans Docker](#systemd) pour
-remplacer le fichier et redémarrer le service. Chaque nouvelle version liste ses
-changements, dans l'application et sur sa page GitHub.
+remplacer le fichier et redémarrer le service. L'application liste les changements de
+chaque version depuis la vôtre, de la plus récente à la plus ancienne ; les notes de chaque
+version sont aussi sur sa page GitHub.
 
 **J'ai oublié le mot de passe de l'application.**\
 Il ne peut pas être récupéré : c'est lui qui chiffre vos sessions Twitch. Quittez
@@ -673,7 +674,8 @@ Autres projets du même auteur :
   `MINER_PUBLIC_URL` (voir [Docker](#docker)).
 - Le mineur ne parle qu'à `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`,
   `drops.sunkwi.com` et aux cibles de notification que vous configurez.
-  L'application (bureau et Docker) cherche les nouvelles versions sur `github.com`, et
+  L'application (bureau et Docker) cherche les nouvelles versions et leurs notes sur
+  `github.com` et `api.github.com`, et
   l'application de bureau les télécharge depuis les versions GitHub du projet. Elles sont
   signées : seule la version affichée est installée.
 

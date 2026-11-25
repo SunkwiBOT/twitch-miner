@@ -29,6 +29,7 @@ use miner_core::config::{AccountSettingsPatch, CloseAction, GlobalSettings};
 use miner_core::error::{ApiError, ErrorCode};
 use miner_core::i18n;
 use miner_core::notifications::desktop::DesktopNotifier;
+use miner_core::release_notes::ReleaseNotes;
 use miner_core::store::VaultStatus;
 use miner_core::Manager;
 use tauri::{AppHandle, Emitter, Manager as _, RunEvent, WindowEvent};
@@ -216,6 +217,8 @@ fn main() {
                 manager: manager.clone(),
                 stopped: AtomicBool::new(false),
             });
+            // ! `Manager::open` just built its HTTP clients the same way: this one cannot fail where those did not.
+            app.manage(ReleaseNotes::new(InstallKind::Desktop)?);
             app.manage(WindowShown(tokio::sync::watch::channel(false).0));
 
             // ! The window is created hidden (tauri.conf.json) so it never flashes on screen

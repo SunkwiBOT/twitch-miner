@@ -597,8 +597,8 @@ endres i **Innstillinger › Om**), og kan varsle deg når den finner en. Klikk 
 «Oppdatering», deretter på «Installer og start på nytt». Med Docker sier oversikten fra:
 kjør `docker compose pull` og deretter `docker compose up -d`. Uten Docker sier
 oversikten fra på samme måte: se [Uten Docker](#systemd) for å bytte ut filen og starte
-tjenesten på nytt. Hver nye versjon viser endringene sine i appen og i utgivelsen sin på
-GitHub.
+tjenesten på nytt. Appen viser endringene i hver versjon etter din, den nyeste først;
+notatene til hver versjon står også i utgivelsen dens på GitHub.
 
 **Jeg har glemt app-passordet.**\
 Det kan ikke gjenopprettes: det er det som krypterer Twitch-øktene dine. Avslutt appen,
@@ -663,7 +663,8 @@ Andre prosjekter fra samme utvikler:
   `MINER_PUBLIC_URL` (se [Docker](#docker)).
 - Mineren snakker bare med `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`,
   `drops.sunkwi.com` og varslingsmålene du konfigurerer. Appen (skrivebord og
-  Docker) ser etter nye versjoner på `github.com`, og skrivebordsappen laster dem ned fra
+  Docker) ser etter nye versjoner og notatene deres på `github.com` og `api.github.com`,
+  og skrivebordsappen laster dem ned fra
   prosjektets GitHub-utgivelser. De er signert: bare den viste versjonen blir installert.
 
 ## <a name="build"></a>Bygg fra kildekode

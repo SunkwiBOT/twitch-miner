@@ -597,8 +597,9 @@ passen in **Instellingen › Over**), en kan je waarschuwen als er een gevonden 
 op de badge “Update” en daarna op “Installeren en herstarten”. Bij Docker meldt het
 dashboard het: voer `docker compose pull` uit en daarna `docker compose up -d`. Zonder
 Docker meldt het dashboard het op dezelfde manier: zie [Zonder Docker](#systemd) om het
-bestand te vervangen en de dienst opnieuw te starten. Elke nieuwe versie vermeldt haar
-wijzigingen in de app en in haar release op GitHub.
+bestand te vervangen en de dienst opnieuw te starten. De app vermeldt de wijzigingen van
+elke versie sinds de jouwe, de nieuwste eerst; de notities van elke versie staan ook in haar
+release op GitHub.
 
 **Ik ben het app-wachtwoord vergeten.**\
 Het kan niet worden hersteld: juist dit wachtwoord versleutelt je Twitch-sessies. Sluit de
@@ -665,7 +666,8 @@ Andere projecten van dezelfde auteur:
   `MINER_PUBLIC_URL` (zie [Docker](#docker)).
 - De miner praat alleen met `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`,
   `drops.sunkwi.com` en de meldingsdoelen die je instelt. De app (desktop en
-  Docker) zoekt naar nieuwe versies op `github.com`, en de desktop-app downloadt ze uit de
+  Docker) zoekt naar nieuwe versies en hun notities op `github.com` en `api.github.com`,
+  en de desktop-app downloadt ze uit de
   GitHub-releases van het project. Ze zijn ondertekend: alleen de getoonde versie wordt
   geïnstalleerd.
 

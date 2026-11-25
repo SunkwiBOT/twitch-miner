@@ -219,22 +219,38 @@ pub struct BinaryAsset {
     pub arch: String,
 }
 
+// ! Markdown written for one release.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[ts(rename = "VersionNotesType")]
+pub struct VersionNotes {
+    pub version: String,
+    pub notes: String,
+}
+
+impl VersionNotes {
+    pub fn new(version: &str, notes: Option<&str>) -> Option<Self> {
+        notes
+            .map(str::trim)
+            .filter(|notes| !notes.is_empty())
+            .map(|notes| Self {
+                version: version.to_owned(),
+                notes: notes.to_owned(),
+            })
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
 #[ts(rename = "AvailableUpdateType")]
 pub struct AvailableUpdate {
     pub version: String,
-    // ! Markdown, from the `notes` of the release's `latest.json`.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    #[ts(optional)]
-    pub notes: Option<String>,
+    // ! Every version from the installed one (excluded) up to this one, newest first.
+    pub notes: Vec<VersionNotes>,
 }
 
 impl AvailableUpdate {
+    // ! Only this version's notes, from its release's `latest.json`.
     pub fn new(version: String, notes: Option<&str>) -> Self {
-        let notes = notes
-            .map(str::trim)
-            .filter(|notes| !notes.is_empty())
-            .map(str::to_owned);
+        let notes = VersionNotes::new(&version, notes).into_iter().collect();
 
         Self { version, notes }
     }

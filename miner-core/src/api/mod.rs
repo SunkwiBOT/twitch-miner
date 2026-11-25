@@ -27,7 +27,7 @@ pub use views::{
     AccountSnapshot, AccountStats, AccountStatus, AvailableUpdate, BadgeCatalogView, BinaryAsset,
     CampaignProgress, CatalogView, CoreLimits, DropProgressView, DropState, ImportTokenOutcome,
     ImportTokensFlowStatus, ImportTokensFlowView, LoginFlowStatus, LoginFlowView, SlotView,
-    Snapshot, StreamerView, TokenCheck,
+    Snapshot, StreamerView, TokenCheck, VersionNotes,
 };
 
 use serde::{Deserialize, Serialize};

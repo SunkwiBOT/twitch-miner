@@ -598,7 +598,8 @@ Az asztali alkalmazás induláskor, majd óránként keres új verziót (ez a
 irányítópult szól: futtasd a `docker compose pull`, majd a `docker compose up -d`
 parancsot. Docker nélkül az irányítópult ugyanígy szól: lásd a
 [Docker nélkül](#systemd) részt a fájl cseréjéhez és a szolgáltatás újraindításához.
-Minden új verzió felsorolja a változásait az alkalmazásban és a GitHub-kiadásában.
+Az alkalmazás a tiéd óta megjelent összes verzió változásait felsorolja, a legújabbal
+kezdve; minden verzió jegyzetei a GitHub-kiadásában is megvannak.
 
 **Elfelejtettem az alkalmazásjelszót.**\
 Nem állítható vissza: épp ez titkosítja a Twitch-munkameneteidet. Lépj ki az
@@ -667,8 +668,9 @@ Ugyanennek a szerzőnek más projektjei:
   `MINER_PUBLIC_URL` beállításával (lásd: [Docker](#docker)).
 - A bányász csak a `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`,
   `drops.sunkwi.com` címekkel és az általad beállított értesítési célokkal
-  kommunikál. Az alkalmazás (asztali és Docker) a `github.com` oldalon keres új
-  verziókat, az asztali alkalmazás pedig a projekt GitHub-kiadásaiból tölti le őket. Ezek
+  kommunikál. Az alkalmazás (asztali és Docker) a `github.com` és az `api.github.com`
+  oldalon keres új verziókat és azok jegyzeteit, az asztali alkalmazás pedig a projekt
+  GitHub-kiadásaiból tölti le őket. Ezek
   alá vannak írva: csak a megjelenített verzió települ.
 
 ## <a name="build"></a>Fordítás forráskódból

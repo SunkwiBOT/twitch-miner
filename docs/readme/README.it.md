@@ -599,8 +599,8 @@ in **Impostazioni › Informazioni**), e può avvisarti quando ne trova una. Fai
 badge «Aggiornamento», poi su «Installa e riavvia». Con Docker, la dashboard ti avvisa:
 esegui `docker compose pull`, poi `docker compose up -d`. Senza Docker, la dashboard
 avvisa allo stesso modo: vedi [Senza Docker](#systemd) per sostituire il file e
-riavviare il servizio. Ogni nuova versione elenca le sue novità nell'app e nella sua
-release su GitHub.
+riavviare il servizio. L'app elenca le novità di ogni versione successiva alla tua, dalla
+più recente; le note di ogni versione sono anche nella sua release su GitHub.
 
 **Ho dimenticato la password dell'app.**\
 Non si può recuperare: è proprio lei a cifrare le tue sessioni Twitch. Chiudi l'app,
@@ -668,7 +668,8 @@ Altri progetti dello stesso autore:
   `MINER_PUBLIC_URL` (vedi [Docker](#docker)).
 - Il miner comunica solo con `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`,
   `drops.sunkwi.com` e con le destinazioni delle notifiche che configuri. L'app
-  (desktop e Docker) controlla le nuove versioni su `github.com`, e l'app desktop le
+  (desktop e Docker) controlla le nuove versioni e le loro note su `github.com` e
+  `api.github.com`, e l'app desktop le
   scarica dalle release GitHub del progetto. Sono firmate: viene installata solo la
   versione mostrata.
 

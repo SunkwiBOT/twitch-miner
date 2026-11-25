@@ -6,6 +6,7 @@ use std::time::{Duration, Instant};
 use anyhow::{anyhow, bail};
 use miner_core::api::{AvailableUpdate, InstallKind};
 use miner_core::error::ErrorCode;
+use miner_core::release_notes::ReleaseNotes;
 use miner_core::requests::{address_target, RequestKind, RequestLog};
 use miner_core::Manager;
 use reqwest::redirect::Policy;
@@ -40,15 +41,24 @@ struct Answer {
 pub struct Releases {
     client: reqwest::Client,
     url: String,
+    notes: ReleaseNotes,
     last_answer: Mutex<Option<Answer>>,
 }
 
 impl Releases {
     pub fn new(install_kind: InstallKind) -> anyhow::Result<Self> {
-        Self::with_url(&miner_core::updates::latest_release_url(), install_kind)
+        Self::with_urls(
+            &miner_core::updates::latest_release_url(),
+            &miner_core::release_notes::releases_api_url(),
+            install_kind,
+        )
     }
 
-    pub(crate) fn with_url(url: &str, install_kind: InstallKind) -> anyhow::Result<Self> {
+    pub(crate) fn with_urls(
+        url: &str,
+        notes_url: &str,
+        install_kind: InstallKind,
+    ) -> anyhow::Result<Self> {
         let client = reqwest::Client::builder()
             .user_agent(miner_core::user_agent(install_kind))
             .timeout(TIMEOUT)
@@ -66,6 +76,7 @@ impl Releases {
         Ok(Self {
             client,
             url: url.to_owned(),
+            notes: ReleaseNotes::with_url(notes_url, install_kind)?,
             last_answer: Mutex::new(None),
         })
     }
@@ -92,8 +103,17 @@ impl Releases {
             Ok((latest, notes)) => {
                 manager.update_checked();
 
-                let newer = is_newer(&latest)
-                    .then(|| AvailableUpdate::new(latest.to_string(), notes.as_deref()));
+                let newer = if is_newer(&latest) {
+                    let version = latest.to_string();
+
+                    Some(
+                        self.notes
+                            .describe(&manager.requests, &version, notes.as_deref())
+                            .await,
+                    )
+                } else {
+                    None
+                };
 
                 match &newer {
                     Some(update) => {

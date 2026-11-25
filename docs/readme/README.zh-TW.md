@@ -409,7 +409,7 @@ Twitch 對每個帳號同一時間只會計入**一個 Drops 活動**和**兩個
 在資料目錄中：Linux 上是 `~/.local/share/twitch-miner`，Windows 上是 `%APPDATA%\twitch-miner`，macOS 上是 `~/Library/Application Support/twitch-miner`，Docker 則是 `/data` 磁碟區。在桌面版中，**設定 › 桌面**可以一鍵開啟它。裡面有 `miner.db`（帳號、設定、紀錄）、`master.key`（未設定應用程式密碼時的工作階段金鑰）和日誌。
 
 **要怎麼更新？**\
-桌面應用程式啟動時會檢查是否有新版本，之後每小時檢查一次（可在**設定 › 關於**中變更，找到新版本時也會通知你）。按「更新」徽章，再按「安裝並重新啟動」。使用 Docker 時，儀表板會通知你：執行 `docker compose pull`，再執行 `docker compose up -d`。不使用 Docker 時，儀表板也會以相同方式通知你：替換檔案並重新啟動服務的方法請見[不使用 Docker](#systemd)。每個新版本都會在應用程式內和 GitHub 發布頁列出更新內容。
+桌面應用程式啟動時會檢查是否有新版本，之後每小時檢查一次（可在**設定 › 關於**中變更，找到新版本時也會通知你）。按「更新」徽章，再按「安裝並重新啟動」。使用 Docker 時，儀表板會通知你：執行 `docker compose pull`，再執行 `docker compose up -d`。不使用 Docker 時，儀表板也會以相同方式通知你：替換檔案並重新啟動服務的方法請見[不使用 Docker](#systemd)。應用程式會依從新到舊列出你目前版本之後每個版本的更新內容；每個版本的說明也在其 GitHub 發布頁上。
 
 **我忘了應用程式密碼。**\
 密碼無法找回：你的 Twitch 工作階段正是用它加密的。請結束應用程式、刪除資料目錄，然後重新新增帳號；這些帳號的設定必須重新設定。使用 Docker 時，儀表板密碼要在 `MINER_PASSWORD` 中變更，再執行 `docker compose up -d`。
@@ -440,7 +440,7 @@ Twitch 對每個帳號同一時間只會計入**一個 Drops 活動**和**兩個
 - HTTP 儀表板使用固定時間的密碼比對，以及 HttpOnly、SameSite=Strict 的 Cookie（透過 HTTPS 時另加 `Secure` 和 `__Host-` 前綴）。伺服器只保存每個工作階段的 SHA-256。工作階段會在 30 天後或登出時結束。伺服器會先檢查工作階段，才讀取任何請求內容，並將請求內容限制在 256 KiB 以內。
 - 同一個 IP 位址連續輸錯 5 次密碼後（登入表單或 bearer），該位址必須等待 30 秒。伺服器會直接回傳 `429` 和 `Retry-After`，不會檢查密碼。每次輸錯密碼，回應也會延遲半秒。同一個連線位址（包括共用的代理伺服器）在一分鐘內輸錯密碼超過 30 次後，該位址每 2 秒只能嘗試一次：猜測會變慢，且不會有人被鎖在外面。
 - 在你的網路以外使用時，請把儀表板放在 HTTPS 反向代理伺服器後方，並設定 `MINER_PUBLIC_URL`（請參閱 [Docker](#docker)）。
-- 挖掘器只會與 `twitch.tv`、`ttvnw.net`、`jtvnw.net`、`twitchcdn.net`、`drops.sunkwi.com` 以及你設定的通知目標通訊。應用程式（桌面版和 Docker 版）會在 `github.com` 檢查新版本，桌面版會從本專案的 GitHub releases 下載新版本。新版本都經過簽章：只會安裝畫面上顯示的那個版本。
+- 挖掘器只會與 `twitch.tv`、`ttvnw.net`、`jtvnw.net`、`twitchcdn.net`、`drops.sunkwi.com` 以及你設定的通知目標通訊。應用程式（桌面版和 Docker 版）會在 `github.com` 和 `api.github.com` 檢查新版本及其說明，桌面版會從本專案的 GitHub releases 下載新版本。新版本都經過簽章：只會安裝畫面上顯示的那個版本。
 
 ## <a name="build"></a>從原始碼建置
 

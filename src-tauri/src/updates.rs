@@ -10,6 +10,7 @@ use std::time::{Duration, Instant};
 
 use miner_core::api::AvailableUpdate;
 use miner_core::error::{ApiError, ErrorCode};
+use miner_core::release_notes::ReleaseNotes;
 use miner_core::requests::{address_target, url_target, Pending, RequestKind};
 use miner_core::Manager;
 use serde::Serialize;
@@ -44,8 +45,21 @@ const SELFTEST_TIMEOUT: Duration = Duration::from_secs(15);
 
 type Answer<T> = Result<T, ApiError>;
 
-fn available(update: &Update) -> AvailableUpdate {
-    AvailableUpdate::new(update.version.clone(), update.body.as_deref())
+// ! The notes of every skipped version when GitHub lists them, else those of `latest.json`.
+async fn describe(app: &AppHandle, update: &Update) -> AvailableUpdate {
+    let latest_notes = update.body.as_deref();
+
+    match (
+        app.try_state::<crate::AppState>(),
+        app.try_state::<ReleaseNotes>(),
+    ) {
+        (Some(state), Some(notes)) => {
+            notes
+                .describe(&state.manager.requests, &update.version, latest_notes)
+                .await
+        }
+        _ => AvailableUpdate::new(update.version.clone(), latest_notes),
+    }
 }
 
 #[derive(Default)]
@@ -53,7 +67,13 @@ pub struct FoundUpdate(Mutex<Option<Found>>);
 
 struct Found {
     update: Update,
+    info: AvailableUpdate,
     first: bool,
+}
+
+struct Recorded {
+    info: AvailableUpdate,
+    announced: bool,
 }
 
 #[derive(Clone, Serialize)]
@@ -180,7 +200,7 @@ async fn find_update(app: &AppHandle) -> Answer<Option<Update>> {
     })
 }
 
-fn record(app: &AppHandle, update: Option<Update>) -> Option<AvailableUpdate> {
+async fn record(app: &AppHandle, update: Option<Update>) -> Option<Recorded> {
     let manager = app
         .try_state::<crate::AppState>()
         .map(|state| state.manager.clone());
@@ -189,10 +209,14 @@ fn record(app: &AppHandle, update: Option<Update>) -> Option<AvailableUpdate> {
         manager.update_checked();
     }
 
+    let info = match &update {
+        Some(update) => Some(describe(app, update).await),
+        None => None,
+    };
     let found = app.state::<FoundUpdate>();
     let mut found = miner_core::util::locked(&found.0);
 
-    let Some(update) = update else {
+    let (Some(update), Some(info)) = (update, info) else {
         *found = None;
 
         if let Some(manager) = &manager {
@@ -202,7 +226,6 @@ fn record(app: &AppHandle, update: Option<Update>) -> Option<AvailableUpdate> {
         return None;
     };
 
-    let info = available(&update);
     let announced = manager.is_some_and(|manager| {
         manager
             .announce_update(&info)
@@ -223,10 +246,11 @@ fn record(app: &AppHandle, update: Option<Update>) -> Option<AvailableUpdate> {
 
     *found = Some(Found {
         update,
+        info: info.clone(),
         first: announced || known_first,
     });
 
-    announced.then_some(info)
+    Some(Recorded { info, announced })
 }
 
 #[tauri::command]
@@ -234,11 +258,8 @@ pub async fn check_for_update(app: AppHandle) -> Answer<Option<AvailableUpdate>>
     unlocked(&app).await?;
 
     let update = find_update(&app).await?;
-    let info = update.as_ref().map(available);
 
-    record(&app, update);
-
-    Ok(info)
+    Ok(record(&app, update).await.map(|recorded| recorded.info))
 }
 
 // ! The window asks when it opens: the check at start may end before it listens
@@ -249,7 +270,7 @@ pub fn found_update(found: State<'_, FoundUpdate>) -> Option<AvailableUpdate> {
     miner_core::util::locked(&found.0)
         .as_ref()
         .filter(|found| found.first)
-        .map(|found| available(&found.update))
+        .map(|found| found.info.clone())
 }
 
 #[tauri::command]
@@ -270,8 +291,11 @@ async fn check_in_background(app: &AppHandle) -> bool {
         return false;
     };
 
-    if let Some(info) = record(app, update) {
-        let _ = app.emit(UPDATE_AVAILABLE_EVENT, info);
+    if let Some(recorded) = record(app, update)
+        .await
+        .filter(|recorded| recorded.announced)
+    {
+        let _ = app.emit(UPDATE_AVAILABLE_EVENT, recorded.info);
     }
 
     true
@@ -302,9 +326,9 @@ pub async fn download_update(
 ) -> Answer<AvailableUpdate> {
     unlocked(&app).await?;
 
-    let update = miner_core::util::locked(&found.0)
+    let (update, info) = miner_core::util::locked(&found.0)
         .as_ref()
-        .map(|found| found.update.clone())
+        .map(|found| (found.update.clone(), found.info.clone()))
         .ok_or_else(|| ApiError::new(ErrorCode::NotFound))?;
     let version = update.version.clone();
 
@@ -355,11 +379,9 @@ pub async fn download_update(
         ApiError::new(ErrorCode::NetworkError)
     })?;
 
-    let downloaded = available(&update);
-
     *miner_core::util::locked(&pending.0) = Some(DownloadedUpdate { update, bytes });
 
-    Ok(downloaded)
+    Ok(info)
 }
 
 #[tauri::command]

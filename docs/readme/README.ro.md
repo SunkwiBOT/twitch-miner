@@ -589,8 +589,8 @@ Aplicația desktop verifică la pornire dacă există o versiune nouă, apoi la 
 pe insigna „Actualizare”, apoi pe „Instalează și repornește”. Cu Docker, panoul te
 anunță: rulează `docker compose pull`, apoi `docker compose up -d`. Fără Docker, panoul
 te anunță la fel: vezi [Fără Docker](#systemd) ca să înlocuiești fișierul și să repornești
-serviciul. Fiecare versiune nouă își arată schimbările în aplicație și în pagina ei de pe
-GitHub.
+serviciul. Aplicația arată schimbările fiecărei versiuni apărute după a ta, de la cea mai
+nouă; notele fiecărei versiuni sunt și în pagina ei de pe GitHub.
 
 **Am uitat parola aplicației.**\
 Nu poate fi recuperată: ea criptează sesiunile tale Twitch. Închide aplicația, șterge
@@ -657,7 +657,8 @@ Alte proiecte ale aceluiași autor:
   `MINER_PUBLIC_URL` (vezi [Docker](#docker)).
 - Minerul comunică doar cu `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`,
   `drops.sunkwi.com` și cu destinațiile de notificare pe care le configurezi.
-  Aplicația (desktop și Docker) verifică versiunile noi pe `github.com`, iar aplicația
+  Aplicația (desktop și Docker) verifică versiunile noi și notele lor pe `github.com` și
+  `api.github.com`, iar aplicația
   desktop le descarcă din versiunile proiectului pe GitHub. Sunt semnate: se instalează
   doar versiunea afișată.
 

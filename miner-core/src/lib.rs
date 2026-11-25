@@ -14,6 +14,7 @@ pub mod logs;
 pub mod miner;
 pub mod notifications;
 pub mod predictions;
+pub mod release_notes;
 pub mod requests;
 pub mod scheduler;
 pub mod spam;

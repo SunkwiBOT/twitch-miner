@@ -577,7 +577,8 @@ v **Nastavení › O aplikaci**) a umí vás na novou verzi upozornit. Klikněte
 „Aktualizace“ a pak na „Nainstalovat a restartovat“. U Dockeru vám to oznámí panel:
 spusťte `docker compose pull` a pak `docker compose up -d`. Bez Dockeru vám to panel
 oznámí stejně: podívejte se na [Bez Dockeru](#systemd), jak nahradit soubor a restartovat
-službu. Každá nová verze uvádí své změny v aplikaci i ve svém vydání na GitHubu.
+službu. Aplikace uvádí změny každé verze od té vaší, od nejnovější; poznámky každé verze
+jsou i v jejím vydání na GitHubu.
 
 **Nepamatuji si heslo aplikace.**\
 Nelze ho obnovit: právě ono šifruje vaše relace Twitch. Ukončete aplikaci, smažte složku
@@ -640,7 +641,8 @@ Další projekty stejného autora:
   (viz [Docker](#docker)).
 - Miner komunikuje jen s `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`,
   `drops.sunkwi.com` a s cíli oznámení, které nastavíte. Aplikace (desktopová
-  i Docker) kontroluje nové verze na `github.com` a desktopová aplikace je stahuje
+  i Docker) kontroluje nové verze a jejich poznámky na `github.com` a `api.github.com`
+  a desktopová aplikace je stahuje
   z vydání projektu na GitHubu. Jsou podepsané: nainstaluje se jen zobrazená verze.
 
 ## <a name="build"></a>Sestavení ze zdrojového kódu

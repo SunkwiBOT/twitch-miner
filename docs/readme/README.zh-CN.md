@@ -409,7 +409,7 @@ Twitch 对每个账号同时只计入**一个 Drops 活动**和**两个频道的
 在数据文件夹中：Linux 上是 `~/.local/share/twitch-miner`，Windows 上是 `%APPDATA%\twitch-miner`，macOS 上是 `~/Library/Application Support/twitch-miner`，Docker 中则是 `/data` 卷。在桌面版中，**设置 › 桌面**可以一键打开它。其中包含 `miner.db`（账号、设置、记录）、`master.key`（未设置应用密码时的会话密钥）和日志。
 
 **如何更新？**\
-桌面应用启动时会检查新版本，之后每小时检查一次（可在**设置 › 关于**中更改，找到新版本时也会提示你）。点击“更新”徽章，然后点击“安装并重启”。使用 Docker 时，仪表盘会提示你：运行 `docker compose pull`，然后运行 `docker compose up -d`。不使用 Docker 时，仪表盘也会同样提示你：替换文件并重启服务的方法见[不使用 Docker](#systemd)。每个新版本都会在应用内和 GitHub 发布页列出更新内容。
+桌面应用启动时会检查新版本，之后每小时检查一次（可在**设置 › 关于**中更改，找到新版本时也会提示你）。点击“更新”徽章，然后点击“安装并重启”。使用 Docker 时，仪表盘会提示你：运行 `docker compose pull`，然后运行 `docker compose up -d`。不使用 Docker 时，仪表盘也会同样提示你：替换文件并重启服务的方法见[不使用 Docker](#systemd)。应用会按从新到旧列出你当前版本之后每个版本的更新内容；每个版本的说明也在其 GitHub 发布页上。
 
 **我忘记了应用密码。**\
 密码无法找回：你的 Twitch 会话正是用它加密的。退出应用，删除数据文件夹，然后重新添加账号；它们的设置需要重新配置。使用 Docker 时，仪表盘密码在 `MINER_PASSWORD` 中修改，然后运行 `docker compose up -d`。
@@ -440,7 +440,7 @@ Twitch 对每个账号同时只计入**一个 Drops 活动**和**两个频道的
 - HTTP 仪表盘使用恒定时间的密码校验，以及 HttpOnly、SameSite=Strict 的 Cookie（位于 HTTPS 之后时还带有 `Secure` 和 `__Host-` 前缀）。服务器只保存每个会话的 SHA-256。会话在 30 天后或退出登录时结束。服务器在读取任何请求体之前先检查会话，并将请求体限制在 256 KiB 以内。
 - 同一 IP 地址连续输错 5 次密码后（登录表单或 bearer），该地址需等待 30 秒。服务器会直接返回 `429` 和 `Retry-After`，不会查看密码。每次密码错误还会延迟半秒才响应。同一连接地址（包括共享代理）在一分钟内输错密码超过 30 次后，该地址每 2 秒只能尝试一次：猜测会变慢，且不会有人被锁在外面。
 - 在你的网络之外访问时，请把仪表盘放在 HTTPS 反向代理之后，并设置 `MINER_PUBLIC_URL`（参见 [Docker](#docker)）。
-- 挖掘器只与 `twitch.tv`、`ttvnw.net`、`jtvnw.net`、`twitchcdn.net`、`drops.sunkwi.com` 以及你配置的通知目标通信。应用（桌面版和 Docker 版）会在 `github.com` 上检查新版本，桌面应用会从项目的 GitHub releases 下载新版本。新版本都经过签名：只会安装界面上显示的那个版本。
+- 挖掘器只与 `twitch.tv`、`ttvnw.net`、`jtvnw.net`、`twitchcdn.net`、`drops.sunkwi.com` 以及你配置的通知目标通信。应用（桌面版和 Docker 版）会在 `github.com` 和 `api.github.com` 上检查新版本及其说明，桌面应用会从项目的 GitHub releases 下载新版本。新版本都经过签名：只会安装界面上显示的那个版本。
 
 ## <a name="build"></a>从源码构建
 

@@ -595,8 +595,8 @@ Skrivebordsappen søger efter en ny version, når den starter, og derefter hver 
 mærket »Opdatering« og derefter på »Installer og genstart«. Med Docker giver oversigten
 besked: kør `docker compose pull` og derefter `docker compose up -d`. Uden Docker giver
 oversigten besked på samme måde: se [Uden Docker](#systemd) for at udskifte filen og
-genstarte tjenesten. Hver ny version viser sine ændringer i appen og i sin udgivelse på
-GitHub.
+genstarte tjenesten. Appen viser ændringerne i hver version siden din, den nyeste først;
+hver versions noter står også i dens udgivelse på GitHub.
 
 **Jeg har glemt appadgangskoden.**\
 Den kan ikke gendannes: det er den, der krypterer dine Twitch-sessioner. Luk appen, slet
@@ -661,7 +661,8 @@ Andre projekter fra samme udvikler:
   `MINER_PUBLIC_URL` (se [Docker](#docker)).
 - Mineren taler kun med `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`,
   `drops.sunkwi.com` og de notifikationsmål, du konfigurerer. Appen (skrivebord
-  og Docker) søger efter nye versioner på `github.com`, og skrivebordsappen henter dem fra
+  og Docker) søger efter nye versioner og deres noter på `github.com` og `api.github.com`,
+  og skrivebordsappen henter dem fra
   projektets GitHub-udgivelser. De er signerede: kun den viste version bliver installeret.
 
 ## <a name="build"></a>Byg fra kildekoden

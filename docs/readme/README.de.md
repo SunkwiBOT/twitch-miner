@@ -617,8 +617,9 @@ unter **Einstellungen › Über**), und kann Sie benachrichtigen, sobald sie ein
 Klicken Sie auf das Badge „Update“, dann auf „Installieren und neu starten“. Bei Docker
 meldet es das Dashboard: Führen Sie `docker compose pull` und dann `docker compose up -d`
 aus. Ohne Docker meldet es das Dashboard genauso: siehe [Ohne Docker](#systemd), um die
-Datei zu ersetzen und den Dienst neu zu starten. Jede neue Version listet ihre Änderungen
-in der App und in ihrem GitHub-Release auf.
+Datei zu ersetzen und den Dienst neu zu starten. Die App listet die Änderungen jeder
+Version seit Ihrer auf, die neueste zuerst; die Notizen jeder Version stehen auch in ihrem
+GitHub-Release.
 
 **Ich habe das App-Passwort vergessen.**\
 Es lässt sich nicht wiederherstellen: Mit ihm werden Ihre Twitch-Sitzungen verschlüsselt.
@@ -687,7 +688,8 @@ Weitere Projekte desselben Autors:
   HTTPS-Reverse-Proxy (siehe [Docker](#docker)).
 - Der Miner kommuniziert nur mit `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`,
   `drops.sunkwi.com` und den Benachrichtigungszielen, die Sie konfigurieren.
-  Die App (Desktop und Docker) sucht auf `github.com` nach neuen Versionen, und die
+  Die App (Desktop und Docker) sucht auf `github.com` und `api.github.com` nach neuen
+  Versionen und ihren Notizen, und die
   Desktop-App lädt sie aus den GitHub-Releases des Projekts herunter. Sie sind signiert:
   Installiert wird nur die angezeigte Version.
 
