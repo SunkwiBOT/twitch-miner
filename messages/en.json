@@ -1085,8 +1085,8 @@
   "updates_failed_restarted_title": "Update failed",
   "updates_download_failed": "The download stopped. Check your connection and try again.",
   "updates_interval": "Check for updates",
-  "updates_interval_hint": "The app also checks when it starts. It never installs by itself: a new version is offered here.",
-  "updates_interval_hint_server": "The server also checks when it starts. It never updates itself: a new version is shown here and in the journal.",
+  "updates_interval_hint": "The app also checks when it starts. It never installs by itself.",
+  "updates_interval_hint_server": "The server also checks when it starts. It never updates itself.",
   "updates_interval_start": "Only at startup",
   "updates_interval_minutes": [
     {

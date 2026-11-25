@@ -784,8 +784,8 @@
   "updates_failed_restarted_title": "Güncelleme başarısız",
   "updates_download_failed": "İndirme yarıda kaldı. Bağlantınızı kontrol edip yeniden deneyin.",
   "updates_interval": "Güncellemeleri denetle",
-  "updates_interval_hint": "Uygulama başlarken de denetler. Hiçbir zaman kendi kendine yüklemez: yeni bir sürüm burada sunulur.",
-  "updates_interval_hint_server": "Sunucu başlarken de denetler. Kendini hiçbir zaman güncellemez: yeni bir sürüm burada ve günlükte gösterilir.",
+  "updates_interval_hint": "Uygulama başlarken de denetler. Hiçbir zaman kendi kendine yüklemez.",
+  "updates_interval_hint_server": "Sunucu başlarken de denetler. Kendini hiçbir zaman güncellemez.",
   "updates_interval_start": "Yalnızca başlangıçta",
   "updates_interval_minutes": [
     {

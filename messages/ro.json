@@ -1042,8 +1042,8 @@
   "updates_failed_restarted_title": "Actualizare eșuată",
   "updates_download_failed": "Descărcarea s-a întrerupt. Verifică-ți conexiunea și încearcă din nou.",
   "updates_interval": "Caută actualizări",
-  "updates_interval_hint": "Aplicația verifică și la pornire. Nu instalează niciodată singură: o versiune nouă este propusă aici.",
-  "updates_interval_hint_server": "Serverul verifică și la pornire. Nu se actualizează niciodată singur: o versiune nouă este semnalată aici și în jurnal.",
+  "updates_interval_hint": "Aplicația verifică și la pornire. Nu instalează niciodată singură.",
+  "updates_interval_hint_server": "Serverul verifică și la pornire. Nu se actualizează niciodată singur.",
   "updates_interval_start": "Doar la pornire",
   "updates_interval_minutes": [
     {

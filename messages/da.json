@@ -942,8 +942,8 @@
   "updates_failed_restarted_title": "Opdatering mislykkedes",
   "updates_download_failed": "Downloaden blev afbrudt. Tjek din forbindelse, og prøv igen.",
   "updates_interval": "Søg efter opdateringer",
-  "updates_interval_hint": "Appen søger også, når den starter. Den installerer aldrig noget selv: en ny version tilbydes her.",
-  "updates_interval_hint_server": "Serveren søger også, når den starter. Den opdaterer sig aldrig selv: en ny version vises her og i journalen.",
+  "updates_interval_hint": "Appen søger også, når den starter. Den installerer aldrig noget selv.",
+  "updates_interval_hint_server": "Serveren søger også, når den starter. Den opdaterer sig aldrig selv.",
   "updates_interval_start": "Kun ved start",
   "updates_interval_minutes": [
     {

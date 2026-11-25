@@ -1041,8 +1041,8 @@
   "updates_failed_restarted_title": "Aggiornamento non riuscito",
   "updates_download_failed": "Il download si è interrotto. Controlla la connessione e riprova.",
   "updates_interval": "Cerca aggiornamenti",
-  "updates_interval_hint": "L'app controlla anche all'avvio. Non installa mai nulla da sola: una nuova versione viene proposta qui.",
-  "updates_interval_hint_server": "Il server controlla anche all'avvio. Non si aggiorna mai da solo: una nuova versione viene segnalata qui e nel registro.",
+  "updates_interval_hint": "L'app controlla anche all'avvio. Non installa mai nulla da sola.",
+  "updates_interval_hint_server": "Il server controlla anche all'avvio. Non si aggiorna mai da solo.",
   "updates_interval_start": "Solo all'avvio",
   "updates_interval_minutes": [
     {

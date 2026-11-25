@@ -974,8 +974,8 @@
   "updates_failed_restarted_title": "Aktualizacja nieudana",
   "updates_download_failed": "Pobieranie zostało przerwane. Sprawdź połączenie i spróbuj ponownie.",
   "updates_interval": "Sprawdzaj aktualizacje",
-  "updates_interval_hint": "Aplikacja sprawdza też przy uruchomieniu. Nigdy nic nie instaluje sama: nowa wersja jest proponowana tutaj.",
-  "updates_interval_hint_server": "Serwer sprawdza też przy uruchomieniu. Nigdy nie aktualizuje się sam: nowa wersja jest pokazywana tutaj i w dzienniku.",
+  "updates_interval_hint": "Aplikacja sprawdza też przy uruchomieniu. Nigdy nic nie instaluje sama.",
+  "updates_interval_hint_server": "Serwer sprawdza też przy uruchomieniu. Nigdy nie aktualizuje się sam.",
   "updates_interval_start": "Tylko przy uruchomieniu",
   "updates_interval_minutes": [
     {

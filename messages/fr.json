@@ -1041,8 +1041,8 @@
   "updates_failed_restarted_title": "Échec de la mise à jour",
   "updates_download_failed": "Le téléchargement s'est interrompu. Vérifiez votre connexion et réessayez.",
   "updates_interval": "Rechercher des mises à jour",
-  "updates_interval_hint": "L'application vérifie aussi à son démarrage. Elle n'installe jamais rien d'elle-même : une nouvelle version vous est proposée ici.",
-  "updates_interval_hint_server": "Le serveur vérifie aussi à son démarrage. Il ne se met jamais à jour de lui-même : une nouvelle version est signalée ici et dans le journal.",
+  "updates_interval_hint": "L'application vérifie aussi à son démarrage. Elle n'installe jamais rien d'elle-même.",
+  "updates_interval_hint_server": "Le serveur vérifie aussi à son démarrage. Il ne se met jamais à jour de lui-même.",
   "updates_interval_start": "Au démarrage seulement",
   "updates_interval_minutes": [
     {

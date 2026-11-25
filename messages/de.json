@@ -1041,8 +1041,8 @@
   "updates_failed_restarted_title": "Update fehlgeschlagen",
   "updates_download_failed": "Der Download wurde unterbrochen. Prüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
   "updates_interval": "Nach Updates suchen",
-  "updates_interval_hint": "Die App prüft auch beim Start. Sie installiert nie von selbst: Eine neue Version wird hier angeboten.",
-  "updates_interval_hint_server": "Der Server prüft auch beim Start. Er aktualisiert sich nie von selbst: Eine neue Version wird hier und im Journal angezeigt.",
+  "updates_interval_hint": "Die App prüft auch beim Start. Sie installiert nie von selbst.",
+  "updates_interval_hint_server": "Der Server prüft auch beim Start. Er aktualisiert sich nie von selbst.",
   "updates_interval_start": "Nur beim Start",
   "updates_interval_minutes": [
     {

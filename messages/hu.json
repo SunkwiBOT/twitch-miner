@@ -784,8 +784,8 @@
   "updates_failed_restarted_title": "Sikertelen frissítés",
   "updates_download_failed": "A letöltés megszakadt. Ellenőrizd a kapcsolatot, és próbáld újra.",
   "updates_interval": "Frissítések keresése",
-  "updates_interval_hint": "Az alkalmazás indításkor is keres. Soha nem telepít magától: az új verziót itt ajánlja fel.",
-  "updates_interval_hint_server": "A szerver indításkor is keres. Soha nem frissíti magát: az új verzió itt és a naplóban jelenik meg.",
+  "updates_interval_hint": "Az alkalmazás indításkor is keres. Soha nem telepít magától.",
+  "updates_interval_hint_server": "A szerver indításkor is keres. Soha nem frissíti magát.",
   "updates_interval_start": "Csak indításkor",
   "updates_interval_minutes": [
     {

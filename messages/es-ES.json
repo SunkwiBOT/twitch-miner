@@ -1041,8 +1041,8 @@
   "updates_failed_restarted_title": "Actualización fallida",
   "updates_download_failed": "La descarga se ha interrumpido. Comprueba tu conexión y vuelve a intentarlo.",
   "updates_interval": "Buscar actualizaciones",
-  "updates_interval_hint": "La app también comprueba al iniciarse. Nunca instala nada por sí sola: una nueva versión se ofrece aquí.",
-  "updates_interval_hint_server": "El servidor también comprueba al iniciarse. Nunca se actualiza por sí solo: una nueva versión se indica aquí y en el diario.",
+  "updates_interval_hint": "La app también comprueba al iniciarse. Nunca instala nada por sí sola.",
+  "updates_interval_hint_server": "El servidor también comprueba al iniciarse. Nunca se actualiza por sí solo.",
   "updates_interval_start": "Solo al iniciar",
   "updates_interval_minutes": [
     {

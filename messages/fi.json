@@ -989,8 +989,8 @@
   "updates_failed_restarted_title": "Päivitys epäonnistui",
   "updates_download_failed": "Lataus keskeytyi. Tarkista yhteys ja yritä uudelleen.",
   "updates_interval": "Tarkista päivitykset",
-  "updates_interval_hint": "Sovellus tarkistaa myös käynnistyessään. Se ei koskaan asenna mitään itse: uusi versio tarjotaan täällä.",
-  "updates_interval_hint_server": "Palvelin tarkistaa myös käynnistyessään. Se ei koskaan päivitä itseään: uusi versio näytetään täällä ja päiväkirjassa.",
+  "updates_interval_hint": "Sovellus tarkistaa myös käynnistyessään. Se ei koskaan asenna mitään itse.",
+  "updates_interval_hint_server": "Palvelin tarkistaa myös käynnistyessään. Se ei koskaan päivitä itseään.",
   "updates_interval_start": "Vain käynnistyessä",
   "updates_interval_minutes": [
     {

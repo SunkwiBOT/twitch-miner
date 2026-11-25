@@ -1041,8 +1041,8 @@
   "updates_failed_restarted_title": "Update mislukt",
   "updates_download_failed": "De download is onderbroken. Controleer je verbinding en probeer het opnieuw.",
   "updates_interval": "Controleren op updates",
-  "updates_interval_hint": "De app controleert ook bij het opstarten. Hij installeert nooit zelf iets: een nieuwe versie wordt hier aangeboden.",
-  "updates_interval_hint_server": "De server controleert ook bij het opstarten. Hij werkt zichzelf nooit bij: een nieuwe versie wordt hier en in het journaal gemeld.",
+  "updates_interval_hint": "De app controleert ook bij het opstarten. Hij installeert nooit zelf iets.",
+  "updates_interval_hint_server": "De server controleert ook bij het opstarten. Hij werkt zichzelf nooit bij.",
   "updates_interval_start": "Alleen bij het opstarten",
   "updates_interval_minutes": [
     {

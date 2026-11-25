@@ -942,8 +942,8 @@
   "updates_failed_restarted_title": "Uppdateringen misslyckades",
   "updates_download_failed": "Nedladdningen avbröts. Kontrollera anslutningen och försök igen.",
   "updates_interval": "Sök efter uppdateringar",
-  "updates_interval_hint": "Appen söker också när den startar. Den installerar aldrig något själv: en ny version erbjuds här.",
-  "updates_interval_hint_server": "Servern söker också när den startar. Den uppdaterar sig aldrig själv: en ny version visas här och i journalen.",
+  "updates_interval_hint": "Appen söker också när den startar. Den installerar aldrig något själv.",
+  "updates_interval_hint_server": "Servern söker också när den startar. Den uppdaterar sig aldrig själv.",
   "updates_interval_start": "Bara vid start",
   "updates_interval_minutes": [
     {

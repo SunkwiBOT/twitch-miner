@@ -1041,8 +1041,8 @@
   "updates_failed_restarted_title": "Falha na atualização",
   "updates_download_failed": "A transferência foi interrompida. Verifique a ligação e tente novamente.",
   "updates_interval": "Procurar atualizações",
-  "updates_interval_hint": "A app também verifica ao iniciar. Nunca instala nada sozinha: uma nova versão é proposta aqui.",
-  "updates_interval_hint_server": "O servidor também verifica ao iniciar. Nunca se atualiza sozinho: uma nova versão é indicada aqui e no diário.",
+  "updates_interval_hint": "A app também verifica ao iniciar. Nunca instala nada sozinha.",
+  "updates_interval_hint_server": "O servidor também verifica ao iniciar. Nunca se atualiza sozinho.",
   "updates_interval_start": "Apenas ao iniciar",
   "updates_interval_minutes": [
     {

@@ -1082,8 +1082,8 @@
   "updates_failed_restarted_title": "Aktualizace se nezdařila",
   "updates_download_failed": "Stahování se přerušilo. Zkontrolujte připojení a zkuste to znovu.",
   "updates_interval": "Kontrolovat aktualizace",
-  "updates_interval_hint": "Aplikace kontroluje také při spuštění. Nikdy nic neinstaluje sama: nová verze se nabídne zde.",
-  "updates_interval_hint_server": "Server kontroluje také při spuštění. Nikdy se neaktualizuje sám: nová verze se zobrazí zde a v deníku.",
+  "updates_interval_hint": "Aplikace kontroluje také při spuštění. Nikdy nic neinstaluje sama.",
+  "updates_interval_hint_server": "Server kontroluje také při spuštění. Nikdy se neaktualizuje sám.",
   "updates_interval_start": "Jen při spuštění",
   "updates_interval_minutes": [
     {

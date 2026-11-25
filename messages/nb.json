@@ -942,8 +942,8 @@
   "updates_failed_restarted_title": "Oppdateringen mislyktes",
   "updates_download_failed": "Nedlastingen ble avbrutt. Sjekk tilkoblingen og prøv igjen.",
   "updates_interval": "Se etter oppdateringer",
-  "updates_interval_hint": "Appen ser også etter når den starter. Den installerer aldri noe selv: en ny versjon tilbys her.",
-  "updates_interval_hint_server": "Serveren ser også etter når den starter. Den oppdaterer seg aldri selv: en ny versjon vises her og i journalen.",
+  "updates_interval_hint": "Appen ser også etter når den starter. Den installerer aldri noe selv.",
+  "updates_interval_hint_server": "Serveren ser også etter når den starter. Den oppdaterer seg aldri selv.",
   "updates_interval_start": "Bare ved oppstart",
   "updates_interval_minutes": [
     {
