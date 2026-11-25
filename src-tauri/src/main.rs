@@ -179,7 +179,15 @@ fn main() {
             updates::apply_update
         ])
         .setup(move |app| {
-            move_old_autostart(app.handle());
+            let autostart = refresh_autostart(app.handle());
+
+            tracing::info!(
+                version = miner_core::VERSION,
+                exe = %std::env::current_exe().map(|path| path.display().to_string()).unwrap_or_default(),
+                autostart,
+                portable = updates::portable(),
+                "the app started"
+            );
 
             let opened = Manager::open(&dir, log_buffer.clone(), InstallKind::Desktop);
 
