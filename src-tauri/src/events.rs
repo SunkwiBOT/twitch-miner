@@ -1,20 +1,24 @@
 use super::*;
 
-pub(super) async fn forward_events(
-    app: AppHandle,
-    manager: Arc<Manager>,
-    mut receiver: tokio::sync::broadcast::Receiver<miner_core::events::MinerEvent>,
-) {
+pub(super) async fn open_desktop_notifier(app: &AppHandle, manager: &Manager) -> DesktopNotifier {
     let data_dir = app.state::<DataFolder>().path.clone();
-    let desktop = DesktopNotifier::open(
+
+    DesktopNotifier::open(
         &data_dir,
         &app.config().identifier,
         tauri::is_dev(),
         include_bytes!("../icons/128x128.png"),
         manager.requests.clone(),
     )
-    .await;
+    .await
+}
 
+pub(super) async fn forward_events(
+    app: AppHandle,
+    manager: Arc<Manager>,
+    mut receiver: tokio::sync::broadcast::Receiver<miner_core::events::MinerEvent>,
+    desktop: DesktopNotifier,
+) {
     let window = app.state::<WindowShown>().0.subscribe();
     let mut bursts = manager.subscribe_bursts();
     let mut dirty = false;

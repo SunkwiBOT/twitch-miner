@@ -46,6 +46,7 @@ use crate::store::{
 use crate::twitch::auth::{self, DeviceCode, Poll};
 use crate::twitch::identity::AccountIdentity;
 use crate::twitch::TwitchHttp;
+use crate::updates::UpdateAnnouncement;
 use crate::util::{locked, read_locked, write_locked};
 use zeroize::Zeroizing;
 
@@ -309,7 +310,8 @@ pub struct Manager {
     banners: Banners,
     recent: std::sync::Mutex<VecDeque<MinerEvent>>,
     start_failures: std::sync::Mutex<HashMap<String, Error>>,
-    announcing: std::sync::Mutex<()>,
+    // ! The version told since the app started; its lock also keeps two checks from telling it twice.
+    update_told: std::sync::Mutex<Option<String>>,
     update_available: std::sync::Mutex<Option<AvailableUpdate>>,
     update_checked_at: std::sync::Mutex<Option<chrono::DateTime<Utc>>>,
     // ! When the "star the repository" window may show; None once it was closed.
@@ -413,7 +415,7 @@ impl Manager {
             banners: Banners::default(),
             recent: std::sync::Mutex::new(recent.into()),
             start_failures: std::sync::Mutex::new(HashMap::new()),
-            announcing: std::sync::Mutex::new(()),
+            update_told: std::sync::Mutex::new(None),
             update_available: std::sync::Mutex::new(None),
             update_checked_at: std::sync::Mutex::new(None),
             star_prompt_at: std::sync::Mutex::new(None),
@@ -2074,22 +2076,8 @@ impl Manager {
         Ok(version)
     }
 
-    pub fn announce_update(&self, update: &AvailableUpdate) -> Result<bool> {
-        let _one_at_a_time = locked(&self.announcing);
-        let version = update.version.as_str();
-        let shown = locked(&self.update_available).replace(update.clone());
-
-        if shown.as_ref() != Some(update) {
-            self.changed.notify_waiters();
-        }
-
-        if self.store.get_setting(UPDATE_ANNOUNCED_KEY)?.as_deref() == Some(version) {
-            return Ok(false);
-        }
-
-        self.store.set_setting(UPDATE_ANNOUNCED_KEY, version)?;
-
-        let event = MinerEvent::new(
+    pub fn update_event(version: &str) -> MinerEvent {
+        MinerEvent::new(
             "",
             "",
             EventKind::UpdateAvailable,
@@ -2098,11 +2086,36 @@ impl Manager {
         .context(EventContext {
             version: Some(version.to_owned()),
             ..EventContext::default()
-        });
+        })
+    }
 
-        record_event(&self.store, &self.events, event);
+    pub fn announce_update(&self, update: &AvailableUpdate) -> Result<UpdateAnnouncement> {
+        let mut told = locked(&self.update_told);
+        let version = update.version.as_str();
+        let shown = locked(&self.update_available).replace(update.clone());
 
-        Ok(true)
+        if shown.as_ref() != Some(update) {
+            self.changed.notify_waiters();
+        }
+
+        if told.as_deref() == Some(version) {
+            return Ok(UpdateAnnouncement::Known);
+        }
+
+        let announced = self.store.get_setting(UPDATE_ANNOUNCED_KEY)?.as_deref() == Some(version);
+
+        if !announced {
+            self.store.set_setting(UPDATE_ANNOUNCED_KEY, version)?;
+            record_event(&self.store, &self.events, Self::update_event(version));
+        }
+
+        *told = Some(version.to_owned());
+
+        Ok(if announced {
+            UpdateAnnouncement::Reminder
+        } else {
+            UpdateAnnouncement::New
+        })
     }
 
     pub async fn global_settings(&self) -> GlobalSettings {

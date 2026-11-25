@@ -237,11 +237,15 @@ fn main() {
                 let event_receiver = manager.subscribe();
 
                 manager.start().await;
+
+                let desktop = open_desktop_notifier(&handle, &manager).await;
+
                 tauri::async_runtime::spawn(updates::check_regularly(
                     handle.clone(),
                     manager.clone(),
+                    desktop.clone(),
                 ));
-                forward_events(handle, manager, event_receiver).await;
+                forward_events(handle, manager, event_receiver, desktop).await;
             });
 
             tray::install(app.handle(), i18n::resolve(&settings.language))?;

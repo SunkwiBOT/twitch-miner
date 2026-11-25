@@ -13,6 +13,15 @@ pub fn latest_release_url() -> String {
 
 pub const LATEST_RELEASE_PAGE: &str = concat!(env!("CARGO_PKG_REPOSITORY"), "/releases/latest");
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum UpdateAnnouncement {
+    New,
+    // ! Found again at the first check since the app started: a reminder on the
+    // desktop only, the journal and the other channels told it already.
+    Reminder,
+    Known,
+}
+
 // ! A sleeping computer stops the monotonic clock: the wait is cut in slices
 // that also look at the wall clock, so a check due during the sleep runs soon
 // after the wake.

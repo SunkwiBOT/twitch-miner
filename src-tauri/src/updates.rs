@@ -10,8 +10,12 @@ use std::time::{Duration, Instant};
 
 use miner_core::api::AvailableUpdate;
 use miner_core::error::{ApiError, ErrorCode};
+use miner_core::events::EventKind;
+use miner_core::notifications::desktop::DesktopNotifier;
+use miner_core::notifications::desktop_wanted;
 use miner_core::release_notes::ReleaseNotes;
 use miner_core::requests::{address_target, url_target, Pending, RequestKind};
+use miner_core::updates::UpdateAnnouncement;
 use miner_core::Manager;
 use serde::Serialize;
 use tauri::{AppHandle, Emitter, Manager as _, State};
@@ -73,7 +77,7 @@ struct Found {
 
 struct Recorded {
     info: AvailableUpdate,
-    announced: bool,
+    announcement: UpdateAnnouncement,
 }
 
 #[derive(Clone, Serialize)]
@@ -226,12 +230,13 @@ async fn record(app: &AppHandle, update: Option<Update>) -> Option<Recorded> {
         return None;
     };
 
-    let announced = manager.is_some_and(|manager| {
+    let announcement = manager.map_or(UpdateAnnouncement::Known, |manager| {
         manager
             .announce_update(&info)
             .inspect_err(|error| tracing::warn!(%error, "the new version was not announced"))
-            .unwrap_or(false)
+            .unwrap_or(UpdateAnnouncement::Known)
     });
+    let announced = announcement == UpdateAnnouncement::New;
     let known_first = found
         .as_ref()
         .is_some_and(|known| known.first && known.update.version == update.version);
@@ -250,7 +255,7 @@ async fn record(app: &AppHandle, update: Option<Update>) -> Option<Recorded> {
         first: announced || known_first,
     });
 
-    Some(Recorded { info, announced })
+    Some(Recorded { info, announcement })
 }
 
 #[tauri::command]
@@ -286,23 +291,42 @@ pub fn take_failed_update(app: AppHandle) -> Option<FailedUpdateDto> {
         .map(|version| FailedUpdateDto { version })
 }
 
-async fn check_in_background(app: &AppHandle) -> bool {
+async fn check_in_background(
+    app: &AppHandle,
+    manager: &Manager,
+    desktop: &DesktopNotifier,
+) -> bool {
     let Ok(update) = find_update(app).await else {
         return false;
     };
 
-    if let Some(recorded) = record(app, update)
-        .await
-        .filter(|recorded| recorded.announced)
-    {
-        let _ = app.emit(UPDATE_AVAILABLE_EVENT, recorded.info);
+    let Some(recorded) = record(app, update).await else {
+        return true;
+    };
+
+    match recorded.announcement {
+        UpdateAnnouncement::New => {
+            let _ = app.emit(UPDATE_AVAILABLE_EVENT, recorded.info);
+        }
+        UpdateAnnouncement::Reminder => {
+            let settings = manager.global_settings().await;
+
+            if desktop_wanted(&settings.notifications, EventKind::UpdateAvailable) {
+                desktop.notify(
+                    Manager::update_event(&recorded.info.version),
+                    settings.notification_language(),
+                );
+            }
+        }
+        UpdateAnnouncement::Known => {}
     }
 
     true
 }
 
-pub async fn check_regularly(app: AppHandle, manager: Arc<Manager>) {
-    miner_core::updates::on_schedule(&manager, || check_in_background(&app)).await;
+pub async fn check_regularly(app: AppHandle, manager: Arc<Manager>, desktop: DesktopNotifier) {
+    miner_core::updates::on_schedule(&manager, || check_in_background(&app, &manager, &desktop))
+        .await;
 }
 
 fn signature_refused(error: &tauri_plugin_updater::Error) -> bool {
