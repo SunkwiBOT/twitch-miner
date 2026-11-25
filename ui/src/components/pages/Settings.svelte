@@ -120,24 +120,24 @@
     autostartDraft = autostart ?? false;
   };
 
-  // ! Panels of similar height share a row; the desktop has one more panel, so its order differs to keep rows full.
+  // ! About comes first; then panels of similar height share a row, so the desktop's extra panel changes the order after it.
   const cells: PanelGridCellType[] = isTauri()
     ? [
+        { key: "about", wide: false, panel: about },
         { key: "general", wide: false, panel: general },
         { key: "time", wide: false, panel: time },
-        { key: "security", wide: false, panel: security },
         { key: "desktop", wide: false, panel: desktop },
+        { key: "security", wide: false, panel: security },
+        { key: "feedback", wide: false, panel: feedback },
         { key: "proxy", wide: false, panel: proxy },
         { key: "catalogue", wide: false, panel: catalogue },
         { key: "notifications", wide: true, panel: notifications },
-        { key: "about", wide: false, panel: about },
-        { key: "feedback", wide: false, panel: feedback },
       ]
     : [
+        { key: "about", wide: false, panel: about },
         { key: "general", wide: false, panel: general },
         { key: "time", wide: false, panel: time },
         { key: "security", wide: false, panel: security },
-        { key: "about", wide: false, panel: about },
         { key: "proxy", wide: false, panel: proxy },
         { key: "catalogue", wide: false, panel: catalogue },
         { key: "notifications", wide: true, panel: notifications },
