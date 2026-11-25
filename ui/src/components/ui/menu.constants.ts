@@ -27,4 +27,5 @@ export const MULTI_CHECKED_OPTION = `[aria-checked="true"]:not([data-value="${MU
 
 export const MULTI_PICTURES_MAX = 3;
 
-export const SELECT_SEARCH_FROM = 5;
+// ! A short list is read at a glance: only a list this long gets a search field.
+export const SEARCH_FROM = 10;

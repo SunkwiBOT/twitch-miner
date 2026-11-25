@@ -17,7 +17,7 @@
   import SearchNoResult from "./SearchNoResult.svelte";
   import { BADGE_CHIP_CLASSES, BADGE_VARIANTS, BadgeVariant } from "./badge.constants";
   import { NameListKind } from "./link.constants";
-  import { MENU_EDGE_GAP, SELECT_SEARCH_FROM } from "./menu.constants";
+  import { MENU_EDGE_GAP, SEARCH_FROM } from "./menu.constants";
 
   type OverflowNamesPropsType = {
     items: T[];
@@ -48,7 +48,7 @@
 
   const visible = $derived(items.slice(0, shown));
   const hidden = $derived(items.length - visible.length);
-  const searchable = $derived(items.length >= SELECT_SEARCH_FROM);
+  const searchable = $derived(items.length >= SEARCH_FROM);
   const found = $derived.by(() => {
     const needle = searchable ? normalizeSearch(query) : "";
 

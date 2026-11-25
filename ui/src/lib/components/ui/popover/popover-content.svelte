@@ -16,10 +16,10 @@
     portalProps?: WithoutChildrenOrChild<ComponentProps<typeof PopoverPortal>>;
   } = $props();
 
-  // ! A popover holding a Command list (the pause menu, the short selects)
+  // ! A popover holding a Command list (the pause menu, the selects)
   // opens with focus on its own container: arrow keys and Enter never
-  // reach the list. The Command root is already focusable (`tabindex=-1`);
-  // this just moves focus there instead of leaving it to the default.
+  // reach the list. Its search field takes the focus when it has one, so
+  // typing filters at once; else the Command root (`tabindex=-1`) does.
   const focusCommand = (event: Event): void => {
     onOpenAutoFocus?.(event);
 
@@ -27,7 +27,9 @@
       return;
     }
 
-    const command = ref?.querySelector<HTMLElement>("[data-slot=command]");
+    const command =
+      ref?.querySelector<HTMLElement>("[data-slot=command-input]") ??
+      ref?.querySelector<HTMLElement>("[data-slot=command]");
 
     if (command) {
       event.preventDefault();

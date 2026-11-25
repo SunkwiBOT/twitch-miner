@@ -23,7 +23,7 @@
     MENU_FIT_WIDTH_CLASSES,
     MENU_ITEM_CLASSES,
     MenuAlign,
-    SELECT_SEARCH_FROM,
+    SEARCH_FROM,
   } from "./menu.constants";
   import { centerOption, matchOption } from "./ui.utils";
 
@@ -127,7 +127,7 @@
       label={t.select_search()}
       disableInitialScroll={true}
     >
-      {#if options.length >= SELECT_SEARCH_FROM}
+      {#if options.length >= SEARCH_FROM}
         <CommandInput placeholder={t.select_search()} />
       {/if}
       <CommandList bind:ref={list} class="max-h-none min-h-0 flex-1 p-1" aria-label={label}>

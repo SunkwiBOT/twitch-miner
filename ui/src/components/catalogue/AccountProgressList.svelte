@@ -16,7 +16,7 @@
   import SearchField from "../ui/SearchField.svelte";
   import SearchNoResult from "../ui/SearchNoResult.svelte";
   import Segmented from "../ui/Segmented.svelte";
-  import { SELECT_SEARCH_FROM } from "../ui/menu.constants";
+  import { SEARCH_FROM } from "../ui/menu.constants";
   import { AvatarSize } from "../ui/picture.constants";
   import { PROGRESS_BADGES, progressSummary } from "./progress.utils";
   import SubRequiredBadge from "./SubRequiredBadge.svelte";
@@ -34,7 +34,7 @@
 
   const summary = $derived(progressSummary(entries));
   const filter = $derived(summary.some((item) => item.state === picked) ? picked : ALL_PROGRESS);
-  const searchable = $derived(entries.length >= SELECT_SEARCH_FROM);
+  const searchable = $derived(entries.length >= SEARCH_FROM);
   const shown = $derived.by(() => {
     const needle = searchable ? normalizeSearch(query) : "";
 
