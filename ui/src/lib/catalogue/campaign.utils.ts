@@ -109,9 +109,10 @@ export const categoryUrl = (name: string, slug: string | undefined): string => {
     : `${TWITCH_SEARCH_URL}?term=${encodeURIComponent(name)}`;
 };
 
-// ! A sitewide quest lists many categories in no meaningful order: its first one is no game to show.
+// ! The core already names it: `campaign.sitewide`, from Twitch's own `isSitewide`.
+// Its categories list many in no meaningful order: its first one is no game to show.
 export const sitewideQuest = (campaign: CampaignType): boolean =>
-  campaign.kind === CampaignKind.QUEST && campaign.categories.length > 1;
+  campaign.kind === CampaignKind.QUEST && campaign.sitewide;
 
 export const campaignHeading = (campaign: CampaignType): string =>
   sitewideQuest(campaign) ? campaign.name : campaign.game.name;

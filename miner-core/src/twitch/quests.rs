@@ -322,6 +322,7 @@ impl Quest {
             kind: CampaignKind::Quest,
             game,
             categories,
+            sitewide: self.sitewide,
             status: CampaignStatus::Active,
             linked: None,
             link_url: None,

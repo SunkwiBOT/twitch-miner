@@ -149,6 +149,7 @@ pub(super) fn progress_over(catalog: &Campaign, account: &Campaign) -> Option<Ca
         kind,
         game,
         categories,
+        sitewide,
         status,
         linked,
         link_url,
@@ -167,6 +168,7 @@ pub(super) fn progress_over(catalog: &Campaign, account: &Campaign) -> Option<Ca
         && *kind == catalog.kind
         && *game == catalog.game
         && *categories == catalog.categories
+        && *sitewide == catalog.sitewide
         && *status == catalog.status
         && *image_url == catalog.image_url
         && *starts_at == catalog.starts_at

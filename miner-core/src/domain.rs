@@ -324,6 +324,10 @@ pub struct Campaign {
     // ! The watch counts on any of the categories; `game` is the first.
     #[serde(default)]
     pub categories: Vec<Game>,
+    // ! Only Twitch's event campaigns carry it: any live channel of their
+    // categories counts, with no per-channel "Drops & More" confirmation.
+    #[serde(default)]
+    pub sitewide: bool,
     pub status: CampaignStatus,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]

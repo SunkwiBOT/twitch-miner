@@ -276,6 +276,7 @@ pub fn parse_campaign(record: &Value, from_inventory: bool) -> Option<Campaign> 
         kind: CampaignKind::Drops,
         game,
         categories,
+        sitewide: false,
         status: parse_status(&record["status"]),
         linked: account["isAccountConnected"].as_bool(),
         link_url: text(&record["accountLinkURL"]),

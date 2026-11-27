@@ -11,6 +11,7 @@ export type CampaignType = {
   kind: CampaignKind;
   game: GameType;
   categories: Array<GameType>;
+  sitewide: boolean;
   status: CampaignStatus;
   linked?: boolean;
   link_url?: string;

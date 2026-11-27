@@ -195,7 +195,18 @@ impl<T: TwitchApi> AccountMiner<T> {
 
         self.category_turn = self.category_turn.wrapping_add(CATEGORIES_READ - 1);
 
-        let directory = self.read_directories(lookup.games).await?;
+        let mut directory = self.read_directories(lookup.games, true).await?;
+        let sitewide_directory = self.read_directories(lookup.sitewide_games, false).await?;
+
+        for (game_id, channels) in sitewide_directory {
+            let known = directory.entry(game_id).or_default();
+
+            for channel in channels {
+                if !known.iter().any(|c| c.id == channel.id) {
+                    known.push(channel);
+                }
+            }
+        }
         let missing = self.unlisted_watch(
             watched.as_ref(),
             &chosen,
@@ -273,10 +284,12 @@ impl<T: TwitchApi> AccountMiner<T> {
         Ok(())
     }
 
-    // ! Only a non-quest campaign: a Quest still needs the "Drops & More"
-    // cross-check (`ask_offered_drops`), which the catalogue's `liveChannels`
-    // cannot answer. Costs no Twitch call, so every ranked campaign is served,
-    // not just the ones this pass looks up.
+    // ! A non-sitewide Quest still needs the "Drops & More" cross-check
+    // (`ask_offered_drops`), which the catalogue's `liveChannels` cannot
+    // answer. A sitewide one counts any live channel of its categories, same
+    // as a Drops campaign, so the catalogue can serve it too once it reads
+    // one. Costs no Twitch call, so every ranked campaign is served, not just
+    // the ones this pass looks up.
     async fn fresh_api_channels(
         &self,
         ranked: &[(&Campaign, QueueReason)],
@@ -288,7 +301,7 @@ impl<T: TwitchApi> AccountMiner<T> {
         ranked
             .iter()
             .map(|(c, _)| *c)
-            .filter(|c| c.kind != CampaignKind::Quest)
+            .filter(|c| c.kind != CampaignKind::Quest || c.sitewide)
             .filter_map(|c| {
                 let channels = catalog
                     .live_channels
@@ -376,11 +389,12 @@ impl<T: TwitchApi> AccountMiner<T> {
     pub(super) async fn read_directories(
         &self,
         games: Vec<Game>,
+        drops_enabled: bool,
     ) -> Result<HashMap<String, Vec<Channel>>> {
         let client = &self.client;
         let reads: Vec<(Game, Result<Vec<Channel>>)> = futures_util::stream::iter(games)
             .map(|game| async move {
-                let read = client.game_directory(&game).await;
+                let read = client.game_directory(&game, drops_enabled).await;
 
                 (game, read)
             })
@@ -553,8 +567,11 @@ impl<T: TwitchApi> AccountMiner<T> {
                 }
             }
 
-            // ! A Twitch event counts only on a channel listing it in "Drops & More", whatever its category.
-            if campaign.kind == CampaignKind::Quest {
+            // ! A non-sitewide Twitch event counts only on a channel listing it in
+            // "Drops & More", whatever its category. A sitewide one counts any live
+            // channel of its categories, already filtered above, with no per-channel
+            // confirmation to ask for.
+            if campaign.kind == CampaignKind::Quest && !campaign.sitewide {
                 let kept_id = kept
                     .filter(|(campaign_id, _)| *campaign_id == campaign.id)
                     .map(|(_, channel)| channel.id.as_str());
@@ -677,11 +694,12 @@ impl<T: TwitchApi> AccountMiner<T> {
         };
         let mut quest_channels: Vec<Channel> = Vec::new();
 
-        // ! The answers stay for the broadcast: a few directory channels of a Twitch event are asked each pass.
-        for campaign in campaigns
-            .iter()
-            .filter(|c| c.kind == CampaignKind::Quest && c.allowed_channels.is_empty())
-        {
+        // ! The answers stay for the broadcast: a few directory channels of a
+        // non-sitewide Twitch event are asked each pass. A sitewide one needs
+        // no such confirmation: any live channel of its categories counts.
+        for campaign in campaigns.iter().filter(|c| {
+            c.kind == CampaignKind::Quest && c.allowed_channels.is_empty() && !c.sitewide
+        }) {
             for channel in campaign
                 .played()
                 .filter_map(|game| directory.get(&game.id))
@@ -756,19 +774,23 @@ pub(super) struct ChannelSources<'a> {
 
 pub(super) struct Lookup {
     pub(super) games: Vec<Game>,
+    pub(super) sitewide_games: Vec<Game>,
     pub(super) logins: Vec<String>,
     pub(super) by_directory: HashSet<String>,
 }
 
 // ! A list longer than what is left of the channel read goes through its game's Drops directory.
 // ! Every chosen campaign's game is read first; the other categories share the places left, in turn.
+// ! A sitewide Quest's categories go through their own, unfiltered read instead: any live channel of
+// theirs counts, with no broadcaster "Drops & More" opt-in to require.
 pub(super) fn lookup_targets(chosen: &[&Campaign], turn: usize) -> Lookup {
     let mut lookup = Lookup {
         games: Vec::new(),
+        sitewide_games: Vec::new(),
         logins: Vec::new(),
         by_directory: HashSet::new(),
     };
-    let mut others: Vec<Vec<&Game>> = Vec::new();
+    let mut others: Vec<(bool, Vec<&Game>)> = Vec::new();
     let add = |games: &mut Vec<Game>, game: &Game| {
         if !games.iter().any(|known| known.id == game.id) {
             games.push(game.clone());
@@ -799,11 +821,23 @@ pub(super) fn lookup_targets(chosen: &[&Campaign], turn: usize) -> Lookup {
             lookup.by_directory.insert(campaign.id.clone());
         }
 
-        add(&mut lookup.games, &campaign.game);
-        others.push(campaign.played().skip(1).collect());
+        let sitewide = campaign.kind == CampaignKind::Quest && campaign.sitewide;
+        let games = if sitewide {
+            &mut lookup.sitewide_games
+        } else {
+            &mut lookup.games
+        };
+
+        add(games, &campaign.game);
+        others.push((sitewide, campaign.played().skip(1).collect()));
     }
 
-    for categories in &others {
+    for (sitewide, categories) in &others {
+        let games = if *sitewide {
+            &mut lookup.sitewide_games
+        } else {
+            &mut lookup.games
+        };
         let read = categories.len().min(CATEGORIES_READ - 1);
         let start = if categories.len() > read {
             turn % categories.len()
@@ -812,18 +846,16 @@ pub(super) fn lookup_targets(chosen: &[&Campaign], turn: usize) -> Lookup {
         };
 
         for step in 0..read {
-            if lookup.games.len() >= DIRECTORIES_MAX {
+            if games.len() >= DIRECTORIES_MAX {
                 break;
             }
 
-            add(
-                &mut lookup.games,
-                categories[(start + step) % categories.len()],
-            );
+            add(games, categories[(start + step) % categories.len()]);
         }
     }
 
     lookup.games.truncate(DIRECTORIES_MAX);
+    lookup.sitewide_games.truncate(DIRECTORIES_MAX);
 
     lookup
 }

@@ -8,6 +8,14 @@ use crate::domain::{Channel, Game};
 use crate::error::{Error, Result};
 
 pub const DIRECTORY_LIMIT: usize = 30;
+// ! A sitewide Twitch event or global badge campaign has no broadcaster
+// opt-in to narrow it down: `limit` asks for Twitch's own accepted ceiling
+// for this query (101 is refused with "argument 'first' value must be
+// between 1 and 100", measured live); a single read at 100 answered with
+// ~93-98 channels across several categories and several repeats (never
+// the full 100, `hasNextPage` stays true), still far above the 30 a
+// filtered Drops read gets, with no extra request either way.
+pub const SITEWIDE_DIRECTORY_LIMIT: usize = 100;
 
 const LOOKUP_BATCH: usize = 20;
 
@@ -152,11 +160,16 @@ impl TwitchClient {
         Ok(found)
     }
 
-    pub async fn game_directory(&self, game: &Game) -> Result<Vec<Channel>> {
+    pub async fn game_directory(&self, game: &Game, drops_enabled: bool) -> Result<Vec<Channel>> {
+        let limit = if drops_enabled {
+            DIRECTORY_LIMIT
+        } else {
+            SITEWIDE_DIRECTORY_LIMIT
+        };
         let response = self
             .gql(
                 Operation::GameDirectory,
-                directory_variables(&game.slug(), DIRECTORY_LIMIT),
+                directory_variables(&game.slug(), limit, drops_enabled),
             )
             .await?;
         let game_node = &response["data"]["game"];

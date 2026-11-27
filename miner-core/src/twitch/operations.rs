@@ -202,13 +202,22 @@ impl Operation {
     }
 }
 
-pub fn directory_variables(slug: &str, limit: usize) -> Value {
+// ! `DROPS_ENABLED` is the broadcaster's own toggle for classic per-game Drops:
+// irrelevant to a sitewide Twitch event, where any live channel of the
+// category counts regardless of it, so a sitewide read leaves it out.
+pub fn directory_variables(slug: &str, limit: usize, drops_enabled: bool) -> Value {
+    let system_filters: &[&str] = if drops_enabled {
+        &["DROPS_ENABLED"]
+    } else {
+        &[]
+    };
+
     json!({
         "limit": limit, "slug": slug, "imageWidth": 50, "includeCostreaming": false,
         "options": {
             "broadcasterLanguages": [], "freeformTags": null, "includeRestricted": ["SUB_ONLY_LIVE"],
             "recommendationsContext": {"platform": "web"}, "sort": "RELEVANCE",
-            "systemFilters": ["DROPS_ENABLED"], "tags": [], "requestID": "JIRA-VXP-2397"
+            "systemFilters": system_filters, "tags": [], "requestID": "JIRA-VXP-2397"
         },
         "sortTypeIsRecency": false
     })

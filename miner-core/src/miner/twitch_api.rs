@@ -35,7 +35,7 @@ pub(crate) trait TwitchApi {
 
     async fn select_lane(&self, lane: &TrackLane) -> Result<Option<String>>;
 
-    async fn game_directory(&self, game: &Game) -> Result<Vec<Channel>>;
+    async fn game_directory(&self, game: &Game, drops_enabled: bool) -> Result<Vec<Channel>>;
 
     async fn channels(&self, logins: &[String]) -> Result<BatchRead>;
 
@@ -122,8 +122,8 @@ impl TwitchApi for TwitchClient {
         TwitchClient::select_lane(self, lane).await
     }
 
-    async fn game_directory(&self, game: &Game) -> Result<Vec<Channel>> {
-        TwitchClient::game_directory(self, game).await
+    async fn game_directory(&self, game: &Game, drops_enabled: bool) -> Result<Vec<Channel>> {
+        TwitchClient::game_directory(self, game, drops_enabled).await
     }
 
     async fn channels(&self, logins: &[String]) -> Result<BatchRead> {
