@@ -820,7 +820,7 @@ pub fn plan(
                 && pick_channel(settings, campaign, live, None, &subscribed).is_some()
         };
 
-        let natural: Vec<&Campaign> = ranked.iter().map(|(c, _, _)| *c).collect();
+        let natural: Vec<(&Campaign, Standing)> = ranked.iter().map(|(c, _, s)| (*c, *s)).collect();
 
         // ! The campaign being mined keeps the slot over the ones of equal
         // standing ranked above it: an automatic order changing, or another
@@ -922,12 +922,12 @@ pub fn plan(
             SlotPurpose::Points { .. } => None,
         });
 
-        if let Some(mined) = mined {
+        // ! Only a campaign of a higher standing is told: those of equal standing wait their turn by design.
+        if let Some(mined) = mined.and_then(|id| natural.iter().find(|(c, _)| c.id == id)) {
             plan.passed_over = natural
                 .iter()
-                .take_while(|c| c.id != mined)
-                .filter(|c| live_by_campaign.contains_key(&c.id))
-                .map(|c| PassedOver {
+                .filter(|(c, standing)| standing < &mined.1 && live_by_campaign.contains_key(&c.id))
+                .map(|(c, _)| PassedOver {
                     campaign_id: c.id.clone(),
                     block: if aside.contains_key(&c.id) {
                         QueueBlock::SetAside
