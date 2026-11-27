@@ -704,6 +704,8 @@
   "ev_campaign_finished": "Campaña completada: {campaign}",
   "ev_campaign_set_aside": "{campaign} aplazada: sin progreso en {minutes} min, próximo intento {retryTime}",
   "ev_campaign_retried": "Nuevo intento de {campaign}",
+  "ev_campaign_no_live_channel": "{campaign} no se mina: ninguno de sus canales está en directo en su categoría",
+  "ev_campaign_waiting": "{campaign} espera: solo se mina una campaña a la vez",
   "ev_drop_progress": "{drop}: {current}/{required} min",
   "ev_bonus": "Cofre de bonificación reclamado en {channel}",
   "ev_bonus_short": "Cofre de bonificación reclamado",

@@ -704,6 +704,8 @@
   "ev_campaign_finished": "Kampanj klar: {campaign}",
   "ev_campaign_set_aside": "{campaign} lades åt sidan: inget framsteg på {minutes} min, nytt försök {retryTime}",
   "ev_campaign_retried": "Nytt försök: {campaign}",
+  "ev_campaign_no_live_channel": "{campaign} minas inte: ingen av dess kanaler sänder live i dess kategori",
+  "ev_campaign_waiting": "{campaign} väntar: bara en kampanj minas åt gången",
   "ev_drop_progress": "{drop}: {current}/{required} min",
   "ev_bonus": "Bonuskista hämtad på {channel}",
   "ev_bonus_short": "Bonuskista hämtad",

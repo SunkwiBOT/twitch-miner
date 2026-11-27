@@ -722,6 +722,8 @@
   "ev_campaign_finished": "Campaign finished: {campaign}",
   "ev_campaign_set_aside": "{campaign} set aside: no progress in {minutes} min, retrying {retryTime}",
   "ev_campaign_retried": "Retrying {campaign}",
+  "ev_campaign_no_live_channel": "{campaign} is not mined: none of its channels is live in its category",
+  "ev_campaign_waiting": "{campaign} waits: only one campaign is mined at a time",
   "ev_paused": "Paused",
   "ev_paused_scheduled": "Paused, resuming {resumeTime}",
   "ev_paused_quiet_window": "Paused (daily pause)",

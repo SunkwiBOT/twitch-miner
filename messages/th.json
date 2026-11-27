@@ -543,6 +543,8 @@
   "ev_campaign_finished": "แคมเปญเสร็จสิ้น: {campaign}",
   "ev_campaign_set_aside": "{campaign} ถูกพักไว้: ไม่มีความคืบหน้าใน {minutes} นาที ลองใหม่ {retryTime}",
   "ev_campaign_retried": "ลองใหม่: {campaign}",
+  "ev_campaign_no_live_channel": "ไม่ได้ขุด {campaign}: ไม่มีช่องไหนของแคมเปญนี้กำลังไลฟ์ในหมวดหมู่ของแคมเปญ",
+  "ev_campaign_waiting": "{campaign} รออยู่: ขุดได้ทีละหนึ่งแคมเปญ",
   "ev_drop_progress": "{drop}: {current}/{required} นาที",
   "ev_bonus": "รับหีบโบนัสที่ {channel} แล้ว",
   "ev_bonus_short": "รับหีบโบนัสแล้ว",

@@ -719,6 +719,8 @@
   "ev_campaign_finished": "Kampania ukończona: {campaign}",
   "ev_campaign_set_aside": "{campaign} odłożona: brak postępu przez {minutes} min, kolejna próba {retryTime}",
   "ev_campaign_retried": "Ponowna próba: {campaign}",
+  "ev_campaign_no_live_channel": "{campaign} nie jest kopana: żaden z jej kanałów nie nadaje na żywo w jej kategorii",
+  "ev_campaign_waiting": "{campaign} czeka: kopana jest tylko jedna kampania naraz",
   "ev_drop_progress": "{drop}: {current}/{required} min",
   "ev_bonus": "Skrzynka bonusowa odebrana na {channel}",
   "ev_bonus_short": "Skrzynka bonusowa odebrana",

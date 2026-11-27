@@ -704,6 +704,8 @@
   "ev_campaign_finished": "Campagne terminée : {campaign}",
   "ev_campaign_set_aside": "{campaign} mise de côté : aucune progression depuis {minutes} min, nouvel essai {retryTime}",
   "ev_campaign_retried": "Nouvel essai de {campaign}",
+  "ev_campaign_no_live_channel": "{campaign} n'est pas minée : aucune de ses chaînes n'est en direct dans sa catégorie",
+  "ev_campaign_waiting": "{campaign} attend : une seule campagne est minée à la fois",
   "ev_drop_progress": "{drop} : {current}/{required} min",
   "ev_bonus": "Coffre bonus réclamé sur {channel}",
   "ev_bonus_short": "Coffre bonus réclamé",

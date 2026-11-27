@@ -546,6 +546,8 @@
   "ev_campaign_finished": "Kampány befejezve: {campaign}",
   "ev_campaign_set_aside": "{campaign} félretéve: {minutes} percig nincs haladás, újra {retryTime}",
   "ev_campaign_retried": "Újrapróbálás: {campaign}",
+  "ev_campaign_no_live_channel": "A(z) {campaign} nincs bányászva: egyik csatornája sem élő a kategóriájában",
+  "ev_campaign_waiting": "A(z) {campaign} vár: egyszerre csak egy kampányt bányászik",
   "ev_drop_progress": "{drop}: {current}/{required} perc",
   "ev_bonus": "Bónuszláda begyűjtve: {channel}",
   "ev_bonus_short": "Bónuszláda begyűjtve",

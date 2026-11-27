@@ -50,6 +50,7 @@ impl<T: TwitchApi> AccountMiner<T> {
 
         self.last_queue = plan.queue.clone();
         self.last_left_out = plan.left_out.clone();
+        self.tell_passed_over(&plan.passed_over);
         self.equip_for(&plan).await;
 
         // ! Twitch pays the streak bonus to a Drops watch too: the bonus window counts
@@ -206,6 +207,44 @@ impl<T: TwitchApi> AccountMiner<T> {
             });
 
         self.publish(event);
+    }
+
+    fn tell_passed_over(&mut self, passed_over: &[PassedOver]) {
+        // ! A campaign no longer passed over is forgotten: passed over again
+        // later, its reason is told again, even the same one.
+        self.passed_over_told.retain(|campaign_id, _| {
+            passed_over
+                .iter()
+                .any(|passed| &passed.campaign_id == campaign_id)
+        });
+
+        for PassedOver { campaign_id, block } in passed_over {
+            if self.passed_over_told.insert(campaign_id.clone(), *block) == Some(*block) {
+                continue;
+            }
+
+            let name = self
+                .campaigns
+                .get(campaign_id)
+                .map(|c| c.name.clone())
+                .unwrap_or_default();
+            let title = match block {
+                QueueBlock::NoLiveChannel => {
+                    format!("{name} is not mined: none of its channels is live in its category")
+                }
+                QueueBlock::OneCampaignAtATime => {
+                    format!("{name} waits: only one campaign is mined at a time")
+                }
+                // ! Already told by its own event.
+                QueueBlock::SetAside => continue,
+            };
+            let event = self.emit(EventKind::Info, title).context(EventContext {
+                queue_block: Some(*block),
+                ..EventContext::campaign(campaign_id)
+            });
+
+            self.publish(event);
+        }
     }
 
     // ! Twitch counts an evolution only while the badge it evolves from is equipped; the old badge is never put back.

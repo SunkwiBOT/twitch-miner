@@ -695,6 +695,8 @@
   "ev_campaign_finished": "Campanie terminată: {campaign}",
   "ev_campaign_set_aside": "{campaign} amânată: fără progres în {minutes} min, reîncercare {retryTime}",
   "ev_campaign_retried": "Reîncercare: {campaign}",
+  "ev_campaign_no_live_channel": "{campaign} nu este minată: niciunul dintre canalele ei nu e live în categoria ei",
+  "ev_campaign_waiting": "{campaign} așteaptă: se minează o singură campanie odată",
   "ev_drop_progress": "{drop}: {current}/{required} min",
   "ev_bonus": "Cufăr bonus revendicat pe {channel}",
   "ev_bonus_short": "Cufăr bonus revendicat",

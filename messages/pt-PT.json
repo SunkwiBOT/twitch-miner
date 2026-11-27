@@ -704,6 +704,8 @@
   "ev_campaign_finished": "Campanha concluída: {campaign}",
   "ev_campaign_set_aside": "{campaign} posta de lado: sem progresso em {minutes} min, nova tentativa {retryTime}",
   "ev_campaign_retried": "Nova tentativa: {campaign}",
+  "ev_campaign_no_live_channel": "{campaign} não está a ser minerada: nenhum dos seus canais está em direto na sua categoria",
+  "ev_campaign_waiting": "{campaign} aguarda: só uma campanha é minerada de cada vez",
   "ev_drop_progress": "{drop}: {current}/{required} min",
   "ev_bonus": "Baú de bónus reclamado em {channel}",
   "ev_bonus_short": "Baú de bónus reclamado",

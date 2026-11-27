@@ -704,6 +704,8 @@
   "ev_campaign_finished": "Καμπάνια ολοκληρώθηκε: {campaign}",
   "ev_campaign_set_aside": "{campaign} τέθηκε στην άκρη: καμία πρόοδος για {minutes} λεπ., νέα προσπάθεια {retryTime}",
   "ev_campaign_retried": "Νέα προσπάθεια για {campaign}",
+  "ev_campaign_no_live_channel": "Η {campaign} δεν εξορύσσεται: κανένα από τα κανάλια της δεν είναι live στην κατηγορία της",
+  "ev_campaign_waiting": "Η {campaign} περιμένει: εξορύσσεται μία καμπάνια τη φορά",
   "ev_drop_progress": "{drop}: {current}/{required} λεπ.",
   "ev_bonus": "Μπόνους σεντούκι παραλήφθηκε στο {channel}",
   "ev_bonus_short": "Μπόνους σεντούκι παραλήφθηκε",

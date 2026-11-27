@@ -543,6 +543,8 @@
   "ev_campaign_finished": "キャンペーン完了：{campaign}",
   "ev_campaign_set_aside": "{campaign}を保留: {minutes}分間進捗なし、{retryTime}に再試行",
   "ev_campaign_retried": "再試行: {campaign}",
+  "ev_campaign_no_live_channel": "{campaign} はマイニングされていません: カテゴリー内で配信中の対象チャンネルがありません",
+  "ev_campaign_waiting": "{campaign} は待機中: マイニングするキャンペーンは一度に 1 つだけ",
   "ev_drop_progress": "{drop}：{current}/{required} 分",
   "ev_bonus": "{channel} でボーナスチェストを受け取り",
   "ev_bonus_short": "ボーナスチェストを受け取り",

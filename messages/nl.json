@@ -704,6 +704,8 @@
   "ev_campaign_finished": "Campagne voltooid: {campaign}",
   "ev_campaign_set_aside": "{campaign} opzijgezet: geen voortgang in {minutes} min, nieuwe poging {retryTime}",
   "ev_campaign_retried": "Nieuwe poging: {campaign}",
+  "ev_campaign_no_live_channel": "{campaign} wordt niet gemind: geen van haar kanalen is live in haar categorie",
+  "ev_campaign_waiting": "{campaign} wacht: er wordt één campagne tegelijk gemind",
   "ev_drop_progress": "{drop}: {current}/{required} min",
   "ev_bonus": "Bonuskist geclaimd op {channel}",
   "ev_bonus_short": "Bonuskist geclaimd",

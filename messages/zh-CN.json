@@ -546,6 +546,8 @@
   "ev_campaign_finished": "活动完成：{campaign}",
   "ev_campaign_set_aside": "{campaign} 已暂缓：{minutes} 分钟内无进度，{retryTime}重试",
   "ev_campaign_retried": "重试：{campaign}",
+  "ev_campaign_no_live_channel": "{campaign} 未在挖取：它的频道都没有在其分类中直播",
+  "ev_campaign_waiting": "{campaign} 等待中：一次只挖取一个活动",
   "ev_drop_progress": "{drop}：{current}/{required} 分钟",
   "ev_bonus": "已在 {channel} 领取奖励宝箱",
   "ev_bonus_short": "已领取奖励宝箱",

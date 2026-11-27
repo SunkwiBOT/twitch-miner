@@ -543,6 +543,8 @@
   "ev_campaign_finished": "Chiến dịch hoàn thành: {campaign}",
   "ev_campaign_set_aside": "{campaign} đã bị tạm gác: không có tiến triển trong {minutes} phút, thử lại {retryTime}",
   "ev_campaign_retried": "Thử lại: {campaign}",
+  "ev_campaign_no_live_channel": "{campaign} không được đào: không kênh nào của nó đang live trong danh mục của nó",
+  "ev_campaign_waiting": "{campaign} đang chờ: mỗi lần chỉ đào một chiến dịch",
   "ev_drop_progress": "{drop}: {current}/{required} phút",
   "ev_bonus": "Đã nhận rương thưởng trên {channel}",
   "ev_bonus_short": "Đã nhận rương thưởng",

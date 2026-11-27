@@ -704,6 +704,8 @@
   "ev_campaign_finished": "Кампанията е завършена: {campaign}",
   "ev_campaign_set_aside": "{campaign} отложена: няма напредък {minutes} мин, нов опит {retryTime}",
   "ev_campaign_retried": "Нов опит за {campaign}",
+  "ev_campaign_no_live_channel": "{campaign} не се копае: никой от каналите ѝ не е на живо в категорията ѝ",
+  "ev_campaign_waiting": "{campaign} чака: копае се само една кампания наведнъж",
   "ev_drop_progress": "{drop}: {current}/{required} мин",
   "ev_bonus": "Взет бонус сандък в {channel}",
   "ev_bonus_short": "Взет бонус сандък",

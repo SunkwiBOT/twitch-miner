@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
 use crate::error::ErrorCode;
-use crate::scheduler::PointsReason;
+use crate::scheduler::{PointsReason, QueueBlock};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default, Hash, TS)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
@@ -263,6 +263,8 @@ pub struct EventContext {
     pub set_aside_until: Option<DateTime<Utc>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub watch_reason: Option<PointsReason>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub queue_block: Option<QueueBlock>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub reward: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]

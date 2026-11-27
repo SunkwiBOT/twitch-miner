@@ -543,6 +543,8 @@
   "ev_campaign_finished": "캠페인 완료: {campaign}",
   "ev_campaign_set_aside": "{campaign} 보류됨: {minutes}분간 진행 없음, {retryTime} 재시도",
   "ev_campaign_retried": "재시도: {campaign}",
+  "ev_campaign_no_live_channel": "{campaign} 마이닝 안 함: 카테고리에서 방송 중인 채널이 없어요",
+  "ev_campaign_waiting": "{campaign} 대기 중: 한 번에 하나의 캠페인만 마이닝해요",
   "ev_drop_progress": "{drop}: {current}/{required}분",
   "ev_bonus": "{channel}에서 보너스 상자 수령",
   "ev_bonus_short": "보너스 상자 수령",

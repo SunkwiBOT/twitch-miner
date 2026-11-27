@@ -750,6 +750,8 @@
   "ev_campaign_finished": "Кампанію завершено: {campaign}",
   "ev_campaign_set_aside": "{campaign} відкладено: немає прогресу за {minutes} хв, повторна спроба {retryTime}",
   "ev_campaign_retried": "Повторна спроба: {campaign}",
+  "ev_campaign_no_live_channel": "{campaign} не майниться: жоден з її каналів не в ефірі в її категорії",
+  "ev_campaign_waiting": "{campaign} чекає: майниться лише одна кампанія за раз",
   "ev_drop_progress": "{drop}: {current}/{required} хв",
   "ev_bonus": "Бонусну скриню отримано на {channel}",
   "ev_bonus_short": "Бонусну скриню отримано",

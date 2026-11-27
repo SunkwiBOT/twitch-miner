@@ -3,6 +3,7 @@ import { EventKind } from "../bindings/EventKind";
 import type { MinerEventType } from "../bindings/MinerEventType";
 import { PointsReason } from "../bindings/PointsReason";
 import { PauseReason } from "../bindings/PauseReason";
+import { QueueBlock } from "../bindings/QueueBlock";
 import { badgeList } from "../badges/badges.svelte";
 import { badgeKey } from "../badges/badges.utils";
 import { campaignOf, catalogueCampaign } from "../catalogue/catalogue.svelte";
@@ -292,7 +293,17 @@ export const eventText = (
           chatter: strong(context.chatter),
         });
       case EventKind.INFO:
-        return badge && drop ? t.ev_badge_equipped({ badge, drop }) : fallback;
+        if (badge && drop) {
+          return t.ev_badge_equipped({ badge, drop });
+        }
+
+        if (campaign && context.queue_block === QueueBlock.NO_LIVE_CHANNEL) {
+          return t.ev_campaign_no_live_channel({ campaign });
+        }
+
+        return campaign && context.queue_block === QueueBlock.ONE_CAMPAIGN_AT_A_TIME
+          ? t.ev_campaign_waiting({ campaign })
+          : fallback;
       case EventKind.PAUSED:
         if (context.pause_reason === PauseReason.QUIET_WINDOW) {
           return t.ev_paused_quiet_window();

@@ -720,6 +720,8 @@
   "ev_campaign_finished": "Kampaň dokončena: {campaign}",
   "ev_campaign_set_aside": "{campaign} odložena: žádný postup {minutes} min, další pokus {retryTime}",
   "ev_campaign_retried": "Nový pokus: {campaign}",
+  "ev_campaign_no_live_channel": "{campaign} se netěží: žádný z jejích kanálů nevysílá v její kategorii",
+  "ev_campaign_waiting": "{campaign} čeká: těží se jen jedna kampaň najednou",
   "ev_drop_progress": "{drop}: {current}/{required} min",
   "ev_bonus": "Bonusová truhla vyzvednuta na {channel}",
   "ev_bonus_short": "Bonusová truhla vyzvednuta",

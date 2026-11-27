@@ -704,6 +704,8 @@
   "ev_campaign_finished": "Kampagne færdig: {campaign}",
   "ev_campaign_set_aside": "{campaign} sat til side: ingen fremgang i {minutes} min, nyt forsøg {retryTime}",
   "ev_campaign_retried": "Nyt forsøg på {campaign}",
+  "ev_campaign_no_live_channel": "{campaign} mines ikke: ingen af dens kanaler er live i dens kategori",
+  "ev_campaign_waiting": "{campaign} venter: der mines kun én kampagne ad gangen",
   "ev_drop_progress": "{drop}: {current}/{required} min",
   "ev_bonus": "Bonuskiste hentet på {channel}",
   "ev_bonus_short": "Bonuskiste hentet",

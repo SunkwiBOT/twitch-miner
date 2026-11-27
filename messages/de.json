@@ -704,6 +704,8 @@
   "ev_campaign_finished": "Kampagne abgeschlossen: {campaign}",
   "ev_campaign_set_aside": "{campaign} zurückgestellt: kein Fortschritt seit {minutes} Min., nächster Versuch {retryTime}",
   "ev_campaign_retried": "Neuer Versuch für {campaign}",
+  "ev_campaign_no_live_channel": "{campaign} wird nicht gemint: keiner ihrer Kanäle ist in ihrer Kategorie live",
+  "ev_campaign_waiting": "{campaign} wartet: es wird immer nur eine Kampagne gemint",
   "ev_drop_progress": "{drop}: {current}/{required} Min.",
   "ev_bonus": "Bonus-Truhe auf {channel} abgeholt",
   "ev_bonus_short": "Bonus-Truhe abgeholt",

@@ -39,7 +39,8 @@ use crate::error::{Error, ErrorCode, NetworkErrorKind, Result};
 use crate::events::{BetResult, EventContext, EventKind, MinerEvent, MinerKind};
 use crate::predictions;
 use crate::scheduler::{
-    self, LeftOutCampaign, QueueItem, QueueReason, SlotPurpose, StreakBonus, StreamerState,
+    self, LeftOutCampaign, PassedOver, QueueBlock, QueueItem, QueueReason, SlotPurpose,
+    StreakBonus, StreamerState,
 };
 use crate::spam::BurstSpends;
 use crate::store::vault::Vault;
@@ -288,6 +289,9 @@ struct AccountMiner<T> {
     pending_bets: Vec<(PredictionEvent, DateTime<Utc>)>,
     last_queue: Vec<QueueItem>,
     last_left_out: Vec<LeftOutCampaign>,
+    // ! What keeps each campaign ranked above the mined one from being mined,
+    // as told in the journal: only a change is told again.
+    passed_over_told: HashMap<String, QueueBlock>,
     snapshot: watch::Sender<AccountSnapshot>,
     pubsub: Option<PubSub>,
     chat: Option<Chat>,
@@ -420,6 +424,7 @@ impl<T: TwitchApi> AccountMiner<T> {
             pending_bets: Vec::new(),
             last_queue: Vec::new(),
             last_left_out: Vec::new(),
+            passed_over_told: HashMap::new(),
             snapshot,
             pubsub: None,
             chat: None,

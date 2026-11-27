@@ -177,11 +177,22 @@ pub struct QueueItem {
     pub expected_start: Option<DateTime<Utc>>,
 }
 
+// ! A campaign ranked above the one given the Drops slot, and what keeps it
+// from being mined. A campaign whose channels were never read is not listed:
+// nothing is known of it yet.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct PassedOver {
+    pub campaign_id: String,
+    pub block: QueueBlock,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]
 pub struct Plan {
     pub slots: Vec<Slot>,
     pub queue: Vec<QueueItem>,
     pub left_out: Vec<LeftOutCampaign>,
+    #[serde(default)]
+    pub passed_over: Vec<PassedOver>,
 }
 
 // ! Twitch pays the watch streak bonus a few minutes into the watch of a new
@@ -584,16 +595,23 @@ fn rank_key(
     }
 }
 
-type Tiers<'a> = (Vec<(&'a Campaign, QueueReason, u8)>, Vec<LeftOutCampaign>);
+// ! Where the user's order puts a campaign: its tier (0 for the campaigns
+// placed by hand, then one per lane of the mining order, in its order), then
+// its place among those placed by hand or among the priority categories.
+// Campaigns of equal standing are ordered automatically.
+type Standing = (u8, i64);
 
-// ! A tier per campaign: 0 for the campaigns placed by hand, then one per
-// lane of the mining order, in its order. A campaign already over is neither
-// ranked nor left out.
-fn rank_tiers<'a>(
+type Ranked<'a> = (
+    Vec<(&'a Campaign, QueueReason, Standing)>,
+    Vec<LeftOutCampaign>,
+);
+
+// ! A campaign already over is neither ranked nor left out.
+fn rank_standings<'a>(
     settings: &AccountSettings,
     campaigns: &'a [Campaign],
     now: DateTime<Utc>,
-) -> Tiers<'a> {
+) -> Ranked<'a> {
     let mut ranked: Vec<(&Campaign, QueueReason, RankKey)> = Vec::new();
     let mut left_out = Vec::new();
 
@@ -611,7 +629,7 @@ fn rank_tiers<'a>(
 
     let ranked = ranked
         .into_iter()
-        .map(|(c, reason, key)| (c, reason, key.0))
+        .map(|(c, reason, key)| (c, reason, (key.0, key.1)))
         .collect();
 
     (ranked, left_out)
@@ -622,7 +640,7 @@ pub fn rank_campaigns<'a>(
     campaigns: &'a [Campaign],
     now: DateTime<Utc>,
 ) -> Vec<(&'a Campaign, QueueReason)> {
-    rank_tiers(settings, campaigns, now)
+    rank_standings(settings, campaigns, now)
         .0
         .into_iter()
         .map(|(c, reason, _)| (c, reason))
@@ -733,7 +751,7 @@ pub fn rank_streamers<'a>(
 
 // ! An account mining points only mines no campaign, but still tells the earned ones apart.
 fn points_only(
-    ranked: &[(&Campaign, QueueReason, u8)],
+    ranked: &[(&Campaign, QueueReason, Standing)],
     left_out: Vec<LeftOutCampaign>,
 ) -> Vec<LeftOutCampaign> {
     let points_only = |campaign_id: String| LeftOutCampaign {
@@ -767,7 +785,7 @@ pub fn plan(
     let mut plan = Plan::default();
     let mut used: Vec<String> = Vec::new();
 
-    let (mut ranked, left_out) = rank_tiers(settings, campaigns, now);
+    let (mut ranked, left_out) = rank_standings(settings, campaigns, now);
 
     if settings.mode == Mode::Points {
         plan.left_out = points_only(&ranked, left_out);
@@ -802,26 +820,28 @@ pub fn plan(
                 && pick_channel(settings, campaign, live, None, &subscribed).is_some()
         };
 
+        let natural: Vec<&Campaign> = ranked.iter().map(|(c, _, _)| *c).collect();
+
+        // ! The campaign being mined keeps the slot over the ones of equal
+        // standing ranked above it: an automatic order changing, or another
+        // campaign of its category, never interrupts it.
         if let Some(current) = current {
             let viable = ranked
                 .iter()
                 .position(|(c, _, _)| c.id == current.campaign_id)
                 .filter(|&index| {
-                    let (campaign, _, tier) = &ranked[index];
+                    let (campaign, _, standing) = &ranked[index];
                     let live = live_by_campaign
                         .get(&campaign.id)
                         .map(Vec::as_slice)
                         .unwrap_or(&[]);
-                    let above: Vec<u8> = ranked[..index]
-                        .iter()
-                        .filter(|(c, _, _)| minable(c))
-                        .map(|(_, _, t)| *t)
-                        .collect();
 
                     !aside.contains_key(current.campaign_id)
                         && pick_channel(settings, campaign, live, watching(campaign), &subscribed)
                             .is_some()
-                        && !above.iter().any(|t| *t == 0 || t < tier)
+                        && !ranked[..index]
+                            .iter()
+                            .any(|(c, _, above)| above < standing && minable(c))
                 });
 
             if let Some(index) = viable {
@@ -895,6 +915,29 @@ pub fn plan(
             }
 
             plan.queue.push(item);
+        }
+
+        let mined = plan.slots.iter().find_map(|slot| match &slot.purpose {
+            SlotPurpose::Drop { campaign_id, .. } => Some(campaign_id.as_str()),
+            SlotPurpose::Points { .. } => None,
+        });
+
+        if let Some(mined) = mined {
+            plan.passed_over = natural
+                .iter()
+                .take_while(|c| c.id != mined)
+                .filter(|c| live_by_campaign.contains_key(&c.id))
+                .map(|c| PassedOver {
+                    campaign_id: c.id.clone(),
+                    block: if aside.contains_key(&c.id) {
+                        QueueBlock::SetAside
+                    } else if minable(c) {
+                        QueueBlock::OneCampaignAtATime
+                    } else {
+                        QueueBlock::NoLiveChannel
+                    },
+                })
+                .collect();
         }
     }
 

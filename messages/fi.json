@@ -652,6 +652,8 @@
   "ev_campaign_finished": "Kampanja valmis: {campaign}",
   "ev_campaign_set_aside": "{campaign} siirretty sivuun: ei edistystä {minutes} min, uusi yritys {retryTime}",
   "ev_campaign_retried": "Uusi yritys: {campaign}",
+  "ev_campaign_no_live_channel": "Kampanjaa {campaign} ei louhita: mikään sen kanavista ei ole livenä sen kategoriassa",
+  "ev_campaign_waiting": "{campaign} odottaa: vain yhtä kampanjaa louhitaan kerrallaan",
   "ev_drop_progress": "{drop}: {current}/{required} min",
   "ev_bonus": "Bonusarkku lunastettu kanavalla {channel}",
   "ev_bonus_short": "Bonusarkku lunastettu",

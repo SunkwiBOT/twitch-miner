@@ -750,6 +750,8 @@
   "ev_campaign_finished": "Кампания завершена: {campaign}",
   "ev_campaign_set_aside": "{campaign} отложена: нет прогресса за {minutes} мин, повтор {retryTime}",
   "ev_campaign_retried": "Повтор: {campaign}",
+  "ev_campaign_no_live_channel": "{campaign} не майнится: ни один из её каналов не в эфире в её категории",
+  "ev_campaign_waiting": "{campaign} ждёт: майнится только одна кампания за раз",
   "ev_drop_progress": "{drop}: {current}/{required} мин",
   "ev_bonus": "Бонусный сундук получен на {channel}",
   "ev_bonus_short": "Бонусный сундук получен",

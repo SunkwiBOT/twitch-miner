@@ -4,6 +4,7 @@ import type { ErrorApiMessage } from "./ErrorApiMessage";
 import type { MinerKind } from "./MinerKind";
 import type { PauseReason } from "./PauseReason";
 import type { PointsReason } from "./PointsReason";
+import type { QueueBlock } from "./QueueBlock";
 
 export type EventContextType = {
   account_name?: string;
@@ -21,6 +22,7 @@ export type EventContextType = {
   drop_name?: string;
   set_aside_until?: string;
   watch_reason?: PointsReason;
+  queue_block?: QueueBlock;
   reward?: string;
   current?: number;
   required?: number;

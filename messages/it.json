@@ -704,6 +704,8 @@
   "ev_campaign_finished": "Campagna completata: {campaign}",
   "ev_campaign_set_aside": "{campaign} accantonata: nessun progresso in {minutes} min, nuovo tentativo {retryTime}",
   "ev_campaign_retried": "Nuovo tentativo: {campaign}",
+  "ev_campaign_no_live_channel": "{campaign} non viene minata: nessuno dei suoi canali è in diretta nella sua categoria",
+  "ev_campaign_waiting": "{campaign} attende: si mina una sola campagna alla volta",
   "ev_drop_progress": "{drop}: {current}/{required} min",
   "ev_bonus": "Forziere bonus riscattato su {channel}",
   "ev_bonus_short": "Forziere bonus riscattato",

@@ -543,6 +543,8 @@
   "ev_campaign_finished": "Kampanye selesai: {campaign}",
   "ev_campaign_set_aside": "{campaign} disisihkan: tidak ada progres selama {minutes} menit, coba lagi {retryTime}",
   "ev_campaign_retried": "Mencoba lagi: {campaign}",
+  "ev_campaign_no_live_channel": "{campaign} tidak ditambang: tidak ada channel-nya yang sedang live di kategorinya",
+  "ev_campaign_waiting": "{campaign} menunggu: hanya satu kampanye ditambang sekaligus",
   "ev_drop_progress": "{drop}: {current}/{required} mnt",
   "ev_bonus": "Peti bonus diklaim di {channel}",
   "ev_bonus_short": "Peti bonus diklaim",

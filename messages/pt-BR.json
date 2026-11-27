@@ -704,6 +704,8 @@
   "ev_campaign_finished": "Campanha concluída: {campaign}",
   "ev_campaign_set_aside": "{campaign} deixada de lado: sem progresso em {minutes} min, nova tentativa {retryTime}",
   "ev_campaign_retried": "Nova tentativa: {campaign}",
+  "ev_campaign_no_live_channel": "{campaign} não está sendo minerada: nenhum dos canais dela está ao vivo na categoria dela",
+  "ev_campaign_waiting": "{campaign} aguarda: só uma campanha é minerada por vez",
   "ev_drop_progress": "{drop}: {current}/{required} min",
   "ev_bonus": "Baú de bônus resgatado em {channel}",
   "ev_bonus_short": "Baú de bônus resgatado",

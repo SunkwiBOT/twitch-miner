@@ -546,6 +546,8 @@
   "ev_campaign_finished": "Kampanya tamamlandı: {campaign}",
   "ev_campaign_set_aside": "{campaign} bir kenara bırakıldı: {minutes} dakikadır ilerleme yok, {retryTime} tekrar denenecek",
   "ev_campaign_retried": "Yeniden deneniyor: {campaign}",
+  "ev_campaign_no_live_channel": "{campaign} kazılmıyor: kanallarından hiçbiri kendi kategorisinde yayında değil",
+  "ev_campaign_waiting": "{campaign} bekliyor: aynı anda yalnızca bir kampanya kazılır",
   "ev_drop_progress": "{drop}: {current}/{required} dk",
   "ev_bonus": "{channel} kanalında bonus sandığı alındı",
   "ev_bonus_short": "Bonus sandığı alındı",
