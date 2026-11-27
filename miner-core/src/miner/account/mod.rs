@@ -88,6 +88,10 @@ const PROGRESS_STALL_MINUTES: u32 = 30;
 const SET_ASIDE_RETRY: chrono::Duration = chrono::Duration::hours(6);
 // ! How long a lane Twitch would not equip stays out before it is asked again.
 const LANE_REFUSED_RETRY: chrono::Duration = chrono::Duration::hours(6);
+// ! Twitch's answer stays for the broadcast anyway (`forget_stale_offers`); this only
+// keeps a persistently failing "Drops & More" ask from writing the same warning every
+// refresh pass.
+const OFFERS_ASK_WARN_COOLDOWN: chrono::Duration = chrono::Duration::minutes(15);
 // ! Twitch's answer for a bonus chest another session took first, or that
 // expired: nothing went wrong here.
 const BONUS_GONE: [&str; 1] = ["NOT_FOUND"];
@@ -277,6 +281,10 @@ struct AccountMiner<T> {
     // ! Channel id to when this account last saw it offline or refused by
     // "Drops & More": a list read after that moment is trusted again.
     seen_offline_or_refused: HashMap<String, DateTime<Utc>>,
+    // ! Campaign id to when this account last logged its "Drops & More" ask failing:
+    // a non-sitewide Quest's live list empties out the same way a confirmed "no" would,
+    // so this is worth telling the user, just not on every refresh pass.
+    offers_ask_warned_at: HashMap<String, DateTime<Utc>>,
     // ! The login is known only when this account placed the bet itself
     // (`place_due_bets`); `None` when Twitch's own echo of an external bet
     // (`PredictionMade`) inserts the entry first.
@@ -420,6 +428,7 @@ impl<T: TwitchApi> AccountMiner<T> {
             goals_at: HashMap::new(),
             slots: Vec::new(),
             seen_offline_or_refused: HashMap::new(),
+            offers_ask_warned_at: HashMap::new(),
             predictions_placed: HashMap::new(),
             bets_tried: HashSet::new(),
             claims: ClaimRegistry::default(),

@@ -182,6 +182,8 @@ impl<T: TwitchApi> AccountMiner<T> {
 
         self.seen_offline_or_refused
             .retain(|_, at| now - *at < drops_api::LIVE_CHANNELS_MAX_AGE);
+        self.offers_ask_warned_at
+            .retain(|_, at| now - *at < OFFERS_ASK_WARN_COOLDOWN);
 
         let watched = self.drops_watch();
         let chosen = self.campaigns_to_look_up(&ranked, watched.as_ref());
@@ -693,6 +695,7 @@ impl<T: TwitchApi> AccountMiner<T> {
             channel.live && channel.broadcast_id.is_some() && self.offered(channel).is_none()
         };
         let mut quest_channels: Vec<Channel> = Vec::new();
+        let mut quest_campaign_ids: HashSet<String> = HashSet::new();
 
         // ! The answers stay for the broadcast: a few directory channels of a
         // non-sitewide Twitch event are asked each pass. A sitewide one needs
@@ -713,6 +716,7 @@ impl<T: TwitchApi> AccountMiner<T> {
                         .any(|c| c.id == channel.id)
                 {
                     quest_channels.push(channel.clone());
+                    quest_campaign_ids.insert(campaign.id.clone());
                 }
             }
         }
@@ -729,6 +733,7 @@ impl<T: TwitchApi> AccountMiner<T> {
             Ok(answers) => answers,
             Err(error) => {
                 tracing::debug!(account = %self.login, %error, "available drops lookup failed");
+                self.warn_offers_ask_failure(&quest_campaign_ids, &error);
 
                 return;
             }
@@ -749,6 +754,32 @@ impl<T: TwitchApi> AccountMiner<T> {
                     },
                 );
             }
+        }
+    }
+
+    // ! A non-sitewide Quest's live list empties out the same way on a failed ask as on a
+    // confirmed "no" (`live_channels`'s retain keeps a channel only once `self.offers`
+    // is true): worth a `warn!`, which the UI's default-level "Technical logs" shows,
+    // not just the `debug!` above. Once per campaign, rate-limited: a busy refresh loop
+    // asks every pass, and Twitch's own answer already survives a one-off failure
+    // (`forget_stale_offers` never drops a still-live, same-broadcast entry on error).
+    fn warn_offers_ask_failure(&mut self, campaign_ids: &HashSet<String>, error: &Error) {
+        let now = Utc::now();
+
+        for campaign_id in campaign_ids {
+            if self.offers_ask_warned_at.contains_key(campaign_id) {
+                continue;
+            }
+
+            self.offers_ask_warned_at.insert(campaign_id.clone(), now);
+
+            tracing::warn!(
+                account = %self.login,
+                campaign = %campaign_id,
+                %error,
+                "\"Drops & More\" confirmation failed: this Twitch event's live channels \
+                 may go undetected until it succeeds again"
+            );
         }
     }
 
