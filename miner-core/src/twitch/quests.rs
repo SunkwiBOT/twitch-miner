@@ -9,7 +9,7 @@ use super::operations::Operation;
 use super::{count, gql_error, note_left_out, parse_time, text, values, TwitchClient};
 use crate::domain::{
     BadgeRef, Benefit, BenefitKind, Campaign, CampaignKind, CampaignStatus, Evolution, Game,
-    Repeat, TimedDrop,
+    Repeat, TimedDrop, TrackLane,
 };
 use crate::error::{Error, Result};
 
@@ -92,6 +92,11 @@ pub struct QuestGroup {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
     pub evolution: Option<Evolution>,
+    // ! Filled from the progress for a group on a track, then kept by `attach_tracks` only when
+    // its track offers several lanes to choose from.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub lane: Option<TrackLane>,
 }
 
 impl QuestGroup {
@@ -99,8 +104,18 @@ impl QuestGroup {
         self.current_subs >= self.required_subs
     }
 
+    // ! Twitch's next window, or the end of the current one once its minutes are all in: a group
+    // watched every day waits there until it may count again.
     pub fn waiting_until(&self, now: DateTime<Utc>) -> Option<DateTime<Utc>> {
-        self.next_eligible_at.filter(|at| *at > now)
+        self.next_eligible_at.filter(|at| *at > now).or_else(|| {
+            self.window_ends_at.filter(|at| {
+                *at > now
+                    && self.status != QuestStatus::Claimable
+                    && self.required_minutes > 0
+                    && self.current_minutes >= self.required_minutes
+                    && !self.earned()
+            })
+        })
     }
 
     // ! A repeated group keeps the status of the period it last earned: once
@@ -113,10 +128,12 @@ impl QuestGroup {
             && self.next_eligible_at.is_some_and(|at| at <= now)
     }
 
+    // ! Minutes count only inside their window: once it closed, the next watch starts a new one.
     fn current_minutes(&self, now: DateTime<Utc>) -> u32 {
         match self.status {
             QuestStatus::Claimable => self.required_minutes,
             _ if self.new_period(now) => 0,
+            _ if self.window_ends_at.is_some_and(|at| at <= now) => 0,
             _ => self.current_minutes,
         }
     }
@@ -186,17 +203,32 @@ impl Quest {
 
     // ! The watch groups of a quest are lanes (a track the viewer picks on
     // Twitch): once one is in progress, only that one counts. A subscription
-    // group and the badge of a whole collection stand apart.
+    // group and the badge of a whole collection stand apart. On a Twitch track,
+    // the lane equipped in the Drops panel keeps the watch while it has a group
+    // left to earn: the others wait instead of taking its place.
     pub fn lanes(&self) -> Vec<&QuestGroup> {
         let lane = |group: &QuestGroup| group.required_subs == 0 && !group.after_all;
         let started = self
             .groups
             .iter()
             .any(|g| lane(g) && g.status != QuestStatus::NotStarted);
+        let held = |track: &str| {
+            self.groups.iter().any(|g| {
+                g.open()
+                    && g.lane
+                        .as_ref()
+                        .is_some_and(|l| l.equipped && l.track == track)
+            })
+        };
 
         self.groups
             .iter()
             .filter(|g| !started || !lane(g) || g.status != QuestStatus::NotStarted)
+            .filter(|g| {
+                g.lane
+                    .as_ref()
+                    .is_none_or(|l| l.equipped || !held(&l.track))
+            })
             .collect()
     }
 
@@ -280,6 +312,7 @@ impl Quest {
                 periods_done: group.grant_count,
                 next_period_at: group.waiting_until(now),
                 evolution: group.evolution.clone(),
+                lane: group.lane.clone(),
             })
             .collect();
 
@@ -304,6 +337,123 @@ impl Quest {
                 .any(|g| g.status != QuestStatus::NotStarted),
         })
     }
+
+    pub fn on_track(&self) -> bool {
+        self.groups.iter().any(|g| g.lane.is_some())
+    }
+
+    // ! Twitch's own repeat wins over the badge list's; a group keeps its lane
+    // only on a track that offers a choice.
+    pub fn attach_tracks(&mut self, tracks: &Tracks) {
+        for group in &mut self.groups {
+            let known = tracks.groups.get(&group.id);
+
+            group.repeat = known.and_then(|k| k.repeat).or(group.repeat);
+            group.lane = known
+                .and_then(|k| k.lane.as_ref())
+                .filter(|(track, _)| tracks.choice(track))
+                .map(|(track, lane)| TrackLane {
+                    track: track.clone(),
+                    lane: lane.clone(),
+                    equipped: tracks.selected.get(track) == Some(lane),
+                    refused: false,
+                });
+        }
+    }
+}
+
+struct GroupTrack {
+    lane: Option<(String, String)>,
+    repeat: Option<Repeat>,
+}
+
+// ! The tracks of the campaigns read, with every lane each offers and the one
+// the account has equipped on it.
+#[derive(Default)]
+pub struct Tracks {
+    groups: HashMap<String, GroupTrack>,
+    lanes: HashMap<String, HashSet<String>>,
+    selected: HashMap<String, String>,
+}
+
+impl Tracks {
+    // ! One answer per campaign asked; a campaign Twitch does not describe adds nothing.
+    pub fn parse(answers: &Value) -> Self {
+        let mut tracks = Self::default();
+
+        for answer in values(answers) {
+            for group in values(&answer["data"]["dropsCampaign"]["rewardGroups"]) {
+                let Some(id) = text(&group["id"]) else {
+                    continue;
+                };
+                let lane = parse_lane(group);
+
+                if let Some((track, lane)) = &lane {
+                    tracks
+                        .lanes
+                        .entry(track.clone())
+                        .or_default()
+                        .insert(lane.clone());
+                }
+
+                tracks.groups.insert(
+                    id,
+                    GroupTrack {
+                        lane,
+                        repeat: parse_repeatable(&group["progressCriteria"]["repeatableConfig"]),
+                    },
+                );
+            }
+        }
+
+        tracks
+    }
+
+    // ! A track with a single lane offers nothing to choose: only one with
+    // several asks for the lane to be equipped.
+    fn choice(&self, track: &str) -> bool {
+        self.lanes.get(track).is_some_and(|lanes| lanes.len() > 1)
+    }
+
+    pub fn choices(&self) -> Vec<String> {
+        let mut tracks: Vec<String> = self
+            .lanes
+            .keys()
+            .filter(|track| self.choice(track))
+            .cloned()
+            .collect();
+
+        tracks.sort();
+        tracks
+    }
+
+    pub fn select(&mut self, body: &Value) -> Result<()> {
+        let list = &body["data"]["trackSelections"];
+
+        if !list.is_array() {
+            return Err(Error::InvalidResponse("trackSelections missing".into()));
+        }
+
+        self.selected = values(list)
+            .filter_map(|selection| Some((text(&selection["track"])?, text(&selection["lane"])?)))
+            .collect();
+
+        Ok(())
+    }
+}
+
+fn parse_lane(group: &Value) -> Option<(String, String)> {
+    Some((text(&group["track"])?, text(&group["lane"])?))
+}
+
+// ! A group earned once per window, `repeatableTimes` windows in all.
+fn parse_repeatable(config: &Value) -> Option<Repeat> {
+    let times = count(&config["repeatableTimes"]);
+
+    (times > 1).then(|| Repeat {
+        times,
+        every_hours: Some(count(&config["resetIntervalSeconds"]) / 3600).filter(|hours| *hours > 0),
+    })
 }
 
 pub struct QuestsRead {
@@ -341,6 +491,8 @@ struct GroupProgress {
     next_eligible_at: Option<DateTime<Utc>>,
     window_ends_at: Option<DateTime<Utc>>,
     badges: HashMap<String, BadgeRef>,
+    lane: Option<(String, String)>,
+    repeat: Option<Repeat>,
 }
 
 fn parse_progress(inventory: &Value) -> HashMap<String, GroupProgress> {
@@ -372,6 +524,8 @@ fn parse_progress(inventory: &Value) -> HashMap<String, GroupProgress> {
                             ))
                         })
                         .collect(),
+                    lane: parse_lane(group),
+                    repeat: parse_repeatable(&group["progressCriteria"]["repeatableConfig"]),
                 },
             );
         }
@@ -428,9 +582,17 @@ pub fn parse_quests(available: &Value, inventory: &Value) -> Vec<Quest> {
                         window_ends_at: me.and_then(|p| p.window_ends_at),
                         progress_campaign_id: me.and_then(|p| p.campaign_id.clone()),
                         current_subs: me.map_or(0, |p| p.current_subs),
-                        repeat: None,
+                        repeat: me.and_then(|p| p.repeat),
                         after_all: false,
                         evolution: None,
+                        lane: me
+                            .and_then(|p| p.lane.clone())
+                            .map(|(track, lane)| TrackLane {
+                                track,
+                                lane,
+                                equipped: false,
+                                refused: false,
+                            }),
                         id,
                     })
                 })
@@ -501,11 +663,68 @@ impl TwitchClient {
             .gql(Operation::OwnedBadges, json!({ "login": self.login }))
             .await?;
 
+        let mut quests = parse_quests(list, inventory);
+        let tracks = self.tracks(&quests).await?;
+
+        for quest in &mut quests {
+            quest.attach_tracks(&tracks);
+        }
+
         Ok(QuestsRead {
-            quests: parse_quests(list, inventory),
+            quests,
             owned: parse_owned_badges(&owned)?,
             selected: parse_badge(&user["selectedBadge"]),
         })
+    }
+
+    // ! Asked only for the campaigns whose progress names a track: the others cost nothing more.
+    async fn tracks(&self, quests: &[Quest]) -> Result<Tracks> {
+        let asked: Vec<Value> = quests
+            .iter()
+            .filter(|quest| quest.on_track())
+            .map(|quest| json!({"id": quest.id}))
+            .collect();
+
+        if asked.is_empty() {
+            return Ok(Tracks::default());
+        }
+
+        let answers = self.gql_batch(Operation::QuestTracks, asked).await?;
+        let mut tracks = Tracks::parse(&answers);
+        let choices = tracks.choices();
+
+        if !choices.is_empty() {
+            let selections = self
+                .gql(Operation::TrackSelections, json!({"tracks": choices}))
+                .await?;
+
+            tracks.select(&selections)?;
+        }
+
+        Ok(tracks)
+    }
+
+    // ! Sent once: the miner asks again only on its own next try. `Some` is Twitch's refusal.
+    pub async fn select_lane(&self, lane: &TrackLane) -> Result<Option<String>> {
+        let response = self
+            .gql_once(
+                Operation::SetTrackSelection,
+                json!({"input": {"track": lane.track, "lane": lane.lane}}),
+                || true,
+            )
+            .await?;
+
+        if let Some(error) = gql_error(Operation::SetTrackSelection, &response) {
+            return Err(error);
+        }
+
+        let answer = &response["data"]["setTrackSelection"];
+
+        if !answer.is_object() {
+            return Err(Error::InvalidResponse("setTrackSelection missing".into()));
+        }
+
+        Ok(text(&answer["error"]))
     }
 
     pub async fn select_badge(&self, badge: &BadgeRef) -> Result<Option<BadgeRef>> {

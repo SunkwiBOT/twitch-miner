@@ -32,7 +32,7 @@ use crate::catalog::Catalog;
 use crate::config::{AccountSettings, ChatPresence, Mode};
 use crate::domain::{
     BadgeRef, Campaign, CampaignKind, Channel, Game, PointsState, PredictionEvent, Repeat,
-    TimedDrop,
+    TimedDrop, TrackLane,
 };
 use crate::drops_api;
 use crate::error::{Error, ErrorCode, NetworkErrorKind, Result};
@@ -86,6 +86,8 @@ const OWN_SPEND_WAIT: Duration = Duration::from_secs(2 * 60);
 const PROGRESS_STALL_MINUTES: u32 = 30;
 // ! How long a set-aside campaign waits before Twitch is asked to credit it again.
 const SET_ASIDE_RETRY: chrono::Duration = chrono::Duration::hours(6);
+// ! How long a lane Twitch would not equip stays out before it is asked again.
+const LANE_REFUSED_RETRY: chrono::Duration = chrono::Duration::hours(6);
 // ! Twitch's answer for a bonus chest another session took first, or that
 // expired: nothing went wrong here.
 const BONUS_GONE: [&str; 1] = ["NOT_FOUND"];
@@ -254,6 +256,7 @@ struct AccountMiner<T> {
     drop_dates: HashMap<String, DateTime<Utc>>,
     selected_badge: Option<BadgeRef>,
     equip_tried: HashMap<String, tokio::time::Instant>,
+    lane_refused: HashMap<String, DateTime<Utc>>,
     badges_read_at: Option<DateTime<Utc>>,
     inventory_at: Option<tokio::time::Instant>,
     drop_session_at: Option<tokio::time::Instant>,
@@ -398,6 +401,7 @@ impl<T: TwitchApi> AccountMiner<T> {
             drop_dates: HashMap::new(),
             selected_badge: None,
             equip_tried: HashMap::new(),
+            lane_refused: HashMap::new(),
             badges_read_at: None,
             inventory_at: None,
             drop_session_at: None,

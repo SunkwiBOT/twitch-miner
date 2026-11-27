@@ -4,6 +4,7 @@ import type { GameType } from "./GameType";
 import type { QuestRewardType } from "./QuestRewardType";
 import type { QuestStatus } from "./QuestStatus";
 import type { RepeatType } from "./RepeatType";
+import type { TrackLaneType } from "./TrackLaneType";
 
 export type QuestGroupType = {
   id: string;
@@ -22,4 +23,5 @@ export type QuestGroupType = {
   repeat?: RepeatType;
   after_all: boolean;
   evolution?: EvolutionType;
+  lane?: TrackLaneType;
 };

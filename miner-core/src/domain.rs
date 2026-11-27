@@ -139,6 +139,19 @@ impl Evolution {
     }
 }
 
+// ! A reward group on one lane of a Twitch reward track (a line of evolutions, say): its watch
+// time counts only while its lane is the one equipped in the Drops panel. `refused` keeps it out
+// once Twitch would not equip it, until it is asked again.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[ts(rename = "TrackLaneType")]
+pub struct TrackLane {
+    pub track: String,
+    pub lane: String,
+    pub equipped: bool,
+    #[serde(default)]
+    pub refused: bool,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
 #[ts(rename = "TimedDropType")]
 pub struct TimedDrop {
@@ -180,6 +193,9 @@ pub struct TimedDrop {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
     pub evolution: Option<Evolution>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub lane: Option<TrackLane>,
 }
 
 impl TimedDrop {
@@ -256,6 +272,7 @@ impl TimedDrop {
         self.subs_met()
             && !self.badge_owned
             && self.evolution.as_ref().is_none_or(Evolution::ready)
+            && self.lane.as_ref().is_none_or(|lane| !lane.refused)
             && !excluded.iter().any(|id| id == &self.id)
     }
 

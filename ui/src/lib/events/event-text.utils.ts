@@ -153,6 +153,10 @@ export const eventText = (
               required: bold(context.required) ?? "",
             });
       case EventKind.ERROR:
+        if (context.lane && drop) {
+          return t.ev_lane_equip_failed({ drop });
+        }
+
         if (badge && drop) {
           return t.ev_badge_equip_failed({ badge, drop });
         }
@@ -293,6 +297,10 @@ export const eventText = (
           chatter: strong(context.chatter),
         });
       case EventKind.INFO:
+        if (context.lane && drop) {
+          return t.ev_lane_equipped({ drop });
+        }
+
         if (badge && drop) {
           return t.ev_badge_equipped({ badge, drop });
         }

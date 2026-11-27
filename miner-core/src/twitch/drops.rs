@@ -265,6 +265,7 @@ pub fn parse_campaign(record: &Value, from_inventory: bool) -> Option<Campaign> 
                 periods_done: 0,
                 next_period_at: None,
                 evolution: None,
+                lane: None,
             })
         })
         .collect();

@@ -5,7 +5,7 @@ use tokio::sync::mpsc;
 use tokio_util::sync::CancellationToken;
 use url::Url;
 
-use crate::domain::{BadgeRef, Channel, Game, WatchStreak};
+use crate::domain::{BadgeRef, Channel, Game, TrackLane, WatchStreak};
 use crate::error::Result;
 use crate::twitch::auth::{self, TokenSet, Validation};
 use crate::twitch::channels::BatchRead;
@@ -32,6 +32,8 @@ pub(crate) trait TwitchApi {
     async fn quests(&self) -> Result<QuestsRead>;
 
     async fn select_badge(&self, badge: &BadgeRef) -> Result<Option<BadgeRef>>;
+
+    async fn select_lane(&self, lane: &TrackLane) -> Result<Option<String>>;
 
     async fn game_directory(&self, game: &Game) -> Result<Vec<Channel>>;
 
@@ -114,6 +116,10 @@ impl TwitchApi for TwitchClient {
 
     async fn select_badge(&self, badge: &BadgeRef) -> Result<Option<BadgeRef>> {
         TwitchClient::select_badge(self, badge).await
+    }
+
+    async fn select_lane(&self, lane: &TrackLane) -> Result<Option<String>> {
+        TwitchClient::select_lane(self, lane).await
     }
 
     async fn game_directory(&self, game: &Game) -> Result<Vec<Channel>> {

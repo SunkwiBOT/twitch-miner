@@ -133,6 +133,7 @@ pub enum LeftOutReason {
     PointsOnly,
     SubRequired,
     EvolutionLocked,
+    EquipRefused,
     Waiting,
     Unfinishable,
     NotSelected,
@@ -355,6 +356,8 @@ fn idle_reason(campaign: &Campaign, now: DateTime<Utc>, excluded: &[String]) -> 
         LeftOutReason::SubRequired
     } else if blocked(|d| !d.badge_owned && d.evolution.as_ref().is_some_and(|e| !e.ready())) {
         LeftOutReason::EvolutionLocked
+    } else if blocked(|d| !d.badge_owned && d.lane.as_ref().is_some_and(|l| l.refused)) {
+        LeftOutReason::EquipRefused
     } else if blocked(|d| d.badge_owned) {
         LeftOutReason::Owned
     } else if open.is_empty() {

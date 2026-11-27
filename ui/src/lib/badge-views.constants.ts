@@ -58,6 +58,13 @@ export const EVOLUTION_OFF_VIEW = {
   hint: () => t.badge_hint_evolution_off(),
 } satisfies BadgeViewType;
 
+export const EQUIP_REFUSED_VIEW = {
+  text: () => t.badge_equip_refused(),
+  tone: BadgeTone.WARNING,
+  icon: IconName.LOCK,
+  hint: () => t.badge_hint_equip_refused(),
+} satisfies BadgeViewType;
+
 // ! Its hint names where the choice was made, so each place builds it.
 export const IGNORED_VIEW = {
   text: () => t.reward_ignored(),

@@ -49,6 +49,7 @@ export type EventContextType = {
   failures?: Array<ErrorApiMessage>;
   badge?: string;
   badge_key?: string;
+  lane?: string;
   pause_until?: string;
   pause_reason?: PauseReason;
 };

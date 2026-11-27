@@ -30,13 +30,25 @@ pub enum Operation {
     QuestProgress,
     OwnedBadges,
     SelectBadge,
+    QuestTracks,
+    TrackSelections,
+    SetTrackSelection,
 }
 
 // ! Twitch has no persisted query of ours for these: the TV client may send
 // the query's text.
 const QUESTS_QUERY: &str = "query Quests { rewardCampaignsAvailableToUser { id name brand startsAt endsAt summary externalURL aboutURL isSitewide game { id displayName slug boxArtURL } image { image1xURL } rewardGroups { id unlockRequirements { minuteWatchedGoal subsGoal turboSubsGoal eventTriggerGoal } categories { id displayName slug boxArtURL } rewards { id name thumbnailImage { image1xURL } } } } }";
 
-const QUEST_PROGRESS_QUERY: &str = "query QuestProgress { currentUser { selectedBadge { setID version title imageURL } inventory { viewerRewardDropCampaignsInProgress { id rewardGroups { id name self { status currentMinutesWatched currentSubs grantCount nextEligibleAt currentWindow { expiresAt } } rewards { id dropDetail { badge { setID version title imageURL } } } } } completedRewardCampaigns { id } } } }";
+const QUEST_PROGRESS_QUERY: &str = "query QuestProgress { currentUser { selectedBadge { setID version title imageURL } inventory { viewerRewardDropCampaignsInProgress { id rewardGroups { id name track lane progressCriteria { repeatableConfig { repeatableTimes resetIntervalSeconds } } self { status currentMinutesWatched currentSubs grantCount nextEligibleAt currentWindow { expiresAt } } rewards { id dropDetail { badge { setID version title imageURL } } } } } completedRewardCampaigns { id } } } }";
+
+// ! Every lane of a campaign's tracks, the groups not started included: the progress names only
+// the groups the account has begun.
+const QUEST_TRACKS_QUERY: &str = "query QuestTracks($id: ID!) { dropsCampaign(id: $id) { id rewardGroups { id track lane progressCriteria { repeatableConfig { repeatableTimes resetIntervalSeconds } } } } }";
+
+const TRACK_SELECTIONS_QUERY: &str =
+    "query TrackSelections($tracks: [ID!]!) { trackSelections(tracks: $tracks) { track lane } }";
+
+const SET_TRACK_SELECTION_MUTATION: &str = "mutation SetTrackSelection($input: SetTrackSelectionInput!) { setTrackSelection(input: $input) { error } }";
 
 const OWNED_BADGES_QUERY: &str = "query OwnedBadges($login: String!) { channelViewer(userLogin: $login, channelLogin: $login) { earnedBadges { setID version title imageURL } } }";
 
@@ -70,6 +82,9 @@ impl Operation {
             Self::QuestProgress => "QuestProgress",
             Self::OwnedBadges => "OwnedBadges",
             Self::SelectBadge => "SelectBadge",
+            Self::QuestTracks => "QuestTracks",
+            Self::TrackSelections => "TrackSelections",
+            Self::SetTrackSelection => "SetTrackSelection",
         }
     }
 
@@ -79,6 +94,9 @@ impl Operation {
             Self::QuestProgress => Some(QUEST_PROGRESS_QUERY),
             Self::OwnedBadges => Some(OWNED_BADGES_QUERY),
             Self::SelectBadge => Some(SELECT_BADGE_MUTATION),
+            Self::QuestTracks => Some(QUEST_TRACKS_QUERY),
+            Self::TrackSelections => Some(TRACK_SELECTIONS_QUERY),
+            Self::SetTrackSelection => Some(SET_TRACK_SELECTION_MUTATION),
             _ => None,
         }
     }
@@ -130,7 +148,13 @@ impl Operation {
             Self::RedeemCustomReward => {
                 "d56249a7adb4978898ea3412e196688d4ac3cea1c0c2dfd65561d229ea5dcc42"
             }
-            Self::Quests | Self::QuestProgress | Self::OwnedBadges | Self::SelectBadge => "",
+            Self::Quests
+            | Self::QuestProgress
+            | Self::OwnedBadges
+            | Self::SelectBadge
+            | Self::QuestTracks
+            | Self::TrackSelections
+            | Self::SetTrackSelection => "",
         }
     }
 

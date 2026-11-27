@@ -1,6 +1,7 @@
 <script lang="ts">
   import { AccountBadgeState, type AccountBadgeType } from "../../../lib/badges/badges.utils";
   import {
+    EQUIP_REFUSED_VIEW,
     EVOLUTION_OFF_VIEW,
     NOT_MINABLE_VIEW,
     READY_VIEW,
@@ -66,6 +67,8 @@
   />
 {:else if item.state === AccountBadgeState.EVOLUTION_OFF}
   <Badge {...badgeProps(EVOLUTION_OFF_VIEW)} />
+{:else if item.state === AccountBadgeState.EQUIP_REFUSED}
+  <Badge {...badgeProps(EQUIP_REFUSED_VIEW)} />
 {:else}
   {#if from}
     <Badge

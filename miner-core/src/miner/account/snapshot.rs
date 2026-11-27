@@ -200,6 +200,7 @@ pub(super) fn progress_over(catalog: &Campaign, account: &Campaign) -> Option<Ca
             periods_done,
             next_period_at,
             evolution,
+            lane,
         } = drop;
 
         let same = *id == known.id
@@ -211,7 +212,8 @@ pub(super) fn progress_over(catalog: &Campaign, account: &Campaign) -> Option<Ca
             && *precondition_drop_ids == known.precondition_drop_ids
             && *benefits == known.benefits
             && *repeat == known.repeat
-            && *evolution == known.evolution;
+            && *evolution == known.evolution
+            && *lane == known.lane;
 
         if !same {
             return None;

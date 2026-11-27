@@ -247,38 +247,47 @@ impl<T: TwitchApi> AccountMiner<T> {
         }
     }
 
-    // ! Twitch counts an evolution only while the badge it evolves from is equipped; the old badge is never put back.
+    // ! Twitch counts an evolution only while the badge it evolves from is equipped, and a group on
+    // a track only while its lane is the one equipped in the Drops panel. The old badge is never
+    // put back; another lane is equipped only once the equipped one has nothing left to earn.
     pub(super) async fn equip_for(&mut self, plan: &scheduler::Plan) {
-        if !self.settings.badges.evolutions {
-            return;
-        }
+        let Some((campaign_id, drop)) = plan.slots.iter().find_map(|slot| match &slot.purpose {
+            SlotPurpose::Drop {
+                campaign_id,
+                drop_id,
+            } => {
+                let drop = self
+                    .campaigns
+                    .get(campaign_id)?
+                    .drops
+                    .iter()
+                    .find(|d| &d.id == drop_id)?;
 
-        let Some((campaign_id, drop_id, drop_name, badge)) =
-            plan.slots.iter().find_map(|slot| match &slot.purpose {
-                SlotPurpose::Drop {
-                    campaign_id,
-                    drop_id,
-                } => {
-                    let drop = self
-                        .campaigns
-                        .get(campaign_id)?
-                        .drops
-                        .iter()
-                        .find(|d| &d.id == drop_id)?;
-                    let badge = drop.evolution.as_ref()?.from.clone()?;
-
-                    Some((
-                        campaign_id.clone(),
-                        drop_id.clone(),
-                        drop.name.clone(),
-                        badge,
-                    ))
-                }
-                SlotPurpose::Points { .. } => None,
-            })
-        else {
+                Some((campaign_id.clone(), drop.clone()))
+            }
+            SlotPurpose::Points { .. } => None,
+        }) else {
             return;
         };
+        let badge = drop
+            .evolution
+            .as_ref()
+            .and_then(|evolution| evolution.from.clone())
+            .filter(|_| self.settings.badges.evolutions);
+
+        if let Some(badge) = badge {
+            if !self.equip_badge(&campaign_id, &drop, badge).await {
+                return;
+            }
+        }
+
+        if let Some(lane) = drop.lane.clone().filter(|l| !l.equipped && !l.refused) {
+            self.equip_lane(&campaign_id, &drop, lane).await;
+        }
+    }
+
+    // ! `false` once the session was refused: nothing else is sent for it.
+    async fn equip_badge(&mut self, campaign_id: &str, drop: &TimedDrop, badge: BadgeRef) -> bool {
         let key = badge.key();
         let now = tokio::time::Instant::now();
 
@@ -288,17 +297,18 @@ impl<T: TwitchApi> AccountMiner<T> {
                 .get(&key)
                 .is_some_and(|at| now.duration_since(*at) < EQUIP_RETRY)
         {
-            return;
+            return true;
         }
 
         self.equip_tried.insert(key.clone(), now);
 
+        let drop_name = &drop.name;
         let context = EventContext {
             badge: Some(badge.title.clone()),
             badge_key: Some(key.clone()),
             drop_name: Some(drop_name.clone()),
             miner: Some(MinerKind::Badges),
-            ..EventContext::drop(&campaign_id, &drop_id)
+            ..EventContext::drop(campaign_id, &drop.id)
         };
         let event = match self.client.select_badge(&badge).await {
             Ok(Some(selected)) if selected.key() == key => {
@@ -319,7 +329,7 @@ impl<T: TwitchApi> AccountMiner<T> {
             Err(Error::Unauthorized) => {
                 self.session_refused().await;
 
-                return;
+                return false;
             }
             Err(error) => self
                 .emit(
@@ -330,6 +340,107 @@ impl<T: TwitchApi> AccountMiner<T> {
         };
 
         self.publish(event);
+
+        true
+    }
+
+    // ! Twitch's answer, a refusal or an error in its reply, keeps the lane out for a while; a
+    // request that never got its answer is tried again on the next equip turn.
+    async fn equip_lane(&mut self, campaign_id: &str, drop: &TimedDrop, lane: TrackLane) {
+        let now = tokio::time::Instant::now();
+
+        if self
+            .equip_tried
+            .get(&lane.lane)
+            .is_some_and(|at| now.duration_since(*at) < EQUIP_RETRY)
+        {
+            return;
+        }
+
+        self.equip_tried.insert(lane.lane.clone(), now);
+
+        let drop_name = &drop.name;
+        let context = EventContext {
+            lane: Some(lane.lane.clone()),
+            drop_name: Some(drop_name.clone()),
+            miner: Some(MinerKind::Badges),
+            ..EventContext::drop(campaign_id, &drop.id)
+        };
+        let refusal = match self.client.select_lane(&lane).await {
+            Ok(None) => {
+                self.note_lane(&lane, true);
+
+                let event = self
+                    .emit(
+                        EventKind::Info,
+                        format!("Equipped {drop_name} in the Drops panel"),
+                    )
+                    .context(context);
+
+                self.publish(event);
+
+                return;
+            }
+            Ok(Some(code)) => code,
+            Err(Error::Gql { code, .. }) => code,
+            Err(Error::Unauthorized) => {
+                self.session_refused().await;
+
+                return;
+            }
+            Err(error) => {
+                let event = self
+                    .emit(
+                        EventKind::Error,
+                        format!("{drop_name} could not be equipped in the Drops panel: {error}"),
+                    )
+                    .context(context);
+
+                self.publish(event);
+
+                return;
+            }
+        };
+
+        self.lane_refused
+            .insert(lane.lane.clone(), Utc::now() + LANE_REFUSED_RETRY);
+        self.note_lane(&lane, false);
+
+        let event = self
+            .emit(
+                EventKind::Error,
+                format!("Twitch did not equip {drop_name} in the Drops panel ({refusal})"),
+            )
+            .context(EventContext {
+                reason: Some(refusal),
+                ..context
+            });
+
+        self.publish(event);
+    }
+
+    // ! Equipped, a lane becomes its track's only one; refused, it alone is kept out.
+    fn note_lane(&mut self, chosen: &TrackLane, equipped: bool) {
+        let lanes = self
+            .quests
+            .iter_mut()
+            .flat_map(|quest| &mut quest.groups)
+            .filter_map(|group| group.lane.as_mut())
+            .chain(
+                self.campaigns
+                    .values_mut()
+                    .flat_map(|campaign| &mut campaign.drops)
+                    .filter_map(|drop| drop.lane.as_mut()),
+            )
+            .filter(|lane| lane.track == chosen.track);
+
+        for lane in lanes {
+            if equipped {
+                lane.equipped = lane.lane == chosen.lane;
+            } else if lane.lane == chosen.lane {
+                lane.refused = true;
+            }
+        }
     }
 
     pub(super) fn watch_started(&mut self, channel: &Channel, purpose: &SlotPurpose) -> MinerEvent {

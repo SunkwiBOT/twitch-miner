@@ -317,6 +317,9 @@ pub struct EventContext {
     pub badge: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub badge_key: Option<String>,
+    // ! The Twitch track lane an equip event is about.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub lane: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub pause_until: Option<DateTime<Utc>>,
     #[serde(skip_serializing_if = "Option::is_none")]

@@ -151,6 +151,7 @@ export enum AccountBadgeState {
   EVOLUTION_UNKNOWN = "EVOLUTION_UNKNOWN",
   EVOLUTION_LOCKED = "EVOLUTION_LOCKED",
   EVOLUTION_OFF = "EVOLUTION_OFF",
+  EQUIP_REFUSED = "EQUIP_REFUSED",
 }
 
 const NOT_MINED_STATES: ReadonlySet<AccountBadgeState> = new Set([
@@ -159,6 +160,7 @@ const NOT_MINED_STATES: ReadonlySet<AccountBadgeState> = new Set([
   AccountBadgeState.EVOLUTION_UNKNOWN,
   AccountBadgeState.EVOLUTION_LOCKED,
   AccountBadgeState.EVOLUTION_OFF,
+  AccountBadgeState.EQUIP_REFUSED,
 ]);
 
 export type AccountBadgeType = {
@@ -265,7 +267,7 @@ const groupState = (
     return AccountBadgeState.NOT_MINABLE;
   }
 
-  if (time(group.next_eligible_at) > now) {
+  if (groupWaitUntil(group, now)) {
     return AccountBadgeState.WAITING;
   }
 
@@ -277,16 +279,39 @@ const groupState = (
 const groupDone = (group: QuestGroupType): boolean =>
   group.repeat ? group.grant_count >= group.repeat.times : group.status === QuestStatus.CLAIMED;
 
-// ! Same lanes as `Quest::lanes` in the core: watch groups are one track; subscription groups and the whole-collection badge stand apart.
+// ! Same as `QuestGroup::waiting_until` in the core: Twitch's next window, or the end of the current one once its minutes are all in.
+const groupWaitUntil = (group: QuestGroupType, now: number): string | undefined => {
+  if (time(group.next_eligible_at) > now) {
+    return group.next_eligible_at;
+  }
+
+  const met =
+    group.status !== QuestStatus.CLAIMABLE &&
+    group.required_minutes > 0 &&
+    group.current_minutes >= group.required_minutes &&
+    !groupDone(group);
+
+  return met && time(group.window_ends_at) > now ? group.window_ends_at : undefined;
+};
+
+// ! Same lanes as `Quest::lanes` in the core: watch groups are one track; subscription groups and the whole-collection badge stand apart. On a Twitch track, the equipped lane keeps the watch while it has a group left to earn.
 export const questLanes = (quest: QuestType): QuestGroupType[] => {
   const lane = (group: QuestGroupType): boolean => group.required_subs === 0 && !group.after_all;
   const started = quest.groups.some(
     (group) => lane(group) && group.status !== QuestStatus.NOT_STARTED,
   );
+  const held = (track: string): boolean =>
+    quest.groups.some(
+      (group) =>
+        group.status !== QuestStatus.UNKNOWN &&
+        (group.status === QuestStatus.CLAIMABLE || !groupDone(group)) &&
+        group.lane?.equipped === true &&
+        group.lane.track === track,
+    );
 
-  return quest.groups.filter(
-    (group) => !started || !lane(group) || group.status !== QuestStatus.NOT_STARTED,
-  );
+  return quest.groups
+    .filter((group) => !started || !lane(group) || group.status !== QuestStatus.NOT_STARTED)
+    .filter((group) => !group.lane || group.lane.equipped || !held(group.lane.track));
 };
 
 const groupOwned = (
@@ -360,7 +385,12 @@ export const accountBadges = (account: AccountSnapshotType, now: number): Accoun
         badges: benefit?.badges ?? [],
         chest: benefit?.chest_size,
         endsAt: drop.ends_at < campaign.ends_at ? drop.ends_at : campaign.ends_at,
-        state: dropState(drop, now, evolutionHold(drop.evolution, evolutions)),
+        state: dropState(
+          drop,
+          now,
+          evolutionHold(drop.evolution, evolutions) ??
+            (drop.lane?.refused ? AccountBadgeState.EQUIP_REFUSED : null),
+        ),
         quest: null,
         campaign,
         nextAt: drop.next_period_at,
@@ -393,7 +423,7 @@ export const accountBadges = (account: AccountSnapshotType, now: number): Accoun
         image: single?.image_url ?? reward?.image_url ?? quest.image_url,
         game: null,
         source: quest.name,
-        current: group.current_minutes,
+        current: time(group.window_ends_at) <= now ? 0 : group.current_minutes,
         required: group.required_minutes,
         repeat: group.repeat,
         periodsDone: group.grant_count,
@@ -402,11 +432,16 @@ export const accountBadges = (account: AccountSnapshotType, now: number): Accoun
         chest: reward?.chest_size,
         endsAt: quest.ends_at,
         state: quest.sitewide
-          ? groupState(group, now, evolutionHold(group.evolution, evolutions))
+          ? groupState(
+              group,
+              now,
+              evolutionHold(group.evolution, evolutions) ??
+                (group.lane?.refused ? AccountBadgeState.EQUIP_REFUSED : null),
+            )
           : AccountBadgeState.NOT_MINABLE,
         quest,
         campaign,
-        nextAt: group.next_eligible_at,
+        nextAt: groupWaitUntil(group, now),
         ignored: ignoredOf(account, campaign, quest.id, group.id, title),
         evolution: group.evolution,
       });

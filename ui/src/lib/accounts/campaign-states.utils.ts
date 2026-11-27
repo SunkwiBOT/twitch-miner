@@ -5,6 +5,7 @@ import type { QueueItemType } from "../bindings/QueueItemType";
 import type { QueueReason } from "../bindings/QueueReason";
 import {
   CLAIMED_VIEW,
+  EQUIP_REFUSED_VIEW,
   EVOLUTION_OFF_VIEW,
   IGNORED_VIEW,
   LINK_UNKNOWN_VIEW,
@@ -151,6 +152,7 @@ const STATE_VIEWS: Record<CampaignState, StateViewType> = {
     icon: IconName.LOCK,
     hint: (entry) => evolutionHint(entry.campaign),
   },
+  [CampaignState.EQUIP_REFUSED]: EQUIP_REFUSED_VIEW,
   [CampaignState.WAITING]: {
     text: () => t.campaign_state_waiting(),
     tone: BadgeTone.INFO,

@@ -2,6 +2,7 @@
 import type { BenefitType } from "./BenefitType";
 import type { EvolutionType } from "./EvolutionType";
 import type { RepeatType } from "./RepeatType";
+import type { TrackLaneType } from "./TrackLaneType";
 
 export type TimedDropType = {
   id: string;
@@ -22,4 +23,5 @@ export type TimedDropType = {
   periods_done: number;
   next_period_at?: string;
   evolution?: EvolutionType;
+  lane?: TrackLaneType;
 };

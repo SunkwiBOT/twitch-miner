@@ -35,6 +35,20 @@ impl<T: TwitchApi> AccountMiner<T> {
                     }
                 }
 
+                let now = Utc::now();
+
+                self.lane_refused.retain(|_, until| *until > now);
+
+                // ! A lane equipped since, on Twitch, is no longer refused.
+                for lane in read
+                    .quests
+                    .iter_mut()
+                    .flat_map(|quest| &mut quest.groups)
+                    .filter_map(|group| group.lane.as_mut())
+                {
+                    lane.refused = !lane.equipped && self.lane_refused.contains_key(&lane.lane);
+                }
+
                 let first = self.badges_read_at.is_none();
                 let before = std::mem::replace(&mut self.quests, read.quests);
 
