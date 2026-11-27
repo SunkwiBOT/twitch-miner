@@ -8,7 +8,7 @@ export const PARTNERS: readonly PartnerType[] = [
   {
     id: "drops",
     url: "https://dropsalerts.com",
-    mark: "/partners/twitch-drops-api.svg",
+    mark: "/partners/drops-alerts.svg",
     name: DROPS_API_NAME,
   },
   {

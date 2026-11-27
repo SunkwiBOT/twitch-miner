@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512" role="img" aria-labelledby="title description">
+<title id="title">Drops Alerts</title>
+<desc id="description">The black DropsAlerts cat sits seen from behind on a flat black shelf, on lavender. A disc.</desc>
+<clipPath id="disc"><circle cx="256.0" cy="256.0" r="256.0"/></clipPath><g clip-path="url(#disc)"><rect width="512" height="512" fill="#bf94ff"/><g transform="translate(256.0 256.0) scale(1.2389) translate(-228.75 -237.75)"><path d="M-700 374.0H1200" stroke="#0e0e10" stroke-width="16" stroke-linecap="round"/><g fill="#0e0e10" stroke="#0e0e10" stroke-linejoin="round" stroke-linecap="round"><path d="M170 344c-36 0-52 22-52 54v44" fill="none" stroke-width="28"/><path d="M138 366C122 294 156 226 232 198l60 2c14 46 16 124 8 166z" stroke-width="0"/><path d="M200 78l4 66c-8 20-4 64 58 68 62-4 66-48 58-68l4-66-42 28q-20-6-40 0z" stroke-width="10"/></g></g></g>
+</svg>
