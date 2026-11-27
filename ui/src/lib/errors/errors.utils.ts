@@ -69,6 +69,8 @@ const MESSAGES: Record<ErrorApiMessage, (code: ErrorApiMessage) => string> = {
       beaconScienceHost: code(BeaconHost.SPADE_SCI_TWITCH_TV),
       beaconScienceEdgeHost: code(BeaconHost.SCIENCE_EDGE_EXTERNAL_PROD_ELB_AMAZONAWS_COM),
     }),
+  [ErrorApiMessage.BEACON_UNREACHABLE]: () =>
+    t.beacon_unreachable({ beaconHost: code(BeaconHost.SPADE_TWITCH_TV) }),
   [ErrorApiMessage.CATALOG_RATE_LIMITED]: () => t.error_catalog_rate_limited(),
   [ErrorApiMessage.UNAUTHORIZED]: () => t.error_dashboard_unauthorized(),
   [ErrorApiMessage.WRONG_PASSWORD]: () => t.auth_wrong(),

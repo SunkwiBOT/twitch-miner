@@ -594,6 +594,7 @@
   "activity_nothing": "Rien à regarder pour l'instant : aucune campagne Drops avec une chaîne en direct, aucun streamer en ligne.",
   "activity_paused": "En pause. Reprenez pour relancer le visionnage.",
   "beacon_blocked": "{beaconHost} est bloqué par votre DNS ou votre bloqueur de pubs : les points de chaîne ne sont pas crédités tant que vous ne l'autorisez pas. Autorisez aussi les noms vers lesquels il pointe : {beaconScienceHost}, {beaconScienceEdgeHost}. Les Drops progressent quand même.",
+  "beacon_unreachable": "{beaconHost} n'a pas pu être joint plusieurs fois de suite : vérifiez le proxy de ce compte, votre pare-feu ou votre connexion. Les points de chaîne ne sont pas crédités en attendant. Les Drops progressent quand même.",
   "close_ask": "Demander la prochaine fois",
   "close_quit_title": "Quitter l'application",
   "close_quit_text": "Le minage s'arrête jusqu'à la prochaine ouverture de l'application.",

@@ -449,6 +449,7 @@
   "activity_nothing": "目前沒有可看的內容：沒有正在直播的 Drops 活動頻道，也沒有實況主在線上。",
   "activity_paused": "已暫停。繼續後會重新開始觀看。",
   "beacon_blocked": "{beaconHost} 遭你的 DNS 或廣告封鎖器封鎖：允許之前頻道點數不會入帳。也請允許它指向的名稱：{beaconScienceHost}, {beaconScienceEdgeHost}。Drops 仍會累積進度。",
+  "beacon_unreachable": "連續多次無法連線到 {beaconHost}：請檢查此帳號的代理、你的防火牆或網路連線。在此期間頻道點數不會入帳。Drops 仍會累積進度。",
   "close_ask": "下次再詢問",
   "close_quit_title": "結束應用程式",
   "close_quit_text": "挖取會停止，直到你再次開啟應用程式。",

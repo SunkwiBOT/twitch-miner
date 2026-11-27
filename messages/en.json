@@ -610,6 +610,7 @@
   "activity_nothing": "Nothing to watch right now: no Drops campaign with a live channel and no streamer online.",
   "activity_paused": "Paused. Resume to start watching again.",
   "beacon_blocked": "{beaconHost} is blocked by your DNS or ad blocker: channel points are not credited until you allow it. Also allow the names it points to: {beaconScienceHost}, {beaconScienceEdgeHost}. Drops still progress.",
+  "beacon_unreachable": "{beaconHost} could not be reached several times in a row: check this account's proxy, your firewall or your connection. Channel points are not credited meanwhile. Drops still progress.",
   "close_ask": "Ask the next time",
   "close_quit_title": "Quit the app",
   "close_quit_text": "Mining stops until you open the app again.",

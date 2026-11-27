@@ -594,6 +594,7 @@
   "activity_nothing": "Intet at se lige nu: ingen Drops-kampagne med en livekanal og ingen streamer online.",
   "activity_paused": "På pause. Genoptag for at begynde at se igen.",
   "beacon_blocked": "{beaconHost} blokeres af din DNS eller adblocker: kanalpoint krediteres ikke, før du tillader den. Tillad også de navne, den peger på: {beaconScienceHost}, {beaconScienceEdgeHost}. Drops gør stadig fremskridt.",
+  "beacon_unreachable": "{beaconHost} kunne ikke nås flere gange i træk: tjek denne kontos proxy, din firewall eller din forbindelse. Kanalpoint krediteres ikke imens. Drops gør stadig fremskridt.",
   "close_ask": "Spørg næste gang",
   "close_quit_title": "Afslut appen",
   "close_quit_text": "Mining stopper, indtil du åbner appen igen.",

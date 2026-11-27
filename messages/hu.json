@@ -449,6 +449,7 @@
   "activity_nothing": "Most nincs mit nézni: nincs Drops-kampány élő csatornával, és egy streamer sem online.",
   "activity_paused": "Szüneteltetve. Folytasd, hogy újra elinduljon a nézés.",
   "beacon_blocked": "A {beaconHost} címet blokkolja a DNS-ed vagy a reklámblokkolód: a csatornapontok nem íródnak jóvá, amíg nem engedélyezed. Engedélyezd azokat a neveket is, amelyekre mutat: {beaconScienceHost}, {beaconScienceEdgeHost}. A Drops továbbra is halad.",
+  "beacon_unreachable": "A {beaconHost} többször egymás után nem volt elérhető: ellenőrizd ennek a fióknak a proxyját, a tűzfaladat vagy a kapcsolatodat. Addig a csatornapontok nem íródnak jóvá. A Drops továbbra is halad.",
   "close_ask": "Legközelebb kérdezzen rá",
   "close_quit_title": "Kilépés az alkalmazásból",
   "close_quit_text": "A bányászat leáll, amíg újra meg nem nyitod az alkalmazást.",

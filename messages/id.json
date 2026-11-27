@@ -446,6 +446,7 @@
   "activity_nothing": "Tidak ada yang bisa ditonton sekarang: tidak ada kampanye Drops dengan channel live dan tidak ada streamer yang online.",
   "activity_paused": "Dijeda. Lanjutkan untuk mulai menonton lagi.",
   "beacon_blocked": "{beaconHost} diblokir oleh DNS atau pemblokir iklan Anda: poin channel tidak dikreditkan sampai Anda mengizinkannya. Izinkan juga nama-nama yang dirujuknya: {beaconScienceHost}, {beaconScienceEdgeHost}. Drops tetap berjalan.",
+  "beacon_unreachable": "{beaconHost} tidak dapat dijangkau beberapa kali berturut-turut: periksa proxy akun ini, firewall, atau koneksi Anda. Sementara itu, poin channel tidak dikreditkan. Drops tetap berjalan.",
   "close_ask": "Tanyakan lain kali",
   "close_quit_title": "Keluar dari aplikasi",
   "close_quit_text": "Penambangan berhenti sampai Anda membuka aplikasi lagi.",

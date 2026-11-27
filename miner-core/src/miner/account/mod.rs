@@ -282,9 +282,10 @@ struct AccountMiner<T> {
     set_aside: setaside::SetAside,
     // ! PubSub and the balance read can both bring the same chest.
     bonus_claims: HashMap<String, String>,
-    beacon_blocked: bool,
+    // ! `BeaconBlocked` or `BeaconUnreachable`, kept over any other problem until a beacon goes through.
+    beacon_problem: Option<ErrorCode>,
     beacon_connect_failures: u32,
-    beacon_blocked_reported: bool,
+    beacon_reported: HashSet<ErrorCode>,
     raid_joins: RaidJoins,
     pending_bets: Vec<(PredictionEvent, DateTime<Utc>)>,
     last_queue: Vec<QueueItem>,
@@ -417,9 +418,9 @@ impl<T: TwitchApi> AccountMiner<T> {
             claims: ClaimRegistry::default(),
             set_aside: HashMap::new(),
             bonus_claims: HashMap::new(),
-            beacon_blocked: false,
+            beacon_problem: None,
             beacon_connect_failures: 0,
-            beacon_blocked_reported: false,
+            beacon_reported: HashSet::new(),
             raid_joins: RaidJoins::default(),
             pending_bets: Vec::new(),
             last_queue: Vec::new(),
@@ -926,7 +927,7 @@ impl<T: TwitchApi> AccountMiner<T> {
     fn set_problem(&mut self, code: ErrorCode) {
         self.reported.insert(code);
 
-        if self.problem != Some(ErrorCode::BeaconBlocked) {
+        if self.beacon_problem.is_none() {
             self.problem = Some(code);
         }
     }

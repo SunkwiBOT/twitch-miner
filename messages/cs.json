@@ -609,6 +609,7 @@
   "activity_nothing": "Teď není co sledovat: žádná kampaň Drops s živým kanálem a žádný streamer online.",
   "activity_paused": "Pozastaveno. Pokračujte, chcete-li znovu začít sledovat.",
   "beacon_blocked": "{beaconHost} blokuje váš DNS nebo blokátor reklam: body kanálu se nepřipisují, dokud ho nepovolíte. Povolte i názvy, na které odkazuje: {beaconScienceHost}, {beaconScienceEdgeHost}. Drops dál postupují.",
+  "beacon_unreachable": "{beaconHost} se nepodařilo několikrát po sobě kontaktovat: zkontrolujte proxy tohoto účtu, svůj firewall nebo připojení. Body kanálu se mezitím nepřipisují. Drops dál postupují.",
   "close_ask": "Zeptat se příště",
   "close_quit_title": "Ukončit aplikaci",
   "close_quit_text": "Těžba se zastaví, dokud aplikaci znovu neotevřete.",

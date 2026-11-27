@@ -449,6 +449,7 @@
   "activity_nothing": "Şu an izlenecek bir şey yok: canlı kanalı olan bir Drops kampanyası da çevrimiçi bir yayıncı da yok.",
   "activity_paused": "Duraklatıldı. İzlemeye yeniden başlamak için devam ettirin.",
   "beacon_blocked": "{beaconHost}, DNS'iniz veya reklam engelleyiciniz tarafından engelleniyor: izin verene kadar Kanal Puanları yatırılmaz. Yönlendirdiği adlara da izin verin: {beaconScienceHost}, {beaconScienceEdgeHost}. Drops ilerlemeye devam eder.",
+  "beacon_unreachable": "{beaconHost} art arda birkaç kez erişilemedi: bu hesabın proxy'sini, güvenlik duvarınızı veya bağlantınızı kontrol edin. Bu sırada Kanal Puanları yatırılmaz. Drops ilerlemeye devam eder.",
   "close_ask": "Bir dahaki sefere sor",
   "close_quit_title": "Uygulamadan çık",
   "close_quit_text": "Uygulamayı yeniden açana kadar kazma durur.",

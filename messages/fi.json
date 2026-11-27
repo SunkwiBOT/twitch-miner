@@ -542,6 +542,7 @@
   "activity_nothing": "Ei katsottavaa juuri nyt: ei Drops-kampanjaa live-kanavalla eikä yhtään streamaajaa linjoilla.",
   "activity_paused": "Keskeytetty. Jatka, niin katselu alkaa uudelleen.",
   "beacon_blocked": "DNS tai mainosten esto estää osoitteen {beaconHost}: kanavapisteitä ei hyvitetä ennen kuin sallit sen. Salli myös nimet, joihin se osoittaa: {beaconScienceHost}, {beaconScienceEdgeHost}. Drops etenevät silti.",
+  "beacon_unreachable": "Osoitteeseen {beaconHost} ei saatu yhteyttä useaan kertaan peräkkäin: tarkista tämän tilin välityspalvelin, palomuurisi tai yhteytesi. Kanavapisteitä ei sillä välin hyvitetä. Drops etenevät silti.",
   "close_ask": "Kysy seuraavalla kerralla",
   "close_quit_title": "Lopeta sovellus",
   "close_quit_text": "Louhinta pysähtyy, kunnes avaat sovelluksen uudelleen.",

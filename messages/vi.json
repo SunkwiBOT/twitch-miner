@@ -446,6 +446,7 @@
   "activity_nothing": "Hiện không có gì để xem: không có chiến dịch Drops nào có kênh đang phát và không có streamer nào trực tuyến.",
   "activity_paused": "Đã tạm dừng. Tiếp tục để bắt đầu xem lại.",
   "beacon_blocked": "{beaconHost} bị DNS hoặc trình chặn quảng cáo của bạn chặn: điểm kênh sẽ không được cộng cho đến khi bạn cho phép. Hãy cho phép cả các tên mà nó trỏ tới: {beaconScienceHost}, {beaconScienceEdgeHost}. Drops vẫn tiến triển.",
+  "beacon_unreachable": "Không thể kết nối tới {beaconHost} nhiều lần liên tiếp: hãy kiểm tra proxy của tài khoản này, tường lửa hoặc kết nối của bạn. Trong lúc đó, điểm kênh sẽ không được cộng. Drops vẫn tiến triển.",
   "close_ask": "Hỏi vào lần sau",
   "close_quit_title": "Thoát ứng dụng",
   "close_quit_text": "Việc đào sẽ dừng cho đến khi bạn mở lại ứng dụng.",

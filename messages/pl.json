@@ -608,6 +608,7 @@
   "activity_nothing": "Na razie nie ma czego oglądać: brak kampanii Drops z kanałem na żywo i żaden streamer nie jest online.",
   "activity_paused": "Wstrzymano. Wznów, aby znów oglądać.",
   "beacon_blocked": "{beaconHost} jest blokowany przez Twój DNS lub bloker reklam: punkty kanału nie są naliczane, dopóki go nie odblokujesz. Odblokuj też nazwy, na które wskazuje: {beaconScienceHost}, {beaconScienceEdgeHost}. Postęp Drops trwa nadal.",
+  "beacon_unreachable": "Nie udało się połączyć z {beaconHost} kilka razy z rzędu: sprawdź proxy tego konta, swoją zaporę lub połączenie. W tym czasie punkty kanału nie są naliczane. Postęp Drops trwa nadal.",
   "close_ask": "Zapytaj następnym razem",
   "close_quit_title": "Zamknij aplikację",
   "close_quit_text": "Kopanie zatrzyma się do ponownego otwarcia aplikacji.",

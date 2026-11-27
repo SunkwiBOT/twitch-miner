@@ -594,6 +594,7 @@
   "activity_nothing": "Nada para assistir agora: nenhuma campanha Drops com canal ao vivo e nenhum streamer online.",
   "activity_paused": "Pausado. Retome para voltar a assistir.",
   "beacon_blocked": "{beaconHost} está bloqueado pelo seu DNS ou bloqueador de anúncios: os pontos do canal não são creditados até você liberá-lo. Libere também os nomes para os quais ele aponta: {beaconScienceHost}, {beaconScienceEdgeHost}. Os Drops continuam progredindo.",
+  "beacon_unreachable": "Não foi possível acessar {beaconHost} várias vezes seguidas: verifique o proxy desta conta, seu firewall ou sua conexão. Enquanto isso, os pontos do canal não são creditados. Os Drops continuam progredindo.",
   "close_ask": "Perguntar da próxima vez",
   "close_quit_title": "Sair do app",
   "close_quit_text": "A mineração para até você abrir o app de novo.",

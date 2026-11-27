@@ -584,6 +584,7 @@
   "activity_nothing": "Nimic de urmărit acum: nicio campanie Drops cu un canal live și niciun streamer online.",
   "activity_paused": "Pe pauză. Reia ca să începi din nou vizionarea.",
   "beacon_blocked": "{beaconHost} este blocat de DNS-ul sau de blocantul tău de reclame: punctele de canal nu sunt creditate până nu îl permiți. Permite și numele către care trimite: {beaconScienceHost}, {beaconScienceEdgeHost}. Drops continuă să progreseze.",
+  "beacon_unreachable": "{beaconHost} nu a putut fi contactat de mai multe ori la rând: verifică proxy-ul acestui cont, firewall-ul sau conexiunea ta. Între timp, punctele de canal nu sunt creditate. Drops continuă să progreseze.",
   "close_ask": "Întreabă data viitoare",
   "close_quit_title": "Închide aplicația",
   "close_quit_text": "Minarea se oprește până când redeschizi aplicația.",

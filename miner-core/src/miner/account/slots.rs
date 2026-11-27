@@ -433,6 +433,8 @@ impl<T: TwitchApi> AccountMiner<T> {
             }
 
             if self.slots[index].next_beacon <= now {
+                let mut retry_soon = false;
+
                 if self.slots[index].beacon.is_none() {
                     match self
                         .client
@@ -463,7 +465,7 @@ impl<T: TwitchApi> AccountMiner<T> {
                             self.slots[index].last_beacon_at = Some(Utc::now());
                             self.slots[index].beacon_failures = 0;
                             self.beacon_connect_failures = 0;
-                            self.beacon_blocked = false;
+                            self.beacon_problem = None;
                             minutes += 1;
                         }
                         Ok(false) => {
@@ -477,6 +479,8 @@ impl<T: TwitchApi> AccountMiner<T> {
                             self.slots[index].beacon_failures += 1;
                             self.beacon_connect_failures += 1;
                             self.beacon_unreachable(&beacon).await;
+                            // ! Only a DNS block stays until the user acts; any other refused connection is retried every minute so the banner clears soon after the network is back.
+                            retry_soon = self.beacon_problem != Some(ErrorCode::BeaconBlocked);
                         }
                         Err(error @ Error::Transport(NetworkErrorKind::Timeout)) => {
                             self.slots[index].beacon_failures += 1;
@@ -491,7 +495,7 @@ impl<T: TwitchApi> AccountMiner<T> {
                     }
                 }
 
-                let backoff = if self.slots[index].beacon_failures >= 3 {
+                let backoff = if self.slots[index].beacon_failures >= 3 && !retry_soon {
                     BEACON_INTERVAL * 10
                 } else {
                     BEACON_INTERVAL
@@ -549,29 +553,35 @@ impl<T: TwitchApi> AccountMiner<T> {
         }
 
         if self.slots.is_empty() {
-            self.beacon_blocked = false;
+            self.beacon_problem = None;
             self.beacon_connect_failures = 0;
         }
 
-        if self.beacon_blocked {
-            self.problem = Some(ErrorCode::BeaconBlocked);
+        if let Some(code) = self.beacon_problem {
+            self.problem = Some(code);
         }
 
         removed
     }
 
-    // ! Channel points are not credited while the beacon is blocked; drops
-    // still progress, through the video playlist.
+    // ! Channel points are not credited while the beacon is blocked or
+    // unreachable; drops still progress, through the video playlist.
     pub(super) async fn beacon_unreachable(&mut self, beacon: &Url) {
         let spade = BeaconHost::Spade.name();
-        let message = match self.client.beacon_blocked_by(beacon).await {
-            Some(address) => format!(
-                "{spade} is blocked by your DNS (it answers {address}): allowing {spade} alone is not enough, also allow the names it points to ({} and {}), otherwise channel points are not credited",
-                BeaconHost::SpadeScience.name(),
-                BeaconHost::ScienceEdge.name(),
+        let (code, message) = match self.client.beacon_blocked_by(beacon).await {
+            Some(address) => (
+                ErrorCode::BeaconBlocked,
+                format!(
+                    "{spade} is blocked by your DNS (it answers {address}): allowing {spade} alone is not enough, also allow the names it points to ({} and {}), otherwise channel points are not credited",
+                    BeaconHost::SpadeScience.name(),
+                    BeaconHost::ScienceEdge.name(),
+                ),
             ),
-            None if self.beacon_connect_failures >= BEACON_UNREACHABLE_AFTER => format!(
-                "{spade} could not be reached {BEACON_UNREACHABLE_AFTER} times in a row: check your firewall, proxy or DNS, otherwise channel points are not credited"
+            None if self.beacon_connect_failures >= BEACON_UNREACHABLE_AFTER => (
+                ErrorCode::BeaconUnreachable,
+                format!(
+                    "{spade} could not be reached {BEACON_UNREACHABLE_AFTER} times in a row: check this account's proxy, your firewall or your connection, otherwise channel points are not credited"
+                ),
             ),
             None => {
                 tracing::debug!(
@@ -584,11 +594,9 @@ impl<T: TwitchApi> AccountMiner<T> {
             }
         };
 
-        self.beacon_blocked = true;
+        self.beacon_problem = Some(code);
 
-        if !self.beacon_blocked_reported {
-            self.beacon_blocked_reported = true;
-
+        if self.beacon_reported.insert(code) {
             let event = self
                 .emit(EventKind::Error, message)
                 .detail("Drops still progress through the video playlist.");

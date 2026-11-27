@@ -120,6 +120,7 @@ pub enum ErrorCode {
     PassphraseRequired,
     NotificationFailed,
     BeaconBlocked,
+    BeaconUnreachable,
     CatalogRateLimited,
     NotSupported,
     Unauthorized,

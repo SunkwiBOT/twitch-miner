@@ -594,6 +594,7 @@
   "activity_nothing": "Ingenting å se nå: ingen Drops-kampanje med en kanal på direkten og ingen streamer på nett.",
   "activity_paused": "Pauset. Fortsett for å begynne å se igjen.",
   "beacon_blocked": "{beaconHost} blokkeres av DNS-en eller annonseblokkereren din: kanalpoeng godskrives ikke før du tillater det. Tillat også navnene den peker til: {beaconScienceHost}, {beaconScienceEdgeHost}. Drops gir fortsatt fremgang.",
+  "beacon_unreachable": "{beaconHost} kunne ikke nås flere ganger på rad: sjekk proxyen til denne kontoen, brannmuren din eller tilkoblingen din. Kanalpoeng godskrives ikke i mellomtiden. Drops gir fortsatt fremgang.",
   "close_ask": "Spør neste gang",
   "close_quit_title": "Avslutt appen",
   "close_quit_text": "Mining stopper til du åpner appen igjen.",

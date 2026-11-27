@@ -594,6 +594,7 @@
   "activity_nothing": "Nu niets om te kijken: geen Drops-campagne met een live kanaal en geen streamer online.",
   "activity_paused": "Gepauzeerd. Hervat om weer te kijken.",
   "beacon_blocked": "{beaconHost} wordt geblokkeerd door je DNS of adblocker: kanaalpunten worden pas bijgeschreven als je het toestaat. Sta ook de namen toe waarnaar het verwijst: {beaconScienceHost}, {beaconScienceEdgeHost}. Drops gaan gewoon vooruit.",
+  "beacon_unreachable": "{beaconHost} was meerdere keren achter elkaar niet bereikbaar: controleer de proxy van dit account, je firewall of je verbinding. Kanaalpunten worden intussen niet bijgeschreven. Drops gaan gewoon vooruit.",
   "close_ask": "Volgende keer vragen",
   "close_quit_title": "App afsluiten",
   "close_quit_text": "Het minen stopt tot je de app weer opent.",

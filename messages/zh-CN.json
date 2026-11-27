@@ -449,6 +449,7 @@
   "activity_nothing": "当前没有可看的内容：没有正在直播的 Drops 活动频道，也没有主播在线。",
   "activity_paused": "已暂停。继续后将重新开始观看。",
   "beacon_blocked": "{beaconHost} 被你的 DNS 或广告拦截器屏蔽：放行之前频道点数不会入账。也请放行它指向的名称：{beaconScienceHost}, {beaconScienceEdgeHost}。Drops 仍会累积进度。",
+  "beacon_unreachable": "连续多次无法连接 {beaconHost}：请检查此账号的代理、你的防火墙或网络连接。在此期间频道点数不会入账。Drops 仍会累积进度。",
   "close_ask": "下次再询问",
   "close_quit_title": "退出应用",
   "close_quit_text": "挖取将停止，直到你再次打开应用。",

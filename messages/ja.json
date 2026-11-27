@@ -446,6 +446,7 @@
   "activity_nothing": "現在視聴するものはありません：配信中チャンネルのある Drops キャンペーンも、オンラインの配信者もいません。",
   "activity_paused": "一時停止中です。再開すると視聴を再び始めます。",
   "beacon_blocked": "{beaconHost} が DNS または広告ブロッカーでブロックされています：許可するまでチャンネルポイントは付与されません。参照先の名前も許可してください：{beaconScienceHost}, {beaconScienceEdgeHost}。Drops は引き続き進みます。",
+  "beacon_unreachable": "{beaconHost} に何度も続けて接続できませんでした：このアカウントのプロキシ、ファイアウォール、または接続を確認してください。その間、チャンネルポイントは付与されません。Drops は引き続き進みます。",
   "close_ask": "次回に確認する",
   "close_quit_title": "アプリを終了",
   "close_quit_text": "アプリを再び開くまでマイニングは停止します。",
