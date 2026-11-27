@@ -68,7 +68,9 @@ impl<T: TwitchApi> AccountMiner<T> {
                 current_minutes,
                 required_minutes,
                 ..
-            } => self.drop_progress(&drop_id, current_minutes, required_minutes),
+            } => {
+                self.drop_progress(&drop_id, current_minutes, required_minutes);
+            }
             PubSubEvent::DropClaim {
                 drop_id,
                 instance_id,
@@ -316,16 +318,20 @@ impl<T: TwitchApi> AccountMiner<T> {
         self.publish(event);
     }
 
+    // ! Fed by pubsub and the drop session read alike: the same minute told by
+    // both is applied and told once.
     pub(super) fn drop_progress(
         &mut self,
         drop_id: &str,
         current_minutes: u32,
         required_minutes: u32,
-    ) {
-        let mut matched: Option<(String, String, String, u32)> = None;
+    ) -> bool {
+        let mut matched: Option<(String, String, String, u32, u32)> = None;
 
         for campaign in self.campaigns.values_mut() {
             if let Some(drop) = campaign.drops.iter_mut().find(|d| d.id == drop_id) {
+                let before = (drop.current_minutes, drop.required_minutes);
+
                 drop.current_minutes = if drop.repeat.is_some() {
                     current_minutes
                 } else {
@@ -336,35 +342,40 @@ impl<T: TwitchApi> AccountMiner<T> {
                     drop.required_minutes = required_minutes;
                 }
 
-                matched = Some((
-                    campaign.id.clone(),
-                    campaign.name.clone(),
-                    drop.name.clone(),
-                    drop.required_minutes,
-                ));
+                if before != (drop.current_minutes, drop.required_minutes) {
+                    matched = Some((
+                        campaign.id.clone(),
+                        campaign.name.clone(),
+                        drop.name.clone(),
+                        drop.current_minutes,
+                        drop.required_minutes,
+                    ));
+                }
                 break;
             }
         }
 
-        let Some((campaign_id, campaign_name, drop_name, required)) = matched else {
-            return;
+        let Some((campaign_id, campaign_name, drop_name, current, required)) = matched else {
+            return false;
         };
         let event = self
             .emit(
                 EventKind::DropProgress,
-                format!("{drop_name}: {current_minutes}/{required} min ({campaign_name})"),
+                format!("{drop_name}: {current}/{required} min ({campaign_name})"),
             )
             .context(EventContext {
-                current: Some(current_minutes),
+                current: Some(current),
                 required: Some(required),
                 ..EventContext::drop(&campaign_id, drop_id)
             });
 
         self.publish(event);
 
-        if current_minutes >= required {
+        if current >= required {
             self.inventory_at = None;
         }
+
+        true
     }
 
     pub(super) async fn drop_claimable(&mut self, drop_id: &str, instance_id: &str) {

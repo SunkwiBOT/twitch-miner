@@ -31,6 +31,16 @@ pub enum ClaimOutcome {
     Refused(String),
 }
 
+// ! The drop Twitch credits the account's current watch with, as its own
+// counter has it.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct DropSession {
+    pub drop_id: String,
+    pub channel_id: Option<String>,
+    pub current_minutes: u32,
+    pub required_minutes: u32,
+}
+
 impl TwitchClient {
     pub async fn inventory(&self) -> Result<Inventory> {
         let response = self.gql(Operation::Inventory, Value::Null).await?;
@@ -56,6 +66,17 @@ impl TwitchClient {
 
         Ok(claim_outcome(&response, resent))
     }
+
+    pub async fn drop_session(&self, channel_id: &str) -> Result<Option<DropSession>> {
+        let response = self
+            .gql(
+                Operation::DropCurrentSession,
+                json!({"channelID": channel_id}),
+            )
+            .await?;
+
+        parse_drop_session(&response)
+    }
 }
 
 // ! Sent again after a lost answer, "already claimed" is this very claim taken the first time.
@@ -67,6 +88,32 @@ pub(crate) fn claim_outcome(response: &Value, resent: bool) -> ClaimOutcome {
         Some(other) => ClaimOutcome::Refused(other.to_owned()),
         None => ClaimOutcome::Refused("unknown".to_owned()),
     }
+}
+
+pub(crate) fn parse_drop_session(response: &Value) -> Result<Option<DropSession>> {
+    let user = &response["data"]["currentUser"];
+
+    if !user.is_object() {
+        return Err(gql_error(Operation::DropCurrentSession, response)
+            .unwrap_or_else(|| Error::InvalidResponse("currentUser missing".into())));
+    }
+
+    let session = &user["dropCurrentSession"];
+    let (Some(drop_id), Some(current)) = (
+        text(&session["dropID"]),
+        session["currentMinutesWatched"].as_u64(),
+    ) else {
+        return Ok(None);
+    };
+
+    Ok(Some(DropSession {
+        drop_id,
+        channel_id: text(&session["channel"]["id"]),
+        current_minutes: saturated(current),
+        required_minutes: session["requiredMinutesWatched"]
+            .as_u64()
+            .map_or(0, saturated),
+    }))
 }
 
 // ! `totalCount` and `lastAwardedAt` cover every award of the reward id, in any

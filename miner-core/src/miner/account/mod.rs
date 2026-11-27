@@ -70,6 +70,7 @@ const REFUSAL_RECHECK_GAP: Duration = Duration::from_secs(60);
 const FOLLOWS_INTERVAL: Duration = Duration::from_secs(30 * 60);
 const POINTS_INTERVAL: Duration = Duration::from_secs(30 * 60);
 const RESYNC_GAP: Duration = Duration::from_secs(60);
+const DROP_SESSION_INTERVAL: Duration = Duration::from_secs(60);
 const GOALS_INTERVAL: Duration = Duration::from_secs(10 * 60);
 const LOOKUP_TOP: usize = 8;
 const LOOKUP_ROTATING: usize = 4;
@@ -255,6 +256,7 @@ struct AccountMiner<T> {
     equip_tried: HashMap<String, tokio::time::Instant>,
     badges_read_at: Option<DateTime<Utc>>,
     inventory_at: Option<tokio::time::Instant>,
+    drop_session_at: Option<tokio::time::Instant>,
     live_by_campaign: HashMap<String, Vec<Channel>>,
     channels_at: Option<tokio::time::Instant>,
     lookup_offset: usize,
@@ -398,6 +400,7 @@ impl<T: TwitchApi> AccountMiner<T> {
             equip_tried: HashMap::new(),
             badges_read_at: None,
             inventory_at: None,
+            drop_session_at: None,
             live_by_campaign: HashMap::new(),
             channels_at: None,
             lookup_offset: 0,

@@ -561,7 +561,62 @@ impl<T: TwitchApi> AccountMiner<T> {
             self.problem = Some(code);
         }
 
-        removed
+        let progressed = self.read_drop_session(now).await;
+
+        removed || progressed
+    }
+
+    // ! Twitch's own counter for the watched drop, once a minute: it covers a
+    // progress message pubsub left out, and names the drop Twitch credits when
+    // several campaigns share a category. A failed read changes nothing and
+    // waits its minute like any other.
+    pub(super) async fn read_drop_session(&mut self, now: tokio::time::Instant) -> bool {
+        if self
+            .drop_session_at
+            .is_some_and(|at| now.duration_since(at) < DROP_SESSION_INTERVAL)
+        {
+            return false;
+        }
+
+        let watched = self.slots.iter().find_map(|slot| match &slot.purpose {
+            SlotPurpose::Drop { campaign_id, .. }
+                if self
+                    .campaigns
+                    .get(campaign_id)
+                    .is_some_and(|campaign| campaign.kind == CampaignKind::Drops) =>
+            {
+                Some(slot.channel.id.clone())
+            }
+            _ => None,
+        });
+        let Some(channel_id) = watched else {
+            return false;
+        };
+
+        self.drop_session_at = Some(now);
+
+        match self.client.drop_session(&channel_id).await {
+            // ! The session may be one left from an earlier watch on another
+            // channel: only the watched channel's counter is taken.
+            Ok(Some(session))
+                if session
+                    .channel_id
+                    .as_ref()
+                    .is_none_or(|id| *id == channel_id) =>
+            {
+                self.drop_progress(
+                    &session.drop_id,
+                    session.current_minutes,
+                    session.required_minutes,
+                )
+            }
+            Ok(_) => false,
+            Err(error) => {
+                tracing::debug!(account = %self.login, %error, "drop session read failed");
+
+                false
+            }
+        }
     }
 
     // ! Channel points are not credited while the beacon is blocked or

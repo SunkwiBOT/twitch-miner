@@ -23,6 +23,7 @@ pub enum Operation {
     ChannelFollows,
     SearchSuggestions,
     AvailableDrops,
+    DropCurrentSession,
     CustomRewards,
     RedeemCustomReward,
     Quests,
@@ -60,6 +61,7 @@ impl Operation {
             Self::ChannelFollows => "ChannelFollows",
             Self::SearchSuggestions => "SearchTray_SearchSuggestions",
             Self::AvailableDrops => "DropsHighlightService_AvailableDrops",
+            Self::DropCurrentSession => "DropCurrentSessionContext",
             // ! The web player's version of the same query, the one tested
             // for the custom rewards; the mining keeps its own.
             Self::CustomRewards => "ChannelPointsContext",
@@ -119,6 +121,9 @@ impl Operation {
             Self::AvailableDrops => {
                 "9a62a09bce5b53e26e64a671e530bc599cb6aab1e5ba3cbd5d85966d3940716f"
             }
+            Self::DropCurrentSession => {
+                "4d06b702d25d652afb9ef835d2a550031f1cf762b193523a92166f40ea3d142b"
+            }
             Self::CustomRewards => {
                 "374314de591e69925fce3ddc2bcf085796f56ebb8cad67a0daa3165c03adc345"
             }
@@ -150,6 +155,7 @@ impl Operation {
                 variables["limit"] = json!(FOLLOWS_PAGE);
                 variables["order"] = json!("ASC");
             }
+            Self::DropCurrentSession => variables["channelLogin"] = json!(""),
             Self::CustomRewards => {
                 variables["includeGoalTypes"] = json!(["CREATOR", "BOOST"]);
             }

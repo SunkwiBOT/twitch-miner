@@ -10,7 +10,7 @@ use crate::error::Result;
 use crate::twitch::auth::{self, TokenSet, Validation};
 use crate::twitch::channels::BatchRead;
 use crate::twitch::chat::Chat;
-use crate::twitch::drops::{ClaimOutcome, Inventory};
+use crate::twitch::drops::{ClaimOutcome, DropSession, Inventory};
 use crate::twitch::playback::Playback;
 use crate::twitch::points::{Goal, PointsContext};
 use crate::twitch::pubsub::{PubSub, PubSubEvent};
@@ -26,6 +26,8 @@ pub(crate) trait TwitchApi {
     async fn inventory(&self) -> Result<Inventory>;
 
     async fn claim_drop(&self, instance_id: &str) -> Result<ClaimOutcome>;
+
+    async fn drop_session(&self, channel_id: &str) -> Result<Option<DropSession>>;
 
     async fn quests(&self) -> Result<QuestsRead>;
 
@@ -100,6 +102,10 @@ impl TwitchApi for TwitchClient {
 
     async fn claim_drop(&self, instance_id: &str) -> Result<ClaimOutcome> {
         TwitchClient::claim_drop(self, instance_id).await
+    }
+
+    async fn drop_session(&self, channel_id: &str) -> Result<Option<DropSession>> {
+        TwitchClient::drop_session(self, channel_id).await
     }
 
     async fn quests(&self) -> Result<QuestsRead> {
