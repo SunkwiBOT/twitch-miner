@@ -1158,10 +1158,7 @@ impl Manager {
         record: AccountRecord,
         vault: &Vault,
     ) -> Result<AccountHandle> {
-        let credential = self
-            .store
-            .load_credential(&record.id, vault)?
-            .ok_or_else(|| Error::UnknownAccount(record.id.clone()))?;
+        let credential = self.started_credential(&record.id, vault)?;
         let proxy = self.effective_proxy(&record.settings.proxy).await;
         // ! Never without the proxy: the account would reach Twitch from the
         // real address.
@@ -1193,6 +1190,21 @@ impl Manager {
         });
 
         Ok(handle)
+    }
+
+    // ! The credential as the account starts with it: a user agent Twitch's
+    // apps left behind is picked again and written back once.
+    fn started_credential(&self, account_id: &str, vault: &Vault) -> Result<Credential> {
+        let mut credential = self
+            .store
+            .load_credential(account_id, vault)?
+            .ok_or_else(|| Error::UnknownAccount(account_id.to_owned()))?;
+
+        if credential.identity.refresh_user_agent() {
+            self.store.save_credential(account_id, &credential, vault)?;
+        }
+
+        Ok(credential)
     }
 
     async fn effective_proxy(&self, account_proxy: &str) -> Option<String> {

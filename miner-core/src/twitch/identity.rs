@@ -1,8 +1,8 @@
 // ! Twitch client ids and user agents other open miners use for the same
 // personas: the TV/"SMARTBOX" one we always used, plus the web, mobile-web
 // and Android-app clients a bulk-imported token may have been issued for.
-// Picking a user agent once per account from a persona's small pool, instead
-// of one hardcoded string for everyone, keeps a fleet of accounts on one
+// Picking a user agent once per account from a persona's pool, where the
+// real devices of that client differ, keeps a fleet of accounts on one
 // install from all looking like the exact same device.
 
 use serde::{Deserialize, Serialize};
@@ -13,10 +13,11 @@ pub const WEB_CLIENT_ID: &str = "kimne78kx3ncx6brgo4mv6wki5h1ko";
 pub const MOBILE_WEB_CLIENT_ID: &str = "r8s4dac0uhzifbpu9sjdiwzctle17ff";
 pub const ANDROID_APP_CLIENT_ID: &str = "kd1unb4b3q4t58fwlpcbzcbnm76a8fp";
 
-const TV_USER_AGENTS: [&str; 3] = [
-    "Mozilla/5.0 (Linux; Android 7.1; Smart Box C1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 9; MIBOX4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 11; Chromecast) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+// ! Chrome 110 and later on Android sends a frozen "Android 10; K" whatever
+// the device and system, without "Mobile" on a tablet or TV: a single string
+// is what every such device presents.
+const TV_USER_AGENTS: [&str; 1] = [
+    "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36",
 ];
 
 // ! Shared with `TwitchHttp::new`'s client-level default: any request made
@@ -24,22 +25,23 @@ const TV_USER_AGENTS: [&str; 3] = [
 // per-identity header override, still needs some user agent set.
 pub const DEFAULT_USER_AGENT: &str = TV_USER_AGENTS[0];
 
+// ! Desktop Chrome freezes its platform to one of these three values.
 const WEB_USER_AGENTS: [&str; 3] = [
-    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36",
 ];
 
-const MOBILE_WEB_USER_AGENTS: [&str; 3] = [
-    "Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.7204.63 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 14; SM-A205U) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.7204.63 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 13; SM-G960U) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.7204.63 Mobile Safari/537.36",
+const MOBILE_WEB_USER_AGENTS: [&str; 1] = [
+    "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Mobile Safari/537.36",
 ];
 
-const ANDROID_APP_USER_AGENTS: [&str; 3] = [
-    "Dalvik/2.1.0 (Linux; U; Android 14; SM-S911B Build/TP1A.220624.014) tv.twitch.android.app/23.4.0/2304000",
-    "Dalvik/2.1.0 (Linux; U; Android 13; SM-G990B Build/TP1A.220624.014) tv.twitch.android.app/23.4.0/2304000",
-    "Dalvik/2.1.0 (Linux; Android 12; SM-X716N Build/UP1A.231005.007) tv.twitch.android.app/23.4.0/2304000",
+// ! Each Build id is one of that Android release (U: 14, AP3A: 15, BP2A: 16).
+const ANDROID_APP_USER_AGENTS: [&str; 4] = [
+    "Dalvik/2.1.0 (Linux; U; Android 16; SM-S938B Build/BP2A.250605.031) tv.twitch.android.app/25.3.0/2503006",
+    "Dalvik/2.1.0 (Linux; U; Android 15; SM-G990B Build/AP3A.240905.015.A2) tv.twitch.android.app/25.3.0/2503006",
+    "Dalvik/2.1.0 (Linux; U; Android 15; SM-A566E Build/AP3A.240905.015.A2) tv.twitch.android.app/25.3.0/2503006",
+    "Dalvik/2.1.0 (Linux; U; Android 14; SM-X306B Build/UP1A.231005.007) tv.twitch.android.app/25.3.0/2503006",
 ];
 
 // ! A known Twitch client persona: which app Twitch believes is talking to
@@ -148,6 +150,22 @@ impl AccountIdentity {
             client_id: client_id.to_owned(),
             user_agent: persona.pick_user_agent(),
         }
+    }
+
+    // ! A user agent no longer in its persona's pool is an app version Twitch
+    // stopped seeing: it is picked again, once, from the current pool.
+    pub fn refresh_user_agent(&mut self) -> bool {
+        if self
+            .persona()
+            .user_agents()
+            .contains(&self.user_agent.as_str())
+        {
+            return false;
+        }
+
+        self.user_agent = self.persona().pick_user_agent();
+
+        true
     }
 
     pub fn persona(&self) -> ClientPersona {
