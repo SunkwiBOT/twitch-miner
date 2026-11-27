@@ -24,7 +24,7 @@
 <p align="center">
   <a href="#download"><strong>下載</strong></a> •
   <a href="#docker">Docker</a> •
-  <a href="https://drops.sunkwi.com">Twitch Drops API</a> •
+  <a href="https://dropsalerts.com">Twitch Drops API</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
   <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">回報錯誤</a>
@@ -154,7 +154,7 @@ macOS 版本未經 Apple 公證。第一次執行時，先開啟應用程式：m
 
 ### Drops
 
-- **所有進行中的 Drops 活動。** 每個活動都有自己的詳細資料：獎勵、發行商帳號連結、「優先挖取」。清單來自 [Twitch Drops API](https://drops.sunkwi.com) 專案，每 5 分鐘更新一次。
+- **所有進行中的 Drops 活動。** 每個活動都有自己的詳細資料：獎勵、發行商帳號連結、「優先挖取」。清單來自 [Twitch Drops API](https://dropsalerts.com) 專案，每 5 分鐘更新一次。
 
   <img src="../media/zh-TW/drops-catalogue.avif" alt="以月曆呈現的目錄、搜尋和某個活動的詳細資料">
 
@@ -377,7 +377,7 @@ Twitch 對每個帳號同一時間只會計入**一個 Drops 活動**和**兩個
 
 如果 Twitch 本身對排名最前面的活動的進度，在 30 分鐘真實觀看後仍未變動，表示它沒有計入這個活動：帳號會把它先擱置一旁，排名居次的活動遞補上這個名額，並在 6 小時後自動重試——如果進度先恢復，則會更早重試，不過被重試的活動仍可能排在正在挖取的那個活動之後。任何進度都會重設這段等待時間，且適用於每一種活動類型（Drops、徽章、任務）。如果 Twitch 改為計入同一類別的另一個活動，並且該活動完成或被領取，擱置會立即解除，而不必等候完整的 6 小時。重新啟動應用程式或伺服器會忘記所有被擱置的紀錄：卡住的活動只會重新獲得一段全新的 30 分鐘。
 
-活動清單來自 [Twitch Drops API](https://drops.sunkwi.com) 專案（每 5 分鐘更新一次），因為 Twitch 不會讓 TV 用戶端看到它。
+活動清單來自 [Twitch Drops API](https://dropsalerts.com) 專案（每 5 分鐘更新一次），因為 Twitch 不會讓 TV 用戶端看到它。
 
 ## <a name="faq"></a>常見問題
 
@@ -429,7 +429,7 @@ Twitch 對每個帳號同一時間只會計入**一個 Drops 活動**和**兩個
 
 同一位作者的其他專案：
 
-- [**Twitch Drops API**](https://drops.sunkwi.com)：免費的公開 API，收錄所有進行中的 Twitch Drops 和獎勵活動，每分鐘更新一次。本應用程式的活動目錄就是從這裡讀取。
+- [**Twitch Drops API**](https://dropsalerts.com)：免費的公開 API，收錄所有進行中的 Twitch Drops 和獎勵活動，每分鐘更新一次。本應用程式的活動目錄就是從這裡讀取。
 - [**Twitch Alerts 🔔**](https://twitch.sunkwi.com)：一個 Discord 機器人，會在你的伺服器中通知 Twitch 直播和 Drops 活動。
 - [**Kick Alerts 🔔**](https://kick.sunkwi.com)：一個 Discord 機器人，會在你的伺服器中通知 Kick 直播和 Drops 活動。
 
@@ -440,7 +440,7 @@ Twitch 對每個帳號同一時間只會計入**一個 Drops 活動**和**兩個
 - HTTP 儀表板使用固定時間的密碼比對，以及 HttpOnly、SameSite=Strict 的 Cookie（透過 HTTPS 時另加 `Secure` 和 `__Host-` 前綴）。伺服器只保存每個工作階段的 SHA-256。工作階段會在 30 天後或登出時結束。伺服器會先檢查工作階段，才讀取任何請求內容，並將請求內容限制在 256 KiB 以內。
 - 同一個 IP 位址連續輸錯 5 次密碼後（登入表單或 bearer），該位址必須等待 30 秒。伺服器會直接回傳 `429` 和 `Retry-After`，不會檢查密碼。每次輸錯密碼，回應也會延遲半秒。同一個連線位址（包括共用的代理伺服器）在一分鐘內輸錯密碼超過 30 次後，該位址每 2 秒只能嘗試一次：猜測會變慢，且不會有人被鎖在外面。
 - 在你的網路以外使用時，請把儀表板放在 HTTPS 反向代理伺服器後方，並設定 `MINER_PUBLIC_URL`（請參閱 [Docker](#docker)）。
-- 挖掘器只會與 `twitch.tv`、`ttvnw.net`、`jtvnw.net`、`twitchcdn.net`、`drops.sunkwi.com` 以及你設定的通知目標通訊。應用程式（桌面版和 Docker 版）會在 `github.com` 和 `api.github.com` 檢查新版本及其說明，桌面版會從本專案的 GitHub releases 下載新版本。新版本都經過簽章：只會安裝畫面上顯示的那個版本。
+- 挖掘器只會與 `twitch.tv`、`ttvnw.net`、`jtvnw.net`、`twitchcdn.net`、`dropsalerts.com` 以及你設定的通知目標通訊。應用程式（桌面版和 Docker 版）會在 `github.com` 和 `api.github.com` 檢查新版本及其說明，桌面版會從本專案的 GitHub releases 下載新版本。新版本都經過簽章：只會安裝畫面上顯示的那個版本。
 
 ## <a name="build"></a>從原始碼建置
 

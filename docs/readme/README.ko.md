@@ -24,7 +24,7 @@
 <p align="center">
   <a href="#download"><strong>다운로드</strong></a> •
   <a href="#docker">Docker</a> •
-  <a href="https://drops.sunkwi.com">Twitch Drops API</a> •
+  <a href="https://dropsalerts.com">Twitch Drops API</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
   <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">버그 신고</a>
@@ -154,7 +154,7 @@ macOS 빌드는 공증을 받지 않았어요. 처음에는 앱을 먼저 여세
 
 ### Drops
 
-- **진행 중인 모든 Drops 캠페인.** 캠페인마다 상세 정보가 있어요: 보상, 퍼블리셔 계정 연동, ‘먼저 마이닝’. 목록은 [Twitch Drops API](https://drops.sunkwi.com) 프로젝트에서 가져오고, 5분마다 새로 고쳐져요.
+- **진행 중인 모든 Drops 캠페인.** 캠페인마다 상세 정보가 있어요: 보상, 퍼블리셔 계정 연동, ‘먼저 마이닝’. 목록은 [Twitch Drops API](https://dropsalerts.com) 프로젝트에서 가져오고, 5분마다 새로 고쳐져요.
 
   <img src="../media/ko/drops-catalogue.avif" alt="달력 형태의 카탈로그, 검색, 캠페인 상세 정보">
 
@@ -375,7 +375,7 @@ Twitch는 계정마다 동시에 **Drops 캠페인 하나**와 **포인트용 �
 
 Twitch 자체 진행 상황이 대기열 맨 위 캠페인에서 실제로 30분 시청해도 움직이지 않으면, 그 캠페인을 인정하지 않는 거예요: 계정은 그 캠페인을 보류하고, 순서상 다음 캠페인이 그 자리를 차지하며, 6시간 후 자동으로 다시 시도돼요 — 그 전에 진행 상황이 다시 나타나면 더 빨리 재시도되지만, 재시도되는 캠페인은 여전히 현재 마이닝 중인 캠페인 뒤에서 기다려야 할 수도 있어요. 어떤 진행이든 생기면 대기 시간이 초기화되고, 이는 모든 종류의 캠페인(Drops, 배지, 퀘스트)에 적용돼요. Twitch가 대신 같은 카테고리의 다른 캠페인을 인정하고 그 캠페인이 끝나거나 수령되면, 6시간을 다 기다리지 않고 보류가 바로 해제돼요. 앱이나 서버를 재시작하면 보류된 캠페인이 모두 초기화돼요: 막혀 있던 캠페인은 그냥 새로운 30분부터 다시 시작해요.
 
-캠페인 목록은 [Twitch Drops API](https://drops.sunkwi.com) 프로젝트에서 가져와요(5분마다 갱신). Twitch가 TV 클라이언트에는 이 목록을 숨기기 때문이에요.
+캠페인 목록은 [Twitch Drops API](https://dropsalerts.com) 프로젝트에서 가져와요(5분마다 갱신). Twitch가 TV 클라이언트에는 이 목록을 숨기기 때문이에요.
 
 ## <a name="faq"></a>자주 묻는 질문
 
@@ -426,7 +426,7 @@ Twitch와 채널마다 달라요. 마이닝 도구는 Twitch가 시청자에게 
 
 같은 제작자의 다른 프로젝트:
 
-- [**Twitch Drops API**](https://drops.sunkwi.com): 진행 중인 모든 Twitch Drops와 보상 캠페인을 담은 무료 공개 API로, 매분 갱신돼요. 이 앱은 캠페인 카탈로그를 여기서 읽어요.
+- [**Twitch Drops API**](https://dropsalerts.com): 진행 중인 모든 Twitch Drops와 보상 캠페인을 담은 무료 공개 API로, 매분 갱신돼요. 이 앱은 캠페인 카탈로그를 여기서 읽어요.
 - [**Twitch Alerts 🔔**](https://twitch.sunkwi.com): 내 서버에 Twitch 라이브와 Drops 캠페인을 알려 주는 Discord 봇이에요.
 - [**Kick Alerts 🔔**](https://kick.sunkwi.com): 내 서버에 Kick 라이브와 Drops 캠페인을 알려 주는 Discord 봇이에요.
 
@@ -437,7 +437,7 @@ Twitch와 채널마다 달라요. 마이닝 도구는 Twitch가 시청자에게 
 - HTTP 대시보드는 상수 시간 비밀번호 비교와 HttpOnly, SameSite=Strict 쿠키(HTTPS 뒤에서는 `Secure`, `__Host-` 접두사 포함)를 사용해요. 서버는 각 세션의 SHA-256만 저장해요. 세션은 30일이 지나거나 로그아웃하면 끝나요. 서버는 요청 본문을 읽기 전에 세션을 확인하고, 본문 크기를 256 KiB로 제한해요.
 - 한 IP 주소에서 비밀번호를 연속 5번 틀리면(로그인 폼 또는 bearer) 그 주소는 30초 동안 기다려야 해요. 서버는 비밀번호를 확인하지 않고 `Retry-After`와 함께 `429`를 응답해요. 비밀번호가 틀릴 때마다 응답에 0.5초가 걸리기도 해요. 같은 연결 주소(공유 프록시 포함)에서 1분에 30번 넘게 비밀번호가 틀리면, 그 주소는 2초에 한 번만 시도할 수 있어요. 추측은 느려지고, 아무도 잠기지 않아요.
 - 내 네트워크 밖에서는 `MINER_PUBLIC_URL`을 설정하고 대시보드를 HTTPS 리버스 프록시 뒤에 두세요([Docker](#docker) 참고).
-- 마이닝 도구는 `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`, `drops.sunkwi.com`, 그리고 직접 설정한 알림 대상하고만 통신해요. 앱(데스크톱과 Docker)은 `github.com`과 `api.github.com`에서 새 버전과 그 노트를 확인하고, 데스크톱 앱은 프로젝트의 GitHub releases에서 새 버전을 내려받아요. 새 버전은 서명되어 있어서, 화면에 표시된 버전만 설치돼요.
+- 마이닝 도구는 `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`, `dropsalerts.com`, 그리고 직접 설정한 알림 대상하고만 통신해요. 앱(데스크톱과 Docker)은 `github.com`과 `api.github.com`에서 새 버전과 그 노트를 확인하고, 데스크톱 앱은 프로젝트의 GitHub releases에서 새 버전을 내려받아요. 새 버전은 서명되어 있어서, 화면에 표시된 버전만 설치돼요.
 
 ## <a name="build"></a>소스에서 빌드
 

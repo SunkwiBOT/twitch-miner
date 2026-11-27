@@ -24,7 +24,7 @@
 <p align="center">
   <a href="#download"><strong>Download</strong></a> •
   <a href="#docker">Docker</a> •
-  <a href="https://drops.sunkwi.com">Twitch Drops API</a> •
+  <a href="https://dropsalerts.com">Twitch Drops API</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
   <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">Report a bug</a>
@@ -182,7 +182,7 @@ Data lives in the user data folder:
 
 - **Every running Drops campaign.** Each campaign has its own details: rewards, publisher
   account linking, “Mine first”. The list comes from the
-  [Twitch Drops API](https://drops.sunkwi.com) project and refreshes every 5 minutes.
+  [Twitch Drops API](https://dropsalerts.com) project and refreshes every 5 minutes.
 
   <img src="docs/media/en/drops-catalogue.avif" alt="The Catalogue as a calendar, the search and a campaign's details">
 
@@ -517,7 +517,7 @@ finishes or is claimed, the set-aside lifts right away instead of waiting out th
 hours. Restarting the app or the server forgets every set-aside: a stuck campaign simply
 gets a fresh 30 minutes.
 
-The campaign list comes from the [Twitch Drops API](https://drops.sunkwi.com) project
+The campaign list comes from the [Twitch Drops API](https://dropsalerts.com) project
 (refreshed every 5 minutes), because Twitch hides it from the TV client.
 
 ## <a name="faq"></a>FAQ
@@ -626,7 +626,7 @@ order, shown as a badge on each watched channel: “Streak at risk”, “Streak
 
 Other projects by the same author:
 
-- [**Twitch Drops API**](https://drops.sunkwi.com): a free public API of every running
+- [**Twitch Drops API**](https://dropsalerts.com): a free public API of every running
   Twitch Drops and reward campaign, updated every minute. This app reads its campaign
   catalogue from it.
 - [**Twitch Alerts 🔔**](https://twitch.sunkwi.com): a Discord bot that announces Twitch
@@ -654,7 +654,7 @@ Other projects by the same author:
 - Outside your network, put the dashboard behind an HTTPS reverse proxy with
   `MINER_PUBLIC_URL` (see [Docker](#docker)).
 - The miner only talks to `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`,
-  `drops.sunkwi.com` and the notification targets you configure. The app
+  `dropsalerts.com` and the notification targets you configure. The app
   (desktop and Docker) checks for new versions and their notes on `github.com` and
   `api.github.com`, and the desktop app downloads them from the project's GitHub
   releases. They are signed: only the version shown is installed.

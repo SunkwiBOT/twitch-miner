@@ -97,7 +97,7 @@ pub struct GlobalBadge {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
     pub click_url: Option<String>,
-    // ! From the public catalogue only: its own page on drops.sunkwi.com.
+    // ! From the public catalogue only: its own page on dropsalerts.com.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
     pub web_url: Option<String>,

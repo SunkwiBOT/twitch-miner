@@ -24,7 +24,7 @@
 <p align="center">
   <a href="#download"><strong>Unduh</strong></a> •
   <a href="#docker">Docker</a> •
-  <a href="https://drops.sunkwi.com">Twitch Drops API</a> •
+  <a href="https://dropsalerts.com">Twitch Drops API</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
   <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">Laporkan bug</a>
@@ -154,7 +154,7 @@ Data disimpan di folder data pengguna:
 
 ### Drops
 
-- **Semua kampanye Drops yang sedang berjalan.** Setiap kampanye punya detailnya sendiri: hadiah, penautan akun penerbit, “Tambang lebih dulu”. Daftarnya berasal dari proyek [Twitch Drops API](https://drops.sunkwi.com) dan diperbarui setiap 5 menit.
+- **Semua kampanye Drops yang sedang berjalan.** Setiap kampanye punya detailnya sendiri: hadiah, penautan akun penerbit, “Tambang lebih dulu”. Daftarnya berasal dari proyek [Twitch Drops API](https://dropsalerts.com) dan diperbarui setiap 5 menit.
 
   <img src="../media/id/drops-catalogue.avif" alt="Katalog dalam tampilan kalender, pencarian, dan detail sebuah kampanye">
 
@@ -399,7 +399,7 @@ Jika Twitch tidak membuat kampanye teratas maju setelah 30 menit menonton sunggu
 
 Twitch menghitung **satu kampanye Drops** dan **dua channel untuk poin** sekaligus per akun. Sejak Oktober 2026, drop hanya bisa diklaim jika akun penerbit sudah tertaut. Kampanye yang belum tertaut tetap berjalan, dan dasbor menampilkan tautan untuk menautkannya.
 
-Daftar kampanye berasal dari proyek [Twitch Drops API](https://drops.sunkwi.com) (diperbarui setiap 5 menit), karena Twitch menyembunyikannya dari klien TV.
+Daftar kampanye berasal dari proyek [Twitch Drops API](https://dropsalerts.com) (diperbarui setiap 5 menit), karena Twitch menyembunyikannya dari klien TV.
 
 ## <a name="faq"></a>Pertanyaan umum
 
@@ -451,7 +451,7 @@ Hanya streamer yang dinyalakan dan sedang live yang ditonton, dan hanya di chann
 
 Proyek lain dari pembuat yang sama:
 
-- [**Twitch Drops API**](https://drops.sunkwi.com): API publik gratis untuk semua kampanye Twitch Drops dan kampanye hadiah yang sedang berjalan, diperbarui setiap menit. Aplikasi ini membaca katalog kampanyenya dari sana.
+- [**Twitch Drops API**](https://dropsalerts.com): API publik gratis untuk semua kampanye Twitch Drops dan kampanye hadiah yang sedang berjalan, diperbarui setiap menit. Aplikasi ini membaca katalog kampanyenya dari sana.
 - [**Twitch Alerts 🔔**](https://twitch.sunkwi.com): bot Discord yang mengumumkan live Twitch dan kampanye Drops di server Anda.
 - [**Kick Alerts 🔔**](https://kick.sunkwi.com): bot Discord yang mengumumkan live Kick dan kampanye Drops di server Anda.
 
@@ -462,7 +462,7 @@ Proyek lain dari pembuat yang sama:
 - Dasbor HTTP memeriksa kata sandi dalam waktu konstan dan memakai cookie HttpOnly, SameSite=Strict (`Secure`, dengan awalan `__Host-`, di belakang HTTPS). Server hanya menyimpan SHA-256 dari setiap sesi. Sesi diakhiri setelah 30 hari atau saat keluar. Server memeriksa sesi sebelum membaca body request apa pun dan membatasi body hingga 256 KiB.
 - Setelah 5 kata sandi salah berturut-turut dari satu alamat IP (formulir masuk atau bearer), alamat itu harus menunggu 30 detik. Server menjawab `429` dengan `Retry-After` tanpa melihat kata sandinya. Setiap kata sandi salah juga butuh setengah detik untuk dijawab. Lewat dari 30 kata sandi salah dalam satu menit dari satu alamat koneksi, termasuk proxy bersama, alamat itu hanya mendapat satu percobaan setiap 2 detik: menebak jadi lambat, dan tidak ada yang terkunci.
 - Di luar jaringan Anda, taruh dasbor di belakang reverse proxy HTTPS dengan `MINER_PUBLIC_URL` (lihat [Docker](#docker)).
-- Penambang hanya berkomunikasi dengan `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`, `drops.sunkwi.com`, dan tujuan notifikasi yang Anda atur. Aplikasi (desktop dan Docker) memeriksa versi baru beserta catatannya di `github.com` dan `api.github.com`, dan aplikasi desktop mengunduhnya dari GitHub releases proyek. Versi itu ditandatangani: hanya versi yang ditampilkan yang dipasang.
+- Penambang hanya berkomunikasi dengan `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`, `dropsalerts.com`, dan tujuan notifikasi yang Anda atur. Aplikasi (desktop dan Docker) memeriksa versi baru beserta catatannya di `github.com` dan `api.github.com`, dan aplikasi desktop mengunduhnya dari GitHub releases proyek. Versi itu ditandatangani: hanya versi yang ditampilkan yang dipasang.
 
 ## <a name="build"></a>Build dari sumber
 

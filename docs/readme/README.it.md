@@ -24,7 +24,7 @@
 <p align="center">
   <a href="#download"><strong>Scarica</strong></a> •
   <a href="#docker">Docker</a> •
-  <a href="https://drops.sunkwi.com">Twitch Drops API</a> •
+  <a href="https://dropsalerts.com">Twitch Drops API</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
   <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">Segnala un bug</a>
@@ -183,7 +183,7 @@ I dati si trovano nella cartella dei dati dell'utente:
 
 - **Tutte le campagne Drops in corso.** Ogni campagna ha i suoi dettagli: ricompense,
   collegamento dell'account editore, «Mina per prima». L'elenco arriva dal progetto
-  [Twitch Drops API](https://drops.sunkwi.com) e si aggiorna ogni 5 minuti.
+  [Twitch Drops API](https://dropsalerts.com) e si aggiorna ogni 5 minuti.
 
   <img src="../media/it/drops-catalogue.avif" alt="Il Catalogo in vista calendario, la ricerca e i dettagli di una campagna">
 
@@ -524,7 +524,7 @@ campagna della stessa categoria e quella si conclude o viene riscattata, l'accan
 viene revocato subito, invece di attendere le 6 ore intere. Riavviare l'app o il server dimentica
 ogni accantonamento: una campagna bloccata riparte semplicemente con 30 minuti nuovi.
 
-L'elenco delle campagne arriva dal progetto [Twitch Drops API](https://drops.sunkwi.com)
+L'elenco delle campagne arriva dal progetto [Twitch Drops API](https://dropsalerts.com)
 (aggiornato ogni 5 minuti), perché Twitch lo nasconde al client TV.
 
 ## <a name="faq"></a>Domande frequenti
@@ -637,7 +637,7 @@ nella lista, oppure disattiva «Prima le serie di visione» e «Prima i canali a
 
 Altri progetti dello stesso autore:
 
-- [**Twitch Drops API**](https://drops.sunkwi.com): un'API pubblica e gratuita con tutte
+- [**Twitch Drops API**](https://dropsalerts.com): un'API pubblica e gratuita con tutte
   le campagne Drops e di ricompense di Twitch in corso, aggiornata ogni minuto. Questa app
   ne legge il catalogo delle campagne.
 - [**Twitch Alerts 🔔**](https://twitch.sunkwi.com): un bot Discord che annuncia nel tuo
@@ -667,7 +667,7 @@ Altri progetti dello stesso autore:
 - Fuori dalla tua rete, metti la dashboard dietro un reverse proxy HTTPS con
   `MINER_PUBLIC_URL` (vedi [Docker](#docker)).
 - Il miner comunica solo con `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`,
-  `drops.sunkwi.com` e con le destinazioni delle notifiche che configuri. L'app
+  `dropsalerts.com` e con le destinazioni delle notifiche che configuri. L'app
   (desktop e Docker) controlla le nuove versioni e le loro note su `github.com` e
   `api.github.com`, e l'app desktop le
   scarica dalle release GitHub del progetto. Sono firmate: viene installata solo la

@@ -24,7 +24,7 @@
 <p align="center">
   <a href="#download"><strong>Letöltés</strong></a> •
   <a href="#docker">Docker</a> •
-  <a href="https://drops.sunkwi.com">Twitch Drops API</a> •
+  <a href="https://dropsalerts.com">Twitch Drops API</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
   <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">Hiba bejelentése</a>
@@ -186,7 +186,7 @@ Az adatok a felhasználói adatmappában vannak:
 
 - **Minden futó Drops-kampány.** Minden kampánynak saját adatlapja van: jutalmak,
   kiadói fiók összekapcsolása, „Bányászás elsőként”. A lista a
-  [Twitch Drops API](https://drops.sunkwi.com) projektből származik, és 5 percenként
+  [Twitch Drops API](https://dropsalerts.com) projektből származik, és 5 percenként
   frissül.
 
   <img src="../media/hu/drops-catalogue.avif" alt="A Katalógus naptárnézetben, a keresés és egy kampány adatlapja">
@@ -522,7 +522,7 @@ előrehaladás nullázza a várakozást, és ez minden kampánytípusra vonatkoz
 küldetések). Ha a Twitch helyette egy másik, ugyanabba a kategóriába tartozó kampányt ír jóvá, és az befejeződik vagy be lesz gyűjtve, a félretétel azonnal feloldódik, ahelyett hogy a teljes 6 órát kivárná. Az alkalmazás vagy a szerver újraindítása elfelejti az összes félretett
 kampányt: egy beragadt kampány egyszerűen új 30 percet kap.
 
-A kampánylista a [Twitch Drops API](https://drops.sunkwi.com) projektből jön (5 percenként
+A kampánylista a [Twitch Drops API](https://dropsalerts.com) projektből jön (5 percenként
 frissül), mert a Twitch elrejti a TV-s kliens elől.
 
 ## <a name="faq"></a>Gyakori kérdések
@@ -637,7 +637,7 @@ Mozgasd feljebb a streamert a listán, vagy kapcsold ki a „Nézési sorozatok 
 
 Ugyanennek a szerzőnek más projektjei:
 
-- [**Twitch Drops API**](https://drops.sunkwi.com): ingyenes, nyilvános API az összes futó
+- [**Twitch Drops API**](https://dropsalerts.com): ingyenes, nyilvános API az összes futó
   Twitch Drops- és jutalomkampányról, percenként frissítve. Ez az alkalmazás innen olvassa
   a kampánykatalógusát.
 - [**Twitch Alerts 🔔**](https://twitch.sunkwi.com): Discord-bot, amely bejelenti a Twitch-es
@@ -667,7 +667,7 @@ Ugyanennek a szerzőnek más projektjei:
 - A hálózatodon kívül tedd az irányítópultot egy HTTPS fordított proxy mögé, a
   `MINER_PUBLIC_URL` beállításával (lásd: [Docker](#docker)).
 - A bányász csak a `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`,
-  `drops.sunkwi.com` címekkel és az általad beállított értesítési célokkal
+  `dropsalerts.com` címekkel és az általad beállított értesítési célokkal
   kommunikál. Az alkalmazás (asztali és Docker) a `github.com` és az `api.github.com`
   oldalon keres új verziókat és azok jegyzeteit, az asztali alkalmazás pedig a projekt
   GitHub-kiadásaiból tölti le őket. Ezek

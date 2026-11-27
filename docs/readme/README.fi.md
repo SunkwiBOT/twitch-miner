@@ -24,7 +24,7 @@
 <p align="center">
   <a href="#download"><strong>Lataa</strong></a> •
   <a href="#docker">Docker</a> •
-  <a href="https://drops.sunkwi.com">Twitch Drops API</a> •
+  <a href="https://dropsalerts.com">Twitch Drops API</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
   <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">Ilmoita bugista</a>
@@ -185,7 +185,7 @@ Tiedot sijaitsevat käyttäjän datakansiossa:
 
 - **Kaikki käynnissä olevat Drops-kampanjat.** Jokaisella kampanjalla on omat tietonsa:
   palkinnot, julkaisijatilin linkitys, ”Louhi ensin”. Lista tulee
-  [Twitch Drops API](https://drops.sunkwi.com) -projektista ja päivittyy 5 minuutin
+  [Twitch Drops API](https://dropsalerts.com) -projektista ja päivittyy 5 minuutin
   välein.
 
   <img src="../media/fi/drops-catalogue.avif" alt="Luettelo kalenterina, haku ja kampanjan tiedot">
@@ -526,7 +526,7 @@ Mikä tahansa edistyminen nollaa odotuksen, ja tämä koskee jokaista kampanjaty
 merkit, tehtävät). Jos Twitch hyvittää sen sijaan toisen saman kategorian kampanjan ja se valmistuu tai lunastetaan, syrjäänsiirto puretaan heti sen sijaan, että odotettaisiin koko 6 tuntia. Sovelluksen tai palvelimen uudelleenkäynnistys unohtaa kaikki syrjään
 siirretyt kampanjat: jumissa oleva kampanja saa yksinkertaisesti uudet 30 minuuttia.
 
-Kampanjaluettelo tulee [Twitch Drops API](https://drops.sunkwi.com) -projektista
+Kampanjaluettelo tulee [Twitch Drops API](https://dropsalerts.com) -projektista
 (päivittyy 5 minuutin välein), koska Twitch piilottaa sen TV-asiakkaalta.
 
 ## <a name="faq"></a>Usein kysytyt kysymykset
@@ -638,7 +638,7 @@ Siirrä streamaajaa ylemmäs listalla tai poista käytöstä ”Katseluputket en
 
 Saman tekijän muita projekteja:
 
-- [**Twitch Drops API**](https://drops.sunkwi.com): ilmainen julkinen API kaikista
+- [**Twitch Drops API**](https://dropsalerts.com): ilmainen julkinen API kaikista
   käynnissä olevista Twitch Drops- ja palkintokampanjoista, päivittyy minuutin välein.
   Tämä sovellus lukee kampanjaluettelonsa siitä.
 - [**Twitch Alerts 🔔**](https://twitch.sunkwi.com): Discord-botti, joka ilmoittaa
@@ -667,7 +667,7 @@ Saman tekijän muita projekteja:
 - Oman verkkosi ulkopuolella sijoita hallintapaneeli HTTPS-käänteisproxyn taakse ja aseta
   `MINER_PUBLIC_URL` (katso [Docker](#docker)).
 - Louhija on yhteydessä vain kohteisiin `twitch.tv`, `ttvnw.net`, `jtvnw.net`,
-  `twitchcdn.net`, `drops.sunkwi.com` sekä määrittämiisi ilmoituskohteisiin.
+  `twitchcdn.net`, `dropsalerts.com` sekä määrittämiisi ilmoituskohteisiin.
   Sovellus (työpöytä ja Docker) tarkistaa uudet versiot ja niiden muutokset
   `github.com`- ja `api.github.com`-palveluista, ja
   työpöytäsovellus lataa ne projektin GitHub-julkaisuista. Ne on allekirjoitettu: vain

@@ -7,7 +7,7 @@ type PartnerType = { id: string; url: string; mark: string; name: string };
 export const PARTNERS: readonly PartnerType[] = [
   {
     id: "drops",
-    url: "https://drops.sunkwi.com",
+    url: "https://dropsalerts.com",
     mark: "/partners/twitch-drops-api.svg",
     name: DROPS_API_NAME,
   },
@@ -35,7 +35,7 @@ export const LATEST_RELEASE_URL = `${REPO_URL}/releases/latest`;
 export const DISCORD_URL = "https://discord.gg/support-bots-891685895781113886";
 export const DISCORD_NAME = "Discord";
 export const GITHUB_NAME = "GitHub";
-export const DROPS_WEB_URL = "https://drops.sunkwi.com";
+export const DROPS_WEB_URL = "https://dropsalerts.com";
 export const DROPS_WEB_HOST = new URL(DROPS_WEB_URL).hostname;
 export const TWITCH_CATEGORY_URL = "https://www.twitch.tv/directory/category";
 export const TWITCH_SEARCH_URL = "https://www.twitch.tv/search";

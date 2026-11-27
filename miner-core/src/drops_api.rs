@@ -5,7 +5,7 @@ use sha2::{Digest, Sha256};
 use crate::domain::{Channel, Game};
 use crate::twitch::note_left_out;
 
-const BASE_URL: &str = "https://drops.sunkwi.com";
+const BASE_URL: &str = "https://dropsalerts.com";
 const CATALOG_PATH: &str = "api/twitch/drops";
 const BADGES_PATH: &str = "api/twitch/badges";
 

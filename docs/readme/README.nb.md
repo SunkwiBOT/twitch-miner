@@ -24,7 +24,7 @@
 <p align="center">
   <a href="#download"><strong>Last ned</strong></a> •
   <a href="#docker">Docker</a> •
-  <a href="https://drops.sunkwi.com">Twitch Drops API</a> •
+  <a href="https://dropsalerts.com">Twitch Drops API</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
   <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">Rapporter en feil</a>
@@ -185,7 +185,7 @@ Dataene ligger i brukerens datamappe:
 
 - **Alle pågående Drops-kampanjer.** Hver kampanje har sine egne detaljer: belønninger,
   kobling av utgiverkontoen, «Sett først i mining-rekkefølgen». Listen kommer fra prosjektet
-  [Twitch Drops API](https://drops.sunkwi.com) og oppdateres hvert 5. minutt.
+  [Twitch Drops API](https://dropsalerts.com) og oppdateres hvert 5. minutt.
 
   <img src="../media/nb/drops-catalogue.avif" alt="Katalogen som kalender, søket og detaljene til en kampanje">
 
@@ -523,7 +523,7 @@ utsettelsen med én gang i stedet for å vente de fulle 6 timene. Omstart av app
 glemmer alle kampanjer som er satt til side: en fastlåst kampanje får rett og slett 30
 nye minutter.
 
-Kampanjelisten kommer fra prosjektet [Twitch Drops API](https://drops.sunkwi.com)
+Kampanjelisten kommer fra prosjektet [Twitch Drops API](https://dropsalerts.com)
 (oppdatert hvert 5. minutt), fordi Twitch skjuler den for TV-klienten.
 
 ## <a name="faq"></a>Vanlige spørsmål
@@ -634,7 +634,7 @@ eller slå av «Seerrekker først» og «Abonnerte kanaler først».
 
 Andre prosjekter fra samme utvikler:
 
-- [**Twitch Drops API**](https://drops.sunkwi.com): et gratis, offentlig API med alle
+- [**Twitch Drops API**](https://dropsalerts.com): et gratis, offentlig API med alle
   pågående Twitch Drops- og belønningskampanjer, oppdatert hvert minutt. Denne appen leser
   kampanjekatalogen sin derfra.
 - [**Twitch Alerts 🔔**](https://twitch.sunkwi.com): en Discord-bot som kunngjør
@@ -662,7 +662,7 @@ Andre prosjekter fra samme utvikler:
 - Utenfor nettverket ditt plasserer du oversikten bak en omvendt HTTPS-proxy med
   `MINER_PUBLIC_URL` (se [Docker](#docker)).
 - Mineren snakker bare med `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`,
-  `drops.sunkwi.com` og varslingsmålene du konfigurerer. Appen (skrivebord og
+  `dropsalerts.com` og varslingsmålene du konfigurerer. Appen (skrivebord og
   Docker) ser etter nye versjoner og notatene deres på `github.com` og `api.github.com`,
   og skrivebordsappen laster dem ned fra
   prosjektets GitHub-utgivelser. De er signert: bare den viste versjonen blir installert.

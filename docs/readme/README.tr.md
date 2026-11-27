@@ -24,7 +24,7 @@
 <p align="center">
   <a href="#download"><strong>İndir</strong></a> •
   <a href="#docker">Docker</a> •
-  <a href="https://drops.sunkwi.com">Twitch Drops API</a> •
+  <a href="https://dropsalerts.com">Twitch Drops API</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
   <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">Hata bildir</a>
@@ -154,7 +154,7 @@ Veriler kullanıcı veri klasöründe bulunur:
 
 ### Drops
 
-- **Süren tüm Drops kampanyaları.** Her kampanyanın kendi ayrıntıları vardır: ödüller, yayıncı hesabı bağlama, “Önce kaz”. Liste [Twitch Drops API](https://drops.sunkwi.com) projesinden gelir ve 5 dakikada bir yenilenir.
+- **Süren tüm Drops kampanyaları.** Her kampanyanın kendi ayrıntıları vardır: ödüller, yayıncı hesabı bağlama, “Önce kaz”. Liste [Twitch Drops API](https://dropsalerts.com) projesinden gelir ve 5 dakikada bir yenilenir.
 
   <img src="../media/tr/drops-catalogue.avif" alt="Takvim görünümündeki Katalog, arama ve bir kampanyanın ayrıntıları">
 
@@ -384,7 +384,7 @@ Twitch, hesap başına aynı anda **bir Drops kampanyası** ve **puanlar için i
 
 Twitch, 30 dakika gerçek izleme sonrasında en üstteki kampanyanın kendi ilerlemesini hiç hareket ettirmediyse, o kampanyayı saymıyor demektir: hesap onu bir kenara bırakır, sıradaki kampanya onun yerini alır ve 6 saat sonra otomatik olarak yeniden denenir — ilerleme daha önce geri dönerse daha erken, ancak yeniden denenen kampanya yine de o sırada kazılan kampanyanın arkasında bekleyebilir. Herhangi bir ilerleme bu bekleme süresini sıfırlar ve bu, her kampanya türü için geçerlidir (Drops, rozetler, görevler). Twitch bunun yerine aynı kategorideki başka bir kampanyayı sayarsa ve o kampanya tamamlanır veya alınırsa, bir kenara bırakma tam 6 saat beklemek yerine hemen kaldırılır. Uygulamayı veya sunucuyu yeniden başlatmak her bir kenara bırakmayı unutturur: takılı kalan bir kampanya basitçe yeni bir 30 dakika alır.
 
-Kampanya listesi [Twitch Drops API](https://drops.sunkwi.com) projesinden gelir (5 dakikada bir yenilenir), çünkü Twitch onu TV istemcisinden gizler.
+Kampanya listesi [Twitch Drops API](https://dropsalerts.com) projesinden gelir (5 dakikada bir yenilenir), çünkü Twitch onu TV istemcisinden gizler.
 
 ## <a name="faq"></a>Sık sorulan sorular
 
@@ -436,7 +436,7 @@ Yalnızca açık ve canlı yayında olan yayıncılar, o da yalnızca boş bir k
 
 Aynı geliştiricinin diğer projeleri:
 
-- [**Twitch Drops API**](https://drops.sunkwi.com): süren tüm Twitch Drops ve ödül kampanyalarını sunan, dakikada bir güncellenen ücretsiz ve herkese açık bir API. Bu uygulama kampanya kataloğunu buradan okur.
+- [**Twitch Drops API**](https://dropsalerts.com): süren tüm Twitch Drops ve ödül kampanyalarını sunan, dakikada bir güncellenen ücretsiz ve herkese açık bir API. Bu uygulama kampanya kataloğunu buradan okur.
 - [**Twitch Alerts 🔔**](https://twitch.sunkwi.com): Twitch canlı yayınlarını ve Drops kampanyalarını sunucunuzda duyuran bir Discord botu.
 - [**Kick Alerts 🔔**](https://kick.sunkwi.com): Kick canlı yayınlarını ve Drops kampanyalarını sunucunuzda duyuran bir Discord botu.
 
@@ -447,7 +447,7 @@ Aynı geliştiricinin diğer projeleri:
 - HTTP paneli şifreyi sabit sürede denetler ve HttpOnly, SameSite=Strict çerezleri kullanır (HTTPS arkasında `__Host-` önekiyle birlikte `Secure`). Sunucu her oturumun yalnızca SHA-256 özetini tutar. Bir oturumu 30 gün sonra veya çıkışta sonlandırır. Herhangi bir istek gövdesini okumadan önce oturumu denetler ve gövdeleri 256 KiB ile sınırlar.
 - Bir IP adresinden art arda 5 yanlış şifre girilirse (giriş formu veya bearer), o adres 30 saniye bekler. Sunucu şifreye bakmadan `Retry-After` ile `429` yanıtı verir. Her yanlış şifrenin yanıtı ayrıca yarım saniye sürer. Aynı bağlantı adresinden, paylaşılan bir proxy dahil, bir dakikada 30'dan fazla yanlış şifre gelirse o adres her 2 saniyede yalnızca bir deneme hakkı alır: tahmin yavaşlar ve kimse dışarıda kalmaz.
 - Ağınızın dışında paneli `MINER_PUBLIC_URL` ile bir HTTPS ters proxy'nin arkasına koyun ([Docker](#docker) bölümüne bakın).
-- Madenci yalnızca `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`, `drops.sunkwi.com` ve yapılandırdığınız bildirim hedefleriyle konuşur. Uygulama (masaüstü ve Docker) yeni sürümleri ve notlarını `github.com` ile `api.github.com` üzerinde denetler; masaüstü uygulaması bunları projenin GitHub sürümlerinden indirir. Sürümler imzalıdır: yalnızca gösterilen sürüm yüklenir.
+- Madenci yalnızca `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`, `dropsalerts.com` ve yapılandırdığınız bildirim hedefleriyle konuşur. Uygulama (masaüstü ve Docker) yeni sürümleri ve notlarını `github.com` ile `api.github.com` üzerinde denetler; masaüstü uygulaması bunları projenin GitHub sürümlerinden indirir. Sürümler imzalıdır: yalnızca gösterilen sürüm yüklenir.
 
 ## <a name="build"></a>Kaynaktan derleme
 

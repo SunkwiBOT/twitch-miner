@@ -24,7 +24,7 @@
 <p align="center">
   <a href="#download"><strong>下载</strong></a> •
   <a href="#docker">Docker</a> •
-  <a href="https://drops.sunkwi.com">Twitch Drops API</a> •
+  <a href="https://dropsalerts.com">Twitch Drops API</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
   <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">报告错误</a>
@@ -154,7 +154,7 @@ macOS 版本未经公证。首次运行时，先打开应用：macOS 会阻止�
 
 ### Drops
 
-- **所有进行中的 Drops 活动。** 每个活动都有自己的详情：奖励、发行商账号关联、“优先挖取”。列表来自 [Twitch Drops API](https://drops.sunkwi.com) 项目，每 5 分钟刷新一次。
+- **所有进行中的 Drops 活动。** 每个活动都有自己的详情：奖励、发行商账号关联、“优先挖取”。列表来自 [Twitch Drops API](https://dropsalerts.com) 项目，每 5 分钟刷新一次。
 
   <img src="../media/zh-CN/drops-catalogue.avif" alt="日历视图的目录、搜索和某个活动的详情">
 
@@ -377,7 +377,7 @@ Twitch 对每个账号同时只计入**一个 Drops 活动**和**两个频道的
 
 如果 Twitch 自身对排名最前的活动的进度在 30 分钟真实观看后仍未变化，说明它没有计入这个活动：账号会把它放到一边，排名下一位的活动顶上这个位置，并在 6 小时后自动重试——如果进度先恢复，会更早重试，不过被重试的活动仍可能排在正在挖取的那个活动之后。任何进度都会重置这个等待时间，并且这适用于每一种活动类型（Drops、徽章、任务）。如果 Twitch 转而计入同一类别的另一个活动，并且该活动完成或被领取，搁置会立即解除，而不必等待完整的 6 小时。重启应用或服务器会忘记所有被搁置的记录：卡住的活动只会重新获得一段全新的 30 分钟。
 
-活动列表来自 [Twitch Drops API](https://drops.sunkwi.com) 项目（每 5 分钟刷新一次），因为 Twitch 对 TV 客户端隐藏了它。
+活动列表来自 [Twitch Drops API](https://dropsalerts.com) 项目（每 5 分钟刷新一次），因为 Twitch 对 TV 客户端隐藏了它。
 
 ## <a name="faq"></a>常见问题
 
@@ -429,7 +429,7 @@ Twitch 对每个账号同时只计入**一个 Drops 活动**和**两个频道的
 
 同一作者的其他项目：
 
-- [**Twitch Drops API**](https://drops.sunkwi.com)：免费的公开 API，收录所有进行中的 Twitch Drops 和奖励活动，每分钟更新一次。本应用的活动目录就来自这里。
+- [**Twitch Drops API**](https://dropsalerts.com)：免费的公开 API，收录所有进行中的 Twitch Drops 和奖励活动，每分钟更新一次。本应用的活动目录就来自这里。
 - [**Twitch Alerts 🔔**](https://twitch.sunkwi.com)：一个 Discord 机器人，在你的服务器中播报 Twitch 直播和 Drops 活动。
 - [**Kick Alerts 🔔**](https://kick.sunkwi.com)：一个 Discord 机器人，在你的服务器中播报 Kick 直播和 Drops 活动。
 
@@ -440,7 +440,7 @@ Twitch 对每个账号同时只计入**一个 Drops 活动**和**两个频道的
 - HTTP 仪表盘使用恒定时间的密码校验，以及 HttpOnly、SameSite=Strict 的 Cookie（位于 HTTPS 之后时还带有 `Secure` 和 `__Host-` 前缀）。服务器只保存每个会话的 SHA-256。会话在 30 天后或退出登录时结束。服务器在读取任何请求体之前先检查会话，并将请求体限制在 256 KiB 以内。
 - 同一 IP 地址连续输错 5 次密码后（登录表单或 bearer），该地址需等待 30 秒。服务器会直接返回 `429` 和 `Retry-After`，不会查看密码。每次密码错误还会延迟半秒才响应。同一连接地址（包括共享代理）在一分钟内输错密码超过 30 次后，该地址每 2 秒只能尝试一次：猜测会变慢，且不会有人被锁在外面。
 - 在你的网络之外访问时，请把仪表盘放在 HTTPS 反向代理之后，并设置 `MINER_PUBLIC_URL`（参见 [Docker](#docker)）。
-- 挖掘器只与 `twitch.tv`、`ttvnw.net`、`jtvnw.net`、`twitchcdn.net`、`drops.sunkwi.com` 以及你配置的通知目标通信。应用（桌面版和 Docker 版）会在 `github.com` 和 `api.github.com` 上检查新版本及其说明，桌面应用会从项目的 GitHub releases 下载新版本。新版本都经过签名：只会安装界面上显示的那个版本。
+- 挖掘器只与 `twitch.tv`、`ttvnw.net`、`jtvnw.net`、`twitchcdn.net`、`dropsalerts.com` 以及你配置的通知目标通信。应用（桌面版和 Docker 版）会在 `github.com` 和 `api.github.com` 上检查新版本及其说明，桌面应用会从项目的 GitHub releases 下载新版本。新版本都经过签名：只会安装界面上显示的那个版本。
 
 ## <a name="build"></a>从源码构建
 

@@ -24,7 +24,7 @@
 <p align="center">
   <a href="#download"><strong>Изтегляне</strong></a> •
   <a href="#docker">Docker</a> •
-  <a href="https://drops.sunkwi.com">Twitch Drops API</a> •
+  <a href="https://dropsalerts.com">Twitch Drops API</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
   <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">Докладвай бъг</a>
@@ -185,7 +185,7 @@ chmod +x twitch-miner_linux_x64.AppImage
 
 - **Всички текущи кампании за Drops.** Всяка кампания има своя карта с подробности:
   награди, свързване на акаунта на издателя, „Копай с приоритет“. Списъкът идва от проекта
-  [Twitch Drops API](https://drops.sunkwi.com) и се опреснява на всеки 5 минути.
+  [Twitch Drops API](https://dropsalerts.com) и се опреснява на всеки 5 минути.
 
   <img src="../media/bg/drops-catalogue.avif" alt="Каталогът като календар, търсенето и подробностите за кампания">
 
@@ -516,7 +516,7 @@ Twitch зачита **една кампания за Drops** и **два кан�
 куестове). Ако Twitch вместо това зачете друга кампания от същата категория и тя приключи или бъде взета, отлагането се вдига веднага, вместо да чака пълните 6 часа. Рестартирането на приложението или сървъра забравя всички отложени кампании:
 заседнала кампания просто получава нови 30 минути.
 
-Списъкът с кампании идва от проекта [Twitch Drops API](https://drops.sunkwi.com)
+Списъкът с кампании идва от проекта [Twitch Drops API](https://dropsalerts.com)
 (опреснява се на всеки 5 минути), защото Twitch го крие от TV клиента.
 
 ## <a name="faq"></a>Често задавани въпроси
@@ -626,7 +626,7 @@ Docker таблото ви съобщава по същия начин: вижт
 
 Други проекти на същия автор:
 
-- [**Twitch Drops API**](https://drops.sunkwi.com): безплатен публичен API с всички
+- [**Twitch Drops API**](https://dropsalerts.com): безплатен публичен API с всички
   текущи кампании за Twitch Drops и награди, обновяван всяка минута. Това приложение чете
   каталога си с кампании от него.
 - [**Twitch Alerts 🔔**](https://twitch.sunkwi.com): Discord бот, който обявява стриймове
@@ -653,7 +653,7 @@ Docker таблото ви съобщава по същия начин: вижт
 - Извън вашата мрежа поставете таблото зад обратно HTTPS прокси с `MINER_PUBLIC_URL`
   (вижте [Docker](#docker)).
 - Майнерът комуникира само с `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`,
-  `drops.sunkwi.com` и целите за известия, които сте настроили. Приложението
+  `dropsalerts.com` и целите за известия, които сте настроили. Приложението
   (настолно и Docker) проверява за нови версии и бележките им в `github.com` и
   `api.github.com`, а настолното приложение ги
   изтегля от GitHub releases на проекта. Те са подписани: инсталира се само показаната

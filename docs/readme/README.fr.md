@@ -24,7 +24,7 @@
 <p align="center">
   <a href="#download"><strong>Télécharger</strong></a> •
   <a href="#docker">Docker</a> •
-  <a href="https://drops.sunkwi.com">Twitch Drops API</a> •
+  <a href="https://dropsalerts.com">Twitch Drops API</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
   <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">Signaler un bug</a>
@@ -187,7 +187,7 @@ Les données sont dans le dossier de données de l'utilisateur :
 
 - **Toutes les campagnes Drops en cours.** Chaque campagne a sa fiche : récompenses,
   liaison du compte de l'éditeur, « Miner en priorité ». La liste vient du projet
-  [Twitch Drops API](https://drops.sunkwi.com) et se rafraîchit toutes les 5 minutes.
+  [Twitch Drops API](https://dropsalerts.com) et se rafraîchit toutes les 5 minutes.
 
   <img src="../media/fr/drops-catalogue.avif" alt="Le Catalogue en calendrier, la recherche et la fiche d'une campagne">
 
@@ -529,7 +529,7 @@ immédiatement au lieu d'attendre les 6 heures complètes. Redémarrer l'applica
 serveur oublie toute
 mise de côté : une campagne bloquée repart simplement avec 30 minutes neuves.
 
-La liste des campagnes vient du projet [Twitch Drops API](https://drops.sunkwi.com)
+La liste des campagnes vient du projet [Twitch Drops API](https://dropsalerts.com)
 (actualisée toutes les 5 minutes), parce que Twitch la cache au client TV.
 
 ## <a name="faq"></a>Questions fréquentes
@@ -643,7 +643,7 @@ ordre, affiché en badge sur chaque chaîne regardée : « Série menacée »
 
 Autres projets du même auteur :
 
-- [**Twitch Drops API**](https://drops.sunkwi.com) : une API publique et gratuite de toutes
+- [**Twitch Drops API**](https://dropsalerts.com) : une API publique et gratuite de toutes
   les campagnes de Drops et de récompenses Twitch en cours, mise à jour chaque minute.
   Cette application y lit son catalogue de campagnes.
 - [**Twitch Alerts 🔔**](https://twitch.sunkwi.com) : un bot Discord qui annonce les lives
@@ -673,7 +673,7 @@ Autres projets du même auteur :
 - Hors de votre réseau, placez le tableau de bord derrière un reverse proxy HTTPS avec
   `MINER_PUBLIC_URL` (voir [Docker](#docker)).
 - Le mineur ne parle qu'à `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`,
-  `drops.sunkwi.com` et aux cibles de notification que vous configurez.
+  `dropsalerts.com` et aux cibles de notification que vous configurez.
   L'application (bureau et Docker) cherche les nouvelles versions et leurs notes sur
   `github.com` et `api.github.com`, et
   l'application de bureau les télécharge depuis les versions GitHub du projet. Elles sont

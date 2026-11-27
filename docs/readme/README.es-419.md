@@ -24,7 +24,7 @@
 <p align="center">
   <a href="#download"><strong>Descargar</strong></a> •
   <a href="#docker">Docker</a> •
-  <a href="https://drops.sunkwi.com">Twitch Drops API</a> •
+  <a href="https://dropsalerts.com">Twitch Drops API</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
   <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">Reportar un error</a>
@@ -187,7 +187,7 @@ Los datos se guardan en la carpeta de datos del usuario:
 
 - **Todas las campañas de Drops activas.** Cada campaña tiene su ficha: recompensas,
   vinculación de la cuenta del editor, "Minar primero". La lista viene del proyecto
-  [Twitch Drops API](https://drops.sunkwi.com) y se actualiza cada 5 minutos.
+  [Twitch Drops API](https://dropsalerts.com) y se actualiza cada 5 minutos.
 
   <img src="../media/es-419/drops-catalogue.avif" alt="El Catálogo en vista de calendario, la búsqueda y la ficha de una campaña">
 
@@ -532,7 +532,7 @@ campaña termina o se reclama, el aplazamiento se levanta de inmediato en vez de
 las 6 horas completas. Reiniciar la app o el servidor olvida todas las campañas dejadas de lado: una
 campaña atascada simplemente vuelve a tener 30 minutos nuevos.
 
-La lista de campañas viene del proyecto [Twitch Drops API](https://drops.sunkwi.com) (se
+La lista de campañas viene del proyecto [Twitch Drops API](https://dropsalerts.com) (se
 actualiza cada 5 minutos), porque Twitch la oculta al cliente de TV.
 
 ## <a name="faq"></a>Preguntas frecuentes
@@ -644,7 +644,7 @@ desactiva “Rachas de visualización primero” y “Canales suscritos primero�
 
 Otros proyectos del mismo autor:
 
-- [**Twitch Drops API**](https://drops.sunkwi.com): una API pública y gratuita con todas
+- [**Twitch Drops API**](https://dropsalerts.com): una API pública y gratuita con todas
   las campañas de Drops y de recompensas de Twitch activas, actualizada cada minuto. Esta
   app toma de ahí su catálogo de campañas.
 - [**Twitch Alerts 🔔**](https://twitch.sunkwi.com): un bot de Discord que anuncia en tu
@@ -674,7 +674,7 @@ Otros proyectos del mismo autor:
 - Fuera de tu red, coloca el panel detrás de un proxy inverso HTTPS con
   `MINER_PUBLIC_URL` (consulta [Docker](#docker)).
 - El minero solo se comunica con `twitch.tv`, `ttvnw.net`, `jtvnw.net`, `twitchcdn.net`,
-  `drops.sunkwi.com` y los destinos de notificación que configures. La app
+  `dropsalerts.com` y los destinos de notificación que configures. La app
   (escritorio y Docker) busca nuevas versiones y sus notas en `github.com` y
   `api.github.com`, y la app de escritorio las
   descarga de las releases del proyecto en GitHub. Están firmadas: solo se instala la
