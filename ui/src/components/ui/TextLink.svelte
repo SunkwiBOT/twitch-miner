@@ -42,8 +42,12 @@
   const listKind = nameListKind();
   const running = inRunningText();
   const mark = $derived.by(() => {
-    if (listKind === NameListKind.WRAP || !("url" in target)) {
+    if (!("url" in target)) {
       return LinkMark.NONE;
+    }
+
+    if (listKind === NameListKind.WRAP) {
+      return LinkMark.OVERLAY;
     }
 
     return listKind === NameListKind.RUN && target.mark === LinkMark.END

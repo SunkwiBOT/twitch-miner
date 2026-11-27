@@ -52,7 +52,8 @@ export enum LinkMark {
   PUSH = "PUSH",
 }
 
-// ! WRAP: a list of names that wraps, with no external icon (its room would open gaps between names).
+// ! WRAP: a list of names that wraps, with no room-reserving icon mark (START/END would open gaps
+// between names): every link there still shows its icon on hover, overlaid with no room (OVERLAY).
 // COLUMN: one name per row, where the hover icon opens no gap, so each link keeps its own mark.
 // RUN: names inline with « · » separators, whose END marks become PUSH.
 export enum NameListKind {

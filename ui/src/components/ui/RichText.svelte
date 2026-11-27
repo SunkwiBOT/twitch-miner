@@ -16,7 +16,8 @@
   import TextLink from "./TextLink.svelte";
   import Thumb from "./Thumb.svelte";
   import { AvatarSize, ThumbShape, ThumbSize } from "./picture.constants";
-  import { LinkMark, LinkSize } from "./link.constants";
+  import { LinkMark, LinkSize, NameListKind } from "./link.constants";
+  import { nameListKind } from "./name-list.svelte";
   import { INLINE_PICTURE_CLASSES, RAISED_CLASSES, VALUE_CLASSES } from "./ui.constants";
   import { provideRunningText } from "./running-text.svelte";
 
@@ -32,6 +33,12 @@
   provideRunningText();
 
   const parts = $derived(parseRichText(text, links, people, categories));
+
+  // ! Inside a `NameRun` (details joined with « · »), a link is never the sentence's own
+  // end: it still passes `END`, so the run's own logic turns it into `PUSH` on hover.
+  const listKind = nameListKind();
+  const runMark = (endsSentence: boolean): LinkMark =>
+    listKind === NameListKind.RUN ? LinkMark.END : endsSentence ? LinkMark.OVERLAY : LinkMark.NONE;
 </script>
 
 {#snippet boxArtThumb(category: TextCategoryType)}
@@ -53,7 +60,7 @@
         name={part.person.name}
         avatar={part.person.avatar}
         size={AvatarSize.SM}
-        mark={part.endsSentence ? LinkMark.OVERLAY : LinkMark.NONE}
+        mark={runMark(part.endsSentence)}
       />{:else if part.kind === RichTextPartKind.PERSON}<span
         class="inline-flex items-baseline gap-1 align-baseline"
       >
@@ -69,7 +76,7 @@
           name={part.category.name}
           art={part.category.art}
           url={part.category.url}
-          mark={part.endsSentence ? LinkMark.OVERLAY : LinkMark.NONE}
+          mark={runMark(part.endsSentence)}
         />
       </span>{:else if part.kind === RichTextPartKind.CATEGORY}<span
         class="inline-flex items-baseline gap-1 align-baseline"
@@ -84,7 +91,7 @@
         target={"url" in part.link
           ? {
               url: part.link.url,
-              mark: part.endsSentence ? LinkMark.OVERLAY : LinkMark.NONE,
+              mark: runMark(part.endsSentence),
             }
           : part.link}
         size={LinkSize.MD}
