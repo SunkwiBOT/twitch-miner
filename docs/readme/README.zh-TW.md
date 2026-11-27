@@ -24,7 +24,7 @@
 <p align="center">
   <a href="#download"><strong>下載</strong></a> •
   <a href="#docker">Docker</a> •
-  <a href="https://dropsalerts.com">Twitch Drops API</a> •
+  <a href="https://dropsalerts.com">Drops Alerts</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
   <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">回報錯誤</a>
@@ -154,7 +154,7 @@ macOS 版本未經 Apple 公證。第一次執行時，先開啟應用程式：m
 
 ### Drops
 
-- **所有進行中的 Drops 活動。** 每個活動都有自己的詳細資料：獎勵、發行商帳號連結、「優先挖取」。清單來自 [Twitch Drops API](https://dropsalerts.com) 專案，每 5 分鐘更新一次。
+- **所有進行中的 Drops 活動。** 每個活動都有自己的詳細資料：獎勵、發行商帳號連結、「優先挖取」。清單來自 [Drops Alerts](https://dropsalerts.com) 專案，每 5 分鐘更新一次。
 
   <img src="../media/zh-TW/drops-catalogue.avif" alt="以月曆呈現的目錄、搜尋和某個活動的詳細資料">
 
@@ -377,7 +377,7 @@ Twitch 對每個帳號同一時間只會計入**一個 Drops 活動**和**兩個
 
 如果 Twitch 本身對排名最前面的活動的進度，在 30 分鐘真實觀看後仍未變動，表示它沒有計入這個活動：帳號會把它先擱置一旁，排名居次的活動遞補上這個名額，並在 6 小時後自動重試——如果進度先恢復，則會更早重試，不過被重試的活動仍可能排在正在挖取的那個活動之後。任何進度都會重設這段等待時間，且適用於每一種活動類型（Drops、徽章、任務）。如果 Twitch 改為計入同一類別的另一個活動，並且該活動完成或被領取，擱置會立即解除，而不必等候完整的 6 小時。重新啟動應用程式或伺服器會忘記所有被擱置的紀錄：卡住的活動只會重新獲得一段全新的 30 分鐘。
 
-活動清單來自 [Twitch Drops API](https://dropsalerts.com) 專案（每 5 分鐘更新一次），因為 Twitch 不會讓 TV 用戶端看到它。
+活動清單來自 [Drops Alerts](https://dropsalerts.com) 專案（每 5 分鐘更新一次），因為 Twitch 不會讓 TV 用戶端看到它。
 
 ## <a name="faq"></a>常見問題
 
@@ -429,7 +429,7 @@ Twitch 對每個帳號同一時間只會計入**一個 Drops 活動**和**兩個
 
 同一位作者的其他專案：
 
-- [**Twitch Drops API**](https://dropsalerts.com)：免費的公開 API，收錄所有進行中的 Twitch Drops 和獎勵活動，每分鐘更新一次。本應用程式的活動目錄就是從這裡讀取。
+- [**Drops Alerts**](https://dropsalerts.com)：免費的公開 API，收錄所有進行中的 Twitch Drops 和獎勵活動，每分鐘更新一次。本應用程式的活動目錄就是從這裡讀取。
 - [**Twitch Alerts 🔔**](https://twitch.sunkwi.com)：一個 Discord 機器人，會在你的伺服器中通知 Twitch 直播和 Drops 活動。
 - [**Kick Alerts 🔔**](https://kick.sunkwi.com)：一個 Discord 機器人，會在你的伺服器中通知 Kick 直播和 Drops 活動。
 

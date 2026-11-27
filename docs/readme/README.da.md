@@ -24,7 +24,7 @@
 <p align="center">
   <a href="#download"><strong>Download</strong></a> •
   <a href="#docker">Docker</a> •
-  <a href="https://dropsalerts.com">Twitch Drops API</a> •
+  <a href="https://dropsalerts.com">Drops Alerts</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
   <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">Rapportér en fejl</a>
@@ -185,7 +185,7 @@ Data ligger i brugerens datamappe:
 
 - **Alle igangværende Drops-kampagner.** Hver kampagne har sine egne detaljer:
   belønninger, tilknytning af udgiverkontoen, »Sæt først i mining-rækkefølgen«. Listen kommer
-  fra projektet [Twitch Drops API](https://dropsalerts.com) og opdateres hvert 5. minut.
+  fra projektet [Drops Alerts](https://dropsalerts.com) og opdateres hvert 5. minut.
 
   <img src="../media/da/drops-catalogue.avif" alt="Kataloget som kalender, søgningen og en kampagnes detaljer">
 
@@ -521,7 +521,7 @@ kampagne i samme kategori, og den kampagne afsluttes eller hentes, ophæves uds�
 med det samme i stedet for at vente de fulde 6 timer. Genstart af app eller server glemmer alle
 kampagner sat til side: en fastlåst kampagne får simpelthen 30 friske minutter.
 
-Kampagnelisten kommer fra projektet [Twitch Drops API](https://dropsalerts.com)
+Kampagnelisten kommer fra projektet [Drops Alerts](https://dropsalerts.com)
 (opdateret hvert 5. minut), fordi Twitch skjuler den for tv-klienten.
 
 ## <a name="faq"></a>Ofte stillede spørgsmål
@@ -632,7 +632,7 @@ eller slå »Seerstimer først« og »Abonnerede kanaler først« fra.
 
 Andre projekter fra samme udvikler:
 
-- [**Twitch Drops API**](https://dropsalerts.com): et gratis, offentligt API med alle
+- [**Drops Alerts**](https://dropsalerts.com): et gratis, offentligt API med alle
   igangværende Twitch Drops- og belønningskampagner, opdateret hvert minut. Denne app
   læser sit kampagnekatalog derfra.
 - [**Twitch Alerts 🔔**](https://twitch.sunkwi.com): en Discord-bot, der annoncerer

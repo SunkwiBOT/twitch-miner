@@ -24,7 +24,7 @@
 <p align="center">
   <a href="#download"><strong>Descargar</strong></a> •
   <a href="#docker">Docker</a> •
-  <a href="https://dropsalerts.com">Twitch Drops API</a> •
+  <a href="https://dropsalerts.com">Drops Alerts</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
   <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">Informar de un error</a>
@@ -185,7 +185,7 @@ Los datos se guardan en la carpeta de datos del usuario:
 
 - **Todas las campañas de Drops en curso.** Cada campaña tiene su ficha: recompensas,
   vinculación de la cuenta del editor, «Minar primero». La lista viene del proyecto
-  [Twitch Drops API](https://dropsalerts.com) y se actualiza cada 5 minutos.
+  [Drops Alerts](https://dropsalerts.com) y se actualiza cada 5 minutos.
 
   <img src="../media/es-ES/drops-catalogue.avif" alt="El Catálogo en forma de calendario, la búsqueda y la ficha de una campaña">
 
@@ -527,7 +527,7 @@ campaña termina o se reclama, el aplazamiento se levanta de inmediato en vez de
 las 6 horas completas. Reiniciar la aplicación o el servidor olvida todas las campañas dejadas de lado:
 una campaña bloqueada simplemente empieza de nuevo con 30 minutos.
 
-La lista de campañas viene del proyecto [Twitch Drops API](https://dropsalerts.com)
+La lista de campañas viene del proyecto [Drops Alerts](https://dropsalerts.com)
 (se actualiza cada 5 minutos), porque Twitch la oculta al cliente de TV.
 
 ## <a name="faq"></a>Preguntas frecuentes
@@ -637,7 +637,7 @@ orden, que aparece como insignia en cada canal visto: «Racha en riesgo», «Bon
 
 Otros proyectos del mismo autor:
 
-- [**Twitch Drops API**](https://dropsalerts.com): una API pública y gratuita con todas
+- [**Drops Alerts**](https://dropsalerts.com): una API pública y gratuita con todas
   las campañas de Drops y de recompensas de Twitch en curso, actualizada cada minuto. Esta
   app saca de ella su catálogo de campañas.
 - [**Twitch Alerts 🔔**](https://twitch.sunkwi.com): un bot de Discord que anuncia en tu

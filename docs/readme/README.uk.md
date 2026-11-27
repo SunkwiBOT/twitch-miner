@@ -24,7 +24,7 @@
 <p align="center">
   <a href="#download"><strong>Завантажити</strong></a> •
   <a href="#docker">Docker</a> •
-  <a href="https://dropsalerts.com">Twitch Drops API</a> •
+  <a href="https://dropsalerts.com">Drops Alerts</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
   <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">Повідомити про помилку</a>
@@ -186,7 +186,7 @@ chmod +x twitch-miner_linux_x64.AppImage
 
 - **Усі поточні кампанії Drops.** Кожна кампанія має свою картку: нагороди, прив'язка
   облікового запису видавця, «Майнити в першу чергу». Список береться з проєкту
-  [Twitch Drops API](https://dropsalerts.com) й оновлюється кожні 5 хвилин.
+  [Drops Alerts](https://dropsalerts.com) й оновлюється кожні 5 хвилин.
 
   <img src="../media/uk/drops-catalogue.avif" alt="Каталог у вигляді календаря, пошук і картка кампанії">
 
@@ -524,7 +524,7 @@ Twitch зараховує на обліковий запис одночасно 
 сервера забуває всі відкладені кампанії: застрягла кампанія просто отримує нові 30
 хвилин.
 
-Список кампаній береться з проєкту [Twitch Drops API](https://dropsalerts.com)
+Список кампаній береться з проєкту [Drops Alerts](https://dropsalerts.com)
 (оновлюється кожні 5 хвилин), бо Twitch приховує його від клієнта для ТБ.
 
 ## <a name="faq"></a>Часті запитання
@@ -636,7 +636,7 @@ Twitch зараховує на обліковий запис одночасно 
 
 Інші проєкти того самого автора:
 
-- [**Twitch Drops API**](https://dropsalerts.com): безкоштовний публічний API усіх
+- [**Drops Alerts**](https://dropsalerts.com): безкоштовний публічний API усіх
   поточних кампаній Twitch Drops і кампаній із нагородами, оновлюється щохвилини. Із нього
   цей застосунок бере свій каталог кампаній.
 - [**Twitch Alerts 🔔**](https://twitch.sunkwi.com): бот для Discord, який повідомляє на

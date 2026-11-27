@@ -24,7 +24,7 @@
 <p align="center">
   <a href="#download"><strong>Ladda ner</strong></a> •
   <a href="#docker">Docker</a> •
-  <a href="https://dropsalerts.com">Twitch Drops API</a> •
+  <a href="https://dropsalerts.com">Drops Alerts</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
   <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">Rapportera en bugg</a>
@@ -183,7 +183,7 @@ Data lagras i användarens datamapp:
 
 - **Alla pågående Drops-kampanjer.** Varje kampanj har sina egna detaljer: belöningar,
   länkning av utgivarkontot, ”Mina först”. Listan kommer från projektet
-  [Twitch Drops API](https://dropsalerts.com) och uppdateras var 5:e minut.
+  [Drops Alerts](https://dropsalerts.com) och uppdateras var 5:e minut.
 
   <img src="../media/sv/drops-catalogue.avif" alt="Katalogen som kalender, sökningen och en kampanjs detaljer">
 
@@ -518,7 +518,7 @@ kampanj i samma kategori, och den kampanjen avslutas eller hämtas ut, hävs
 åtsidosättningen direkt i stället för att vänta de fulla 6 timmarna. Att starta om appen eller servern glömmer
 alla åtsidosättningar: en fastnad kampanj får helt enkelt 30 nya minuter.
 
-Kampanjlistan kommer från projektet [Twitch Drops API](https://dropsalerts.com)
+Kampanjlistan kommer från projektet [Drops Alerts](https://dropsalerts.com)
 (uppdateras var 5:e minut), eftersom Twitch döljer den för tv-klienten.
 
 ## <a name="faq"></a>Vanliga frågor
@@ -630,7 +630,7 @@ streamern i listan, eller stäng av ”Tittarsviter först” och
 
 Andra projekt av samma upphovsperson:
 
-- [**Twitch Drops API**](https://dropsalerts.com): ett gratis, offentligt API med alla
+- [**Drops Alerts**](https://dropsalerts.com): ett gratis, offentligt API med alla
   pågående Twitch Drops- och belöningskampanjer, uppdaterat varje minut. Den här appen
   läser sin kampanjkatalog därifrån.
 - [**Twitch Alerts 🔔**](https://twitch.sunkwi.com): en Discord-bot som annonserar

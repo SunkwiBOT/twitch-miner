@@ -24,7 +24,7 @@
 <p align="center">
   <a href="#download"><strong>Descarcă</strong></a> •
   <a href="#docker">Docker</a> •
-  <a href="https://dropsalerts.com">Twitch Drops API</a> •
+  <a href="https://dropsalerts.com">Drops Alerts</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
   <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">Raportează o eroare</a>
@@ -184,7 +184,7 @@ Datele se află în dosarul de date al utilizatorului:
 
 - **Toate campaniile Drops în desfășurare.** Fiecare campanie are fișa ei: recompense,
   conectarea contului de editor, „Minează cu prioritate”. Lista vine de la proiectul
-  [Twitch Drops API](https://dropsalerts.com) și se reîmprospătează la fiecare 5 minute.
+  [Drops Alerts](https://dropsalerts.com) și se reîmprospătează la fiecare 5 minute.
 
   <img src="../media/ro/drops-catalogue.avif" alt="Catalogul sub formă de calendar, căutarea și fișa unei campanii">
 
@@ -516,7 +516,7 @@ minată în prezent. Orice progres resetează așteptarea, iar asta se aplică f
 campanie (Drops, insigne, misiuni). Dacă Twitch creditează în schimb o altă campanie din aceeași categorie, iar aceasta se încheie sau este revendicată, amânarea este ridicată imediat, în loc să aștepte cele 6 ore complete. Repornirea aplicației sau a serverului uită toate
 campaniile puse deoparte: o campanie blocată primește pur și simplu încă 30 de minute noi.
 
-Lista campaniilor vine de la proiectul [Twitch Drops API](https://dropsalerts.com)
+Lista campaniilor vine de la proiectul [Drops Alerts](https://dropsalerts.com)
 (reîmprospătată la fiecare 5 minute), pentru că Twitch o ascunde de clientul TV.
 
 ## <a name="faq"></a>Întrebări frecvente
@@ -627,7 +627,7 @@ listă sau dezactivează „Seriile de vizionare mai întâi” și „Canalele 
 
 Alte proiecte ale aceluiași autor:
 
-- [**Twitch Drops API**](https://dropsalerts.com): un API public și gratuit cu toate
+- [**Drops Alerts**](https://dropsalerts.com): un API public și gratuit cu toate
   campaniile Twitch Drops și de recompense în desfășurare, actualizat în fiecare minut.
   Această aplicație își citește de acolo catalogul de campanii.
 - [**Twitch Alerts 🔔**](https://twitch.sunkwi.com): un bot Discord care anunță pe serverul

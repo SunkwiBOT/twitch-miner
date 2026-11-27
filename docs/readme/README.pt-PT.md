@@ -24,7 +24,7 @@
 <p align="center">
   <a href="#download"><strong>Transferir</strong></a> •
   <a href="#docker">Docker</a> •
-  <a href="https://dropsalerts.com">Twitch Drops API</a> •
+  <a href="https://dropsalerts.com">Drops Alerts</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
   <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">Reportar um erro</a>
@@ -182,7 +182,7 @@ Os dados ficam na pasta de dados do utilizador:
 
 - **Todas as campanhas de Drops em curso.** Cada campanha tem a sua ficha: recompensas,
   associação da conta da editora, «Minerar primeiro». A lista vem do projeto
-  [Twitch Drops API](https://dropsalerts.com) e é atualizada a cada 5 minutos.
+  [Drops Alerts](https://dropsalerts.com) e é atualizada a cada 5 minutos.
 
   <img src="../media/pt-PT/drops-catalogue.avif" alt="O Catálogo em calendário, a pesquisa e a ficha de uma campanha">
 
@@ -523,7 +523,7 @@ espera é terminada de imediato, em vez de aguardar as 6 horas completas. Reinic
 esquece todas as campanhas postas de parte: uma campanha bloqueada recebe simplesmente mais
 30 minutos.
 
-A lista de campanhas vem do projeto [Twitch Drops API](https://dropsalerts.com)
+A lista de campanhas vem do projeto [Drops Alerts](https://dropsalerts.com)
 (atualizada a cada 5 minutos), porque a Twitch a esconde do cliente de TV.
 
 ## <a name="faq"></a>Perguntas frequentes
@@ -635,7 +635,7 @@ sequência», «Subscrito» e, por fim, «Ordem da lista». Suba o streamer na l
 
 Outros projetos do mesmo autor:
 
-- [**Twitch Drops API**](https://dropsalerts.com): uma API pública e gratuita com todas
+- [**Drops Alerts**](https://dropsalerts.com): uma API pública e gratuita com todas
   as campanhas de Drops e de recompensas da Twitch em curso, atualizada a cada minuto.
   Esta app obtém dela o seu catálogo de campanhas.
 - [**Twitch Alerts 🔔**](https://twitch.sunkwi.com): um bot do Discord que anuncia no seu

@@ -24,7 +24,7 @@
 <p align="center">
   <a href="#download"><strong>Télécharger</strong></a> •
   <a href="#docker">Docker</a> •
-  <a href="https://dropsalerts.com">Twitch Drops API</a> •
+  <a href="https://dropsalerts.com">Drops Alerts</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
   <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">Signaler un bug</a>
@@ -187,7 +187,7 @@ Les données sont dans le dossier de données de l'utilisateur :
 
 - **Toutes les campagnes Drops en cours.** Chaque campagne a sa fiche : récompenses,
   liaison du compte de l'éditeur, « Miner en priorité ». La liste vient du projet
-  [Twitch Drops API](https://dropsalerts.com) et se rafraîchit toutes les 5 minutes.
+  [Drops Alerts](https://dropsalerts.com) et se rafraîchit toutes les 5 minutes.
 
   <img src="../media/fr/drops-catalogue.avif" alt="Le Catalogue en calendrier, la recherche et la fiche d'une campagne">
 
@@ -529,7 +529,7 @@ immédiatement au lieu d'attendre les 6 heures complètes. Redémarrer l'applica
 serveur oublie toute
 mise de côté : une campagne bloquée repart simplement avec 30 minutes neuves.
 
-La liste des campagnes vient du projet [Twitch Drops API](https://dropsalerts.com)
+La liste des campagnes vient du projet [Drops Alerts](https://dropsalerts.com)
 (actualisée toutes les 5 minutes), parce que Twitch la cache au client TV.
 
 ## <a name="faq"></a>Questions fréquentes
@@ -643,7 +643,7 @@ ordre, affiché en badge sur chaque chaîne regardée : « Série menacée »
 
 Autres projets du même auteur :
 
-- [**Twitch Drops API**](https://dropsalerts.com) : une API publique et gratuite de toutes
+- [**Drops Alerts**](https://dropsalerts.com) : une API publique et gratuite de toutes
   les campagnes de Drops et de récompenses Twitch en cours, mise à jour chaque minute.
   Cette application y lit son catalogue de campagnes.
 - [**Twitch Alerts 🔔**](https://twitch.sunkwi.com) : un bot Discord qui annonce les lives

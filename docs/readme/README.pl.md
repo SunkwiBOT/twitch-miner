@@ -24,7 +24,7 @@
 <p align="center">
   <a href="#download"><strong>Pobierz</strong></a> •
   <a href="#docker">Docker</a> •
-  <a href="https://dropsalerts.com">Twitch Drops API</a> •
+  <a href="https://dropsalerts.com">Drops Alerts</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
   <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">Zgłoś błąd</a>
@@ -183,7 +183,7 @@ Dane są przechowywane w folderze danych użytkownika:
 
 - **Wszystkie trwające kampanie Drops.** Każda kampania ma własną kartę szczegółów: nagrody,
   połączenie konta wydawcy, „Kop najpierw”. Lista pochodzi z projektu
-  [Twitch Drops API](https://dropsalerts.com) i odświeża się co 5 minut.
+  [Drops Alerts](https://dropsalerts.com) i odświeża się co 5 minut.
 
   <img src="../media/pl/drops-catalogue.avif" alt="Katalog w widoku kalendarza, wyszukiwarka i szczegóły kampanii">
 
@@ -514,7 +514,7 @@ inną kampanię z tej samej kategorii i ta kampania zostanie ukończona lub odeb
 odłożenie jest znoszone od razu, zamiast czekać pełne 6 godzin. Restart aplikacji lub serwera kasuje
 wszystkie odłożone kampanie: zablokowana kampania po prostu dostaje nowe 30 minut.
 
-Lista kampanii pochodzi z projektu [Twitch Drops API](https://dropsalerts.com) (odświeżana
+Lista kampanii pochodzi z projektu [Drops Alerts](https://dropsalerts.com) (odświeżana
 co 5 minut), bo Twitch ukrywa ją przed klientem TV.
 
 ## <a name="faq"></a>Najczęstsze pytania
@@ -625,7 +625,7 @@ streamera wyżej na liście albo wyłącz „Najpierw serie oglądania” i
 
 Inne projekty tego samego autora:
 
-- [**Twitch Drops API**](https://dropsalerts.com): darmowe publiczne API wszystkich
+- [**Drops Alerts**](https://dropsalerts.com): darmowe publiczne API wszystkich
   trwających kampanii Twitch Drops i kampanii z nagrodami, aktualizowane co minutę. Z niego
   ta aplikacja pobiera swój katalog kampanii.
 - [**Twitch Alerts 🔔**](https://twitch.sunkwi.com): bot Discord, który ogłasza na Twoim

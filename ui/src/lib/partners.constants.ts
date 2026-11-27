@@ -1,6 +1,6 @@
 import { TwitchPage } from "./bindings/TwitchPage";
 
-export const DROPS_API_NAME = "Twitch Drops API";
+export const DROPS_API_NAME = "Drops Alerts";
 
 type PartnerType = { id: string; url: string; mark: string; name: string };
 

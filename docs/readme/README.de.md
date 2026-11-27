@@ -24,7 +24,7 @@
 <p align="center">
   <a href="#download"><strong>Herunterladen</strong></a> •
   <a href="#docker">Docker</a> •
-  <a href="https://dropsalerts.com">Twitch Drops API</a> •
+  <a href="https://dropsalerts.com">Drops Alerts</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
   <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">Fehler melden</a>
@@ -189,7 +189,7 @@ Die Daten liegen im Benutzerdatenordner:
 
 - **Alle laufenden Drops-Kampagnen.** Jede Kampagne hat ihre eigenen Details: Belohnungen,
   Verknüpfung des Herausgeberkontos, „Vorrangig minen“. Die Liste stammt aus dem Projekt
-  [Twitch Drops API](https://dropsalerts.com) und wird alle 5 Minuten aktualisiert.
+  [Drops Alerts](https://dropsalerts.com) und wird alle 5 Minuten aktualisiert.
 
   <img src="../media/de/drops-catalogue.avif" alt="Der Katalog als Kalender, die Suche und die Details einer Kampagne">
 
@@ -541,7 +541,7 @@ Servers vergisst jede
 zurückgestellte Kampagne: Eine festhängende Kampagne erhält einfach wieder frische
 30 Minuten.
 
-Die Kampagnenliste stammt aus dem Projekt [Twitch Drops API](https://dropsalerts.com)
+Die Kampagnenliste stammt aus dem Projekt [Drops Alerts](https://dropsalerts.com)
 (alle 5 Minuten aktualisiert), weil Twitch sie vor dem TV-Client verbirgt.
 
 ## <a name="faq"></a>Häufige Fragen
@@ -657,7 +657,7 @@ Sie den Streamer in der Liste nach oben, oder schalten Sie „Zuschauerserien zu
 
 Weitere Projekte desselben Autors:
 
-- [**Twitch Drops API**](https://dropsalerts.com): eine kostenlose öffentliche API
+- [**Drops Alerts**](https://dropsalerts.com): eine kostenlose öffentliche API
   aller laufenden Kampagnen für Twitch Drops und Belohnungen, jede Minute aktualisiert.
   Diese App liest daraus ihren Kampagnenkatalog.
 - [**Twitch Alerts 🔔**](https://twitch.sunkwi.com): ein Discord-Bot, der

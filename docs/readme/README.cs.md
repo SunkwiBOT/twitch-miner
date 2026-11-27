@@ -24,7 +24,7 @@
 <p align="center">
   <a href="#download"><strong>Stáhnout</strong></a> •
   <a href="#docker">Docker</a> •
-  <a href="https://dropsalerts.com">Twitch Drops API</a> •
+  <a href="https://dropsalerts.com">Drops Alerts</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
   <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">Nahlásit chybu</a>
@@ -181,7 +181,7 @@ Data jsou uložena ve složce s uživatelskými daty:
 
 - **Všechny probíhající kampaně Drops.** Každá kampaň má vlastní kartu s podrobnostmi:
   odměny, propojení účtu vydavatele, „Těžit přednostně“. Seznam pochází z projektu
-  [Twitch Drops API](https://dropsalerts.com) a obnovuje se každých 5 minut.
+  [Drops Alerts](https://dropsalerts.com) a obnovuje se každých 5 minut.
 
   <img src="../media/cs/drops-catalogue.avif" alt="Katalog jako kalendář, vyhledávání a podrobnosti kampaně">
 
@@ -506,7 +506,7 @@ skončí nebo je vyzvednuta, odložení se zruší okamžitě, místo aby čekal
 Restart aplikace nebo serveru zapomene všechny odložené kampaně:
 uvízlá kampaň prostě dostane nových 30 minut.
 
-Seznam kampaní pochází z projektu [Twitch Drops API](https://dropsalerts.com) (obnovuje
+Seznam kampaní pochází z projektu [Drops Alerts](https://dropsalerts.com) (obnovuje
 se každých 5 minut), protože ho Twitch před klientem pro TV skrývá.
 
 ## <a name="faq"></a>Časté otázky
@@ -613,7 +613,7 @@ zobrazeném jako odznak u každého sledovaného kanálu: „Série ohrožena“
 
 Další projekty stejného autora:
 
-- [**Twitch Drops API**](https://dropsalerts.com): bezplatné veřejné API všech probíhajících
+- [**Drops Alerts**](https://dropsalerts.com): bezplatné veřejné API všech probíhajících
   kampaní Twitch Drops a kampaní s odměnami, aktualizované každou minutu. Tato aplikace
   z něj načítá svůj katalog kampaní.
 - [**Twitch Alerts 🔔**](https://twitch.sunkwi.com): bot pro Discord, který na vašem serveru

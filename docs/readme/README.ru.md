@@ -24,7 +24,7 @@
 <p align="center">
   <a href="#download"><strong>Скачать</strong></a> •
   <a href="#docker">Docker</a> •
-  <a href="https://dropsalerts.com">Twitch Drops API</a> •
+  <a href="https://dropsalerts.com">Drops Alerts</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
   <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">Сообщить об ошибке</a>
@@ -185,7 +185,7 @@ chmod +x twitch-miner_linux_x64.AppImage
 
 - **Все текущие кампании Drops.** У каждой кампании своя карточка: награды, привязка
   аккаунта издателя, «Майнить в первую очередь». Список берётся из проекта
-  [Twitch Drops API](https://dropsalerts.com) и обновляется каждые 5 минут.
+  [Drops Alerts](https://dropsalerts.com) и обновляется каждые 5 минут.
 
   <img src="../media/ru/drops-catalogue.avif" alt="Каталог в виде календаря, поиск и карточка кампании">
 
@@ -521,7 +521,7 @@ Twitch засчитывает на аккаунт одновременно **о�
 Перезапуск приложения или сервера забывает все отложенные кампании: застрявшая
 кампания просто получает новые 30 минут.
 
-Список кампаний берётся из проекта [Twitch Drops API](https://dropsalerts.com)
+Список кампаний берётся из проекта [Drops Alerts](https://dropsalerts.com)
 (обновляется каждые 5 минут), потому что Twitch скрывает его от клиента для ТВ.
 
 ## <a name="faq"></a>Частые вопросы
@@ -631,7 +631,7 @@ Twitch засчитывает на аккаунт одновременно **о�
 
 Другие проекты того же автора:
 
-- [**Twitch Drops API**](https://dropsalerts.com): бесплатный публичный API всех
+- [**Drops Alerts**](https://dropsalerts.com): бесплатный публичный API всех
   текущих кампаний Twitch Drops и кампаний с наградами, обновляется каждую минуту. Из него
   это приложение берёт свой каталог кампаний.
 - [**Twitch Alerts 🔔**](https://twitch.sunkwi.com): бот для Discord, который сообщает на

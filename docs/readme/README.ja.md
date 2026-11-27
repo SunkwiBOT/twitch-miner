@@ -24,7 +24,7 @@
 <p align="center">
   <a href="#download"><strong>ダウンロード</strong></a> •
   <a href="#docker">Docker</a> •
-  <a href="https://dropsalerts.com">Twitch Drops API</a> •
+  <a href="https://dropsalerts.com">Drops Alerts</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
   <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">バグを報告</a>
@@ -154,7 +154,7 @@ macOS 版は公証を受けていません。初回は、まずアプリを開�
 
 ### Drops
 
-- **開催中のすべての Drops キャンペーン。** キャンペーンごとに詳細があります：報酬、パブリッシャーアカウントの連携、「優先してマイニング」。一覧は [Twitch Drops API](https://dropsalerts.com) プロジェクトから取得し、5 分ごとに更新されます。
+- **開催中のすべての Drops キャンペーン。** キャンペーンごとに詳細があります：報酬、パブリッシャーアカウントの連携、「優先してマイニング」。一覧は [Drops Alerts](https://dropsalerts.com) プロジェクトから取得し、5 分ごとに更新されます。
 
   <img src="../media/ja/drops-catalogue.avif" alt="カレンダー表示のカタログ、検索、キャンペーンの詳細">
 
@@ -374,7 +374,7 @@ Twitch がカウントするのは、1 アカウントにつき同時に**Drops 
 
 Twitch 側の進捗が、キューの先頭にあるキャンペーンで実際に30分視聴しても動かない場合、そのキャンペーンはカウントされていません：アカウントはそれを保留にし、次の順位のキャンペーンがその枠を引き継ぎ、6時間後に自動的に再試行されます — その前に進捗が現れればもっと早く再試行されますが、再試行されたキャンペーンは現在マイニング中のキャンペーンの後ろで待つこともあります。何らかの進捗があれば待機時間はリセットされ、これはすべての種類のキャンペーン（Drops、バッジ、クエスト）に当てはまります。Twitch が代わりに同じカテゴリーの別のキャンペーンをカウントし、それが完了または受け取られた場合は、6時間フルに待つのではなく、保留はすぐに解除されます。アプリやサーバーを再起動すると、保留になっていたキャンペーンはすべて忘れられます：行き詰まっていたキャンペーンは単純に新しい30分からやり直されます。
 
-キャンペーン一覧は [Twitch Drops API](https://dropsalerts.com) プロジェクトから取得します（5 分ごとに更新）。Twitch が TV クライアントには一覧を見せないためです。
+キャンペーン一覧は [Drops Alerts](https://dropsalerts.com) プロジェクトから取得します（5 分ごとに更新）。Twitch が TV クライアントには一覧を見せないためです。
 
 ## <a name="faq"></a>よくある質問
 
@@ -425,7 +425,7 @@ Twitch とチャンネルによって異なります。マイナーが獲得す�
 
 同じ作者によるほかのプロジェクト：
 
-- [**Twitch Drops API**](https://dropsalerts.com)：開催中のすべての Twitch Drops と報酬キャンペーンをまとめた無料の公開 API で、毎分更新されます。このアプリのキャンペーンカタログは、ここから読み込んでいます。
+- [**Drops Alerts**](https://dropsalerts.com)：開催中のすべての Twitch Drops と報酬キャンペーンをまとめた無料の公開 API で、毎分更新されます。このアプリのキャンペーンカタログは、ここから読み込んでいます。
 - [**Twitch Alerts 🔔**](https://twitch.sunkwi.com)：Twitch の配信開始と Drops キャンペーンを、あなたのサーバーで告知する Discord ボットです。
 - [**Kick Alerts 🔔**](https://kick.sunkwi.com)：Kick の配信開始と Drops キャンペーンを、あなたのサーバーで告知する Discord ボットです。
 

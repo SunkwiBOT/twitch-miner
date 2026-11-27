@@ -24,7 +24,7 @@
 <p align="center">
   <a href="#download"><strong>Baixar</strong></a> •
   <a href="#docker">Docker</a> •
-  <a href="https://dropsalerts.com">Twitch Drops API</a> •
+  <a href="https://dropsalerts.com">Drops Alerts</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
   <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">Reportar um bug</a>
@@ -183,7 +183,7 @@ Os dados ficam na pasta de dados do usuário:
 
 - **Todas as campanhas de Drops ativas.** Cada campanha tem a sua ficha: recompensas,
   vinculação da conta da editora, “Minerar primeiro”. A lista vem do projeto
-  [Twitch Drops API](https://dropsalerts.com) e é atualizada a cada 5 minutos.
+  [Drops Alerts](https://dropsalerts.com) e é atualizada a cada 5 minutos.
 
   <img src="../media/pt-BR/drops-catalogue.avif" alt="O Catálogo em formato de calendário, a busca e a ficha de uma campanha">
 
@@ -520,7 +520,7 @@ campanha terminar ou for resgatada, a espera é encerrada na hora, em vez de agu
 6 horas completas. Reiniciar o app ou o servidor esquece todas as campanhas colocadas de lado: uma
 campanha travada simplesmente ganha 30 minutos novos.
 
-A lista de campanhas vem do projeto [Twitch Drops API](https://dropsalerts.com)
+A lista de campanhas vem do projeto [Drops Alerts](https://dropsalerts.com)
 (atualizada a cada 5 minutos), porque a Twitch a esconde do cliente de TV.
 
 ## <a name="faq"></a>Perguntas frequentes
@@ -631,7 +631,7 @@ mostrada em um selo em cada canal assistido: “Sequência em risco”, “Bônu
 
 Outros projetos do mesmo autor:
 
-- [**Twitch Drops API**](https://dropsalerts.com): uma API pública e gratuita com todas
+- [**Drops Alerts**](https://dropsalerts.com): uma API pública e gratuita com todas
   as campanhas de Drops e de recompensas da Twitch ativas, atualizada a cada minuto. Este
   app busca nela o seu catálogo de campanhas.
 - [**Twitch Alerts 🔔**](https://twitch.sunkwi.com): um bot do Discord que anuncia no seu

@@ -24,7 +24,7 @@
 <p align="center">
   <a href="#download"><strong>Tải xuống</strong></a> •
   <a href="#docker">Docker</a> •
-  <a href="https://dropsalerts.com">Twitch Drops API</a> •
+  <a href="https://dropsalerts.com">Drops Alerts</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
   <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">Báo lỗi</a>
@@ -154,7 +154,7 @@ Dữ liệu nằm trong thư mục dữ liệu người dùng:
 
 ### Drops
 
-- **Mọi chiến dịch Drops đang diễn ra.** Mỗi chiến dịch có phần chi tiết riêng: phần thưởng, liên kết tài khoản nhà phát hành, “Đào trước”. Danh sách lấy từ dự án [Twitch Drops API](https://dropsalerts.com) và được làm mới mỗi 5 phút.
+- **Mọi chiến dịch Drops đang diễn ra.** Mỗi chiến dịch có phần chi tiết riêng: phần thưởng, liên kết tài khoản nhà phát hành, “Đào trước”. Danh sách lấy từ dự án [Drops Alerts](https://dropsalerts.com) và được làm mới mỗi 5 phút.
 
   <img src="../media/vi/drops-catalogue.avif" alt="Danh mục dạng lịch, ô tìm kiếm và chi tiết một chiến dịch">
 
@@ -384,7 +384,7 @@ Twitch chỉ tính **một chiến dịch Drops** và **hai kênh cho điểm** 
 
 Nếu tiến độ của Twitch đối với chiến dịch đứng đầu không nhúc nhích sau 30 phút xem thực sự, nghĩa là nó không tính chiến dịch đó: tài khoản gạt chiến dịch đó sang một bên, chiến dịch xếp hạng kế tiếp chiếm chỗ, và việc thử lại diễn ra tự động 6 giờ sau — sớm hơn nếu tiến độ xuất hiện trở lại trước đó, dù chiến dịch được thử lại vẫn có thể phải chờ sau chiến dịch đang được đào. Bất kỳ tiến độ nào cũng đặt lại thời gian chờ, và điều này áp dụng cho mọi loại chiến dịch (Drops, huy hiệu, nhiệm vụ). Nếu Twitch tính một chiến dịch khác cùng thể loại thay vào đó, và chiến dịch đó hoàn tất hoặc được nhận, việc gạt sang một bên sẽ được gỡ ngay lập tức thay vì chờ đủ 6 giờ. Khởi động lại ứng dụng hoặc máy chủ sẽ quên mọi lần gạt sang một bên: một chiến dịch bị kẹt đơn giản sẽ có 30 phút mới.
 
-Danh sách chiến dịch lấy từ dự án [Twitch Drops API](https://dropsalerts.com) (làm mới mỗi 5 phút), vì Twitch ẩn danh sách này khỏi client TV.
+Danh sách chiến dịch lấy từ dự án [Drops Alerts](https://dropsalerts.com) (làm mới mỗi 5 phút), vì Twitch ẩn danh sách này khỏi client TV.
 
 ## <a name="faq"></a>Câu hỏi thường gặp
 
@@ -436,7 +436,7 @@ Chỉ những streamer đang bật và đang phát mới được xem, và chỉ
 
 Các dự án khác của cùng tác giả:
 
-- [**Twitch Drops API**](https://dropsalerts.com): API công khai miễn phí về mọi chiến dịch Twitch Drops và chiến dịch phần thưởng đang diễn ra, cập nhật mỗi phút. Ứng dụng này đọc danh mục chiến dịch từ đó.
+- [**Drops Alerts**](https://dropsalerts.com): API công khai miễn phí về mọi chiến dịch Twitch Drops và chiến dịch phần thưởng đang diễn ra, cập nhật mỗi phút. Ứng dụng này đọc danh mục chiến dịch từ đó.
 - [**Twitch Alerts 🔔**](https://twitch.sunkwi.com): bot Discord thông báo các buổi phát trực tiếp trên Twitch và chiến dịch Drops trong máy chủ của bạn.
 - [**Kick Alerts 🔔**](https://kick.sunkwi.com): bot Discord thông báo các buổi phát trực tiếp trên Kick và chiến dịch Drops trong máy chủ của bạn.
 

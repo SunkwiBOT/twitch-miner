@@ -24,7 +24,7 @@
 <p align="center">
   <a href="#download"><strong>Downloaden</strong></a> •
   <a href="#docker">Docker</a> •
-  <a href="https://dropsalerts.com">Twitch Drops API</a> •
+  <a href="https://dropsalerts.com">Drops Alerts</a> •
   <a href="https://twitch.sunkwi.com">Twitch Alerts 🔔</a> •
   <a href="https://kick.sunkwi.com">Kick Alerts 🔔</a> •
   <a href="https://github.com/SunkwiBOT/twitch-miner/issues/new">Bug melden</a>
@@ -187,7 +187,7 @@ De gegevens staan in de map met gebruikersgegevens:
 
 - **Alle lopende Drops-campagnes.** Elke campagne heeft haar eigen details: beloningen,
   koppeling van het uitgeversaccount, “Eerst minen”. De lijst komt van het project
-  [Twitch Drops API](https://dropsalerts.com) en wordt elke 5 minuten ververst.
+  [Drops Alerts](https://dropsalerts.com) en wordt elke 5 minuten ververst.
 
   <img src="../media/nl/drops-catalogue.avif" alt="De Catalogus als kalender, de zoekfunctie en de details van een campagne">
 
@@ -523,7 +523,7 @@ de wachttijd terug naar nul, en dit geldt voor elk type campagne (Drops, badges,
 missies). Als Twitch in plaats daarvan een andere campagne uit dezelfde categorie meetelt en die campagne wordt voltooid of opgehaald, wordt het opzijzetten meteen opgeheven in plaats van de volle 6 uur af te wachten. Het herstarten van de app of de server vergeet alle opzijgezette campagnes:
 een vastzittende campagne krijgt gewoon weer 30 nieuwe minuten.
 
-De campagnelijst komt van het project [Twitch Drops API](https://dropsalerts.com) (elke
+De campagnelijst komt van het project [Drops Alerts](https://dropsalerts.com) (elke
 5 minuten ververst), omdat Twitch die verbergt voor de tv-client.
 
 ## <a name="faq"></a>Veelgestelde vragen
@@ -635,7 +635,7 @@ hoger in de lijst, of zet “Kijkreeksen eerst” en “Geabonneerde kanalen eer
 
 Andere projecten van dezelfde auteur:
 
-- [**Twitch Drops API**](https://dropsalerts.com): een gratis openbare API met alle lopende
+- [**Drops Alerts**](https://dropsalerts.com): een gratis openbare API met alle lopende
   Twitch Drops- en beloningscampagnes, elke minuut ververst. Deze app haalt er zijn
   campagnecatalogus uit.
 - [**Twitch Alerts 🔔**](https://twitch.sunkwi.com): een Discord-bot die livestreams en
