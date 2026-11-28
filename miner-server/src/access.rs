@@ -169,12 +169,19 @@ fn entries<'a>(headers: &'a HeaderMap, name: &HeaderName) -> Option<Vec<&'a str>
 }
 
 // ! Proxies usually replace `X-Forwarded-Proto` instead of adding to it: a list
-// shorter than the trusted hops is read from its first entry.
+// shorter than the trusted hops is read from its first entry. Traefik (and
+// others) write `wss` instead of `https` for a WebSocket upgrade behind a TLS
+// entrypoint (traefik/traefik#6388): the push channel must not be refused for
+// writing the TLS-equivalent, correct value under its own name.
 fn over_https(headers: &HeaderMap, trusted_hops: usize) -> bool {
+    const WSS: &str = "wss";
+
     entries(headers, &X_FORWARDED_PROTO).is_some_and(|protocols| {
         protocols
             .get(protocols.len().saturating_sub(trusted_hops))
-            .is_some_and(|protocol| protocol.eq_ignore_ascii_case(HTTPS))
+            .is_some_and(|protocol| {
+                protocol.eq_ignore_ascii_case(HTTPS) || protocol.eq_ignore_ascii_case(WSS)
+            })
     })
 }
 
