@@ -131,7 +131,13 @@
   });
 
   $effect(() => {
-    watchSession(!isTauri() && app.auth.authorized, app.snapshot?.settings.auto_lock ?? null);
+    // ! The server applies no idle limit to a header session either
+    // (routes/auth.rs): nothing here would ever lock it, only flash a
+    // warning that never fires.
+    watchSession(
+      !isTauri() && app.auth.authorized && !app.auth.via_header,
+      app.snapshot?.settings.auto_lock ?? null,
+    );
   });
 </script>
 

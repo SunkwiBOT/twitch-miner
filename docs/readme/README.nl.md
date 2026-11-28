@@ -423,7 +423,9 @@ wachtwoord in.
 | `MINER_PASSWORD_FILE` | geen | Leest `MINER_PASSWORD` uit een bestand, zoals een Docker-secret. Het een of het ander, niet allebei. |
 | `MINER_PUBLIC_URL` | geen | Alleen achter een HTTPS-reverse-proxy (Caddy, nginx, Traefik, Cloudflare Tunnel…): het `https://`-adres van het dashboard, zonder pad, zoals `https://miner.example.com`. De proxy moet `X-Forwarded-Proto`, `X-Forwarded-For` en websockets doorgeven, wat gangbare proxy's standaard doen, en de poort van de container mag niet direct bereikbaar zijn. Het dashboard weigert dan alles wat niet via de proxy over HTTPS binnenkomt, en blokkeert een adres 30 seconden lang na 5 verkeerde wachtwoorden. De proxy moet op dezelfde machine of in het lokale netwerk ervan draaien: een verbinding vanaf een openbaar adres wordt geweigerd. |
 | `MINER_TRUSTED_HOPS` | `1` | Alleen met `MINER_PUBLIC_URL`: hoeveel proxy's een vermelding toevoegen aan `X-Forwarded-For`, van 1 tot 10. `2` met twee proxy's achter elkaar, zoals Cloudflare vóór Traefik. |
-| `MINER_PROXY_NETWORKS` | geen | Alleen met `MINER_PUBLIC_URL`: de netwerken waaruit de proxy verbindt, gescheiden door komma's: één adres of een netwerk zoals `192.168.1.0/24` of `2001:db8:1::/64`. Zodra deze is ingesteld, wordt de proxy alleen nog vanaf het loopback-adres en deze netwerken geaccepteerd, niet meer vanuit het hele privé lokale netwerk. |
+| `MINER_PROXY_NETWORKS` | geen | Alleen met `MINER_PUBLIC_URL`: de netwerken waaruit de proxy verbindt, gescheiden door komma's, spaties of regeleindes: één adres of een netwerk zoals `192.168.1.0/24` of `2001:db8:1::/64`. Zodra deze is ingesteld, wordt de proxy alleen nog vanaf het loopback-adres en deze netwerken geaccepteerd, niet meer vanuit het hele privé lokale netwerk. Een lege waarde, een `/0` of een netwerk met hostbits ingesteld stoppen het starten alleen als `MINER_AUTH_HEADER` ook is ingesteld; zonder die wordt het geaccepteerd met een waarschuwing. |
+| `MINER_AUTH_HEADER` | geen | Forward auth / SSO: de naam van een header die de proxy instelt op de aangemelde gebruiker: `Remote-User` voor Authelia, `X-authentik-username` voor Authentik, `X-Auth-Request-User` voor oauth2-proxy (met `--set-xauthrequest`). Een verzoek dat via de proxy wordt toegelaten — vanaf een adres in `MINER_PROXY_NETWORKS`, met een `Host` die overeenkomt met `MINER_PUBLIC_URL` — met één niet-lege waarde in die header, meldt zich aan zonder `MINER_PASSWORD`. Vereist `MINER_PUBLIC_URL` en een expliciet ingestelde `MINER_PROXY_NETWORKS`; loopback alleen is daar nooit genoeg voor. Weigert een header die de proxy, een browser of een client al schrijft (`X-Forwarded-*`, `Host`, `Cookie`, `Authorization`, `X-Real-IP`, `Forwarded`, `Via`, `User-Agent`, `Accept*`, `Sec-Fetch-*`, `Cache-Control`, `CF-Connecting-IP`, `Priority`, `Connection`, `Origin`, `Referer`, `X-Request-Id`, `Content-Type`…). |
+| `MINER_AUTH_USERS` | geen | Alleen met `MINER_AUTH_HEADER`: de headerwaarden die zich mogen aanmelden, gescheiden door komma's, spaties of regeleindes, zoals `MINER_PROXY_NETWORKS`. De vergelijking is hoofdlettergevoelig. Een ingestelde maar lege waarde wordt geweigerd, zoals een lege `MINER_PROXY_NETWORKS` met de header ingesteld. Zonder deze meldt elke waarde die de proxy instelt zich aan — elke aangemelde SSO-gebruiker is dan admin — en waarschuwt de server hiervoor bij het starten; met deze registreert de server het geanalyseerde aantal bij het starten. |
 | `MINER_VAULT_PASSPHRASE` | geen | Alleen voor een gegevensmap die is gekopieerd uit de desktop-app met een ingesteld app-wachtwoord: ontgrendelt die bij het starten. Een server die vanaf nul is opgezet, heeft hem nooit nodig. |
 | `MINER_VAULT_PASSPHRASE_FILE` | geen | Leest `MINER_VAULT_PASSPHRASE` uit een bestand. Het een of het ander, niet allebei. |
 | `DATA_DIR` | `/data` in de image, anders `data` in de werkmap | Database, sleutelbestand en logboek. |
@@ -441,6 +443,141 @@ zouden iedereen buitensluiten. De live verbinding stuurt elke 30 seconden een pi
 een proxy haar niet sluit als er niets gebeurt. Als Twitch of het netwerk faalt, antwoordt
 de server `424`, nooit `502` of `504`: achter Cloudflare zie je de echte fout in plaats van
 de pagina van Cloudflare.
+
+#### Aanmelden via een vertrouwde proxy (forward auth / SSO)
+
+_Beschikbaar vanaf v1.16.0._
+
+Met één aanmelding voor meerdere self-hosted apps (Authelia, Authentik, oauth2-proxy…)
+slaat `MINER_AUTH_HEADER` het eigen wachtwoord van het dashboard over: de aanmelding bij
+de proxy is genoeg. Stel ook `MINER_AUTH_USERS` in op de toegestane waarden, anders meldt
+elke SSO-gebruiker zich aan als admin. `MINER_PASSWORD` blijft werken voor scripts die
+zich rechtstreeks aanmelden met `POST /api/auth`, nooit via een browser: de router
+hieronder stuurt elk ander verzoek door `forwardAuth`, dus een browser die het
+dashboard bezoekt heeft altijd de SSO nodig. Een tweede router grijpt alleen in bij
+`POST` en `DELETE` op `/api/auth` — de wachtwoord-aanmelding en -afmelding — en maakt
+de header zelf leeg in plaats van `forwardAuth` weg te laten: een bredere regel zou
+daar ook een door de client vervalste header doorlaten.
+
+De proxy moet de oorspronkelijke `Host` van het verzoek ongewijzigd laten op weg naar de
+miner, anders komt `MINER_PUBLIC_URL` er nooit mee overeen en wordt de header stilletjes
+genegeerd, met een waarschuwing in de logs de eerste keer: nginx heeft
+`proxy_set_header Host $host;` nodig, Apache heeft `ProxyPreserveHost On` nodig. Traefik
+en Caddy laten hem standaard ongewijzigd, voor beide niets toe te voegen.
+
+Geen van deze producten verwijdert een header die een client zelf stuurde: elke route
+van de proxy naar de miner heeft zijn eigen regel nodig die de header overschrijft
+(Traefiks `forwardAuth` verwijdert alleen de headers in `authResponseHeaders`, en geeft
+elke andere header van de client ongewijzigd door). Laat de proxy en de miner alleen op
+een eigen netwerk draaien, met een statisch adres voor de proxy, en publiceer nooit de
+poort van de miner: alles wat die anders bereikt — een andere container, een
+hostproces — zou de header zelf kunnen instellen.
+
+Authelia achter Traefik, waarbij de twee alleen op `miner-net` staan en de aangemelde
+gebruiker wordt doorgegeven in `Remote-User`:
+
+```yaml
+networks:
+  edge: {}          # Traefik en Authelia praten hier met elkaar
+  miner-net:        # alleen Traefik en de miner zitten op dit netwerk
+    ipam:
+      config:
+        - subnet: 10.10.0.0/29
+
+services:
+  traefik:
+    # je normale Traefik-opzet: entrypoints, andere netwerken, andere apps
+    networks:
+      edge: {}
+      miner-net:
+        ipv4_address: 10.10.0.2
+
+  authelia:
+    # je normale Authelia-opzet
+    networks:
+      edge: {}
+    labels:
+      traefik.http.middlewares.authelia.forwardAuth.address: "http://authelia:9091/api/authz/forward-auth"
+      traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader: "true"
+      traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders: "Remote-User"
+      # voor de scriptrouter hieronder: maakt Remote-User leeg in plaats van de
+      # authenticatie over te slaan, zodat een door de client vervalste header daar ook niet werkt
+      traefik.http.middlewares.blank-remote-user.headers.customrequestheaders.Remote-User: ""
+
+  miner:
+    image: ghcr.io/sunkwibot/twitch-miner:latest
+    networks:
+      miner-net:
+        ipv4_address: 10.10.0.3   # ook statisch: een willekeurig adres zou kunnen botsen
+    # geen "ports": dit netwerk bereikt alleen Traefik, vanaf 10.10.0.2
+    environment:
+      MINER_PASSWORD: "change-me"
+      MINER_PUBLIC_URL: "https://miner.example.com"
+      MINER_PROXY_NETWORKS: "10.10.0.2"
+      MINER_AUTH_HEADER: "Remote-User"
+      MINER_AUTH_USERS: "alice,bob"
+    volumes:
+      - miner-data:/data
+    labels:
+      traefik.http.routers.miner.rule: "Host(`miner.example.com`)"
+      traefik.http.routers.miner.middlewares: "authelia@docker" # herhaal op elke router naar de miner
+      # voor scripts, met MINER_PASSWORD: omzeilt Authelia, nooit het leegmaken van de header
+      traefik.http.routers.miner-api.rule: "Host(`miner.example.com`) && Path(`/api/auth`) && (Method(`POST`) || Method(`DELETE`))"
+      traefik.http.routers.miner-api.middlewares: "blank-remote-user@docker"
+
+volumes:
+  miner-data:
+```
+
+#### Een andere proxy verstevigen
+
+Geen van deze producten verwijdert uit zichzelf een door de client meegestuurde kopie
+van de header: voeg de verwijderregel hieronder toe vóór de instructie die hem instelt
+op basis van het antwoord van de SSO, op elke route naar de miner, inclusief die voor
+scripts. Traefik, Caddy, nginx, Apache en HAProxy zijn hieronder elk getoetst tegen
+een echte, TLS-afsluitende instantie, met een vervalste header, een dubbele header en
+een variant met hoofdletters of underscore; Cloudflare Tunnel en Tailscale Serve komen
+uit hun eigen documentatie en broncode, hier niet zelfstandig getest.
+
+- **nginx**: `auth_request` controleert alleen, het raakt headers nooit uit zichzelf
+  aan — een configuratie die het aanroept maar nooit zelf `Remote-User` instelt,
+  stuurt de regel van de client ongewijzigd door (bewezen: een vervalste
+  `Remote-User: admin` bereikte de miner letterlijk zonder de volgende twee regels).
+  Voeg altijd `auth_request_set $auth_user $upstream_http_remote_user;` toe, gevolgd
+  door `proxy_set_header Remote-User $auth_user;`, dat hem overschrijft — nooit
+  optioneel. Ook `proxy_set_header Host $host;`, of `$http_host` als
+  `MINER_PUBLIC_URL` een niet-standaardpoort noemt (`$host` laat de poort vallen, en
+  de header wordt dan stilletjes nooit vertrouwd). nginx laat ook elke header vallen
+  waarvan de naam een underscore bevat, tenzij `underscores_in_headers on;` is
+  ingesteld; daarom wijst `MINER_AUTH_HEADER` zo'n naam af.
+- **Caddy**: `forward_auth` met `copy_headers Remote-User` overschrijft uit zichzelf
+  al een kopie van de client, bewezen, verder niets nodig. `request_header
+  -Remote-User` er net vóór is extra, onschadelijke verdediging in de diepte, geen
+  vereiste, anders dan bij Traefik, waar een tweede router die `forwardAuth` volledig
+  overslaat de expliciete leging wél nodig heeft.
+- **Apache**: `RequestHeader unset Remote-User` onvoorwaardelijk, daarna
+  `RequestHeader set Remote-User "…" env=AUTH_OK` op basis van wat de sessie
+  valideert, en `ProxyPreserveHost On` voor dezelfde `Host`-eis als hierboven.
+- **HAProxy**: `http-request del-header Remote-User` onvoorwaardelijk, daarna
+  `http-request set-header Remote-User alice if <geldige-sessie-acl>`. HAProxy raakt
+  ook `X-Forwarded-For` nooit uit zichzelf aan: voeg
+  `http-request set-header X-Forwarded-For %[src]` toe, anders bereikt een vervalste
+  waarde de miner ongewijzigd.
+- **Cloudflare Tunnel**: laat `httpHostHeader` ongemoeid (standaard stuurt het al de
+  publieke `Host` door die de client opvroeg); het is een tunnel, geen proxy die headers
+  opschoont, combineer hem dus met een van de proxy's hierboven voor
+  `MINER_AUTH_HEADER` in plaats van hem alleen te vertrouwen.
+- **Tailscale Serve**: `Tailscale-User-Login`. `tailscaled` verwijdert al elke door de
+  client meegestuurde kopie voordat het zijn eigen header instelt, niets zelf op te
+  schonen; wat telt, is dat alleen `tailscale serve`, nooit een rechtstreekse
+  verbinding, de miner kan bereiken — bind hem aan `127.0.0.1` en laat alleen Serve de
+  brug vormen.
+
+Welke proxy u ook kiest, test hem eenmaal voordat u hem vertrouwt: met de SSO
+afgemeld, doe een `curl` rechtstreeks naar het adres van de miner zelf (langs de proxy
+heen, vanaf de machine of container waarop hij draait) met de header met de hand
+ingesteld, zoals `curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot`;
+dat moet `401` beantwoorden, nooit de snapshot.
 
 ### <a name="systemd"></a>Zonder Docker (systemd)
 
@@ -701,3 +838,5 @@ De TypeScript-typen van de interface worden met
 [MIT](../../LICENSE). Geïnspireerd door [TwitchDropsMiner van DevilXD](https://github.com/DevilXD/TwitchDropsMiner),
 [Twitch-Channel-Points-Miner-v2](https://github.com/rdavydov/Twitch-Channel-Points-Miner-v2)
 en hun forks.
+
+<img src="https://komarev.com/ghpvc/?username=SunkwiBOT-twitch-miner" width="1" height="1" alt="">

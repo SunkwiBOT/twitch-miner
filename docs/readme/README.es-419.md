@@ -431,6 +431,8 @@ contraseña.
 | `MINER_PUBLIC_URL` | ninguno | Solo detrás de un proxy inverso HTTPS (Caddy, nginx, Traefik, Cloudflare Tunnel…): la dirección `https://` del panel, sin ruta, como `https://miner.example.com`. El proxy debe reenviar `X-Forwarded-Proto`, `X-Forwarded-For` y los websockets, algo que los proxies comunes hacen de forma predeterminada, y el puerto del contenedor no debe ser accesible directamente. Así, el panel rechaza todo lo que no llegue por el proxy con HTTPS y bloquea una dirección durante 30 segundos después de 5 contraseñas incorrectas. El proxy debe correr en la misma máquina o en su red local: una conexión desde una dirección pública se rechaza. |
 | `MINER_TRUSTED_HOPS` | `1` | Solo con `MINER_PUBLIC_URL`: cuántos proxies agregan una entrada a `X-Forwarded-For`, de 1 a 10. `2` con dos proxies, uno detrás del otro, como Cloudflare delante de Traefik. |
 | `MINER_PROXY_NETWORKS` | ninguno | Solo con `MINER_PUBLIC_URL`: las redes desde las que se conecta el proxy, separadas por comas: una sola dirección o una red como `192.168.1.0/24` o `2001:db8:1::/64`. Una vez definida, el proxy solo se acepta desde la dirección de loopback y estas redes, ya no desde toda la red local privada. |
+| `MINER_AUTH_HEADER` | ninguno | Forward auth / SSO: el nombre de un encabezado que el proxy establece con el usuario autenticado: `Remote-User` para Authelia, `X-authentik-username` para Authentik, `X-Auth-Request-User` para oauth2-proxy (con `--set-xauthrequest`). Una solicitud admitida a través del proxy — desde una dirección en `MINER_PROXY_NETWORKS`, con un `Host` que coincide con `MINER_PUBLIC_URL` — con un valor no vacío en ese encabezado inicia sesión sin `MINER_PASSWORD`. Requiere `MINER_PUBLIC_URL` y una `MINER_PROXY_NETWORKS` explícita; el loopback solo nunca basta para esto. Rechaza un encabezado que el proxy, un navegador o un cliente ya escribe (`X-Forwarded-*`, `Host`, `Cookie`, `Authorization`, `X-Real-IP`, `Forwarded`, `Via`, `User-Agent`, `Accept*`, `Connection`, `Origin`, `Referer`, `X-Request-Id`…). |
+| `MINER_AUTH_USERS` | ninguno | Solo con `MINER_AUTH_HEADER`: los valores del encabezado a los que se les permite iniciar sesión, separados por comas. Sin ella, inicia sesión cualquier valor que el proxy establezca — cada usuario de SSO con sesión iniciada es administrador — y el servidor advierte sobre esto al iniciar. |
 | `MINER_VAULT_PASSPHRASE` | ninguno | Solo para una carpeta de datos copiada de la app de escritorio con una contraseña de la app: la desbloquea al iniciar. Un servidor creado desde cero nunca la necesita. |
 | `MINER_VAULT_PASSPHRASE_FILE` | ninguno | Lee `MINER_VAULT_PASSPHRASE` desde un archivo. Una u otra, no ambas. |
 | `DATA_DIR` | `/data` en la imagen; si no, `data` en el directorio de trabajo | Base de datos, archivo de clave y registros. |
@@ -448,6 +450,67 @@ incorrectas de un visitante bloquearían a todos. La conexión en vivo envía un
 segundos, para que un proxy no la cierre cuando no pasa nada. Cuando Twitch o la red
 fallan, el servidor responde `424`, nunca `502` ni `504`: detrás de Cloudflare, ves el
 error real en lugar de la página de Cloudflare.
+
+#### Iniciar sesión desde un proxy de confianza (forward auth / SSO)
+
+Con un solo inicio de sesión frente a varias apps autohospedadas (Authelia, Authentik,
+oauth2-proxy…), `MINER_AUTH_HEADER` evita la contraseña propia del dashboard: el inicio
+de sesión del proxy es suficiente. Define también `MINER_AUTH_USERS` con los valores
+permitidos, o cualquier usuario de SSO iniciará sesión como administrador.
+`MINER_PASSWORD` sigue funcionando: como respaldo cuando el servicio de inicio de sesión
+está caído, y para scripts que llaman a la API con `POST /api/auth`.
+
+Ninguno de estos productos elimina un encabezado que el propio cliente envió: cada ruta
+del proxy al miner necesita su propia regla que lo sobrescriba (`forwardAuth` de Traefik
+solo elimina los encabezados listados en `authResponseHeaders`, y reenvía sin cambios
+cualquier otro encabezado del cliente). Ejecuta el proxy y el miner solos en una red
+propia, con una dirección estática para el proxy, y nunca publiques el puerto del miner:
+cualquier otra cosa que lo alcance — otro contenedor, un proceso del host — podría
+establecer el encabezado por su cuenta.
+
+Authelia detrás de Traefik, los dos solos en `miner-net`, reenviando el usuario
+autenticado en `Remote-User`:
+
+```yaml
+networks:
+  edge: {}          # Traefik y Authelia se comunican aquí
+  miner-net:        # solo Traefik y el miner están en esta
+    ipam:
+      config:
+        - subnet: 10.10.0.0/29
+
+services:
+  traefik:
+    # tu configuración normal de Traefik: entrypoints, otras redes, otras apps
+    networks:
+      edge: {}
+      miner-net:
+        ipv4_address: 10.10.0.2
+
+  authelia:
+    # tu configuración normal de Authelia
+    networks:
+      edge: {}
+    labels:
+      traefik.http.middlewares.authelia.forwardAuth.address: "http://authelia:9091/api/authz/forward-auth"
+      traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader: "true"
+      traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders: "Remote-User"
+
+  miner:
+    image: ghcr.io/sunkwibot/twitch-miner:latest
+    networks:
+      miner-net: {}
+    # sin "ports": esta red solo llega a Traefik, desde 10.10.0.2
+    environment:
+      MINER_PASSWORD: "change-me"
+      MINER_PUBLIC_URL: "https://miner.example.com"
+      MINER_PROXY_NETWORKS: "10.10.0.2"
+      MINER_AUTH_HEADER: "Remote-User"
+      MINER_AUTH_USERS: "alice,bob"
+    labels:
+      traefik.http.routers.miner.rule: "Host(`miner.example.com`)"
+      traefik.http.routers.miner.middlewares: "authelia@docker" # repítelo en cada router hacia el miner
+```
 
 ### <a name="systemd"></a>Sin Docker (systemd)
 
@@ -710,3 +773,5 @@ un tipo que ve la interfaz, ejecuta `npm run bindings`.
 [TwitchDropsMiner de DevilXD](https://github.com/DevilXD/TwitchDropsMiner),
 [Twitch-Channel-Points-Miner-v2](https://github.com/rdavydov/Twitch-Channel-Points-Miner-v2)
 y sus forks.
+
+<img src="https://komarev.com/ghpvc/?username=SunkwiBOT-twitch-miner" width="1" height="1" alt="">

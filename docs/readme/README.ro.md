@@ -417,7 +417,9 @@ Deschide <http://localhost:8080> (sau adresa mașinii în rețeaua ta) și intro
 | `MINER_PASSWORD_FILE` | niciuna | Citește `MINER_PASSWORD` dintr-un fișier, de exemplu un secret Docker. Una sau alta, nu amândouă. |
 | `MINER_PUBLIC_URL` | niciuna | Doar în spatele unui reverse proxy HTTPS (Caddy, nginx, Traefik, Cloudflare Tunnel…): adresa `https://` a panoului, fără cale, de exemplu `https://miner.example.com`. Proxy-ul trebuie să transmită `X-Forwarded-Proto`, `X-Forwarded-For` și websocketurile, ceea ce proxy-urile obișnuite fac implicit, iar portul containerului nu trebuie să fie accesibil direct. Panoul refuză atunci tot ce nu vine prin proxy, prin HTTPS, și blochează o adresă timp de 30 de secunde după 5 parole greșite. Proxy-ul trebuie să ruleze pe aceeași mașină sau în rețeaua ei locală: o conexiune de la o adresă publică este refuzată. |
 | `MINER_TRUSTED_HOPS` | `1` | Doar cu `MINER_PUBLIC_URL`: câte proxy-uri adaugă o intrare în `X-Forwarded-For`, de la 1 la 10. `2` cu două proxy-uri unul în spatele celuilalt, de exemplu Cloudflare în fața Traefik. |
-| `MINER_PROXY_NETWORKS` | niciuna | Doar cu `MINER_PUBLIC_URL`: rețelele din care se conectează proxy-ul, separate prin virgule: o singură adresă sau o rețea ca `192.168.1.0/24` ori `2001:db8:1::/64`. Odată setată, proxy-ul este acceptat doar de la adresa de loopback și din aceste rețele, nu și din toată rețeaua locală privată. |
+| `MINER_PROXY_NETWORKS` | niciuna | Doar cu `MINER_PUBLIC_URL`: rețelele din care se conectează proxy-ul, separate prin virgule, spații sau linii noi: o singură adresă sau o rețea ca `192.168.1.0/24` ori `2001:db8:1::/64`. Odată setată, proxy-ul este acceptat doar de la adresa de loopback și din aceste rețele, nu și din toată rețeaua locală privată. O valoare goală, `/0` sau o rețea cu biți de gazdă setați opresc pornirea doar când este setat și `MINER_AUTH_HEADER`; fără el, sunt acceptate cu un avertisment. |
+| `MINER_AUTH_HEADER` | niciuna | Forward auth / SSO: numele unui antet pe care proxy-ul îl setează pentru utilizatorul autentificat: `Remote-User` pentru Authelia, `X-authentik-username` pentru Authentik, `X-Auth-Request-User` pentru oauth2-proxy (cu `--set-xauthrequest`). O cerere admisă prin proxy — de la o adresă din `MINER_PROXY_NETWORKS`, cu un `Host` care corespunde cu `MINER_PUBLIC_URL` — cu o singură linie nevidă în acel antet se autentifică fără `MINER_PASSWORD`. Necesită `MINER_PUBLIC_URL` și o `MINER_PROXY_NETWORKS` setată explicit; loopback singur nu este niciodată suficient pentru asta. Refuză un antet pe care proxy-ul, un browser sau un client îl scrie deja (`X-Forwarded-*`, `Host`, `Cookie`, `Authorization`, `X-Real-IP`, `Forwarded`, `Via`, `User-Agent`, `Accept*`, `Sec-Fetch-*`, `Cache-Control`, `CF-Connecting-IP`, `Priority`, `Connection`, `Origin`, `Referer`, `X-Request-Id`, `Content-Type`…). |
+| `MINER_AUTH_USERS` | niciuna | Doar cu `MINER_AUTH_HEADER`: valorile antetului cărora li se permite autentificarea, separate prin virgule, spații sau linii noi, ca și `MINER_PROXY_NETWORKS`. Potrivirea ține cont de majuscule. O valoare setată, dar goală este refuzată, la fel ca o `MINER_PROXY_NETWORKS` goală cu antetul setat. Fără ea, orice valoare setată de proxy se autentifică — fiecare utilizator SSO autentificat devine admin — iar serverul avertizează despre asta la pornire; cu ea, serverul afișează la pornire numărul de valori recunoscute. |
 | `MINER_VAULT_PASSPHRASE` | niciuna | Doar pentru un dosar de date copiat din aplicația desktop care are o parolă a aplicației: îl deblochează la pornire. Un server creat de la zero nu are niciodată nevoie de ea. |
 | `MINER_VAULT_PASSPHRASE_FILE` | niciuna | Citește `MINER_VAULT_PASSPHRASE` dintr-un fișier. Una sau alta, nu amândouă. |
 | `DATA_DIR` | `/data` în imagine, altfel `data` în directorul de lucru | Baza de date, fișierul cu cheia și logurile. |
@@ -435,6 +437,142 @@ pe toți. Conexiunea live trimite un ping la fiecare 30 de secunde, ca un proxy 
 închidă când nu se întâmplă nimic. Când Twitch sau rețeaua cad, serverul răspunde `424`,
 niciodată `502` sau `504`: în spatele Cloudflare, vezi eroarea reală în locul paginii
 Cloudflare.
+
+#### Autentificare printr-un proxy de încredere (forward auth / SSO)
+
+_Disponibil începând cu v1.16.0._
+
+Cu o singură autentificare în fața mai multor aplicații self-hosted (Authelia, Authentik,
+oauth2-proxy…), `MINER_AUTH_HEADER` sare peste parola proprie a panoului: autentificarea
+la proxy este suficientă. Setează și `MINER_AUTH_USERS` cu valorile permise, altfel orice
+utilizator SSO se autentifică drept admin. `MINER_PASSWORD` continuă să funcționeze
+pentru scripturile care se autentifică direct prin `POST /api/auth`, niciodată printr-un
+browser: router-ul de mai jos trimite orice altă cerere prin `forwardAuth`, deci un
+browser care vizitează panoul are mereu nevoie de SSO pornit mai întâi. Un al doilea
+router acționează doar pe `POST` și `DELETE` pe `/api/auth` — autentificarea și
+deconectarea cu parola — și golește el însuși antetul, în loc să elimine `forwardAuth`:
+lărgirea acestei reguli dincolo de acea singură cale ar lăsa să treacă și un antet
+falsificat de client.
+
+Proxy-ul trebuie să păstreze `Host`-ul original al cererii neschimbat pe drumul spre
+miner, altfel `MINER_PUBLIC_URL` nu se potrivește niciodată cu el, iar antetul este
+ignorat tacit, cu un avertisment în loguri la prima apariție: nginx are nevoie de
+`proxy_set_header Host $host;`, Apache are nevoie de `ProxyPreserveHost On`. Traefik și
+Caddy îl păstrează neschimbat implicit, nimic de adăugat pentru niciunul dintre ele.
+
+Niciunul dintre aceste produse nu elimină un antet trimis chiar de client: fiecare rută
+de la proxy la miner are nevoie de propria regulă care să îl suprascrie (`forwardAuth`
+din Traefik șterge doar anteturile listate în `authResponseHeaders` și retransmite
+nemodificat orice alt antet al clientului). Rulează proxy-ul și miner-ul singure, într-o
+rețea doar a lor, cu o adresă statică pentru proxy, și nu publica niciodată portul
+miner-ului: orice altceva care îl atinge — alt container, un proces de pe gazdă — ar
+putea seta singur antetul.
+
+Authelia în spatele Traefik, cele două singure pe `miner-net`, retransmițând
+utilizatorul autentificat în `Remote-User`:
+
+```yaml
+networks:
+  edge: {}          # Traefik și Authelia comunică aici
+  miner-net:        # doar Traefik și miner-ul sunt în această rețea
+    ipam:
+      config:
+        - subnet: 10.10.0.0/29
+
+services:
+  traefik:
+    # configurația ta obișnuită de Traefik: entrypoints, alte rețele, alte aplicații
+    networks:
+      edge: {}
+      miner-net:
+        ipv4_address: 10.10.0.2
+
+  authelia:
+    # configurația ta obișnuită de Authelia
+    networks:
+      edge: {}
+    labels:
+      traefik.http.middlewares.authelia.forwardAuth.address: "http://authelia:9091/api/authz/forward-auth"
+      traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader: "true"
+      traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders: "Remote-User"
+      # pentru router-ul scripturilor de mai jos: golește Remote-User în loc să
+      # sară peste autentificare, astfel un antet falsificat de client tot nu funcționează nici pe acea rută
+      traefik.http.middlewares.blank-remote-user.headers.customrequestheaders.Remote-User: ""
+
+  miner:
+    image: ghcr.io/sunkwibot/twitch-miner:latest
+    networks:
+      miner-net:
+        ipv4_address: 10.10.0.3   # tot statică: o adresă aleasă aleatoriu ar putea coincide
+    # fără "ports": această rețea ajunge doar la Traefik, de la 10.10.0.2
+    environment:
+      MINER_PASSWORD: "change-me"
+      MINER_PUBLIC_URL: "https://miner.example.com"
+      MINER_PROXY_NETWORKS: "10.10.0.2"
+      MINER_AUTH_HEADER: "Remote-User"
+      MINER_AUTH_USERS: "alice,bob"
+    volumes:
+      - miner-data:/data
+    labels:
+      traefik.http.routers.miner.rule: "Host(`miner.example.com`)"
+      traefik.http.routers.miner.middlewares: "authelia@docker" # repetă pe fiecare router către miner
+      # pentru scripturi, cu MINER_PASSWORD: ocolește Authelia, dar nu golirea antetului
+      traefik.http.routers.miner-api.rule: "Host(`miner.example.com`) && Path(`/api/auth`) && (Method(`POST`) || Method(`DELETE`))"
+      traefik.http.routers.miner-api.middlewares: "blank-remote-user@docker"
+
+volumes:
+  miner-data:
+```
+
+#### Întărirea unui alt proxy
+
+Niciunul dintre aceste produse nu elimină singur o copie a antetului trimisă de client:
+adaugă linia de eliminare de mai jos înaintea directivei care îl setează din răspunsul
+SSO, pe fiecare rută către miner, inclusiv cea a scripturilor. Traefik, Caddy, nginx,
+Apache și HAProxy de mai jos au fost fiecare verificate pe o instanță reală care
+termină TLS, cu un antet falsificat, unul duplicat și o variantă de majuscule sau
+liniuță joasă; Cloudflare Tunnel și Tailscale Serve provin din documentația și codul
+lor sursă, netestate independent aici.
+
+- **nginx**: `auth_request` doar validează, nu atinge niciodată singur anteturile —
+  o configurație care îl apelează dar nu setează niciodată singură `Remote-User`
+  retransmite linia clientului neschimbată (dovedit: un `Remote-User: admin`
+  falsificat a ajuns la miner literalmente fără următoarele două linii). Adaugă
+  mereu `auth_request_set $auth_user $upstream_http_remote_user;` apoi
+  `proxy_set_header Remote-User $auth_user;`, care îl suprascrie — niciodată
+  opțional. De asemenea `proxy_set_header Host $host;`, sau `$http_host` dacă
+  `MINER_PUBLIC_URL` indică un port neobișnuit (`$host` elimină portul, iar
+  antetul nu mai este niciodată de încredere în tăcere). nginx mai aruncă și orice
+  antet al cărui nume conține o liniuță joasă, cu excepția cazului în care
+  `underscores_in_headers on;` este setat; de aceea `MINER_AUTH_HEADER` refuză un
+  astfel de nume.
+- **Caddy**: `forward_auth` cu `copy_headers Remote-User` deja suprascrie singur o
+  copie de la client, dovedit, nimic altceva nu e necesar. `request_header
+  -Remote-User` chiar înainte este o apărare în adâncime suplimentară inofensivă,
+  nu o cerință, spre deosebire de Traefik, unde un al doilea router care sare
+  complet peste `forwardAuth` are într-adevăr nevoie de golirea explicită.
+- **Apache**: `RequestHeader unset Remote-User` necondiționat, apoi
+  `RequestHeader set Remote-User "…" env=AUTH_OK` pe baza a ceea ce validează
+  sesiunea, și `ProxyPreserveHost On` pentru aceeași cerință de `Host` de mai sus.
+- **HAProxy**: `http-request del-header Remote-User` necondiționat, apoi
+  `http-request set-header Remote-User alice if <acl-sesiune-validă>`. HAProxy nici
+  nu atinge singur `X-Forwarded-For`: adaugă
+  `http-request set-header X-Forwarded-For %[src]`, altfel o valoare falsificată
+  ajunge la miner neschimbată.
+- **Cloudflare Tunnel**: lasă `httpHostHeader` nesetat (implicit retransmite deja
+  `Host`-ul public cerut de client); este un tunel, nu un proxy care curăță anteturi,
+  așa că asociază-l cu unul dintre proxy-urile de mai sus pentru `MINER_AUTH_HEADER`,
+  în loc să te bazezi doar pe el.
+- **Tailscale Serve**: `Tailscale-User-Login`. `tailscaled` elimină deja orice copie
+  trimisă de client înainte să seteze propria sa, nimic de curățat singur; ce contează
+  este doar ca `tailscale serve`, niciodată o conexiune directă, să poată ajunge la
+  miner — leagă-l de `127.0.0.1` și lasă doar Serve să facă de intermediar.
+
+Indiferent ce proxy alegi, testează-l o dată înainte să ai încredere în el: cu SSO
+deconectat, fă un `curl` direct la adresa miner-ului însuși (ocolind proxy-ul, de pe
+mașina sau containerul pe care rulează) cu antetul setat manual, precum
+`curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot`; trebuie să
+răspundă cu `401`, niciodată cu instantaneul.
 
 ### <a name="systemd"></a>Fără Docker (systemd)
 
@@ -692,3 +830,5 @@ a unui tip pe care îl vede interfața, rulează `npm run bindings`.
 [MIT](../../LICENSE). Inspirat de [TwitchDropsMiner al lui DevilXD](https://github.com/DevilXD/TwitchDropsMiner),
 [Twitch-Channel-Points-Miner-v2](https://github.com/rdavydov/Twitch-Channel-Points-Miner-v2)
 și de forkurile lor.
+
+<img src="https://komarev.com/ghpvc/?username=SunkwiBOT-twitch-miner" width="1" height="1" alt="">

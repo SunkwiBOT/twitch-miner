@@ -267,20 +267,34 @@
             : t.security_access_local({ publicUrlVariable: code(PUBLIC_URL_ENV) })}
         />
       </p>
-      <FormField
-        id="set-auto-lock"
-        label={t.settings_auto_lock()}
-        hint={t.settings_auto_lock_hint()}
-      >
-        <Select
+      {#if app.auth.via_header}
+        {#if app.auth.header_user && app.auth.header_name}
+          <p class="text-hint text-muted-foreground">
+            <RichText
+              text={t.security_header_signed_in_as({
+                user: strong(app.auth.header_user),
+                headerName: code(app.auth.header_name),
+              })}
+            />
+          </p>
+        {/if}
+        <p class="text-hint text-muted-foreground">{t.security_auto_lock_via_header()}</p>
+      {:else}
+        <FormField
           id="set-auto-lock"
-          value={draft.auto_lock}
-          options={autoLocks}
           label={t.settings_auto_lock()}
-          align={MenuAlign.LEFT}
-          onchange={(value) => (draft.auto_lock = value)}
-        />
-      </FormField>
+          hint={t.settings_auto_lock_hint()}
+        >
+          <Select
+            id="set-auto-lock"
+            value={draft.auto_lock}
+            options={autoLocks}
+            label={t.settings_auto_lock()}
+            align={MenuAlign.LEFT}
+            onchange={(value) => (draft.auto_lock = value)}
+          />
+        </FormField>
+      {/if}
     </Panel>
   {/if}
 </div>

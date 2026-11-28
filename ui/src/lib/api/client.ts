@@ -531,7 +531,13 @@ export const openBadgeLink = async (badgeKey: string, url: string): Promise<void
 
 export const fetchAuthStatus = async (): Promise<AuthStatusType> => {
   if (isTauri()) {
-    return { authorized: true, public: false };
+    return {
+      authorized: true,
+      public: false,
+      via_header: false,
+      header_user: null,
+      header_name: null,
+    };
   }
 
   const response = await http<AuthResponseType>(RoutesApi.AUTH, { method: HttpMethod.GET });

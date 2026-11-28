@@ -304,7 +304,9 @@ Mở <http://localhost:8080> (hoặc địa chỉ của máy đó trong mạng c
 | `MINER_PASSWORD_FILE` | không có | Đọc `MINER_PASSWORD` từ một tệp, chẳng hạn một Docker secret. Chỉ dùng một trong hai, không dùng cả hai. |
 | `MINER_PUBLIC_URL` | không có | Chỉ dùng sau một reverse proxy HTTPS (Caddy, nginx, Traefik, Cloudflare Tunnel…): địa chỉ `https://` của bảng điều khiển, không kèm đường dẫn, như `https://miner.example.com`. Proxy phải chuyển tiếp `X-Forwarded-Proto`, `X-Forwarded-For` và websocket, điều mà các proxy phổ biến làm sẵn theo mặc định, và cổng của container không được truy cập trực tiếp được. Khi đó bảng điều khiển từ chối mọi truy cập không đi qua proxy bằng HTTPS, và khóa một địa chỉ trong 30 giây sau 5 lần nhập sai mật khẩu. Proxy phải chạy trên cùng máy hoặc trong mạng nội bộ của máy: kết nối từ địa chỉ công khai sẽ bị từ chối. |
 | `MINER_TRUSTED_HOPS` | `1` | Chỉ dùng cùng `MINER_PUBLIC_URL`: số proxy thêm một mục vào `X-Forwarded-For`, từ 1 đến 10. Đặt `2` khi có hai proxy nối tiếp nhau, như Cloudflare đứng trước Traefik. |
-| `MINER_PROXY_NETWORKS` | không có | Chỉ dùng với `MINER_PUBLIC_URL`: các mạng mà proxy kết nối từ đó, phân tách bằng dấu phẩy: một địa chỉ hoặc một mạng như `192.168.1.0/24` hay `2001:db8:1::/64`. Khi đã đặt, proxy chỉ được chấp nhận từ địa chỉ loopback và các mạng này, không còn từ toàn bộ mạng nội bộ riêng nữa. |
+| `MINER_PROXY_NETWORKS` | không có | Chỉ dùng với `MINER_PUBLIC_URL`: các mạng mà proxy kết nối từ đó, phân tách bằng dấu phẩy, dấu cách hoặc xuống dòng: một địa chỉ hoặc một mạng như `192.168.1.0/24` hay `2001:db8:1::/64`. Khi đã đặt, proxy chỉ được chấp nhận từ địa chỉ loopback và các mạng này, không còn từ toàn bộ mạng nội bộ riêng nữa. Một giá trị rỗng, `/0` hoặc một mạng có bit host được đặt chỉ dừng khởi động khi `MINER_AUTH_HEADER` cũng được đặt; nếu không, chúng được chấp nhận kèm cảnh báo. |
+| `MINER_AUTH_HEADER` | không có | Forward auth / SSO: tên của header mà proxy đặt thành người dùng đã đăng nhập: `Remote-User` cho Authelia, `X-authentik-username` cho Authentik, `X-Auth-Request-User` cho oauth2-proxy (với `--set-xauthrequest`). Một yêu cầu được chấp nhận qua proxy — từ một địa chỉ trong `MINER_PROXY_NETWORKS`, với `Host` khớp với `MINER_PUBLIC_URL` — có đúng một dòng không rỗng trong header đó sẽ đăng nhập mà không cần `MINER_PASSWORD`. Cần `MINER_PUBLIC_URL` và `MINER_PROXY_NETWORKS` được đặt rõ ràng; chỉ riêng loopback thì không bao giờ đủ. Từ chối một header mà proxy, trình duyệt hoặc client đã ghi sẵn (`X-Forwarded-*`, `Host`, `Cookie`, `Authorization`, `X-Real-IP`, `Forwarded`, `Via`, `User-Agent`, `Accept*`, `Sec-Fetch-*`, `Cache-Control`, `CF-Connecting-IP`, `Priority`, `Connection`, `Origin`, `Referer`, `X-Request-Id`, `Content-Type`…). |
+| `MINER_AUTH_USERS` | không có | Chỉ dùng cùng `MINER_AUTH_HEADER`: các giá trị header được phép đăng nhập, phân tách bằng dấu phẩy, dấu cách hoặc xuống dòng, giống `MINER_PROXY_NETWORKS`. So khớp phân biệt chữ hoa/thường. Một giá trị đã đặt nhưng rỗng sẽ bị từ chối, giống như `MINER_PROXY_NETWORKS` rỗng khi header đã được đặt. Nếu không đặt, bất kỳ giá trị nào proxy đặt vào cũng đăng nhập được — mọi người dùng SSO đã đăng nhập đều là quản trị viên — và máy chủ sẽ cảnh báo điều này khi khởi động; nếu đặt, máy chủ ghi lại số giá trị được nhận diện khi khởi động. |
 | `MINER_VAULT_PASSPHRASE` | không có | Chỉ dành cho thư mục dữ liệu sao chép từ ứng dụng máy tính có mật khẩu ứng dụng: mở khóa thư mục đó khi khởi động. Máy chủ dựng mới từ đầu không bao giờ cần biến này. |
 | `MINER_VAULT_PASSPHRASE_FILE` | không có | Đọc `MINER_VAULT_PASSPHRASE` từ một tệp. Chỉ dùng một trong hai, không dùng cả hai. |
 | `DATA_DIR` | `/data` trong image, nếu không thì `data` trong thư mục làm việc | Cơ sở dữ liệu, tệp khóa và log. |
@@ -315,6 +317,124 @@ Mở <http://localhost:8080> (hoặc địa chỉ của máy đó trong mạng c
 Máy chủ đọc và kiểm tra các biến một lần, khi khởi động. Một giá trị không hợp lệ sẽ dừng máy chủ kèm thông báo, thay vì âm thầm dùng giá trị dự phòng.
 
 Phía sau một reverse proxy, hãy đặt `MINER_PUBLIC_URL`: nếu không, yêu cầu đầu tiên đi qua proxy sẽ ghi một cảnh báo vào log, vì lúc đó các lần đăng nhập được đếm theo địa chỉ của proxy, và mật khẩu sai của một người truy cập sẽ khóa tất cả mọi người. Kết nối trực tiếp gửi một ping mỗi 30 giây, để proxy không đóng nó khi không có gì xảy ra. Khi Twitch hoặc mạng gặp lỗi, máy chủ trả về `424`, không bao giờ `502` hay `504`: phía sau Cloudflare, bạn thấy lỗi thật thay vì trang của Cloudflare.
+
+#### Đăng nhập từ một proxy đáng tin cậy (forward auth / SSO)
+
+_Có từ v1.16.0._
+
+Khi có một lần đăng nhập đứng trước nhiều ứng dụng self-hosted (Authelia, Authentik,
+oauth2-proxy…), `MINER_AUTH_HEADER` bỏ qua mật khẩu riêng của bảng điều khiển: chỉ cần
+đăng nhập ở proxy là đủ. Hãy đặt cả `MINER_AUTH_USERS` thành các giá trị được phép,
+nếu không bất kỳ người dùng SSO nào cũng sẽ đăng nhập với quyền quản trị viên.
+`MINER_PASSWORD` vẫn hoạt động cho các script đăng nhập trực tiếp bằng `POST /api/auth`,
+không bao giờ qua trình duyệt: router bên dưới gửi mọi yêu cầu khác qua `forwardAuth`,
+nên trình duyệt truy cập bảng điều khiển luôn cần SSO hoạt động trước. Router thứ hai
+chỉ xử lý `POST` và `DELETE` trên `/api/auth` — đăng nhập và đăng xuất bằng mật khẩu —
+và tự xóa trống header thay vì bỏ `forwardAuth`: mở rộng quy tắc này ra ngoài một
+đường dẫn đó cũng sẽ để lọt một header bị client giả mạo qua đó.
+
+Proxy phải giữ nguyên `Host` gốc của yêu cầu trên đường tới miner, nếu không
+`MINER_PUBLIC_URL` sẽ không bao giờ khớp và header bị âm thầm bỏ qua, kèm một cảnh báo
+trong log ở lần đầu tiên xảy ra: nginx cần `proxy_set_header Host $host;`, Apache cần
+`ProxyPreserveHost On`. Traefik và Caddy giữ nguyên nó theo mặc định, không cần thêm
+gì cho cả hai.
+
+Không sản phẩm nào trong số này loại bỏ một header mà chính client đã gửi: mỗi
+tuyến đường từ proxy đến miner cần quy tắc riêng để ghi đè nó (`forwardAuth` của
+Traefik chỉ xóa các header được liệt kê trong `authResponseHeaders`, và chuyển tiếp
+mọi header khác của client mà không thay đổi). Hãy chạy riêng proxy và miner trên một
+mạng của riêng chúng, với địa chỉ tĩnh cho proxy, và không bao giờ công khai cổng của
+miner: bất cứ thứ gì khác tiếp cận được nó — một container khác, một tiến trình trên
+host — đều có thể tự đặt header đó.
+
+Authelia đứng sau Traefik, cả hai một mình trên `miner-net`, chuyển tiếp người dùng
+đã đăng nhập trong `Remote-User`:
+
+```yaml
+networks:
+  edge: {}          # Traefik và Authelia nói chuyện ở đây
+  miner-net:        # chỉ Traefik và miner ở trên mạng này
+    ipam:
+      config:
+        - subnet: 10.10.0.0/29
+
+services:
+  traefik:
+    # cấu hình Traefik bình thường của bạn: entrypoint, mạng khác, ứng dụng khác
+    networks:
+      edge: {}
+      miner-net:
+        ipv4_address: 10.10.0.2
+
+  authelia:
+    # cấu hình Authelia bình thường của bạn
+    networks:
+      edge: {}
+    labels:
+      traefik.http.middlewares.authelia.forwardAuth.address: "http://authelia:9091/api/authz/forward-auth"
+      traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader: "true"
+      traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders: "Remote-User"
+      # cho router của script bên dưới: xóa trống Remote-User thay vì bỏ qua
+      # xác thực, để một header bị client giả mạo cũng không hoạt động trên tuyến đó
+      traefik.http.middlewares.blank-remote-user.headers.customrequestheaders.Remote-User: ""
+
+  miner:
+    image: ghcr.io/sunkwibot/twitch-miner:latest
+    networks:
+      miner-net:
+        ipv4_address: 10.10.0.3   # cũng tĩnh: một địa chỉ chọn ngẫu nhiên có thể trùng
+    # không có "ports": mạng này chỉ tới được Traefik, từ 10.10.0.2
+    environment:
+      MINER_PASSWORD: "change-me"
+      MINER_PUBLIC_URL: "https://miner.example.com"
+      MINER_PROXY_NETWORKS: "10.10.0.2"
+      MINER_AUTH_HEADER: "Remote-User"
+      MINER_AUTH_USERS: "alice,bob"
+    volumes:
+      - miner-data:/data
+    labels:
+      traefik.http.routers.miner.rule: "Host(`miner.example.com`)"
+      traefik.http.routers.miner.middlewares: "authelia@docker" # lặp lại trên mọi router dẫn đến miner
+      # cho script, cùng MINER_PASSWORD: bỏ qua Authelia, nhưng không bỏ qua việc xóa trống header
+      traefik.http.routers.miner-api.rule: "Host(`miner.example.com`) && Path(`/api/auth`) && (Method(`POST`) || Method(`DELETE`))"
+      traefik.http.routers.miner-api.middlewares: "blank-remote-user@docker"
+
+volumes:
+  miner-data:
+```
+
+#### Siết chặt một proxy khác
+
+Không sản phẩm nào trong số này tự loại bỏ bản sao header do client gửi: hãy thêm
+dòng xóa bên dưới trước chỉ thị đặt header đó từ phản hồi của SSO, trên mọi tuyến
+đường tới miner, kể cả tuyến của script.
+
+- **Caddy**: `request_header -Remote-User` ngay trước `forward_auth`. Dạng mở rộng của
+  nó (`request_header <tên> {rp.header.<tên>}`) chỉ thêm header riêng của gateway,
+  không bao giờ xóa của client.
+- **nginx**: `proxy_set_header Remote-User "";` trước `auth_request`, và
+  `proxy_set_header Host $host;` (bản thân `auth_request` cần build với
+  `--with-http_auth_request_module`). nginx cũng loại bỏ mọi header có tên chứa dấu
+  gạch dưới, trừ khi `underscores_in_headers on;` được đặt; đó là lý do
+  `MINER_AUTH_HEADER` từ chối tên như vậy.
+- **Apache**: `RequestHeader unset Remote-User` trước `RequestHeader set` thêm header
+  thật, và `ProxyPreserveHost On` vì cùng yêu cầu `Host` như trên.
+- **HAProxy**: `http-request del-header Remote-User` trước quy tắc đặt nó từ phản hồi
+  xác thực.
+- **Cloudflare Tunnel**: để `httpHostHeader` không đặt (mặc định nó đã chuyển tiếp
+  `Host` công khai mà client yêu cầu); đây là một tunnel, không phải proxy dọn dẹp
+  header, nên hãy kết hợp nó với một trong các proxy trên cho `MINER_AUTH_HEADER`,
+  thay vì chỉ tin tưởng riêng nó.
+- **Tailscale Serve**: `Tailscale-User-Login`. `tailscaled` đã loại bỏ mọi bản sao do
+  client gửi trước khi đặt giá trị của riêng nó, không có gì để bạn tự dọn; điều quan
+  trọng chỉ là chỉ `tailscale serve`, không bao giờ một kết nối trực tiếp, mới có thể
+  tới được miner — gắn nó vào `127.0.0.1` và chỉ để Serve làm trung gian.
+
+Dù chọn proxy nào, hãy kiểm tra nó một lần trước khi tin tưởng: sau khi đăng xuất khỏi
+SSO, hãy `curl` trực tiếp đến địa chỉ của chính miner (bỏ qua proxy, từ máy hoặc
+container nó đang chạy) với header đặt bằng tay, như
+`curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot`; nó phải trả về
+`401`, không bao giờ là snapshot.
 
 ### <a name="systemd"></a>Không cần Docker (systemd)
 
@@ -473,3 +593,5 @@ Các kiểu TypeScript của giao diện được sinh từ các kiểu Rust b�
 ## <a name="license"></a>Giấy phép
 
 [MIT](../../LICENSE). Lấy cảm hứng từ [TwitchDropsMiner của DevilXD](https://github.com/DevilXD/TwitchDropsMiner), [Twitch-Channel-Points-Miner-v2](https://github.com/rdavydov/Twitch-Channel-Points-Miner-v2) và các bản fork của chúng.
+
+<img src="https://komarev.com/ghpvc/?username=SunkwiBOT-twitch-miner" width="1" height="1" alt="">

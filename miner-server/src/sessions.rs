@@ -12,7 +12,18 @@ use tokio::sync::{Notify, RwLock};
 use tokio_util::sync::CancellationToken;
 
 const MAX_SESSIONS: usize = 50;
+// ! Its own cap, never shared with MAX_SESSIONS: every device an SSO signs
+// in is a header session, and must not be able to evict a real cookie or
+// bearer session by flooding the header with distinct values.
+const MAX_HEADER_SESSIONS: usize = 50;
 const SESSION_BYTES: usize = 32;
+// ! Kept short, out of the in-app log buffer, and reused by the Settings
+// card's "signed in as" text: the header value names a real person, shown
+// back only where the server itself already logs or displays it.
+pub(crate) const LOGGED_VALUE_MAX_CHARS: usize = 64;
+// ! Bounded so a flood of distinct values cannot grow this forever: once
+// full, the oldest logged value is forgotten first, and may be logged again.
+const LOGGED_VALUES_MAX: usize = 1_000;
 
 pub const SESSION_COOKIE: &str = "tm_session";
 // ! `__Host-` makes the browser refuse the cookie unless it is `Secure`, on
@@ -21,6 +32,10 @@ pub const SESSION_COOKIE: &str = "tm_session";
 pub const PUBLIC_SESSION_COOKIE: &str = "__Host-tm_session";
 // ! The cookie's `Max-Age`, enforced here too: a stolen cookie dies with it.
 pub const SESSION_MAX_AGE: Duration = Duration::from_secs(30 * 24 * 60 * 60);
+// ! Short on purpose: the header is re-checked on every request, so a push
+// channel just forces a reconnect through the proxy at this deadline rather
+// than outliving a visitor the SSO has since dropped for up to 30 days.
+pub(crate) const HEADER_SESSION_TTL: Duration = Duration::from_secs(5 * 60);
 
 type ActiveAt = Arc<Mutex<Instant>>;
 
@@ -30,6 +45,9 @@ type ActiveAt = Arc<Mutex<Instant>>;
 enum Holder {
     Cookie([u8; 32]),
     Bearer,
+    // ! Hashed like the cookie: a session is shared only by requests naming
+    // the same signed-in person, never by every visitor of the proxy.
+    Header([u8; 32]),
 }
 
 struct Session {
@@ -54,7 +72,12 @@ impl Session {
     }
 
     fn expires_at(&self) -> Instant {
-        self.created_at + SESSION_MAX_AGE
+        let ttl = match self.holder {
+            Holder::Header(_) => HEADER_SESSION_TTL,
+            Holder::Cookie(_) | Holder::Bearer => SESSION_MAX_AGE,
+        };
+
+        self.created_at + ttl
     }
 
     fn idle_at(&self, idle_limit: Option<Duration>) -> Option<Instant> {
@@ -70,6 +93,7 @@ impl Session {
             revoked: self.revoked.clone(),
             expires_at: self.expires_at(),
             active_at: self.active_at.clone(),
+            renewable: matches!(self.holder, Holder::Header(_)),
         }
     }
 }
@@ -79,6 +103,10 @@ pub struct SessionLease {
     revoked: CancellationToken,
     expires_at: Instant,
     active_at: ActiveAt,
+    // ! A header lease ends on its own short deadline: its close code lets
+    // the UI quietly reconnect through the proxy, instead of showing a
+    // sign-in screen like a real session end does.
+    renewable: bool,
 }
 
 impl SessionLease {
@@ -94,18 +122,29 @@ impl SessionLease {
     pub fn touch(&self) {
         *miner_core::util::locked(&self.active_at) = Instant::now();
     }
+
+    pub fn renewable(&self) -> bool {
+        self.renewable
+    }
 }
 
 #[derive(Default)]
 pub struct Sessions {
     entries: RwLock<Vec<Session>>,
     created: Notify,
+    // ! Every value ever signed in through the header during this process,
+    // not tied to any one session: its short TTL would otherwise log the
+    // same person again at every renewal.
+    logged_header_values: Mutex<Vec<[u8; 32]>>,
 }
 
 fn hash(session: &str) -> [u8; 32] {
     Sha256::digest(session.as_bytes()).into()
 }
 
+// ! Each kind keeps its own cap (`MAX_SESSIONS` for cookies and the bearer,
+// `MAX_HEADER_SESSIONS` for the header): flooding one kind evicts only its
+// own oldest entry, never another visitor's or script's session.
 fn add(entries: &mut Vec<Session>, holder: Holder, now: Instant) -> SessionLease {
     entries.retain(|entry| {
         let alive = now < entry.expires_at();
@@ -122,8 +161,21 @@ fn add(entries: &mut Vec<Session>, holder: Holder, now: Instant) -> SessionLease
 
     entries.push(session);
 
-    if entries.len() > MAX_SESSIONS {
-        entries.remove(0).revoked.cancel();
+    let is_header = matches!(holder, Holder::Header(_));
+    let limit = if is_header {
+        MAX_HEADER_SESSIONS
+    } else {
+        MAX_SESSIONS
+    };
+    let of_same_kind = |entry: &Session| matches!(entry.holder, Holder::Header(_)) == is_header;
+
+    if entries.iter().filter(|entry| of_same_kind(entry)).count() > limit {
+        let index = entries
+            .iter()
+            .position(of_same_kind)
+            .expect("just counted at least one");
+
+        entries.remove(index).revoked.cancel();
     }
 
     lease
@@ -166,6 +218,60 @@ impl Sessions {
         lease
     }
 
+    // ! Behind the trusted proxy the header is checked on every request, so
+    // nothing here needs revoking by hand: a short, per-value hard deadline
+    // (not 30 days) forces the next request through the proxy again, ending
+    // a push channel for anyone the SSO has since dropped and never sharing
+    // one person's session with another.
+    pub async fn header(&self, value: &str, idle_limit: Option<Duration>) -> SessionLease {
+        let now = Instant::now();
+        let key = hash(value);
+        let mut entries = self.entries.write().await;
+        let alive = entries.iter().find(|entry| {
+            matches!(entry.holder, Holder::Header(stored) if stored == key)
+                && entry.alive_at(now, idle_limit)
+        });
+
+        if let Some(entry) = alive {
+            *miner_core::util::locked(&entry.active_at) = now;
+
+            return entry.lease();
+        }
+
+        // ! Logged once per value for the whole process, not once per
+        // session: the short TTL would otherwise renew this line every few
+        // minutes for the same person. Its own target, read by neither
+        // `/api/logs` nor the "Copy for a bug report" export (they keep only
+        // `twitch_miner`/`miner_core` lines): the value names a real person,
+        // not an error to triage.
+        self.log_header_value_once(value, key);
+
+        let lease = add(&mut entries, Holder::Header(key), now);
+
+        drop(entries);
+        self.created.notify_waiters();
+
+        lease
+    }
+
+    fn log_header_value_once(&self, value: &str, key: [u8; 32]) {
+        let mut logged = miner_core::util::locked(&self.logged_header_values);
+
+        if logged.contains(&key) {
+            return;
+        }
+
+        if logged.len() >= LOGGED_VALUES_MAX {
+            logged.remove(0);
+        }
+
+        logged.push(key);
+        drop(logged);
+
+        let shown: String = value.chars().take(LOGGED_VALUE_MAX_CHARS).collect();
+        tracing::info!(target: "miner_server", user = shown.as_str(), "signed in through the trusted proxy header");
+    }
+
     pub async fn find(&self, session: &str, idle_limit: Option<Duration>) -> Option<SessionLease> {
         self.find_at(session, Instant::now(), idle_limit).await
     }
@@ -184,7 +290,7 @@ impl Sessions {
             .iter()
             .find(|entry| match entry.holder {
                 Holder::Cookie(stored) => bool::from(stored.ct_eq(&wanted)),
-                Holder::Bearer => false,
+                Holder::Bearer | Holder::Header(_) => false,
             })
             .filter(|entry| entry.alive_at(now, idle_limit))
             .map(Session::lease)
@@ -253,7 +359,7 @@ impl Sessions {
 
         self.end(|holder| match holder {
             Holder::Cookie(stored) => bool::from(stored.ct_eq(&wanted)),
-            Holder::Bearer => false,
+            Holder::Bearer | Holder::Header(_) => false,
         })
         .await;
     }

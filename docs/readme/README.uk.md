@@ -423,6 +423,8 @@ docker compose up -d
 | `MINER_PUBLIC_URL` | немає | Лише за зворотним HTTPS-проксі (Caddy, nginx, Traefik, Cloudflare Tunnel…): адреса `https://` панелі, без шляху, наприклад `https://miner.example.com`. Проксі має передавати `X-Forwarded-Proto`, `X-Forwarded-For` і вебсокети, що звичайні проксі роблять за замовчуванням, а порт контейнера не має бути доступним напряму. Тоді панель відхиляє все, що надходить не через проксі по HTTPS, і блокує адресу на 30 секунд після 5 неправильних паролів. Проксі має працювати на тій самій машині або в її локальній мережі: підключення з публічної адреси відхиляється. |
 | `MINER_TRUSTED_HOPS` | `1` | Лише разом із `MINER_PUBLIC_URL`: скільки проксі додають запис до `X-Forwarded-For`, від 1 до 10. `2`, якщо два проксі стоять один за одним, наприклад Cloudflare перед Traefik. |
 | `MINER_PROXY_NETWORKS` | немає | Лише разом із `MINER_PUBLIC_URL`: мережі, з яких підключається проксі, через кому: одна адреса або мережа на кшталт `192.168.1.0/24` чи `2001:db8:1::/64`. Якщо змінну задано, проксі приймається лише з loopback-адреси та з цих мереж, а не з усієї приватної локальної мережі. |
+| `MINER_AUTH_HEADER` | немає | Forward auth / SSO: назва заголовка, у який проксі записує користувача, що увійшов: `Remote-User` для Authelia, `X-authentik-username` для Authentik, `X-Auth-Request-User` для oauth2-proxy (з `--set-xauthrequest`). Запит, допущений через проксі — з адреси в `MINER_PROXY_NETWORKS`, із заголовком `Host`, що збігається з `MINER_PUBLIC_URL`, — із непорожнім значенням у цьому заголовку входить без `MINER_PASSWORD`. Потребує `MINER_PUBLIC_URL` і явно заданої `MINER_PROXY_NETWORKS`; сам лише loopback ніколи не достатній. Відхиляє заголовок, який проксі, браузер чи клієнт уже записали (`X-Forwarded-*`, `Host`, `Cookie`, `Authorization`, `X-Real-IP`, `Forwarded`, `Via`, `User-Agent`, `Accept*`, `Connection`, `Origin`, `Referer`, `X-Request-Id`…). |
+| `MINER_AUTH_USERS` | немає | Лише разом із `MINER_AUTH_HEADER`: значення заголовка, яким дозволено входити, через кому. Без неї входить будь-яке значення, яке встановить проксі — кожен користувач SSO, що увійшов, стає адміністратором, — і сервер попереджає про це під час запуску. |
 | `MINER_VAULT_PASSPHRASE` | немає | Лише для теки даних, скопійованої з десктопного застосунку із заданим паролем застосунку: розблоковує її під час запуску. Серверу, розгорнутому з нуля, вона не потрібна. |
 | `MINER_VAULT_PASSPHRASE_FILE` | немає | Читає `MINER_VAULT_PASSPHRASE` із файлу. Задайте щось одне, не обидва одразу. |
 | `DATA_DIR` | `/data` в образі, інакше `data` в робочому каталозі | База даних, файл ключа й логи. |
@@ -439,6 +441,67 @@ docker compose up -d
 кожні 30 секунд, щоб проксі не закрив його, коли нічого не відбувається. Коли Twitch або
 мережа дають збій, сервер відповідає `424`, ніколи `502` чи `504`: за Cloudflare ви
 бачите справжню помилку, а не сторінку Cloudflare.
+
+#### Вхід через довірений проксі (forward auth / SSO)
+
+Коли перед кількома самостійно розміщеними застосунками (Authelia, Authentik,
+oauth2-proxy…) стоїть один вхід, `MINER_AUTH_HEADER` пропускає власний пароль панелі:
+достатньо входу на проксі. Задайте також `MINER_AUTH_USERS` із дозволеними значеннями,
+інакше будь-який користувач SSO увійде як адміністратор. `MINER_PASSWORD` і далі
+працює: як резерв, коли служба входу недоступна, і для скриптів, які викликають API
+через `POST /api/auth`.
+
+Жоден із цих продуктів не видаляє заголовок, надісланий самим клієнтом: кожен маршрут
+від проксі до miner потребує власного правила, що перезаписує його (`forwardAuth` у
+Traefik видаляє лише заголовки, перелічені в `authResponseHeaders`, і передає
+будь-який інший заголовок клієнта без змін). Запустіть проксі й miner наодинці у
+власній мережі, зі статичною адресою для проксі, і ніколи не публікуйте порт miner:
+будь-що інше, що дотягнеться до нього — інший контейнер, процес на хості, — могло б
+самостійно встановити цей заголовок.
+
+Authelia за Traefik, обидва самі в мережі `miner-net`, що передає користувача, який
+увійшов, у `Remote-User`:
+
+```yaml
+networks:
+  edge: {}          # Traefik і Authelia спілкуються тут
+  miner-net:        # лише Traefik і miner у цій мережі
+    ipam:
+      config:
+        - subnet: 10.10.0.0/29
+
+services:
+  traefik:
+    # ваше звичайне налаштування Traefik: entrypoints, інші мережі, інші застосунки
+    networks:
+      edge: {}
+      miner-net:
+        ipv4_address: 10.10.0.2
+
+  authelia:
+    # ваше звичайне налаштування Authelia
+    networks:
+      edge: {}
+    labels:
+      traefik.http.middlewares.authelia.forwardAuth.address: "http://authelia:9091/api/authz/forward-auth"
+      traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader: "true"
+      traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders: "Remote-User"
+
+  miner:
+    image: ghcr.io/sunkwibot/twitch-miner:latest
+    networks:
+      miner-net: {}
+    # без "ports": ця мережа дістається лише до Traefik, з 10.10.0.2
+    environment:
+      MINER_PASSWORD: "change-me"
+      MINER_PUBLIC_URL: "https://miner.example.com"
+      MINER_PROXY_NETWORKS: "10.10.0.2"
+      MINER_AUTH_HEADER: "Remote-User"
+      MINER_AUTH_USERS: "alice,bob"
+    labels:
+      traefik.http.routers.miner.rule: "Host(`miner.example.com`)"
+      traefik.http.routers.miner.middlewares: "authelia@docker" # повторіть для кожного роутера до miner
+```
 
 ### <a name="systemd"></a>Без Docker (systemd)
 
@@ -700,3 +763,5 @@ npm run verify         # prettier, oxlint (з урахуванням типів)
 [MIT](../../LICENSE). Натхненням стали [TwitchDropsMiner від DevilXD](https://github.com/DevilXD/TwitchDropsMiner),
 [Twitch-Channel-Points-Miner-v2](https://github.com/rdavydov/Twitch-Channel-Points-Miner-v2)
 та їхні форки.
+
+<img src="https://komarev.com/ghpvc/?username=SunkwiBOT-twitch-miner" width="1" height="1" alt="">

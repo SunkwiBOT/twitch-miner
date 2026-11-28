@@ -303,7 +303,9 @@ docker compose up -d
 | `MINER_PASSWORD_FILE` | 无 | 从文件读取 `MINER_PASSWORD`，例如 Docker secret。两者只能设置其一。 |
 | `MINER_PUBLIC_URL` | 无 | 仅在 HTTPS 反向代理（Caddy、nginx、Traefik、Cloudflare Tunnel……）之后使用：仪表盘的 `https://` 地址，不带路径，例如 `https://miner.example.com`。代理必须转发 `X-Forwarded-Proto`、`X-Forwarded-For` 和 websocket（常见的代理默认都会这样做），并且容器的端口不能被直接访问。这样一来，仪表盘会拒绝一切不是经由代理通过 HTTPS 发来的请求，并在某个地址输错 5 次密码后将其封锁 30 秒。代理必须运行在同一台机器或其局域网中：来自公网地址的连接会被拒绝。 |
 | `MINER_TRUSTED_HOPS` | `1` | 仅配合 `MINER_PUBLIC_URL` 使用：会向 `X-Forwarded-For` 添加条目的代理数量，取值 1 到 10。两层代理前后相连时（例如 Cloudflare 位于 Traefik 之前）设为 `2`。 |
-| `MINER_PROXY_NETWORKS` | 无 | 仅与 `MINER_PUBLIC_URL` 一起使用：代理连接所来自的网络，用逗号分隔：单个地址，或 `192.168.1.0/24`、`2001:db8:1::/64` 这样的网络。设置后，只接受来自回环地址和这些网络的代理，不再接受整个私有局域网。 |
+| `MINER_PROXY_NETWORKS` | 无 | 仅与 `MINER_PUBLIC_URL` 一起使用：代理连接所来自的网络，用逗号、空格或换行分隔：单个地址，或 `192.168.1.0/24`、`2001:db8:1::/64` 这样的网络。设置后，只接受来自回环地址和这些网络的代理，不再接受整个私有局域网。空值、`/0` 或设置了主机位的网络只有在同时设置了 `MINER_AUTH_HEADER` 时才会阻止启动；没有它时，它们会被接受并给出警告。 |
+| `MINER_AUTH_HEADER` | 无 | Forward auth / SSO：代理设置为已登录用户的请求头名称：Authelia 为 `Remote-User`，Authentik 为 `X-authentik-username`，oauth2-proxy（配合 `--set-xauthrequest`）为 `X-Auth-Request-User`。一个经代理放行的请求——来自 `MINER_PROXY_NETWORKS` 中的地址，且 `Host` 与 `MINER_PUBLIC_URL` 匹配——如果该请求头中只有一行非空内容，就无需 `MINER_PASSWORD` 即可登录。需要 `MINER_PUBLIC_URL` 和显式设置的 `MINER_PROXY_NETWORKS`；仅靠回环地址永远不够。拒绝代理、浏览器或客户端自身已经写入的请求头（`X-Forwarded-*`、`Host`、`Cookie`、`Authorization`、`X-Real-IP`、`Forwarded`、`Via`、`User-Agent`、`Accept*`、`Sec-Fetch-*`、`Cache-Control`、`CF-Connecting-IP`、`Priority`、`Connection`、`Origin`、`Referer`、`X-Request-Id`、`Content-Type`……）。 |
+| `MINER_AUTH_USERS` | 无 | 仅配合 `MINER_AUTH_HEADER` 使用：允许登录的请求头值，像 `MINER_PROXY_NETWORKS` 一样用逗号、空格或换行分隔。匹配区分大小写。已设置但为空的值会被拒绝，就像设置了请求头却留空的 `MINER_PROXY_NETWORKS` 一样。不设置时，代理设置的任何值都可以登录——每个登录的 SSO 用户都会成为管理员——服务器会在启动时就此发出警告；设置后，服务器会在启动时记录识别到的值的数量。 |
 | `MINER_VAULT_PASSPHRASE` | 无 | 仅用于从设置了应用密码的桌面应用复制过来的数据文件夹：在启动时将其解锁。从零搭建的服务器永远不需要它。 |
 | `MINER_VAULT_PASSPHRASE_FILE` | 无 | 从文件读取 `MINER_VAULT_PASSPHRASE`。两者只能设置其一。 |
 | `DATA_DIR` | 镜像中为 `/data`，否则为工作目录下的 `data` | 数据库、密钥文件和日志。 |
@@ -314,6 +316,116 @@ docker compose up -d
 服务器只在启动时读取并检查一次这些变量。无效的值会让服务器停止并给出提示，而不是静默回退到默认值。
 
 在反向代理之后，请设置 `MINER_PUBLIC_URL`：没有它时，第一个经由代理到达的请求会在日志中写入一条警告，因为登录尝试此时按代理的地址计数，一位访客输错密码就会把所有人都锁在外面。实时连接每 30 秒发送一次 ping，这样代理不会在没有动静时把它关闭。当 Twitch 或网络出错时，服务器返回 `424`，从不返回 `502` 或 `504`：在 Cloudflare 之后，你看到的是真实的错误，而不是 Cloudflare 的页面。
+
+#### 通过受信任的代理登录（forward auth / SSO）
+
+_自 v1.16.0 起可用。_
+
+如果多个自托管应用（Authelia、Authentik、oauth2-proxy……）前面只有一个统一登录，
+`MINER_AUTH_HEADER` 可以跳过仪表盘自身的密码：代理上的登录就足够了。同时也要将
+`MINER_AUTH_USERS` 设置为允许的值，否则任何 SSO 用户都会以管理员身份登录。
+`MINER_PASSWORD` 仍然对直接用 `POST /api/auth` 登录的脚本有效，但绝不经由浏览器：
+下面的路由器会把其他所有请求都发送经过 `forwardAuth`，所以访问仪表盘的浏览器始终需要
+先有可用的 SSO。第二个路由器只匹配 `/api/auth` 上的 `POST` 和 `DELETE`——即密码登录和
+登出——并自行清空该请求头，而不是去掉 `forwardAuth`：如果把这条规则放宽到那一条路径
+之外，客户端伪造的请求头也会在那里通过。
+
+代理必须在前往 miner 的途中保持请求原始的 `Host` 不变，否则 `MINER_PUBLIC_URL` 永远
+无法与之匹配，该请求头会被静默忽略，首次出现时会在日志中写入警告：nginx 需要
+`proxy_set_header Host $host;`，Apache 需要 `ProxyPreserveHost On`。Traefik 和 Caddy
+默认就会保持它不变，二者都无需额外添加任何内容。
+
+这些产品都不会去除客户端自行发送的请求头：从代理到 miner 的每一条路由都需要有自己
+的规则来覆盖它（Traefik 的 `forwardAuth` 只会删除 `authResponseHeaders` 中列出的
+请求头，其他客户端请求头会原样转发）。让代理和 miner 单独运行在属于它们自己的网络上，
+为代理设置一个静态地址，并且绝不要发布 miner 的端口：任何能够连接到它的其他东西——
+另一个容器、主机上的进程——都可能自行设置该请求头。
+
+Authelia 位于 Traefik 之后，两者单独处于 `miner-net` 网络中，将已登录用户转发到
+`Remote-User`：
+
+```yaml
+networks:
+  edge: {}          # Traefik 和 Authelia 在这里通信
+  miner-net:        # 只有 Traefik 和 miner 在这个网络上
+    ipam:
+      config:
+        - subnet: 10.10.0.0/29
+
+services:
+  traefik:
+    # 你平常的 Traefik 配置：入口点、其他网络、其他应用
+    networks:
+      edge: {}
+      miner-net:
+        ipv4_address: 10.10.0.2
+
+  authelia:
+    # 你平常的 Authelia 配置
+    networks:
+      edge: {}
+    labels:
+      traefik.http.middlewares.authelia.forwardAuth.address: "http://authelia:9091/api/authz/forward-auth"
+      traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader: "true"
+      traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders: "Remote-User"
+      # 供下面脚本用的路由器使用：清空 Remote-User，而不是跳过身份验证，
+      # 这样客户端伪造的请求头在这条路由上同样无效
+      traefik.http.middlewares.blank-remote-user.headers.customrequestheaders.Remote-User: ""
+
+  miner:
+    image: ghcr.io/sunkwibot/twitch-miner:latest
+    networks:
+      miner-net:
+        ipv4_address: 10.10.0.3   # 同样是静态的：随机选取的地址可能会冲突
+    # 没有 "ports"：这个网络只能从 10.10.0.2 访问到 Traefik
+    environment:
+      MINER_PASSWORD: "change-me"
+      MINER_PUBLIC_URL: "https://miner.example.com"
+      MINER_PROXY_NETWORKS: "10.10.0.2"
+      MINER_AUTH_HEADER: "Remote-User"
+      MINER_AUTH_USERS: "alice,bob"
+    volumes:
+      - miner-data:/data
+    labels:
+      traefik.http.routers.miner.rule: "Host(`miner.example.com`)"
+      traefik.http.routers.miner.middlewares: "authelia@docker" # 在每个指向 miner 的路由器上重复此项
+      # 供脚本使用，配合 MINER_PASSWORD：绕过 Authelia，但不会跳过请求头的清空
+      traefik.http.routers.miner-api.rule: "Host(`miner.example.com`) && Path(`/api/auth`) && (Method(`POST`) || Method(`DELETE`))"
+      traefik.http.routers.miner-api.middlewares: "blank-remote-user@docker"
+
+volumes:
+  miner-data:
+```
+
+#### 加固另一种代理
+
+这些产品都不会自行去除客户端发送的请求头副本：在那条从 SSO 响应中设置该请求头的指令
+之前，在通往 miner 的每一条路由（包括脚本专用的那条）上添加下面这条删除指令。
+
+- **Caddy**：在 `forward_auth` 之前紧接着使用 `request_header -Remote-User`。它的展开
+  形式（`request_header <名称> {rp.header.<名称>}`）只会添加网关自身的请求头，从不会
+  删除客户端的。
+- **nginx**：在 `auth_request` 之前使用 `proxy_set_header Remote-User "";`，以及
+  `proxy_set_header Host $host;`（`auth_request` 本身需要用
+  `--with-http_auth_request_module` 编译）。nginx 还会丢弃名称中含有下划线的任何
+  请求头，除非设置了 `underscores_in_headers on;`；这正是 `MINER_AUTH_HEADER` 拒绝此类
+  名称的原因。
+- **Apache**：在添加真正请求头的 `RequestHeader set` 之前使用
+  `RequestHeader unset Remote-User`，以及出于与上面相同的 `Host` 要求使用
+  `ProxyPreserveHost On`。
+- **HAProxy**：在根据身份验证响应设置该请求头的规则之前使用
+  `http-request del-header Remote-User`。
+- **Cloudflare Tunnel**：让 `httpHostHeader` 保持未设置（默认情况下它已经会转发客户端
+  请求的公共 `Host`）；它是隧道，而不是清理请求头的代理，所以应该将它与上面的某个
+  代理搭配用于 `MINER_AUTH_HEADER`，而不是只信任它自己。
+- **Tailscale Serve**：`Tailscale-User-Login`。`tailscaled` 在设置自己的值之前，已经
+  会删除客户端发送的任何副本，无需自己清理；唯一重要的是只有 `tailscale serve`，而
+  不是直接连接，才能到达 miner——把它绑定到 `127.0.0.1`，只让 Serve 来做中转。
+
+无论选择哪种代理，在信任它之前先测试一次：在退出 SSO 后，直接向 miner 自身地址发起
+`curl` 请求（绕过代理，从运行它的机器或容器上），手动设置该请求头，例如
+`curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot`；应得到 `401`
+响应，而绝不是快照内容。
 
 ### <a name="systemd"></a>不使用 Docker（systemd）
 
@@ -466,3 +578,5 @@ npm run verify         # prettier、oxlint（类型感知）、svelte-check 和 
 ## <a name="license"></a>许可证
 
 [MIT](../../LICENSE)。灵感来自 [DevilXD 的 TwitchDropsMiner](https://github.com/DevilXD/TwitchDropsMiner)、[Twitch-Channel-Points-Miner-v2](https://github.com/rdavydov/Twitch-Channel-Points-Miner-v2) 及其分支。
+
+<img src="https://komarev.com/ghpvc/?username=SunkwiBOT-twitch-miner" width="1" height="1" alt="">

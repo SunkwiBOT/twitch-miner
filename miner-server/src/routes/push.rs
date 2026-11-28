@@ -77,9 +77,20 @@ async fn stream_events(state: Shared, mut socket: WebSocket, lease: SessionLease
             biased;
 
             _ = &mut session_ended => {
-                let close = CloseFrame {
-                    code: SocketClose::SessionEnded.code(),
-                    reason: SocketClose::SessionEnded.reason().into(),
+                // ! A header lease ends on its own short deadline, by design:
+                // a normal close (not `SessionEnded`) lets the UI's own retry
+                // reconnect it through the proxy, which re-admits the header,
+                // instead of showing a sign-in screen for nothing.
+                let close = if lease.renewable() {
+                    CloseFrame {
+                        code: axum::extract::ws::close_code::NORMAL,
+                        reason: Utf8Bytes::default(),
+                    }
+                } else {
+                    CloseFrame {
+                        code: SocketClose::SessionEnded.code(),
+                        reason: SocketClose::SessionEnded.reason().into(),
+                    }
                 };
                 send_message(&mut socket, Message::Close(Some(close))).await;
 

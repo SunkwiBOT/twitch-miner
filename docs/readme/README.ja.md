@@ -303,7 +303,9 @@ docker compose up -d
 | `MINER_PASSWORD_FILE` | なし | `MINER_PASSWORD` をファイルから読み込みます（Docker secret など）。どちらか一方だけを設定してください。 |
 | `MINER_PUBLIC_URL` | なし | HTTPS リバースプロキシ（Caddy、nginx、Traefik、Cloudflare Tunnel など）の背後に置く場合のみ：ダッシュボードの `https://` アドレス。パスは含めず、`https://miner.example.com` のように指定します。プロキシは `X-Forwarded-Proto`、`X-Forwarded-For`、websocket を転送する必要があり（一般的なプロキシは既定でそうします）、コンテナーのポートに直接アクセスできてはいけません。これにより、ダッシュボードはプロキシを経由した HTTPS 以外のアクセスをすべて拒否し、パスワードを 5 回間違えたアドレスを 30 秒間ブロックします。プロキシは同じマシンかそのローカルネットワーク上で動かす必要があり、パブリックアドレスからの接続は拒否されます。 |
 | `MINER_TRUSTED_HOPS` | `1` | `MINER_PUBLIC_URL` を使う場合のみ：`X-Forwarded-For` にエントリを追加するプロキシの数（1〜10）。プロキシを 2 段に重ねる場合（Traefik の前に Cloudflare など）は `2` です。 |
-| `MINER_PROXY_NETWORKS` | なし | `MINER_PUBLIC_URL` と併用する場合のみ：プロキシの接続元となるネットワーク。カンマ区切りで、単一のアドレスか `192.168.1.0/24` や `2001:db8:1::/64` のようなネットワークを指定します。設定すると、プロキシはループバックアドレスとこれらのネットワークからのみ受け付けられ、プライベートなローカルネットワーク全体からは受け付けられなくなります。 |
+| `MINER_PROXY_NETWORKS` | なし | `MINER_PUBLIC_URL` と併用する場合のみ：プロキシの接続元となるネットワーク。カンマ、スペース、改行区切りで、単一のアドレスか `192.168.1.0/24` や `2001:db8:1::/64` のようなネットワークを指定します。設定すると、プロキシはループバックアドレスとこれらのネットワークからのみ受け付けられ、プライベートなローカルネットワーク全体からは受け付けられなくなります。空の値、`/0`、ホストビットが設定されたネットワークは、`MINER_AUTH_HEADER` も設定されている場合にのみ起動を止めます。設定されていない場合は、警告付きで受け入れられます。 |
+| `MINER_AUTH_HEADER` | なし | Forward auth / SSO：プロキシがサインイン済みのユーザーを設定するヘッダー名：Authelia は `Remote-User`、Authentik は `X-authentik-username`、oauth2-proxy は `X-Auth-Request-User`（`--set-xauthrequest` を指定）。プロキシ経由で許可されたリクエスト——`MINER_PROXY_NETWORKS` に含まれるアドレスから、`Host` が `MINER_PUBLIC_URL` と一致するもの——で、そのヘッダーに空でない行が一つだけあれば、`MINER_PASSWORD` なしでサインインできます。`MINER_PUBLIC_URL` と明示的に設定した `MINER_PROXY_NETWORKS` が必要で、ループバックだけでは決して十分ではありません。プロキシ、ブラウザ、クライアントのいずれかがすでに書き込んでいるヘッダー（`X-Forwarded-*`、`Host`、`Cookie`、`Authorization`、`X-Real-IP`、`Forwarded`、`Via`、`User-Agent`、`Accept*`、`Sec-Fetch-*`、`Cache-Control`、`CF-Connecting-IP`、`Priority`、`Connection`、`Origin`、`Referer`、`X-Request-Id`、`Content-Type`…）は拒否します。 |
+| `MINER_AUTH_USERS` | なし | `MINER_AUTH_HEADER` と併用した場合のみ：サインインを許可するヘッダー値。`MINER_PROXY_NETWORKS` と同様にカンマ、スペース、改行で区切ります。大文字小文字は区別します。設定されているが値が空の場合は拒否されます。これは、ヘッダーを設定した状態で `MINER_PROXY_NETWORKS` を空にした場合と同じです。設定しない場合、プロキシが設定した値ならどれでもサインインでき——サインインした SSO ユーザーは全員管理者になり——サーバーは起動時にこれを警告します。設定した場合は、起動時に認識した値の数を記録します。 |
 | `MINER_VAULT_PASSPHRASE` | なし | アプリのパスワードを設定したデスクトップアプリからコピーしたデータフォルダ専用です。起動時にロックを解除します。一から構築したサーバーでは必要ありません。 |
 | `MINER_VAULT_PASSPHRASE_FILE` | なし | `MINER_VAULT_PASSPHRASE` をファイルから読み込みます。どちらか一方だけを設定してください。 |
 | `DATA_DIR` | イメージ内では `/data`、それ以外は作業ディレクトリの `data` | データベース、鍵ファイル、ログ。 |
@@ -314,6 +316,124 @@ docker compose up -d
 サーバーは起動時に一度だけ変数を読み込んで検証します。不正な値があると、黙って既定値に戻すのではなく、メッセージを出してサーバーを停止します。
 
 リバースプロキシの後ろでは `MINER_PUBLIC_URL` を設定してください。設定がないと、プロキシ経由で届いた最初のリクエストがログに警告を書き込みます。ログインの試行がプロキシのアドレス単位で数えられ、1 人の訪問者のパスワード間違いで全員が締め出されてしまうからです。ライブ接続は 30 秒ごとに ping を送るので、何も起きていないときにプロキシが接続を閉じることはありません。Twitch やネットワークが失敗したとき、サーバーは `424` を返し、`502` や `504` は返しません。Cloudflare の後ろでも、Cloudflare のページではなく本当のエラーが表示されます。
+
+#### 信頼できるプロキシからのサインイン（forward auth / SSO）
+
+_v1.16.0 以降で利用できます。_
+
+複数のセルフホストアプリ(Authelia、Authentik、oauth2-proxy…)の前に一つのサインインを
+置く構成では、`MINER_AUTH_HEADER` によってダッシュボード独自のパスワードを省略できます。
+プロキシ側のサインインだけで十分です。`MINER_AUTH_USERS` にも許可する値を設定してくださ
+い。設定しないと、どの SSO ユーザーも管理者としてサインインできてしまいます。
+`MINER_PASSWORD` は引き続き、`POST /api/auth` で直接サインインするスクリプト向けに動作し
+ますが、ブラウザ経由では決して使えません。下記のルーターは他のすべてのリクエストを
+`forwardAuth` 経由で送るため、ダッシュボードを開くブラウザは常に先に動作する SSO を必要
+とします。2 つ目のルーターは `/api/auth` への `POST` と `DELETE`——パスワードによる
+サインインとサインアウト——にのみ反応し、`forwardAuth` を外す代わりに自分でヘッダーを
+空にします。このルールをその一つのパスより広げると、クライアントが偽造したヘッダーも
+そこを通ってしまいます。
+
+プロキシはリクエストの元の `Host` をマイナーへの経路上で変更せずに保つ必要があります。
+さもないと `MINER_PUBLIC_URL` が決して一致せず、ヘッダーは黙って無視され、最初にそれが
+起きたときにログへ警告が書き込まれます。nginx には `proxy_set_header Host $host;` が、
+Apache には `ProxyPreserveHost On` が必要です。Traefik と Caddy は既定でこれを変更しない
+ため、どちらも追加の設定は不要です。
+
+これらの製品はいずれも、クライアント自身が送ったヘッダーを取り除きません。プロキシから
+マイナーへの各ルートには、それを上書きする独自のルールが必要です（Traefik の
+`forwardAuth` は `authResponseHeaders` に列挙したヘッダーしか削除せず、それ以外の
+クライアントヘッダーはそのまま転送します）。プロキシとマイナーだけを専用のネットワーク上
+で動かし、プロキシには静的アドレスを与え、マイナーのポートは決して公開しないでください。
+それ以外の何か——別のコンテナ、ホスト上のプロセス——がそこに到達できれば、自分でヘッダー
+を設定できてしまいます。
+
+Traefik の後ろの Authelia が、`miner-net` 上に二つだけで、サインイン済みのユーザーを
+`Remote-User` で転送する例：
+
+```yaml
+networks:
+  edge: {}          # Traefik と Authelia がここで通信する
+  miner-net:        # Traefik とマイナーだけがこちらにいる
+    ipam:
+      config:
+        - subnet: 10.10.0.0/29
+
+services:
+  traefik:
+    # 普段の Traefik 設定：エントリーポイント、他のネットワーク、他のアプリ
+    networks:
+      edge: {}
+      miner-net:
+        ipv4_address: 10.10.0.2
+
+  authelia:
+    # 普段の Authelia 設定
+    networks:
+      edge: {}
+    labels:
+      traefik.http.middlewares.authelia.forwardAuth.address: "http://authelia:9091/api/authz/forward-auth"
+      traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader: "true"
+      traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders: "Remote-User"
+      # 下記のスクリプト向けルーター用：認証をスキップする代わりに Remote-User を
+      # 空にするので、クライアントが偽造したヘッダーはこのルートでも効かない
+      traefik.http.middlewares.blank-remote-user.headers.customrequestheaders.Remote-User: ""
+
+  miner:
+    image: ghcr.io/sunkwibot/twitch-miner:latest
+    networks:
+      miner-net:
+        ipv4_address: 10.10.0.3   # これも静的：ランダムに選んだアドレスは衝突しうる
+    # "ports" なし：このネットワークは 10.10.0.2 から Traefik にしか届かない
+    environment:
+      MINER_PASSWORD: "change-me"
+      MINER_PUBLIC_URL: "https://miner.example.com"
+      MINER_PROXY_NETWORKS: "10.10.0.2"
+      MINER_AUTH_HEADER: "Remote-User"
+      MINER_AUTH_USERS: "alice,bob"
+    volumes:
+      - miner-data:/data
+    labels:
+      traefik.http.routers.miner.rule: "Host(`miner.example.com`)"
+      traefik.http.routers.miner.middlewares: "authelia@docker" # マイナーへの各ルーターで繰り返す
+      # スクリプト向け、MINER_PASSWORD と共に：Authelia を迂回するが、ヘッダーの空化は迂回しない
+      traefik.http.routers.miner-api.rule: "Host(`miner.example.com`) && Path(`/api/auth`) && (Method(`POST`) || Method(`DELETE`))"
+      traefik.http.routers.miner-api.middlewares: "blank-remote-user@docker"
+
+volumes:
+  miner-data:
+```
+
+#### 他のプロキシを堅牢化する
+
+これらの製品はいずれも、クライアントが送ったヘッダーのコピーを自分では取り除きません。
+SSO の応答からそれを設定するディレクティブの前に、下記の削除行を、スクリプト用のルート
+を含むマイナーへのすべてのルートに追加してください。
+
+- **Caddy**：`forward_auth` の直前に `request_header -Remote-User`。展開形
+  (`request_header <名前> {rp.header.<名前>}`) はゲートウェイ自身のヘッダーを追加する
+  だけで、クライアントのものを削除することはありません。
+- **nginx**：`auth_request` の前に `proxy_set_header Remote-User "";`、および
+  `proxy_set_header Host $host;`（`auth_request` 自体は `--with-http_auth_request_module`
+  付きのビルドが必要です）。nginx は `underscores_in_headers on;` が設定されていない限り、
+  名前にアンダースコアを含むヘッダーも破棄します。これが `MINER_AUTH_HEADER` がそうした
+  名前を拒否する理由です。
+- **Apache**：本物を追加する `RequestHeader set` の前に `RequestHeader unset Remote-User`、
+  そして上記と同じ `Host` の要件のために `ProxyPreserveHost On`。
+- **HAProxy**：認証応答から設定するルールの前に `http-request del-header Remote-User`。
+- **Cloudflare Tunnel**：`httpHostHeader` を未設定のままにします（既定でクライアントが
+  要求した公開 `Host` をすでに転送します）。これはトンネルであり、ヘッダーを掃除する
+  プロキシではないため、`MINER_AUTH_HEADER` のためには単独で信頼するのではなく、上記の
+  プロキシのいずれかと組み合わせてください。
+- **Tailscale Serve**：`Tailscale-User-Login`。`tailscaled` は自分の値を設定する前に、
+  クライアントが送ったコピーをすでに削除しているため、自分で掃除する必要はありません。
+  重要なのは、直接の接続ではなく `tailscale serve` だけがマイナーに到達できることです
+  ——`127.0.0.1` にバインドし、Serve だけに仲介させてください。
+
+どのプロキシを選んでも、信頼する前に一度テストしてください。SSO からサインアウトした
+状態で、マイナー自身のアドレスに直接（プロキシを迂回して、実行しているマシンや
+コンテナーから）手で設定したヘッダー付きで `curl` を実行します。例えば
+`curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot`。これは `401` を
+返さなければならず、スナップショットを返してはいけません。
 
 ### <a name="systemd"></a>Docker を使わない場合（systemd）
 
@@ -462,3 +582,5 @@ npm run verify         # prettier、oxlint（型情報を利用）、svelte-chec
 ## <a name="license"></a>ライセンス
 
 [MIT](../../LICENSE)。[DevilXD の TwitchDropsMiner](https://github.com/DevilXD/TwitchDropsMiner)、[Twitch-Channel-Points-Miner-v2](https://github.com/rdavydov/Twitch-Channel-Points-Miner-v2)、およびそれらのフォークに着想を得ています。
+
+<img src="https://komarev.com/ghpvc/?username=SunkwiBOT-twitch-miner" width="1" height="1" alt="">

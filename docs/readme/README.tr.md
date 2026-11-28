@@ -304,7 +304,9 @@ docker compose up -d
 | `MINER_PASSWORD_FILE` | yok | `MINER_PASSWORD` değerini bir dosyadan, örneğin bir Docker secret'tan okur. İkisinden yalnızca biri, ikisi birden değil. |
 | `MINER_PUBLIC_URL` | yok | Yalnızca bir HTTPS ters proxy (Caddy, nginx, Traefik, Cloudflare Tunnel…) arkasında: panelin `https://` adresi, yol olmadan; örneğin `https://miner.example.com`. Proxy `X-Forwarded-Proto`, `X-Forwarded-For` başlıklarını ve websocket'leri iletmelidir (yaygın proxy'ler bunu varsayılan olarak yapar) ve container'ın portuna doğrudan ulaşılamamalıdır. Panel bu durumda proxy üzerinden HTTPS ile gelmeyen her şeyi reddeder ve 5 yanlış şifreden sonra bir adresi 30 saniyeliğine kilitler. Proxy aynı makinede veya onun yerel ağında çalışmalıdır: genel bir adresten gelen bağlantı reddedilir. |
 | `MINER_TRUSTED_HOPS` | `1` | Yalnızca `MINER_PUBLIC_URL` ile: `X-Forwarded-For` başlığına girdi ekleyen proxy sayısı, 1 ile 10 arasında. Art arda iki proxy varsa, örneğin Traefik'in önünde Cloudflare, `2`. |
-| `MINER_PROXY_NETWORKS` | yok | Yalnızca `MINER_PUBLIC_URL` ile: proxy'nin bağlandığı ağlar, virgülle ayrılmış: tek bir adres ya da `192.168.1.0/24` veya `2001:db8:1::/64` gibi bir ağ. Ayarlandığında proxy yalnızca loopback adresinden ve bu ağlardan kabul edilir, artık tüm özel yerel ağdan değil. |
+| `MINER_PROXY_NETWORKS` | yok | Yalnızca `MINER_PUBLIC_URL` ile: proxy'nin bağlandığı ağlar, virgül, boşluk veya yeni satırla ayrılmış: tek bir adres ya da `192.168.1.0/24` veya `2001:db8:1::/64` gibi bir ağ. Ayarlandığında proxy yalnızca loopback adresinden ve bu ağlardan kabul edilir, artık tüm özel yerel ağdan değil. Boş bir değer, `/0` veya host bitleri ayarlanmış bir ağ, yalnızca `MINER_AUTH_HEADER` da ayarlanmışsa başlangıcı durdurur; o olmadan bir uyarıyla kabul edilirler. |
+| `MINER_AUTH_HEADER` | yok | Forward auth / SSO: proxy'nin oturum açmış kullanıcıyı ayarladığı başlığın adı: Authelia için `Remote-User`, Authentik için `X-authentik-username`, oauth2-proxy için `X-Auth-Request-User` (`--set-xauthrequest` ile). Proxy üzerinden kabul edilen bir istek — `MINER_PROXY_NETWORKS` içindeki bir adresten, `MINER_PUBLIC_URL` ile eşleşen bir `Host` başlığıyla — bu başlıkta tek, boş olmayan bir satırla `MINER_PASSWORD` olmadan oturum açar. `MINER_PUBLIC_URL` ve açıkça ayarlanmış bir `MINER_PROXY_NETWORKS` gerektirir; yalnızca loopback asla yeterli değildir. Proxy'nin, bir tarayıcının veya bir istemcinin zaten yazdığı bir başlığı reddeder (`X-Forwarded-*`, `Host`, `Cookie`, `Authorization`, `X-Real-IP`, `Forwarded`, `Via`, `User-Agent`, `Accept*`, `Sec-Fetch-*`, `Cache-Control`, `CF-Connecting-IP`, `Priority`, `Connection`, `Origin`, `Referer`, `X-Request-Id`, `Content-Type`…). |
+| `MINER_AUTH_USERS` | yok | Yalnızca `MINER_AUTH_HEADER` ile birlikte: oturum açmasına izin verilen başlık değerleri, `MINER_PROXY_NETWORKS` gibi virgül, boşluk veya yeni satırla ayrılmış. Eşleştirme büyük/küçük harfe duyarlıdır. Ayarlanmış ama boş bir değer reddedilir, başlık ayarlıyken boş bir `MINER_PROXY_NETWORKS` gibi. Ayarlanmazsa, proxy'nin ayarladığı herhangi bir değer oturum açar — oturum açan her SSO kullanıcısı yönetici olur — ve sunucu başlangıçta bu konuda uyarır; ayarlandığında sunucu başlangıçta tanınan değer sayısını kaydeder. |
 | `MINER_VAULT_PASSPHRASE` | yok | Yalnızca uygulama şifresi olan masaüstü uygulamasından kopyalanmış bir veri klasörü için: başlangıçta klasörün kilidini açar. Sıfırdan kurulan bir sunucunun buna hiç ihtiyacı olmaz. |
 | `MINER_VAULT_PASSPHRASE_FILE` | yok | `MINER_VAULT_PASSPHRASE` değerini bir dosyadan okur. İkisinden yalnızca biri, ikisi birden değil. |
 | `DATA_DIR` | imajda `/data`, aksi hâlde çalışma dizinindeki `data` | Veritabanı, anahtar dosyası ve kayıtlar. |
@@ -315,6 +317,142 @@ docker compose up -d
 Sunucu değişkenleri başlangıçta bir kez okur ve denetler. Geçersiz bir değer, sessizce varsayılana dönmek yerine sunucuyu bir mesajla durdurur.
 
 Bir ters proxy arkasında `MINER_PUBLIC_URL` değişkenini ayarlayın: o olmadan, bir proxy üzerinden gelen ilk istek kayıtlara bir uyarı yazar, çünkü giriş denemeleri o zaman proxy'nin adresine sayılır ve tek bir ziyaretçinin yanlış şifreleri herkesi dışarıda bırakır. Canlı bağlantı her 30 saniyede bir ping gönderir; böylece hiçbir şey olmadığında proxy onu kapatmaz. Twitch veya ağ hata verdiğinde sunucu `424` ile yanıt verir, asla `502` veya `504` ile değil: Cloudflare arkasında Cloudflare'in sayfası yerine gerçek hatayı görürsünüz.
+
+#### Güvenilir bir proxy'den oturum açma (forward auth / SSO)
+
+_v1.16.0 sürümünden itibaren kullanılabilir._
+
+Birkaç kendi kendine barındırılan uygulamanın (Authelia, Authentik, oauth2-proxy…)
+önünde tek bir oturum açma varsa, `MINER_AUTH_HEADER` panelin kendi şifresini atlar:
+proxy'deki oturum açma yeterlidir. İzin verilen değerler için `MINER_AUTH_USERS`
+değişkenini de ayarlayın, yoksa herhangi bir SSO kullanıcısı yönetici olarak oturum
+açar. `MINER_PASSWORD` doğrudan `POST /api/auth` ile oturum açan betikler için çalışmaya
+devam eder, asla bir tarayıcıdan değil: aşağıdaki router her başka isteği `forwardAuth`
+üzerinden gönderir, böylece paneli ziyaret eden bir tarayıcı her zaman SSO'nun açık
+olmasına ihtiyaç duyar. İkinci bir router yalnızca `/api/auth` üzerinde `POST` ve
+`DELETE`'e — şifreyle oturum açma ve kapatmaya — müdahale eder ve `forwardAuth`'u
+kaldırmak yerine başlığı kendisi boşaltır: bu kuralı o tek yolun ötesine genişletmek,
+istemci tarafından sahtekarlıkla oluşturulmuş bir başlığın da oradan geçmesine izin
+verirdi.
+
+Proxy, isteğin özgün `Host` başlığını miner'a giden yolda değiştirmeden tutmalıdır, yoksa
+`MINER_PUBLIC_URL` onunla asla eşleşmez ve başlık sessizce yok sayılır; bu ilk
+gerçekleştiğinde kayıtlara bir uyarı yazılır: nginx için `proxy_set_header Host $host;`,
+Apache için `ProxyPreserveHost On` gerekir. Traefik ve Caddy onu varsayılan olarak
+değiştirmeden bırakır, ikisi için de eklenecek bir şey yoktur.
+
+Bu ürünlerin hiçbiri istemcinin kendisinin gönderdiği bir başlığı silmez: proxy'den
+miner'a giden her rota, onu üzerine yazan kendi kuralına ihtiyaç duyar (Traefik'in
+`forwardAuth`'u yalnızca `authResponseHeaders` içinde listelenen başlıkları siler ve
+diğer istemci başlıklarını değiştirmeden iletir). Proxy'yi ve miner'ı, proxy için
+statik bir adresle, yalnızca kendilerine ait bir ağda tek başına çalıştırın ve
+miner'ın portunu asla yayınlamayın: ona ulaşan başka bir şey — başka bir container,
+bir host süreci — başlığı kendisi ayarlayabilir.
+
+Traefik arkasındaki Authelia, ikisi tek başına `miner-net` üzerinde, oturum açmış
+kullanıcıyı `Remote-User` içinde ileterek:
+
+```yaml
+networks:
+  edge: {}          # Traefik ve Authelia burada konuşur
+  miner-net:        # yalnızca Traefik ve miner bu ağdadır
+    ipam:
+      config:
+        - subnet: 10.10.0.0/29
+
+services:
+  traefik:
+    # normal Traefik kurulumunuz: entrypoint'ler, diğer ağlar, diğer uygulamalar
+    networks:
+      edge: {}
+      miner-net:
+        ipv4_address: 10.10.0.2
+
+  authelia:
+    # normal Authelia kurulumunuz
+    networks:
+      edge: {}
+    labels:
+      traefik.http.middlewares.authelia.forwardAuth.address: "http://authelia:9091/api/authz/forward-auth"
+      traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader: "true"
+      traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders: "Remote-User"
+      # aşağıdaki betik router'ı için: auth'u atlamak yerine Remote-User'ı
+      # boşaltır, böylece istemci tarafından sahte bir başlık o rotada da çalışmaz
+      traefik.http.middlewares.blank-remote-user.headers.customrequestheaders.Remote-User: ""
+
+  miner:
+    image: ghcr.io/sunkwibot/twitch-miner:latest
+    networks:
+      miner-net:
+        ipv4_address: 10.10.0.3   # bu da statik: rastgele seçilen bir adres çakışabilirdi
+    # "ports" yok: bu ağ yalnızca Traefik'e, 10.10.0.2'den ulaşır
+    environment:
+      MINER_PASSWORD: "change-me"
+      MINER_PUBLIC_URL: "https://miner.example.com"
+      MINER_PROXY_NETWORKS: "10.10.0.2"
+      MINER_AUTH_HEADER: "Remote-User"
+      MINER_AUTH_USERS: "alice,bob"
+    volumes:
+      - miner-data:/data
+    labels:
+      traefik.http.routers.miner.rule: "Host(`miner.example.com`)"
+      traefik.http.routers.miner.middlewares: "authelia@docker" # miner'a giden her router'da tekrarlayın
+      # betikler için, MINER_PASSWORD ile: Authelia'yı atlar, ama başlık boşaltmayı atlamaz
+      traefik.http.routers.miner-api.rule: "Host(`miner.example.com`) && Path(`/api/auth`) && (Method(`POST`) || Method(`DELETE`))"
+      traefik.http.routers.miner-api.middlewares: "blank-remote-user@docker"
+
+volumes:
+  miner-data:
+```
+
+#### Başka bir proxy'yi sağlamlaştırma
+
+Bu ürünlerin hiçbiri istemcinin kendi gönderdiği bir başlık kopyasını kendiliğinden
+silmez: SSO'nun yanıtından onu ayarlayan direktiften önce, betiklerin rotası da dahil
+olmak üzere miner'a giden her rotada, aşağıdaki silme satırını ekleyin. Aşağıdaki
+Traefik, Caddy, nginx, Apache ve HAProxy'nin her biri, sahte bir başlık, çift başlık
+ve büyük/küçük harf ya da alt çizgi varyasyonuyla gerçek, TLS sonlandıran bir örneğe
+karşı test edildi; Cloudflare Tunnel ve Tailscale Serve kendi belgelerinden ve
+kaynak kodlarından geliyor, burada bağımsız olarak test edilmedi.
+
+- **nginx**: `auth_request` yalnızca doğrular, kendi başına başlıklara asla
+  dokunmaz — onu çağıran ama kendisi hiç `Remote-User` ayarlamayan bir yapılandırma,
+  istemcinin satırını değişmeden iletir (kanıtlandı: sahte bir
+  `Remote-User: admin` sonraki iki satır olmadan miner'a harfiyen ulaştı). Her
+  zaman `auth_request_set $auth_user $upstream_http_remote_user;` ve ardından
+  `proxy_set_header Remote-User $auth_user;` ekleyin, bu onun üzerine yazar —
+  asla isteğe bağlı değildir. Ayrıca `proxy_set_header Host $host;`, veya
+  `MINER_PUBLIC_URL` standart olmayan bir portu belirtiyorsa `$http_host` (`$host`
+  portu düşürür ve başlığa o zaman sessizce asla güvenilmez). nginx ayrıca,
+  `underscores_in_headers on;` ayarlanmadıkça, adında alt çizgi bulunan her başlığı
+  da atar; `MINER_AUTH_HEADER`'ın böyle bir adı reddetmesinin nedeni budur.
+- **Caddy**: `copy_headers Remote-User` ile `forward_auth`, kendi başına zaten
+  istemcinin bir kopyasının üzerine yazar, kanıtlandı, başka bir şeye gerek yok.
+  Hemen önüne `request_header -Remote-User` koymak fazladan, zararsız derinlemesine
+  savunmadır, bir gereklilik değildir; `forwardAuth`'u tamamen atlayan ikinci bir
+  router'ın açık boşaltmaya gerçekten ihtiyaç duyduğu Traefik'in aksine.
+- **Apache**: koşulsuz olarak `RequestHeader unset Remote-User`, ardından oturumu
+  doğrulayana göre `RequestHeader set Remote-User "…" env=AUTH_OK`, ve
+  yukarıdakiyle aynı `Host` gereksinimi için `ProxyPreserveHost On`.
+- **HAProxy**: koşulsuz olarak `http-request del-header Remote-User`, ardından
+  `http-request set-header Remote-User alice if <geçerli-oturum-acl>`. HAProxy de
+  kendi başına `X-Forwarded-For`'a asla dokunmaz: `http-request set-header
+  X-Forwarded-For %[src]` ekleyin, yoksa sahte bir değer miner'a değişmeden ulaşır.
+- **Cloudflare Tunnel**: `httpHostHeader`'ı ayarlanmamış bırakın (varsayılan olarak
+  zaten istemcinin istediği genel `Host`'u iletir); bu bir tünel, başlık temizleyen bir
+  proxy değildir, bu yüzden `MINER_AUTH_HEADER` için yalnızca ona güvenmek yerine
+  yukarıdaki proxy'lerden biriyle eşleştirin.
+- **Tailscale Serve**: `Tailscale-User-Login`. `tailscaled`, kendi başlığını
+  ayarlamadan önce istemci tarafından gönderilen her kopyayı zaten siler, kendiniz
+  temizleyecek bir şey yoktur; önemli olan yalnızca `tailscale serve`'in, asla doğrudan
+  bir bağlantının, miner'a ulaşabilmesidir — onu `127.0.0.1`'e bağlayın ve yalnızca
+  Serve'in aracılık etmesine izin verin.
+
+Hangi proxy'yi seçerseniz seçin, ona güvenmeden önce bir kez test edin: SSO'dan çıkış
+yapmışken, miner'ın kendi adresine doğrudan (proxy'yi atlayarak, çalıştığı makineden
+veya container'dan) elle ayarlanmış bir başlıkla `curl` yapın, örneğin
+`curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot`; `401` yanıtı
+vermelidir, asla anlık görüntüyü değil.
 
 ### <a name="systemd"></a>Docker olmadan (systemd)
 
@@ -473,3 +611,5 @@ Arayüzün TypeScript türleri, Rust türlerinden [ts-rs](https://github.com/Ale
 ## <a name="license"></a>Lisans
 
 [MIT](../../LICENSE). [DevilXD'nin TwitchDropsMiner'ından](https://github.com/DevilXD/TwitchDropsMiner), [Twitch-Channel-Points-Miner-v2'den](https://github.com/rdavydov/Twitch-Channel-Points-Miner-v2) ve bunların fork'larından ilham alınmıştır.
+
+<img src="https://komarev.com/ghpvc/?username=SunkwiBOT-twitch-miner" width="1" height="1" alt="">

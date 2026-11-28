@@ -207,7 +207,17 @@ export const checkSession = async (): Promise<boolean> => {
     }
 
     return true;
-  } catch (e: any) {
+  } catch {
+    // ! A header session is re-checked on every reconnect (its own short
+    // TTL forces one every few minutes): once the proxy can no longer
+    // vouch for it, every retry fails the same way forever, so show the
+    // lock or password screen instead of "Reconnecting…" with no way out.
+    // A cookie or bearer session keeps retrying through an ordinary network
+    // blip without ending early: only via_header distinguishes the two.
+    if (app.auth.via_header) {
+      sessionEnded();
+    }
+
     return false;
   }
 };

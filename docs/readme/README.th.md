@@ -304,7 +304,9 @@ docker compose up -d
 | `MINER_PASSWORD_FILE` | ไม่มี | อ่าน `MINER_PASSWORD` จากไฟล์ เช่น Docker secret ใช้อย่างใดอย่างหนึ่ง ไม่ใช่ทั้งสองอย่าง |
 | `MINER_PUBLIC_URL` | ไม่มี | ใช้เฉพาะเมื่ออยู่หลัง HTTPS reverse proxy (Caddy, nginx, Traefik, Cloudflare Tunnel…): ที่อยู่ `https://` ของแดชบอร์ด โดยไม่มีพาธ เช่น `https://miner.example.com` proxy ต้องส่งต่อ `X-Forwarded-Proto`, `X-Forwarded-For` และ websocket ซึ่ง proxy ทั่วไปทำอยู่แล้วโดยค่าเริ่มต้น และต้องไม่มีใครเข้าถึงพอร์ตของคอนเทนเนอร์ได้โดยตรง จากนั้นแดชบอร์ดจะปฏิเสธทุกอย่างที่ไม่ได้มาทาง proxy ผ่าน HTTPS และจะล็อกที่อยู่หนึ่งเป็นเวลา 30 วินาทีหลังใส่รหัสผ่านผิด 5 ครั้ง พร็อกซีต้องทำงานบนเครื่องเดียวกันหรือในเครือข่ายภายในของเครื่องนั้น: การเชื่อมต่อจากที่อยู่สาธารณะจะถูกปฏิเสธ |
 | `MINER_TRUSTED_HOPS` | `1` | ใช้คู่กับ `MINER_PUBLIC_URL` เท่านั้น: จำนวน proxy ที่เพิ่มรายการลงใน `X-Forwarded-For` ตั้งแต่ 1 ถึง 10 ใช้ `2` เมื่อมี proxy สองตัวซ้อนกัน เช่น Cloudflare อยู่หน้า Traefik |
-| `MINER_PROXY_NETWORKS` | ไม่มี | ใช้ได้เฉพาะกับ `MINER_PUBLIC_URL`: เครือข่ายที่พร็อกซีเชื่อมต่อเข้ามา คั่นด้วยจุลภาค: ที่อยู่เดียวหรือเครือข่ายอย่าง `192.168.1.0/24` หรือ `2001:db8:1::/64` เมื่อตั้งค่าแล้ว พร็อกซีจะได้รับการยอมรับเฉพาะจากที่อยู่ loopback และเครือข่ายเหล่านี้ ไม่ใช่จากเครือข่ายภายในส่วนตัวทั้งหมดอีกต่อไป |
+| `MINER_PROXY_NETWORKS` | ไม่มี | ใช้ได้เฉพาะกับ `MINER_PUBLIC_URL`: เครือข่ายที่พร็อกซีเชื่อมต่อเข้ามา คั่นด้วยจุลภาค ช่องว่าง หรือขึ้นบรรทัดใหม่: ที่อยู่เดียวหรือเครือข่ายอย่าง `192.168.1.0/24` หรือ `2001:db8:1::/64` เมื่อตั้งค่าแล้ว พร็อกซีจะได้รับการยอมรับเฉพาะจากที่อยู่ loopback และเครือข่ายเหล่านี้ ไม่ใช่จากเครือข่ายภายในส่วนตัวทั้งหมดอีกต่อไป ค่าว่าง, `/0` หรือเครือข่ายที่มีบิตของโฮสต์ตั้งไว้ จะหยุดการเริ่มทำงานก็ต่อเมื่อตั้งค่า `MINER_AUTH_HEADER` ไว้ด้วยเท่านั้น หากไม่ตั้ง จะได้รับการยอมรับพร้อมคำเตือน |
+| `MINER_AUTH_HEADER` | ไม่มี | Forward auth / SSO: ชื่อเฮดเดอร์ที่ proxy ตั้งค่าให้เป็นผู้ใช้ที่เข้าสู่ระบบ: `Remote-User` สำหรับ Authelia, `X-authentik-username` สำหรับ Authentik, `X-Auth-Request-User` สำหรับ oauth2-proxy (พร้อม `--set-xauthrequest`) คำขอที่ได้รับอนุญาตผ่าน proxy — จากที่อยู่ใน `MINER_PROXY_NETWORKS` ที่มี `Host` ตรงกับ `MINER_PUBLIC_URL` — ที่มีค่าไม่ว่างเพียงบรรทัดเดียวในเฮดเดอร์นั้นจะเข้าสู่ระบบได้โดยไม่ต้องใช้ `MINER_PASSWORD` ต้องการ `MINER_PUBLIC_URL` และ `MINER_PROXY_NETWORKS` ที่ตั้งค่าไว้อย่างชัดเจน การมี loopback เพียงอย่างเดียวไม่เพียงพอ ปฏิเสธเฮดเดอร์ที่ proxy เบราว์เซอร์ หรือไคลเอนต์เขียนไว้แล้ว (`X-Forwarded-*`, `Host`, `Cookie`, `Authorization`, `X-Real-IP`, `Forwarded`, `Via`, `User-Agent`, `Accept*`, `Sec-Fetch-*`, `Cache-Control`, `CF-Connecting-IP`, `Priority`, `Connection`, `Origin`, `Referer`, `X-Request-Id`, `Content-Type`…) |
+| `MINER_AUTH_USERS` | ไม่มี | ใช้คู่กับ `MINER_AUTH_HEADER` เท่านั้น: ค่าของเฮดเดอร์ที่อนุญาตให้เข้าสู่ระบบ คั่นด้วยจุลภาค ช่องว่าง หรือขึ้นบรรทัดใหม่ เหมือน `MINER_PROXY_NETWORKS` การจับคู่คำนึงถึงตัวพิมพ์เล็ก-ใหญ่ ค่าที่ตั้งไว้แต่ว่างเปล่าจะถูกปฏิเสธ เหมือนกับ `MINER_PROXY_NETWORKS` ที่ว่างเปล่าตอนตั้งค่าเฮดเดอร์ไว้ หากไม่ตั้งค่านี้ ค่าใดก็ตามที่ proxy ตั้งจะเข้าสู่ระบบได้ — ผู้ใช้ SSO ทุกคนที่เข้าสู่ระบบจะกลายเป็นผู้ดูแลระบบ — และเซิร์ฟเวอร์จะเตือนเรื่องนี้ตอนเริ่ม หากตั้งค่านี้ เซิร์ฟเวอร์จะบันทึกจำนวนค่าที่รู้จักตอนเริ่ม |
 | `MINER_VAULT_PASSPHRASE` | ไม่มี | ใช้เฉพาะกับโฟลเดอร์ข้อมูลที่คัดลอกมาจากแอปเดสก์ท็อปที่ตั้งรหัสผ่านแอปไว้: ใช้ปลดล็อกโฟลเดอร์นั้นตอนเริ่ม เซิร์ฟเวอร์ที่ตั้งขึ้นใหม่ตั้งแต่ต้นไม่จำเป็นต้องใช้ |
 | `MINER_VAULT_PASSPHRASE_FILE` | ไม่มี | อ่าน `MINER_VAULT_PASSPHRASE` จากไฟล์ ใช้อย่างใดอย่างหนึ่ง ไม่ใช่ทั้งสองอย่าง |
 | `DATA_DIR` | `/data` ในอิมเมจ นอกนั้นคือ `data` ในไดเรกทอรีทำงาน | ฐานข้อมูล ไฟล์คีย์ และล็อก |
@@ -315,6 +317,122 @@ docker compose up -d
 เซิร์ฟเวอร์อ่านและตรวจสอบตัวแปรครั้งเดียวตอนเริ่ม ค่าที่ไม่ถูกต้องจะทำให้เซิร์ฟเวอร์หยุดพร้อมข้อความ แทนที่จะเงียบแล้วไปใช้ค่าสำรอง
 
 เมื่ออยู่หลัง reverse proxy ให้ตั้งค่า `MINER_PUBLIC_URL`: หากไม่ตั้ง คำขอแรกที่มาผ่าน proxy จะเขียนคำเตือนลงในล็อก เพราะความพยายามเข้าสู่ระบบจะถูกนับตามที่อยู่ของ proxy และรหัสผ่านผิดของผู้เข้าชมคนเดียวจะล็อกทุกคนออก การเชื่อมต่อแบบสดจะส่ง ping ทุก 30 วินาที เพื่อไม่ให้ proxy ปิดการเชื่อมต่อเมื่อไม่มีอะไรเกิดขึ้น เมื่อ Twitch หรือเครือข่ายล้มเหลว เซิร์ฟเวอร์จะตอบ `424` ไม่ใช่ `502` หรือ `504`: หลัง Cloudflare คุณจะเห็นข้อผิดพลาดจริงแทนหน้าของ Cloudflare
+
+#### เข้าสู่ระบบจาก proxy ที่เชื่อถือได้ (forward auth / SSO)
+
+_พร้อมใช้งานตั้งแต่ v1.16.0_
+
+เมื่อมีการเข้าสู่ระบบจุดเดียวอยู่หน้าแอปแบบ self-hosted หลายตัว (Authelia, Authentik,
+oauth2-proxy…) `MINER_AUTH_HEADER` จะข้ามรหัสผ่านของแดชบอร์ดเอง: การเข้าสู่ระบบที่ proxy
+ก็เพียงพอแล้ว ตั้งค่า `MINER_AUTH_USERS` ให้เป็นค่าที่อนุญาตด้วย ไม่เช่นนั้นผู้ใช้ SSO คนใด
+ก็ตามจะเข้าสู่ระบบเป็นผู้ดูแลระบบ `MINER_PASSWORD` ยังคงใช้งานได้สำหรับสคริปต์ที่เข้าสู่
+ระบบโดยตรงด้วย `POST /api/auth` แต่ไม่เคยผ่านเบราว์เซอร์เลย: router ด้านล่างจะส่งคำขออื่น
+ทั้งหมดผ่าน `forwardAuth` ดังนั้นเบราว์เซอร์ที่เข้าแดชบอร์ดจึงต้องมี SSO ที่พร้อมใช้งานก่อน
+เสมอ router ตัวที่สองจะทำงานเฉพาะกับ `POST` และ `DELETE` บน `/api/auth` — การเข้าสู่ระบบ
+และออกจากระบบด้วยรหัสผ่าน — และล้างเฮดเดอร์เองแทนที่จะถอด `forwardAuth` ออก: การขยาย
+กฎนี้ให้กว้างกว่าเส้นทางเดียวนั้นจะปล่อยให้เฮดเดอร์ที่ไคลเอนต์ปลอมแปลงผ่านไปได้ด้วย
+
+proxy ต้องรักษา `Host` เดิมของคำขอไว้โดยไม่เปลี่ยนแปลงระหว่างทางไปยัง miner ไม่เช่นนั้น
+`MINER_PUBLIC_URL` จะไม่ตรงกันเลย และเฮดเดอร์จะถูกละเว้นอย่างเงียบๆ พร้อมคำเตือนในล็อก
+ในครั้งแรกที่เกิดขึ้น: nginx ต้องการ `proxy_set_header Host $host;`, Apache ต้องการ
+`ProxyPreserveHost On` ส่วน Traefik และ Caddy จะคงค่านี้ไว้โดยไม่เปลี่ยนแปลงตามค่าเริ่มต้น
+ไม่ต้องเพิ่มอะไรสำหรับทั้งสอง
+
+ไม่มีผลิตภัณฑ์ใดในนี้ที่ลบเฮดเดอร์ที่ไคลเอนต์ส่งมาเอง: ทุกเส้นทางจาก proxy ไปยัง miner
+ต้องมีกฎของตัวเองที่เขียนทับมัน (`forwardAuth` ของ Traefik ลบเฉพาะเฮดเดอร์ที่ระบุใน
+`authResponseHeaders` เท่านั้น และส่งต่อเฮดเดอร์อื่นของไคลเอนต์โดยไม่เปลี่ยนแปลง) ให้รัน
+proxy และ miner อยู่บนเครือข่ายของตัวเองเพียงลำพัง โดยมีที่อยู่คงที่สำหรับ proxy และห้าม
+เปิดพอร์ตของ miner ออกสู่ภายนอกเด็ดขาด: สิ่งอื่นที่เข้าถึงมันได้ — คอนเทนเนอร์อื่น หรือ
+โปรเซสบนโฮสต์ — อาจตั้งค่าเฮดเดอร์นั้นเองได้
+
+Authelia อยู่หลัง Traefik โดยทั้งคู่อยู่บน `miner-net` เพียงลำพัง ส่งต่อผู้ใช้ที่เข้าสู่ระบบใน
+`Remote-User`:
+
+```yaml
+networks:
+  edge: {}          # Traefik และ Authelia คุยกันที่นี่
+  miner-net:        # มีแค่ Traefik กับ miner เท่านั้นที่อยู่บนเครือข่ายนี้
+    ipam:
+      config:
+        - subnet: 10.10.0.0/29
+
+services:
+  traefik:
+    # การตั้งค่า Traefik ปกติของคุณ: entrypoints, เครือข่ายอื่น, แอปอื่น
+    networks:
+      edge: {}
+      miner-net:
+        ipv4_address: 10.10.0.2
+
+  authelia:
+    # การตั้งค่า Authelia ปกติของคุณ
+    networks:
+      edge: {}
+    labels:
+      traefik.http.middlewares.authelia.forwardAuth.address: "http://authelia:9091/api/authz/forward-auth"
+      traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader: "true"
+      traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders: "Remote-User"
+      # สำหรับ router ของสคริปต์ด้านล่าง: ล้างค่า Remote-User แทนที่จะข้าม
+      # การตรวจสอบสิทธิ์ ทำให้เฮดเดอร์ที่ไคลเอนต์ปลอมแปลงไม่ได้ผลบนเส้นทางนี้เช่นกัน
+      traefik.http.middlewares.blank-remote-user.headers.customrequestheaders.Remote-User: ""
+
+  miner:
+    image: ghcr.io/sunkwibot/twitch-miner:latest
+    networks:
+      miner-net:
+        ipv4_address: 10.10.0.3   # เป็นที่อยู่คงที่เช่นกัน: ที่อยู่ที่สุ่มเลือกอาจชนกันได้
+    # ไม่มี "ports": เครือข่ายนี้เข้าถึงได้แค่ Traefik จาก 10.10.0.2
+    environment:
+      MINER_PASSWORD: "change-me"
+      MINER_PUBLIC_URL: "https://miner.example.com"
+      MINER_PROXY_NETWORKS: "10.10.0.2"
+      MINER_AUTH_HEADER: "Remote-User"
+      MINER_AUTH_USERS: "alice,bob"
+    volumes:
+      - miner-data:/data
+    labels:
+      traefik.http.routers.miner.rule: "Host(`miner.example.com`)"
+      traefik.http.routers.miner.middlewares: "authelia@docker" # ทำซ้ำในทุก router ที่ชี้ไปยัง miner
+      # สำหรับสคริปต์ ใช้ร่วมกับ MINER_PASSWORD: ข้าม Authelia แต่ไม่ข้ามการล้างเฮดเดอร์
+      traefik.http.routers.miner-api.rule: "Host(`miner.example.com`) && Path(`/api/auth`) && (Method(`POST`) || Method(`DELETE`))"
+      traefik.http.routers.miner-api.middlewares: "blank-remote-user@docker"
+
+volumes:
+  miner-data:
+```
+
+#### เสริมความแข็งแกร่งให้ proxy ตัวอื่น
+
+ไม่มีผลิตภัณฑ์ใดในนี้ที่ลบสำเนาเฮดเดอร์ที่ไคลเอนต์ส่งมาด้วยตัวเอง: ให้เพิ่มบรรทัดลบ
+ด้านล่างก่อนคำสั่งที่ตั้งค่ามันจากคำตอบของ SSO บนทุกเส้นทางไปยัง miner รวมถึงเส้นทาง
+ของสคริปต์ด้วย
+
+- **Caddy**: `request_header -Remote-User` ก่อน `forward_auth` ทันที รูปแบบขยาย
+  (`request_header <ชื่อ> {rp.header.<ชื่อ>}`) จะเพิ่มแค่เฮดเดอร์ของ gateway เอง
+  ไม่เคยลบของไคลเอนต์
+- **nginx**: `proxy_set_header Remote-User "";` ก่อน `auth_request` และ
+  `proxy_set_header Host $host;` (`auth_request` เองต้องคอมไพล์ด้วย
+  `--with-http_auth_request_module`) nginx ยังทิ้งเฮดเดอร์ใดๆ ที่ชื่อมีขีดล่างด้วย
+  เว้นแต่จะตั้งค่า `underscores_in_headers on;` นี่คือเหตุผลที่ `MINER_AUTH_HEADER`
+  ปฏิเสธชื่อแบบนั้น
+- **Apache**: `RequestHeader unset Remote-User` ก่อน `RequestHeader set` ที่เพิ่ม
+  ค่าจริง และ `ProxyPreserveHost On` ตามข้อกำหนด `Host` เดียวกับด้านบน
+- **HAProxy**: `http-request del-header Remote-User` ก่อนกฎที่ตั้งค่ามันจากคำตอบของ
+  การตรวจสอบสิทธิ์
+- **Cloudflare Tunnel**: ปล่อย `httpHostHeader` ไว้ไม่ตั้งค่า (ค่าเริ่มต้นจะส่งต่อ
+  `Host` สาธารณะที่ไคลเอนต์ร้องขออยู่แล้ว) มันเป็นทันเนล ไม่ใช่ proxy ที่ทำความสะอาด
+  เฮดเดอร์ ดังนั้นควรจับคู่กับ proxy ตัวใดตัวหนึ่งด้านบนสำหรับ `MINER_AUTH_HEADER`
+  แทนที่จะเชื่อใจมันเพียงลำพัง
+- **Tailscale Serve**: `Tailscale-User-Login` `tailscaled` จะลบสำเนาที่ไคลเอนต์ส่งมา
+  ก่อนที่จะตั้งค่าของตัวเองอยู่แล้ว ไม่ต้องทำความสะอาดเอง สิ่งที่สำคัญคือต้องมีแค่
+  `tailscale serve` เท่านั้น ไม่ใช่การเชื่อมต่อโดยตรง ที่สามารถเข้าถึง miner ได้ —
+  ผูกมันไว้กับ `127.0.0.1` และให้ Serve เป็นตัวกลางเพียงตัวเดียว
+
+ไม่ว่าจะเลือก proxy ตัวไหน ให้ทดสอบมันครั้งหนึ่งก่อนที่จะเชื่อใจ: เมื่อออกจากระบบ SSO แล้ว
+ให้ทำ `curl` ไปที่ที่อยู่ของ miner เองโดยตรง (ข้าม proxy ไป จากเครื่องหรือคอนเทนเนอร์ที่
+มันทำงานอยู่) พร้อมตั้งค่าเฮดเดอร์ด้วยมือ เช่น
+`curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot` ต้องตอบกลับด้วย
+`401` ไม่ใช่ snapshot เด็ดขาด
 
 ### <a name="systemd"></a>ไม่ใช้ Docker (systemd)
 
@@ -470,3 +588,5 @@ npm run verify         # prettier, oxlint (แบบรู้ชนิดข้�
 ## <a name="license"></a>สัญญาอนุญาต
 
 [MIT](../../LICENSE) ได้แรงบันดาลใจจาก [TwitchDropsMiner ของ DevilXD](https://github.com/DevilXD/TwitchDropsMiner), [Twitch-Channel-Points-Miner-v2](https://github.com/rdavydov/Twitch-Channel-Points-Miner-v2) และ fork ของทั้งสองโปรเจกต์
+
+<img src="https://komarev.com/ghpvc/?username=SunkwiBOT-twitch-miner" width="1" height="1" alt="">

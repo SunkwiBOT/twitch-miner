@@ -12,6 +12,9 @@ static UNKNOWN_PROXY_WARNING: Once = Once::new();
 pub(super) struct ClientAddress {
     visitor: IpAddr,
     connection: IpAddr,
+    // ! From `admit`: the socket was inside the explicit `MINER_PROXY_NETWORKS`
+    // (not merely loopback) and `Host` matched `MINER_PUBLIC_URL`.
+    header_trusted: bool,
 }
 
 pub(super) fn cookie_session(headers: &HeaderMap, name: &str) -> Option<String> {
@@ -52,12 +55,47 @@ async fn idle_limit(state: &AppState) -> Option<Duration> {
 }
 
 async fn authorize(state: &AppState, headers: &HeaderMap, client: ClientAddress) -> Verdict {
-    // ! A bearer password is a sign-in try like the form's, or scripts would
-    // be a way around the lockout.
-    if let Some(given) = bearer(headers) {
-        let matches = password_matches(state.access.password(), given);
+    // ! Admission already checked the trusted-proxy path (socket, HTTPS,
+    // `X-Forwarded-For`, `Host`): a non-empty, allowed value here needs no
+    // password.
+    if let Some(value) = state
+        .access
+        .trusted_header_value(headers, client.header_trusted)
+    {
+        // ! No auto-lock idle limit here: the header is re-checked on every
+        // request anyway, through its own short `HEADER_SESSION_TTL`, and
+        // the UI hides the setting for this mode (App.svelte, SettingsSecurity).
+        return Verdict::Allowed(state.sessions.header(value, None).await);
+    }
 
-        return match state
+    if let Some(verdict) = bearer_verdict(state, headers, client).await {
+        return verdict;
+    }
+
+    let Some(session) = cookie_session(headers, state.access.cookie_name()) else {
+        return Verdict::Refused;
+    };
+
+    match state.sessions.find(&session, idle_limit(state).await).await {
+        Some(lease) => Verdict::Allowed(lease),
+        None => Verdict::Refused,
+    }
+}
+
+// ! A bearer password is a sign-in try like the form's, or scripts would be a
+// way around the lockout. Kept separate from the header path (and callable on
+// its own) so a request carrying both never has an untested bearer treated as
+// valid just because the header happened to admit it.
+async fn bearer_verdict(
+    state: &AppState,
+    headers: &HeaderMap,
+    client: ClientAddress,
+) -> Option<Verdict> {
+    let given = bearer(headers)?;
+    let matches = password_matches(state.access.password(), given);
+
+    Some(
+        match state
             .attempts
             .attempt(client.visitor, client.connection, matches)
             .await
@@ -71,17 +109,8 @@ async fn authorize(state: &AppState, headers: &HeaderMap, client: ClientAddress)
                 Verdict::Refused
             }
             SignIn::LockedOut { retry_after } => Verdict::LockedOut(retry_after),
-        };
-    }
-
-    let Some(session) = cookie_session(headers, state.access.cookie_name()) else {
-        return Verdict::Refused;
-    };
-
-    match state.sessions.find(&session, idle_limit(state).await).await {
-        Some(lease) => Verdict::Allowed(lease),
-        None => Verdict::Refused,
-    }
+        },
+    )
 }
 
 fn locked_out(retry_after: Duration) -> Response {
@@ -111,7 +140,7 @@ pub(super) async fn admit(
 
     let connection = socket.ip();
     match state.access.admit(request.headers(), connection) {
-        Ok(_)
+        Ok((_, _))
             if !state
                 .access
                 .allows_write(request.method(), request.headers()) =>
@@ -122,10 +151,11 @@ pub(super) async fn admit(
 
             Failure::from(ErrorCode::CrossSiteRequest).into_response()
         }
-        Ok(visitor) => {
+        Ok((visitor, header_trusted)) => {
             request.extensions_mut().insert(ClientAddress {
                 visitor,
                 connection,
+                header_trusted,
             });
 
             next.run(request).await
@@ -183,10 +213,24 @@ pub(super) async fn auth_status(
 ) -> Json<AuthResponse> {
     let verdict = authorize(&state, &headers, client).await;
 
+    let header_value = state
+        .access
+        .trusted_header_value(&headers, client.header_trusted);
+
     Json(AuthResponse {
         auth: AuthStatus {
             authorized: matches!(verdict, Verdict::Allowed(_)),
             public: state.access.is_public(),
+            via_header: header_value.is_some(),
+            header_user: header_value.map(|value| {
+                value
+                    .chars()
+                    .take(crate::sessions::LOGGED_VALUE_MAX_CHARS)
+                    .collect()
+            }),
+            header_name: header_value
+                .and(state.access.auth_header_name())
+                .map(str::to_owned),
         },
     })
 }
@@ -228,10 +272,12 @@ pub(super) async fn logout(
     Extension(client): Extension<ClientAddress>,
     headers: HeaderMap,
 ) -> Response {
-    // ! Checked first: anyone could otherwise cut the connections of a
-    // script that holds the password.
-    if bearer(&headers).is_some() {
-        match authorize(&state, &headers, client).await {
+    // ! Verified on its own (not through `authorize`): a request carrying
+    // both a wrong bearer and a trusted header must not have the header's
+    // admission read back as "the bearer was valid" and revoke the scripts'
+    // shared session.
+    if let Some(verdict) = bearer_verdict(&state, &headers, client).await {
+        match verdict {
             Verdict::Allowed(_) => state.sessions.revoke_bearer().await,
             Verdict::Refused => return Failure::from(ErrorCode::Unauthorized).into_response(),
             Verdict::LockedOut(retry_after) => return locked_out(retry_after),

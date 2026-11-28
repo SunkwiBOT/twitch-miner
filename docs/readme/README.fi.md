@@ -427,7 +427,9 @@ Avaa <http://localhost:8080> (tai koneen osoite verkossasi) ja syötä salasana.
 | `MINER_PASSWORD_FILE` | ei mitään | Lukee `MINER_PASSWORD`-arvon tiedostosta, esimerkiksi Docker-secretistä. Vain toinen, ei molempia. |
 | `MINER_PUBLIC_URL` | ei mitään | Vain HTTPS-käänteisproxyn takana (Caddy, nginx, Traefik, Cloudflare Tunnel…): hallintapaneelin `https://`-osoite ilman polkua, esimerkiksi `https://miner.example.com`. Proxyn on välitettävä `X-Forwarded-Proto`, `X-Forwarded-For` ja websocket-yhteydet, minkä yleiset proxyt tekevät oletuksena, eikä kontin porttiin saa päästä suoraan. Hallintapaneeli hylkää silloin kaiken, mikä ei tule proxyn kautta HTTPS:llä, ja estää osoitteen 30 sekunniksi 5 väärän salasanan jälkeen. Välityspalvelimen on toimittava samalla koneella tai sen lähiverkossa: yhteys julkisesta osoitteesta hylätään. |
 | `MINER_TRUSTED_HOPS` | `1` | Vain `MINER_PUBLIC_URL`-muuttujan kanssa: kuinka moni proxy lisää merkinnän `X-Forwarded-For`-otsakkeeseen, 1–10. `2`, kun proxyja on kaksi peräkkäin, esimerkiksi Cloudflare Traefikin edessä. |
-| `MINER_PROXY_NETWORKS` | ei mitään | Vain `MINER_PUBLIC_URL`-asetuksen kanssa: verkot, joista välityspalvelin yhdistää, pilkuilla erotettuina: yksittäinen osoite tai verkko kuten `192.168.1.0/24` tai `2001:db8:1::/64`. Kun se on asetettu, välityspalvelin hyväksytään vain loopback-osoitteesta ja näistä verkoista, ei enää koko yksityisestä lähiverkosta. |
+| `MINER_PROXY_NETWORKS` | ei mitään | Vain `MINER_PUBLIC_URL`-asetuksen kanssa: verkot, joista välityspalvelin yhdistää, pilkuilla, välilyönneillä tai rivinvaihdoilla erotettuina: yksittäinen osoite tai verkko kuten `192.168.1.0/24` tai `2001:db8:1::/64`. Kun se on asetettu, välityspalvelin hyväksytään vain loopback-osoitteesta ja näistä verkoista, ei enää koko yksityisestä lähiverkosta. Tyhjä arvo, `/0` tai verkko, jossa on asetettu isäntäbittejä, pysäyttää käynnistyksen vain jos myös `MINER_AUTH_HEADER` on asetettu; ilman sitä ne hyväksytään varoituksella. |
+| `MINER_AUTH_HEADER` | ei mitään | Forward auth / SSO: otsikon nimi, johon välityspalvelin asettaa kirjautuneen käyttäjän: `Remote-User` Authelialle, `X-authentik-username` Authentikille, `X-Auth-Request-User` oauth2-proxylle (asetuksella `--set-xauthrequest`). Proxyn kautta hyväksytty pyyntö — osoitteesta, joka on `MINER_PROXY_NETWORKS`-asetuksessa, ja jonka `Host` vastaa `MINER_PUBLIC_URL`-asetusta — jossa on yksi ei-tyhjä rivi tässä otsikossa, kirjautuu sisään ilman `MINER_PASSWORD`-salasanaa. Vaatii `MINER_PUBLIC_URL`-asetuksen ja eksplisiittisesti asetetun `MINER_PROXY_NETWORKS`-asetuksen; pelkkä loopback ei koskaan riitä tähän. Torjuu otsikon, jonka proxy, selain tai asiakas on jo kirjoittanut (`X-Forwarded-*`, `Host`, `Cookie`, `Authorization`, `X-Real-IP`, `Forwarded`, `Via`, `User-Agent`, `Accept*`, `Sec-Fetch-*`, `Cache-Control`, `CF-Connecting-IP`, `Priority`, `Connection`, `Origin`, `Referer`, `X-Request-Id`, `Content-Type`…). |
+| `MINER_AUTH_USERS` | ei mitään | Vain `MINER_AUTH_HEADER`-asetuksen kanssa: pilkuilla, välilyönneillä tai rivinvaihdoilla erotetut otsikon arvot, jotka saavat kirjautua sisään, kuten `MINER_PROXY_NETWORKS`. Vastaavuus on kirjainkoosta riippuvainen. Asetettu mutta tyhjä arvo hylätään, samoin kuin tyhjä `MINER_PROXY_NETWORKS` otsikon ollessa asetettu. Ilman sitä mikä tahansa proxyn asettama arvo kirjautuu sisään — jokainen sisään kirjautunut SSO-käyttäjä on ylläpitäjä — ja palvelin varoittaa tästä käynnistyksen yhteydessä; sen kanssa palvelin kirjaa tunnistettujen arvojen määrän käynnistyksessä. |
 | `MINER_VAULT_PASSPHRASE` | ei mitään | Vain työpöytäsovelluksesta kopioidulle datakansiolle, jossa on asetettu sovelluksen salasana: avaa sen lukituksen käynnistyksessä. Tyhjästä pystytetty palvelin ei koskaan tarvitse sitä. |
 | `MINER_VAULT_PASSPHRASE_FILE` | ei mitään | Lukee `MINER_VAULT_PASSPHRASE`-arvon tiedostosta. Vain toinen, ei molempia. |
 | `DATA_DIR` | imagessa `/data`, muuten `data` työhakemistossa | Tietokanta, avaintiedosto ja lokit. |
@@ -444,6 +446,142 @@ silloin proxyn osoitteelle, ja yhden vierailijan väärät salasanat lukitsisiva
 ulos. Reaaliaikainen yhteys lähettää pingin 30 sekunnin välein, jotta proxy ei sulje sitä,
 kun mitään ei tapahdu. Kun Twitch tai verkko pettää, palvelin vastaa `424`, ei koskaan
 `502` tai `504`: Cloudflaren takana näet oikean virheen Cloudflaren sivun sijaan.
+
+#### Kirjautuminen luotetun proxyn kautta (forward auth / SSO)
+
+_Saatavilla versiosta v1.16.0 alkaen._
+
+Kun useiden itse isännöityjen sovellusten (Authelia, Authentik, oauth2-proxy…) edessä on
+yksi kirjautuminen, `MINER_AUTH_HEADER` ohittaa dashboardin oman salasanan: proxyn
+kirjautuminen riittää. Aseta myös `MINER_AUTH_USERS` sallituille arvoille, tai mikä
+tahansa SSO-käyttäjä kirjautuu sisään ylläpitäjänä. `MINER_PASSWORD` toimii edelleen
+skripteille, jotka kirjautuvat suoraan `POST /api/auth`-pyynnöllä, ei koskaan
+selaimesta: alla oleva reitti lähettää jokaisen muun pyynnön `forwardAuth`:n kautta,
+joten dashboardia käyttävä selain tarvitsee aina ensin toimivan SSO:n. Toinen reitti
+puuttuu vain `POST`- ja `DELETE`-pyyntöihin osoitteessa `/api/auth` — salasanalla
+kirjautumiseen ja uloskirjautumiseen — ja tyhjentää otsikon itse sen sijaan, että
+poistaisi `forwardAuth`:n: tämän säännön laajentaminen tuon yhden polun ulkopuolelle
+päästäisi myös asiakkaan väärentämän otsikon läpi.
+
+Proxyn on pidettävä pyynnön alkuperäinen `Host` muuttumattomana matkalla minerille,
+muuten `MINER_PUBLIC_URL` ei koskaan täsmää siihen ja otsikko ohitetaan hiljaa, ja
+lokeihin kirjoitetaan varoitus ensimmäisellä kerralla: nginx tarvitsee
+`proxy_set_header Host $host;`, Apache tarvitsee `ProxyPreserveHost On`. Traefik ja
+Caddy pitävät sen muuttumattomana oletuksena, kummallekaan ei ole mitään lisättävää.
+
+Mikään näistä tuotteista ei poista asiakkaan itse lähettämää otsikkoa: jokainen reitti
+proxylta minerille tarvitsee oman säännön, joka korvaa sen (Traefikin `forwardAuth`
+poistaa vain `authResponseHeaders`-asetuksessa luetellut otsikot ja välittää kaikki muut
+asiakkaan otsikot sellaisenaan). Aja proxy ja miner yksin omassa verkossaan, proxylle
+kiinteällä osoitteella, äläkä koskaan julkaise minerin porttia: mikä tahansa muu, joka
+tavoittaa sen — toinen kontti, isäntäkoneen prosessi — voisi asettaa otsikon itse.
+
+Authelia Traefikin takana, molemmat yksin verkossa `miner-net`, välittäen kirjautuneen
+käyttäjän otsikossa `Remote-User`:
+
+```yaml
+networks:
+  edge: {}          # Traefik ja Authelia keskustelevat täällä
+  miner-net:        # vain Traefik ja miner ovat tässä verkossa
+    ipam:
+      config:
+        - subnet: 10.10.0.0/29
+
+services:
+  traefik:
+    # tavanomainen Traefik-asetuksesi: entrypointit, muut verkot, muut sovellukset
+    networks:
+      edge: {}
+      miner-net:
+        ipv4_address: 10.10.0.2
+
+  authelia:
+    # tavanomainen Authelia-asetuksesi
+    networks:
+      edge: {}
+    labels:
+      traefik.http.middlewares.authelia.forwardAuth.address: "http://authelia:9091/api/authz/forward-auth"
+      traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader: "true"
+      traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders: "Remote-User"
+      # alla olevalle skriptien reitille: tyhjentää Remote-User-otsikon sen
+      # sijaan, että ohittaisi todennuksen, jotta asiakkaan väärentämä otsikko ei toimi tälläkään reitillä
+      traefik.http.middlewares.blank-remote-user.headers.customrequestheaders.Remote-User: ""
+
+  miner:
+    image: ghcr.io/sunkwibot/twitch-miner:latest
+    networks:
+      miner-net:
+        ipv4_address: 10.10.0.3   # tämäkin kiinteä: sattumanvaraisesti valittu osoite voisi törmätä
+    # ei "ports"-asetusta: tämä verkko tavoittaa vain Traefikin, osoitteesta 10.10.0.2
+    environment:
+      MINER_PASSWORD: "change-me"
+      MINER_PUBLIC_URL: "https://miner.example.com"
+      MINER_PROXY_NETWORKS: "10.10.0.2"
+      MINER_AUTH_HEADER: "Remote-User"
+      MINER_AUTH_USERS: "alice,bob"
+    volumes:
+      - miner-data:/data
+    labels:
+      traefik.http.routers.miner.rule: "Host(`miner.example.com`)"
+      traefik.http.routers.miner.middlewares: "authelia@docker" # toista jokaisessa minerille menevässä reitittimessä
+      # skripteille, MINER_PASSWORD-asetuksella: ohittaa Authelian, mutta ei otsikon tyhjennystä
+      traefik.http.routers.miner-api.rule: "Host(`miner.example.com`) && Path(`/api/auth`) && (Method(`POST`) || Method(`DELETE`))"
+      traefik.http.routers.miner-api.middlewares: "blank-remote-user@docker"
+
+volumes:
+  miner-data:
+```
+
+#### Toisen proxyn koventaminen
+
+Mikään näistä tuotteista ei poista itsestään asiakkaan lähettämää kopiota otsikosta:
+lisää alla oleva poistorivi ennen direktiiviä, joka asettaa sen SSO:n vastauksesta,
+jokaiselle minerille menevälle reitille, mukaan lukien skriptien reitti. Alla olevat
+Traefik, Caddy, nginx, Apache ja HAProxy testattiin kukin aitoa, TLS:n päättävää
+instanssia vastaan, väärennetyllä otsikolla, kaksinkertaisella otsikolla ja
+kirjainkoko- tai alaviivamuunnelmalla; Cloudflare Tunnel ja Tailscale Serve
+perustuvat niiden omaan dokumentaatioon ja lähdekoodiin, ei testattu itsenäisesti
+tässä.
+
+- **nginx**: `auth_request` vain validoi, se ei koskaan koske otsikoihin itse —
+  kokoonpano, joka kutsuu sitä mutta ei koskaan itse aseta `Remote-User`-arvoa,
+  välittää asiakkaan rivin muuttumattomana (todistettu: väärennetty
+  `Remote-User: admin` saapui minerille sanatarkasti ilman seuraavaa kahta riviä).
+  Lisää aina `auth_request_set $auth_user $upstream_http_remote_user;` ja sitten
+  `proxy_set_header Remote-User $auth_user;`, joka ylikirjoittaa sen — ei koskaan
+  valinnaista. Myös `proxy_set_header Host $host;`, tai `$http_host`, jos
+  `MINER_PUBLIC_URL` nimeää muun kuin oletusportin (`$host` pudottaa portin, eikä
+  otsikkoon silloin koskaan luoteta hiljaa). nginx pudottaa myös jokaisen otsikon,
+  jonka nimessä on alaviiva, ellei `underscores_in_headers on;` ole asetettu; siksi
+  `MINER_AUTH_HEADER` hylkää tällaisen nimen.
+- **Caddy**: `forward_auth` ja `copy_headers Remote-User` ylikirjoittavat jo itse
+  asiakkaan kopion, todistettu, mitään muuta ei tarvita. `request_header
+  -Remote-User` juuri ennen sitä on ylimääräinen, harmiton syvyyspuolustus, ei
+  vaatimus, toisin kuin Traefikissa, jossa toinen reititin, joka ohittaa
+  `forwardAuth`:n kokonaan, todella tarvitsee nimenomaisen tyhjentämisen.
+- **Apache**: `RequestHeader unset Remote-User` ehdoitta, sitten
+  `RequestHeader set Remote-User "…" env=AUTH_OK` sen perusteella, mikä validoi
+  istunnon, ja `ProxyPreserveHost On` samasta `Host`-vaatimuksesta kuin yllä.
+- **HAProxy**: `http-request del-header Remote-User` ehdoitta, sitten
+  `http-request set-header Remote-User alice if <validi-istunto-acl>`. HAProxy ei
+  myöskään koskaan koske `X-Forwarded-For`-arvoon itse: lisää
+  `http-request set-header X-Forwarded-For %[src]`, muuten väärennetty arvo
+  saapuu minerille muuttumattomana.
+- **Cloudflare Tunnel**: jätä `httpHostHeader` asettamatta (oletuksena se jo välittää
+  asiakkaan pyytämän julkisen `Host`-osoitteen); se on tunneli, ei otsikoita siivoava
+  proxy, joten yhdistä se johonkin yllä olevista proxyista `MINER_AUTH_HEADER`-asetusta
+  varten sen sijaan, että luottaisit siihen yksin.
+- **Tailscale Serve**: `Tailscale-User-Login`. `tailscaled` poistaa jo jokaisen
+  asiakkaan lähettämän kopion ennen oman otsikkonsa asettamista, ei mitään itse
+  siivottavaa; tärkeää on vain se, että vain `tailscale serve`, ei koskaan suora
+  yhteys, voi tavoittaa minerin — sido se osoitteeseen `127.0.0.1` ja anna vain Serven
+  välittää.
+
+Minkä tahansa proxyn valitsetkin, testaa se kerran ennen kuin luotat siihen: SSO:sta
+uloskirjautuneena tee `curl` suoraan minerin omaan osoitteeseen (ohittaen proxyn,
+koneelta tai kontista, jossa se toimii) käsin asetetulla otsikolla, kuten
+`curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot`; sen on vastattava
+`401`, ei koskaan tilannekuvalla.
 
 ### <a name="systemd"></a>Ilman Dockeria (systemd)
 
@@ -704,3 +842,5 @@ Käyttöliittymän TypeScript-tyypit generoidaan Rust-tyypeistä
 [DevilXD:n TwitchDropsMiner](https://github.com/DevilXD/TwitchDropsMiner),
 [Twitch-Channel-Points-Miner-v2](https://github.com/rdavydov/Twitch-Channel-Points-Miner-v2)
 ja niiden forkit.
+
+<img src="https://komarev.com/ghpvc/?username=SunkwiBOT-twitch-miner" width="1" height="1" alt="">

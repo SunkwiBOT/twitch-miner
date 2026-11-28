@@ -17,7 +17,7 @@ use tracing_subscriber::EnvFilter;
 
 use crate::access::Access;
 use crate::attempts::SignInAttempts;
-use crate::env::{ServerEnv, PASSWORD_MIN_CHARS};
+use crate::env::ServerEnv;
 use crate::feed::SnapshotFeed;
 use crate::routes::AppState;
 use crate::sessions::Sessions;
@@ -110,11 +110,29 @@ async fn main() -> anyhow::Result<()> {
 
     manager.start().await;
 
-    if env.short_password() {
-        tracing::warn!(
-            "MINER_PASSWORD has fewer than {} characters: choose a longer one",
-            PASSWORD_MIN_CHARS
+    for warning in &env.warnings {
+        tracing::warn!("{warning}");
+    }
+
+    if let Access::Public {
+        auth_header: Some(_),
+        proxy_networks,
+        auth_users,
+        ..
+    } = &env.access
+    {
+        let shown: Vec<String> = proxy_networks.iter().map(ToString::to_string).collect();
+        tracing::info!(
+            "the trusted proxy header is read only from: {}",
+            shown.join(", ")
         );
+
+        if let Some(users) = auth_users {
+            tracing::info!(
+                "MINER_AUTH_USERS: {} value(s) allowed through the header",
+                users.len()
+            );
+        }
     }
 
     let snapshots = SnapshotFeed::new(manager.clone());

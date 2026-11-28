@@ -320,6 +320,8 @@ Buka <http://localhost:8080> (atau alamat mesin itu di jaringan Anda) lalu masuk
 | `MINER_PUBLIC_URL` | tidak ada | Hanya di belakang reverse proxy HTTPS (Caddy, nginx, Traefik, Cloudflare Tunnel…): alamat `https://` dasbor, tanpa path, seperti `https://miner.example.com`. Proxy harus meneruskan `X-Forwarded-Proto`, `X-Forwarded-For`, dan websocket, yang sudah dilakukan proxy umum secara default, dan port container tidak boleh bisa dijangkau langsung. Dasbor lalu menolak semua akses yang tidak datang lewat proxy melalui HTTPS, dan mengunci sebuah alamat selama 30 detik setelah 5 kata sandi salah. Proxy harus berjalan di mesin yang sama atau jaringan lokalnya: koneksi dari alamat publik ditolak. |
 | `MINER_TRUSTED_HOPS` | `1` | Hanya bersama `MINER_PUBLIC_URL`: berapa banyak proxy yang menambahkan entri ke `X-Forwarded-For`, dari 1 sampai 10. `2` untuk dua proxy yang berlapis, seperti Cloudflare di depan Traefik. |
 | `MINER_PROXY_NETWORKS` | tidak ada | Hanya dengan `MINER_PUBLIC_URL`: jaringan tempat proxy terhubung, dipisahkan koma: satu alamat atau jaringan seperti `192.168.1.0/24` atau `2001:db8:1::/64`. Setelah diatur, proxy hanya diterima dari alamat loopback dan jaringan ini, tidak lagi dari seluruh jaringan lokal privat. |
+| `MINER_AUTH_HEADER` | tidak ada | Forward auth / SSO: nama header yang diatur proxy ke pengguna yang masuk: `Remote-User` untuk Authelia, `X-authentik-username` untuk Authentik, `X-Auth-Request-User` untuk oauth2-proxy (dengan `--set-xauthrequest`). Permintaan yang diterima lewat proxy — dari alamat yang ada di `MINER_PROXY_NETWORKS`, dengan `Host` yang cocok dengan `MINER_PUBLIC_URL` — dengan satu baris yang tidak kosong pada header itu, masuk tanpa `MINER_PASSWORD`. Memerlukan `MINER_PUBLIC_URL` dan `MINER_PROXY_NETWORKS` yang diatur secara eksplisit; loopback saja tidak pernah cukup untuk ini. Menolak header yang sudah ditulis oleh proxy, browser, atau klien (`X-Forwarded-*`, `Host`, `Cookie`, `Authorization`, `X-Real-IP`, `Forwarded`, `Via`, `User-Agent`, `Accept*`, `Connection`, `Origin`, `Referer`, `X-Request-Id`…). |
+| `MINER_AUTH_USERS` | tidak ada | Hanya dengan `MINER_AUTH_HEADER`: nilai header yang diizinkan untuk masuk, dipisahkan koma. Tanpanya, nilai apa pun yang diatur proxy akan masuk — setiap pengguna SSO yang masuk menjadi admin — dan server memberi peringatan soal ini saat memulai. |
 | `MINER_VAULT_PASSPHRASE` | tidak ada | Hanya untuk folder data yang disalin dari aplikasi desktop yang memakai kata sandi aplikasi: membuka kuncinya saat mulai. Server yang disiapkan dari nol tidak pernah membutuhkannya. |
 | `MINER_VAULT_PASSPHRASE_FILE` | tidak ada | Membaca `MINER_VAULT_PASSPHRASE` dari file. Pilih salah satu, jangan keduanya. |
 | `DATA_DIR` | `/data` di image, selain itu `data` di direktori kerja | Database, file kunci, dan log. |
@@ -330,6 +332,67 @@ Buka <http://localhost:8080> (atau alamat mesin itu di jaringan Anda) lalu masuk
 Server membaca dan memeriksa variabel sekali, saat mulai. Nilai yang tidak valid menghentikan server dengan pesan, alih-alih diam-diam beralih ke nilai cadangan.
 
 Di belakang reverse proxy, atur `MINER_PUBLIC_URL`: tanpanya, permintaan pertama yang datang lewat proxy menulis peringatan di log, karena percobaan masuk lalu dihitung pada alamat proxy, dan kata sandi salah dari satu pengunjung akan mengunci semua orang. Koneksi langsung mengirim ping setiap 30 detik, agar proxy tidak menutupnya saat tidak ada yang terjadi. Saat Twitch atau jaringan gagal, server menjawab `424`, tidak pernah `502` atau `504`: di belakang Cloudflare, Anda melihat galat yang sebenarnya, bukan halaman Cloudflare.
+
+#### Masuk dari proxy tepercaya (forward auth / SSO)
+
+Dengan satu kali masuk di depan beberapa aplikasi self-hosted (Authelia, Authentik,
+oauth2-proxy…), `MINER_AUTH_HEADER` melewati kata sandi dashboard sendiri: masuk lewat
+proxy sudah cukup. Atur juga `MINER_AUTH_USERS` dengan nilai yang diizinkan, atau
+pengguna SSO mana pun akan masuk sebagai admin. `MINER_PASSWORD` tetap berfungsi: sebagai
+cadangan saat layanan masuk sedang mati, dan untuk skrip yang memanggil API dengan
+`POST /api/auth`.
+
+Tak satu pun dari produk ini menghapus header yang dikirim sendiri oleh klien: setiap
+rute dari proxy ke miner memerlukan aturannya sendiri yang menimpanya (`forwardAuth`
+milik Traefik hanya menghapus header yang terdaftar di `authResponseHeaders`, dan
+meneruskan header klien lainnya tanpa perubahan). Jalankan proxy dan miner sendirian pada
+jaringan mereka sendiri, dengan alamat statis untuk proxy, dan jangan pernah publikasikan
+port miner: apa pun lain yang menjangkaunya — kontainer lain, proses host — bisa
+mengatur header itu sendiri.
+
+Authelia di belakang Traefik, keduanya sendirian di `miner-net`, meneruskan pengguna
+yang masuk di `Remote-User`:
+
+```yaml
+networks:
+  edge: {}          # Traefik dan Authelia bicara di sini
+  miner-net:        # hanya Traefik dan miner yang ada di sini
+    ipam:
+      config:
+        - subnet: 10.10.0.0/29
+
+services:
+  traefik:
+    # pengaturan Traefik normal Anda: entrypoint, jaringan lain, aplikasi lain
+    networks:
+      edge: {}
+      miner-net:
+        ipv4_address: 10.10.0.2
+
+  authelia:
+    # pengaturan Authelia normal Anda
+    networks:
+      edge: {}
+    labels:
+      traefik.http.middlewares.authelia.forwardAuth.address: "http://authelia:9091/api/authz/forward-auth"
+      traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader: "true"
+      traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders: "Remote-User"
+
+  miner:
+    image: ghcr.io/sunkwibot/twitch-miner:latest
+    networks:
+      miner-net: {}
+    # tanpa "ports": jaringan ini hanya menjangkau Traefik, dari 10.10.0.2
+    environment:
+      MINER_PASSWORD: "change-me"
+      MINER_PUBLIC_URL: "https://miner.example.com"
+      MINER_PROXY_NETWORKS: "10.10.0.2"
+      MINER_AUTH_HEADER: "Remote-User"
+      MINER_AUTH_USERS: "alice,bob"
+    labels:
+      traefik.http.routers.miner.rule: "Host(`miner.example.com`)"
+      traefik.http.routers.miner.middlewares: "authelia@docker" # ulangi pada setiap router ke miner
+```
 
 ### <a name="systemd"></a>Tanpa Docker (systemd)
 
@@ -488,3 +551,5 @@ Tipe TypeScript antarmuka dibuat dari tipe Rust dengan [ts-rs](https://github.co
 ## <a name="license"></a>Lisensi
 
 [MIT](../../LICENSE). Terinspirasi dari [TwitchDropsMiner karya DevilXD](https://github.com/DevilXD/TwitchDropsMiner), [Twitch-Channel-Points-Miner-v2](https://github.com/rdavydov/Twitch-Channel-Points-Miner-v2), dan fork-fork mereka.
+
+<img src="https://komarev.com/ghpvc/?username=SunkwiBOT-twitch-miner" width="1" height="1" alt="">

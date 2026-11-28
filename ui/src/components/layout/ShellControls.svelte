@@ -31,7 +31,13 @@
 
   const passwordSet = $derived(!isTauri() || snapshot.vault.mode === VaultMode.PASSPHRASE);
 
+  const viaHeader = $derived(!isTauri() && app.auth.via_header);
+
   const padlockLabel = $derived.by((): string => {
+    if (viaHeader) {
+      return t.lock_via_proxy();
+    }
+
     if (!isTauri()) {
       return t.lock_dashboard();
     }
@@ -105,10 +111,10 @@
   icon={IconName.LOCK}
   label={padlockLabel}
   busy={locking}
-  disabled={false}
+  disabled={viaHeader}
   variant={ButtonVariant.DEFAULT}
   size={ButtonSize.MD}
-  onclick={passwordSet ? askLock : showPasswordCard}
+  onclick={viaHeader ? () => {} : passwordSet ? askLock : showPasswordCard}
 />
 
 <Dialog

@@ -28,7 +28,7 @@
 
   const openDashboard = async (): Promise<void> => {
     await signIn(password);
-    app.auth = { ...app.auth, authorized: true, checked: true };
+    app.auth = { ...app.auth, authorized: true, via_header: false, checked: true };
     await connect();
   };
 

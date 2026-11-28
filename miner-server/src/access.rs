@@ -2,6 +2,7 @@
 // cannot set one, and the public mode must.
 
 use std::net::{IpAddr, Ipv4Addr, Ipv6Addr};
+use std::sync::Once;
 use std::time::Duration;
 
 use axum::http::{header, HeaderMap, HeaderName, HeaderValue, Method};
@@ -18,16 +19,46 @@ const X_FORWARDED_FOR: HeaderName = HeaderName::from_static(ForwardedHeader::For
 const X_FORWARDED_PROTO: HeaderName = HeaderName::from_static(ForwardedHeader::Proto.name());
 const SEC_FETCH_SITE: HeaderName = HeaderName::from_static("sec-fetch-site");
 const SAME_ORIGIN: &str = "same-origin";
+// ! Values a proxy sends for a request it could not authenticate itself:
+// never a real sign-in, whatever the header name.
+const PLACEHOLDER_VALUES: [&str; 9] = [
+    "(null)",
+    "null",
+    "anonymous",
+    "-",
+    "undefined",
+    "none",
+    "guest",
+    "--",
+    ",",
+];
+
+static HOST_MISMATCH_WARNING: Once = Once::new();
+static DOUBLED_HEADER_WARNING: Once = Once::new();
+static ALLOW_LIST_REFUSAL_WARNING: Once = Once::new();
 
 pub enum Access {
     Local {
         password: String,
     },
     Public {
-        url: Url,
+        // ! Boxed: Url itself is 88 bytes, more than three times Access::Local
+        // as a whole, which would otherwise trip clippy's large_enum_variant.
+        url: Box<Url>,
         password: String,
         trusted_hops: usize,
         proxy_networks: Vec<IpNet>,
+        // ! Only ever `Some` with an explicit `MINER_PROXY_NETWORKS`: env.rs
+        // refuses to start otherwise, so every device of the local network
+        // cannot forge the header.
+        auth_header: Option<HeaderName>,
+        // ! The same header's spelling as typed in MINER_AUTH_HEADER:
+        // HeaderName itself always lowercases, so this is kept only to show
+        // the operator's own proxy header name back in the Settings card.
+        auth_header_display: Option<String>,
+        // ! `None` keeps every signed-in value, with a startup warning:
+        // env.rs refuses an explicit but empty list.
+        auth_users: Option<Vec<String>>,
     },
 }
 
@@ -40,6 +71,86 @@ impl Access {
 
     pub fn is_public(&self) -> bool {
         matches!(self, Self::Public { .. })
+    }
+
+    // ! The configured header's own name, in the spelling MINER_AUTH_HEADER
+    // was given: shown back to the signed-in user in the Settings card, so
+    // they know which proxy header it reads.
+    pub fn auth_header_name(&self) -> Option<&str> {
+        match self {
+            Self::Local { .. } => None,
+            Self::Public {
+                auth_header_display,
+                ..
+            } => auth_header_display.as_deref(),
+        }
+    }
+
+    // ! `header_trusted` comes from `admit`: only a request from inside the
+    // explicit `MINER_PROXY_NETWORKS` (loopback alone is not enough, unlike
+    // for the password path) with a `Host` matching `MINER_PUBLIC_URL` earns
+    // it, so a weaker admission path can never smuggle a forged header in.
+    pub fn trusted_header_value<'h>(
+        &self,
+        headers: &'h HeaderMap,
+        header_trusted: bool,
+    ) -> Option<&'h str> {
+        if !header_trusted {
+            return None;
+        }
+
+        let Self::Public {
+            auth_header,
+            auth_users,
+            ..
+        } = self
+        else {
+            return None;
+        };
+        let name = auth_header.as_ref()?;
+        let mut values = headers.get_all(name).iter();
+        let raw = values.next()?;
+
+        // ! More than one line is ambiguous: a proxy that adds its own
+        // alongside a client-sent one, instead of replacing it, must not let
+        // either win.
+        if values.next().is_some() {
+            DOUBLED_HEADER_WARNING.call_once(|| {
+                tracing::warn!(
+                    target: "miner_server",
+                    "a request carried {name} more than once: neither line was trusted"
+                );
+            });
+
+            return None;
+        }
+
+        let value = raw.to_str().ok()?.trim();
+
+        // ! `to_str` already refuses a value that is not valid UTF-8, but a
+        // horizontal tab or another control character survives it (and
+        // `trim` only strips the ends): neither is a name a human typed.
+        if value.is_empty() || is_placeholder(value) || value.chars().any(char::is_control) {
+            return None;
+        }
+
+        match auth_users {
+            Some(allowed) => {
+                let found = allowed.iter().any(|user| user == value);
+
+                if !found {
+                    ALLOW_LIST_REFUSAL_WARNING.call_once(|| {
+                        tracing::warn!(
+                            target: "miner_server",
+                            "a request's {name} value is not in MINER_AUTH_USERS: refused"
+                        );
+                    });
+                }
+
+                found.then_some(value)
+            }
+            None => Some(value),
+        }
     }
 
     pub fn cookie_name(&self) -> &'static str {
@@ -101,22 +212,28 @@ impl Access {
     // ! Behind the proxy every connection comes from the proxy itself: a request
     // without what the proxy adds reached the published port directly, or the proxy
     // is set up wrong, and the password and the cookie must not travel over it.
-    pub fn admit(&self, headers: &HeaderMap, socket: IpAddr) -> Result<IpAddr, ErrorCode> {
+    // ! The second element is whether the header may be trusted: loopback
+    // alone admits the password path (unless it is itself listed), but never
+    // the header, and a `Host` not matching `MINER_PUBLIC_URL` never does
+    // either (a DNS-rebound page, another container on the same network).
+    pub fn admit(&self, headers: &HeaderMap, socket: IpAddr) -> Result<(IpAddr, bool), ErrorCode> {
         match self {
-            Self::Local { .. } => Ok(socket),
+            Self::Local { .. } => Ok((socket, false)),
             Self::Public {
                 trusted_hops,
                 proxy_networks,
+                auth_header,
+                url,
                 ..
             } => {
                 let proxy = socket.to_canonical();
+                let in_networks = proxy_networks
+                    .iter()
+                    .any(|network| network.contains(&proxy));
                 let trusted = if proxy_networks.is_empty() {
                     from_local_network(proxy)
                 } else {
-                    proxy.is_loopback()
-                        || proxy_networks
-                            .iter()
-                            .any(|network| network.contains(&proxy))
+                    proxy.is_loopback() || in_networks
                 };
 
                 if !trusted {
@@ -127,9 +244,53 @@ impl Access {
                     return Err(ErrorCode::HttpsRequired);
                 }
 
-                forwarded_for(headers, *trusted_hops).ok_or(ErrorCode::ForwardedForRequired)
+                let visitor =
+                    forwarded_for(headers, *trusted_hops).ok_or(ErrorCode::ForwardedForRequired)?;
+                let host_ok = host_matches(headers, url);
+
+                if let Some(name) = auth_header {
+                    if in_networks && headers.contains_key(name) && !host_ok {
+                        HOST_MISMATCH_WARNING.call_once(|| {
+                            tracing::warn!(
+                                target: "miner_server",
+                                "a request from the trusted proxy network carried {name} with a Host that does not match MINER_PUBLIC_URL: keep the proxy's original Host (nginx: proxy_set_header Host $host;, Apache: ProxyPreserveHost On)"
+                            );
+                        });
+                    }
+                }
+
+                let header_trusted = auth_header.is_some() && in_networks && host_ok;
+
+                Ok((visitor, header_trusted))
             }
         }
+    }
+}
+
+fn is_placeholder(value: &str) -> bool {
+    PLACEHOLDER_VALUES
+        .iter()
+        .any(|placeholder| value.eq_ignore_ascii_case(placeholder))
+}
+
+// ! A browser cannot forge `Host`: a visitor whose page runs on the server
+// itself (DNS rebinding) or on another container of the same proxy network
+// still names its own origin there, never the dashboard's public one.
+// ! No `String` built per request: the port (if any) is compared on its
+// own instead of formatting "{host}:{port}" to match against.
+fn host_matches(headers: &HeaderMap, url: &Url) -> bool {
+    let Some(host) = headers.get(header::HOST).and_then(|v| v.to_str().ok()) else {
+        return false;
+    };
+    let Some(expected_host) = url.host_str() else {
+        return false;
+    };
+
+    match url.port() {
+        Some(port) => host.rsplit_once(':').is_some_and(|(name, given_port)| {
+            name.eq_ignore_ascii_case(expected_host) && given_port.parse() == Ok(port)
+        }),
+        None => host.eq_ignore_ascii_case(expected_host),
     }
 }
 

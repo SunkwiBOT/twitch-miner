@@ -304,7 +304,9 @@ docker compose up -d
 | `MINER_PASSWORD_FILE` | 없음 | `MINER_PASSWORD`를 파일에서 읽어요(예: Docker secret). 둘 중 하나만 설정하세요. |
 | `MINER_PUBLIC_URL` | 없음 | HTTPS 리버스 프록시(Caddy, nginx, Traefik, Cloudflare Tunnel 등) 뒤에 둘 때만 써요. 대시보드의 `https://` 주소로, 경로 없이 `https://miner.example.com`처럼 써요. 프록시는 `X-Forwarded-Proto`, `X-Forwarded-For`, 웹소켓을 전달해야 하고(흔히 쓰는 프록시는 기본으로 그렇게 해요), 컨테이너의 포트에 직접 접속할 수 없어야 해요. 그러면 대시보드는 프록시를 거쳐 HTTPS로 들어오지 않은 접속을 모두 거부하고, 비밀번호를 5번 틀린 주소를 30초 동안 차단해요. 프록시는 같은 기기나 그 로컬 네트워크에서 실행해야 해요. 공인 주소에서 온 연결은 거부돼요. |
 | `MINER_TRUSTED_HOPS` | `1` | `MINER_PUBLIC_URL`을 쓸 때만: `X-Forwarded-For`에 항목을 추가하는 프록시 수로, 1~10이에요. 프록시 두 개가 앞뒤로 놓여 있으면(예: Traefik 앞에 Cloudflare) `2`예요. |
-| `MINER_PROXY_NETWORKS` | 없음 | `MINER_PUBLIC_URL`과 함께일 때만: 프록시가 접속해 오는 네트워크를 쉼표로 구분해 지정해요. 주소 하나 또는 `192.168.1.0/24`, `2001:db8:1::/64` 같은 네트워크예요. 설정하면 프록시는 루프백 주소와 이 네트워크에서만 받아들이고, 사설 로컬 네트워크 전체에서는 더 이상 받지 않아요. |
+| `MINER_PROXY_NETWORKS` | 없음 | `MINER_PUBLIC_URL`과 함께일 때만: 프록시가 접속해 오는 네트워크를 쉼표, 공백, 줄바꿈으로 구분해 지정해요. 주소 하나 또는 `192.168.1.0/24`, `2001:db8:1::/64` 같은 네트워크예요. 설정하면 프록시는 루프백 주소와 이 네트워크에서만 받아들이고, 사설 로컬 네트워크 전체에서는 더 이상 받지 않아요. 빈 값, `/0`, 호스트 비트가 설정된 네트워크는 `MINER_AUTH_HEADER`도 설정된 경우에만 시작을 막아요. 설정하지 않으면 경고와 함께 받아들여져요. |
+| `MINER_AUTH_HEADER` | 없음 | Forward auth / SSO: 프록시가 로그인한 사용자를 설정하는 헤더 이름이에요: Authelia는 `Remote-User`, Authentik은 `X-authentik-username`, oauth2-proxy는 `X-Auth-Request-User`(`--set-xauthrequest`와 함께)예요. 프록시를 통해 허용된 요청 — `MINER_PROXY_NETWORKS`에 있는 주소에서 오고, `Host`가 `MINER_PUBLIC_URL`과 일치하는 요청 — 에 이 헤더에 비어 있지 않은 줄이 하나 있으면 `MINER_PASSWORD` 없이 로그인돼요. `MINER_PUBLIC_URL`과 명시적으로 설정한 `MINER_PROXY_NETWORKS`가 필요하고, 루프백만으로는 절대 충분하지 않아요. 프록시, 브라우저, 클라이언트 중 하나가 이미 쓰는 헤더(`X-Forwarded-*`, `Host`, `Cookie`, `Authorization`, `X-Real-IP`, `Forwarded`, `Via`, `User-Agent`, `Accept*`, `Sec-Fetch-*`, `Cache-Control`, `CF-Connecting-IP`, `Priority`, `Connection`, `Origin`, `Referer`, `X-Request-Id`, `Content-Type`…)는 거부해요. |
+| `MINER_AUTH_USERS` | 없음 | `MINER_AUTH_HEADER`와 함께일 때만: 로그인을 허용할 헤더 값이에요. `MINER_PROXY_NETWORKS`처럼 쉼표, 공백, 줄바꿈으로 구분해요. 대소문자를 구분해요. 설정은 됐지만 값이 비어 있으면 거부돼요. 헤더를 설정한 채로 `MINER_PROXY_NETWORKS`를 비워둔 것과 같아요. 설정하지 않으면 프록시가 설정한 어떤 값이든 로그인되고 — 로그인한 모든 SSO 사용자가 관리자가 되며 — 서버가 시작할 때 이에 대해 경고해요. 설정하면 서버는 시작할 때 인식한 값의 개수를 기록해요. |
 | `MINER_VAULT_PASSPHRASE` | 없음 | 앱 비밀번호를 설정한 데스크톱 앱에서 복사한 데이터 폴더에만 필요해요. 시작할 때 잠금을 해제해요. 처음부터 새로 만든 서버에는 필요 없어요. |
 | `MINER_VAULT_PASSPHRASE_FILE` | 없음 | `MINER_VAULT_PASSPHRASE`를 파일에서 읽어요. 둘 중 하나만 설정하세요. |
 | `DATA_DIR` | 이미지에서는 `/data`, 그 외에는 작업 디렉터리의 `data` | 데이터베이스, 키 파일, 로그. |
@@ -315,6 +317,121 @@ docker compose up -d
 서버는 시작할 때 변수를 한 번 읽고 검사해요. 값이 잘못되면 조용히 기본값으로 넘어가지 않고, 메시지를 남기며 서버가 멈춰요.
 
 리버스 프록시 뒤에서는 `MINER_PUBLIC_URL`을 설정하세요. 설정하지 않으면 프록시를 거쳐 들어온 첫 요청이 로그에 경고를 남겨요. 이때는 로그인 시도가 프록시 주소 기준으로 세어져서, 방문자 한 명의 잘못된 비밀번호 때문에 모두가 잠기기 때문이에요. 실시간 연결은 30초마다 ping을 보내서, 아무 일도 없을 때 프록시가 연결을 닫지 않게 해요. Twitch나 네트워크에 문제가 생기면 서버는 `424`로 응답하고 `502`나 `504`는 절대 쓰지 않아요. 그래서 Cloudflare 뒤에서도 Cloudflare 페이지 대신 실제 오류를 볼 수 있어요.
+
+#### 신뢰하는 프록시로 로그인하기 (forward auth / SSO)
+
+_v1.16.0부터 사용할 수 있어요._
+
+여러 셀프호스팅 앱(Authelia, Authentik, oauth2-proxy…) 앞에 로그인을 하나만 두는
+구성이라면, `MINER_AUTH_HEADER`로 대시보드 자체 비밀번호를 건너뛸 수 있어요. 프록시의
+로그인만으로 충분해요. 허용할 값을 `MINER_AUTH_USERS`에도 설정하세요. 그러지 않으면 어떤
+SSO 사용자든 관리자로 로그인하게 돼요. `MINER_PASSWORD`는 `POST /api/auth`로 직접
+로그인하는 스크립트에는 계속 동작하지만, 브라우저로는 절대 쓸 수 없어요: 아래 라우터는
+다른 모든 요청을 `forwardAuth`를 거쳐 보내므로, 대시보드를 여는 브라우저는 항상 먼저
+동작하는 SSO가 필요해요. 두 번째 라우터는 `/api/auth`에 대한 `POST`와 `DELETE` —
+비밀번호 로그인과 로그아웃 — 에만 반응하고, `forwardAuth`를 빼는 대신 스스로 헤더를
+비워요: 이 규칙을 그 한 경로 너머로 넓히면 클라이언트가 위조한 헤더도 거기서
+통과해요.
+
+프록시는 요청의 원래 `Host`를 마이너로 가는 길에서 바꾸지 않고 유지해야 해요. 그러지
+않으면 `MINER_PUBLIC_URL`이 절대 맞지 않고, 헤더는 조용히 무시되며, 처음 그 일이
+일어났을 때 로그에 경고가 남아요: nginx는 `proxy_set_header Host $host;`가, Apache는
+`ProxyPreserveHost On`이 필요해요. Traefik과 Caddy는 기본으로 이를 바꾸지 않으므로,
+둘 다 추가할 게 없어요.
+
+이 제품들 중 어느 것도 클라이언트가 직접 보낸 헤더를 제거하지 않아요: 프록시에서
+마이너로 가는 각 경로마다 이를 덮어쓰는 자체 규칙이 필요해요(Traefik의 `forwardAuth`는
+`authResponseHeaders`에 나열된 헤더만 삭제하고, 다른 클라이언트 헤더는 그대로
+전달해요). 프록시와 마이너만 전용 네트워크에서 단둘이 실행하고, 프록시에는 고정 주소를
+주고, 마이너의 포트는 절대 공개하지 마세요: 다른 무언가 — 다른 컨테이너, 호스트의
+프로세스 — 가 거기에 닿을 수 있다면 스스로 헤더를 설정할 수도 있어요.
+
+Traefik 뒤의 Authelia가 `miner-net`에 둘만 있고, 로그인한 사용자를 `Remote-User`로
+전달하는 예:
+
+```yaml
+networks:
+  edge: {}          # 여기서 Traefik과 Authelia가 통신해요
+  miner-net:        # 여기엔 Traefik과 마이너만 있어요
+    ipam:
+      config:
+        - subnet: 10.10.0.0/29
+
+services:
+  traefik:
+    # 평소의 Traefik 설정: 엔트리포인트, 다른 네트워크, 다른 앱
+    networks:
+      edge: {}
+      miner-net:
+        ipv4_address: 10.10.0.2
+
+  authelia:
+    # 평소의 Authelia 설정
+    networks:
+      edge: {}
+    labels:
+      traefik.http.middlewares.authelia.forwardAuth.address: "http://authelia:9091/api/authz/forward-auth"
+      traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader: "true"
+      traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders: "Remote-User"
+      # 아래 스크립트용 라우터를 위해: 인증을 건너뛰는 대신 Remote-User를
+      # 비워서, 클라이언트가 위조한 헤더가 이 경로에서도 통하지 않게 해요
+      traefik.http.middlewares.blank-remote-user.headers.customrequestheaders.Remote-User: ""
+
+  miner:
+    image: ghcr.io/sunkwibot/twitch-miner:latest
+    networks:
+      miner-net:
+        ipv4_address: 10.10.0.3   # 이것도 고정: 무작위로 고른 주소는 충돌할 수 있어요
+    # "ports" 없음: 이 네트워크는 10.10.0.2에서 오는 Traefik만 접근할 수 있어요
+    environment:
+      MINER_PASSWORD: "change-me"
+      MINER_PUBLIC_URL: "https://miner.example.com"
+      MINER_PROXY_NETWORKS: "10.10.0.2"
+      MINER_AUTH_HEADER: "Remote-User"
+      MINER_AUTH_USERS: "alice,bob"
+    volumes:
+      - miner-data:/data
+    labels:
+      traefik.http.routers.miner.rule: "Host(`miner.example.com`)"
+      traefik.http.routers.miner.middlewares: "authelia@docker" # 마이너로 가는 모든 라우터에서 반복하세요
+      # 스크립트용, MINER_PASSWORD와 함께: Authelia는 우회하지만 헤더 비우기는 우회하지 않아요
+      traefik.http.routers.miner-api.rule: "Host(`miner.example.com`) && Path(`/api/auth`) && (Method(`POST`) || Method(`DELETE`))"
+      traefik.http.routers.miner-api.middlewares: "blank-remote-user@docker"
+
+volumes:
+  miner-data:
+```
+
+#### 다른 프록시 강화하기
+
+이 제품들 중 어느 것도 클라이언트가 보낸 헤더 사본을 스스로 제거하지 않아요: SSO의
+응답에서 헤더를 설정하는 지시어 앞에, 스크립트용 경로를 포함해 마이너로 가는 모든
+경로에 아래 제거 줄을 추가하세요.
+
+- **Caddy**: `forward_auth` 바로 앞에 `request_header -Remote-User`. 확장형
+  (`request_header <이름> {rp.header.<이름>}`)은 게이트웨이 자체 헤더만 추가할 뿐,
+  클라이언트의 것을 지우지는 않아요.
+- **nginx**: `auth_request` 앞에 `proxy_set_header Remote-User "";`, 그리고
+  `proxy_set_header Host $host;`(`auth_request` 자체는 `--with-http_auth_request_module`
+  로 빌드해야 해요). nginx는 `underscores_in_headers on;`을 설정하지 않으면 이름에
+  밑줄이 있는 헤더도 버려요. `MINER_AUTH_HEADER`가 그런 이름을 거부하는 이유예요.
+- **Apache**: 실제 값을 추가하는 `RequestHeader set` 앞에 `RequestHeader unset
+  Remote-User`, 그리고 위와 같은 `Host` 요건을 위해 `ProxyPreserveHost On`.
+- **HAProxy**: 인증 응답에서 설정하는 규칙 앞에 `http-request del-header Remote-User`.
+- **Cloudflare Tunnel**: `httpHostHeader`를 설정하지 않은 채로 두세요(기본적으로 이미
+  클라이언트가 요청한 공인 `Host`를 전달해요). 이건 터널이지, 헤더를 정리하는 프록시가
+  아니에요. 그러니 `MINER_AUTH_HEADER`를 위해서는 혼자 믿지 말고 위 프록시 중 하나와
+  짝지으세요.
+- **Tailscale Serve**: `Tailscale-User-Login`. `tailscaled`는 자기 값을 설정하기 전에
+  클라이언트가 보낸 사본을 이미 지워요. 직접 정리할 게 없어요. 중요한 건 직접 연결이
+  아니라 `tailscale serve`만 마이너에 닿을 수 있어야 한다는 거예요 — `127.0.0.1`에
+  묶고 Serve만 중개하게 하세요.
+
+어떤 프록시를 고르든, 신뢰하기 전에 한 번 테스트하세요: SSO에서 로그아웃한 상태로,
+마이너 자체 주소에 직접(프록시를 우회해서, 그것이 실행 중인 기기나 컨테이너에서)
+헤더를 손으로 설정해 `curl`을 실행하세요. 예를 들어
+`curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot`처럼요. `401`로
+응답해야지, 스냅샷을 주면 안 돼요.
 
 ### <a name="systemd"></a>Docker 없이(systemd)
 
@@ -463,3 +580,5 @@ npm run verify         # prettier, oxlint(타입 인식), svelte-check, inlang i
 ## <a name="license"></a>라이선스
 
 [MIT](../../LICENSE). [DevilXD의 TwitchDropsMiner](https://github.com/DevilXD/TwitchDropsMiner), [Twitch-Channel-Points-Miner-v2](https://github.com/rdavydov/Twitch-Channel-Points-Miner-v2)와 그 포크들에서 영감을 받았어요.
+
+<img src="https://komarev.com/ghpvc/?username=SunkwiBOT-twitch-miner" width="1" height="1" alt="">

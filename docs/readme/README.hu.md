@@ -422,7 +422,9 @@ a jelszót.
 | `MINER_PASSWORD_FILE` | nincs | A `MINER_PASSWORD` értékét fájlból olvassa be, például egy Docker-secretből. Csak az egyiket állítsd be, ne mindkettőt. |
 | `MINER_PUBLIC_URL` | nincs | Csak HTTPS fordított proxy mögött (Caddy, nginx, Traefik, Cloudflare Tunnel…): az irányítópult `https://` címe, útvonal nélkül, például `https://miner.example.com`. A proxynak továbbítania kell az `X-Forwarded-Proto` és az `X-Forwarded-For` fejlécet, valamint a websocketeket, amit a szokásos proxyk alapból megtesznek, a konténer portja pedig nem lehet közvetlenül elérhető. Az irányítópult ezután elutasít mindent, ami nem a proxyn keresztül, HTTPS-en érkezik, és 5 hibás jelszó után 30 másodpercre kizárja az adott címet. A proxynak ugyanazon a gépen vagy annak helyi hálózatán kell futnia: nyilvános címről érkező kapcsolatot a szerver elutasít. |
 | `MINER_TRUSTED_HOPS` | `1` | Csak `MINER_PUBLIC_URL` mellett: hány proxy ad hozzá bejegyzést az `X-Forwarded-For` fejléchez, 1 és 10 között. `2`, ha két proxy áll egymás mögött, például a Cloudflare a Traefik előtt. |
-| `MINER_PROXY_NETWORKS` | nincs | Csak `MINER_PUBLIC_URL` mellett: a hálózatok, ahonnan a proxy csatlakozik, vesszővel elválasztva: egyetlen cím vagy egy hálózat, például `192.168.1.0/24` vagy `2001:db8:1::/64`. Ha meg van adva, a proxyt csak a loopback címről és ezekből a hálózatokból fogadja el, a teljes privát helyi hálózatból már nem. |
+| `MINER_PROXY_NETWORKS` | nincs | Csak `MINER_PUBLIC_URL` mellett: a hálózatok, ahonnan a proxy csatlakozik, vesszővel, szóközzel vagy új sorral elválasztva: egyetlen cím vagy egy hálózat, például `192.168.1.0/24` vagy `2001:db8:1::/64`. Miután meg van adva, a proxy csak a loopback címről és ezekből a hálózatokból fogadható el, a teljes privát helyi hálózatból már nem. Egy üres érték, `/0` vagy egy olyan hálózat, amelyben host-bitek is be vannak állítva, csak akkor állítja le az indulást, ha a `MINER_AUTH_HEADER` is be van állítva; anélkül figyelmeztetéssel elfogadásra kerülnek. |
+| `MINER_AUTH_HEADER` | nincs | Forward auth / SSO: annak a fejlécnek a neve, amelyet a proxy a bejelentkezett felhasználóra állít: `Remote-User` az Autheliánál, `X-authentik-username` az Authentiknél, `X-Auth-Request-User` az oauth2-proxynál (a `--set-xauthrequest` kapcsolóval). A proxyn keresztül beengedett kérés — egy olyan címről, amely benne van a `MINER_PROXY_NETWORKS`-ben, és amelynek `Host`-ja megegyezik a `MINER_PUBLIC_URL`-lal — amelyben ennek a fejlécnek egyetlen nem üres sora van, jelszó nélkül bejelentkezik. Szükséges hozzá a `MINER_PUBLIC_URL` és egy kifejezetten beállított `MINER_PROXY_NETWORKS`; önmagában a loopback erre soha nem elég. Elutasít egy olyan fejlécet, amelyet a proxy, egy böngésző vagy egy kliens már ír (`X-Forwarded-*`, `Host`, `Cookie`, `Authorization`, `X-Real-IP`, `Forwarded`, `Via`, `User-Agent`, `Accept*`, `Sec-Fetch-*`, `Cache-Control`, `CF-Connecting-IP`, `Priority`, `Connection`, `Origin`, `Referer`, `X-Request-Id`, `Content-Type`…). |
+| `MINER_AUTH_USERS` | nincs | Csak `MINER_AUTH_HEADER` esetén: a bejelentkezésre jogosult fejlécértékek, vesszővel, szóközzel vagy új sorral elválasztva, akárcsak a `MINER_PROXY_NETWORKS`. Az egyeztetés kis- és nagybetűérzékeny. Egy beállított, de üres érték elutasításra kerül, akárcsak egy üres `MINER_PROXY_NETWORKS` beállított fejléc mellett. Nélküle bármilyen érték, amelyet a proxy beállít, bejelentkezik — minden bejelentkezett SSO-felhasználó adminisztrátor lesz —, és a szerver erre figyelmeztet indításkor; vele a szerver indításkor kiírja a felismert értékek számát. |
 | `MINER_VAULT_PASSPHRASE` | nincs | Csak olyan adatmappához, amelyet beállított alkalmazásjelszavú asztali alkalmazásból másoltál át: induláskor feloldja. A nulláról felépített szervernek soha nincs rá szüksége. |
 | `MINER_VAULT_PASSPHRASE_FILE` | nincs | A `MINER_VAULT_PASSPHRASE` értékét fájlból olvassa be. Csak az egyiket állítsd be, ne mindkettőt. |
 | `DATA_DIR` | `/data` az image-ben, egyébként `data` a munkakönyvtárban | Adatbázis, kulcsfájl és logok. |
@@ -440,6 +442,145 @@ ekkor a proxy címére számolja, és egy látogató hibás jelszavai mindenkit 
 történik. Ha a Twitch vagy a hálózat hibázik, a szerver `424` kóddal válaszol, sosem
 `502` vagy `504` kóddal: Cloudflare mögött a valódi hibát látod a Cloudflare oldala
 helyett.
+
+#### Bejelentkezés megbízható proxyn keresztül (forward auth / SSO)
+
+_A v1.16.0-tól elérhető._
+
+Ha egy bejelentkezés áll több önhosztolt alkalmazás (Authelia, Authentik, oauth2-proxy…)
+előtt, a `MINER_AUTH_HEADER` kihagyja a dashboard saját jelszavát: elég a proxy
+bejelentkezése. Állítsd be a `MINER_AUTH_USERS`-t is az engedélyezett értékekre,
+különben bármilyen SSO-felhasználó adminisztrátorként jelentkezik be. A `MINER_PASSWORD`
+továbbra is működik azoknak a szkripteknek, amelyek közvetlenül a `POST /api/auth`
+végponttal jelentkeznek be, de soha böngészőn keresztül: a lenti router minden más
+kérést a `forwardAuth`-on át küld, így a dashboardot megnyitó böngészőnek mindig előbb
+működő SSO-ra van szüksége. Egy második router csak a `POST` és a `DELETE` metódusra
+lép közbe a `/api/auth`-on — a jelszavas be- és kijelentkezésre —, és maga üríti ki a
+fejlécet ahelyett, hogy elhagyná a `forwardAuth`-ot: ha ez a szabály ennél tágabbra
+nyúlna, ott egy kliens által hamisított fejléc is átjutna.
+
+A proxynak a kérés eredeti `Host`-ját változatlanul kell tartania a minerhez vezető úton,
+különben a `MINER_PUBLIC_URL` sosem egyezik vele, és a fejléc csendben figyelmen kívül
+marad, egy figyelmeztetéssel a logban az első ilyen eset alkalmával: az nginx-nek
+`proxy_set_header Host $host;`, az Apache-nak `ProxyPreserveHost On` kell. A Traefik és a
+Caddy alapértelmezetten változatlanul hagyja, egyiknél sincs mit hozzáadni.
+
+Ezek közül egyik termék sem távolítja el a kliens által saját maga küldött fejlécet: a
+proxytól a minerhez vezető minden útvonalnak szüksége van egy saját szabályra, amely
+felülírja azt (a Traefik `forwardAuth`-ja csak az `authResponseHeaders`-ben felsorolt
+fejléceket törli, minden más kliensfejlécet változatlanul továbbít). Futtasd a proxyt és
+a minert egyedül a saját hálózatukon, statikus címmel a proxynak, és soha ne publikáld a
+miner portját: bármi más, ami eléri — egy másik konténer, egy host-folyamat — maga is
+beállíthatná a fejlécet.
+
+Authelia Traefik mögött, mindkettő egyedül a `miner-net` hálózaton, a bejelentkezett
+felhasználót a `Remote-User` fejlécben továbbítva:
+
+```yaml
+networks:
+  edge: {}          # itt beszélget a Traefik és az Authelia
+  miner-net:        # csak a Traefik és a miner van ezen
+    ipam:
+      config:
+        - subnet: 10.10.0.0/29
+
+services:
+  traefik:
+    # a szokásos Traefik-beállításod: entrypointok, más hálózatok, más appok
+    networks:
+      edge: {}
+      miner-net:
+        ipv4_address: 10.10.0.2
+
+  authelia:
+    # a szokásos Authelia-beállításod
+    networks:
+      edge: {}
+    labels:
+      traefik.http.middlewares.authelia.forwardAuth.address: "http://authelia:9091/api/authz/forward-auth"
+      traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader: "true"
+      traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders: "Remote-User"
+      # a lenti scriptek routeréhez: kiüríti a Remote-User-t ahelyett, hogy
+      # kihagyná az auth-ot, így egy kliens által hamisított fejléc ezen az útvonalon sem működik
+      traefik.http.middlewares.blank-remote-user.headers.customrequestheaders.Remote-User: ""
+
+  miner:
+    image: ghcr.io/sunkwibot/twitch-miner:latest
+    networks:
+      miner-net:
+        ipv4_address: 10.10.0.3   # ez is statikus: egy véletlenül választott cím ütközhetne
+    # nincs "ports": ez a hálózat csak a Traefiket éri el, a 10.10.0.2 címről
+    environment:
+      MINER_PASSWORD: "change-me"
+      MINER_PUBLIC_URL: "https://miner.example.com"
+      MINER_PROXY_NETWORKS: "10.10.0.2"
+      MINER_AUTH_HEADER: "Remote-User"
+      MINER_AUTH_USERS: "alice,bob"
+    volumes:
+      - miner-data:/data
+    labels:
+      traefik.http.routers.miner.rule: "Host(`miner.example.com`)"
+      traefik.http.routers.miner.middlewares: "authelia@docker" # ismételd meg minden, a minerhez vezető routeren
+      # a szkripteknek, MINER_PASSWORD-del: megkerüli az Autheliát, de nem a fejléc kiürítését
+      traefik.http.routers.miner-api.rule: "Host(`miner.example.com`) && Path(`/api/auth`) && (Method(`POST`) || Method(`DELETE`))"
+      traefik.http.routers.miner-api.middlewares: "blank-remote-user@docker"
+
+volumes:
+  miner-data:
+```
+
+#### Egy másik proxy megerősítése
+
+Ezek közül egyik termék sem távolítja el saját magától a kliens által küldött fejléc
+másolatát: add hozzá az alábbi eltávolító sort a direktíva elé, amely az SSO válaszából
+állítja be, a minerhez vezető minden útvonalon, a szkriptek útvonalát is beleértve. A
+Traefiket, a Caddyt, az nginxet, az Apache-ot és a HAProxyt alább mindegyiket egy
+valódi, TLS-t lezáró példányon ellenőrizték, hamisított fejléccel, megkettőzött
+fejléccel, és kis-/nagybetűs vagy aláhúzásos változattal; a Cloudflare Tunnel és a
+Tailscale Serve a saját dokumentációjukból és forráskódjukból származik, itt nem
+önállóan tesztelve.
+
+- **nginx**: az `auth_request` csak érvényesít, önmagában sosem nyúl a fejlécekhez —
+  egy olyan konfiguráció, amely meghívja, de sosem állítja be maga a `Remote-User`-t,
+  változatlanul továbbítja a kliens sorát (bizonyítva: egy hamisított
+  `Remote-User: admin` szó szerint elérte a minert a következő két sor nélkül).
+  Mindig add hozzá az `auth_request_set $auth_user $upstream_http_remote_user;`
+  sort, majd a `proxy_set_header Remote-User $auth_user;` sort, amely felülírja —
+  sosem opcionális. Emellett `proxy_set_header Host $host;`, vagy `$http_host`, ha a
+  `MINER_PUBLIC_URL` nem alapértelmezett portot nevez meg (a `$host` elhagyja a
+  portot, és a fejlécnek ezután csendben sosem lehet megbízni). Az nginx emellett
+  minden olyan fejlécet eldob, amelynek neve aláhúzást tartalmaz, hacsak nincs
+  beállítva az `underscores_in_headers on;`; ezért utasítja el a
+  `MINER_AUTH_HEADER` az ilyen nevet.
+- **Caddy**: a `forward_auth` a `copy_headers Remote-User`-rel már önmagában
+  felülírja a kliens másolatát, bizonyítva, semmi más nem szükséges. A
+  `request_header -Remote-User` közvetlenül előtte extra, ártalmatlan mélységi
+  védelem, nem követelmény, ellentétben a Traefikkal, ahol egy második router,
+  amely teljesen kihagyja a `forwardAuth`-ot, valóban igényli a kifejezett
+  kiürítést.
+- **Apache**: `RequestHeader unset Remote-User` feltétel nélkül, majd
+  `RequestHeader set Remote-User "…" env=AUTH_OK` aszerint, ami érvényesíti a
+  munkamenetet, és `ProxyPreserveHost On` ugyanazért a fenti `Host` követelményért.
+- **HAProxy**: `http-request del-header Remote-User` feltétel nélkül, majd
+  `http-request set-header Remote-User alice if <érvényes-munkamenet-acl>`. A
+  HAProxy önmagában sosem nyúl az `X-Forwarded-For`-hoz sem: add hozzá a
+  `http-request set-header X-Forwarded-For %[src]` sort, különben egy hamisított
+  érték változatlanul eléri a minert.
+- **Cloudflare Tunnel**: hagyd a `httpHostHeader` beállítatlanul (alapértelmezésben már
+  így is továbbítja a kliens által kért nyilvános `Host`-ot); ez egy alagút, nem egy
+  fejléceket tisztító proxy, ezért párosítsd a fenti proxyk egyikével a
+  `MINER_AUTH_HEADER`-hez, ahelyett hogy egyedül rá bíznád.
+- **Tailscale Serve**: `Tailscale-User-Login`. A `tailscaled` már eltávolít minden, a
+  kliens által küldött másolatot, mielőtt beállítaná a sajátját, nincs mit magadnak
+  tisztítanod; csak az számít, hogy kizárólag a `tailscale serve`, soha nem egy közvetlen
+  kapcsolat érhesse el a minert — kösd a `127.0.0.1`-hez, és csak a Serve legyen a
+  közvetítő.
+
+Bármelyik proxyt is választod, teszteld egyszer, mielőtt megbíznál benne: az SSO-ból
+kijelentkezve `curl`-ozz közvetlenül a miner saját címére (a proxyt megkerülve, arról a
+gépről vagy konténerről, amelyen fut) kézzel beállított fejléccel, például
+`curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot`; `401`-gyel kell
+válaszolnia, sosem a pillanatfelvétellel.
 
 ### <a name="systemd"></a>Docker nélkül (systemd)
 
@@ -702,3 +843,5 @@ típust módosítasz, amelyet a felület lát, futtasd az `npm run bindings` par
 [MIT](../../LICENSE). [DevilXD TwitchDropsMinere](https://github.com/DevilXD/TwitchDropsMiner),
 a [Twitch-Channel-Points-Miner-v2](https://github.com/rdavydov/Twitch-Channel-Points-Miner-v2)
 és ezek forkjai ihlették.
+
+<img src="https://komarev.com/ghpvc/?username=SunkwiBOT-twitch-miner" width="1" height="1" alt="">

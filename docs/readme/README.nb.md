@@ -424,6 +424,8 @@ passordet.
 | `MINER_PUBLIC_URL` | ingen | Bare bak en omvendt HTTPS-proxy (Caddy, nginx, Traefik, Cloudflare Tunnel …): oversiktens `https://`-adresse, uten sti, for eksempel `https://miner.example.com`. Proxyen må videresende `X-Forwarded-Proto`, `X-Forwarded-For` og websockets, noe vanlige proxyer gjør som standard, og containerens port må ikke kunne nås direkte. Oversikten avviser da alt som ikke kommer gjennom proxyen over HTTPS, og sperrer en adresse i 30 sekunder etter 5 feil passord. Proxyen må kjøre på samme maskin eller i det lokale nettverket dens: en tilkobling fra en offentlig adresse avvises. |
 | `MINER_TRUSTED_HOPS` | `1` | Bare med `MINER_PUBLIC_URL`: hvor mange proxyer som legger til en oppføring i `X-Forwarded-For`, fra 1 til 10. `2` med to proxyer etter hverandre, for eksempel Cloudflare foran Traefik. |
 | `MINER_PROXY_NETWORKS` | ingen | Bare med `MINER_PUBLIC_URL`: nettverkene proxyen kobler til fra, skilt med komma: én adresse eller et nettverk som `192.168.1.0/24` eller `2001:db8:1::/64`. Når den er satt, godtas proxyen bare fra loopback-adressen og disse nettverkene, ikke lenger fra hele det private lokale nettverket. |
+| `MINER_AUTH_HEADER` | ingen | Forward auth / SSO: navnet på en header som proxyen setter til den innloggede brukeren: `Remote-User` for Authelia, `X-authentik-username` for Authentik, `X-Auth-Request-User` for oauth2-proxy (med `--set-xauthrequest`). En forespørsel som slipper gjennom proxyen — fra en adresse i `MINER_PROXY_NETWORKS`, med en `Host` som samsvarer med `MINER_PUBLIC_URL` — med én ikke-tom verdi i den headeren, logger inn uten `MINER_PASSWORD`. Krever `MINER_PUBLIC_URL` og en eksplisitt `MINER_PROXY_NETWORKS`; loopback alene er aldri nok for det. Avviser en header som proxyen, en nettleser eller en klient allerede skriver (`X-Forwarded-*`, `Host`, `Cookie`, `Authorization`, `X-Real-IP`, `Forwarded`, `Via`, `User-Agent`, `Accept*`, `Connection`, `Origin`, `Referer`, `X-Request-Id`…). |
+| `MINER_AUTH_USERS` | ingen | Bare med `MINER_AUTH_HEADER`: hvilke headerverdier som får logge inn, skilt med komma. Uten den logger enhver verdi proxyen setter inn — hver innloggede SSO-bruker blir admin — og serveren advarer om dette ved oppstart. |
 | `MINER_VAULT_PASSPHRASE` | ingen | Bare for en datamappe kopiert fra skrivebordsappen med et app-passord satt: låser den opp ved oppstart. En server bygget fra bunnen av trenger den aldri. |
 | `MINER_VAULT_PASSPHRASE_FILE` | ingen | Leser `MINER_VAULT_PASSPHRASE` fra en fil. Den ene eller den andre, ikke begge. |
 | `DATA_DIR` | `/data` i imaget, ellers `data` i arbeidskatalogen | Database, nøkkelfil og logger. |
@@ -440,6 +442,65 @@ telles på proxyens adresse, og én besøkendes feil passord ville stengt alle u
 Direktetilkoblingen sender en ping hvert 30. sekund, så en proxy ikke lukker den når ingenting
 skjer. Når Twitch eller nettverket svikter, svarer serveren `424`, aldri `502` eller
 `504`: bak Cloudflare ser du den virkelige feilen i stedet for Cloudflares side.
+
+#### Logg inn fra en betrodd proxy (forward auth / SSO)
+
+Med én innlogging foran flere selvhostede apper (Authelia, Authentik, oauth2-proxy…),
+hopper `MINER_AUTH_HEADER` over dashbordets eget passord: innloggingen på proxyen er nok.
+Sett også `MINER_AUTH_USERS` til de tillatte verdiene, ellers logger enhver SSO-bruker inn
+som admin. `MINER_PASSWORD` fungerer fortsatt: som reserve når innloggingstjenesten er
+nede, og for skript som kaller API-et med `POST /api/auth`.
+
+Ingen av disse produktene fjerner en header klienten selv har sendt: hver rute fra
+proxyen til miner-en trenger sin egen regel som overskriver den (Traefiks `forwardAuth`
+sletter bare headerne som står i `authResponseHeaders`, og videresender enhver annen
+header fra klienten uendret). Kjør proxyen og miner-en alene på et eget nettverk, med en
+statisk adresse for proxyen, og publiser aldri miner-ens port: alt annet som når den —
+en annen container, en vertsprosess — kunne satt headeren selv.
+
+Authelia bak Traefik, de to alene på `miner-net`, som videresender den innloggede
+brukeren i `Remote-User`:
+
+```yaml
+networks:
+  edge: {}          # Traefik og Authelia snakker sammen her
+  miner-net:        # bare Traefik og miner-en er på denne
+    ipam:
+      config:
+        - subnet: 10.10.0.0/29
+
+services:
+  traefik:
+    # ditt vanlige Traefik-oppsett: entrypoints, andre nettverk, andre apper
+    networks:
+      edge: {}
+      miner-net:
+        ipv4_address: 10.10.0.2
+
+  authelia:
+    # ditt vanlige Authelia-oppsett
+    networks:
+      edge: {}
+    labels:
+      traefik.http.middlewares.authelia.forwardAuth.address: "http://authelia:9091/api/authz/forward-auth"
+      traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader: "true"
+      traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders: "Remote-User"
+
+  miner:
+    image: ghcr.io/sunkwibot/twitch-miner:latest
+    networks:
+      miner-net: {}
+    # ingen "ports": dette nettverket når bare Traefik, fra 10.10.0.2
+    environment:
+      MINER_PASSWORD: "change-me"
+      MINER_PUBLIC_URL: "https://miner.example.com"
+      MINER_PROXY_NETWORKS: "10.10.0.2"
+      MINER_AUTH_HEADER: "Remote-User"
+      MINER_AUTH_USERS: "alice,bob"
+    labels:
+      traefik.http.routers.miner.rule: "Host(`miner.example.com`)"
+      traefik.http.routers.miner.middlewares: "authelia@docker" # gjenta på hver ruter til miner-en
+```
 
 ### <a name="systemd"></a>Uten Docker (systemd)
 
@@ -697,3 +758,5 @@ en type som grensesnittet ser, kjører du `npm run bindings`.
 [DevilXDs TwitchDropsMiner](https://github.com/DevilXD/TwitchDropsMiner),
 [Twitch-Channel-Points-Miner-v2](https://github.com/rdavydov/Twitch-Channel-Points-Miner-v2)
 og forkene deres.
+
+<img src="https://komarev.com/ghpvc/?username=SunkwiBOT-twitch-miner" width="1" height="1" alt="">

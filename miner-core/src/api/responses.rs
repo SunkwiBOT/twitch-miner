@@ -267,14 +267,22 @@ pub struct HistoryExportResponse {
     pub truncated: bool,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
 #[ts(rename = "AuthStatusType")]
 pub struct AuthStatus {
     pub authorized: bool,
     pub public: bool,
+    // ! Sign-in through the trusted proxy header: the UI hides the logout
+    // control, since the next request just signs back in.
+    pub via_header: bool,
+    // ! Both `None` outside header mode. Cut to the same 64 characters as
+    // the sign-in log line: it names a real person, shown back to that
+    // same person in the Settings card, never anyone else's.
+    pub header_user: Option<String>,
+    pub header_name: Option<String>,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
 #[ts(rename = "AuthResponseType")]
 pub struct AuthResponse {
     pub auth: AuthStatus,
