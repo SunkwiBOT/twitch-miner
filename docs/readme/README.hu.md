@@ -582,6 +582,16 @@ gépről vagy konténerről, amelyen fut) kézzel beállított fejléccel, péld
 `curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot`; `401`-gyel kell
 válaszolnia, sosem a pillanatfelvétellel.
 
+Tesztelt, másold-és-illeszd Compose példák öt gyakori beállításhoz:
+
+| Proxy | Példa | Mit mutat be |
+|---|---|---|
+| Traefik + Authelia | [`docs/reverse-proxy/traefik-authelia/`](docs/reverse-proxy/traefik-authelia/) | Egy teljes egyszeri bejelentkezési verem: valódi Authelia, fájl-alapú háttér, forward-auth Traefiken keresztül. |
+| Caddy | [`docs/reverse-proxy/caddy/`](docs/reverse-proxy/caddy/) | `forward_auth` + `copy_headers`, az öt közül a legrövidebb konfiguráció. |
+| nginx | [`docs/reverse-proxy/nginx/`](docs/reverse-proxy/nginx/) | `auth_request`, a könnyen véletlenül kihagyható felülíró sorral — és azzal, mi történik, ha ez megesik. |
+| Apache httpd | [`docs/reverse-proxy/apache/`](docs/reverse-proxy/apache/) | Nincs beépített forward-auth, ezért egy kis SSO-tudatos proxy ül az Apache és a miner között helyette. |
+| HAProxy | [`docs/reverse-proxy/haproxy/`](docs/reverse-proxy/haproxy/) | Ugyanaz a minta, mint az Apache-nál, a `http-request del-header` törli a kliens saját másolatát. |
+
 ### <a name="systemd"></a>Docker nélkül (systemd)
 
 Docker nélküli Linux szerveren a kiadás a szervert egyetlen fájlként is tartalmazza,

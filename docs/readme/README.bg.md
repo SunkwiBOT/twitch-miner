@@ -573,6 +573,16 @@ SSO, направете `curl` директно към адреса на сам�
 `curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot`; трябва да отговори
 с `401`, никога със снимката на състоянието.
 
+Тествани, готови за копиране Compose примери за пет чести конфигурации:
+
+| Proxy | Пример | Какво показва |
+|---|---|---|
+| Traefik + Authelia | [`docs/reverse-proxy/traefik-authelia/`](docs/reverse-proxy/traefik-authelia/) | Пълен SSO стек: истински Authelia, файлов бекенд, forward-auth през Traefik. |
+| Caddy | [`docs/reverse-proxy/caddy/`](docs/reverse-proxy/caddy/) | `forward_auth` + `copy_headers`, най-кратката конфигурация от петте. |
+| nginx | [`docs/reverse-proxy/nginx/`](docs/reverse-proxy/nginx/) | `auth_request`, с реда за презаписване, който лесно се пропуска по погрешка — и какво се случва, ако го направите. |
+| Apache httpd | [`docs/reverse-proxy/apache/`](docs/reverse-proxy/apache/) | Няма вграден forward-auth, затова между Apache и miner-а стои малко SSO-съобразено proxy. |
+| HAProxy | [`docs/reverse-proxy/haproxy/`](docs/reverse-proxy/haproxy/) | Същият модел като при Apache, с `http-request del-header`, изчистващ собственото копие на клиента. |
+
 ### <a name="systemd"></a>Без Docker (systemd)
 
 На Linux сървър без Docker изданието съдържа сървъра и като единичен файл, с таблото

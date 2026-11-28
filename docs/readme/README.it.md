@@ -577,6 +577,16 @@ dalla macchina o dal container su cui gira) con l'header impostato a mano, come
 `curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot`; deve rispondere
 `401`, mai lo snapshot.
 
+Esempi Compose testati e pronti da copiare e incollare per cinque configurazioni comuni:
+
+| Proxy | Esempio | Cosa mostra |
+|---|---|---|
+| Traefik + Authelia | [`docs/reverse-proxy/traefik-authelia/`](docs/reverse-proxy/traefik-authelia/) | Uno stack completo di single sign-on: Authelia reale, backend su file, forward-auth tramite Traefik. |
+| Caddy | [`docs/reverse-proxy/caddy/`](docs/reverse-proxy/caddy/) | `forward_auth` + `copy_headers`, la configurazione più breve delle cinque. |
+| nginx | [`docs/reverse-proxy/nginx/`](docs/reverse-proxy/nginx/) | `auth_request`, con la riga di sovrascrittura facile da dimenticare per errore — e cosa succede se succede. |
+| Apache httpd | [`docs/reverse-proxy/apache/`](docs/reverse-proxy/apache/) | Nessun forward-auth integrato, quindi un piccolo proxy consapevole dello SSO si frappone tra Apache e il miner. |
+| HAProxy | [`docs/reverse-proxy/haproxy/`](docs/reverse-proxy/haproxy/) | Stesso schema di Apache, con `http-request del-header` che rimuove la copia propria del client. |
+
 ### <a name="systemd"></a>Senza Docker (systemd)
 
 Su un server Linux senza Docker, la release include anche il server come file unico, con

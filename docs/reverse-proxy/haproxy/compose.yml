@@ -1,0 +1,71 @@
+# HAProxy in front of the miner, signing in through the MINER_AUTH_HEADER
+# trusted-proxy header. Tested with Podman Compose and Docker Compose; see
+# README.md for what to change and how to verify it.
+#
+# "auth-gateway" is a placeholder — stock HAProxy has no forward-auth
+# subrequest primitive either, so the common real-world pattern is a small
+# SSO-aware proxy between HAProxy and the app instead (oauth2-proxy,
+# Authentik's outpost, Authelia's proxy mode...). Replace it with your real
+# one; it only needs to set Remote-User for a signed-in visitor and refuse
+# (401) otherwise — except the dashboard's own password login/logout call,
+# which it must still let through unauthenticated (for MINER_PASSWORD
+# scripts) while stripping any Remote-User a client sent itself.
+#
+# auth-gateway, not HAProxy, is the one that connects to the miner directly
+# here — so its address on miner-net (not HAProxy's) is what
+# MINER_PROXY_NETWORKS trusts below. It gets a pinned address on "edge"
+# too, so haproxy.cfg can reference it by a fixed IP instead of relying on
+# HAProxy's own DNS resolution timing at startup.
+
+networks:
+  edge:
+    ipam:
+      config:
+        - subnet: 10.90.106.0/29
+  miner-net:
+    ipam:
+      config:
+        - subnet: 10.90.105.0/29
+
+services:
+  haproxy:
+    image: docker.io/library/haproxy:2.9-alpine
+    restart: unless-stopped
+    ports:
+      - "443:8443" # published as 443; HAProxy binds 8443 internally (see haproxy.cfg)
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+      - ./certs:/etc/haproxy/certs:ro
+    networks:
+      edge: {}
+
+  auth-gateway: # REPLACE with your real SSO-aware proxy
+    build: ./auth-gateway
+    restart: unless-stopped
+    environment:
+      MINER_HOST: miner
+      MINER_PORT: "8080"
+    networks:
+      edge:
+        ipv4_address: 10.90.106.2 # must match haproxy.cfg's backend server line
+      miner-net:
+        ipv4_address: 10.90.105.2 # must match MINER_PROXY_NETWORKS below
+
+  miner:
+    image: ghcr.io/sunkwibot/twitch-miner:latest
+    restart: unless-stopped
+    environment:
+      MINER_PASSWORD: "change-me-12-characters-minimum"
+      MINER_PUBLIC_URL: "https://miner.example.com"
+      MINER_PROXY_NETWORKS: "10.90.105.2"
+      MINER_AUTH_HEADER: "Remote-User"
+      MINER_AUTH_USERS: "alice"
+    volumes:
+      - miner-data:/data
+    networks:
+      miner-net:
+        ipv4_address: 10.90.105.3
+    # no "ports" here: only auth-gateway (10.90.105.2) can reach this service
+
+volumes:
+  miner-data:

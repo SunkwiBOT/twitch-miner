@@ -427,6 +427,16 @@ volumes:
 `curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot`；應得到 `401`
 回應，而絕非快照內容。
 
+針對五種常見設定、已測試過、可直接複製使用的 Compose 範例：
+
+| 代理伺服器 | 範例 | 展示了什麼 |
+|---|---|---|
+| Traefik + Authelia | [`docs/reverse-proxy/traefik-authelia/`](docs/reverse-proxy/traefik-authelia/) | 一套完整的單一登入方案：真正的 Authelia、檔案後端、透過 Traefik 實現的 forward-auth。 |
+| Caddy | [`docs/reverse-proxy/caddy/`](docs/reverse-proxy/caddy/) | `forward_auth` + `copy_headers`，五個範例中設定最短的一個。 |
+| nginx | [`docs/reverse-proxy/nginx/`](docs/reverse-proxy/nginx/) | `auth_request`，以及那行容易漏掉的覆寫設定——還有漏掉它會發生什麼事。 |
+| Apache httpd | [`docs/reverse-proxy/apache/`](docs/reverse-proxy/apache/) | 沒有內建的 forward-auth，因此在 Apache 與 miner 之間放置一個了解 SSO 的小型代理伺服器。 |
+| HAProxy | [`docs/reverse-proxy/haproxy/`](docs/reverse-proxy/haproxy/) | 與 Apache 相同的模式，用 `http-request del-header` 移除用戶端自帶的副本。 |
+
 ### <a name="systemd"></a>不使用 Docker（systemd）
 
 在不使用 Docker 的 Linux 伺服器上，發行版本裡也包含單一檔案形式的伺服器，內建儀表板：

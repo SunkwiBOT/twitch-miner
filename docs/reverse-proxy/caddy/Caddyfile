@@ -1,0 +1,37 @@
+{
+	# This example terminates TLS itself with a cert you provide in certs/
+	# (see README.md). If you'd rather let Caddy get one automatically from
+	# Let's Encrypt for a real public domain, remove this line and the "tls"
+	# directive below, and Caddy does it on its own.
+	auto_https off
+}
+
+https://miner.example.com {
+	tls /etc/caddy/certs/miner.example.com.crt /etc/caddy/certs/miner.example.com.key
+
+	# MINER_PASSWORD still works for scripts that sign in directly with
+	# POST /api/auth, without a session from auth-service — never through a
+	# browser. header_up -Remote-User strips a client's own copy: nothing
+	# proxies by default blanks it for you.
+	@login {
+		path /api/auth
+		method POST DELETE
+	}
+	handle @login {
+		reverse_proxy miner:8080 {
+			header_up -Remote-User
+		}
+	}
+
+	# Everything else: gated by auth-service. copy_headers overwrites a
+	# client's own Remote-User with the trusted value from auth-service's
+	# response — it does not append, so a forged header never survives
+	# alongside a real session either.
+	handle {
+		forward_auth auth-service:9091 {
+			uri /
+			copy_headers Remote-User
+		}
+		reverse_proxy miner:8080
+	}
+}

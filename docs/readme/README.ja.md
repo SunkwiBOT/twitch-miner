@@ -435,6 +435,16 @@ SSO の応答からそれを設定するディレクティブの前に、下記�
 `curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot`。これは `401` を
 返さなければならず、スナップショットを返してはいけません。
 
+5 つのよくある構成について、テスト済みでそのままコピーして使える Compose の例：
+
+| プロキシ | 例 | 何がわかるか |
+|---|---|---|
+| Traefik + Authelia | [`docs/reverse-proxy/traefik-authelia/`](docs/reverse-proxy/traefik-authelia/) | 完全なシングルサインオン構成：実際の Authelia、ファイルバックエンド、Traefik 経由の forward-auth。 |
+| Caddy | [`docs/reverse-proxy/caddy/`](docs/reverse-proxy/caddy/) | `forward_auth` + `copy_headers`、5 つの中で最も短い設定。 |
+| nginx | [`docs/reverse-proxy/nginx/`](docs/reverse-proxy/nginx/) | `auth_request` と、うっかり省略しがちな上書き行——それを省くとどうなるか。 |
+| Apache httpd | [`docs/reverse-proxy/apache/`](docs/reverse-proxy/apache/) | 組み込みの forward-auth がないため、代わりに Apache とマイナーの間に小さな SSO 対応プロキシを配置する。 |
+| HAProxy | [`docs/reverse-proxy/haproxy/`](docs/reverse-proxy/haproxy/) | Apache と同じパターンで、`http-request del-header` によりクライアント自身のコピーを除去する。 |
+
 ### <a name="systemd"></a>Docker を使わない場合（systemd）
 
 Docker を使わない Linux サーバーでは、リリースにはダッシュボードを内蔵した単一ファイルのサーバーも含まれています：`twitch-miner-server_<バージョン>_linux_x64` または `twitch-miner-server_<バージョン>_linux_arm64`。これは Docker イメージが実行しているのと同じプログラムで、静的リンクされていますが、HTTPS のために読み込むシステムの CA 証明書は別で、Docker イメージも同じ理由でそれらをコピーしています。使う変数も同じです。

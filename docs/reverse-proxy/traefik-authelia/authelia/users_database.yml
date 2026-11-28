@@ -1,0 +1,11 @@
+---
+# Generate your own hash: docker run --rm authelia/authelia:latest \
+#   authelia crypto hash generate argon2 --password 'your-password'
+users:
+  alice:
+    disabled: false
+    displayname: "Alice"
+    password: "$argon2id$v=19$m=65536,t=3,p=4$wLNqZ4U2Ml4U7R0WUs1dGQ$lpI9szTt6GzhoO/IwaWCj5RPKbkXXKQ3XLJl2D4oh30" # the password below hashes to "change-me-password-123"
+    email: alice@miner.example.com
+    groups:
+      - admins

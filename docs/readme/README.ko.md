@@ -433,6 +433,16 @@ volumes:
 `curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot`처럼요. `401`로
 응답해야지, 스냅샷을 주면 안 돼요.
 
+5가지 흔한 구성에 대해 테스트를 마친, 그대로 복사해 쓸 수 있는 Compose 예시예요:
+
+| 프록시 | 예시 | 보여주는 것 |
+|---|---|---|
+| Traefik + Authelia | [`docs/reverse-proxy/traefik-authelia/`](docs/reverse-proxy/traefik-authelia/) | 완전한 싱글 사인온 스택: 실제 Authelia, 파일 백엔드, Traefik을 통한 forward-auth. |
+| Caddy | [`docs/reverse-proxy/caddy/`](docs/reverse-proxy/caddy/) | `forward_auth` + `copy_headers`, 다섯 중 가장 짧은 설정. |
+| nginx | [`docs/reverse-proxy/nginx/`](docs/reverse-proxy/nginx/) | `auth_request`와, 실수로 빠뜨리기 쉬운 덮어쓰기 줄 — 그리고 그걸 빠뜨리면 무슨 일이 생기는지. |
+| Apache httpd | [`docs/reverse-proxy/apache/`](docs/reverse-proxy/apache/) | 내장 forward-auth가 없어서, 대신 Apache와 마이너 사이에 작은 SSO 인식 프록시를 둬요. |
+| HAProxy | [`docs/reverse-proxy/haproxy/`](docs/reverse-proxy/haproxy/) | Apache와 같은 패턴이고, `http-request del-header`로 클라이언트 자신의 사본을 지워요. |
+
 ### <a name="systemd"></a>Docker 없이(systemd)
 
 Docker 없는 Linux 서버에서는, 릴리스에 대시보드가 들어 있는 단일 파일 서버도 포함돼 있어요: `twitch-miner-server_<버전>_linux_x64` 또는 `twitch-miner-server_<버전>_linux_arm64`예요. Docker 이미지가 실행하는 것과 같은 프로그램이고 정적으로 링크되어 있지만, HTTPS를 위해 읽는 시스템의 CA 인증서는 예외예요. Docker 이미지도 같은 이유로 이를 복사해 둬요. 같은 변수를 사용해요.

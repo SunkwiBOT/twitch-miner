@@ -575,6 +575,16 @@ Apache и HAProxy ниже были каждый проверены на реа�
 `curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot`; он должен ответить
 `401`, а не снимок состояния.
 
+Протестированные, готовые к копированию примеры Compose для пяти распространённых вариантов настройки:
+
+| Прокси | Пример | Что показывает |
+|---|---|---|
+| Traefik + Authelia | [`docs/reverse-proxy/traefik-authelia/`](docs/reverse-proxy/traefik-authelia/) | Полный стек единого входа: настоящий Authelia, файловый бэкенд, forward-auth через Traefik. |
+| Caddy | [`docs/reverse-proxy/caddy/`](docs/reverse-proxy/caddy/) | `forward_auth` + `copy_headers`, самая короткая конфигурация из пяти. |
+| nginx | [`docs/reverse-proxy/nginx/`](docs/reverse-proxy/nginx/) | `auth_request` с перезаписывающей строкой, которую легко пропустить по ошибке — и что произойдёт, если это сделать. |
+| Apache httpd | [`docs/reverse-proxy/apache/`](docs/reverse-proxy/apache/) | Нет встроенного forward-auth, поэтому между Apache и miner-ом стоит небольшой прокси, знающий про SSO. |
+| HAProxy | [`docs/reverse-proxy/haproxy/`](docs/reverse-proxy/haproxy/) | Та же схема, что и у Apache, с `http-request del-header`, удаляющим копию, присланную самим клиентом. |
+
 ### <a name="systemd"></a>Без Docker (systemd)
 
 На Linux-сервере без Docker релиз также содержит сервер в виде одного файла, со

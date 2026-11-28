@@ -454,6 +454,16 @@ veya container'dan) elle ayarlanmış bir başlıkla `curl` yapın, örneğin
 `curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot`; `401` yanıtı
 vermelidir, asla anlık görüntüyü değil.
 
+Beş yaygın kurulum için test edilmiş, kopyala-yapıştır hazır Compose örnekleri:
+
+| Proxy | Örnek | Neyi gösteriyor |
+|---|---|---|
+| Traefik + Authelia | [`docs/reverse-proxy/traefik-authelia/`](docs/reverse-proxy/traefik-authelia/) | Tam bir tek oturum açma yığını: gerçek Authelia, dosya tabanlı backend, Traefik üzerinden forward-auth. |
+| Caddy | [`docs/reverse-proxy/caddy/`](docs/reverse-proxy/caddy/) | `forward_auth` + `copy_headers`, beşi arasındaki en kısa yapılandırma. |
+| nginx | [`docs/reverse-proxy/nginx/`](docs/reverse-proxy/nginx/) | Yanlışlıkla atlanması kolay olan üzerine yazma satırıyla `auth_request` — ve atlanırsa ne olduğu. |
+| Apache httpd | [`docs/reverse-proxy/apache/`](docs/reverse-proxy/apache/) | Yerleşik forward-auth olmadığından, Apache ile miner arasında SSO'dan haberdar küçük bir proxy bulunuyor. |
+| HAProxy | [`docs/reverse-proxy/haproxy/`](docs/reverse-proxy/haproxy/) | İstemcinin kendi gönderdiği kopyayı kaldıran `http-request del-header` ile Apache'yle aynı desen. |
+
 ### <a name="systemd"></a>Docker olmadan (systemd)
 
 Docker'sız bir Linux sunucusunda, yayınlanan sürüm sunucuyu tek bir dosya olarak da

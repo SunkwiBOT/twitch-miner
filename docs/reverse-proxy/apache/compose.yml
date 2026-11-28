@@ -1,0 +1,66 @@
+# Apache httpd in front of the miner, signing in through the
+# MINER_AUTH_HEADER trusted-proxy header. Tested with Podman Compose and
+# Docker Compose; see README.md for what to change and how to verify it.
+#
+# "auth-gateway" is a placeholder — stock Apache ships no forward-auth
+# subrequest module (mod_auth_request is third-party, not in the base
+# image), so the common real-world pattern is a small SSO-aware proxy
+# between Apache and the app instead (oauth2-proxy, Authentik's outpost,
+# Authelia's proxy mode...). Replace it with your real one; it only needs
+# to set Remote-User for a signed-in visitor and refuse (401) otherwise —
+# except for the dashboard's own password login/logout call, which it must
+# still let through unauthenticated (for MINER_PASSWORD scripts) while
+# stripping any Remote-User a client sent itself.
+#
+# auth-gateway, not Apache, is the one that connects to the miner directly
+# here — so its address on miner-net (not Apache's) is what
+# MINER_PROXY_NETWORKS trusts below.
+
+networks:
+  edge: {}
+  miner-net:
+    ipam:
+      config:
+        - subnet: 10.90.104.0/29
+
+services:
+  apache:
+    image: docker.io/library/httpd:2.4-alpine
+    restart: unless-stopped
+    ports:
+      - "443:443" # the only port this stack publishes
+    volumes:
+      - ./httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
+      - ./certs:/etc/apache2/certs:ro
+    networks:
+      edge: {}
+
+  auth-gateway: # REPLACE with your real SSO-aware proxy
+    build: ./auth-gateway
+    restart: unless-stopped
+    environment:
+      MINER_HOST: miner
+      MINER_PORT: "8080"
+    networks:
+      edge: {}
+      miner-net:
+        ipv4_address: 10.90.104.2 # must match MINER_PROXY_NETWORKS below
+
+  miner:
+    image: ghcr.io/sunkwibot/twitch-miner:latest
+    restart: unless-stopped
+    environment:
+      MINER_PASSWORD: "change-me-12-characters-minimum"
+      MINER_PUBLIC_URL: "https://miner.example.com"
+      MINER_PROXY_NETWORKS: "10.90.104.2"
+      MINER_AUTH_HEADER: "Remote-User"
+      MINER_AUTH_USERS: "alice"
+    volumes:
+      - miner-data:/data
+    networks:
+      miner-net:
+        ipv4_address: 10.90.104.3
+    # no "ports" here: only auth-gateway (10.90.104.2) can reach this service
+
+volumes:
+  miner-data:

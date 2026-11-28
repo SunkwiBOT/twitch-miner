@@ -1,0 +1,52 @@
+http:
+  routers:
+    # Everything except the password login/logout call: gated by Authelia.
+    # A browser visiting the dashboard always needs Authelia's session.
+    miner:
+      rule: "Host(`miner.example.com`)"
+      entryPoints: ["websecure"]
+      service: miner
+      middlewares: ["authelia"]
+      tls: {}
+
+    # MINER_PASSWORD still works for scripts that sign in directly with
+    # POST /api/auth, without an Authelia session — never through a browser.
+    # Scoped to exactly this call, not the whole /api tree: a wider
+    # PathPrefix(`/api`) here would also catch GET /api/auth, /api/snapshot,
+    # /api/events, ... and the dashboard could never sign in via the header
+    # at all (every one of those calls would skip Authelia and have
+    # Remote-User blanked). Keep this narrow.
+    miner-login:
+      rule: "Host(`miner.example.com`) && Path(`/api/auth`) && (Method(`POST`) || Method(`DELETE`))"
+      entryPoints: ["websecure"]
+      service: miner
+      middlewares: ["blank-remote-user"]
+      priority: 100
+      tls: {}
+
+  middlewares:
+    authelia:
+      forwardAuth:
+        address: "http://authelia:9091/api/authz/forward-auth"
+        trustForwardHeader: true
+        authResponseHeaders: ["Remote-User", "Remote-Groups", "Remote-Name", "Remote-Email"]
+    # None of these products strip a header a client sent itself: every
+    # route to the miner needs its own rule that overwrites it. Traefik's
+    # forwardAuth only deletes the headers listed in authResponseHeaders,
+    # and forwards any other client header unchanged — this router has no
+    # forwardAuth at all, so it must blank Remote-User itself instead.
+    blank-remote-user:
+      headers:
+        customRequestHeaders:
+          Remote-User: ""
+
+  services:
+    miner:
+      loadBalancer:
+        servers:
+          - url: "http://miner:8080"
+
+tls:
+  certificates:
+    - certFile: /etc/traefik/certs/miner.example.com.crt
+      keyFile: /etc/traefik/certs/miner.example.com.key

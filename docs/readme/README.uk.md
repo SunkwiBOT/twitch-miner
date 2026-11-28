@@ -444,20 +444,32 @@ docker compose up -d
 
 #### Вхід через довірений проксі (forward auth / SSO)
 
+_Доступно з версії v1.16.0._
+
 Коли перед кількома самостійно розміщеними застосунками (Authelia, Authentik,
 oauth2-proxy…) стоїть один вхід, `MINER_AUTH_HEADER` пропускає власний пароль панелі:
 достатньо входу на проксі. Задайте також `MINER_AUTH_USERS` із дозволеними значеннями,
 інакше будь-який користувач SSO увійде як адміністратор. `MINER_PASSWORD` і далі
-працює: як резерв, коли служба входу недоступна, і для скриптів, які викликають API
-через `POST /api/auth`.
+працює для скриптів, які входять напряму через `POST /api/auth`, а не через браузер:
+роутер нижче спрямовує кожен інший запит через `forwardAuth`, тож браузеру, що
+відкриває панель, завжди спершу потрібен робочий SSO. Другий роутер збігається лише
+з `POST` і `DELETE` на `/api/auth` — вхід і вихід за паролем — і сам очищає заголовок
+замість того, щоб пропускати `forwardAuth`: розширте його правило на більше, ніж цей
+єдиний шлях, і підроблений клієнтом заголовок запрацює і там.
 
-Жоден із цих продуктів не видаляє заголовок, надісланий самим клієнтом: кожен маршрут
-від проксі до miner потребує власного правила, що перезаписує його (`forwardAuth` у
-Traefik видаляє лише заголовки, перелічені в `authResponseHeaders`, і передає
-будь-який інший заголовок клієнта без змін). Запустіть проксі й miner наодинці у
-власній мережі, зі статичною адресою для проксі, і ніколи не публікуйте порт miner:
-будь-що інше, що дотягнеться до нього — інший контейнер, процес на хості, — могло б
-самостійно встановити цей заголовок.
+Проксі має зберігати оригінальний заголовок `Host` запиту незмінним на шляху до
+miner, інакше він ніколи не збігається з `MINER_PUBLIC_URL`, і заголовок мовчки
+ігнорується, із попередженням у логах за першого разу: nginx потребує
+`proxy_set_header Host $host;`, Apache — `ProxyPreserveHost On`. Traefik і Caddy
+зберігають його незмінним за замовчуванням, для них додавати нічого не потрібно.
+
+Жоден із цих продуктів не видаляє заголовок, надісланий самим клієнтом: кожен
+маршрут від проксі до miner потребує власного правила, що перезаписує його
+(`forwardAuth` у Traefik видаляє лише заголовки, перелічені в `authResponseHeaders`,
+і передає будь-який інший заголовок клієнта без змін). Запустіть проксі й miner
+наодинці у власній мережі, зі статичною адресою для проксі, і ніколи не публікуйте
+порт miner: будь-що інше, що дотягнеться до нього — інший контейнер, процес на
+хості, — могло б самостійно встановити цей заголовок.
 
 Authelia за Traefik, обидва самі в мережі `miner-net`, що передає користувача, який
 увійшов, у `Remote-User`:
@@ -486,11 +498,15 @@ services:
       traefik.http.middlewares.authelia.forwardAuth.address: "http://authelia:9091/api/authz/forward-auth"
       traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader: "true"
       traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders: "Remote-User"
+      # для роутера скриптів нижче: очищає Remote-User замість пропуску
+      # авторизації, тож підроблений клієнтом заголовок все одно не працює і на цьому маршруті
+      traefik.http.middlewares.blank-remote-user.headers.customrequestheaders.Remote-User: ""
 
   miner:
     image: ghcr.io/sunkwibot/twitch-miner:latest
     networks:
-      miner-net: {}
+      miner-net:
+        ipv4_address: 10.10.0.3   # теж статична: адреса, обрана навмання, могла б зіткнутися
     # без "ports": ця мережа дістається лише до Traefik, з 10.10.0.2
     environment:
       MINER_PASSWORD: "change-me"
@@ -498,10 +514,79 @@ services:
       MINER_PROXY_NETWORKS: "10.10.0.2"
       MINER_AUTH_HEADER: "Remote-User"
       MINER_AUTH_USERS: "alice,bob"
+    volumes:
+      - miner-data:/data
     labels:
       traefik.http.routers.miner.rule: "Host(`miner.example.com`)"
       traefik.http.routers.miner.middlewares: "authelia@docker" # повторіть для кожного роутера до miner
+      # лише вхід/вихід за паролем, для скриптів із MINER_PASSWORD: обходить
+      # Authelia, але ніколи не очищення заголовка; ширше правило обійшло б і його
+      traefik.http.routers.miner-api.rule: "Host(`miner.example.com`) && Path(`/api/auth`) && (Method(`POST`) || Method(`DELETE`))"
+      traefik.http.routers.miner-api.middlewares: "blank-remote-user@docker"
+
+volumes:
+  miner-data:
 ```
+
+#### Посилення захисту іншого проксі
+
+Жоден із них не видаляє власну копію заголовка клієнта сам собою: додайте рядок
+видалення нижче перед директивою, що встановлює його з відповіді SSO, на кожному
+маршруті до miner, включно з маршрутом для скриптів. Traefik, Caddy, nginx, Apache
+і HAProxy нижче перевірено на реальному екземплярі з TLS-термінацією з підробленим
+заголовком, подвоєним заголовком і варіантом регістру/підкреслення; Cloudflare
+Tunnel і Tailscale Serve наведено за їхньою власною документацією та вихідним
+кодом, тут окремо не перевірялися.
+
+- **nginx**: `auth_request` лише перевіряє, сам він ніколи не чіпає заголовки —
+  конфігурація, що викликає його, але ніколи не встановлює `Remote-User`, передає
+  власний рядок клієнта без змін (доведено: підроблений `Remote-User: admin` дійшов
+  до miner буквально без наступних двох рядків). Завжди додавайте
+  `auth_request_set $auth_user $upstream_http_remote_user;`, а потім
+  `proxy_set_header Remote-User $auth_user;`, що перезаписує його — це ніколи не
+  опціонально. Також `proxy_set_header Host $host;`, або `$http_host`, якщо
+  `MINER_PUBLIC_URL` називає нестандартний порт (`$host` відкидає порт, і тоді
+  заголовку мовчки ніколи не довіряють). nginx також відкидає будь-який заголовок,
+  назва якого містить підкреслення, якщо не встановлено `underscores_in_headers on;`,
+  тому `MINER_AUTH_HEADER` відмовляє такий.
+- **Caddy**: `forward_auth` із `copy_headers Remote-User` вже сам собою перезаписує
+  власну копію клієнта, доведено, нічого іншого не потрібно. `request_header
+  -Remote-User` прямо перед ним — нешкідливий додатковий захист, а не вимога, на
+  відміну від Traefik, де другому роутеру, що повністю пропускає `forwardAuth`,
+  явне очищення справді потрібне.
+- **Apache**: безумовно `RequestHeader unset Remote-User`, потім
+  `RequestHeader set Remote-User "…" env=AUTH_OK` від того, що перевіряє сесію, і
+  `ProxyPreserveHost On` для тієї ж вимоги щодо `Host`, що й вище.
+- **HAProxy**: безумовно `http-request del-header Remote-User`, потім
+  `http-request set-header Remote-User alice if <valid-session-acl>`. HAProxy також
+  ніколи сам не чіпає `X-Forwarded-For`: додайте
+  `http-request set-header X-Forwarded-For %[src]`, інакше підроблене значення
+  дійде до miner без змін.
+- **Cloudflare Tunnel**: залиште `httpHostHeader` невстановленим (за замовчуванням
+  він уже передає публічний `Host`, який запитав клієнт); це тунель, а не проксі,
+  що видаляє заголовки, тож поєднуйте його з одним із проксі вище для
+  `MINER_AUTH_HEADER`, а не покладайтеся на нього самого.
+- **Tailscale Serve**: `Tailscale-User-Login`. `tailscaled` вже сам видаляє будь-яку
+  копію, надіслану клієнтом, перш ніж додати власну, тож видаляти самостійно нічого
+  не потрібно; важливо, щоб до miner міг дістатися лише `tailscale serve`, а не
+  пряме з'єднання — прив'яжіть його до `127.0.0.1` і нехай лише Serve проксує до нього.
+
+Яким би проксі ви не користувалися, перевірте його один раз, перш ніж довіряти
+йому: вийшовши з SSO, зверніться через `curl` безпосередньо до адреси самого miner
+(в обхід проксі, з машини чи контейнера, де він працює) із заголовком, встановленим
+вручну, наприклад
+`curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot`; відповідь має
+бути `401`, ніколи сам знімок.
+
+Перевірені, готові до копіювання приклади Compose для п'яти поширених налаштувань:
+
+| Проксі | Приклад | Що показано |
+|---|---|---|
+| Traefik + Authelia | [`docs/reverse-proxy/traefik-authelia/`](docs/reverse-proxy/traefik-authelia/) | Повний стек єдиного входу: справжня Authelia, файловий бекенд, forward-auth через Traefik. |
+| Caddy | [`docs/reverse-proxy/caddy/`](docs/reverse-proxy/caddy/) | `forward_auth` + `copy_headers`, найкоротша конфігурація з п'яти. |
+| nginx | [`docs/reverse-proxy/nginx/`](docs/reverse-proxy/nginx/) | `auth_request` з рядком перезапису, який легко пропустити помилково — і що станеться, якщо це зробити. |
+| Apache httpd | [`docs/reverse-proxy/apache/`](docs/reverse-proxy/apache/) | Немає вбудованого forward-auth, тож між Apache і miner натомість стоїть невеликий проксі, що розуміє SSO. |
+| HAProxy | [`docs/reverse-proxy/haproxy/`](docs/reverse-proxy/haproxy/) | Той самий підхід, що й в Apache, де `http-request del-header` видаляє власну копію клієнта. |
 
 ### <a name="systemd"></a>Без Docker (systemd)
 

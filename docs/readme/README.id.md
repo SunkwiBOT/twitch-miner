@@ -335,12 +335,26 @@ Di belakang reverse proxy, atur `MINER_PUBLIC_URL`: tanpanya, permintaan pertama
 
 #### Masuk dari proxy tepercaya (forward auth / SSO)
 
+_Tersedia sejak v1.16.0._
+
 Dengan satu kali masuk di depan beberapa aplikasi self-hosted (Authelia, Authentik,
 oauth2-proxy…), `MINER_AUTH_HEADER` melewati kata sandi dashboard sendiri: masuk lewat
 proxy sudah cukup. Atur juga `MINER_AUTH_USERS` dengan nilai yang diizinkan, atau
-pengguna SSO mana pun akan masuk sebagai admin. `MINER_PASSWORD` tetap berfungsi: sebagai
-cadangan saat layanan masuk sedang mati, dan untuk skrip yang memanggil API dengan
-`POST /api/auth`.
+pengguna SSO mana pun akan masuk sebagai admin. `MINER_PASSWORD` tetap berfungsi untuk
+skrip yang masuk langsung dengan `POST /api/auth`, tidak pernah lewat peramban: router
+di bawah mengirim setiap permintaan lain lewat `forwardAuth`, sehingga peramban yang
+membuka dashboard selalu memerlukan SSO yang aktif lebih dulu. Router kedua hanya
+mencocokkan `POST` dan `DELETE` pada `/api/auth` — masuk dan keluar dengan kata sandi —
+dan mengosongkan header itu sendiri alih-alih melepas `forwardAuth`: jika aturannya
+diperlebar hingga mencakup lebih dari satu jalur itu, header yang dipalsukan klien juga
+bisa berfungsi di sana.
+
+Proxy harus menjaga `Host` asli permintaan tetap tidak berubah saat diteruskan ke miner,
+atau `MINER_PUBLIC_URL` tidak akan pernah cocok dan header itu diabaikan secara
+diam-diam, dengan peringatan di log pada kali pertama hal itu terjadi: nginx memerlukan
+`proxy_set_header Host $host;`, Apache memerlukan `ProxyPreserveHost On`. Traefik dan
+Caddy menjaganya tetap tidak berubah secara default, tidak ada yang perlu ditambahkan
+untuk keduanya.
 
 Tak satu pun dari produk ini menghapus header yang dikirim sendiri oleh klien: setiap
 rute dari proxy ke miner memerlukan aturannya sendiri yang menimpanya (`forwardAuth`
@@ -377,11 +391,15 @@ services:
       traefik.http.middlewares.authelia.forwardAuth.address: "http://authelia:9091/api/authz/forward-auth"
       traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader: "true"
       traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders: "Remote-User"
+      # untuk router skrip di bawah: mengosongkan Remote-User alih-alih melewati
+      # auth, sehingga header yang dipalsukan klien tetap tidak berfungsi di rute itu juga
+      traefik.http.middlewares.blank-remote-user.headers.customrequestheaders.Remote-User: ""
 
   miner:
     image: ghcr.io/sunkwibot/twitch-miner:latest
     networks:
-      miner-net: {}
+      miner-net:
+        ipv4_address: 10.10.0.3   # statis juga: alamat yang dipilih acak bisa bentrok
     # tanpa "ports": jaringan ini hanya menjangkau Traefik, dari 10.10.0.2
     environment:
       MINER_PASSWORD: "change-me"
@@ -389,10 +407,79 @@ services:
       MINER_PROXY_NETWORKS: "10.10.0.2"
       MINER_AUTH_HEADER: "Remote-User"
       MINER_AUTH_USERS: "alice,bob"
+    volumes:
+      - miner-data:/data
     labels:
       traefik.http.routers.miner.rule: "Host(`miner.example.com`)"
       traefik.http.routers.miner.middlewares: "authelia@docker" # ulangi pada setiap router ke miner
+      # hanya masuk/keluar dengan kata sandi, untuk skrip dengan MINER_PASSWORD: melewati
+      # Authelia, tidak pernah melewati pengosongan header; aturan yang lebih luas juga akan begitu
+      traefik.http.routers.miner-api.rule: "Host(`miner.example.com`) && Path(`/api/auth`) && (Method(`POST`) || Method(`DELETE`))"
+      traefik.http.routers.miner-api.middlewares: "blank-remote-user@docker"
+
+volumes:
+  miner-data:
 ```
+
+#### Mengamankan proxy lain
+
+Tak satu pun dari ini yang menghapus salinan header milik klien sendiri secara
+otomatis: tambahkan baris penghapusan di bawah ini sebelum direktif yang mengaturnya
+dari jawaban SSO, pada setiap rute ke miner, termasuk rute skrip. Traefik, Caddy, nginx,
+Apache, dan HAProxy di bawah masing-masing telah diperiksa terhadap instance nyata yang
+mengakhiri TLS dengan header yang dipalsukan, header ganda, dan varian huruf
+besar/garis bawah; Cloudflare Tunnel dan Tailscale Serve berasal dari dokumentasi dan
+kode sumber mereka sendiri, tidak diuji secara independen di sini.
+
+- **nginx**: `auth_request` hanya memvalidasi, ia tidak pernah menyentuh header dengan
+  sendirinya — konfigurasi yang memanggilnya tetapi tidak pernah mengatur `Remote-User`
+  meneruskan baris milik klien sendiri tanpa perubahan (terbukti: `Remote-User: admin`
+  yang dipalsukan sampai ke miner apa adanya tanpa dua baris berikut). Selalu tambahkan
+  `auth_request_set $auth_user $upstream_http_remote_user;` lalu
+  `proxy_set_header Remote-User $auth_user;`, yang menimpanya — tidak pernah opsional.
+  Juga `proxy_set_header Host $host;`, atau `$http_host` jika `MINER_PUBLIC_URL` menyebut
+  port non-default (`$host` membuang port, dan header kemudian tidak pernah dipercaya
+  secara diam-diam). nginx juga membuang header mana pun yang namanya memiliki garis
+  bawah kecuali `underscores_in_headers on;` diatur, itulah sebabnya `MINER_AUTH_HEADER`
+  menolak nama seperti itu.
+- **Caddy**: `forward_auth` dengan `copy_headers Remote-User` sudah menimpa salinan
+  milik klien sendiri dengan sendirinya, terbukti, tidak ada lagi yang diperlukan.
+  `request_header -Remote-User` tepat sebelumnya hanyalah lapisan pertahanan tambahan
+  yang tidak berbahaya, bukan keharusan, berbeda dengan Traefik, di mana router kedua
+  yang sepenuhnya melewati `forwardAuth` memang memerlukan pengosongan eksplisit.
+- **Apache**: `RequestHeader unset Remote-User` tanpa syarat, lalu
+  `RequestHeader set Remote-User "…" env=AUTH_OK` dari apa pun yang memvalidasi sesi,
+  dan `ProxyPreserveHost On` untuk persyaratan `Host` yang sama seperti di atas.
+- **HAProxy**: `http-request del-header Remote-User` tanpa syarat, lalu
+  `http-request set-header Remote-User alice if <valid-session-acl>`. HAProxy juga
+  tidak pernah menyentuh `X-Forwarded-For` dengan sendirinya: tambahkan
+  `http-request set-header X-Forwarded-For %[src]`, atau nilai yang dipalsukan akan
+  sampai ke miner tanpa perubahan.
+- **Cloudflare Tunnel**: biarkan `httpHostHeader` tidak diatur (defaultnya sudah
+  meneruskan `Host` publik yang diminta klien); ia adalah terowongan, bukan proxy
+  penghapus header, jadi pasangkan dengan salah satu proxy di atas untuk
+  `MINER_AUTH_HEADER` alih-alih mempercayainya sendirian.
+- **Tailscale Serve**: `Tailscale-User-Login`. `tailscaled` sudah menghapus salinan apa
+  pun yang dikirim klien sebelum menambahkan miliknya sendiri, jadi tidak ada yang perlu
+  Anda hapus sendiri; yang penting adalah hanya `tailscale serve`, tidak pernah koneksi
+  langsung, yang bisa menjangkau miner — ikat ke `127.0.0.1` dan biarkan hanya Serve yang
+  mem-proxy ke sana.
+
+Proxy apa pun yang Anda pakai, uji sekali sebelum mempercayainya: dengan SSO dalam
+keadaan keluar, `curl` langsung ke alamat miner itu sendiri (melewati proxy, dari mesin
+atau kontainer tempatnya berjalan) dengan header yang diatur sendiri, seperti
+`curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot`; jawabannya harus
+`401`, tidak pernah snapshot itu.
+
+Contoh Compose yang teruji dan siap salin-tempel untuk lima pengaturan umum:
+
+| Proxy | Contoh | Apa yang ditunjukkan |
+|---|---|---|
+| Traefik + Authelia | [`docs/reverse-proxy/traefik-authelia/`](docs/reverse-proxy/traefik-authelia/) | Tumpukan single sign-on penuh: Authelia asli, backend file, forward-auth lewat Traefik. |
+| Caddy | [`docs/reverse-proxy/caddy/`](docs/reverse-proxy/caddy/) | `forward_auth` + `copy_headers`, konfigurasi terpendek dari kelimanya. |
+| nginx | [`docs/reverse-proxy/nginx/`](docs/reverse-proxy/nginx/) | `auth_request`, dengan baris penimpaan yang mudah terlewat secara tidak sengaja — dan apa yang terjadi jika itu terjadi. |
+| Apache httpd | [`docs/reverse-proxy/apache/`](docs/reverse-proxy/apache/) | Tidak punya forward-auth bawaan, jadi proxy kecil yang sadar SSO ditempatkan di antara Apache dan miner. |
+| HAProxy | [`docs/reverse-proxy/haproxy/`](docs/reverse-proxy/haproxy/) | Pola yang sama seperti Apache, dengan `http-request del-header` menghapus salinan milik klien sendiri. |
 
 ### <a name="systemd"></a>Tanpa Docker (systemd)
 

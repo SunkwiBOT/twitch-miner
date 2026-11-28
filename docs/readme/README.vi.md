@@ -436,6 +436,17 @@ container nó đang chạy) với header đặt bằng tay, như
 `curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot`; nó phải trả về
 `401`, không bao giờ là snapshot.
 
+Các ví dụ Compose đã được kiểm thử, sẵn sàng để sao chép và dùng ngay, cho năm cách
+thiết lập phổ biến:
+
+| Proxy | Ví dụ | Cho thấy điều gì |
+|---|---|---|
+| Traefik + Authelia | [`docs/reverse-proxy/traefik-authelia/`](docs/reverse-proxy/traefik-authelia/) | Một stack đăng nhập một lần đầy đủ: Authelia thật, backend tệp, forward-auth qua Traefik. |
+| Caddy | [`docs/reverse-proxy/caddy/`](docs/reverse-proxy/caddy/) | `forward_auth` + `copy_headers`, cấu hình ngắn nhất trong năm cái. |
+| nginx | [`docs/reverse-proxy/nginx/`](docs/reverse-proxy/nginx/) | `auth_request`, cùng dòng ghi đè dễ bị bỏ sót — và điều gì xảy ra nếu bạn bỏ sót nó. |
+| Apache httpd | [`docs/reverse-proxy/apache/`](docs/reverse-proxy/apache/) | Không có forward-auth tích hợp sẵn, nên một proxy nhỏ hiểu SSO được đặt xen giữa Apache và miner. |
+| HAProxy | [`docs/reverse-proxy/haproxy/`](docs/reverse-proxy/haproxy/) | Cùng kiểu như Apache, với `http-request del-header` loại bỏ bản sao của riêng client. |
+
 ### <a name="systemd"></a>Không cần Docker (systemd)
 
 Trên một máy chủ Linux không dùng Docker, bản phát hành cũng có sẵn máy chủ dưới dạng

@@ -567,6 +567,16 @@ lub kontenera, na którym działa) z nagłówkiem ustawionym ręcznie, np.
 `curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot`; musi odpowiedzieć
 `401`, nigdy migawką.
 
+Przetestowane, gotowe do skopiowania przykłady Compose dla pięciu typowych konfiguracji:
+
+| Proxy | Przykład | Co pokazuje |
+|---|---|---|
+| Traefik + Authelia | [`docs/reverse-proxy/traefik-authelia/`](docs/reverse-proxy/traefik-authelia/) | Pełny stos single sign-on: prawdziwa Authelia, backend plikowy, forward-auth przez Traefik. |
+| Caddy | [`docs/reverse-proxy/caddy/`](docs/reverse-proxy/caddy/) | `forward_auth` + `copy_headers`, najkrótsza konfiguracja z pięciu. |
+| nginx | [`docs/reverse-proxy/nginx/`](docs/reverse-proxy/nginx/) | `auth_request`, z linią nadpisującą, którą łatwo przypadkiem pominąć — i co się dzieje, gdy tak się stanie. |
+| Apache httpd | [`docs/reverse-proxy/apache/`](docs/reverse-proxy/apache/) | Brak wbudowanego forward-auth, więc między Apache a minerem stoi zamiast tego mały proxy świadomy SSO. |
+| HAProxy | [`docs/reverse-proxy/haproxy/`](docs/reverse-proxy/haproxy/) | Ten sam wzorzec co w Apache, z `http-request del-header` usuwającym własną kopię klienta. |
+
 ### <a name="systemd"></a>Bez Dockera (systemd)
 
 Na serwerze z Linuksem bez Dockera wydanie zawiera też serwer jako pojedynczy plik, z

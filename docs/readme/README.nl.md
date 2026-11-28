@@ -579,6 +579,16 @@ heen, vanaf de machine of container waarop hij draait) met de header met de hand
 ingesteld, zoals `curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot`;
 dat moet `401` beantwoorden, nooit de snapshot.
 
+Geteste, kopieer-en-plak-klare Compose-voorbeelden voor vijf veelvoorkomende opzetten:
+
+| Proxy | Voorbeeld | Wat het laat zien |
+|---|---|---|
+| Traefik + Authelia | [`docs/reverse-proxy/traefik-authelia/`](docs/reverse-proxy/traefik-authelia/) | Een volledige single sign-on-stack: echte Authelia, bestandsbackend, forward-auth via Traefik. |
+| Caddy | [`docs/reverse-proxy/caddy/`](docs/reverse-proxy/caddy/) | `forward_auth` + `copy_headers`, de kortste configuratie van de vijf. |
+| nginx | [`docs/reverse-proxy/nginx/`](docs/reverse-proxy/nginx/) | `auth_request`, met de overschrijfregel die makkelijk per ongeluk wordt overgeslagen — en wat er gebeurt als dat zo is. |
+| Apache httpd | [`docs/reverse-proxy/apache/`](docs/reverse-proxy/apache/) | Geen ingebouwde forward-auth, dus een kleine SSO-bewuste proxy staat in plaats daarvan tussen Apache en de miner. |
+| HAProxy | [`docs/reverse-proxy/haproxy/`](docs/reverse-proxy/haproxy/) | Hetzelfde patroon als Apache, met `http-request del-header` die de eigen kopie van de client verwijdert. |
+
 ### <a name="systemd"></a>Zonder Docker (systemd)
 
 Op een Linux-server zonder Docker bevat de release de server ook als één enkel bestand,

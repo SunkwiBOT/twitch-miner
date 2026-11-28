@@ -574,6 +574,16 @@ mașina sau containerul pe care rulează) cu antetul setat manual, precum
 `curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot`; trebuie să
 răspundă cu `401`, niciodată cu instantaneul.
 
+Exemple Compose testate, gata de copiat și lipit, pentru cinci configurații comune:
+
+| Proxy | Exemplu | Ce arată |
+|---|---|---|
+| Traefik + Authelia | [`docs/reverse-proxy/traefik-authelia/`](docs/reverse-proxy/traefik-authelia/) | O stivă completă de single sign-on: Authelia reală, backend pe fișier, forward-auth prin Traefik. |
+| Caddy | [`docs/reverse-proxy/caddy/`](docs/reverse-proxy/caddy/) | `forward_auth` + `copy_headers`, cea mai scurtă configurație dintre cele cinci. |
+| nginx | [`docs/reverse-proxy/nginx/`](docs/reverse-proxy/nginx/) | `auth_request`, cu linia de suprascriere ușor de omis din greșeală — și ce se întâmplă dacă se omite. |
+| Apache httpd | [`docs/reverse-proxy/apache/`](docs/reverse-proxy/apache/) | Fără forward-auth integrat, așa că un mic proxy conștient de SSO stă între Apache și miner. |
+| HAProxy | [`docs/reverse-proxy/haproxy/`](docs/reverse-proxy/haproxy/) | Același model ca Apache, cu `http-request del-header` eliminând copia trimisă chiar de client. |
+
 ### <a name="systemd"></a>Fără Docker (systemd)
 
 Pe un server Linux fără Docker, versiunea publicată conține și serverul ca un singur

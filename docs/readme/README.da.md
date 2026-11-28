@@ -574,6 +574,16 @@ maskinen eller containeren, den kører på) med headeren sat i hånden, som
 `curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot`; den skal svare
 `401`, aldrig snapshottet.
 
+Testede, kopiér-og-indsæt-klare Compose-eksempler til fem almindelige opsætninger:
+
+| Proxy | Eksempel | Hvad det viser |
+|---|---|---|
+| Traefik + Authelia | [`docs/reverse-proxy/traefik-authelia/`](docs/reverse-proxy/traefik-authelia/) | En komplet single sign-on-stak: ægte Authelia, filbackend, forward-auth via Traefik. |
+| Caddy | [`docs/reverse-proxy/caddy/`](docs/reverse-proxy/caddy/) | `forward_auth` + `copy_headers`, den korteste konfiguration af de fem. |
+| nginx | [`docs/reverse-proxy/nginx/`](docs/reverse-proxy/nginx/) | `auth_request`, med overskrivningslinjen, som nemt springes over ved en fejl — og hvad der sker, hvis du gør det. |
+| Apache httpd | [`docs/reverse-proxy/apache/`](docs/reverse-proxy/apache/) | Ingen indbygget forward-auth, så et lille SSO-bevidst proxy sidder mellem Apache og mineren i stedet. |
+| HAProxy | [`docs/reverse-proxy/haproxy/`](docs/reverse-proxy/haproxy/) | Samme mønster som Apache, med `http-request del-header`, der fjerner klientens egen kopi. |
+
 ### <a name="systemd"></a>Uden Docker (systemd)
 
 På en Linux-server uden Docker har udgivelsen også serveren som en enkelt fil, med

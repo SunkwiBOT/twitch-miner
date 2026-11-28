@@ -583,6 +583,16 @@ koneelta tai kontista, jossa se toimii) käsin asetetulla otsikolla, kuten
 `curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot`; sen on vastattava
 `401`, ei koskaan tilannekuvalla.
 
+Testattuja, suoraan kopioitavia Compose-esimerkkejä viiteen yleiseen asetukseen:
+
+| Proxy | Esimerkki | Mitä se näyttää |
+|---|---|---|
+| Traefik + Authelia | [`docs/reverse-proxy/traefik-authelia/`](docs/reverse-proxy/traefik-authelia/) | Täysi kertakirjautumispino: oikea Authelia, tiedostotaustajärjestelmä, forward-auth Traefikin kautta. |
+| Caddy | [`docs/reverse-proxy/caddy/`](docs/reverse-proxy/caddy/) | `forward_auth` + `copy_headers`, lyhyin viidestä konfiguraatiosta. |
+| nginx | [`docs/reverse-proxy/nginx/`](docs/reverse-proxy/nginx/) | `auth_request`, ylikirjoitusrivillä, joka on helppo unohtaa vahingossa — ja mitä tapahtuu jos näin käy. |
+| Apache httpd | [`docs/reverse-proxy/apache/`](docs/reverse-proxy/apache/) | Ei sisäänrakennettua forward-authia, joten pieni SSO-tietoinen proxy istuu Apachen ja minerin välissä sen sijaan. |
+| HAProxy | [`docs/reverse-proxy/haproxy/`](docs/reverse-proxy/haproxy/) | Sama malli kuin Apachessa, `http-request del-header` poistamassa asiakkaan oman kopion. |
+
 ### <a name="systemd"></a>Ilman Dockeria (systemd)
 
 Linux-palvelimella ilman Dockeria julkaisu sisältää palvelimen myös yhtenä tiedostona,

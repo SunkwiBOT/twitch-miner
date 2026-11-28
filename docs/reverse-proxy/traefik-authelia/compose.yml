@@ -1,0 +1,61 @@
+# Traefik + Authelia in front of the miner, signing in through the
+# MINER_AUTH_HEADER trusted-proxy header. Tested with Podman Compose and
+# Docker Compose; see README.md for what to change and how to verify it.
+#
+# Two networks, on purpose: "edge" is where Traefik talks to Authelia;
+# "miner-net" is where Traefik talks to the miner, and nothing else does —
+# the miner's port is never published, so the only way in is through
+# Traefik. The miner only trusts the header from 10.90.101.2 (Traefik's
+# fixed address on miner-net): that's what MINER_PROXY_NETWORKS pins below.
+
+networks:
+  edge: {}
+  miner-net:
+    ipam:
+      config:
+        - subnet: 10.90.101.0/29
+
+services:
+  traefik:
+    image: docker.io/library/traefik:v3.2
+    restart: unless-stopped
+    ports:
+      - "443:443" # the only port this stack publishes
+    volumes:
+      - ./traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./traefik/dynamic.yml:/etc/traefik/dynamic.yml:ro
+      - ./certs:/etc/traefik/certs:ro
+    networks:
+      edge: {}
+      miner-net:
+        ipv4_address: 10.90.101.2 # must match MINER_PROXY_NETWORKS below
+
+  authelia:
+    image: docker.io/authelia/authelia:latest
+    restart: unless-stopped
+    volumes:
+      - ./authelia/configuration.yml:/config/configuration.yml
+      - ./authelia/users_database.yml:/config/users_database.yml
+      - authelia-data:/config/data
+    networks:
+      edge: {}
+
+  miner:
+    image: ghcr.io/sunkwibot/twitch-miner:latest
+    restart: unless-stopped
+    environment:
+      MINER_PASSWORD: "change-me-12-characters-minimum"
+      MINER_PUBLIC_URL: "https://miner.example.com"
+      MINER_PROXY_NETWORKS: "10.90.101.2"
+      MINER_AUTH_HEADER: "Remote-User"
+      MINER_AUTH_USERS: "alice"
+    volumes:
+      - miner-data:/data
+    networks:
+      miner-net:
+        ipv4_address: 10.90.101.3
+    # no "ports" here: only Traefik (10.90.101.2) can reach this service
+
+volumes:
+  authelia-data:
+  miner-data:

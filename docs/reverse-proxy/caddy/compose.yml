@@ -1,0 +1,54 @@
+# Caddy in front of the miner, signing in through the MINER_AUTH_HEADER
+# trusted-proxy header. Tested with Podman Compose and Docker Compose; see
+# README.md for what to change and how to verify it.
+#
+# "auth-service" is a placeholder — replace it with your real SSO
+# (Authentik, oauth2-proxy's /oauth2/auth, Authelia...). It only needs to
+# answer 2xx + Remote-User for a signed-in visitor, 401 otherwise; Caddy's
+# forward_auth handles the rest.
+
+networks:
+  edge: {}
+  miner-net:
+    ipam:
+      config:
+        - subnet: 10.90.102.0/29
+
+services:
+  caddy:
+    image: docker.io/library/caddy:2.9-alpine
+    restart: unless-stopped
+    ports:
+      - "443:443" # the only port this stack publishes
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./certs:/etc/caddy/certs:ro
+    networks:
+      edge: {}
+      miner-net:
+        ipv4_address: 10.90.102.2 # must match MINER_PROXY_NETWORKS below
+
+  auth-service: # REPLACE with your real SSO
+    build: ./auth-service
+    restart: unless-stopped
+    networks:
+      edge: {}
+
+  miner:
+    image: ghcr.io/sunkwibot/twitch-miner:latest
+    restart: unless-stopped
+    environment:
+      MINER_PASSWORD: "change-me-12-characters-minimum"
+      MINER_PUBLIC_URL: "https://miner.example.com"
+      MINER_PROXY_NETWORKS: "10.90.102.2"
+      MINER_AUTH_HEADER: "Remote-User"
+      MINER_AUTH_USERS: "alice"
+    volumes:
+      - miner-data:/data
+    networks:
+      miner-net:
+        ipv4_address: 10.90.102.3
+    # no "ports" here: only Caddy (10.90.102.2) can reach this service
+
+volumes:
+  miner-data:

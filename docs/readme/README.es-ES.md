@@ -581,6 +581,16 @@ proxy, desde la máquina o el contenedor donde corre) con el encabezado puesto a
 como `curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot`; debe responder
 `401`, nunca el snapshot.
 
+Ejemplos de Compose probados, listos para copiar y pegar, para cinco configuraciones habituales:
+
+| Proxy | Ejemplo | Qué muestra |
+|---|---|---|
+| Traefik + Authelia | [`docs/reverse-proxy/traefik-authelia/`](docs/reverse-proxy/traefik-authelia/) | Una pila completa de inicio de sesión único: Authelia real, backend de archivos, forward-auth a través de Traefik. |
+| Caddy | [`docs/reverse-proxy/caddy/`](docs/reverse-proxy/caddy/) | `forward_auth` + `copy_headers`, la configuración más corta de las cinco. |
+| nginx | [`docs/reverse-proxy/nginx/`](docs/reverse-proxy/nginx/) | `auth_request`, con la línea de sobrescritura que se omite fácilmente por error — y qué ocurre si lo hace. |
+| Apache httpd | [`docs/reverse-proxy/apache/`](docs/reverse-proxy/apache/) | Sin forward-auth integrado, así que un pequeño proxy consciente de SSO se sitúa entre Apache y el miner. |
+| HAProxy | [`docs/reverse-proxy/haproxy/`](docs/reverse-proxy/haproxy/) | Mismo patrón que Apache, con `http-request del-header` eliminando la propia copia del cliente. |
+
 ### <a name="systemd"></a>Sin Docker (systemd)
 
 En un servidor Linux sin Docker, la versión también incluye el servidor como un único

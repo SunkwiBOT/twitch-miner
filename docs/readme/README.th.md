@@ -434,6 +434,16 @@ volumes:
 `curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot` ต้องตอบกลับด้วย
 `401` ไม่ใช่ snapshot เด็ดขาด
 
+ตัวอย่าง Compose ที่ทดสอบแล้ว พร้อมคัดลอกไปใช้ได้เลย สำหรับ 5 รูปแบบการตั้งค่าที่พบบ่อย:
+
+| Proxy | ตัวอย่าง | แสดงให้เห็นอะไร |
+|---|---|---|
+| Traefik + Authelia | [`docs/reverse-proxy/traefik-authelia/`](docs/reverse-proxy/traefik-authelia/) | สแตก single sign-on แบบเต็มรูปแบบ: Authelia จริง, file backend, forward-auth ผ่าน Traefik |
+| Caddy | [`docs/reverse-proxy/caddy/`](docs/reverse-proxy/caddy/) | `forward_auth` + `copy_headers` การตั้งค่าที่สั้นที่สุดในห้าแบบนี้ |
+| nginx | [`docs/reverse-proxy/nginx/`](docs/reverse-proxy/nginx/) | `auth_request` พร้อมบรรทัดเขียนทับที่มักพลาดได้ง่าย — และจะเกิดอะไรขึ้นถ้าพลาดไป |
+| Apache httpd | [`docs/reverse-proxy/apache/`](docs/reverse-proxy/apache/) | ไม่มี forward-auth ในตัว จึงใช้ proxy เล็ก ๆ ที่รู้จัก SSO คั่นระหว่าง Apache กับ miner แทน |
+| HAProxy | [`docs/reverse-proxy/haproxy/`](docs/reverse-proxy/haproxy/) | รูปแบบเดียวกับ Apache โดยใช้ `http-request del-header` ลบสำเนาของไคลเอนต์เอง |
+
 ### <a name="systemd"></a>ไม่ใช้ Docker (systemd)
 
 บนเซิร์ฟเวอร์ Linux ที่ไม่ใช้ Docker รุ่นที่เผยแพร่ยังมีตัวเซิร์ฟเวอร์เป็นไฟล์เดียว พร้อมแดชบอร์ดอยู่ในตัว:

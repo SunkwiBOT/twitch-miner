@@ -559,6 +559,16 @@ kontejneru, na kterém běží) s hlavičkou nastavenou ručně, jako
 `curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot`; musí odpovědět
 `401`, nikdy snímkem.
 
+Otestované, ke zkopírování připravené příklady Compose pro pět běžných nastavení:
+
+| Proxy | Příklad | Co ukazuje |
+|---|---|---|
+| Traefik + Authelia | [`docs/reverse-proxy/traefik-authelia/`](docs/reverse-proxy/traefik-authelia/) | Kompletní jednotné přihlášení (SSO): skutečná Authelia, souborový backend, forward-auth přes Traefik. |
+| Caddy | [`docs/reverse-proxy/caddy/`](docs/reverse-proxy/caddy/) | `forward_auth` + `copy_headers`, nejkratší konfigurace z pěti. |
+| nginx | [`docs/reverse-proxy/nginx/`](docs/reverse-proxy/nginx/) | `auth_request`, s řádkem pro přepsání, který se snadno omylem vynechá — a co se stane, když ho vynecháte. |
+| Apache httpd | [`docs/reverse-proxy/apache/`](docs/reverse-proxy/apache/) | Žádný vestavěný forward-auth, takže mezi Apache a minerem stojí malé SSO-aware proxy. |
+| HAProxy | [`docs/reverse-proxy/haproxy/`](docs/reverse-proxy/haproxy/) | Stejný vzor jako u Apache, s `http-request del-header`, které odstraňuje vlastní kopii klienta. |
+
 ### <a name="systemd"></a>Bez Dockeru (systemd)
 
 Na linuxovém serveru bez Dockeru má vydání server i jako jediný soubor, s panelem uvnitř:

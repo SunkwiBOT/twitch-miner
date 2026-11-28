@@ -462,6 +462,16 @@ Tailscale Serve προέρχονται από τη δική τους τεκμη�
 `curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot`· πρέπει να απαντήσει
 `401`, ποτέ το στιγμιότυπο.
 
+Δοκιμασμένα, έτοιμα για αντιγραφή παραδείγματα Compose για πέντε συνηθισμένες ρυθμίσεις:
+
+| Proxy | Παράδειγμα | Τι δείχνει |
+|---|---|---|
+| Traefik + Authelia | [`docs/reverse-proxy/traefik-authelia/`](docs/reverse-proxy/traefik-authelia/) | Μια πλήρης στοίβα single sign-on: πραγματική Authelia, backend αρχείων, forward-auth μέσω Traefik. |
+| Caddy | [`docs/reverse-proxy/caddy/`](docs/reverse-proxy/caddy/) | `forward_auth` + `copy_headers`, η συντομότερη διαμόρφωση από τις πέντε. |
+| nginx | [`docs/reverse-proxy/nginx/`](docs/reverse-proxy/nginx/) | `auth_request`, με τη γραμμή αντικατάστασης που παραλείπεται εύκολα κατά λάθος — και τι συμβαίνει αν το κάνετε. |
+| Apache httpd | [`docs/reverse-proxy/apache/`](docs/reverse-proxy/apache/) | Χωρίς ενσωματωμένο forward-auth, οπότε ένα μικρό proxy με επίγνωση SSO βρίσκεται ανάμεσα στο Apache και το miner. |
+| HAProxy | [`docs/reverse-proxy/haproxy/`](docs/reverse-proxy/haproxy/) | Ίδιο μοτίβο με το Apache, με το `http-request del-header` να αφαιρεί το δικό του αντίγραφο του client. |
+
 ### <a name="systemd"></a>Χωρίς Docker (systemd)
 
 Σε Linux server χωρίς Docker, η έκδοση περιλαμβάνει τον server και ως ένα μόνο αρχείο, με

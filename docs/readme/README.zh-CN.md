@@ -427,6 +427,16 @@ volumes:
 `curl -H "Remote-User: mallory" http://127.0.0.1:8080/api/snapshot`；应得到 `401`
 响应，而绝不是快照内容。
 
+针对五种常见配置、已测试过、可直接复制使用的 Compose 示例：
+
+| 代理 | 示例 | 展示了什么 |
+|---|---|---|
+| Traefik + Authelia | [`docs/reverse-proxy/traefik-authelia/`](docs/reverse-proxy/traefik-authelia/) | 一套完整的单点登录方案：真实的 Authelia、文件后端、通过 Traefik 实现的 forward-auth。 |
+| Caddy | [`docs/reverse-proxy/caddy/`](docs/reverse-proxy/caddy/) | `forward_auth` + `copy_headers`，五个示例中配置最短的一个。 |
+| nginx | [`docs/reverse-proxy/nginx/`](docs/reverse-proxy/nginx/) | `auth_request`，以及那行容易漏掉的覆盖写入——还有漏掉它会发生什么。 |
+| Apache httpd | [`docs/reverse-proxy/apache/`](docs/reverse-proxy/apache/) | 没有内置的 forward-auth，因此在 Apache 与 miner 之间放置一个了解 SSO 的小型代理。 |
+| HAProxy | [`docs/reverse-proxy/haproxy/`](docs/reverse-proxy/haproxy/) | 与 Apache 相同的模式，用 `http-request del-header` 去除客户端自带的副本。 |
+
 ### <a name="systemd"></a>不使用 Docker（systemd）
 
 在不使用 Docker 的 Linux 服务器上，发布版本里也包含单文件形式的服务器，内置仪表盘：
