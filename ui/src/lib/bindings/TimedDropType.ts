@@ -20,6 +20,7 @@ export type TimedDropType = {
   benefits: Array<BenefitType>;
   badge_owned: boolean;
   repeat?: RepeatType;
+  after_all: boolean;
   periods_done: number;
   next_period_at?: string;
   evolution?: EvolutionType;

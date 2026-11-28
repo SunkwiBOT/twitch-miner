@@ -185,6 +185,12 @@ pub struct TimedDrop {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
     pub repeat: Option<Repeat>,
+    // ! Set only when a repeated drop's reward is earned once, after every
+    // period: `can_finish` then needs the whole repeat to fit, not just the
+    // next period. Unset (the common case), each period grants its own
+    // reward on its own, like Twitch itself credits it.
+    #[serde(default)]
+    pub after_all: bool,
     #[serde(default)]
     pub periods_done: u32,
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -416,7 +422,9 @@ impl Campaign {
     }
 
     // ! Kept while one reward still fits in its window: the shorter ones are not lost.
-    // A repeated one needs its last period to open and be watched before the end.
+    // A repeat whose periods each grant their own reward only needs its next
+    // period to open and be watched before the end; one with a single final
+    // reward (`after_all`) needs every remaining period to fit instead.
     pub fn can_finish(&self, now: DateTime<Utc>, excluded: &[String]) -> bool {
         let mut left = self
             .drops
@@ -428,7 +436,11 @@ impl Campaign {
             || left.any(|d| {
                 let open = !d.claimed && !d.waiting(now);
                 let start = d.starts_at.max(now).max(d.next_period_at.unwrap_or(now));
-                let periods = d.periods().saturating_sub(d.periods_done).max(1);
+                let periods = if d.repeat.is_some() && !d.after_all {
+                    1
+                } else {
+                    d.periods().saturating_sub(d.periods_done).max(1)
+                };
                 let last_start = match d.repeat.and_then(|r| r.every()) {
                     Some(every) => i32::try_from(periods - 1)
                         .ok()

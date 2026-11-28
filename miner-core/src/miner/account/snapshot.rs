@@ -199,6 +199,7 @@ pub(super) fn progress_over(catalog: &Campaign, account: &Campaign) -> Option<Ca
             benefits,
             badge_owned,
             repeat,
+            after_all,
             periods_done,
             next_period_at,
             evolution,
@@ -214,6 +215,7 @@ pub(super) fn progress_over(catalog: &Campaign, account: &Campaign) -> Option<Ca
             && *precondition_drop_ids == known.precondition_drop_ids
             && *benefits == known.benefits
             && *repeat == known.repeat
+            && *after_all == known.after_all
             && *evolution == known.evolution
             && *lane == known.lane;
 

@@ -262,6 +262,7 @@ pub fn parse_campaign(record: &Value, from_inventory: bool) -> Option<Campaign> 
                     .collect(),
                 badge_owned: false,
                 repeat: parse_repeat(&d["repeat"]),
+                after_all: false,
                 periods_done: 0,
                 next_period_at: None,
                 evolution: None,

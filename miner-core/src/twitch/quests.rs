@@ -309,6 +309,7 @@ impl Quest {
                     .collect(),
                 badge_owned: false,
                 repeat: group.repeat,
+                after_all: group.after_all,
                 periods_done: group.grant_count,
                 next_period_at: group.waiting_until(now),
                 evolution: group.evolution.clone(),
