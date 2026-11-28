@@ -37,8 +37,17 @@
   // ! Inside a `NameRun` (details joined with « · »), a link is never the sentence's own
   // end: it still passes `END`, so the run's own logic turns it into `PUSH` on hover.
   const listKind = nameListKind();
-  const runMark = (endsSentence: boolean): LinkMark =>
-    listKind === NameListKind.RUN ? LinkMark.END : endsSentence ? LinkMark.OVERLAY : LinkMark.NONE;
+
+  // ! A link that is not its sentence's own end (a streamer mid-toast, an account mid-detail)
+  // still shows its icon on hover: there is no room to reserve without it or trailing text to
+  // overlay without hiding, so it pushes what follows, the same way a `NameRun`'s own link does.
+  const runMark = (endsSentence: boolean): LinkMark => {
+    if (listKind === NameListKind.RUN) {
+      return LinkMark.END;
+    }
+
+    return endsSentence ? LinkMark.OVERLAY : LinkMark.PUSH;
+  };
 </script>
 
 {#snippet boxArtThumb(category: TextCategoryType)}
