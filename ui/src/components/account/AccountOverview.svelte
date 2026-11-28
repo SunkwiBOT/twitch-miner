@@ -75,6 +75,12 @@
   {:else if account.problem && account.status !== AccountStatus.LOGIN_REQUIRED}
     <Notice tone={NoticeTone.DANGER} text={describeCode(account.problem)} />
   {/if}
+  {#if account.drops_held}
+    <Notice
+      tone={NoticeTone.DANGER}
+      text={t.account_drops_hold({ count: strong(account.drops_held) })}
+    />
+  {/if}
 
   <Card class="gap-0 py-0"><AccountActivity {account} /></Card>
 

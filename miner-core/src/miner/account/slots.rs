@@ -32,10 +32,14 @@ impl<T: TwitchApi> AccountMiner<T> {
             }),
             SlotPurpose::Points { .. } => None,
         });
+        let holds = scheduler::Holds {
+            aside: &aside,
+            drops_held: self.drops_hold.flagged(),
+        };
         let mut plan = scheduler::plan(
             &self.settings,
             &campaigns,
-            &aside,
+            &holds,
             &self.live_by_campaign,
             &states,
             current,
@@ -234,6 +238,9 @@ impl<T: TwitchApi> AccountMiner<T> {
                 }
                 QueueBlock::OneCampaignAtATime => {
                     format!("{name} waits: only one campaign is mined at a time")
+                }
+                QueueBlock::DropsHeld => {
+                    format!("{name} waits: this account's Drops are held by Twitch")
                 }
                 // ! Already told by its own event.
                 QueueBlock::SetAside => continue,

@@ -92,6 +92,12 @@ const STATE_VIEWS: Record<CampaignState, StateViewType> = {
         retryTime: strong(relativeTime(entry.queued?.set_aside_until, now)),
       }),
   },
+  [CampaignState.DROPS_HELD]: {
+    text: () => t.dashboard_queue_blocked_drops_held(),
+    tone: BadgeTone.DANGER,
+    icon: IconName.ALERT,
+    hint: () => t.badge_hint_blocked_drops_held(),
+  },
   [CampaignState.CLAIMED_LINKED]: {
     text: () => t.campaign_state_claimed_linked(),
     tone: BadgeTone.SUCCESS,

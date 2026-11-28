@@ -35,6 +35,7 @@ export const QUEUE_BLOCK_STATES: Record<QueueBlock, CampaignState> = {
   [QueueBlock.NO_LIVE_CHANNEL]: CampaignState.NO_LIVE_CHANNEL,
   [QueueBlock.ONE_CAMPAIGN_AT_A_TIME]: CampaignState.QUEUED,
   [QueueBlock.SET_ASIDE]: CampaignState.SET_ASIDE,
+  [QueueBlock.DROPS_HELD]: CampaignState.DROPS_HELD,
 };
 
 const queueState = (account: AccountSnapshotType, item: QueueItemType): CampaignState => {

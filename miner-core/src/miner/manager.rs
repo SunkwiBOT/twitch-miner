@@ -2276,6 +2276,7 @@ impl Manager {
                         stats: Default::default(),
                         updated_at: Utc::now(),
                         spam_channels: vec![],
+                        drops_held: None,
                     }
                 }
             })

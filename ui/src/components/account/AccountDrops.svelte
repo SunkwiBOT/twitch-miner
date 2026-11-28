@@ -20,11 +20,14 @@
   import { app } from "../../lib/state/app.svelte";
   import { openTab, showTab } from "../../lib/state/router";
   import { openCampaignSheet } from "../../lib/state/sheets";
+  import { strong } from "../../lib/text.utils";
   import TextButton from "../ui/TextButton.svelte";
+  import Notice from "../ui/Notice.svelte";
   import PageBody from "../ui/PageBody.svelte";
   import Segmented from "../ui/Segmented.svelte";
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import { IconName } from "../../lib/icons.constants";
+  import { NoticeTone } from "../ui/ui.constants";
   import CopyFromDialog from "./CopyFromDialog.svelte";
   import DropsExclusionsTab from "./drops/DropsExclusionsTab.svelte";
   import DropsOrderTab from "./drops/DropsOrderTab.svelte";
@@ -55,6 +58,12 @@
 </script>
 
 <PageBody>
+  {#if account.drops_held}
+    <Notice
+      tone={NoticeTone.DANGER}
+      text={t.account_drops_hold({ count: strong(account.drops_held) })}
+    />
+  {/if}
   <div class="flex flex-wrap items-center justify-between gap-3">
     <Segmented
       value={tab}

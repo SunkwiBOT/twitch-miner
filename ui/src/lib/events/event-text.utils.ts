@@ -309,6 +309,10 @@ export const eventText = (
           return t.ev_campaign_no_live_channel({ campaign });
         }
 
+        if (campaign && context.queue_block === QueueBlock.DROPS_HELD) {
+          return t.ev_campaign_drops_held({ campaign });
+        }
+
         return campaign && context.queue_block === QueueBlock.ONE_CAMPAIGN_AT_A_TIME
           ? t.ev_campaign_waiting({ campaign })
           : fallback;

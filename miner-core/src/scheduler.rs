@@ -116,6 +116,10 @@ pub enum QueueBlock {
     NoLiveChannel,
     OneCampaignAtATime,
     SetAside,
+    // ! Forced out while the account is held for Drops (`DropsHold`): every
+    // classic campaign but the one probe stays parked here instead of being
+    // tried, so the miner stops cycling through every campaign in turn.
+    DropsHeld,
 }
 
 // ! Why a campaign of the account stays out of the queue. `Finished` and
@@ -775,20 +779,41 @@ fn points_only(
         .collect()
 }
 
+// ! What currently keeps a campaign from being tried right now: its own
+// set-aside retry, or (once this account's Drops are held) everything but
+// the single probe campaign.
+pub struct Holds<'a> {
+    pub aside: &'a HashMap<String, DateTime<Utc>>,
+    pub drops_held: bool,
+}
+
 pub fn plan(
     settings: &AccountSettings,
     campaigns: &[Campaign],
-    aside: &HashMap<String, DateTime<Utc>>,
+    holds: &Holds,
     live_by_campaign: &HashMap<String, Vec<Channel>>,
     streamers: &[StreamerState<'_>],
     current: Option<CurrentDrop<'_>>,
     now: DateTime<Utc>,
 ) -> Plan {
+    let aside = holds.aside;
     let slots = settings.slots();
     let mut plan = Plan::default();
     let mut used: Vec<String> = Vec::new();
 
     let (mut ranked, left_out) = rank_standings(settings, campaigns, now);
+    // ! The single probe campaign kept while Drops are held (`DropsHold`):
+    // every other classic campaign is forced out of the queue instead of
+    // being tried in turn.
+    let probe_id: Option<&str> = holds
+        .drops_held
+        .then(|| {
+            ranked
+                .iter()
+                .find(|(c, _, _)| c.kind != CampaignKind::Quest)
+                .map(|(c, _, _)| c.id.as_str())
+        })
+        .flatten();
 
     if settings.mode == Mode::Points {
         plan.left_out = points_only(&ranked, left_out);
@@ -875,6 +900,14 @@ pub fn plan(
                 expected_start: None,
             };
 
+            if campaign.kind != CampaignKind::Quest && probe_id.is_some_and(|id| id != campaign.id)
+            {
+                item.blocked = Some(QueueBlock::DropsHeld);
+                plan.queue.push(item);
+
+                continue;
+            }
+
             if let Some(retry_at) = aside.get(&campaign.id).copied() {
                 item.blocked = Some(QueueBlock::SetAside);
                 item.set_aside_until = Some(retry_at);
@@ -932,7 +965,10 @@ pub fn plan(
                 .filter(|(c, standing)| standing < &mined.1 && live_by_campaign.contains_key(&c.id))
                 .map(|(c, _)| PassedOver {
                     campaign_id: c.id.clone(),
-                    block: if aside.contains_key(&c.id) {
+                    block: if c.kind != CampaignKind::Quest && probe_id.is_some_and(|id| id != c.id)
+                    {
+                        QueueBlock::DropsHeld
+                    } else if aside.contains_key(&c.id) {
                         QueueBlock::SetAside
                     } else if minable(c) {
                         QueueBlock::OneCampaignAtATime

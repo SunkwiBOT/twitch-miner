@@ -115,6 +115,8 @@ impl<T: TwitchApi> AccountMiner<T> {
             .map(|campaign| campaign.game.id.clone())
             .collect();
 
+        let classic_progress = classic_progress(&self.campaigns, &campaigns);
+
         self.campaigns = campaigns;
 
         let stale_quests: HashSet<String> = if quests_read {
@@ -122,6 +124,8 @@ impl<T: TwitchApi> AccountMiner<T> {
         } else {
             self.quests.iter().map(|quest| quest.id.clone()).collect()
         };
+
+        let mut newly_set_aside_classic: Vec<(String, String)> = Vec::new();
 
         for (campaign_id, drop_id, retry_at) in setaside::observe_all(
             &mut self.set_aside,
@@ -133,6 +137,25 @@ impl<T: TwitchApi> AccountMiner<T> {
             now,
         ) {
             self.set_aside_campaign(&campaign_id, &drop_id, retry_at);
+
+            if let Some(entry) = classic_only(&self.campaigns, &campaign_id) {
+                newly_set_aside_classic.push(entry);
+            }
+        }
+
+        match self
+            .drops_hold
+            .observe(&newly_set_aside_classic, classic_progress)
+        {
+            Some(drops_hold::HoldChange::Flagged) => tracing::warn!(
+                account = %self.login,
+                campaigns = %self.drops_hold.campaign_names().join(", "),
+                "Twitch is not crediting this account's Drops minutes",
+            ),
+            Some(drops_hold::HoldChange::Cleared) => {
+                tracing::info!(account = %self.login, "Twitch is crediting this account's Drops again")
+            }
+            None => {}
         }
 
         Ok(())
@@ -228,6 +251,38 @@ impl<T: TwitchApi> AccountMiner<T> {
         self.claims
             .note_claimed(drop_id, quest_grant, periods_done, Utc::now());
     }
+}
+
+// ! Whether any classic (non-Quest) Drops campaign's current minutes moved
+// forward since the previous inventory read: the only thing that clears
+// `DropsHold` once it was raised. A Quest campaign never counts, even one
+// progressing normally: its minutes are tracked and credited differently.
+fn classic_progress(old: &HashMap<String, Campaign>, new: &HashMap<String, Campaign>) -> bool {
+    new.values().any(|next| {
+        next.kind != CampaignKind::Quest
+            && old.get(&next.id).is_some_and(|previous| {
+                next.drops.iter().any(|drop| {
+                    previous
+                        .drops
+                        .iter()
+                        .find(|p| p.id == drop.id)
+                        .is_some_and(|p| drop.current_minutes > p.current_minutes)
+                })
+            })
+    })
+}
+
+// ! `DropsHold` only ever watches classic Drops campaigns: a Quest campaign
+// set aside (its badges and channel points work through a different path)
+// never feeds it.
+fn classic_only(
+    campaigns: &HashMap<String, Campaign>,
+    campaign_id: &str,
+) -> Option<(String, String)> {
+    campaigns
+        .get(campaign_id)
+        .filter(|c| c.kind != CampaignKind::Quest)
+        .map(|c| (campaign_id.to_owned(), c.name.clone()))
 }
 
 pub(super) fn merge_inventory(

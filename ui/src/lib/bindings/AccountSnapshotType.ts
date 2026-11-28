@@ -38,4 +38,5 @@ export type AccountSnapshotType = {
   stats: AccountStatsType;
   updated_at: string;
   spam_channels: Array<SpamChannelEntryType>;
+  drops_held?: number;
 };

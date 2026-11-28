@@ -1,6 +1,7 @@
 mod bets;
 mod channels;
 mod claims;
+mod drops_hold;
 mod inventory;
 mod points;
 mod registry;
@@ -293,6 +294,7 @@ struct AccountMiner<T> {
     bets_tried: HashSet<String>,
     claims: ClaimRegistry,
     set_aside: setaside::SetAside,
+    drops_hold: drops_hold::DropsHold,
     // ! PubSub and the balance read can both bring the same chest.
     bonus_claims: HashMap<String, String>,
     // ! `BeaconBlocked` or `BeaconUnreachable`, kept over any other problem until a beacon goes through.
@@ -381,6 +383,7 @@ impl<T: TwitchApi> AccountMiner<T> {
             stats: context.stats.clone(),
             updated_at: Utc::now(),
             spam_channels: vec![],
+            drops_held: None,
         };
         let (snapshot, receiver) = watch::channel(initial);
         let (pubsub_sender, pubsub_events) = mpsc::channel(256);
@@ -433,6 +436,7 @@ impl<T: TwitchApi> AccountMiner<T> {
             bets_tried: HashSet::new(),
             claims: ClaimRegistry::default(),
             set_aside: HashMap::new(),
+            drops_hold: drops_hold::DropsHold::default(),
             bonus_claims: HashMap::new(),
             beacon_problem: None,
             beacon_connect_failures: 0,

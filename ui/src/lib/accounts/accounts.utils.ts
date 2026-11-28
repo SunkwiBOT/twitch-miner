@@ -204,6 +204,7 @@ const QUEUE_BLOCK_LABELS: Record<QueueBlock, (item: QueueItemType, now: number) 
   [QueueBlock.NO_LIVE_CHANNEL]: () => t.dashboard_queue_blocked_no_live_channel(),
   [QueueBlock.ONE_CAMPAIGN_AT_A_TIME]: () => t.dashboard_queue_blocked_one_campaign_at_a_time(),
   [QueueBlock.SET_ASIDE]: (item, now) => setAsideLabel(item.set_aside_until, now),
+  [QueueBlock.DROPS_HELD]: () => t.dashboard_queue_blocked_drops_held(),
 };
 
 export const queueBlockLabel = (item: QueueItemType, now: number): string =>
@@ -214,6 +215,7 @@ const QUEUE_BLOCK_HINTS: Record<QueueBlock, (item: QueueItemType, now: number) =
   [QueueBlock.ONE_CAMPAIGN_AT_A_TIME]: () => t.badge_hint_blocked_one_at_a_time(),
   [QueueBlock.SET_ASIDE]: (item) =>
     t.queue_hint_blocked_set_aside({ minutes: strong(item.set_aside_stall_minutes ?? 0) }),
+  [QueueBlock.DROPS_HELD]: () => t.badge_hint_blocked_drops_held(),
 };
 
 export const queueBlockHint = (item: QueueItemType, now: number): string =>

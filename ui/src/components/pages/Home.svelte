@@ -20,6 +20,7 @@
   import AccountHeading from "../ui/AccountHeading.svelte";
   import EmptyState from "../ui/EmptyState.svelte";
   import PageBody from "../ui/PageBody.svelte";
+  import Notice from "../ui/Notice.svelte";
   import PageHeader from "../ui/PageHeader.svelte";
   import Panel from "../ui/Panel.svelte";
   import PauseControl from "../ui/PauseControl.svelte";
@@ -28,6 +29,7 @@
   import { ButtonSize, ButtonType, ButtonVariant } from "../ui/button.constants";
   import { IconName } from "../../lib/icons.constants";
   import { MenuAlign } from "../ui/menu.constants";
+  import { NoticeTone } from "../ui/ui.constants";
   import { RECENT_MAX } from "./home.constants";
   import UpdateNotificationsBanner from "../updates/UpdateNotificationsBanner.svelte";
 
@@ -127,6 +129,14 @@
                 {/snippet}
               </AccountHeading>
             </header>
+            {#if a.drops_held}
+              <div class="px-5 pt-4">
+                <Notice
+                  tone={NoticeTone.DANGER}
+                  text={t.account_drops_hold({ count: strong(a.drops_held) })}
+                />
+              </div>
+            {/if}
             <div class="flex flex-col"><AccountActivity account={a} /></div>
             <footer
               class="flex flex-wrap gap-x-4 gap-y-1 border-t bg-muted/60 px-5 py-3 text-hint text-muted-foreground tabular-nums"

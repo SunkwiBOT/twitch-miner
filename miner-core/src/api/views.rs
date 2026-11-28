@@ -131,6 +131,11 @@ pub struct AccountSnapshot {
     pub updated_at: DateTime<Utc>,
     #[serde(default)]
     pub spam_channels: Vec<SpamChannelEntry>,
+    // ! Set once this account's Drops are held: how many classic campaigns
+    // in a row were watched without Twitch crediting a single minute.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub drops_held: Option<u32>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]

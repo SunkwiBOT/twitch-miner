@@ -114,6 +114,7 @@ impl<T: TwitchApi> AccountMiner<T> {
             stats: self.stats.clone(),
             updated_at: now,
             spam_channels: vec![],
+            drops_held: self.drops_hold.count(),
         };
 
         let _ = self.snapshot.send(snapshot);
